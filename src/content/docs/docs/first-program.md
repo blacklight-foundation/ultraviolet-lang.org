@@ -8,10 +8,12 @@ Examples are being stabilized with the compiler migration. The first public prog
 ## Placeholder source
 
 ```text
-public procedure main() -> i32 {
+public procedure main(move ctx: Context) -> i32 {
   return 0
 }
 ```
+
+The `Context` parameter is the entry capability bundle for an executable.
 
 ## Compile
 

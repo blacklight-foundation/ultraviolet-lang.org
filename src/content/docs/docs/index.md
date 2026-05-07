@@ -16,4 +16,4 @@ The current documentation is focused on the public alpha path: how to follow the
 
 ## Current status
 
-The language is alpha. A functional bootstrap compiler exists, and compiler migration/public-alpha work is in progress. Documentation will stabilize alongside the public compiler, examples, diagnostics, and CI.
+The language is alpha. A bootstrap-built compiler artifact exists, and the clean public build/check path is being stabilized. Documentation will stabilize alongside the public compiler, examples, diagnostics, and CI.
