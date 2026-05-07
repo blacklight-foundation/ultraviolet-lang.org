@@ -3,7 +3,7 @@ title: Documentation
 description: Documentation overview for Ultraviolet.
 ---
 
-Ultraviolet is an alpha systems programming language for generated code humans can still review.
+Ultraviolet is an alpha systems programming language for LLM-generated code humans can still review.
 
 The current documentation is focused on the public alpha path: how to follow the compiler, build the project as it becomes public, run first examples, and read the language specification.
 

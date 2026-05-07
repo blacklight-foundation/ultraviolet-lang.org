@@ -21,26 +21,49 @@ export const fundingGoals = [
     ],
   },
   {
-    title: 'Reviewable Codegen Demo Fund',
+    title: 'First LLM-Generated Code Demo Fund',
     goal: '$35,000',
     timeline: '60 to 90 days',
     purpose:
-      'Fund the first public demonstration of reviewable generated systems code.',
-    cta: 'Fund the generated-code demo',
-    href: 'mailto:sponsors@ultraviolet-lang.org?subject=Reviewable%20Codegen%20Demo%20Fund',
+      'Fund the first public demonstration of reviewable LLM-generated systems code.',
+    cta: 'Fund the LLM-generated code demo',
+    href: 'mailto:sponsors@ultraviolet-lang.org?subject=First%20LLM-Generated%20Code%20Demo%20Fund',
     summary:
-      'Ultraviolet exists to explore a specific idea: generated systems code should be readable enough for humans to review.',
+      'Ultraviolet exists to explore a specific idea: LLM-generated systems code should be readable enough for humans to review.',
     body:
-      'This fund builds the first public demonstration of that idea. The demo will take a small schema or API description, generate Ultraviolet source, compile it with the bootstrap compiler, and document how the generated output supports local reasoning, explicit semantics, stable structure, and reviewable diffs.',
+      'This fund would build the first public demonstration of that idea. In the planned demo, an LLM would generate Ultraviolet source from a small constrained systems task or interface description. The compiler would check that source, and the walkthrough would show how the output supports local reasoning, explicit authority and effects, stable structure, and reviewable diffs.',
     outcome:
-      'Funding supports generator work, compiler integration, documentation, examples, and a recorded technical walkthrough.',
+      'Funding supports LLM task harnesses, compiler integration, documentation, examples, and a recorded technical walkthrough.',
     breakdown: [
-      '$10k schema/API-to-Ultraviolet generator prototype',
-      '$7.5k generated source examples',
+      '$10k LLM task harness and prompt/evaluation setup',
+      '$7.5k LLM-generated Ultraviolet source examples',
       '$5k compiler integration',
       '$5k documentation',
       '$5k walkthrough/demo video',
       '$2.5k sponsor report and maintenance pass',
+    ],
+  },
+  {
+    title: 'Open LLM Training Corpus Fund',
+    goal: '$50,000',
+    timeline: '90 to 120 days',
+    purpose:
+      'Fund an open-source training corpus for LLMs that generate Ultraviolet source.',
+    cta: 'Fund the training corpus',
+    href: 'mailto:sponsors@ultraviolet-lang.org?subject=Open%20LLM%20Training%20Corpus%20Fund',
+    summary:
+      'LLMs need high-quality examples, constraints, and review signals to generate systems code that humans can inspect with confidence.',
+    body:
+      'This fund would develop an open-licensed corpus of Ultraviolet materials for LLM training and evaluation: canonical examples, constrained programming tasks, expected source outputs, review annotations, diagnostics examples, and explanations that teach the language\'s explicit authority, effects, ownership, and static-by-default design.',
+    outcome:
+      'The goal is to make Ultraviolet easier for LLMs to generate correctly and easier for humans to review, audit, and improve.',
+    breakdown: [
+      '$12.5k corpus design, licensing, and data format',
+      '$10k canonical examples and explanations',
+      '$10k constrained tasks, prompts, and expected outputs',
+      '$7.5k review annotations, anti-patterns, and diagnostics cases',
+      '$5k evaluation harness, metadata, and dataset splits',
+      '$5k public release, sponsor report, and maintenance pass',
     ],
   },
   {
@@ -98,7 +121,7 @@ export const sponsorshipOptions = [
     benefits: [
       'recognition on milestone page',
       'public completion report',
-      'acknowledgment in demo/docs',
+      'acknowledgment in funded demo/docs when delivered',
       'quarterly foundation update',
     ],
   },
@@ -136,7 +159,8 @@ export const sponsorFundedWork = [
   'quickstart documentation',
   'examples',
   'diagnostics',
-  'generated-code demos',
+  'LLM-generated code demo work',
+  'open LLM training corpus',
   'contributor onboarding',
   'public roadmap and reporting',
 ];
