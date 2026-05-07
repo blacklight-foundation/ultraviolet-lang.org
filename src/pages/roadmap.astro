@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const milestones = [
+  {
+    title: 'Compiler migration',
+    target: '$7,500',
+    deliverable:
+      'Bootstrap compiler organized under the public Ultraviolet project, with clear build instructions.',
+  },
+  {
+    title: 'Quickstart and first example',
+    target: '$5,000',
+    deliverable: 'A clean clone/build/run path and first working example.',
+  },
+  {
+    title: 'CI and release workflow',
+    target: '$5,000',
+    deliverable: 'Public smoke tests, build workflow, and release checklist.',
+  },
+  {
+    title: 'Reviewable codegen demo',
+    target: '$35,000',
+    deliverable:
+      'Schema/API-to-Ultraviolet demo showing generated source, compiler output, documentation, and walkthrough.',
+  },
+  {
+    title: 'Diagnostics and examples',
+    target: '$15,000',
+    deliverable: 'Improved diagnostics and maintained example programs.',
+  },
+];
+---
+
+<BaseLayout title="Public Alpha Roadmap">
+  <article class="article-page">
+    <header>
+      <p class="eyebrow">Project roadmap</p>
+      <h1>Public Alpha Roadmap</h1>
+      <p>
+        The current goal is to make Ultraviolet buildable, documented,
+        demonstrable, and contributor-ready.
+      </p>
+    </header>
+
+    <div class="timeline">
+      {
+        milestones.map((milestone) => (
+          <section class="timeline-item">
+            <div>
+              <span>Milestone</span>
+              <h2>{milestone.title}</h2>
+              <p>{milestone.deliverable}</p>
+            </div>
+            <strong>{milestone.target}</strong>
+          </section>
+        ))
+      }
+    </div>
+
+    <section>
+      <h2>Want to fund one of these milestones?</h2>
+      <div class="actions">
+        <a class="button primary" href="/sponsor/">Sponsor a milestone</a>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

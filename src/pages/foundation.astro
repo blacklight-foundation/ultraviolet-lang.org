@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const fundedWork = [
+  'compiler development',
+  'language specification work',
+  'documentation',
+  'examples',
+  'public education',
+  'community infrastructure',
+  'governance and stewardship',
+];
+---
+
+<BaseLayout title="Blacklight Foundation">
+  <article class="article-page">
+    <header>
+      <p class="eyebrow">Stewardship</p>
+      <h1>Blacklight Foundation</h1>
+      <p>
+        Ultraviolet is stewarded by Blacklight Foundation, a nonprofit
+        organization supporting open-source programming language infrastructure.
+      </p>
+      <p>
+        The foundation funds public compiler development, language specification
+        work, documentation, examples, education, governance, and community
+        infrastructure.
+      </p>
+    </header>
+
+    <section>
+      <h2>What the foundation funds</h2>
+      <ul class="plain-list">
+        {fundedWork.map((item) => <li>{item}</li>)}
+      </ul>
+    </section>
+
+    <section>
+      <h2>Relationship to commercial work</h2>
+      <p>
+        Blacklight Foundation stewards the public Ultraviolet language and
+        ecosystem.
+      </p>
+      <p>
+        Any separate commercial services, consulting, support, or hosted
+        products are operated separately and do not own the public language
+        roadmap, governance, or trademarks.
+      </p>
+    </section>
+
+    <section>
+      <h2>Contact</h2>
+      <p>
+        <a href="mailto:hello@blacklight.foundation">
+          hello@blacklight.foundation
+        </a>
+      </p>
+    </section>
+  </article>
+</BaseLayout>

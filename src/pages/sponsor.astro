@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { sponsorFundedWork, sponsorshipOptions } from '../data/funding';
+---
+
+<BaseLayout title="Sponsor Ultraviolet">
+  <article class="article-page">
+    <header>
+      <p class="eyebrow">Public alpha funding</p>
+      <h1>Sponsor Ultraviolet</h1>
+      <p>
+        Support the public alpha of a systems language for reviewable generated
+        code.
+      </p>
+      <div class="actions">
+        <a class="button primary" href="mailto:sponsors@ultraviolet-lang.org">
+          Email sponsors@ultraviolet-lang.org
+        </a>
+        <a class="button secondary" href="/funding/">See funding goals</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>Why sponsor?</h2>
+      <p>
+        Ultraviolet is early, but the thesis is concrete: generated systems code
+        should be explicit, predictable, and reviewable.
+      </p>
+      <p>
+        Sponsor funding helps Blacklight Foundation turn the current alpha
+        compiler and specification into a usable public project with docs,
+        examples, CI, diagnostics, and a flagship generated-code demo.
+      </p>
+    </section>
+
+    <section>
+      <h2>Sponsorship options</h2>
+      <div class="grid three-col">
+        {
+          sponsorshipOptions.map((tier) => (
+            <article class="card">
+              <h3>{tier.title}</h3>
+              <p class="tier-price">{tier.price}</p>
+              <p>{tier.audience}</p>
+              <ul class="plain-list">
+                {tier.benefits.map((benefit) => (
+                  <li>{benefit}</li>
+                ))}
+              </ul>
+              <div class="actions">
+                <a
+                  class="button ghost"
+                  href={`mailto:sponsors@ultraviolet-lang.org?subject=${encodeURIComponent(tier.title)}`}
+                >
+                  {tier.cta}
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section>
+      <h2>What sponsor money funds</h2>
+      <ul class="plain-list">
+        {sponsorFundedWork.map((item) => <li>{item}</li>)}
+      </ul>
+    </section>
+
+    <section>
+      <h2>Contact</h2>
+      <p>
+        Sponsor conversations can start by email:
+        <a href="mailto:sponsors@ultraviolet-lang.org">
+          sponsors@ultraviolet-lang.org
+        </a>.
+      </p>
+    </section>
+  </article>
+</BaseLayout>

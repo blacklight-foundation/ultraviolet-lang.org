@@ -1,0 +1,162 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { fundingGoals } from '../data/funding';
+
+const principles = [
+  {
+    title: 'One Correct Way',
+    body: 'Semantic operations should have one accepted source form where possible.',
+  },
+  {
+    title: 'Local Reasoning',
+    body: 'A reader should understand authority, ownership, mutability, and effects from local syntax and signatures.',
+  },
+  {
+    title: 'Explicit over Implicit',
+    body: 'Effects, allocation, synchronization, unsafe behavior, and authority should not hide behind convenience.',
+  },
+  {
+    title: 'Static by Default',
+    body: 'Prefer static mechanisms. Runtime behavior should require explicit opt-in where possible.',
+  },
+];
+
+const statusItems = [
+  'Alpha language',
+  'Functional bootstrap compiler exists',
+  'Compiler migration/public-alpha work in progress',
+  'Public specification exists',
+  'Stewarded by Blacklight Foundation',
+  'Seeking founding sponsors and public milestone funders',
+];
+---
+
+<BaseLayout title="Ultraviolet">
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">Blacklight Foundation public alpha</p>
+        <h1>Ultraviolet</h1>
+        <p class="hero-lede">
+          A systems programming language for generated code humans can still
+          review.
+        </p>
+        <p class="hero-copy">
+          Ultraviolet is an alpha systems programming language designed around
+          explicit semantics, local reasoning, and predictable generated source.
+          The project is stewarded by Blacklight Foundation.
+        </p>
+        <div class="actions" aria-label="Primary actions">
+          <a class="button primary" href="/docs/">Read the docs</a>
+          <a class="button ghost" href="/sponsor/">Sponsor the public alpha</a>
+          <a
+            class="button secondary"
+            href="https://github.com/blacklight-foundation/ultraviolet"
+          >
+            View on GitHub
+          </a>
+        </div>
+      </div>
+      <div class="signal-panel" aria-label="Public alpha focus">
+        <div class="signal-head">
+          <span>public-alpha.focus</span>
+          <span>reviewable-source</span>
+        </div>
+        <div class="logo-panel">
+          <img
+            class="hero-logo"
+            src="/images/ultraviolet_darkmode_transparent.png"
+            width="1000"
+            height="1000"
+            alt="Ultraviolet language logo"
+          />
+        </div>
+        <pre><code><span class="token-violet">compiler</span>: migration + release infrastructure
+<span class="token-cyan">docs</span>: quickstart + language tour
+<span class="token-green">demos</span>: generated source review path
+funding: founding sponsors + milestones</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="page-section">
+      <div class="section-heading">
+        <h2>Current status</h2>
+      </div>
+      <ul class="status-list">
+        {statusItems.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="section-heading">
+      <h2>Generated code is still human-facing code.</h2>
+      <p>
+        Generated code is reviewed, debugged, diffed, audited, and trusted in
+        production. Ultraviolet explores what a systems language looks like when
+        generated-code reviewability is a first-class design constraint.
+      </p>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="page-section">
+      <div class="section-heading">
+        <h2>Design principles</h2>
+      </div>
+      <div class="grid four-col">
+        {
+          principles.map((principle) => (
+            <article class="card">
+              <h3>{principle.title}</h3>
+              <p>{principle.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="grid two-col">
+      <div class="section-heading">
+        <h2>Fund the public alpha.</h2>
+        <p>
+          Blacklight Foundation funds the public compiler, specification,
+          documentation, examples, diagnostics, CI, and community infrastructure
+          for Ultraviolet.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="/funding/">See funding goals</a>
+          <a class="button secondary" href="/sponsor/">Become a sponsor</a>
+        </div>
+      </div>
+      <div class="grid">
+        {
+          fundingGoals.map((fund) => (
+            <article class="card funding-card">
+              <h3>{fund.title}</h3>
+              <p class="funding-goal">{fund.goal}</p>
+              <p class="muted">{fund.purpose}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="page-section">
+      <div class="section-heading">
+        <h2>
+          Help build a language for reviewable generated systems code.
+        </h2>
+        <div class="actions">
+          <a class="button primary" href="/sponsor/">Sponsor the public alpha</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

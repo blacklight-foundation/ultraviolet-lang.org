@@ -1,0 +1,121 @@
+---
+import '../styles/site.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const defaultTitle = 'Ultraviolet';
+const defaultDescription =
+  'A systems programming language for generated code humans can still review.';
+
+const { title = defaultTitle, description = defaultDescription } = Astro.props;
+const pageTitle =
+  title === defaultTitle ? defaultTitle : `${title} | ${defaultTitle}`;
+const site = Astro.site ?? new URL('https://ultraviolet-lang.org');
+const canonical = new URL(Astro.url.pathname, site).toString();
+
+const navLinks = [
+  { href: '/docs/', label: 'Docs' },
+  { href: '/roadmap/', label: 'Roadmap' },
+  { href: '/funding/', label: 'Funding' },
+  { href: '/sponsor/', label: 'Sponsor' },
+  { href: '/foundation/', label: 'Foundation' },
+  {
+    href: 'https://github.com/blacklight-foundation/ultraviolet',
+    label: 'GitHub',
+  },
+];
+
+const footerLinks = [
+  {
+    href: 'https://github.com/blacklight-foundation/ultraviolet',
+    label: 'GitHub',
+  },
+  { href: '/sponsor/', label: 'Sponsor' },
+  { href: '/funding/', label: 'Funding' },
+  { href: '/foundation/', label: 'Foundation' },
+  { href: 'mailto:hello@blacklight.foundation', label: 'Contact' },
+  {
+    href: 'https://github.com/blacklight-foundation/ultraviolet/blob/main/CODE_OF_CONDUCT.md',
+    label: 'Code of Conduct',
+  },
+  {
+    href: 'https://github.com/blacklight-foundation/ultraviolet/security',
+    label: 'Security',
+  },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Ultraviolet" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/og.svg', site).toString()} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Ultraviolet home">
+        <span class="brand-mark" aria-hidden="true">
+          <img
+            src="/images/ultraviolet_darkmode_transparent.png"
+            width="1000"
+            height="1000"
+            alt=""
+          />
+        </span>
+        <span class="brand-text">Ultraviolet</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        {
+          navLinks.map((link) => (
+            <a href={link.href}>
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+      <div class="header-actions">
+        <a class="nav-secondary" href="/roadmap/">Read the roadmap</a>
+        <a class="nav-cta" href="/sponsor/">Sponsor the public alpha</a>
+      </div>
+    </header>
+    <main id="content">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div>
+          <a class="footer-brand" href="/">Ultraviolet</a>
+          <p>
+            Stewarded by Blacklight Foundation. Built for public alpha
+            documentation, funding transparency, and technical review.
+          </p>
+        </div>
+        <nav class="footer-links" aria-label="Footer navigation">
+          {
+            footerLinks.map((link) => (
+              <a href={link.href}>
+                {link.label}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

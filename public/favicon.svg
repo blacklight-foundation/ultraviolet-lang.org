@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Ultraviolet">
+  <rect width="64" height="64" rx="12" fill="#09090B"/>
+  <rect x="7" y="7" width="50" height="50" rx="8" fill="#111116" stroke="#8B5CF6" stroke-width="2"/>
+  <path d="M18 18v17c0 7 4 11 14 11s14-4 14-11V18h-8v17c0 3-2 5-6 5s-6-2-6-5V18h-8Z" fill="#F4F4F5"/>
+  <path d="M22 18h8l5 18 5-18h8L39 46h-8L22 18Z" fill="#A78BFA" opacity=".86"/>
+</svg>
