@@ -1,5 +1,6 @@
 ---
 import '../styles/site.css';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
 
 interface Props {
   title?: string;
@@ -64,6 +65,7 @@ const footerLinks = [
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={new URL('/og.svg', site).toString()} />
     <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline src="/newsletter-signup.js" defer></script>
     <slot name="head" />
   </head>
   <body>
@@ -106,6 +108,13 @@ const footerLinks = [
             documentation, funding transparency, and technical review.
           </p>
         </div>
+        <NewsletterSignup
+          source="footer"
+          heading="Get updates"
+          description="Public alpha notes, compiler progress, and funding milestones."
+          compact
+          className="footer-newsletter"
+        />
         <nav class="footer-links" aria-label="Footer navigation">
           {
             footerLinks.map((link) => (

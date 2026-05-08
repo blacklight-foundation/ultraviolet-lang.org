@@ -1,0 +1,76 @@
+---
+interface Props {
+  source: string;
+  heading?: string;
+  description?: string;
+  compact?: boolean;
+  className?: string;
+}
+
+const {
+  source,
+  heading = 'Get Ultraviolet updates',
+  description = 'Public alpha notes, compiler progress, funding milestones, and LLM-generated-code research updates.',
+  compact = false,
+  className = '',
+} = Astro.props;
+
+const safeSource = source.replace(/[^a-zA-Z0-9_-]/g, '-');
+const formId = `newsletter-${safeSource}${compact ? '-compact' : ''}`;
+const headingId = `${formId}-heading`;
+const inputId = `${formId}-email`;
+---
+
+<section
+  class:list={[
+    'newsletter-card',
+    compact && 'newsletter-card-compact',
+    className,
+  ]}
+  aria-labelledby={headingId}
+>
+  <div class="newsletter-copy">
+    <h2 id={headingId}>{heading}</h2>
+    <p>{description}</p>
+  </div>
+  <form
+    class="newsletter-form"
+    data-newsletter-form
+    action="/api/subscribe"
+    method="post"
+    novalidate
+  >
+    <input type="hidden" name="source" value={source} />
+    <label for={inputId}>Email address</label>
+    <div class="newsletter-row">
+      <input
+        id={inputId}
+        name="email"
+        type="email"
+        autocomplete="email"
+        inputmode="email"
+        placeholder="you@example.com"
+        required
+      />
+      <input
+        class="newsletter-honeypot"
+        name="company"
+        type="text"
+        tabindex="-1"
+        autocomplete="off"
+        aria-hidden="true"
+      />
+      <button type="submit">Subscribe</button>
+    </div>
+    <p class="newsletter-note">
+      You will receive a confirmation email. Unsubscribe anytime.
+    </p>
+    <p
+      class="newsletter-status"
+      data-newsletter-status
+      aria-live="polite"
+      aria-atomic="true"
+    >
+    </p>
+  </form>
+</section>

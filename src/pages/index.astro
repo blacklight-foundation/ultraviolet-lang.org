@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
 import { fundingGoals } from '../data/funding';
 
 const principles = [
@@ -151,13 +152,17 @@ funding: founding sponsors + milestones</code></pre>
 
   <section class="band">
     <div class="page-section">
-      <div class="section-heading">
-        <h2>
-          Help build a language for reviewable LLM-generated systems code.
-        </h2>
-        <div class="actions">
-          <a class="button primary" href="/sponsor/">Sponsor the public alpha</a>
-        </div>
+      <NewsletterSignup source="home" />
+    </div>
+  </section>
+
+  <section class="page-section">
+    <div class="section-heading">
+      <h2>
+        Help build a language for reviewable LLM-generated systems code.
+      </h2>
+      <div class="actions">
+        <a class="button primary" href="/sponsor/">Sponsor the public alpha</a>
       </div>
     </div>
   </section>

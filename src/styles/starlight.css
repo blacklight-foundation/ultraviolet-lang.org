@@ -56,3 +56,113 @@
 .sl-markdown-content code {
   border-radius: 5px;
 }
+
+.sl-markdown-content .newsletter-card {
+  display: grid;
+  gap: 1rem;
+  margin-top: 2rem;
+  border: 1px solid color-mix(in srgb, var(--sl-color-accent) 38%, transparent);
+  border-radius: 8px;
+  background: var(--sl-color-gray-6);
+  padding: 1.25rem;
+}
+
+.sl-markdown-content .newsletter-card h2 {
+  margin: 0;
+  color: var(--sl-color-white);
+  font-size: 1.35rem;
+}
+
+.sl-markdown-content .newsletter-card p {
+  margin: 0;
+}
+
+.sl-markdown-content .newsletter-copy {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.sl-markdown-content .newsletter-form {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.sl-markdown-content .newsletter-form label {
+  color: var(--sl-color-white);
+  font-weight: 700;
+}
+
+.sl-markdown-content .newsletter-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.65rem;
+}
+
+.sl-markdown-content .newsletter-row input {
+  min-width: 0;
+  width: 100%;
+  min-height: 2.75rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 6px;
+  background: var(--sl-color-black);
+  color: var(--sl-color-white);
+  padding: 0.72rem 0.85rem;
+  font: inherit;
+}
+
+.sl-markdown-content .newsletter-row input:focus {
+  border-color: var(--sl-color-accent-high);
+  outline: 2px solid color-mix(in srgb, var(--sl-color-accent) 26%, transparent);
+  outline-offset: 1px;
+}
+
+.sl-markdown-content .newsletter-row button {
+  min-height: 2.75rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: var(--sl-color-white);
+  color: var(--sl-color-black);
+  padding: 0.72rem 1rem;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sl-markdown-content .newsletter-row button:disabled {
+  cursor: progress;
+  opacity: 0.68;
+}
+
+.sl-markdown-content .newsletter-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.sl-markdown-content .newsletter-note,
+.sl-markdown-content .newsletter-status {
+  min-height: 1.3em;
+  color: var(--sl-color-gray-2);
+  font-size: 0.9rem;
+}
+
+.sl-markdown-content .newsletter-status.is-success {
+  color: #86efac;
+}
+
+.sl-markdown-content .newsletter-status.is-error {
+  color: #fda4af;
+}
+
+.sl-markdown-content .newsletter-status.is-pending {
+  color: var(--sl-color-accent-high);
+}
+
+@media (max-width: 680px) {
+  .sl-markdown-content .newsletter-row {
+    grid-template-columns: 1fr;
+  }
+}

@@ -61,6 +61,13 @@ export default defineConfig({
       ],
       head: [
         {
+          tag: 'script',
+          attrs: {
+            src: '/newsletter-signup.js',
+            defer: true,
+          },
+        },
+        {
           tag: 'meta',
           attrs: {
             property: 'og:site_name',

@@ -6,10 +6,12 @@ dist/
 
 # generated Astro files
 .astro/
+.wrangler/
 
 # environment files
 .env
 .env.*
+.dev.vars
 
 # logs
 npm-debug.log*

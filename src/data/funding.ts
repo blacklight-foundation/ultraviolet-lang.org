@@ -153,6 +153,39 @@ export const sponsorshipOptions = [
   },
 ];
 
+export const sponsorPaymentLinks = [
+  {
+    amount: '$5',
+    label: 'Sponsor at $5',
+    href: 'https://buy.stripe.com/bJeeVegjOdJJ04G69YeIw00',
+  },
+  {
+    amount: '$10',
+    label: 'Sponsor at $10',
+    href: 'https://buy.stripe.com/28EcN63x27llbNo55UeIw01',
+  },
+  {
+    amount: '$20',
+    label: 'Sponsor at $20',
+    href: 'https://buy.stripe.com/bJe28s3x2499dVweGueIw02',
+  },
+  {
+    amount: '$50',
+    label: 'Sponsor at $50',
+    href: 'https://buy.stripe.com/cNibJ21oUeNN8BceGueIw03',
+  },
+  {
+    amount: '$75',
+    label: 'Sponsor at $75',
+    href: 'https://buy.stripe.com/00w6oI2sYbBB04G55UeIw04',
+  },
+  {
+    amount: '$100',
+    label: 'Sponsor at $100',
+    href: 'https://buy.stripe.com/3cIeVe3x2fRR18KfKyeIw05',
+  },
+];
+
 export const sponsorFundedWork = [
   'compiler migration',
   'CI and releases',

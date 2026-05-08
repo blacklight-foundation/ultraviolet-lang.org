@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import NewsletterSignup from '../../components/NewsletterSignup.astro';
 ---
 
 <BaseLayout title="Launching the Ultraviolet Public Alpha">
@@ -50,5 +51,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         sponsors@ultraviolet-lang.org
       </a>.
     </p>
+
+    <NewsletterSignup
+      source="launch-post"
+      heading="Get Ultraviolet updates"
+      description="Public alpha notes, compiler progress, funding milestones, and LLM-generated-code research updates."
+    />
   </article>
 </BaseLayout>

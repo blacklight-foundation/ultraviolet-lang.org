@@ -1,6 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { sponsorFundedWork, sponsorshipOptions } from '../data/funding';
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+import {
+  sponsorFundedWork,
+  sponsorPaymentLinks,
+  sponsorshipOptions,
+} from '../data/funding';
 ---
 
 <BaseLayout title="Sponsor Ultraviolet">
@@ -13,12 +18,44 @@ import { sponsorFundedWork, sponsorshipOptions } from '../data/funding';
         LLM-generated code.
       </p>
       <div class="actions">
-        <a class="button primary" href="mailto:sponsors@ultraviolet-lang.org">
-          Email sponsors@ultraviolet-lang.org
-        </a>
+        <a class="button primary" href="#sponsor-now">Sponsor now</a>
         <a class="button secondary" href="/funding/">See funding goals</a>
+        <a class="button ghost" href="mailto:sponsors@ultraviolet-lang.org">
+          Email sponsors
+        </a>
       </div>
     </header>
+
+    <section id="sponsor-now">
+      <h2>Sponsor now</h2>
+      <p>
+        Choose a sponsorship amount and complete payment through Stripe.
+      </p>
+      <div class="payment-grid">
+        {
+          sponsorPaymentLinks.map((link) => (
+            <article class="card payment-card">
+              <h3>{link.amount}</h3>
+              <p>Support the Ultraviolet public alpha.</p>
+              <a
+                class="button primary"
+                href={link.href}
+                aria-label={link.label}
+              >
+                {link.label}
+              </a>
+            </article>
+          ))
+        }
+      </div>
+      <p>
+        For invoices, ACH, custom sponsor recognition, grant paperwork, or
+        larger sponsorships, email
+        <a href="mailto:sponsors@ultraviolet-lang.org">
+          sponsors@ultraviolet-lang.org
+        </a>.
+      </p>
+    </section>
 
     <section>
       <h2>Why sponsor?</h2>
@@ -31,6 +68,11 @@ import { sponsorFundedWork, sponsorshipOptions } from '../data/funding';
         compiler and specification into a usable public project with docs,
         examples, CI, diagnostics, and a first LLM-generated code demo.
       </p>
+      <NewsletterSignup
+        source="sponsor"
+        heading="Follow the public alpha"
+        description="Get compiler progress, funding milestones, and public alpha updates before you sponsor."
+      />
     </section>
 
     <section>
