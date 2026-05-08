@@ -503,24 +503,42 @@ p {
   font-weight: 760;
 }
 
-.payment-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-  margin-top: 1.25rem;
-}
-
-.payment-card {
+.support-tier-card {
   align-content: start;
 }
 
-.payment-card h3 {
-  color: var(--accent-strong);
-  font-size: 1.85rem;
+.support-tier-card h3 {
+  min-height: 2.45em;
 }
 
-.payment-card .button {
+.support-tier-card .button {
   margin-top: 0.35rem;
+}
+
+#funding-goals .funding-card {
+  margin-top: 1rem;
+}
+
+#funding-goals .funding-card h3 {
+  font-size: 1.28rem;
+}
+
+#funding-goals .funding-card .funding-goal {
+  color: var(--accent-strong);
+}
+
+.donation-card {
+  margin-top: 2rem;
+  border-color: rgba(134, 239, 172, 0.32);
+}
+
+.donation-card h2 {
+  font-size: 1.55rem;
+}
+
+.article-page .donation-card h2,
+.article-page .donation-card p {
+  margin-top: 0;
 }
 
 .article-page {
@@ -754,7 +772,6 @@ p {
 
   .three-col,
   .four-col,
-  .payment-grid,
   .footer-inner {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -811,7 +828,6 @@ p {
   .two-col,
   .three-col,
   .four-col,
-  .payment-grid,
   .footer-inner {
     grid-template-columns: 1fr;
   }

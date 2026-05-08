@@ -2,88 +2,55 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 import {
-  sponsorFundedWork,
-  sponsorPaymentLinks,
-  sponsorshipOptions,
+  fundingGoals,
+  oneTimeDonation,
+  supportFundedWork,
+  supportTiers,
 } from '../data/funding';
 ---
 
-<BaseLayout title="Sponsor Ultraviolet">
+<BaseLayout title="Support Ultraviolet">
   <article class="article-page">
     <header>
-      <p class="eyebrow">Public alpha funding</p>
-      <h1>Sponsor Ultraviolet</h1>
+      <p class="eyebrow">Public alpha support</p>
+      <h1>Support Ultraviolet</h1>
       <p>
         Support the public alpha of a systems language for reviewable
         LLM-generated code.
       </p>
       <div class="actions">
-        <a class="button primary" href="#sponsor-now">Sponsor now</a>
-        <a class="button secondary" href="/funding/">See funding goals</a>
-        <a class="button ghost" href="mailto:sponsors@ultraviolet-lang.org">
-          Email sponsors
-        </a>
+        <a class="button primary" href="#support-tiers">Support now</a>
+        <a class="button ghost" href="#donate">Donate once</a>
+        <a class="button secondary" href="#funding-goals">Funding goals</a>
       </div>
     </header>
 
-    <section id="sponsor-now">
-      <h2>Sponsor now</h2>
-      <p>
-        Choose a sponsorship amount and complete payment through Stripe.
-      </p>
-      <div class="payment-grid">
-        {
-          sponsorPaymentLinks.map((link) => (
-            <article class="card payment-card">
-              <h3>{link.amount}</h3>
-              <p>Support the Ultraviolet public alpha.</p>
-              <a
-                class="button primary"
-                href={link.href}
-                aria-label={link.label}
-              >
-                {link.label}
-              </a>
-            </article>
-          ))
-        }
-      </div>
-      <p>
-        For invoices, ACH, custom sponsor recognition, grant paperwork, or
-        larger sponsorships, email
-        <a href="mailto:sponsors@ultraviolet-lang.org">
-          sponsors@ultraviolet-lang.org
-        </a>.
-      </p>
-    </section>
-
     <section>
-      <h2>Why sponsor?</h2>
+      <h2>Why support?</h2>
       <p>
         Ultraviolet is early, but the thesis is concrete: LLM-generated systems
         code should be explicit, predictable, and reviewable.
       </p>
       <p>
-        Sponsor funding helps Blacklight Foundation turn the current alpha
+        Public support helps Blacklight Foundation turn the current alpha
         compiler and specification into a usable public project with docs,
-        examples, CI, diagnostics, and a first LLM-generated code demo.
+        examples, CI, diagnostics, an open LLM training corpus, and public
+        release infrastructure.
       </p>
-      <NewsletterSignup
-        source="sponsor"
-        heading="Follow the public alpha"
-        description="Get compiler progress, funding milestones, and public alpha updates before you sponsor."
-      />
     </section>
 
-    <section>
-      <h2>Sponsorship options</h2>
+    <section id="support-tiers">
+      <h2>Support tiers</h2>
+      <p>
+        Choose a support amount and complete payment through Stripe.
+      </p>
       <div class="grid three-col">
         {
-          sponsorshipOptions.map((tier) => (
-            <article class="card">
+          supportTiers.map((tier) => (
+            <article class="card support-tier-card">
               <h3>{tier.title}</h3>
-              <p class="tier-price">{tier.price}</p>
-              <p>{tier.audience}</p>
+              <p class="tier-price">{tier.amount}</p>
+              <p>{tier.description}</p>
               <ul class="plain-list">
                 {tier.benefits.map((benefit) => (
                   <li>{benefit}</li>
@@ -91,8 +58,9 @@ import {
               </ul>
               <div class="actions">
                 <a
-                  class="button ghost"
-                  href={`mailto:sponsors@ultraviolet-lang.org?subject=${encodeURIComponent(tier.title)}`}
+                  class="button primary"
+                  href={tier.href}
+                  aria-label={tier.cta}
                 >
                   {tier.cta}
                 </a>
@@ -101,19 +69,72 @@ import {
           ))
         }
       </div>
+      <p>
+        For invoices, ACH, custom recognition, grant paperwork, or larger
+        support arrangements, email
+        <a href="mailto:sponsors@ultraviolet-lang.org">
+          sponsors@ultraviolet-lang.org
+        </a>.
+      </p>
+    </section>
+
+    <section id="donate" class="card donation-card">
+      <h2>{oneTimeDonation.title}</h2>
+      <p>
+        {oneTimeDonation.description} Use this option if you want to make a
+        flexible one-time contribution instead of choosing a support tier.
+      </p>
+      <div class="actions">
+        <a class="button primary" href={oneTimeDonation.href}>
+          {oneTimeDonation.cta}
+        </a>
+      </div>
+    </section>
+
+    <section id="funding-goals">
+      <h2>Funding goals</h2>
+      {
+        fundingGoals.map((fund) => (
+          <section class="card funding-card">
+            <h3>{fund.title}</h3>
+            <p class="funding-goal">Goal: {fund.goal}</p>
+            <p class="funding-timeline">Timeline: {fund.timeline}</p>
+            <p>{fund.summary}</p>
+            <p>{fund.body}</p>
+            <p>{fund.outcome}</p>
+            <ul class="plain-list">
+              {fund.breakdown.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+            <div class="actions">
+              <a class="button ghost" href={fund.href}>
+                {fund.cta}
+              </a>
+            </div>
+          </section>
+        ))
+      }
     </section>
 
     <section>
-      <h2>What sponsor money funds</h2>
+      <h2>What support funds</h2>
       <ul class="plain-list">
-        {sponsorFundedWork.map((item) => <li>{item}</li>)}
+        {supportFundedWork.map((item) => <li>{item}</li>)}
       </ul>
     </section>
+
+    <NewsletterSignup
+      source="support"
+      heading="Follow the public alpha"
+      description="Get compiler progress, funding milestones, and public alpha updates."
+    />
 
     <section>
       <h2>Contact</h2>
       <p>
-        Sponsor conversations can start by email:
+        Questions, invoices, ACH, grant paperwork, and larger support
+        conversations can start by email:
         <a href="mailto:sponsors@ultraviolet-lang.org">
           sponsors@ultraviolet-lang.org
         </a>.

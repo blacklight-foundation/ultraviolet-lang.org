@@ -1,6 +1,7 @@
 ---
 import '../styles/site.css';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
+import { oneTimeDonation } from '../data/funding';
 
 interface Props {
   title?: string;
@@ -20,8 +21,7 @@ const canonical = new URL(Astro.url.pathname, site).toString();
 const navLinks = [
   { href: '/docs/', label: 'Docs' },
   { href: '/roadmap/', label: 'Roadmap' },
-  { href: '/funding/', label: 'Funding' },
-  { href: '/sponsor/', label: 'Sponsor' },
+  { href: '/sponsor/', label: 'Support' },
   { href: '/foundation/', label: 'Foundation' },
   {
     href: 'https://github.com/blacklight-foundation/ultraviolet',
@@ -34,8 +34,8 @@ const footerLinks = [
     href: 'https://github.com/blacklight-foundation/ultraviolet',
     label: 'GitHub',
   },
-  { href: '/sponsor/', label: 'Sponsor' },
-  { href: '/funding/', label: 'Funding' },
+  { href: '/sponsor/', label: 'Support' },
+  { href: oneTimeDonation.href, label: 'Donate' },
   { href: '/foundation/', label: 'Foundation' },
   { href: 'mailto:hello@blacklight.foundation', label: 'Contact' },
   {
@@ -93,7 +93,7 @@ const footerLinks = [
       </nav>
       <div class="header-actions">
         <a class="nav-secondary" href="/roadmap/">Read the roadmap</a>
-        <a class="nav-cta" href="/sponsor/">Sponsor the public alpha</a>
+        <a class="nav-cta" href="/sponsor/">Support the public alpha</a>
       </div>
     </header>
     <main id="content">
@@ -105,7 +105,7 @@ const footerLinks = [
           <a class="footer-brand" href="/">Ultraviolet</a>
           <p>
             Stewarded by Blacklight Foundation. Built for public alpha
-            documentation, funding transparency, and technical review.
+            documentation, support transparency, and technical review.
           </p>
         </div>
         <NewsletterSignup

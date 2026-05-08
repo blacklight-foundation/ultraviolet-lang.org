@@ -4,12 +4,12 @@ export const fundingGoals = [
     goal: '$25,000',
     timeline: '30 to 45 days',
     purpose: 'Fund the first usable public alpha of Ultraviolet.',
-    cta: 'Fund the public alpha',
-    href: 'mailto:sponsors@ultraviolet-lang.org?subject=Public%20Alpha%20Launch%20Fund',
+    cta: 'Support this work',
+    href: '/sponsor/#support-tiers',
     summary:
       'This fund supports the first usable public alpha of Ultraviolet.',
     body:
-      'Funding goes toward compiler migration, a working quickstart, first examples, CI smoke tests, a release checklist, contributor onboarding, and public sponsor reporting.',
+      'Funding goes toward compiler migration, a working quickstart, first examples, CI smoke tests, a release checklist, contributor onboarding, and public support reporting.',
     outcome:
       'The goal is simple: a technical visitor should be able to find the compiler, build the current alpha, run a first example, and understand what comes next.',
     breakdown: [
@@ -17,30 +17,7 @@ export const fundingGoals = [
       '$5k working quickstart and first example',
       '$5k CI smoke tests and release checklist',
       '$5k contributor onboarding and issue cleanup',
-      '$2.5k first monthly report / sponsor reporting / admin',
-    ],
-  },
-  {
-    title: 'First LLM-Generated Code Demo Fund',
-    goal: '$35,000',
-    timeline: '60 to 90 days',
-    purpose:
-      'Fund the first public demonstration of reviewable LLM-generated systems code.',
-    cta: 'Fund the LLM-generated code demo',
-    href: 'mailto:sponsors@ultraviolet-lang.org?subject=First%20LLM-Generated%20Code%20Demo%20Fund',
-    summary:
-      'Ultraviolet exists to explore a specific idea: LLM-generated systems code should be readable enough for humans to review.',
-    body:
-      'This fund would build the first public demonstration of that idea. In the planned demo, an LLM would generate Ultraviolet source from a small constrained systems task or interface description. The compiler would check that source, and the walkthrough would show how the output supports local reasoning, explicit authority and effects, stable structure, and reviewable diffs.',
-    outcome:
-      'Funding supports LLM task harnesses, compiler integration, documentation, examples, and a recorded technical walkthrough.',
-    breakdown: [
-      '$10k LLM task harness and prompt/evaluation setup',
-      '$7.5k LLM-generated Ultraviolet source examples',
-      '$5k compiler integration',
-      '$5k documentation',
-      '$5k walkthrough/demo video',
-      '$2.5k sponsor report and maintenance pass',
+      '$2.5k first monthly report / support reporting / admin',
     ],
   },
   {
@@ -49,8 +26,8 @@ export const fundingGoals = [
     timeline: '90 to 120 days',
     purpose:
       'Fund an open-source training corpus for LLMs that generate Ultraviolet source.',
-    cta: 'Fund the training corpus',
-    href: 'mailto:sponsors@ultraviolet-lang.org?subject=Open%20LLM%20Training%20Corpus%20Fund',
+    cta: 'Support this work',
+    href: '/sponsor/#support-tiers',
     summary:
       'LLMs need high-quality examples, constraints, and review signals to generate systems code that humans can inspect with confidence.',
     body:
@@ -63,7 +40,7 @@ export const fundingGoals = [
       '$10k constrained tasks, prompts, and expected outputs',
       '$7.5k review annotations, anti-patterns, and diagnostics cases',
       '$5k evaluation harness, metadata, and dataset splits',
-      '$5k public release, sponsor report, and maintenance pass',
+      '$5k public release, public report, and maintenance pass',
     ],
   },
   {
@@ -72,12 +49,12 @@ export const fundingGoals = [
     timeline: '12 months',
     purpose:
       'Fund sustained public compiler, documentation, release, and contributor work.',
-    cta: 'Fund sustained maintainer work',
-    href: 'mailto:sponsors@ultraviolet-lang.org?subject=Maintainer-in-Residence%20Fund',
+    cta: 'Support this work',
+    href: '/sponsor/#support-tiers',
     summary:
       'Programming languages do not become sustainable through one-off bursts of attention. They need consistent maintainer time.',
     body:
-      'The Maintainer-in-Residence Fund supports one year of focused public work on Ultraviolet: compiler development, release engineering, documentation, examples, diagnostics, contributor onboarding, public roadmap updates, sponsor reporting, infrastructure, and compliance.',
+      'The Maintainer-in-Residence Fund supports one year of focused public work on Ultraviolet: compiler development, release engineering, documentation, examples, diagnostics, contributor onboarding, public roadmap updates, support reporting, infrastructure, and compliance.',
     outcome:
       "This fund is Blacklight Foundation's path from alpha project to durable public infrastructure.",
     breakdown: [
@@ -89,110 +66,89 @@ export const fundingGoals = [
   },
 ];
 
-export const sponsorshipOptions = [
-  {
-    title: 'Individual Supporter',
-    price: '$10 to $100/month',
-    audience: 'For individual developers who want to support the project.',
-    cta: 'Support Ultraviolet',
-    benefits: [
-      'name on supporter page, if desired',
-      'monthly project updates',
-    ],
-  },
-  {
-    title: 'Founding Sponsor',
-    price: '$5,000/year',
-    audience:
-      'For companies or individuals that want to support the public alpha.',
-    cta: 'Become a founding sponsor',
-    benefits: [
-      'logo or name on sponsor page',
-      'public thank-you',
-      'quarterly foundation update',
-      'listing in first annual report',
-    ],
-  },
-  {
-    title: 'Alpha Milestone Sponsor',
-    price: '$10,000 one-time',
-    audience: 'Funds one visible public alpha milestone.',
-    cta: 'Sponsor a milestone',
-    benefits: [
-      'recognition on milestone page',
-      'public completion report',
-      'acknowledgment in funded demo/docs when delivered',
-      'quarterly foundation update',
-    ],
-  },
-  {
-    title: 'Public Alpha Partner',
-    price: '$25,000/year',
-    audience: 'Supports the broader public alpha roadmap.',
-    cta: 'Become a public alpha partner',
-    benefits: [
-      'prominent sponsor listing',
-      'named funding area',
-      'public sponsor profile',
-      'quarterly roadmap briefing',
-      'annual impact report',
-    ],
-  },
-  {
-    title: 'Maintainer-in-Residence Sponsor',
-    price: '$50,000/year',
-    audience: 'Supports sustained maintainer work.',
-    cta: 'Fund maintainer work',
-    benefits: [
-      'top-tier recognition',
-      'named support for maintainer fund',
-      'public interview or sponsor profile',
-      'annual impact report',
-      'invitation to public sponsor briefing',
-    ],
-  },
-];
-
-export const sponsorPaymentLinks = [
+export const supportTiers = [
   {
     amount: '$5',
-    label: 'Sponsor at $5',
+    title: 'Community Supporter',
+    description: 'Help keep public alpha work moving.',
+    cta: 'Support at $5',
     href: 'https://buy.stripe.com/bJeeVegjOdJJ04G69YeIw00',
+    benefits: [
+      'supports public alpha updates',
+      'helps fund documentation and examples',
+    ],
   },
   {
     amount: '$10',
-    label: 'Sponsor at $10',
+    title: 'Individual Supporter',
+    description: 'Support the public alpha as an individual developer.',
+    cta: 'Support at $10',
     href: 'https://buy.stripe.com/28EcN63x27llbNo55UeIw01',
+    benefits: [
+      'supports compiler migration work',
+      'helps fund public project updates',
+    ],
   },
   {
     amount: '$20',
-    label: 'Sponsor at $20',
+    title: 'Project Supporter',
+    description: 'Back the public compiler, docs, and corpus work.',
+    cta: 'Support at $20',
     href: 'https://buy.stripe.com/bJe28s3x2499dVweGueIw02',
+    benefits: [
+      'supports quickstart and examples',
+      'helps fund training corpus material',
+    ],
   },
   {
     amount: '$50',
-    label: 'Sponsor at $50',
+    title: 'Alpha Supporter',
+    description: 'Fund larger chunks of public alpha infrastructure.',
+    cta: 'Support at $50',
     href: 'https://buy.stripe.com/cNibJ21oUeNN8BceGueIw03',
+    benefits: [
+      'supports CI and release infrastructure',
+      'helps fund diagnostics and examples',
+    ],
   },
   {
     amount: '$75',
-    label: 'Sponsor at $75',
+    title: 'Infrastructure Supporter',
+    description: 'Support foundation-backed language infrastructure.',
+    cta: 'Support at $75',
     href: 'https://buy.stripe.com/00w6oI2sYbBB04G55UeIw04',
+    benefits: [
+      'supports open LLM training corpus work',
+      'helps fund public reporting and maintenance',
+    ],
   },
   {
     amount: '$100',
-    label: 'Sponsor at $100',
+    title: 'Sustaining Supporter',
+    description: 'Provide sustained support for Ultraviolet public work.',
+    cta: 'Support at $100',
     href: 'https://buy.stripe.com/3cIeVe3x2fRR18KfKyeIw05',
+    benefits: [
+      'supports maintainer and release work',
+      'helps fund durable public infrastructure',
+    ],
   },
 ];
 
-export const sponsorFundedWork = [
+export const oneTimeDonation = {
+  title: 'General one-time donation',
+  cta: 'Donate once',
+  href: 'https://donate.stripe.com/fZu3cwffKaxxdVw9maeIw06',
+  description:
+    'General donations support Blacklight Foundation\'s public Ultraviolet work across the roadmap.',
+};
+
+export const supportFundedWork = [
   'compiler migration',
   'CI and releases',
   'quickstart documentation',
   'examples',
   'diagnostics',
-  'LLM-generated code demo work',
   'open LLM training corpus',
   'contributor onboarding',
   'public roadmap and reporting',

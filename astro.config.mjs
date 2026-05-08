@@ -53,8 +53,7 @@ export default defineConfig({
           label: 'Project',
           items: [
             { label: 'Roadmap', link: '/roadmap/' },
-            { label: 'Funding', link: '/funding/' },
-            { label: 'Sponsor', link: '/sponsor/' },
+            { label: 'Support', link: '/sponsor/' },
             { label: 'Foundation', link: '/foundation/' },
           ],
         },
