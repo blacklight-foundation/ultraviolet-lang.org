@@ -4,7 +4,11 @@ import {
   CHAPTERS,
   SPEC_OUTPUT_DIR,
   docsPathForSlug,
+  frontmatter,
+  normalizeChapterBody,
   readSpec,
+  specSourceLabel,
+  specSourceRelative,
   splitChapters,
 } from './spec-utils.mjs';
 
@@ -20,7 +24,13 @@ if (!existsSync(manifestPath)) {
   if (manifest.hash !== hash) {
     errors.push(`Spec hash drift: generated ${manifest.hash}, current ${hash}.`);
   }
+  if (manifest.source !== specSourceRelative()) {
+    errors.push(`Spec source drift: generated ${manifest.source}, current ${specSourceRelative()}.`);
+  }
+  checkManifestChapters(manifest);
 }
+
+checkCanonicalChapterCoverage();
 
 for (const chapter of CHAPTERS) {
   if (!chunks.has(chapter.slug)) {
@@ -37,10 +47,17 @@ for (const chapter of CHAPTERS) {
   if (!content.includes(`specHash: "${hash}"`)) {
     errors.push(`${path} does not include current spec hash.`);
   }
+  if (!content.includes(`specSource: "${specSourceRelative()}"`)) {
+    errors.push(`${path} does not include current spec source ${specSourceRelative()}.`);
+  }
   if (content.includes('\\linewidth')) {
     errors.push(`${path} contains unsupported \\linewidth.`);
   }
+  if (content.includes('\\rule{')) {
+    errors.push(`${path} contains literal LaTeX rule markup outside a rendered math block.`);
+  }
 
+  checkChapterBody(path, chapter, content, chunks.get(chapter.slug));
   checkMathBlocks(path, content);
   checkFences(path, content);
   checkMojibake(path, content);
@@ -57,6 +74,12 @@ if (!existsSync(indexPath)) {
       errors.push(`Specification index is missing ${chapter.slug}.`);
     }
   }
+  if (!index.includes(`specHash: "${hash}"`)) {
+    errors.push(`${indexPath} does not include current spec hash.`);
+  }
+  if (!index.includes(`specSource: "${specSourceRelative()}"`)) {
+    errors.push(`${indexPath} does not include current spec source ${specSourceRelative()}.`);
+  }
 }
 
 if (errors.length > 0) {
@@ -65,6 +88,65 @@ if (errors.length > 0) {
 }
 
 console.log(`Specification docs are current: ${CHAPTERS.length + 1} pages, hash ${hash}`);
+
+function checkManifestChapters(manifest) {
+  const manifestChapters = JSON.stringify(manifest.chapters);
+  const expectedChapters = JSON.stringify(CHAPTERS);
+  if (manifestChapters !== expectedChapters) {
+    errors.push(`${manifestPath} chapters do not match scripts/spec-utils.mjs.`);
+  }
+}
+
+function checkCanonicalChapterCoverage() {
+  const chapterHeadings = [
+    ...normalized.matchAll(/^## (.+)$/gm),
+  ].map((match) => match[1].trim());
+  const expectedHeadings = CHAPTERS.map((chapter) => chapter.heading);
+
+  for (const heading of chapterHeadings) {
+    if (!expectedHeadings.includes(heading)) {
+      errors.push(`Canonical spec has unmapped chapter heading: ${heading}`);
+    }
+  }
+
+  for (const heading of expectedHeadings) {
+    if (!chapterHeadings.includes(heading)) {
+      errors.push(`Configured chapter is missing from canonical spec: ${heading}`);
+    }
+  }
+}
+
+function checkChapterBody(path, chapter, content, sourceBody) {
+  if (!sourceBody) return;
+
+  const expected = `${frontmatter({
+    title: chapter.title,
+    description: `${chapter.heading} of the Ultraviolet language specification.`,
+    specSource: specSourceRelative(),
+    specHash: hash,
+    generatedAt: extractGeneratedAt(content),
+    generated: true,
+  })}<div class="spec-provenance">
+  <strong>Generated from ${specSourceLabel()}.</strong>
+  <span>SHA-256: <code>${hash}</code></span>
+</div>
+
+${normalizeChapterBody(sourceBody)}
+`;
+
+  if (content !== expected) {
+    errors.push(`${path} body does not match the normalized current SPECIFICATION.md chunk.`);
+  }
+}
+
+function extractGeneratedAt(content) {
+  const match = content.match(/^generatedAt: "([^"]+)"$/m);
+  if (!match) {
+    errors.push('Generated specification page is missing generatedAt frontmatter.');
+    return '';
+  }
+  return match[1];
+}
 
 function checkMathBlocks(path, content) {
   const blockPattern = /```math\n([\s\S]*?)\n```/g;

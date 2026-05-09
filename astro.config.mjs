@@ -2,9 +2,18 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
+import { CHAPTERS } from './scripts/spec-utils.mjs';
 
 const description =
   'Ultraviolet is a high-visibility, general-purpose programming language for AI and Humans.';
+
+const specificationSidebarItems = [
+  { label: 'Overview', slug: 'docs/specification' },
+  ...CHAPTERS.map((chapter) => ({
+    label: chapter.heading,
+    slug: `docs/specification/${chapter.slug}`,
+  })),
+];
 
 export default defineConfig({
   site: 'https://ultraviolet-lang.org',
@@ -114,7 +123,11 @@ export default defineConfig({
               label: 'Documentation audit',
               slug: 'docs/reference/documentation-audit',
             },
-            { label: 'Specification', slug: 'docs/specification' },
+            {
+              label: 'Specification',
+              collapsed: true,
+              items: specificationSidebarItems,
+            },
             {
               label: 'Grammar',
               slug: 'docs/specification/complete-grammar-reference',

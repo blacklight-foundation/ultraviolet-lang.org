@@ -19,9 +19,8 @@ The manifest declares an executable assembly named `hello` with source files und
 ## Source
 
 ```text
-public procedure main(
-    move ctx: Context
-) -> i32 {
+public procedure main(move ctx: Context) -> i32 {
+    ctx.io~>consoleWrite("Hello, Ultraviolet!)
     return 0
 }
 ```

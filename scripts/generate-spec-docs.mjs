@@ -4,6 +4,7 @@ import {
   SPEC_OUTPUT_DIR,
   docsPathForSlug,
   frontmatter,
+  normalizeChapterBody,
   readSpec,
   specSourceLabel,
   specSourceRelative,
@@ -89,74 +90,4 @@ function renderChapter(chapter, body, hash, generatedAt) {
 
 ${normalizedBody}
 `;
-}
-
-function normalizeChapterBody(body) {
-  const lines = body.split(/\r?\n/);
-  const out = [];
-  let inSourceFence = false;
-  let sourceFenceLang = '';
-  let inSyntheticFormalBlock = false;
-
-  for (const line of lines) {
-    const fence = line.match(/^```([A-Za-z0-9_-]*)\s*$/);
-    if (fence) {
-      if (inSyntheticFormalBlock) {
-        out.push('```');
-        inSyntheticFormalBlock = false;
-      }
-
-      if (!inSourceFence) {
-        inSourceFence = true;
-        sourceFenceLang = fence[1] || '';
-        out.push(['ebnf', 'uv', 'ultraviolet', ''].includes(sourceFenceLang) ? '```text' : line);
-      } else {
-        inSourceFence = false;
-        sourceFenceLang = '';
-        out.push('```');
-      }
-      continue;
-    }
-
-    if (!inSourceFence && isFormalLine(line)) {
-      if (!inSyntheticFormalBlock) {
-        if (out.at(-1) !== '') out.push('');
-        out.push('```text');
-        inSyntheticFormalBlock = true;
-      }
-      out.push(line);
-      continue;
-    }
-
-    if (inSyntheticFormalBlock) {
-      out.push('```');
-      inSyntheticFormalBlock = false;
-      if (line !== '') out.push('');
-    }
-
-    if (inSourceFence && sourceFenceLang === 'math') {
-      out.push(line.replaceAll('\\linewidth', '18em'));
-    } else {
-      out.push(line);
-    }
-  }
-
-  if (inSyntheticFormalBlock) {
-    out.push('```');
-  }
-
-  return out.join('\n').replace(/\n{4,}/g, '\n\n\n');
-}
-
-function isFormalLine(line) {
-  const trimmed = line.trim();
-  if (!trimmed) return false;
-  if (trimmed.startsWith('|')) return false;
-  if (/^#{1,6}\s/.test(trimmed)) return false;
-  if (/^\*\*.*\*\*$/.test(trimmed)) return false;
-  if (/^[-*]\s/.test(trimmed)) return false;
-  if (/^\d+\.\s/.test(trimmed)) return false;
-  if (/^\$\$/.test(trimmed)) return false;
-  if (trimmed.includes('\\rule{18em}{0.4pt}')) return true;
-  return /[ΓΣΞΩπσθλεκ⊢⇓⇑⇔⇒→∀∃∈∉⊆⊥≠≤≥↦⟨⟩∧∨¬∪∩]/.test(trimmed);
 }

@@ -1,9 +1,9 @@
 ---
 title: "Key System"
 description: "19. Key System of the Ultraviolet language specification."
-specSource: "../../Ultraviolet/SPECIFICATION.md"
+specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T14:44:07.538Z"
+generatedAt: "2026-05-09T17:39:45.389Z"
 generated: true
 ---
 
@@ -790,7 +790,7 @@ Permitted
 
 ```text
 Γ ⊢ P : `shared` T    ReadThenWrite(P, S)    ∃ (Q, Write, S') ∈ Γ_keys : Prefix(Q, P)    CompoundRewriteCandidate(P, S)    w = Code(K-RMW-Explicit-Warn)
-\rule{18em}{0.4pt}
+──────────────────
 Γ ⊢ WarnRMW(S) ⇓ w
 ```
 
@@ -798,7 +798,7 @@ Permitted
 
 ```text
 Γ ⊢ P : `shared` T    ReadThenWrite(P, S)    ∃ (Q, Write, S') ∈ Γ_keys : Prefix(Q, P)    ¬ CompoundRewriteCandidate(P, S)    w = Code(K-RMW-Contention-Warn)
-\rule{18em}{0.4pt}
+──────────────────
 Γ ⊢ WarnRMW(S) ⇓ w
 ```
 
@@ -933,7 +933,7 @@ CalleeCovered(Q) at call site iff the instantiated access for Q has required mod
 Held(P, M, G_keys)    Prefix(P, Q)    CalleeAccesses(Q)
 
 ```text
-\rule{18em}{0.4pt}
+──────────────────
 ```
 
 CalleeCovered(Q)
@@ -944,7 +944,7 @@ Passing a `shared` value as a procedure argument does not itself acquire a key:
 
 ```text
 Γ ⊢ f : (`shared` T) → R    Γ ⊢ v : `shared` T
-\rule{18em}{0.4pt}
+──────────────────
 call(f, v) ⇒ no key acquisition at call site
 ```
 

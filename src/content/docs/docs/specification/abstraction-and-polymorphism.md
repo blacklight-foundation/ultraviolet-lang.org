@@ -1,9 +1,9 @@
 ---
 title: "Abstraction and Polymorphism"
 description: "14. Abstraction and Polymorphism of the Ultraviolet language specification."
-specSource: "../../Ultraviolet/SPECIFICATION.md"
+specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T14:44:07.538Z"
+generatedAt: "2026-05-09T17:39:45.389Z"
 generated: true
 ---
 

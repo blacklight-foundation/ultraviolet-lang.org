@@ -1,11 +1,12 @@
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
-import { basename, relative } from 'node:path';
+import { basename, relative, resolve } from 'node:path';
 
 export const SPEC_SOURCE_PATH =
-  process.env.ULTRAVIOLET_SPEC_PATH ?? 'C:\\Dev\\Ultraviolet\\SPECIFICATION.md';
+  process.env.ULTRAVIOLET_SPEC_PATH ?? resolve(process.cwd(), 'SPECIFICATION.md');
 
 export const SPEC_OUTPUT_DIR = 'src/content/docs/docs/specification';
+export const RULE_BAR = '──────────────────';
 
 export const CHAPTERS = [
   {
@@ -251,8 +252,9 @@ export function normalizeSpecText(text) {
   for (const [bad, good] of replacements) {
     normalized = normalized.split(bad).join(good);
   }
-  normalized = normalized.replace(/^[-â”€]{12,}$/gm, '\\rule{18em}{0.4pt}');
-  normalized = normalized.replaceAll('\\rule{\\linewidth}{0.4pt}', '\\rule{18em}{0.4pt}');
+  normalized = normalized.replace(/^[-â”€]{12,}$/gm, RULE_BAR);
+  normalized = normalized.replaceAll('\\rule{\\linewidth}{0.4pt}', RULE_BAR);
+  normalized = normalized.replaceAll('\\rule{18em}{0.4pt}', RULE_BAR);
   return normalized;
 }
 
@@ -273,6 +275,76 @@ export function splitChapters(markdown) {
   }
 
   return chunks;
+}
+
+export function normalizeChapterBody(body) {
+  const lines = body.split(/\r?\n/);
+  const out = [];
+  let inSourceFence = false;
+  let sourceFenceLang = '';
+  let inSyntheticFormalBlock = false;
+
+  for (const line of lines) {
+    const fence = line.match(/^```([A-Za-z0-9_-]*)\s*$/);
+    if (fence) {
+      if (inSyntheticFormalBlock) {
+        out.push('```');
+        inSyntheticFormalBlock = false;
+      }
+
+      if (!inSourceFence) {
+        inSourceFence = true;
+        sourceFenceLang = fence[1] || '';
+        out.push(['ebnf', 'uv', 'ultraviolet', ''].includes(sourceFenceLang) ? '```text' : line);
+      } else {
+        inSourceFence = false;
+        sourceFenceLang = '';
+        out.push('```');
+      }
+      continue;
+    }
+
+    if (!inSourceFence && isFormalLine(line)) {
+      if (!inSyntheticFormalBlock) {
+        if (out.at(-1) !== '') out.push('');
+        out.push('```text');
+        inSyntheticFormalBlock = true;
+      }
+      out.push(line);
+      continue;
+    }
+
+    if (inSyntheticFormalBlock) {
+      out.push('```');
+      inSyntheticFormalBlock = false;
+      if (line !== '') out.push('');
+    }
+
+    if (inSourceFence && sourceFenceLang === 'math') {
+      out.push(line.replaceAll('\\linewidth', '18em'));
+    } else {
+      out.push(line);
+    }
+  }
+
+  if (inSyntheticFormalBlock) {
+    out.push('```');
+  }
+
+  return out.join('\n').replace(/\n{4,}/g, '\n\n\n');
+}
+
+function isFormalLine(line) {
+  const trimmed = line.trim();
+  if (!trimmed) return false;
+  if (trimmed.startsWith('|')) return false;
+  if (/^#{1,6}\s/.test(trimmed)) return false;
+  if (/^\*\*.*\*\*$/.test(trimmed)) return false;
+  if (/^[-*]\s/.test(trimmed)) return false;
+  if (/^\d+\.\s/.test(trimmed)) return false;
+  if (/^\$\$/.test(trimmed)) return false;
+  if (trimmed === RULE_BAR) return true;
+  return /[ΓΣΞΩπσθλεκ⊢⇓⇑⇔⇒→∀∃∈∉⊆⊥≠≤≥↦⟨⟩∧∨¬∪∩]/.test(trimmed);
 }
 
 export function frontmatter(fields) {
