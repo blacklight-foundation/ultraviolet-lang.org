@@ -4,7 +4,7 @@ import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 
 const description =
-  'A general-purpose programming language for AI-written code humans can review.';
+  'Ultraviolet is a high-visibility, general-purpose programming language for AI and Humans.';
 
 export default defineConfig({
   site: 'https://ultraviolet-lang.org',
