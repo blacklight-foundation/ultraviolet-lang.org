@@ -403,6 +403,16 @@ export const CHAPTERS = [
   },
 ];
 
+export function groupedChapters() {
+  const groups = new Map();
+  for (const chapter of CHAPTERS) {
+    const group = groups.get(chapter.group) ?? [];
+    group.push(chapter);
+    groups.set(chapter.group, group);
+  }
+  return groups;
+}
+
 export function readSpec() {
   const raw = readFileSync(SPEC_SOURCE_PATH, 'utf8');
   return {
@@ -501,18 +511,47 @@ export function normalizeChapterBody(body) {
   const out = [];
   let inSourceFence = false;
   let sourceFenceLang = '';
+  let sourceFenceLines = [];
   let formalLines = [];
 
   function flushFormalBlock() {
     if (formalLines.length === 0) return;
     if (out.at(-1) !== '') out.push('');
-    out.push('```math');
+    out.push('$$');
     out.push(renderLatexBlock(formalLines));
-    out.push('```');
+    out.push('$$');
     formalLines = [];
   }
 
-  for (const line of lines) {
+  function flushSourceFence() {
+    if (!inSourceFence) return;
+
+    if (sourceFenceLang === 'math') {
+      if (out.at(-1) !== '') out.push('');
+      out.push('$$');
+      out.push(sourceFenceLines.map((line) => line.replaceAll('\\linewidth', '18em')).join('\n'));
+      out.push('$$');
+    } else if (shouldRenderSourceFenceAsMath(sourceFenceLang, sourceFenceLines)) {
+      if (out.at(-1) !== '') out.push('');
+      out.push('$$');
+      out.push(renderLatexBlock(sourceFenceLines));
+      out.push('$$');
+    } else {
+      const renderedLang = ['ebnf', 'uv', 'ultraviolet', ''].includes(sourceFenceLang)
+        ? 'text'
+        : sourceFenceLang;
+      out.push(`\`\`\`${renderedLang}`);
+      out.push(...sourceFenceLines.map(renderTextFenceLine));
+      out.push('```');
+    }
+
+    inSourceFence = false;
+    sourceFenceLang = '';
+    sourceFenceLines = [];
+  }
+
+  for (let lineIndex = 0; lineIndex < lines.length; lineIndex += 1) {
+    const line = lines[lineIndex];
     const fence = line.match(/^```([A-Za-z0-9_-]*)\s*$/);
     if (fence) {
       flushFormalBlock();
@@ -520,21 +559,25 @@ export function normalizeChapterBody(body) {
       if (!inSourceFence) {
         inSourceFence = true;
         sourceFenceLang = fence[1] || '';
-        out.push(['ebnf', 'uv', 'ultraviolet', ''].includes(sourceFenceLang) ? '```text' : line);
+        sourceFenceLines = [];
       } else {
-        inSourceFence = false;
-        sourceFenceLang = '';
-        out.push('```');
+        flushSourceFence();
       }
       continue;
     }
 
     if (inSourceFence) {
-      if (sourceFenceLang === 'math') {
-        out.push(line.replaceAll('\\linewidth', '18em'));
-      } else {
-        out.push(line);
-      }
+      sourceFenceLines.push(line);
+      continue;
+    }
+
+    if (lineIndex === 0 && line.startsWith('## ')) {
+      continue;
+    }
+
+    if (/^#{3,6}\s/.test(line)) {
+      flushFormalBlock();
+      out.push(line.slice(1));
       continue;
     }
 
@@ -548,8 +591,20 @@ export function normalizeChapterBody(body) {
   }
 
   flushFormalBlock();
+  flushSourceFence();
 
   return out.join('\n').replace(/\n{4,}/g, '\n\n\n');
+}
+
+function shouldRenderSourceFenceAsMath(lang, lines) {
+  if (['ebnf', 'uv', 'ultraviolet'].includes(lang)) return false;
+  const content = lines.join('\n');
+  if (!content.trim()) return false;
+  return hasFormalNotation(content) || lines.some((line) => isFormalLine(line));
+}
+
+function renderTextFenceLine(line) {
+  return [...line].map((char) => TEXT_REPLACEMENTS.get(char) ?? char).join('');
 }
 
 function isFormalLine(line) {
@@ -562,7 +617,7 @@ function isFormalLine(line) {
   if (/^\d+\.\s/.test(trimmed)) return false;
   if (/^\$\$/.test(trimmed)) return false;
   if (trimmed === RULE_BAR || /^(?:-|\u2500){12,}$/u.test(trimmed)) return true;
-  if (/[ΓΣΞΩπσθλεκαβδτ⊢⇓⇑⇔⇒→∀∃∈∉∋⊆⊄⊥⊤≠≤≥≡≈↦⟨⟩∧∨¬∪∩∅∞ℕ𝒯⋃×]/u.test(trimmed)) {
+  if (hasFormalNotation(trimmed)) {
     return true;
   }
   if (/^#\S/.test(trimmed)) return true;
@@ -589,10 +644,15 @@ function isFormalContinuationLine(line, formalLines) {
 
   const previous = formalLines.at(-1).trim();
   if (previous === RULE_BAR) return true;
+  if (/^[}\])]+[,;]?$/.test(trimmed)) return true;
   if (/^where$/i.test(trimmed)) return true;
   if (/^otherwise\b/i.test(trimmed)) return true;
   if (/^\s+\S/.test(line)) return true;
   return false;
+}
+
+function hasFormalNotation(text) {
+  return /[ΓΣΞΩΔΠΦπσθλεκαβγδημρτωφχψ⊢⊣⊬⇓⇑⇔⇒⇐→↔↦⇀↑∀∃∈∉∋⊆⊂⊄⊈⊥⊤⊨≠≤≥≡≈≺⟨⟩∧∨¬∪∩∅∞ℕℤℓ℘𝒫𝒯⋃⋀⋯×∖▷◁±⊎⊕⌊⌋⌈⌉∘]/u.test(text);
 }
 
 function renderLatexBlock(lines) {

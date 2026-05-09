@@ -4,6 +4,7 @@ import {
   SPEC_OUTPUT_DIR,
   docsPathForSlug,
   frontmatter,
+  groupedChapters,
   normalizeChapterBody,
   readSpec,
   specSourceLabel,
@@ -38,19 +39,23 @@ writeFileSync(
 console.log(`Generated ${CHAPTERS.length + 1} specification pages from ${specSourceLabel()}`);
 
 function renderIndex(hash, generatedAt) {
-  const groups = new Map();
-  for (const chapter of CHAPTERS) {
-    const group = groups.get(chapter.group) ?? [];
-    group.push(chapter);
-    groups.set(chapter.group, group);
-  }
-
-  const groupMarkdown = [...groups.entries()]
+  const groupMarkdown = [...groupedChapters().entries()]
     .map(([group, chapters]) => {
       const links = chapters
-        .map((chapter) => `- [${chapter.heading}](/docs/specification/${chapter.slug}/)`)
+        .map((chapter) => {
+          const chapterNumber = chapter.heading.replace(` ${chapter.title}`, '');
+          return `<a class="spec-index-link" href="/docs/specification/${chapter.slug}/">
+  <span>${chapterNumber}</span>
+  <strong>${chapter.title}</strong>
+</a>`;
+        })
         .join('\n');
-      return `## ${group}\n\n${links}`;
+      return `<section class="spec-index-group" aria-labelledby="spec-${slugify(group)}">
+  <h2 id="spec-${slugify(group)}">${group}</h2>
+  <div class="spec-index-grid">
+${links}
+  </div>
+</section>`;
     })
     .join('\n\n');
 
@@ -60,13 +65,20 @@ function renderIndex(hash, generatedAt) {
     specSource: specSourceRelative(),
     specHash: hash,
     generatedAt,
-  })}<div class="spec-provenance">
+})}<div class="spec-provenance">
   <strong>Generated specification.</strong>
   <span>Source: <code>${specSourceRelative()}</code></span>
   <span>SHA-256: <code>${hash}</code></span>
 </div>
 
-The Ultraviolet language specification is the authoritative reference for syntax, static semantics, dynamic semantics, lowering, diagnostics, ABI behavior, and conformance.
+<div class="spec-reader-map">
+  <a href="/docs/reference/specification-reading-guide/">Reading guide</a>
+  <a href="/docs/specification/complete-grammar-reference/">Grammar</a>
+  <a href="/docs/specification/diagnostic-index/">Diagnostics</a>
+  <a href="/docs/reference/documentation-audit/">Claim audit</a>
+</div>
+
+The Ultraviolet language specification is the authoritative reference for syntax, static semantics, dynamic semantics, lowering, diagnostics, ABI behavior, and conformance. The generated pages below preserve chapter boundaries from <code>${specSourceRelative()}</code> and render formal notation as display mathematics.
 
 Use the guide pages for learning paths and the generated specification pages when you need exact rules.
 
@@ -90,4 +102,8 @@ function renderChapter(chapter, body, hash, generatedAt) {
 
 ${normalizedBody}
 `;
+}
+
+function slugify(value) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }

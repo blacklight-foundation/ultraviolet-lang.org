@@ -3,7 +3,7 @@ title: "AST Form Index"
 description: "Appendix C. AST Form Index of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T18:13:03.158Z"
+generatedAt: "2026-05-09T19:35:24.518Z"
 generated: true
 ---
 
@@ -12,11 +12,10 @@ generated: true
   <span>SHA-256: <code>1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e</code></span>
 </div>
 
-## Appendix C. AST Form Index
 
 Informative. Appendix C catalogs canonical AST ownership in the reorganized draft.
 
-### C.1 Item Forms
+## C.1 Item Forms
 
 | AST Item Form      | Canonical Owner                                                        |
 | ------------------ | ---------------------------------------------------------------------- |
@@ -33,7 +32,7 @@ Informative. Appendix C catalogs canonical AST ownership in the reorganized draf
 | `ClassDecl`        | `14.3 Classes`                                                         |
 | `TypeAliasDecl`    | `12.9 Type Aliases`                                                    |
 
-### C.2 Type Forms
+## C.2 Type Forms
 
 | AST Type Form                                                                                              | Canonical Owner                                                                               |
 | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
@@ -56,7 +55,7 @@ Informative. Appendix C catalogs canonical AST ownership in the reorganized draf
 | `TypeOpaque`                                                                                               | `14.7 Opaque Types`                                                                           |
 | `TypeRefine`                                                                                               | `14.8 Refinement Types`                                                                       |
 
-### C.3 Expression, Pattern, and Statement Families
+## C.3 Expression, Pattern, and Statement Families
 
 | AST Family                                                                             | Canonical Owner                                  |
 | -------------------------------------------------------------------------------------- | ------------------------------------------------ |

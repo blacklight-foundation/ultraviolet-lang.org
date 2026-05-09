@@ -53,13 +53,15 @@ for (const chapter of CHAPTERS) {
   if (content.includes('\\linewidth')) {
     errors.push(`${path} contains unsupported \\linewidth.`);
   }
-  if (stripMathBlocks(content).includes('\\rule{')) {
+  if (stripDisplayMath(content).includes('\\rule{')) {
     errors.push(`${path} contains literal LaTeX rule markup outside a rendered math block.`);
   }
 
   checkChapterBody(path, chapter, content, chunks.get(chapter.slug));
   checkMathBlocks(path, content);
   checkFences(path, content);
+  checkFormalNotationNotFenced(path, content);
+  checkDanglingMathClosers(path, content);
   checkMojibake(path, content);
   checkInternalSpecLinks(path, content);
 }
@@ -72,6 +74,11 @@ if (!existsSync(indexPath)) {
   for (const chapter of CHAPTERS) {
     if (!index.includes(`/docs/specification/${chapter.slug}/`)) {
       errors.push(`Specification index is missing ${chapter.slug}.`);
+    }
+  }
+  for (const group of new Set(CHAPTERS.map((chapter) => chapter.group))) {
+    if (!index.includes(`<section class="spec-index-group"`) || !index.includes(`>${group}</h2>`)) {
+      errors.push(`${indexPath} is missing grouped navigation section ${group}.`);
     }
   }
   if (!index.includes(`specHash: "${hash}"`)) {
@@ -148,13 +155,15 @@ function extractGeneratedAt(content) {
   return match[1];
 }
 
-function stripMathBlocks(content) {
-  return content.replace(/```math\n[\s\S]*?\n```/g, '');
+function stripDisplayMath(content) {
+  return content.replace(/^\$\$\n[\s\S]*?\n\$\$/gm, '');
 }
 
 function checkMathBlocks(path, content) {
-  const blockPattern = /```math\n([\s\S]*?)\n```/g;
+  const blockPattern = /^\$\$\n([\s\S]*?)\n\$\$/gm;
+  let mathBlocks = 0;
   for (const match of content.matchAll(blockPattern)) {
+    mathBlocks += 1;
     try {
       katex.renderToString(match[1], {
         throwOnError: true,
@@ -166,10 +175,20 @@ function checkMathBlocks(path, content) {
     }
   }
 
+  if (content.includes('```math')) {
+    errors.push(`${path} contains fenced math; generated spec math must use display math delimiters.`);
+  }
+
+  const hasFormalNotation = /[ΓΣΞΩπσθλεκαβδτ⊢⇓⇑⇔⇒→∀∃∈∉∋⊆⊄⊥⊤≠≤≥≡≈↦⟨⟩∧∨¬∪∩∅∞ℕ𝒯⋃×]/u.test(content);
+  if (hasFormalNotation && mathBlocks === 0) {
+    errors.push(`${path} contains formal notation but no display math blocks.`);
+  }
+
   // Generated spec pages intentionally avoid validating inline dollar spans.
   // The canonical spec contains source snippets such as `$Cl` and `$ExecutionDomain`
   // that are language syntax, not LaTeX.
 }
+
 
 function checkFences(path, content) {
   const lines = content.split(/\r?\n/);
@@ -202,6 +221,28 @@ function checkFences(path, content) {
   if (inFence) {
     errors.push(`${path} has an unclosed fenced block starting at line ${fenceStart}.`);
   }
+}
+
+function checkFormalNotationNotFenced(path, content) {
+  const fencePattern = /```[A-Za-z0-9_-]*\n([\s\S]*?)\n```/g;
+  for (const match of content.matchAll(fencePattern)) {
+    if (hasFormalNotation(match[1])) {
+      errors.push(`${path} contains formal notation inside a fenced code block.`);
+    }
+  }
+}
+
+function checkDanglingMathClosers(path, content) {
+  const lines = content.split(/\r?\n/);
+  for (let index = 1; index < lines.length; index += 1) {
+    if (lines[index - 1] === '$$' && /^[}\])]+[,;]?$/.test(lines[index].trim())) {
+      errors.push(`${path} has a dangling formal closer after display math at line ${index + 1}.`);
+    }
+  }
+}
+
+function hasFormalNotation(text) {
+  return /[ΓΣΞΩΔΠΦπσθλεκαβγδημρτωφχψ⊢⊣⊬⇓⇑⇔⇒⇐→↔↦⇀↑∀∃∈∉∋⊆⊂⊄⊈⊥⊤⊨≠≤≥≡≈≺⟨⟩∧∨¬∪∩∅∞ℕℤℓ℘𝒫𝒯⋃⋀⋯×∖▷◁±⊎⊕⌊⌋⌈⌉∘]/u.test(text);
 }
 
 function checkMojibake(path, content) {

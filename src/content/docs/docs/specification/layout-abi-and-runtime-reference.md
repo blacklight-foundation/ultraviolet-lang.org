@@ -3,7 +3,7 @@ title: "Layout, ABI, and Runtime Reference"
 description: "Appendix D. Layout, ABI, and Runtime Reference of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T18:13:03.158Z"
+generatedAt: "2026-05-09T19:35:24.518Z"
 generated: true
 ---
 
@@ -12,7 +12,6 @@ generated: true
   <span>SHA-256: <code>1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e</code></span>
 </div>
 
-## Appendix D. Layout, ABI, and Runtime Reference
 
 Informative. Appendix D cross-indexes layout, ABI, and runtime ownership after reorganization.
 

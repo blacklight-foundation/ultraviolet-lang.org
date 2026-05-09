@@ -2,16 +2,20 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
-import { CHAPTERS } from './scripts/spec-utils.mjs';
+import { groupedChapters } from './scripts/spec-utils.mjs';
 
 const description =
   'Ultraviolet is a high-visibility, general-purpose programming language for AI and Humans.';
 
 const specificationSidebarItems = [
   { label: 'Overview', slug: 'docs/specification' },
-  ...CHAPTERS.map((chapter) => ({
-    label: chapter.heading,
-    slug: `docs/specification/${chapter.slug}`,
+  ...[...groupedChapters().entries()].map(([group, chapters]) => ({
+    label: group,
+    collapsed: true,
+    items: chapters.map((chapter) => ({
+      label: chapter.heading,
+      slug: `docs/specification/${chapter.slug}`,
+    })),
   })),
 ];
 

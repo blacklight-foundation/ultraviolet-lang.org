@@ -3,7 +3,7 @@ title: "Asynchronous Operations"
 description: "21. Asynchronous Operations of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T18:13:03.158Z"
+generatedAt: "2026-05-09T19:35:24.518Z"
 generated: true
 ---
 
@@ -12,11 +12,10 @@ generated: true
   <span>SHA-256: <code>1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e</code></span>
 </div>
 
-## 21. Asynchronous Operations
 
-### 21.1 Async Type
+## 21.1 Async Type
 
-#### 21.1.1 Syntax
+### 21.1.1 Syntax
 
 This section introduces no additional concrete type grammar beyond ordinary type-application syntax and modal-state type syntax.
 
@@ -37,214 +36,232 @@ The following built-in async states are reserved and use ordinary modal-state ty
 - `Async@Completed`
 - `Async@Failed`
 
-#### 21.1.2 Parsing
+### 21.1.2 Parsing
 
 `Async`, `Sequence`, `Future`, `Stream`, `Pipe`, and `Exchange` use ordinary path and type-application parsing.
 
 `Async@Suspended`, `Async@Completed`, and `Async@Failed` use ordinary modal-state type parsing.
 
-```math
+$$
 \texttt{TypePath(["Async"])}\ \mathsf{MAY}\ \mathsf{be}\ \mathsf{parsed}\ \mathsf{by}\ \mathsf{the}\ \mathsf{general}\ \mathsf{type}\ \mathsf{parser};\ \mathsf{rejection}\ \mathsf{of}\ \mathsf{unapplied}\ \texttt{Async}\ \mathsf{is}\ a\ \mathsf{static}-\mathsf{semantic}\ \mathsf{rule}\ \mathsf{of}\ \mathsf{this}\ \mathsf{section}.
-```
+$$
 
-#### 21.1.3 AST Representation / Form
+### 21.1.3 AST Representation / Form
 
 `Async` is a built-in modal declaration:
 
-```text
-States(`Async`) = { `@Suspended`, `@Completed`, `@Failed` }
-
-AsyncParams = [
-  ⟨`Out`, [], ⊥, ⊥⟩,
-  ⟨`In`, [], TypePrim("()"), ⊥⟩,
-  ⟨`Result`, [], TypePrim("()"), ⊥⟩,
-  ⟨`E`, [], TypePrim("!"), ⊥⟩
-]
-
-AsyncRef = TypeApply(["Async"], [TypePath(["Out"]), TypePath(["In"]), TypePath(["Result"]), TypePath(["E"])])
-
-AsyncSuspendedFields = [⟨`output`, TypePath(["Out"])⟩]
-AsyncCompletedFields = [⟨`value`, TypePath(["Result"])⟩]
-AsyncFailedFields = [⟨`error`, TypePath(["E"])⟩]
-
-Payload(`Async`, `@Suspended`) = AsyncSuspendedFields
-Payload(`Async`, `@Completed`) = AsyncCompletedFields
-Payload(`Async`, `@Failed`) = AsyncFailedFields
-
-AsyncSuspendedMembers = [
-  StateFieldDecl(⊥, `public`, false, `output`, TypePath(["Out"]), ⊥, ⊥),
-  StateMethodDecl(
-    ⊥,
-    `public`,
-    "resume",
-    ⊥,
-    ReceiverShorthand(`unique`),
-    [⟨⊥, `input`, TypePath(["In"])⟩],
-    TypeUnion([
-      TypeModalState(AsyncRef, `@Suspended`),
-      TypeModalState(AsyncRef, `@Completed`),
-      TypeModalState(AsyncRef, `@Failed`)
-    ]),
-    ⊥,
-    ⊥,
-    ⊥,
-    ⊥
-  )
-]
-
-AsyncCompletedMembers = [
-  StateFieldDecl(⊥, `public`, false, `value`, TypePath(["Result"]), ⊥, ⊥)
-]
-
-AsyncFailedMembers = [
-  StateFieldDecl(⊥, `public`, false, `error`, TypePath(["E"]), ⊥, ⊥)
-]
-
-AsyncStates = [
-  StateBlock(`@Suspended`, AsyncSuspendedMembers, ⊥, ⊥),
-  StateBlock(`@Completed`, AsyncCompletedMembers, ⊥, ⊥),
-  StateBlock(`@Failed`, AsyncFailedMembers, ⊥, ⊥)
-]
-
-AsyncDecl = ModalDecl(⊥, `public`, `Async`, AsyncParams, ⊥, [], AsyncStates, ⊥, ⊥, ⊥)
-```
+$$
+\begin{array}{l}
+\operatorname{States}(\texttt{Async})\ =\ \{\ \texttt{@Suspended},\ \texttt{@Completed},\ \texttt{@Failed}\ \} \\
+\mathsf{AsyncParams}\ =\ [ \\
+\ \langle \texttt{Out},\ [],\ \bot ,\ \bot \rangle , \\
+\ \langle \texttt{In},\ [],\ \operatorname{TypePrim}(\texttt{"()"}),\ \bot \rangle , \\
+\ \langle \texttt{Result},\ [],\ \operatorname{TypePrim}(\texttt{"()"}),\ \bot \rangle , \\
+\ \langle \texttt{E},\ [],\ \operatorname{TypePrim}(\texttt{"!"}),\ \bot \rangle  \\
+] \\
+\mathsf{AsyncRef}\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\operatorname{TypePath}([\texttt{"Out"}]),\ \operatorname{TypePath}([\texttt{"In"}]),\ \operatorname{TypePath}([\texttt{"Result"}]),\ \operatorname{TypePath}([\texttt{"E"}])]) \\
+\mathsf{AsyncSuspendedFields}\ =\ [\langle \texttt{output},\ \operatorname{TypePath}([\texttt{"Out"}])\rangle ] \\
+\mathsf{AsyncCompletedFields}\ =\ [\langle \texttt{value},\ \operatorname{TypePath}([\texttt{"Result"}])\rangle ] \\
+\mathsf{AsyncFailedFields}\ =\ [\langle \texttt{error},\ \operatorname{TypePath}([\texttt{"E"}])\rangle ] \\
+\operatorname{Payload}(\texttt{Async},\ \texttt{@Suspended})\ =\ \mathsf{AsyncSuspendedFields} \\
+\operatorname{Payload}(\texttt{Async},\ \texttt{@Completed})\ =\ \mathsf{AsyncCompletedFields} \\
+\operatorname{Payload}(\texttt{Async},\ \texttt{@Failed})\ =\ \mathsf{AsyncFailedFields} \\
+\mathsf{AsyncSuspendedMembers}\ =\ [ \\
+\ \operatorname{StateFieldDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{output},\ \operatorname{TypePath}([\texttt{"Out"}]),\ \bot ,\ \bot ), \\
+\ \operatorname{StateMethodDecl}( \\
+\quad \bot , \\
+\quad \texttt{public}, \\
+\quad \texttt{"resume"}, \\
+\quad \bot , \\
+\quad \operatorname{ReceiverShorthand}(\texttt{unique}), \\
+\quad [\langle \bot ,\ \texttt{input},\ \operatorname{TypePath}([\texttt{"In"}])\rangle ], \\
+\quad \operatorname{TypeUnion}([ \\
+\quad \operatorname{TypeModalState}(\mathsf{AsyncRef},\ \texttt{@Suspended}), \\
+\quad \operatorname{TypeModalState}(\mathsf{AsyncRef},\ \texttt{@Completed}), \\
+\quad \operatorname{TypeModalState}(\mathsf{AsyncRef},\ \texttt{@Failed}) \\
+\quad ]), \\
+\quad \bot , \\
+\quad \bot , \\
+\quad \bot , \\
+\quad \bot  \\
+\ ) \\
+] \\
+\mathsf{AsyncCompletedMembers}\ =\ [ \\
+\ \operatorname{StateFieldDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{value},\ \operatorname{TypePath}([\texttt{"Result"}]),\ \bot ,\ \bot ) \\
+] \\
+\mathsf{AsyncFailedMembers}\ =\ [ \\
+\ \operatorname{StateFieldDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{error},\ \operatorname{TypePath}([\texttt{"E"}]),\ \bot ,\ \bot ) \\
+] \\
+\mathsf{AsyncStates}\ =\ [ \\
+\ \operatorname{StateBlock}(\texttt{@Suspended},\ \mathsf{AsyncSuspendedMembers},\ \bot ,\ \bot ), \\
+\ \operatorname{StateBlock}(\texttt{@Completed},\ \mathsf{AsyncCompletedMembers},\ \bot ,\ \bot ), \\
+\ \operatorname{StateBlock}(\texttt{@Failed},\ \mathsf{AsyncFailedMembers},\ \bot ,\ \bot ) \\
+] \\
+\mathsf{AsyncDecl}\ =\ \operatorname{ModalDecl}(\bot ,\ \texttt{public},\ \texttt{Async},\ \mathsf{AsyncParams},\ \bot ,\ [],\ \mathsf{AsyncStates},\ \bot ,\ \bot ,\ \bot )
+\end{array}
+$$
 
 The following built-in aliases are defined:
 
-```text
-SequenceDecl = TypeAliasDecl(⊥, `public`, `Sequence`, [⟨`T`, [], ⊥, ⊥⟩], ⊥, TypeApply(["Async"], [TypePath(["T"]), TypePrim("()"), TypePrim("()"), TypePrim("!")]), ⊥, ⊥)
-FutureDecl = TypeAliasDecl(⊥, `public`, `Future`, [⟨`T`, [], ⊥, ⊥⟩, ⟨`E`, [], TypePrim("!"), ⊥⟩], ⊥, TypeApply(["Async"], [TypePrim("()"), TypePrim("()"), TypePath(["T"]), TypePath(["E"])]), ⊥, ⊥)
-StreamDecl = TypeAliasDecl(⊥, `public`, `Stream`, [⟨`T`, [], ⊥, ⊥⟩, ⟨`E`, [], ⊥, ⊥⟩], ⊥, TypeApply(["Async"], [TypePath(["T"]), TypePrim("()"), TypePrim("()"), TypePath(["E"])]), ⊥, ⊥)
-PipeDecl = TypeAliasDecl(⊥, `public`, `Pipe`, [⟨`In`, [], ⊥, ⊥⟩, ⟨`Out`, [], ⊥, ⊥⟩], ⊥, TypeApply(["Async"], [TypePath(["Out"]), TypePath(["In"]), TypePrim("()"), TypePrim("!")]), ⊥, ⊥)
-ExchangeDecl = TypeAliasDecl(⊥, `public`, `Exchange`, [⟨`T`, [], ⊥, ⊥⟩], ⊥, TypeApply(["Async"], [TypePath(["T"]), TypePath(["T"]), TypePath(["T"]), TypePrim("!")]), ⊥, ⊥)
-```
+$$
+\begin{array}{l}
+\mathsf{SequenceDecl}\ =\ \operatorname{TypeAliasDecl}(\bot ,\ \texttt{public},\ \texttt{Sequence},\ [\langle \texttt{T},\ [],\ \bot ,\ \bot \rangle ],\ \bot ,\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\operatorname{TypePath}([\texttt{"T"}]),\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"!"})]),\ \bot ,\ \bot ) \\
+\mathsf{FutureDecl}\ =\ \operatorname{TypeAliasDecl}(\bot ,\ \texttt{public},\ \texttt{Future},\ [\langle \texttt{T},\ [],\ \bot ,\ \bot \rangle ,\ \langle \texttt{E},\ [],\ \operatorname{TypePrim}(\texttt{"!"}),\ \bot \rangle ],\ \bot ,\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePath}([\texttt{"T"}]),\ \operatorname{TypePath}([\texttt{"E"}])]),\ \bot ,\ \bot ) \\
+\mathsf{StreamDecl}\ =\ \operatorname{TypeAliasDecl}(\bot ,\ \texttt{public},\ \texttt{Stream},\ [\langle \texttt{T},\ [],\ \bot ,\ \bot \rangle ,\ \langle \texttt{E},\ [],\ \bot ,\ \bot \rangle ],\ \bot ,\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\operatorname{TypePath}([\texttt{"T"}]),\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePath}([\texttt{"E"}])]),\ \bot ,\ \bot ) \\
+\mathsf{PipeDecl}\ =\ \operatorname{TypeAliasDecl}(\bot ,\ \texttt{public},\ \texttt{Pipe},\ [\langle \texttt{In},\ [],\ \bot ,\ \bot \rangle ,\ \langle \texttt{Out},\ [],\ \bot ,\ \bot \rangle ],\ \bot ,\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\operatorname{TypePath}([\texttt{"Out"}]),\ \operatorname{TypePath}([\texttt{"In"}]),\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"!"})]),\ \bot ,\ \bot ) \\
+\mathsf{ExchangeDecl}\ =\ \operatorname{TypeAliasDecl}(\bot ,\ \texttt{public},\ \texttt{Exchange},\ [\langle \texttt{T},\ [],\ \bot ,\ \bot \rangle ],\ \bot ,\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\operatorname{TypePath}([\texttt{"T"}]),\ \operatorname{TypePath}([\texttt{"T"}]),\ \operatorname{TypePath}([\texttt{"T"}]),\ \operatorname{TypePrim}(\texttt{"!"})]),\ \bot ,\ \bot )
+\end{array}
+$$
 
 The built-in async combinator member set is:
 
-```text
-AsyncCombinatorNames = {`map`, `filter`, `take`, `fold`, `chain`}
-BuiltinModalGeneralMember(modal_ref, name) ⇔ ModalRefPath(modal_ref) = ["Async"] ∧ name ∈ AsyncCombinatorNames
-```
+$$
+\begin{array}{l}
+\mathsf{AsyncCombinatorNames}\ =\ \{\texttt{map},\ \texttt{filter},\ \texttt{take},\ \texttt{fold},\ \texttt{chain}\} \\
+\operatorname{BuiltinModalGeneralMember}(\mathsf{modal}_{\mathsf{ref}},\ \mathsf{name})\ \Leftrightarrow \ \operatorname{ModalRefPath}(\mathsf{modal}_{\mathsf{ref}})\ =\ [\texttt{"Async"}]\ \land \ \mathsf{name}\ \in \ \mathsf{AsyncCombinatorNames}
+\end{array}
+$$
 
-#### 21.1.4 Static Semantics
+### 21.1.4 Static Semantics
 
 Alias normalization over built-in async aliases is defined by:
 
-```text
-AsyncSig(T) = ⟨Out, In, Result, E⟩ ⇔
-  AliasNorm(T) = TypeApply(["Async"], args) ∧
-  DefaultArgs(AsyncParams, args) = [Out, In, Result, E]
-
-AsyncSig(T) = ⊥    otherwise
-
-BodyReturnType(R) =
-  { Result    if AsyncSig(R) = ⟨Out, In, Result, E⟩
-    R         otherwise }
-```
+$$
+\begin{array}{l}
+\operatorname{AsyncSig}(T)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \ \Leftrightarrow  \\
+\ \operatorname{AliasNorm}(T)\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ \mathsf{args})\ \land  \\
+\ \operatorname{DefaultArgs}(\mathsf{AsyncParams},\ \mathsf{args})\ =\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E] \\
+\operatorname{AsyncSig}(T)\ =\ \bot \quad \mathsf{otherwise} \\
+\operatorname{BodyReturnType}(R)\ = \\
+\ \{\ \mathsf{Result}\quad \mathsf{if}\ \operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle  \\
+\quad R\quad \mathsf{otherwise}\ \}
+\end{array}
+$$
 
 `Async` subtyping is:
 
 **(Sub-Async)**
-```text
-AsyncSig(T) = ⟨Out_1, In_1, Result_1, E_1⟩    AsyncSig(U) = ⟨Out_2, In_2, Result_2, E_2⟩
-Γ ⊢ Out_1 <: Out_2    Γ ⊢ In_2 <: In_1    Γ ⊢ Result_1 <: Result_2    Γ ⊢ E_1 <: E_2
-──────────────────
-Γ ⊢ T <: U
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncSig}(T)\ =\ \langle \mathsf{Out}_{1},\ \mathsf{In}_{1},\ \mathsf{Result}_{1},\ E_{1}\rangle \quad \operatorname{AsyncSig}(U)\ =\ \langle \mathsf{Out}_{2},\ \mathsf{In}_{2},\ \mathsf{Result}_{2},\ E_{2}\rangle  \\
+\Gamma \ \vdash \ \mathsf{Out}_{1}\ \mathrel{<:} \ \mathsf{Out}_{2}\quad \Gamma \ \vdash \ \mathsf{In}_{2}\ \mathrel{<:} \ \mathsf{In}_{1}\quad \Gamma \ \vdash \ \mathsf{Result}_{1}\ \mathrel{<:} \ \mathsf{Result}_{2}\quad \Gamma \ \vdash \ E_{1}\ \mathrel{<:} \ E_{2} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U
+\end{array}
+$$
 
 `Async` well-formedness is:
 
 **(WF-Async)**
-```text
-T = TypeApply(["Async"], args)    DefaultArgs(AsyncParams, args) = args'    ∀ i, Γ ⊢ args'_i wf
-──────────────────
-Γ ⊢ T wf
-```
+
+$$
+\begin{array}{l}
+T\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ \mathsf{args})\quad \operatorname{DefaultArgs}(\mathsf{AsyncParams},\ \mathsf{args})\ =\ \mathsf{args}'\quad \forall \ i,\ \Gamma \ \vdash \ \mathsf{args}'\_i\ \mathsf{wf} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathsf{wf}
+\end{array}
+$$
 
 **(WF-Async-ArgCount-Err)**
-```text
-T = TypeApply(["Async"], args)    DefaultArgs(AsyncParams, args) = ⊥
-──────────────────
-Γ ⊢ T wf ⇑
-```
+
+$$
+\begin{array}{l}
+T\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ \mathsf{args})\quad \operatorname{DefaultArgs}(\mathsf{AsyncParams},\ \mathsf{args})\ =\ \bot  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathsf{wf}\ \Uparrow 
+\end{array}
+$$
 
 **(WF-Async-Arg-WF-Err)**
-```text
-T = TypeApply(["Async"], args)    DefaultArgs(AsyncParams, args) = args'    ∃ i. Γ ⊢ args'_i wf ⇑
-──────────────────
-Γ ⊢ T wf ⇑
-```
+
+$$
+\begin{array}{l}
+T\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ \mathsf{args})\quad \operatorname{DefaultArgs}(\mathsf{AsyncParams},\ \mathsf{args})\ =\ \mathsf{args}'\quad \exists \ i.\ \Gamma \ \vdash \ \mathsf{args}'\_i\ \mathsf{wf}\ \Uparrow  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathsf{wf}\ \Uparrow 
+\end{array}
+$$
 
 **(WF-Async-Path-Err)**
-```text
-T = TypePath(["Async"])
-──────────────────
-Γ ⊢ T wf ⇑
-```
 
-```math
+$$
+\begin{array}{l}
+T\ =\ \operatorname{TypePath}([\texttt{"Async"}]) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathsf{wf}\ \Uparrow 
+\end{array}
+$$
+
+$$
 \mathsf{When}\ \texttt{E = !},\ \mathsf{values}\ \mathsf{of}\ \texttt{Async@Failed}\ \mathsf{are}\ \mathsf{uninhabited}.
-```
+$$
 
-#### 21.1.5 Dynamic Semantics
+### 21.1.5 Dynamic Semantics
 
 This section introduces no independent evaluation relation beyond the ordinary modal-state value model.
 
 Construction, suspension, resumption, and settlement of `Async` values are defined in §§21.2 through 21.4.
 
-#### 21.1.6 Lowering
+### 21.1.6 Lowering
 
-```math
+$$
 \mathsf{AsyncTypeLowerJudg}\ =\ \{\mathsf{LowerAsyncType}\}
-```
+$$
 
-```text
-AsyncLoweredStates(⟨Out, In, Result, TypePrim("!")⟩) = [`@Suspended`, `@Completed`]
-AsyncLoweredStates(⟨Out, In, Result, E⟩) = [`@Suspended`, `@Completed`, `@Failed`]    if E ≠ TypePrim("!")
+$$
+\begin{array}{l}
+\operatorname{AsyncLoweredStates}(\langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ \operatorname{TypePrim}(\texttt{"!"})\rangle )\ =\ [\texttt{@Suspended},\ \texttt{@Completed}] \\
+\operatorname{AsyncLoweredStates}(\langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle )\ =\ [\texttt{@Suspended},\ \texttt{@Completed},\ \texttt{@Failed}]\quad \mathsf{if}\ E\ \ne \ \operatorname{TypePrim}(\texttt{"!"}) \\
+\operatorname{AsyncResumeType}(\langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ \operatorname{TypePrim}(\texttt{"!"})\rangle )\ = \\
+\ \operatorname{TypeUnion}([ \\
+\quad \operatorname{TypeModalState}(\operatorname{TypeApply}([\texttt{"Async"}],\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ \operatorname{TypePrim}(\texttt{"!"})]),\ \texttt{@Suspended}), \\
+\quad \operatorname{TypeModalState}(\operatorname{TypeApply}([\texttt{"Async"}],\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ \operatorname{TypePrim}(\texttt{"!"})]),\ \texttt{@Completed}) \\
+\ ]) \\
+\operatorname{AsyncResumeType}(\langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle )\ = \\
+\ \operatorname{TypeUnion}([ \\
+\quad \operatorname{TypeModalState}(\operatorname{TypeApply}([\texttt{"Async"}],\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E]),\ \texttt{@Suspended}), \\
+\quad \operatorname{TypeModalState}(\operatorname{TypeApply}([\texttt{"Async"}],\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E]),\ \texttt{@Completed}), \\
+\quad \operatorname{TypeModalState}(\operatorname{TypeApply}([\texttt{"Async"}],\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E]),\ \texttt{@Failed}) \\
+\ ])\quad \mathsf{if}\ E\ \ne \ \operatorname{TypePrim}(\texttt{"!"})
+\end{array}
+$$
 
-AsyncResumeType(⟨Out, In, Result, TypePrim("!")⟩) =
-  TypeUnion([
-    TypeModalState(TypeApply(["Async"], [Out, In, Result, TypePrim("!")]), `@Suspended`),
-    TypeModalState(TypeApply(["Async"], [Out, In, Result, TypePrim("!")]), `@Completed`)
-  ])
-
-AsyncResumeType(⟨Out, In, Result, E⟩) =
-  TypeUnion([
-    TypeModalState(TypeApply(["Async"], [Out, In, Result, E]), `@Suspended`),
-    TypeModalState(TypeApply(["Async"], [Out, In, Result, E]), `@Completed`),
-    TypeModalState(TypeApply(["Async"], [Out, In, Result, E]), `@Failed`)
-  ])    if E ≠ TypePrim("!")
-```
-
-```math
+$$
 \mathsf{When}\ \texttt{E = !},\ \mathsf{lowering}\ \mathsf{MUST}\ \mathsf{omit}\ \mathsf{the}\ \texttt{@Failed}\ \mathsf{state}\ \mathsf{from}\ \mathsf{concrete}\ \mathsf{storage}\ \mathsf{layouts}\ \mathsf{and}\ \mathsf{from}\ \mathsf{the}\ \mathsf{concrete}\ \mathsf{resume}-\mathsf{result}\ \mathsf{tag}\ \mathsf{space}.\ \mathsf{The}\ \mathsf{semantic}\ \mathsf{state}\ \texttt{@Failed}\ \mathsf{remains}\ \mathsf{uninhabited}\ \mathsf{and}\ \mathsf{lowering}\ \mathsf{MUST}\ \mathsf{emit}\ \mathsf{no}\ \mathsf{failed}-\mathsf{state}\ \mathsf{variant}.
-```
+$$
 
 **(Lower-Async-Type)**
-```text
-AsyncSig(T) = ⟨Out, In, Result, E⟩    sig = ⟨Out, In, Result, E⟩    states = AsyncLoweredStates(sig)    resume_ty = AsyncResumeType(sig)
-──────────────────
-Γ ⊢ LowerAsyncType(T) ⇓ ⟨AsyncStateTagIR(states), AsyncResumeSigIR(In, resume_ty)⟩
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncSig}(T)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \mathsf{sig}\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \mathsf{states}\ =\ \operatorname{AsyncLoweredStates}(\mathsf{sig})\quad \mathsf{resume}_{\mathsf{ty}}\ =\ \operatorname{AsyncResumeType}(\mathsf{sig}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerAsyncType}(T)\ \Downarrow \ \langle \operatorname{AsyncStateTagIR}(\mathsf{states}),\ \operatorname{AsyncResumeSigIR}(\mathsf{In},\ \mathsf{resume}_{\mathsf{ty}})\rangle 
+\end{array}
+$$
 
 Built-in aliases lower through their normalized `Async` body:
 
 **(Lower-Async-Alias)**
-```text
-AliasNorm(T) = T'    AsyncSig(T') = sig    Γ ⊢ LowerAsyncType(T') ⇓ out
-──────────────────
-Γ ⊢ LowerAsyncType(T) ⇓ out
-```
 
-#### 21.1.7 Diagnostics
+$$
+\begin{array}{l}
+\operatorname{AliasNorm}(T)\ =\ T'\quad \operatorname{AsyncSig}(T')\ =\ \mathsf{sig}\quad \Gamma \ \vdash \ \operatorname{LowerAsyncType}(T')\ \Downarrow \ \mathsf{out} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerAsyncType}(T)\ \Downarrow \ \mathsf{out}
+\end{array}
+$$
+
+### 21.1.7 Diagnostics
 
 | Code         | Severity | Detection    | Condition                                 |
 | ------------ | -------- | ------------ | ----------------------------------------- |
 | `E-CON-0201` | Error    | Compile-time | `Async` type parameter is not well-formed |
 
-### 21.2 Suspension Forms
+## 21.2 Suspension Forms
 
-#### 21.2.1 Syntax
+### 21.2.1 Syntax
 
 ```text
 wait_expr       ::= "wait" expression
@@ -252,159 +269,206 @@ yield_expr      ::= "yield" "release"? expression
 yield_from_expr ::= "yield" "release"? "from" expression
 ```
 
-#### 21.2.2 Parsing
+### 21.2.2 Parsing
 
 `wait`, `yield`, and `yield from` are primary expressions.
 
 `wait` is parsed by:
 
 **(Parse-Wait-Expr)**
-```text
-IsIdent(Tok(P))    Lexeme(Tok(P)) = `wait`    Γ ⊢ ParseExpr(Advance(P)) ⇓ (P_1, handle)
-──────────────────
-Γ ⊢ ParsePrimary(P) ⇓ (P_1, WaitExpr(handle))
-```
+
+$$
+\begin{array}{l}
+\operatorname{IsIdent}(\operatorname{Tok}(P))\quad \operatorname{Lexeme}(\operatorname{Tok}(P))\ =\ \texttt{wait}\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{handle}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (P_{1},\ \operatorname{WaitExpr}(\mathsf{handle}))
+\end{array}
+$$
 
 `yield from` is parsed by:
 
 **(Parse-Yield-From-Expr)**
-```text
-IsKw(Tok(P), `yield`)    P_1 = Advance(P)
-(IsIdent(Tok(P_1)) ∧ Lexeme(Tok(P_1)) = `release` ⇒ release_opt = Release ∧ P_2 = Advance(P_1))
-(¬(IsIdent(Tok(P_1)) ∧ Lexeme(Tok(P_1)) = `release`) ⇒ release_opt = ⊥ ∧ P_2 = P_1)
-IsKw(Tok(P_2), `from`)    Γ ⊢ ParseExpr(Advance(P_2)) ⇓ (P_3, e)
-──────────────────
-Γ ⊢ ParsePrimary(P) ⇓ (P_3, YieldFromExpr(release_opt, e))
-```
+
+$$
+\begin{array}{l}
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{yield})\quad P_{1}\ =\ \operatorname{Advance}(P) \\
+(\operatorname{IsIdent}(\operatorname{Tok}(P_{1}))\ \land \ \operatorname{Lexeme}(\operatorname{Tok}(P_{1}))\ =\ \texttt{release}\ \Rightarrow \ \mathsf{release}_{\mathsf{opt}}\ =\ \mathsf{Release}\ \land \ P_{2}\ =\ \operatorname{Advance}(P_{1})) \\
+(\lnot (\operatorname{IsIdent}(\operatorname{Tok}(P_{1}))\ \land \ \operatorname{Lexeme}(\operatorname{Tok}(P_{1}))\ =\ \texttt{release})\ \Rightarrow \ \mathsf{release}_{\mathsf{opt}}\ =\ \bot \ \land \ P_{2}\ =\ P_{1}) \\
+\operatorname{IsKw}(\operatorname{Tok}(P_{2}),\ \texttt{from})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P_{2}))\ \Downarrow \ (P_{3},\ e) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (P_{3},\ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e))
+\end{array}
+$$
 
 `yield` is parsed by:
 
 **(Parse-Yield-Expr)**
-```text
-IsKw(Tok(P), `yield`)    P_1 = Advance(P)
-(IsIdent(Tok(P_1)) ∧ Lexeme(Tok(P_1)) = `release` ⇒ release_opt = Release ∧ P_2 = Advance(P_1))
-(¬(IsIdent(Tok(P_1)) ∧ Lexeme(Tok(P_1)) = `release`) ⇒ release_opt = ⊥ ∧ P_2 = P_1)
-¬ IsKw(Tok(P_2), `from`)    Γ ⊢ ParseExpr(P_2) ⇓ (P_3, e)
-──────────────────
-Γ ⊢ ParsePrimary(P) ⇓ (P_3, YieldExpr(release_opt, e))
-```
 
-#### 21.2.3 AST Representation / Form
+$$
+\begin{array}{l}
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{yield})\quad P_{1}\ =\ \operatorname{Advance}(P) \\
+(\operatorname{IsIdent}(\operatorname{Tok}(P_{1}))\ \land \ \operatorname{Lexeme}(\operatorname{Tok}(P_{1}))\ =\ \texttt{release}\ \Rightarrow \ \mathsf{release}_{\mathsf{opt}}\ =\ \mathsf{Release}\ \land \ P_{2}\ =\ \operatorname{Advance}(P_{1})) \\
+(\lnot (\operatorname{IsIdent}(\operatorname{Tok}(P_{1}))\ \land \ \operatorname{Lexeme}(\operatorname{Tok}(P_{1}))\ =\ \texttt{release})\ \Rightarrow \ \mathsf{release}_{\mathsf{opt}}\ =\ \bot \ \land \ P_{2}\ =\ P_{1}) \\
+\lnot \ \operatorname{IsKw}(\operatorname{Tok}(P_{2}),\ \texttt{from})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(P_{2})\ \Downarrow \ (P_{3},\ e) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (P_{3},\ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e))
+\end{array}
+$$
 
-```text
-YieldReleaseOpt ∈ {⊥} ∪ {Release}
+### 21.2.3 AST Representation / Form
 
-Expr includes:
-  WaitExpr(handle)
-  YieldExpr(release_opt, expr)
-  YieldFromExpr(release_opt, expr)
-```
+$$
+\begin{array}{l}
+\mathsf{YieldReleaseOpt}\ \in \ \{\bot \}\ \cup \ \{\mathsf{Release}\} \\
+\mathsf{Expr}\ \mathsf{includes}: \\
+\ \operatorname{WaitExpr}(\mathsf{handle}) \\
+\ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ \mathsf{expr}) \\
+\ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ \mathsf{expr})
+\end{array}
+$$
 
 Name resolution preserves these forms:
 
-```text
-Γ ⊢ ResolveExpr(WaitExpr(handle)) ⇓ WaitExpr(handle')
-Γ ⊢ ResolveExpr(YieldExpr(release_opt, e)) ⇓ YieldExpr(release_opt, e')
-Γ ⊢ ResolveExpr(YieldFromExpr(release_opt, e)) ⇓ YieldFromExpr(release_opt, e')
-```
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{WaitExpr}(\mathsf{handle}))\ \Downarrow \ \operatorname{WaitExpr}(\mathsf{handle}') \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e))\ \Downarrow \ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e') \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e))\ \Downarrow \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e')
+\end{array}
+$$
 
 Evaluation order is:
 
-```text
-Children_LTR(WaitExpr(handle)) = [handle]
-Children_LTR(YieldExpr(release_opt, e)) = [e]
-Children_LTR(YieldFromExpr(release_opt, e)) = [e]
-```
+$$
+\begin{array}{l}
+\operatorname{Children_LTR}(\operatorname{WaitExpr}(\mathsf{handle}))\ =\ [\mathsf{handle}] \\
+\operatorname{Children_LTR}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e))\ =\ [e] \\
+\operatorname{Children_LTR}(\operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e))\ =\ [e]
+\end{array}
+$$
 
-#### 21.2.4 Static Semantics
+### 21.2.4 Static Semantics
 
 `wait` typing is:
 
 **(T-Wait)**
-```text
-Γ; R; L ⊢ h : TypeApply(["Spawned"], [T])
-──────────────────
-Γ; R; L ⊢ `wait` h : T
-```
+
+$$
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ h\ :\ \operatorname{TypeApply}([\texttt{"Spawned"}],\ [T]) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \texttt{wait}\ h\ :\ T
+\end{array}
+$$
 
 **(T-Wait-Future)**
-```text
-Γ; R; L ⊢ h : TypeApply(["Tracked"], [T, E])
-──────────────────
-Γ; R; L ⊢ `wait` h : TypeUnion([T, E])
-```
+
+$$
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ h\ :\ \operatorname{TypeApply}([\texttt{"Tracked"}],\ [T,\ E]) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \texttt{wait}\ h\ :\ \operatorname{TypeUnion}([T,\ E])
+\end{array}
+$$
 
 **(Wait-Handle-Err)**
-```text
-Γ; R; L ⊢ h : T_h    StripPerm(T_h) ∉ {TypeApply(["Spawned"], [_]), TypeApply(["Tracked"], [_, _])}
-──────────────────
-Γ; R; L ⊢ `wait` h ⇑
-```
+
+$$
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ h\ :\ T_{h}\quad \operatorname{StripPerm}(T_{h})\ \notin \ \{\operatorname{TypeApply}([\texttt{"Spawned"}],\ [\_]),\ \operatorname{TypeApply}([\texttt{"Tracked"}],\ [\_,\ \_])\} \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \texttt{wait}\ h\ \Uparrow 
+\end{array}
+$$
 
 `yield` typing is:
 
 **(T-Yield)**
-```text
-AsyncSig(R) = ⟨Out, In, Result, E⟩    Γ; R; L ⊢ e : T    Γ ⊢ T <: Out
-──────────────────
-Γ; R; L ⊢ YieldExpr(release_opt, e) : In
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T\quad \Gamma \ \vdash \ T\ \mathrel{<:} \ \mathsf{Out} \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ :\ \mathsf{In}
+\end{array}
+$$
 
 **(Yield-NotAsync-Err)**
-```text
-AsyncSig(R) = ⊥
-──────────────────
-Γ; R; L ⊢ YieldExpr(release_opt, e) ⇑
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncSig}(R)\ =\ \bot  \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow 
+\end{array}
+$$
 
 **(Yield-Out-Err)**
-```text
-AsyncSig(R) = ⟨Out, In, Result, E⟩    Γ; R; L ⊢ e : T    ¬(Γ ⊢ T <: Out)
-──────────────────
-Γ; R; L ⊢ YieldExpr(release_opt, e) ⇑
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T\quad \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ \mathsf{Out}) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow 
+\end{array}
+$$
 
 `yield from` typing is:
 
 **(T-Yield-From)**
-```text
-AsyncSig(R) = ⟨Out, In, Result, E_1⟩    Γ; R; L ⊢ e : T_e    AsyncSig(T_e) = ⟨Out_e, In_e, Result_e, E_2⟩    Γ ⊢ Out_e ≡ Out    Γ ⊢ In_e ≡ In    Γ ⊢ E_2 <: E_1
-──────────────────
-Γ; R; L ⊢ YieldFromExpr(release_opt, e) : Result_e
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E_{1}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out}_{e},\ \mathsf{In}_{e},\ \mathsf{Result}_{e},\ E_{2}\rangle \quad \Gamma \ \vdash \ \mathsf{Out}_{e}\ \equiv \ \mathsf{Out}\quad \Gamma \ \vdash \ \mathsf{In}_{e}\ \equiv \ \mathsf{In}\quad \Gamma \ \vdash \ E_{2}\ \mathrel{<:} \ E_{1} \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ :\ \mathsf{Result}_{e}
+\end{array}
+$$
 
 **(YieldFrom-NotAsync-Err)**
-```text
-AsyncSig(R) = ⊥
-──────────────────
-Γ; R; L ⊢ YieldFromExpr(release_opt, e) ⇑
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncSig}(R)\ =\ \bot  \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow 
+\end{array}
+$$
 
 **(YieldFrom-Out-Err)**
-```text
-AsyncSig(R) = ⟨Out, In, Result, E_1⟩    Γ; R; L ⊢ e : T_e
-(AsyncSig(T_e) = ⊥ ∨ (AsyncSig(T_e) = ⟨Out_e, In_e, Result_e, E_2⟩ ∧ ¬(Γ ⊢ Out_e ≡ Out)))
-──────────────────
-Γ; R; L ⊢ YieldFromExpr(release_opt, e) ⇑
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E_{1}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e} \\
+(\operatorname{AsyncSig}(T_{e})\ =\ \bot \ \lor \ (\operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out}_{e},\ \mathsf{In}_{e},\ \mathsf{Result}_{e},\ E_{2}\rangle \ \land \ \lnot (\Gamma \ \vdash \ \mathsf{Out}_{e}\ \equiv \ \mathsf{Out}))) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow 
+\end{array}
+$$
 
 **(YieldFrom-In-Err)**
-```text
-AsyncSig(R) = ⟨Out, In, Result, E_1⟩    Γ; R; L ⊢ e : T_e    AsyncSig(T_e) = ⟨Out_e, In_e, Result_e, E_2⟩    Γ ⊢ Out_e ≡ Out    ¬(Γ ⊢ In_e ≡ In)
-──────────────────
-Γ; R; L ⊢ YieldFromExpr(release_opt, e) ⇑
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E_{1}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out}_{e},\ \mathsf{In}_{e},\ \mathsf{Result}_{e},\ E_{2}\rangle \quad \Gamma \ \vdash \ \mathsf{Out}_{e}\ \equiv \ \mathsf{Out}\quad \lnot (\Gamma \ \vdash \ \mathsf{In}_{e}\ \equiv \ \mathsf{In}) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow 
+\end{array}
+$$
 
 **(YieldFrom-ErrType-Err)**
-```text
-AsyncSig(R) = ⟨Out, In, Result, E_1⟩    Γ; R; L ⊢ e : T_e    AsyncSig(T_e) = ⟨Out_e, In_e, Result_e, E_2⟩    Γ ⊢ Out_e ≡ Out    Γ ⊢ In_e ≡ In    ¬(Γ ⊢ E_2 <: E_1)
-──────────────────
-Γ; R; L ⊢ YieldFromExpr(release_opt, e) ⇑
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E_{1}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out}_{e},\ \mathsf{In}_{e},\ \mathsf{Result}_{e},\ E_{2}\rangle \quad \Gamma \ \vdash \ \mathsf{Out}_{e}\ \equiv \ \mathsf{Out}\quad \Gamma \ \vdash \ \mathsf{In}_{e}\ \equiv \ \mathsf{In}\quad \lnot (\Gamma \ \vdash \ E_{2}\ \mathrel{<:} \ E_{1}) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow 
+\end{array}
+$$
 
 Key restrictions for `wait`, `yield`, and `yield from` are defined in §21.5.4.
 
-#### 21.2.5 Dynamic Semantics
+### 21.2.5 Dynamic Semantics
 
 `wait` retrieves results from `Spawned<T>` and `Tracked<T, E>` handles.
 
@@ -417,57 +481,72 @@ Key restrictions for `wait`, `yield`, and `yield from` are defined in §21.5.4.
 
 Formal `wait` rules:
 
-```text
-SpawnHandleState(SpawnedVal(@Ready { value }, _)) = Ready(value)
-SpawnHandleState(SpawnedVal(@Pending, _)) = Pending
-TrackedHandleState(TrackedVal(@Ready { value }, _)) = Ready(value)
-TrackedHandleState(TrackedVal(@Pending, _)) = Pending
-
-BlockUntilSettledSpawned(handle, σ) ⇓ (handle', σ') ⇔
-  σ' extends σ by abstract scheduler progress until SpawnHandleState(handle') ∈ {Ready(_), Failed(_)}
-
-BlockUntilSettledTracked(handle, σ) ⇓ (handle', σ') ⇔
-  σ' extends σ by abstract scheduler progress until TrackedHandleState(handle') = Ready(_)
-```
+$$
+\begin{array}{l}
+\operatorname{SpawnHandleState}(\operatorname{SpawnedVal}(@\mathsf{Ready}\ \{\ \mathsf{value}\ \},\ \_))\ =\ \operatorname{Ready}(\mathsf{value}) \\
+\operatorname{SpawnHandleState}(\operatorname{SpawnedVal}(@\mathsf{Pending},\ \_))\ =\ \mathsf{Pending} \\
+\operatorname{TrackedHandleState}(\operatorname{TrackedVal}(@\mathsf{Ready}\ \{\ \mathsf{value}\ \},\ \_))\ =\ \operatorname{Ready}(\mathsf{value}) \\
+\operatorname{TrackedHandleState}(\operatorname{TrackedVal}(@\mathsf{Pending},\ \_))\ =\ \mathsf{Pending} \\
+\operatorname{BlockUntilSettledSpawned}(\mathsf{handle},\ \sigma )\ \Downarrow \ (\mathsf{handle}',\ \sigma ')\ \Leftrightarrow  \\
+\ \sigma '\ \mathsf{extends}\ \sigma \ \mathsf{by}\ \mathsf{abstract}\ \mathsf{scheduler}\ \mathsf{progress}\ \mathsf{until}\ \operatorname{SpawnHandleState}(\mathsf{handle}')\ \in \ \{\operatorname{Ready}(\_),\ \operatorname{Failed}(\_)\} \\
+\operatorname{BlockUntilSettledTracked}(\mathsf{handle},\ \sigma )\ \Downarrow \ (\mathsf{handle}',\ \sigma ')\ \Leftrightarrow  \\
+\ \sigma '\ \mathsf{extends}\ \sigma \ \mathsf{by}\ \mathsf{abstract}\ \mathsf{scheduler}\ \mathsf{progress}\ \mathsf{until}\ \operatorname{TrackedHandleState}(\mathsf{handle}')\ =\ \operatorname{Ready}(\_)
+\end{array}
+$$
 
 **(EvalSigma-Wait-Spawned-Ready)**
-```text
-Γ ⊢ EvalSigma(h, σ) ⇓ (Val(handle), σ_1)    SpawnHandleState(handle) = Ready(v)
-──────────────────
-Γ ⊢ EvalSigma(WaitExpr(h), σ) ⇓ (Val(v), σ_1)
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(h,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{handle}),\ \sigma_{1} )\quad \operatorname{SpawnHandleState}(\mathsf{handle})\ =\ \operatorname{Ready}(v) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{WaitExpr}(h),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )
+\end{array}
+$$
 
 **(EvalSigma-Wait-Spawned-Pending)**
-```text
-Γ ⊢ EvalSigma(h, σ) ⇓ (Val(handle), σ_1)    SpawnHandleState(handle) = Pending
-BlockUntilSettledSpawned(handle, σ_1) ⇓ (handle', σ_2)    SpawnHandleState(handle') = Ready(v)
-──────────────────
-Γ ⊢ EvalSigma(WaitExpr(h), σ) ⇓ (Val(v), σ_2)
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(h,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{handle}),\ \sigma_{1} )\quad \operatorname{SpawnHandleState}(\mathsf{handle})\ =\ \mathsf{Pending} \\
+\operatorname{BlockUntilSettledSpawned}(\mathsf{handle},\ \sigma_{1} )\ \Downarrow \ (\mathsf{handle}',\ \sigma_{2} )\quad \operatorname{SpawnHandleState}(\mathsf{handle}')\ =\ \operatorname{Ready}(v) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{WaitExpr}(h),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{2} )
+\end{array}
+$$
 
 Failed `Spawned<T>` settlement is not independently observed by `wait`; it is consumed by the enclosing `AwaitSpawned(...)` / §20.7.5 parallel panic propagation.
 
 **(EvalSigma-Wait-Tracked-Ready)**
-```text
-Γ ⊢ EvalSigma(h, σ) ⇓ (Val(handle), σ_1)    TrackedHandleState(handle) = Ready(v)
-──────────────────
-Γ ⊢ EvalSigma(WaitExpr(h), σ) ⇓ (Val(v), σ_1)
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(h,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{handle}),\ \sigma_{1} )\quad \operatorname{TrackedHandleState}(\mathsf{handle})\ =\ \operatorname{Ready}(v) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{WaitExpr}(h),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )
+\end{array}
+$$
 
 **(EvalSigma-Wait-Tracked-Pending)**
-```text
-Γ ⊢ EvalSigma(h, σ) ⇓ (Val(handle), σ_1)    TrackedHandleState(handle) = Pending
-BlockUntilSettledTracked(handle, σ_1) ⇓ (handle', σ_2)    TrackedHandleState(handle') = Ready(v)
-──────────────────
-Γ ⊢ EvalSigma(WaitExpr(h), σ) ⇓ (Val(v), σ_2)
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(h,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{handle}),\ \sigma_{1} )\quad \operatorname{TrackedHandleState}(\mathsf{handle})\ =\ \mathsf{Pending} \\
+\operatorname{BlockUntilSettledTracked}(\mathsf{handle},\ \sigma_{1} )\ \Downarrow \ (\mathsf{handle}',\ \sigma_{2} )\quad \operatorname{TrackedHandleState}(\mathsf{handle}')\ =\ \operatorname{Ready}(v) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{WaitExpr}(h),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{2} )
+\end{array}
+$$
 
 **(EvalSigma-Wait-Ctrl)**
-```text
-Γ ⊢ EvalSigma(h, σ) ⇓ (Ctrl(κ), σ_1)
-──────────────────
-Γ ⊢ EvalSigma(WaitExpr(h), σ) ⇓ (Ctrl(κ), σ_1)
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(h,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{WaitExpr}(h),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
+\end{array}
+$$
 
 `yield` suspends the current async computation:
 
@@ -478,53 +557,60 @@ BlockUntilSettledTracked(handle, σ_1) ⇓ (handle', σ_2)    TrackedHandleState
 
 Resumption helpers are:
 
-```text
-ResumptionPoint = ⟨scope_stack, region_stack, continuation⟩
-
-ReleaseKeys(σ, keys) ⇓ σ' ⇔
-  rev = CanonicalOrder(keys) ∧
-  ∀ k ∈ Reverse(rev). ReleaseLock(σ, k) ∧
-  σ' = σ[held_keys := σ.held_keys ∖ keys]
-
-ReacquireKeys(σ, keys) ⇓ σ' ⇔
-  sorted = CanonicalOrder(keys) ∧
-  ∀ k ∈ sorted. AcquireLock(σ, k, ModeOf(k)) ∧
-  σ' = σ[held_keys := σ.held_keys ∪ keys]
-
-RestoreResumptionPoint(rp) ⇓ σ ⇔
-  rp = ⟨scope_stack, region_stack, continuation⟩ ∧
-  σ.scope_stack = scope_stack ∧
-  σ.region_stack = region_stack ∧
-  σ.continuation = continuation
-
-Γ_keys(σ) = σ.held_keys
-```
+$$
+\begin{array}{l}
+\mathsf{ResumptionPoint}\ =\ \langle \mathsf{scope}_{\mathsf{stack}},\ \mathsf{region}_{\mathsf{stack}},\ \mathsf{continuation}\rangle  \\
+\operatorname{ReleaseKeys}(\sigma ,\ \mathsf{keys})\ \Downarrow \ \sigma '\ \Leftrightarrow  \\
+\ \mathsf{rev}\ =\ \operatorname{CanonicalOrder}(\mathsf{keys})\ \land  \\
+\ \forall \ k\ \in \ \operatorname{Reverse}(\mathsf{rev}).\ \operatorname{ReleaseLock}(\sigma ,\ k)\ \land  \\
+\ \sigma '\ =\ \sigma [\mathsf{held}_{\mathsf{keys}}\ :=\ \sigma .\mathsf{held}_{\mathsf{keys}}\ \setminus \ \mathsf{keys}] \\
+\operatorname{ReacquireKeys}(\sigma ,\ \mathsf{keys})\ \Downarrow \ \sigma '\ \Leftrightarrow  \\
+\ \mathsf{sorted}\ =\ \operatorname{CanonicalOrder}(\mathsf{keys})\ \land  \\
+\ \forall \ k\ \in \ \mathsf{sorted}.\ \operatorname{AcquireLock}(\sigma ,\ k,\ \operatorname{ModeOf}(k))\ \land  \\
+\ \sigma '\ =\ \sigma [\mathsf{held}_{\mathsf{keys}}\ :=\ \sigma .\mathsf{held}_{\mathsf{keys}}\ \cup \ \mathsf{keys}] \\
+\operatorname{RestoreResumptionPoint}(\mathsf{rp})\ \Downarrow \ \sigma \ \Leftrightarrow  \\
+\ \mathsf{rp}\ =\ \langle \mathsf{scope}_{\mathsf{stack}},\ \mathsf{region}_{\mathsf{stack}},\ \mathsf{continuation}\rangle \ \land  \\
+\ \sigma .\mathsf{scope}_{\mathsf{stack}}\ =\ \mathsf{scope}_{\mathsf{stack}}\ \land  \\
+\ \sigma .\mathsf{region}_{\mathsf{stack}}\ =\ \mathsf{region}_{\mathsf{stack}}\ \land  \\
+\ \sigma .\mathsf{continuation}\ =\ \mathsf{continuation} \\
+\Gamma_{\mathsf{keys}} (\sigma )\ =\ \sigma .\mathsf{held}_{\mathsf{keys}}
+\end{array}
+$$
 
 Formal `yield` rules:
 
 **(EvalSigma-Yield)**
-```text
-Γ ⊢ EvalSigma(e, σ) ⇓ (Val(v), σ_1)    release_opt = ⊥    Γ_keys(σ_1) = ∅
-async_state = AsyncSuspended(v, σ_1.resumption_point)
-──────────────────
-Γ ⊢ EvalSigma(YieldExpr(release_opt, e), σ) ⇓ (Suspend(async_state), σ_1)
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \mathsf{release}_{\mathsf{opt}}\ =\ \bot \quad \Gamma_{\mathsf{keys}} (\sigma_{1} )\ =\ \emptyset  \\
+\mathsf{async}_{\mathsf{state}}\ =\ \operatorname{AsyncSuspended}(v,\ \sigma_{1} .\mathsf{resumption}_{\mathsf{point}}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e),\ \sigma )\ \Downarrow \ (\operatorname{Suspend}(\mathsf{async}_{\mathsf{state}}),\ \sigma_{1} )
+\end{array}
+$$
 
 **(EvalSigma-Yield-Release)**
-```text
-Γ ⊢ EvalSigma(e, σ) ⇓ (Val(v), σ_1)    release_opt = Release    held = Γ_keys(σ_1)    ReleaseKeys(σ_1, held) ⇓ σ_2
-async_state = AsyncSuspended(v, σ_2.resumption_point, held)
-──────────────────
-Γ ⊢ EvalSigma(YieldExpr(release_opt, e), σ) ⇓ (Suspend(async_state), σ_2)
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \mathsf{release}_{\mathsf{opt}}\ =\ \mathsf{Release}\quad \mathsf{held}\ =\ \Gamma_{\mathsf{keys}} (\sigma_{1} )\quad \operatorname{ReleaseKeys}(\sigma_{1} ,\ \mathsf{held})\ \Downarrow \ \sigma_{2}  \\
+\mathsf{async}_{\mathsf{state}}\ =\ \operatorname{AsyncSuspended}(v,\ \sigma_{2} .\mathsf{resumption}_{\mathsf{point}},\ \mathsf{held}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e),\ \sigma )\ \Downarrow \ (\operatorname{Suspend}(\mathsf{async}_{\mathsf{state}}),\ \sigma_{2} )
+\end{array}
+$$
 
 **(EvalSigma-Yield-Resume)**
-```text
-async_state = AsyncSuspended(_, rp, held_opt)    input = i    RestoreResumptionPoint(rp) ⇓ σ_0
-σ_1 = (held_opt ≠ ⊥ ∧ ReacquireKeys(σ_0, held_opt) ⇓ σ_1' → σ_1' | σ_0)
-──────────────────
-Γ ⊢ EvalSigma(Resume(async_state, i), σ) ⇓ (Val(i), σ_1)
-```
+
+$$
+\begin{array}{l}
+\mathsf{async}_{\mathsf{state}}\ =\ \operatorname{AsyncSuspended}(\_,\ \mathsf{rp},\ \mathsf{held}_{\mathsf{opt}})\quad \mathsf{input}\ =\ i\quad \operatorname{RestoreResumptionPoint}(\mathsf{rp})\ \Downarrow \ \sigma_{0}  \\
+\sigma_{1} \ =\ (\mathsf{held}_{\mathsf{opt}}\ \ne \ \bot \ \land \ \operatorname{ReacquireKeys}(\sigma_{0} ,\ \mathsf{held}_{\mathsf{opt}})\ \Downarrow \ \sigma_{1} '\ \to \ \sigma_{1} '\ \mid \ \sigma_{0} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(\mathsf{async}_{\mathsf{state}},\ i),\ \sigma )\ \Downarrow \ (\operatorname{Val}(i),\ \sigma_{1} )
+\end{array}
+$$
 
 `yield from` delegates suspension and completion to another async value:
 
@@ -536,120 +622,158 @@ async_state = AsyncSuspended(_, rp, held_opt)    input = i    RestoreResumptionP
 Formal `yield from` rules:
 
 **(EvalSigma-YieldFrom-Suspended)**
-```text
-Γ ⊢ EvalSigma(source, σ) ⇓ (Val(s), σ_1)    ModalState(s) = @Suspended    s.output = v
-Γ ⊢ EvalSigma(YieldExpr(release_opt, v), σ_1) ⇓ (Suspend(outer_state), σ_2)
-outer_state' = outer_state[inner_async ↦ s]
-──────────────────
-Γ ⊢ EvalSigma(YieldFromExpr(release_opt, source), σ) ⇓ (Suspend(outer_state'), σ_2)
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{source},\ \sigma )\ \Downarrow \ (\operatorname{Val}(s),\ \sigma_{1} )\quad \operatorname{ModalState}(s)\ =\ @\mathsf{Suspended}\quad s.\mathsf{output}\ =\ v \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ v),\ \sigma_{1} )\ \Downarrow \ (\operatorname{Suspend}(\mathsf{outer}_{\mathsf{state}}),\ \sigma_{2} ) \\
+\mathsf{outer}_{\mathsf{state}}'\ =\ \mathsf{outer}_{\mathsf{state}}[\mathsf{inner}_{\mathsf{async}}\ \mapsto \ s] \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ \mathsf{source}),\ \sigma )\ \Downarrow \ (\operatorname{Suspend}(\mathsf{outer}_{\mathsf{state}}'),\ \sigma_{2} )
+\end{array}
+$$
 
 **(EvalSigma-YieldFrom-Completed)**
-```text
-Γ ⊢ EvalSigma(source, σ) ⇓ (Val(s), σ_1)    ModalState(s) = @Completed    s.value = v
-──────────────────
-Γ ⊢ EvalSigma(YieldFromExpr(release_opt, source), σ) ⇓ (Val(v), σ_1)
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{source},\ \sigma )\ \Downarrow \ (\operatorname{Val}(s),\ \sigma_{1} )\quad \operatorname{ModalState}(s)\ =\ @\mathsf{Completed}\quad s.\mathsf{value}\ =\ v \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ \mathsf{source}),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )
+\end{array}
+$$
 
 **(EvalSigma-YieldFrom-Failed)**
-```text
-Γ ⊢ EvalSigma(source, σ) ⇓ (Val(s), σ_1)    ModalState(s) = @Failed    s.error = e
-──────────────────
-Γ ⊢ EvalSigma(YieldFromExpr(release_opt, source), σ) ⇓ (Propagate(e), σ_1)
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{source},\ \sigma )\ \Downarrow \ (\operatorname{Val}(s),\ \sigma_{1} )\quad \operatorname{ModalState}(s)\ =\ @\mathsf{Failed}\quad s.\mathsf{error}\ =\ e \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ \mathsf{source}),\ \sigma )\ \Downarrow \ (\operatorname{Propagate}(e),\ \sigma_{1} )
+\end{array}
+$$
 
 **(EvalSigma-YieldFrom-Resume)**
-```text
-outer_state.inner_async = s    input = i    Γ ⊢ EvalSigma(Resume(s, i), σ) ⇓ (Val(s'), σ_1)
-Γ ⊢ EvalYieldFromContinue(release_opt, s', σ_1) ⇓ (out, σ_2)
-──────────────────
-Γ ⊢ EvalSigma(Resume(outer_state, i), σ) ⇓ (out, σ_2)
-```
 
-```text
-EvalYieldFromContinue : ReleaseOpt × AsyncValue × State → EvalOut × State
-```
+$$
+\begin{array}{l}
+\mathsf{outer}_{\mathsf{state}}.\mathsf{inner}_{\mathsf{async}}\ =\ s\quad \mathsf{input}\ =\ i\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(s,\ i),\ \sigma )\ \Downarrow \ (\operatorname{Val}(s'),\ \sigma_{1} ) \\
+\Gamma \ \vdash \ \operatorname{EvalYieldFromContinue}(\mathsf{release}_{\mathsf{opt}},\ s',\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(\mathsf{outer}_{\mathsf{state}},\ i),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
+\end{array}
+$$
+
+$$
+\mathsf{EvalYieldFromContinue}\ :\ \mathsf{ReleaseOpt}\ \times \ \mathsf{AsyncValue}\ \times \ \mathsf{State}\ \to \ \mathsf{EvalOut}\ \times \ \mathsf{State}
+$$
 
 **(EvalYieldFromContinue-Suspended)**
-```text
-ModalState(s) = @Suspended    s.output = v
-Γ ⊢ EvalSigma(YieldExpr(release_opt, v), σ) ⇓ (Suspend(outer_state), σ_1)
-outer_state' = outer_state[inner_async ↦ s]
-──────────────────
-Γ ⊢ EvalYieldFromContinue(release_opt, s, σ) ⇓ (Suspend(outer_state'), σ_1)
-```
+
+$$
+\begin{array}{l}
+\operatorname{ModalState}(s)\ =\ @\mathsf{Suspended}\quad s.\mathsf{output}\ =\ v \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ v),\ \sigma )\ \Downarrow \ (\operatorname{Suspend}(\mathsf{outer}_{\mathsf{state}}),\ \sigma_{1} ) \\
+\mathsf{outer}_{\mathsf{state}}'\ =\ \mathsf{outer}_{\mathsf{state}}[\mathsf{inner}_{\mathsf{async}}\ \mapsto \ s] \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalYieldFromContinue}(\mathsf{release}_{\mathsf{opt}},\ s,\ \sigma )\ \Downarrow \ (\operatorname{Suspend}(\mathsf{outer}_{\mathsf{state}}'),\ \sigma_{1} )
+\end{array}
+$$
 
 **(EvalYieldFromContinue-Completed)**
-```text
-ModalState(s) = @Completed    s.value = v
-──────────────────
-Γ ⊢ EvalYieldFromContinue(release_opt, s, σ) ⇓ (Val(v), σ)
-```
+
+$$
+\begin{array}{l}
+\operatorname{ModalState}(s)\ =\ @\mathsf{Completed}\quad s.\mathsf{value}\ =\ v \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalYieldFromContinue}(\mathsf{release}_{\mathsf{opt}},\ s,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma )
+\end{array}
+$$
 
 **(EvalYieldFromContinue-Failed)**
-```text
-ModalState(s) = @Failed    s.error = e
-──────────────────
-Γ ⊢ EvalYieldFromContinue(release_opt, s, σ) ⇓ (Propagate(e), σ)
-```
 
-#### 21.2.6 Lowering
+$$
+\begin{array}{l}
+\operatorname{ModalState}(s)\ =\ @\mathsf{Failed}\quad s.\mathsf{error}\ =\ e \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalYieldFromContinue}(\mathsf{release}_{\mathsf{opt}},\ s,\ \sigma )\ \Downarrow \ (\operatorname{Propagate}(e),\ \sigma )
+\end{array}
+$$
 
-```math
+### 21.2.6 Lowering
+
+$$
 \mathsf{SuspensionIR}\ =\ \{\mathsf{WaitIR},\ \mathsf{YieldIR},\ \mathsf{YieldFromEnterIR},\ \mathsf{YieldFromResumeIR},\ \mathsf{SnapshotHeldKeysIR},\ \mathsf{ReleaseHeldKeysIR},\ \mathsf{ReacquireHeldKeysIR}\}
-```
+$$
 
-```text
-CurrentAsyncFrame(Γ) = f
-CurrentGenPoint(Γ) = g
-ResumeLabel(Γ, g) = L
-WaitResult(v_h) = v_r    where v_r is the result value produced by WaitIR(v_h)
-ResumeInput(f, g) = v_i  where v_i is the resume-input value bound at ResumeLabel(Γ, g)
-```
+$$
+\begin{array}{l}
+\operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f \\
+\operatorname{CurrentGenPoint}(\Gamma )\ =\ g \\
+\operatorname{ResumeLabel}(\Gamma ,\ g)\ =\ L \\
+\operatorname{WaitResult}(v_{h})\ =\ v_{r}\quad \mathsf{where}\ v_{r}\ \mathsf{is}\ \mathsf{the}\ \mathsf{result}\ \mathsf{value}\ \mathsf{produced}\ \mathsf{by}\ \operatorname{WaitIR}(v_{h}) \\
+\operatorname{ResumeInput}(f,\ g)\ =\ v_{i}\ \mathsf{where}\ v_{i}\ \mathsf{is}\ \mathsf{the}\ \mathsf{resume}-\mathsf{input}\ \mathsf{value}\ \mathsf{bound}\ \mathsf{at}\ \operatorname{ResumeLabel}(\Gamma ,\ g)
+\end{array}
+$$
 
 **(Lower-Wait-Spawned)**
-```text
-Γ ⊢ LowerExpr(h) ⇓ ⟨IR_h, v_h⟩    StripPerm(ExprType(h)) = TypeApply(["Spawned"], [T])
-──────────────────
-Γ ⊢ LowerExpr(WaitExpr(h)) ⇓ ⟨SeqIR(IR_h, WaitIR(v_h)), WaitResult(v_h)⟩
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerExpr}(h)\ \Downarrow \ \langle \mathsf{IR}_{h},\ v_{h}\rangle \quad \operatorname{StripPerm}(\operatorname{ExprType}(h))\ =\ \operatorname{TypeApply}([\texttt{"Spawned"}],\ [T]) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{WaitExpr}(h))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{h},\ \operatorname{WaitIR}(v_{h})),\ \operatorname{WaitResult}(v_{h})\rangle 
+\end{array}
+$$
 
 **(Lower-Wait-Tracked)**
-```text
-Γ ⊢ LowerExpr(h) ⇓ ⟨IR_h, v_h⟩    StripPerm(ExprType(h)) = TypeApply(["Tracked"], [T, E])
-──────────────────
-Γ ⊢ LowerExpr(WaitExpr(h)) ⇓ ⟨SeqIR(IR_h, WaitIR(v_h)), WaitResult(v_h)⟩
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerExpr}(h)\ \Downarrow \ \langle \mathsf{IR}_{h},\ v_{h}\rangle \quad \operatorname{StripPerm}(\operatorname{ExprType}(h))\ =\ \operatorname{TypeApply}([\texttt{"Tracked"}],\ [T,\ E]) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{WaitExpr}(h))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{h},\ \operatorname{WaitIR}(v_{h})),\ \operatorname{WaitResult}(v_{h})\rangle 
+\end{array}
+$$
 
 **(Lower-Yield)**
-```text
-Γ ⊢ LowerExpr(e) ⇓ ⟨IR_e, v⟩    CurrentAsyncFrame(Γ) = f    CurrentGenPoint(Γ) = g
-──────────────────
-Γ ⊢ LowerExpr(YieldExpr(⊥, e)) ⇓ ⟨SeqIR(IR_e, YieldIR(f, g, v)), ResumeInput(f, g)⟩
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f\quad \operatorname{CurrentGenPoint}(\Gamma )\ =\ g \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{YieldExpr}(\bot ,\ e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{YieldIR}(f,\ g,\ v)),\ \operatorname{ResumeInput}(f,\ g)\rangle 
+\end{array}
+$$
 
 **(Lower-Yield-Release)**
-```text
-Γ ⊢ LowerExpr(e) ⇓ ⟨IR_e, v⟩    CurrentAsyncFrame(Γ) = f    CurrentGenPoint(Γ) = g    ResumeLabel(Γ, g) = L
-──────────────────
-Γ ⊢ LowerExpr(YieldExpr(Release, e)) ⇓ ⟨SeqIR(IR_e, SeqIR(SnapshotHeldKeysIR(f), SeqIR(ReleaseHeldKeysIR(f), YieldIR(f, g, v)))), ResumeInput(f, g)⟩
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f\quad \operatorname{CurrentGenPoint}(\Gamma )\ =\ g\quad \operatorname{ResumeLabel}(\Gamma ,\ g)\ =\ L \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{YieldExpr}(\mathsf{Release},\ e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{SeqIR}(\operatorname{SnapshotHeldKeysIR}(f),\ \operatorname{SeqIR}(\operatorname{ReleaseHeldKeysIR}(f),\ \operatorname{YieldIR}(f,\ g,\ v)))),\ \operatorname{ResumeInput}(f,\ g)\rangle 
+\end{array}
+$$
 
 For **(Lower-Yield-Release)**, the resumption target `L` MUST begin by executing `ReacquireHeldKeysIR(f)` in canonical key order before control reaches the suspended continuation.
 
 **(Lower-YieldFrom)**
-```text
-Γ ⊢ LowerExpr(source) ⇓ ⟨IR_s, v_s⟩    CurrentAsyncFrame(Γ) = f    CurrentGenPoint(Γ) = g
-──────────────────
-Γ ⊢ LowerExpr(YieldFromExpr(release_opt, source)) ⇓ ⟨SeqIR(IR_s, YieldFromEnterIR(f, g, release_opt, v_s)), YieldFromResumeIR(f, g)⟩
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{source})\ \Downarrow \ \langle \mathsf{IR}_{s},\ v_{s}\rangle \quad \operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f\quad \operatorname{CurrentGenPoint}(\Gamma )\ =\ g \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ \mathsf{source}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{s},\ \operatorname{YieldFromEnterIR}(f,\ g,\ \mathsf{release}_{\mathsf{opt}},\ v_{s})),\ \operatorname{YieldFromResumeIR}(f,\ g)\rangle 
+\end{array}
+$$
 
 `YieldFromEnterIR` MUST lower delegation as a loop over the inner async state:
 1. `@Suspended { output = v }` re-enters lowering through the `yield` path using the same `release_opt`,
 2. `@Completed { value = v }` returns `v`,
 3. `@Failed { error = e }` lowers as async error propagation.
 
-#### 21.2.7 Diagnostics
+### 21.2.7 Diagnostics
 
 | Code         | Severity | Detection    | Condition                                      |
 | ------------ | -------- | ------------ | ---------------------------------------------- |
@@ -661,9 +785,9 @@ For **(Lower-Yield-Release)**, the resumption target `L` MUST begin by executing
 | `E-CON-0222` | Error    | Compile-time | Incompatible `In` parameter in `yield from`    |
 | `E-CON-0225` | Error    | Compile-time | Error type not compatible in `yield from`      |
 
-### 21.3 Composition Forms
+## 21.3 Composition Forms
 
-#### 21.3.1 Syntax
+### 21.3.1 Syntax
 
 `loop ... in ...` async iteration uses the ordinary loop syntax defined in Chapter 18.
 
@@ -688,104 +812,135 @@ This section defines the following method-call surfaces:
 
 `until` is a source-specified method-call surface on `shared` values. Its type and runtime behavior are defined by this section's static and dynamic semantics.
 
-#### 21.3.2 Parsing
+### 21.3.2 Parsing
 
 `sync`, `race`, and `all` are primary expressions.
 
 `sync` is parsed by:
 
 **(Parse-Sync-Expr)**
-```text
-IsKw(Tok(P), `sync`)    Γ ⊢ ParseExpr(Advance(P)) ⇓ (P_1, e)
-──────────────────
-Γ ⊢ ParsePrimary(P) ⇓ (P_1, SyncExpr(e))
-```
+
+$$
+\begin{array}{l}
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{sync})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (P_{1},\ \operatorname{SyncExpr}(e))
+\end{array}
+$$
 
 `race` is parsed by:
 
 **(Parse-Race-Expr)**
-```text
-IsKw(Tok(P), `race`)    IsPunc(Tok(Advance(P)), "{")    Γ ⊢ ParseRaceArms(Advance(Advance(P))) ⇓ (P_1, arms)    IsPunc(Tok(P_1), "}")
-──────────────────
-Γ ⊢ ParsePrimary(P) ⇓ (Advance(P_1), RaceExpr(arms))
-```
+
+$$
+\begin{array}{l}
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{race})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseRaceArms}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ \mathsf{arms})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\}"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{RaceExpr}(\mathsf{arms}))
+\end{array}
+$$
 
 Race-arm parsing is:
 
 **(Parse-RaceArms-Cons)**
-```text
-Γ ⊢ ParseRaceArm(P) ⇓ (P_1, a)    Γ ⊢ ParseRaceArmsTail(P_1, [a]) ⇓ (P_2, arms)
-──────────────────
-Γ ⊢ ParseRaceArms(P) ⇓ (P_2, arms)
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseRaceArm}(P)\ \Downarrow \ (P_{1},\ a)\quad \Gamma \ \vdash \ \operatorname{ParseRaceArmsTail}(P_{1},\ [a])\ \Downarrow \ (P_{2},\ \mathsf{arms}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseRaceArms}(P)\ \Downarrow \ (P_{2},\ \mathsf{arms})
+\end{array}
+$$
 
 **(Parse-RaceArm)**
-```text
-Γ ⊢ ParseExpr(P) ⇓ (P_1, e)    IsOp(Tok(P_1), "->")    IsPunc(Tok(Advance(P_1)), "|")
-Γ ⊢ ParsePattern(Advance(Advance(P_1))) ⇓ (P_2, pat)    IsPunc(Tok(P_2), "|")
-Γ ⊢ ParseRaceHandler(Advance(P_2)) ⇓ (P_3, handler)
-──────────────────
-Γ ⊢ ParseRaceArm(P) ⇓ (P_3, ⟨e, pat, handler⟩)
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseExpr}(P)\ \Downarrow \ (P_{1},\ e)\quad \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"->"})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P_{1})),\ \texttt{"|"}) \\
+\Gamma \ \vdash \ \operatorname{ParsePattern}(\operatorname{Advance}(\operatorname{Advance}(P_{1})))\ \Downarrow \ (P_{2},\ \mathsf{pat})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{"|"}) \\
+\Gamma \ \vdash \ \operatorname{ParseRaceHandler}(\operatorname{Advance}(P_{2}))\ \Downarrow \ (P_{3},\ \mathsf{handler}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseRaceArm}(P)\ \Downarrow \ (P_{3},\ \langle e,\ \mathsf{pat},\ \mathsf{handler}\rangle )
+\end{array}
+$$
 
 **(Parse-RaceArmsTail-End)**
-```text
-¬ IsPunc(Tok(P), ",")
-──────────────────
-Γ ⊢ ParseRaceArmsTail(P, xs) ⇓ (P, xs)
-```
+
+$$
+\begin{array}{l}
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseRaceArmsTail}(P,\ \mathsf{xs})\ \Downarrow \ (P,\ \mathsf{xs})
+\end{array}
+$$
 
 **(Parse-RaceArmsTail-TrailingComma)**
-```text
-IsPunc(Tok(P), ",")    IsPunc(Tok(Advance(P)), "}")
-──────────────────
-Γ ⊢ ParseRaceArmsTail(P, xs) ⇓ (Advance(P), xs)
-```
+
+$$
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"\}"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseRaceArmsTail}(P,\ \mathsf{xs})\ \Downarrow \ (\operatorname{Advance}(P),\ \mathsf{xs})
+\end{array}
+$$
 
 **(Parse-RaceArmsTail-Comma)**
-```text
-IsPunc(Tok(P), ",")    Γ ⊢ ParseRaceArm(Advance(P)) ⇓ (P_1, a)    Γ ⊢ ParseRaceArmsTail(P_1, xs ++ [a]) ⇓ (P_2, ys)
-──────────────────
-Γ ⊢ ParseRaceArmsTail(P, xs) ⇓ (P_2, ys)
-```
+
+$$
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \Gamma \ \vdash \ \operatorname{ParseRaceArm}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ a)\quad \Gamma \ \vdash \ \operatorname{ParseRaceArmsTail}(P_{1},\ \mathsf{xs}\ \mathbin{++} \ [a])\ \Downarrow \ (P_{2},\ \mathsf{ys}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseRaceArmsTail}(P,\ \mathsf{xs})\ \Downarrow \ (P_{2},\ \mathsf{ys})
+\end{array}
+$$
 
 **(Parse-RaceHandler-Yield)**
-```text
-IsKw(Tok(P), `yield`)    Γ ⊢ ParseExpr(Advance(P)) ⇓ (P_1, e)
-──────────────────
-Γ ⊢ ParseRaceHandler(P) ⇓ (P_1, RaceYield(e))
-```
+
+$$
+\begin{array}{l}
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{yield})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseRaceHandler}(P)\ \Downarrow \ (P_{1},\ \operatorname{RaceYield}(e))
+\end{array}
+$$
 
 **(Parse-RaceHandler-Return)**
-```text
-Γ ⊢ ParseExpr(P) ⇓ (P_1, e)
-──────────────────
-Γ ⊢ ParseRaceHandler(P) ⇓ (P_1, RaceReturn(e))
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseExpr}(P)\ \Downarrow \ (P_{1},\ e) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseRaceHandler}(P)\ \Downarrow \ (P_{1},\ \operatorname{RaceReturn}(e))
+\end{array}
+$$
 
 `all` is parsed by:
 
 **(Parse-All-Expr)**
-```text
-IsKw(Tok(P), `all`)    IsPunc(Tok(Advance(P)), "{")    Γ ⊢ ParseAllExprList(Advance(Advance(P))) ⇓ (P_1, es)    IsPunc(Tok(P_1), "}")
-──────────────────
-Γ ⊢ ParsePrimary(P) ⇓ (Advance(P_1), AllExpr(es))
-```
+
+$$
+\begin{array}{l}
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{all})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseAllExprList}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ \mathsf{es})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\}"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{AllExpr}(\mathsf{es}))
+\end{array}
+$$
 
 `loop ... in ...`, manual stepping, `until`, and async combinators use ordinary parsing for loops, modal-state operations, and method calls.
 
-#### 21.3.3 AST Representation / Form
+### 21.3.3 AST Representation / Form
 
-```text
-RaceHandler = {RaceReturn(expr), RaceYield(expr)}
-RaceArm = ⟨expr, pat, handler⟩    handler ∈ RaceHandler
-RaceArms = [RaceArm]
-
-Expr includes:
-  SyncExpr(expr)
-  RaceExpr(arms)
-  AllExpr(exprs)
-```
+$$
+\begin{array}{l}
+\mathsf{RaceHandler}\ =\ \{\operatorname{RaceReturn}(\mathsf{expr}),\ \operatorname{RaceYield}(\mathsf{expr})\} \\
+\mathsf{RaceArm}\ =\ \langle \mathsf{expr},\ \mathsf{pat},\ \mathsf{handler}\rangle \quad \mathsf{handler}\ \in \ \mathsf{RaceHandler} \\
+\mathsf{RaceArms}\ =\ [\mathsf{RaceArm}] \\
+\mathsf{Expr}\ \mathsf{includes}: \\
+\ \operatorname{SyncExpr}(\mathsf{expr}) \\
+\ \operatorname{RaceExpr}(\mathsf{arms}) \\
+\ \operatorname{AllExpr}(\mathsf{exprs})
+\end{array}
+$$
 
 Async iteration uses the existing loop form:
 
@@ -799,278 +954,361 @@ No dedicated AST nodes are introduced for `until` or for async combinators beyon
 
 Resolution is:
 
-```text
-ResolveRaceJudg = {ResolveRaceArm, ResolveRaceArms, ResolveRaceHandler}
-ResolveAllExprListJudg = {ResolveAllExprList}
-
-Γ ⊢ ResolveRaceHandler(RaceReturn(e)) ⇓ RaceReturn(e')
-Γ ⊢ ResolveRaceHandler(RaceYield(e)) ⇓ RaceYield(e')
-Γ ⊢ ResolveRaceArm(⟨e, pat, handler⟩) ⇓ ⟨e', pat', handler'⟩
-Γ ⊢ ResolveRaceArms([]) ⇓ []
-Γ ⊢ ResolveRaceArms(a :: as) ⇓ a' :: as'
-Γ ⊢ ResolveAllExprList([]) ⇓ []
-Γ ⊢ ResolveAllExprList(e :: es) ⇓ e' :: es'
-Γ ⊢ ResolveExpr(SyncExpr(e)) ⇓ SyncExpr(e')
-Γ ⊢ ResolveExpr(RaceExpr(arms)) ⇓ RaceExpr(arms')
-Γ ⊢ ResolveExpr(AllExpr(es)) ⇓ AllExpr(es')
-```
+$$
+\begin{array}{l}
+\mathsf{ResolveRaceJudg}\ =\ \{\mathsf{ResolveRaceArm},\ \mathsf{ResolveRaceArms},\ \mathsf{ResolveRaceHandler}\} \\
+\mathsf{ResolveAllExprListJudg}\ =\ \{\mathsf{ResolveAllExprList}\} \\
+\Gamma \ \vdash \ \operatorname{ResolveRaceHandler}(\operatorname{RaceReturn}(e))\ \Downarrow \ \operatorname{RaceReturn}(e') \\
+\Gamma \ \vdash \ \operatorname{ResolveRaceHandler}(\operatorname{RaceYield}(e))\ \Downarrow \ \operatorname{RaceYield}(e') \\
+\Gamma \ \vdash \ \operatorname{ResolveRaceArm}(\langle e,\ \mathsf{pat},\ \mathsf{handler}\rangle )\ \Downarrow \ \langle e',\ \mathsf{pat}',\ \mathsf{handler}'\rangle  \\
+\Gamma \ \vdash \ \operatorname{ResolveRaceArms}([])\ \Downarrow \ [] \\
+\Gamma \ \vdash \ \operatorname{ResolveRaceArms}(a\ \mathbin{::} \ \mathsf{as})\ \Downarrow \ a'\ \mathbin{::} \ \mathsf{as}' \\
+\Gamma \ \vdash \ \operatorname{ResolveAllExprList}([])\ \Downarrow \ [] \\
+\Gamma \ \vdash \ \operatorname{ResolveAllExprList}(e\ \mathbin{::} \ \mathsf{es})\ \Downarrow \ e'\ \mathbin{::} \ \mathsf{es}' \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{SyncExpr}(e))\ \Downarrow \ \operatorname{SyncExpr}(e') \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{RaceExpr}(\mathsf{arms}))\ \Downarrow \ \operatorname{RaceExpr}(\mathsf{arms}') \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{AllExpr}(\mathsf{es}))\ \Downarrow \ \operatorname{AllExpr}(\mathsf{es}')
+\end{array}
+$$
 
 Evaluation order is:
 
-```text
-RaceArmExprs([]) = []
-RaceArmExprs(⟨e, _, _⟩ :: as) = [e] ++ RaceArmExprs(as)
+$$
+\begin{array}{l}
+\operatorname{RaceArmExprs}([])\ =\ [] \\
+\operatorname{RaceArmExprs}(\langle e,\ \_,\ \_\rangle \ \mathbin{::} \ \mathsf{as})\ =\ [e]\ \mathbin{++} \ \operatorname{RaceArmExprs}(\mathsf{as}) \\
+\operatorname{Children_LTR}(\operatorname{SyncExpr}(e))\ =\ [e] \\
+\operatorname{Children_LTR}(\operatorname{RaceExpr}(\mathsf{arms}))\ =\ \operatorname{RaceArmExprs}(\mathsf{arms}) \\
+\operatorname{Children_LTR}(\operatorname{AllExpr}(\mathsf{es}))\ =\ \mathsf{es}
+\end{array}
+$$
 
-Children_LTR(SyncExpr(e)) = [e]
-Children_LTR(RaceExpr(arms)) = RaceArmExprs(arms)
-Children_LTR(AllExpr(es)) = es
-```
-
-#### 21.3.4 Static Semantics
+### 21.3.4 Static Semantics
 
 Async iteration over `loop pat in e { body }` is:
 
 **(T-Loop-Iter-Async)**
-```text
-AsyncSig(R) = ⟨Out_r, In_r, Result_r, E_r⟩    Γ; R; L ⊢ iter : T_iter    AsyncSig(T_iter) = ⟨Out_i, In_i, Result_i, E_i⟩    In_i = TypePrim("()")    Γ ⊢ E_i <: E_r
-(ty_opt = ⊥ ⇒ T_p = Out_i)    (ty_opt = T_a ⇒ Γ ⊢ Out_i <: T_a ∧ T_p = T_a)
-Γ ⊢ pat ⇐ T_p ⊣ B    Distinct(PatNames(pat))    LoopInvOk(inv_opt)
-Γ_0 = PushScope(Γ)    IntroAll(Γ_0, B) ⇓ Γ_1
-Γ_1; R; `loop` ⊢ BlockInfo(body) ⇓ ⟨T_b, Brk, BrkVoid⟩    LoopTypeFin(Brk, BrkVoid) = T_r
-──────────────────
-Γ; R; L ⊢ LoopIter(pat, ty_opt, iter, inv_opt, body) : T_r
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out}_{r},\ \mathsf{In}_{r},\ \mathsf{Result}_{r},\ E_{r}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{iter}\ :\ T_{\mathsf{iter}}\quad \operatorname{AsyncSig}(T_{\mathsf{iter}})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \quad \mathsf{In}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \Gamma \ \vdash \ E_{i}\ \mathrel{<:} \ E_{r} \\
+(\mathsf{ty}_{\mathsf{opt}}\ =\ \bot \ \Rightarrow \ T_{p}\ =\ \mathsf{Out}_{i})\quad (\mathsf{ty}_{\mathsf{opt}}\ =\ T_{a}\ \Rightarrow \ \Gamma \ \vdash \ \mathsf{Out}_{i}\ \mathrel{<:} \ T_{a}\ \land \ T_{p}\ =\ T_{a}) \\
+\Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ T_{p}\ \dashv \ B\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}))\quad \operatorname{LoopInvOk}(\mathsf{inv}_{\mathsf{opt}}) \\
+\Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \operatorname{IntroAll}(\Gamma_{0} ,\ B)\ \Downarrow \ \Gamma_{1}  \\
+\Gamma_{1} ;\ R;\ \texttt{loop}\ \vdash \ \operatorname{BlockInfo}(\mathsf{body})\ \Downarrow \ \langle T_{b},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \operatorname{LoopTypeFin}(\mathsf{Brk},\ \mathsf{BrkVoid})\ =\ T_{r} \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{LoopIter}(\mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{iter},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body})\ :\ T_{r}
+\end{array}
+$$
 
 **(Loop-Async-Err)**
-```text
-Γ; R; L ⊢ iter : T_iter    AsyncSig(T_iter) = ⟨Out_i, In_i, Result_i, E_i⟩    (AsyncSig(R) = ⊥ ∨ In_i ≠ TypePrim("()"))
-──────────────────
-Γ; R; L ⊢ LoopIter(pat, ty_opt, iter, inv_opt, body) ⇑
-```
 
-```math
+$$
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{iter}\ :\ T_{\mathsf{iter}}\quad \operatorname{AsyncSig}(T_{\mathsf{iter}})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \quad (\operatorname{AsyncSig}(R)\ =\ \bot \ \lor \ \mathsf{In}_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{LoopIter}(\mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{iter},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body})\ \Uparrow 
+\end{array}
+$$
+
+$$
 \mathsf{Manual}\ \mathsf{stepping}\ \mathsf{is}\ \mathsf{permitted}\ \mathsf{by}\ \mathsf{ordinary}\ \mathsf{modal}-\mathsf{state}\ \mathsf{inspection}\ \mathsf{and}\ \texttt{a\~{}>resume(input)}.\ \mathsf{It}\ \mathsf{is}\ \mathsf{required}\ \mathsf{when}\ \mathsf{an}\ \mathsf{async}\ \mathsf{value}\ \mathsf{has}\ \texttt{In != ()}.
-```
+$$
 
 `sync` typing is:
 
-```text
-YieldInExpr(e) ⇔ ∃ e' ∈ SubExprsList([e]). e' = YieldExpr(_, _)
-YieldFromInExpr(e) ⇔ ∃ e' ∈ SubExprsList([e]). e' = YieldFromExpr(_, _)
-```
+$$
+\begin{array}{l}
+\operatorname{YieldInExpr}(e)\ \Leftrightarrow \ \exists \ e'\ \in \ \operatorname{SubExprsList}([e]).\ e'\ =\ \operatorname{YieldExpr}(\_,\ \_) \\
+\operatorname{YieldFromInExpr}(e)\ \Leftrightarrow \ \exists \ e'\ \in \ \operatorname{SubExprsList}([e]).\ e'\ =\ \operatorname{YieldFromExpr}(\_,\ \_)
+\end{array}
+$$
 
 **(Sync-Yield-Err)**
-```text
-YieldInExpr(e)
-──────────────────
-Γ; R; L ⊢ SyncExpr(e) ⇑
-```
+
+$$
+\begin{array}{l}
+\operatorname{YieldInExpr}(e) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{SyncExpr}(e)\ \Uparrow 
+\end{array}
+$$
 
 **(Sync-YieldFrom-Err)**
-```text
-YieldFromInExpr(e)
-──────────────────
-Γ; R; L ⊢ SyncExpr(e) ⇑
-```
+
+$$
+\begin{array}{l}
+\operatorname{YieldFromInExpr}(e) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{SyncExpr}(e)\ \Uparrow 
+\end{array}
+$$
 
 **(T-Sync)**
-```text
-AsyncSig(R) = ⊥    Γ; R; L ⊢ e : T_e    AsyncSig(T_e) = ⟨Out, In, Result, E⟩    Out = TypePrim("()")    In = TypePrim("()")
-──────────────────
-Γ; R; L ⊢ SyncExpr(e) : TypeUnion([Result, E])
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncSig}(R)\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \mathsf{Out}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \mathsf{In}\ =\ \operatorname{TypePrim}(\texttt{"()"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{SyncExpr}(e)\ :\ \operatorname{TypeUnion}([\mathsf{Result},\ E])
+\end{array}
+$$
 
 **(Sync-Async-Context-Err)**
-```text
-AsyncSig(R) ≠ ⊥
-──────────────────
-Γ; R; L ⊢ SyncExpr(e) ⇑
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncSig}(R)\ \ne \ \bot  \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{SyncExpr}(e)\ \Uparrow 
+\end{array}
+$$
 
 **(Sync-Out-Err)**
-```text
-AsyncSig(R) = ⊥    Γ; R; L ⊢ e : T_e
-(AsyncSig(T_e) = ⊥ ∨ (AsyncSig(T_e) = ⟨Out, In, Result, E⟩ ∧ Out ≠ TypePrim("()")))
-──────────────────
-Γ; R; L ⊢ SyncExpr(e) ⇑
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncSig}(R)\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e} \\
+(\operatorname{AsyncSig}(T_{e})\ =\ \bot \ \lor \ (\operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \ \land \ \mathsf{Out}\ \ne \ \operatorname{TypePrim}(\texttt{"()"}))) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{SyncExpr}(e)\ \Uparrow 
+\end{array}
+$$
 
 **(Sync-In-Err)**
-```text
-AsyncSig(R) = ⊥    Γ; R; L ⊢ e : T_e    AsyncSig(T_e) = ⟨Out, In, Result, E⟩    Out = TypePrim("()")    In ≠ TypePrim("()")
-──────────────────
-Γ; R; L ⊢ SyncExpr(e) ⇑
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncSig}(R)\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \mathsf{Out}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \mathsf{In}\ \ne \ \operatorname{TypePrim}(\texttt{"()"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{SyncExpr}(e)\ \Uparrow 
+\end{array}
+$$
 
 `race` typing is:
 
-```text
-RaceMode(arms) =
-  { `return`    if ∀ arm ∈ arms. arm.handler = RaceReturn(_)
-    `yield`     if ∀ arm ∈ arms. arm.handler = RaceYield(_)
-    ⊥           otherwise }
-```
+$$
+\begin{array}{l}
+\operatorname{RaceMode}(\mathsf{arms})\ = \\
+\ \{\ \texttt{return}\quad \mathsf{if}\ \forall \ \mathsf{arm}\ \in \ \mathsf{arms}.\ \mathsf{arm}.\mathsf{handler}\ =\ \operatorname{RaceReturn}(\_) \\
+\quad \texttt{yield}\quad \mathsf{if}\ \forall \ \mathsf{arm}\ \in \ \mathsf{arms}.\ \mathsf{arm}.\mathsf{handler}\ =\ \operatorname{RaceYield}(\_) \\
+\quad \bot \quad \mathsf{otherwise}\ \}
+\end{array}
+$$
 
 **(T-Race)**
-```text
-n = |arms|    n ≥ 2    RaceMode(arms) = `return`
-∀ i, arm_i = ⟨e_i, pat_i, RaceReturn(r_i)⟩    Γ; R; L ⊢ e_i : T_i    AsyncSig(T_i) = ⟨Out_i, In_i, Result_i, E_i⟩
-Out_i = TypePrim("()")    In_i = TypePrim("()")    Γ ⊢ pat_i ⇐ Result_i ⊣ B_i    Distinct(PatNames(pat_i))
-Γ_i = IntroAll(Γ, B_i)    Γ_i; R; L ⊢ r_i : T_i^r    AllEq_Γ([T_1^r, …, T_n^r])    T_r = T_1^r
-──────────────────
-Γ; R; L ⊢ RaceExpr(arms) : TypeUnion([T_r, E_1, …, E_n])
-```
+
+$$
+\begin{array}{l}
+n\ =\ \mid \mathsf{arms}\mid \quad n\ \ge \ 2\quad \operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{return} \\
+\forall \ i,\ \mathsf{arm}_{i}\ =\ \langle e_{i},\ \mathsf{pat}_{i},\ \operatorname{RaceReturn}(r_{i})\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\quad \operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle  \\
+\mathsf{Out}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \mathsf{In}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \Gamma \ \vdash \ \mathsf{pat}_{i}\ \Leftarrow \ \mathsf{Result}_{i}\ \dashv \ B_{i}\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}_{i})) \\
+\Gamma_{i} \ =\ \operatorname{IntroAll}(\Gamma ,\ B_{i})\quad \Gamma_{i} ;\ R;\ L\ \vdash \ r_{i}\ :\ T_{i}^r\quad \mathsf{AllEq}\_\Gamma ([T_{1}^r,\ \ldots ,\ T_{n}^r])\quad T_{r}\ =\ T_{1}^r \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{RaceExpr}(\mathsf{arms})\ :\ \operatorname{TypeUnion}([T_{r},\ E_{1},\ \ldots ,\ E_{n}])
+\end{array}
+$$
 
 **(T-Race-Stream)**
-```text
-n = |arms|    n ≥ 2    RaceMode(arms) = `yield`
-∀ i, arm_i = ⟨e_i, pat_i, RaceYield(r_i)⟩    Γ; R; L ⊢ e_i : T_i    AsyncSig(T_i) = ⟨Out_i, In_i, Result_i, E_i⟩
-In_i = TypePrim("()")    Γ ⊢ pat_i ⇐ Out_i ⊣ B_i    Distinct(PatNames(pat_i))
-Γ_i = IntroAll(Γ, B_i)    Γ_i; R; L ⊢ r_i : U_i    AllEq_Γ([U_1, …, U_n])    U = U_1
-──────────────────
-Γ; R; L ⊢ RaceExpr(arms) : TypeApply(["Stream"], [U, TypeUnion([E_1, …, E_n])])
-```
+
+$$
+\begin{array}{l}
+n\ =\ \mid \mathsf{arms}\mid \quad n\ \ge \ 2\quad \operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{yield} \\
+\forall \ i,\ \mathsf{arm}_{i}\ =\ \langle e_{i},\ \mathsf{pat}_{i},\ \operatorname{RaceYield}(r_{i})\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\quad \operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle  \\
+\mathsf{In}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \Gamma \ \vdash \ \mathsf{pat}_{i}\ \Leftarrow \ \mathsf{Out}_{i}\ \dashv \ B_{i}\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}_{i})) \\
+\Gamma_{i} \ =\ \operatorname{IntroAll}(\Gamma ,\ B_{i})\quad \Gamma_{i} ;\ R;\ L\ \vdash \ r_{i}\ :\ U_{i}\quad \mathsf{AllEq}\_\Gamma ([U_{1},\ \ldots ,\ U_{n}])\quad U\ =\ U_{1} \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{RaceExpr}(\mathsf{arms})\ :\ \operatorname{TypeApply}([\texttt{"Stream"}],\ [U,\ \operatorname{TypeUnion}([E_{1},\ \ldots ,\ E_{n}])])
+\end{array}
+$$
 
 **(Race-Arity-Err)**
-```text
-n = |arms|    n < 2
-──────────────────
-Γ; R; L ⊢ RaceExpr(arms) ⇑
-```
+
+$$
+\begin{array}{l}
+n\ =\ \mid \mathsf{arms}\mid \quad n\ <\ 2 \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{RaceExpr}(\mathsf{arms})\ \Uparrow 
+\end{array}
+$$
 
 **(Race-Handler-Mix-Err)**
-```text
-RaceMode(arms) = ⊥
-──────────────────
-Γ; R; L ⊢ RaceExpr(arms) ⇑
-```
+
+$$
+\begin{array}{l}
+\operatorname{RaceMode}(\mathsf{arms})\ =\ \bot  \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{RaceExpr}(\mathsf{arms})\ \Uparrow 
+\end{array}
+$$
 
 **(Race-Operand-Out-Err)**
-```text
-RaceMode(arms) = `return`
-∃ i. Γ; R; L ⊢ e_i : T_i ∧ (AsyncSig(T_i) = ⟨Out_i, In_i, Result_i, E_i⟩ ∧ Out_i ≠ TypePrim("()"))
-──────────────────
-Γ; R; L ⊢ RaceExpr(arms) ⇑
-```
+
+$$
+\begin{array}{l}
+\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{return} \\
+\exists \ i.\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\ \land \ (\operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \ \land \ \mathsf{Out}_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{RaceExpr}(\mathsf{arms})\ \Uparrow 
+\end{array}
+$$
 
 **(Race-Operand-Err)**
-```text
-RaceMode(arms) = `return`
-∃ i. Γ; R; L ⊢ e_i : T_i ∧ (AsyncSig(T_i) = ⊥ ∨ (AsyncSig(T_i) = ⟨Out_i, In_i, Result_i, E_i⟩ ∧ Out_i = TypePrim("()") ∧ In_i ≠ TypePrim("()")))
-──────────────────
-Γ; R; L ⊢ RaceExpr(arms) ⇑
-```
+
+$$
+\begin{array}{l}
+\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{return} \\
+\exists \ i.\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\ \land \ (\operatorname{AsyncSig}(T_{i})\ =\ \bot \ \lor \ (\operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \ \land \ \mathsf{Out}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\ \land \ \mathsf{In}_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"()"}))) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{RaceExpr}(\mathsf{arms})\ \Uparrow 
+\end{array}
+$$
 
 **(Race-Stream-Operand-Err)**
-```text
-RaceMode(arms) = `yield`
-∃ i. Γ; R; L ⊢ e_i : T_i ∧ (AsyncSig(T_i) = ⊥ ∨ (AsyncSig(T_i) = ⟨Out_i, In_i, Result_i, E_i⟩ ∧ In_i ≠ TypePrim("()")))
-──────────────────
-Γ; R; L ⊢ RaceExpr(arms) ⇑
-```
+
+$$
+\begin{array}{l}
+\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{yield} \\
+\exists \ i.\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\ \land \ (\operatorname{AsyncSig}(T_{i})\ =\ \bot \ \lor \ (\operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \ \land \ \mathsf{In}_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"()"}))) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{RaceExpr}(\mathsf{arms})\ \Uparrow 
+\end{array}
+$$
 
 **(Race-Handler-Type-Err)**
-```text
-n = |arms|    n ≥ 2    RaceMode(arms) = `return`
-∀ i, arm_i = ⟨e_i, pat_i, RaceReturn(r_i)⟩    Γ; R; L ⊢ e_i : T_i    AsyncSig(T_i) = ⟨Out_i, In_i, Result_i, E_i⟩
-Out_i = TypePrim("()")    In_i = TypePrim("()")    Γ ⊢ pat_i ⇐ Result_i ⊣ B_i    Distinct(PatNames(pat_i))
-Γ_i = IntroAll(Γ, B_i)    Γ_i; R; L ⊢ r_i : T_i^r    ¬ AllEq_Γ([T_1^r, …, T_n^r])
-──────────────────
-Γ; R; L ⊢ RaceExpr(arms) ⇑
-```
+
+$$
+\begin{array}{l}
+n\ =\ \mid \mathsf{arms}\mid \quad n\ \ge \ 2\quad \operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{return} \\
+\forall \ i,\ \mathsf{arm}_{i}\ =\ \langle e_{i},\ \mathsf{pat}_{i},\ \operatorname{RaceReturn}(r_{i})\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\quad \operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle  \\
+\mathsf{Out}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \mathsf{In}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \Gamma \ \vdash \ \mathsf{pat}_{i}\ \Leftarrow \ \mathsf{Result}_{i}\ \dashv \ B_{i}\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}_{i})) \\
+\Gamma_{i} \ =\ \operatorname{IntroAll}(\Gamma ,\ B_{i})\quad \Gamma_{i} ;\ R;\ L\ \vdash \ r_{i}\ :\ T_{i}^r\quad \lnot \ \mathsf{AllEq}\_\Gamma ([T_{1}^r,\ \ldots ,\ T_{n}^r]) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{RaceExpr}(\mathsf{arms})\ \Uparrow 
+\end{array}
+$$
 
 **(Race-Stream-Handler-Type-Err)**
-```text
-n = |arms|    n ≥ 2    RaceMode(arms) = `yield`
-∀ i, arm_i = ⟨e_i, pat_i, RaceYield(r_i)⟩    Γ; R; L ⊢ e_i : T_i    AsyncSig(T_i) = ⟨Out_i, In_i, Result_i, E_i⟩
-In_i = TypePrim("()")    Γ ⊢ pat_i ⇐ Out_i ⊣ B_i    Distinct(PatNames(pat_i))
-Γ_i = IntroAll(Γ, B_i)    Γ_i; R; L ⊢ r_i : U_i    ¬ AllEq_Γ([U_1, …, U_n])
-──────────────────
-Γ; R; L ⊢ RaceExpr(arms) ⇑
-```
+
+$$
+\begin{array}{l}
+n\ =\ \mid \mathsf{arms}\mid \quad n\ \ge \ 2\quad \operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{yield} \\
+\forall \ i,\ \mathsf{arm}_{i}\ =\ \langle e_{i},\ \mathsf{pat}_{i},\ \operatorname{RaceYield}(r_{i})\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\quad \operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle  \\
+\mathsf{In}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \Gamma \ \vdash \ \mathsf{pat}_{i}\ \Leftarrow \ \mathsf{Out}_{i}\ \dashv \ B_{i}\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}_{i})) \\
+\Gamma_{i} \ =\ \operatorname{IntroAll}(\Gamma ,\ B_{i})\quad \Gamma_{i} ;\ R;\ L\ \vdash \ r_{i}\ :\ U_{i}\quad \lnot \ \mathsf{AllEq}\_\Gamma ([U_{1},\ \ldots ,\ U_{n}]) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{RaceExpr}(\mathsf{arms})\ \Uparrow 
+\end{array}
+$$
 
 `all` typing is:
 
 **(T-All)**
-```text
-n = |exprs|    ∀ i, Γ; R; L ⊢ e_i : T_i    AsyncSig(T_i) = ⟨Out_i, In_i, Result_i, E_i⟩
-Out_i = TypePrim("()")    In_i = TypePrim("()")    T_tuple = TypeTuple([Result_1, …, Result_n])
-──────────────────
-Γ; R; L ⊢ AllExpr([e_1, …, e_n]) : TypeUnion([T_tuple, E_1, …, E_n])
-```
+
+$$
+\begin{array}{l}
+n\ =\ \mid \mathsf{exprs}\mid \quad \forall \ i,\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\quad \operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle  \\
+\mathsf{Out}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \mathsf{In}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad T_{\mathsf{tuple}}\ =\ \operatorname{TypeTuple}([\mathsf{Result}_{1},\ \ldots ,\ \mathsf{Result}_{n}]) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{AllExpr}([e_{1},\ \ldots ,\ e_{n}])\ :\ \operatorname{TypeUnion}([T_{\mathsf{tuple}},\ E_{1},\ \ldots ,\ E_{n}])
+\end{array}
+$$
 
 **(All-Out-Err)**
-```text
-∃ i. Γ; R; L ⊢ e_i : T_i ∧ (AsyncSig(T_i) = ⊥ ∨ (AsyncSig(T_i) = ⟨Out_i, In_i, Result_i, E_i⟩ ∧ Out_i ≠ TypePrim("()")))
-──────────────────
-Γ; R; L ⊢ AllExpr(exprs) ⇑
-```
+
+$$
+\begin{array}{l}
+\exists \ i.\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\ \land \ (\operatorname{AsyncSig}(T_{i})\ =\ \bot \ \lor \ (\operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \ \land \ \mathsf{Out}_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"()"}))) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{AllExpr}(\mathsf{exprs})\ \Uparrow 
+\end{array}
+$$
 
 **(All-In-Err)**
-```text
-∃ i. Γ; R; L ⊢ e_i : T_i ∧ (AsyncSig(T_i) = ⟨Out_i, In_i, Result_i, E_i⟩ ∧ Out_i = TypePrim("()") ∧ In_i ≠ TypePrim("()"))
-──────────────────
-Γ; R; L ⊢ AllExpr(exprs) ⇑
-```
+
+$$
+\begin{array}{l}
+\exists \ i.\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\ \land \ (\operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \ \land \ \mathsf{Out}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\ \land \ \mathsf{In}_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{AllExpr}(\mathsf{exprs})\ \Uparrow 
+\end{array}
+$$
 
 `until` has the source-specified type:
 
-```text
-until : shared T × procedure(const T) -> bool × procedure(unique T) -> R -> Future<R>
-```
+$$
+\mathsf{until}\ :\ \mathsf{shared}\ T\ \times \ \operatorname{procedure}(\mathsf{const}\ T)\ \to \ \mathsf{bool}\ \times \ \operatorname{procedure}(\mathsf{unique}\ T)\ \to \ R\ \to \ \mathsf{Future}<R>
+$$
 
 Async combinator typing is:
 
-```text
-map    : Async<Out, In, Result, E> × procedure(Out) -> U -> Async<U, In, Result, E>
-filter : Async<T, (), (), E> × procedure(const T) -> bool -> Async<T, (), (), E>
-take   : Async<T, (), (), E> × usize -> Async<T, (), (), E>
-fold   : Async<T, (), (), E> × A × procedure(A, T) -> A -> Future<A, E>
-chain  : Future<T, E> × procedure(T) -> Future<U, E> -> Future<U, E>
-```
+$$
+\begin{array}{l}
+\mathsf{map}\quad :\ \mathsf{Async}<\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E>\ \times \ \operatorname{procedure}(\mathsf{Out})\ \to \ U\ \to \ \mathsf{Async}<U,\ \mathsf{In},\ \mathsf{Result},\ E> \\
+\mathsf{filter}\ :\ \mathsf{Async}<T,\ (),\ (),\ E>\ \times \ \operatorname{procedure}(\mathsf{const}\ T)\ \to \ \mathsf{bool}\ \to \ \mathsf{Async}<T,\ (),\ (),\ E> \\
+\mathsf{take}\ :\ \mathsf{Async}<T,\ (),\ (),\ E>\ \times \ \mathsf{usize}\ \to \ \mathsf{Async}<T,\ (),\ (),\ E> \\
+\mathsf{fold}\ :\ \mathsf{Async}<T,\ (),\ (),\ E>\ \times \ A\ \times \ \operatorname{procedure}(A,\ T)\ \to \ A\ \to \ \mathsf{Future}<A,\ E> \\
+\mathsf{chain}\ :\ \mathsf{Future}<T,\ E>\ \times \ \operatorname{procedure}(T)\ \to \ \mathsf{Future}<U,\ E>\ \to \ \mathsf{Future}<U,\ E>
+\end{array}
+$$
 
-```math
+$$
 \mathsf{For}\ \texttt{e\~{}>name(args)},\ \mathsf{if}\ \texttt{StripPerm(ExprType(e)) = ModalRefType(modal\_ref)}\ \mathsf{and}\ \texttt{BuiltinModalGeneralMember(modal\_ref, name)},\ \mathsf{typing}\ \mathsf{MUST}\ \mathsf{be}\ \mathsf{derived}\ \mathsf{by}\ \mathsf{the}\ \mathsf{async}\ \mathsf{combinator}\ \mathsf{rules}\ \mathsf{in}\ \mathsf{this}\ \mathsf{section}.
-```
+$$
 
 A conforming implementation MUST resolve `AsyncCombinatorNames` through built-in modal member lookup on `Async` (including aliases normalized via `AsyncSig`) and MUST NOT treat these members as non-modal ad hoc method-call exceptions.
 
 **(T-Async-Map)**
-```text
-Γ; R; L ⊢ a : TypeApply(["Async"], [Out, In, Result, E])    Γ; R; L ⊢ f : (Out) -> U
-──────────────────
-Γ; R; L ⊢ a~>map(f) : TypeApply(["Async"], [U, In, Result, E])
-```
+
+$$
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ a\ :\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E])\quad \Gamma ;\ R;\ L\ \vdash \ f\ :\ (\mathsf{Out})\ \to \ U \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ a\sim{}>\operatorname{map}(f)\ :\ \operatorname{TypeApply}([\texttt{"Async"}],\ [U,\ \mathsf{In},\ \mathsf{Result},\ E])
+\end{array}
+$$
 
 **(T-Async-Filter)**
-```text
-Γ; R; L ⊢ a : TypeApply(["Async"], [T, TypePrim("()"), TypePrim("()"), E])    Γ; R; L ⊢ p : (TypePerm(`const`, T)) -> TypePrim("bool")
-──────────────────
-Γ; R; L ⊢ a~>filter(p) : TypeApply(["Async"], [T, TypePrim("()"), TypePrim("()"), E])
-```
+
+$$
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ a\ :\ \operatorname{TypeApply}([\texttt{"Async"}],\ [T,\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ E])\quad \Gamma ;\ R;\ L\ \vdash \ p\ :\ (\operatorname{TypePerm}(\texttt{const},\ T))\ \to \ \operatorname{TypePrim}(\texttt{"bool"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ a\sim{}>\operatorname{filter}(p)\ :\ \operatorname{TypeApply}([\texttt{"Async"}],\ [T,\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ E])
+\end{array}
+$$
 
 **(T-Async-Take)**
-```text
-Γ; R; L ⊢ a : TypeApply(["Async"], [T, TypePrim("()"), TypePrim("()"), E])    Γ; R; L ⊢ n : TypePrim("usize")
-──────────────────
-Γ; R; L ⊢ a~>take(n) : TypeApply(["Async"], [T, TypePrim("()"), TypePrim("()"), E])
-```
+
+$$
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ a\ :\ \operatorname{TypeApply}([\texttt{"Async"}],\ [T,\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ E])\quad \Gamma ;\ R;\ L\ \vdash \ n\ :\ \operatorname{TypePrim}(\texttt{"usize"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ a\sim{}>\operatorname{take}(n)\ :\ \operatorname{TypeApply}([\texttt{"Async"}],\ [T,\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ E])
+\end{array}
+$$
 
 **(T-Async-Fold)**
-```text
-Γ; R; L ⊢ a : TypeApply(["Async"], [T, TypePrim("()"), TypePrim("()"), E])    Γ; R; L ⊢ init : A    Γ; R; L ⊢ f : (A, T) -> A
-──────────────────
-Γ; R; L ⊢ a~>fold(init, f) : TypeApply(["Future"], [A, E])
-```
+
+$$
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ a\ :\ \operatorname{TypeApply}([\texttt{"Async"}],\ [T,\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ E])\quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{init}\ :\ A\quad \Gamma ;\ R;\ L\ \vdash \ f\ :\ (A,\ T)\ \to \ A \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ a\sim{}>\operatorname{fold}(\mathsf{init},\ f)\ :\ \operatorname{TypeApply}([\texttt{"Future"}],\ [A,\ E])
+\end{array}
+$$
 
 **(T-Async-Chain)**
-```text
-Γ; R; L ⊢ a : TypeApply(["Future"], [T, E])    Γ; R; L ⊢ f : (T) -> TypeApply(["Future"], [U, E])
-──────────────────
-Γ; R; L ⊢ a~>chain(f) : TypeApply(["Future"], [U, E])
-```
 
-#### 21.3.5 Dynamic Semantics
+$$
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ a\ :\ \operatorname{TypeApply}([\texttt{"Future"}],\ [T,\ E])\quad \Gamma ;\ R;\ L\ \vdash \ f\ :\ (T)\ \to \ \operatorname{TypeApply}([\texttt{"Future"}],\ [U,\ E]) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ a\sim{}>\operatorname{chain}(f)\ :\ \operatorname{TypeApply}([\texttt{"Future"}],\ [U,\ E])
+\end{array}
+$$
+
+### 21.3.5 Dynamic Semantics
 
 Async iteration over `loop pat in e { body }` is:
 
@@ -1090,38 +1328,50 @@ Manual stepping advances an async value by inspecting its modal state and invoki
 
 Formal `sync` rules:
 
-```text
-SyncStep : AsyncValue × State → AsyncValue × State
-```
+$$
+\mathsf{SyncStep}\ :\ \mathsf{AsyncValue}\ \times \ \mathsf{State}\ \to \ \mathsf{AsyncValue}\ \times \ \mathsf{State}
+$$
 
 **(SyncStep-Suspended)**
-```text
-ModalState(a) = @Suspended    a.output = ()    Γ ⊢ EvalSigma(Resume(a, ()), σ) ⇓ (Val(a'), σ_1)
-──────────────────
-Γ ⊢ SyncStep(a, σ) ⇓ (a', σ_1)
-```
+
+$$
+\begin{array}{l}
+\operatorname{ModalState}(a)\ =\ @\mathsf{Suspended}\quad a.\mathsf{output}\ =\ ()\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(a,\ ()),\ \sigma )\ \Downarrow \ (\operatorname{Val}(a'),\ \sigma_{1} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{SyncStep}(a,\ \sigma )\ \Downarrow \ (a',\ \sigma_{1} )
+\end{array}
+$$
 
 **(EvalSigma-Sync-Suspended)**
-```text
-Γ ⊢ EvalSigma(e, σ) ⇓ (Val(a), σ_1)    ModalState(a) = @Suspended    Γ ⊢ SyncStep(a, σ_1) ⇓ (a', σ_2)
-Γ ⊢ EvalSigma(SyncExpr(a'), σ_2) ⇓ (out, σ_3)
-──────────────────
-Γ ⊢ EvalSigma(SyncExpr(e), σ) ⇓ (out, σ_3)
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(a),\ \sigma_{1} )\quad \operatorname{ModalState}(a)\ =\ @\mathsf{Suspended}\quad \Gamma \ \vdash \ \operatorname{SyncStep}(a,\ \sigma_{1} )\ \Downarrow \ (a',\ \sigma_{2} ) \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{SyncExpr}(a'),\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{SyncExpr}(e),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} )
+\end{array}
+$$
 
 **(EvalSigma-Sync-Completed)**
-```text
-Γ ⊢ EvalSigma(e, σ) ⇓ (Val(a), σ_1)    ModalState(a) = @Completed    a.value = v
-──────────────────
-Γ ⊢ EvalSigma(SyncExpr(e), σ) ⇓ (Val(v), σ_1)
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(a),\ \sigma_{1} )\quad \operatorname{ModalState}(a)\ =\ @\mathsf{Completed}\quad a.\mathsf{value}\ =\ v \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{SyncExpr}(e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )
+\end{array}
+$$
 
 **(EvalSigma-Sync-Failed)**
-```text
-Γ ⊢ EvalSigma(e, σ) ⇓ (Val(a), σ_1)    ModalState(a) = @Failed    a.error = err
-──────────────────
-Γ ⊢ EvalSigma(SyncExpr(e), σ) ⇓ (Val(err), σ_1)
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(a),\ \sigma_{1} )\quad \operatorname{ModalState}(a)\ =\ @\mathsf{Failed}\quad a.\mathsf{error}\ =\ \mathsf{err} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{SyncExpr}(e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{err}),\ \sigma_{1} )
+\end{array}
+$$
 
 `race` return-mode evaluation is:
 
@@ -1140,160 +1390,202 @@ ModalState(a) = @Suspended    a.output = ()    Γ ⊢ EvalSigma(Resume(a, ()), �
 
 Formal `race` rules:
 
-```text
-SelectReady(asyncs) = (index, async_value) ⇔
-  asyncs = [a_1, …, a_n] ∧
-  ∃ i ∈ [1..n]. ModalState(a_i) = @Suspended ∧ IsReady(a_i) ∧
-  (∀ j < i. ¬IsReady(a_j) ∨ ModalState(a_j) ≠ @Suspended) ∧
-  index = i ∧
-  async_value = a_i
-
-SelectReadyAny(asyncs) = (index, async_value) ⇔
-  asyncs = [a_1, …, a_n] ∧
-  ∃ i ∈ [1..n]. (ModalState(a_i) = @Completed ∨ ModalState(a_i) = @Failed ∨ (ModalState(a_i) = @Suspended ∧ IsReady(a_i))) ∧
-  (∀ j < i. ModalState(a_j) = @Suspended ∧ ¬IsReady(a_j)) ∧
-  index = i ∧
-  async_value = a_i
-
-RaceState = { active: [AsyncValue], completed: Option<(Index, AsyncValue)>, mode: `return` | `yield` }
-InitRace : [RaceArm] × State → RaceState × State
-```
+$$
+\begin{array}{l}
+\operatorname{SelectReady}(\mathsf{asyncs})\ =\ (\mathsf{index},\ \mathsf{async}_{\mathsf{value}})\ \Leftrightarrow  \\
+\ \mathsf{asyncs}\ =\ [a_{1},\ \ldots ,\ a_{n}]\ \land  \\
+\ \exists \ i\ \in \ [1..n].\ \operatorname{ModalState}(a_{i})\ =\ @\mathsf{Suspended}\ \land \ \operatorname{IsReady}(a_{i})\ \land  \\
+\ (\forall \ j\ <\ i.\ \lnot \operatorname{IsReady}(a_{j})\ \lor \ \operatorname{ModalState}(a_{j})\ \ne \ @\mathsf{Suspended})\ \land  \\
+\ \mathsf{index}\ =\ i\ \land  \\
+\ \mathsf{async}_{\mathsf{value}}\ =\ a_{i} \\
+\operatorname{SelectReadyAny}(\mathsf{asyncs})\ =\ (\mathsf{index},\ \mathsf{async}_{\mathsf{value}})\ \Leftrightarrow  \\
+\ \mathsf{asyncs}\ =\ [a_{1},\ \ldots ,\ a_{n}]\ \land  \\
+\ \exists \ i\ \in \ [1..n].\ (\operatorname{ModalState}(a_{i})\ =\ @\mathsf{Completed}\ \lor \ \operatorname{ModalState}(a_{i})\ =\ @\mathsf{Failed}\ \lor \ (\operatorname{ModalState}(a_{i})\ =\ @\mathsf{Suspended}\ \land \ \operatorname{IsReady}(a_{i})))\ \land  \\
+\ (\forall \ j\ <\ i.\ \operatorname{ModalState}(a_{j})\ =\ @\mathsf{Suspended}\ \land \ \lnot \operatorname{IsReady}(a_{j}))\ \land  \\
+\ \mathsf{index}\ =\ i\ \land  \\
+\ \mathsf{async}_{\mathsf{value}}\ =\ a_{i} \\
+\mathsf{RaceState}\ =\ \{\ \mathsf{active}:\ [\mathsf{AsyncValue}],\ \mathsf{completed}:\ \mathsf{Option}<(\mathsf{Index},\ \mathsf{AsyncValue})>,\ \mathsf{mode}:\ \texttt{return}\ \mid \ \texttt{yield}\ \} \\
+\mathsf{InitRace}\ :\ [\mathsf{RaceArm}]\ \times \ \mathsf{State}\ \to \ \mathsf{RaceState}\ \times \ \mathsf{State}
+\end{array}
+$$
 
 **(InitRace)**
-```text
-∀ i, Γ ⊢ EvalSigma(arm_i.expr, σ_i) ⇓ (Val(a_i), σ_{i+1})    mode = RaceMode(arms)
-race_state = { active: [a_1, …, a_n], completed: ⊥, mode: mode }
-──────────────────
-Γ ⊢ InitRace(arms, σ_0) ⇓ (race_state, σ_n)
-```
 
-```text
-RaceStepReturn : RaceState × [RaceArm] × State → EvalOut × State
-```
+$$
+\begin{array}{l}
+\forall \ i,\ \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{arm}_{i}.\mathsf{expr},\ \sigma_{i} )\ \Downarrow \ (\operatorname{Val}(a_{i}),\ \sigma \_\{i+1\})\quad \mathsf{mode}\ =\ \operatorname{RaceMode}(\mathsf{arms}) \\
+\mathsf{race}_{\mathsf{state}}\ =\ \{\ \mathsf{active}:\ [a_{1},\ \ldots ,\ a_{n}],\ \mathsf{completed}:\ \bot ,\ \mathsf{mode}:\ \mathsf{mode}\ \} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{InitRace}(\mathsf{arms},\ \sigma_{0} )\ \Downarrow \ (\mathsf{race}_{\mathsf{state}},\ \sigma_{n} )
+\end{array}
+$$
+
+$$
+\mathsf{RaceStepReturn}\ :\ \mathsf{RaceState}\ \times \ [\mathsf{RaceArm}]\ \times \ \mathsf{State}\ \to \ \mathsf{EvalOut}\ \times \ \mathsf{State}
+$$
 
 **(RaceStepReturn-Completed)**
-```text
-∃ i. ModalState(race_state.active[i]) = @Completed    a_i = race_state.active[i]    a_i.value = v
-arm_i = arms[i]    Γ ⊢ BindPattern(arm_i.pat, v) ⇓ Γ_1    Γ_1 ⊢ EvalSigma(arm_i.handler.expr, σ) ⇓ (Val(r), σ_1)
-CancelAll(race_state.active ∖ {a_i}, σ_1) ⇓ σ_2
-──────────────────
-Γ ⊢ RaceStepReturn(race_state, arms, σ) ⇓ (Val(r), σ_2)
-```
+
+$$
+\begin{array}{l}
+\exists \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Completed}\quad a_{i}\ =\ \mathsf{race}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{value}\ =\ v \\
+\mathsf{arm}_{i}\ =\ \mathsf{arms}[i]\quad \Gamma \ \vdash \ \operatorname{BindPattern}(\mathsf{arm}_{i}.\mathsf{pat},\ v)\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} \ \vdash \ \operatorname{EvalSigma}(\mathsf{arm}_{i}.\mathsf{handler}.\mathsf{expr},\ \sigma )\ \Downarrow \ (\operatorname{Val}(r),\ \sigma_{1} ) \\
+\operatorname{CancelAll}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}\ \setminus \ \{a_{i}\},\ \sigma_{1} )\ \Downarrow \ \sigma_{2}  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{RaceStepReturn}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma )\ \Downarrow \ (\operatorname{Val}(r),\ \sigma_{2} )
+\end{array}
+$$
 
 **(RaceStepReturn-Failed)**
-```text
-∃ i. ModalState(race_state.active[i]) = @Failed    a_i = race_state.active[i]    a_i.error = e
-CancelAll(race_state.active ∖ {a_i}, σ) ⇓ σ_1
-──────────────────
-Γ ⊢ RaceStepReturn(race_state, arms, σ) ⇓ (Val(e), σ_1)
-```
+
+$$
+\begin{array}{l}
+\exists \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Failed}\quad a_{i}\ =\ \mathsf{race}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{error}\ =\ e \\
+\operatorname{CancelAll}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}\ \setminus \ \{a_{i}\},\ \sigma )\ \Downarrow \ \sigma_{1}  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{RaceStepReturn}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma )\ \Downarrow \ (\operatorname{Val}(e),\ \sigma_{1} )
+\end{array}
+$$
 
 **(RaceStepReturn-Continue)**
-```text
-∀ i. ModalState(race_state.active[i]) = @Suspended
-SelectReady(race_state.active) = (j, a_j)    Γ ⊢ EvalSigma(Resume(a_j, ()), σ) ⇓ (Val(a_j'), σ_1)
-race_state' = race_state[active[j] ↦ a_j']    Γ ⊢ RaceStepReturn(race_state', arms, σ_1) ⇓ (out, σ_2)
-──────────────────
-Γ ⊢ RaceStepReturn(race_state, arms, σ) ⇓ (out, σ_2)
-```
+
+$$
+\begin{array}{l}
+\forall \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Suspended} \\
+\operatorname{SelectReady}(\mathsf{race}_{\mathsf{state}}.\mathsf{active})\ =\ (j,\ a_{j})\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(a_{j},\ ()),\ \sigma )\ \Downarrow \ (\operatorname{Val}(a_{j}'),\ \sigma_{1} ) \\
+\mathsf{race}_{\mathsf{state}}'\ =\ \mathsf{race}_{\mathsf{state}}[\mathsf{active}[j]\ \mapsto \ a_{j}']\quad \Gamma \ \vdash \ \operatorname{RaceStepReturn}(\mathsf{race}_{\mathsf{state}}',\ \mathsf{arms},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{RaceStepReturn}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
+\end{array}
+$$
 
 **(EvalSigma-Race-Return)**
-```text
-RaceMode(arms) = `return`    Γ ⊢ InitRace(arms, σ) ⇓ (race_state, σ_1)
-Γ ⊢ RaceStepReturn(race_state, arms, σ_1) ⇓ (out, σ_2)
-──────────────────
-Γ ⊢ EvalSigma(RaceExpr(arms), σ) ⇓ (out, σ_2)
-```
 
-```text
-RaceStepStream : RaceState × [RaceArm] × State → EvalOut × State
-```
+$$
+\begin{array}{l}
+\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{return}\quad \Gamma \ \vdash \ \operatorname{InitRace}(\mathsf{arms},\ \sigma )\ \Downarrow \ (\mathsf{race}_{\mathsf{state}},\ \sigma_{1} ) \\
+\Gamma \ \vdash \ \operatorname{RaceStepReturn}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{RaceExpr}(\mathsf{arms}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
+\end{array}
+$$
+
+$$
+\mathsf{RaceStepStream}\ :\ \mathsf{RaceState}\ \times \ [\mathsf{RaceArm}]\ \times \ \mathsf{State}\ \to \ \mathsf{EvalOut}\ \times \ \mathsf{State}
+$$
 
 **(RaceStepStream-Yield)**
-```text
-∃ i. ModalState(race_state.active[i]) = @Suspended    a_i = race_state.active[i]    a_i.output = v
-arm_i = arms[i]    Γ ⊢ BindPattern(arm_i.pat, v) ⇓ Γ_1    Γ_1 ⊢ EvalSigma(arm_i.handler.expr, σ) ⇓ (Val(u), σ_1)
-stream_state = { race_state: race_state, pending_yield: (i, u) }
-──────────────────
-Γ ⊢ RaceStepStream(race_state, arms, σ) ⇓ (Suspend(AsyncSuspended(u, stream_state)), σ_1)
-```
+
+$$
+\begin{array}{l}
+\exists \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Suspended}\quad a_{i}\ =\ \mathsf{race}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{output}\ =\ v \\
+\mathsf{arm}_{i}\ =\ \mathsf{arms}[i]\quad \Gamma \ \vdash \ \operatorname{BindPattern}(\mathsf{arm}_{i}.\mathsf{pat},\ v)\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} \ \vdash \ \operatorname{EvalSigma}(\mathsf{arm}_{i}.\mathsf{handler}.\mathsf{expr},\ \sigma )\ \Downarrow \ (\operatorname{Val}(u),\ \sigma_{1} ) \\
+\mathsf{stream}_{\mathsf{state}}\ =\ \{\ \mathsf{race}_{\mathsf{state}}:\ \mathsf{race}_{\mathsf{state}},\ \mathsf{pending}_{\mathsf{yield}}:\ (i,\ u)\ \} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{RaceStepStream}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma )\ \Downarrow \ (\operatorname{Suspend}(\operatorname{AsyncSuspended}(u,\ \mathsf{stream}_{\mathsf{state}})),\ \sigma_{1} )
+\end{array}
+$$
 
 **(RaceStepStream-AllComplete)**
-```text
-∀ i. ModalState(race_state.active[i]) = @Completed
-──────────────────
-Γ ⊢ RaceStepStream(race_state, arms, σ) ⇓ (Val(AsyncCompleted(())), σ)
-```
+
+$$
+\begin{array}{l}
+\forall \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Completed} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{RaceStepStream}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{AsyncCompleted}(())),\ \sigma )
+\end{array}
+$$
 
 **(RaceStepStream-Failed)**
-```text
-∃ i. ModalState(race_state.active[i]) = @Failed    a_i = race_state.active[i]    a_i.error = e
-CancelAll(race_state.active ∖ {a_i}, σ) ⇓ σ_1
-──────────────────
-Γ ⊢ RaceStepStream(race_state, arms, σ) ⇓ (Val(AsyncFailed(e)), σ_1)
-```
+
+$$
+\begin{array}{l}
+\exists \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Failed}\quad a_{i}\ =\ \mathsf{race}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{error}\ =\ e \\
+\operatorname{CancelAll}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}\ \setminus \ \{a_{i}\},\ \sigma )\ \Downarrow \ \sigma_{1}  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{RaceStepStream}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{AsyncFailed}(e)),\ \sigma_{1} )
+\end{array}
+$$
 
 **(EvalSigma-Race-Stream)**
-```text
-RaceMode(arms) = `yield`    Γ ⊢ InitRace(arms, σ) ⇓ (race_state, σ_1)
-Γ ⊢ RaceStepStream(race_state, arms, σ_1) ⇓ (out, σ_2)
-──────────────────
-Γ ⊢ EvalSigma(RaceExpr(arms), σ) ⇓ (out, σ_2)
-```
 
-```text
-CancelAll : [AsyncValue] × State → State
-```
+$$
+\begin{array}{l}
+\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{yield}\quad \Gamma \ \vdash \ \operatorname{InitRace}(\mathsf{arms},\ \sigma )\ \Downarrow \ (\mathsf{race}_{\mathsf{state}},\ \sigma_{1} ) \\
+\Gamma \ \vdash \ \operatorname{RaceStepStream}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{RaceExpr}(\mathsf{arms}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
+\end{array}
+$$
+
+$$
+\mathsf{CancelAll}\ :\ [\mathsf{AsyncValue}]\ \times \ \mathsf{State}\ \to \ \mathsf{State}
+$$
 
 **(CancelAll)**
-```text
-∀ a ∈ asyncs. Cancel(a) ⇓ ()
-──────────────────
-CancelAll(asyncs, σ) ⇓ σ
-```
+
+$$
+\begin{array}{l}
+\forall \ a\ \in \ \mathsf{asyncs}.\ \operatorname{Cancel}(a)\ \Downarrow \ () \\
+\rule{18em}{0.4pt} \\
+\operatorname{CancelAll}(\mathsf{asyncs},\ \sigma )\ \Downarrow \ \sigma 
+\end{array}
+$$
 
 Streaming-race suspension state is:
 
-```text
-RaceStreamState = { race_state: RaceState, yielded_arm: Index }
-
-RaceResumeOrder(state, arms) = [state.yielded_arm] ++ [j | 1 ≤ j ≤ |arms| ∧ j ≠ state.yielded_arm ∧ ModalState(state.race_state.active[j]) ≠ @Completed]
-
-ResumeRaceArm(a, σ) ⇓ (a', σ') ⇔ ModalState(a) = @Suspended ∧ Γ ⊢ EvalSigma(Resume(a, ()), σ) ⇓ (Val(a'), σ')
-ResumeRaceArm(a, σ) ⇓ (a, σ)  ⇔ ModalState(a) = @Completed
-```
+$$
+\begin{array}{l}
+\mathsf{RaceStreamState}\ =\ \{\ \mathsf{race}_{\mathsf{state}}:\ \mathsf{RaceState},\ \mathsf{yielded}_{\mathsf{arm}}:\ \mathsf{Index}\ \} \\
+\operatorname{RaceResumeOrder}(\mathsf{state},\ \mathsf{arms})\ =\ [\mathsf{state}.\mathsf{yielded}_{\mathsf{arm}}]\ \mathbin{++} \ [j\ \mid \ 1\ \le \ j\ \le \ \mid \mathsf{arms}\mid \ \land \ j\ \ne \ \mathsf{state}.\mathsf{yielded}_{\mathsf{arm}}\ \land \ \operatorname{ModalState}(\mathsf{state}.\mathsf{race}_{\mathsf{state}}.\mathsf{active}[j])\ \ne \ @\mathsf{Completed}] \\
+\operatorname{ResumeRaceArm}(a,\ \sigma )\ \Downarrow \ (a',\ \sigma ')\ \Leftrightarrow \ \operatorname{ModalState}(a)\ =\ @\mathsf{Suspended}\ \land \ \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(a,\ ()),\ \sigma )\ \Downarrow \ (\operatorname{Val}(a'),\ \sigma ') \\
+\operatorname{ResumeRaceArm}(a,\ \sigma )\ \Downarrow \ (a,\ \sigma )\ \Leftrightarrow \ \operatorname{ModalState}(a)\ =\ @\mathsf{Completed}
+\end{array}
+$$
 
 **(RaceStepStream-Yield)**
-```text
-∃ i. ModalState(race_state.active[i]) = @Suspended    a_i = race_state.active[i]    a_i.output = v
-arm_i = arms[i]    Γ ⊢ BindPattern(arm_i.pat, v) ⇓ Γ_1    Γ_1 ⊢ EvalSigma(arm_i.handler.expr, σ) ⇓ (Val(u), σ_1)
-stream_state = { race_state: race_state, yielded_arm: i }
-──────────────────
-Γ ⊢ RaceStepStream(race_state, arms, σ) ⇓ (Suspend(AsyncSuspended(u, stream_state)), σ_1)
-```
+
+$$
+\begin{array}{l}
+\exists \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Suspended}\quad a_{i}\ =\ \mathsf{race}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{output}\ =\ v \\
+\mathsf{arm}_{i}\ =\ \mathsf{arms}[i]\quad \Gamma \ \vdash \ \operatorname{BindPattern}(\mathsf{arm}_{i}.\mathsf{pat},\ v)\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} \ \vdash \ \operatorname{EvalSigma}(\mathsf{arm}_{i}.\mathsf{handler}.\mathsf{expr},\ \sigma )\ \Downarrow \ (\operatorname{Val}(u),\ \sigma_{1} ) \\
+\mathsf{stream}_{\mathsf{state}}\ =\ \{\ \mathsf{race}_{\mathsf{state}}:\ \mathsf{race}_{\mathsf{state}},\ \mathsf{yielded}_{\mathsf{arm}}:\ i\ \} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{RaceStepStream}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma )\ \Downarrow \ (\operatorname{Suspend}(\operatorname{AsyncSuspended}(u,\ \mathsf{stream}_{\mathsf{state}})),\ \sigma_{1} )
+\end{array}
+$$
 
 **(ResumeRaceState-Step)**
-```text
-order = [i] ++ rest    a_i = state.active[i]    ResumeRaceArm(a_i, σ) ⇓ (a_i', σ_1)
-state' = state[active[i] ↦ a_i']    Γ ⊢ ResumeRaceState(state', rest, σ_1) ⇓ (state'', σ_2)
-──────────────────
-Γ ⊢ ResumeRaceState(state, order, σ) ⇓ (state'', σ_2)
-```
+
+$$
+\begin{array}{l}
+\mathsf{order}\ =\ [i]\ \mathbin{++} \ \mathsf{rest}\quad a_{i}\ =\ \mathsf{state}.\mathsf{active}[i]\quad \operatorname{ResumeRaceArm}(a_{i},\ \sigma )\ \Downarrow \ (a_{i}',\ \sigma_{1} ) \\
+\mathsf{state}'\ =\ \mathsf{state}[\mathsf{active}[i]\ \mapsto \ a_{i}']\quad \Gamma \ \vdash \ \operatorname{ResumeRaceState}(\mathsf{state}',\ \mathsf{rest},\ \sigma_{1} )\ \Downarrow \ (\mathsf{state}'',\ \sigma_{2} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResumeRaceState}(\mathsf{state},\ \mathsf{order},\ \sigma )\ \Downarrow \ (\mathsf{state}'',\ \sigma_{2} )
+\end{array}
+$$
 
 **(ResumeRaceState-Done)**
-```text
-──────────────────
-Γ ⊢ ResumeRaceState(state, [], σ) ⇓ (state, σ)
-```
+
+$$
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResumeRaceState}(\mathsf{state},\ [],\ \sigma )\ \Downarrow \ (\mathsf{state},\ \sigma )
+\end{array}
+$$
 
 **(EvalSigma-Race-Stream-Resume)**
-```text
-async_state = AsyncSuspended(_, stream_state)    input = ()    order = RaceResumeOrder(stream_state, arms)
-Γ ⊢ ResumeRaceState(stream_state.race_state, order, σ) ⇓ (race_state', σ_1)
-Γ ⊢ RaceStepStream(race_state', arms, σ_1) ⇓ (out, σ_2)
-──────────────────
-Γ ⊢ EvalSigma(Resume(async_state, input), σ) ⇓ (out, σ_2)
-```
+
+$$
+\begin{array}{l}
+\mathsf{async}_{\mathsf{state}}\ =\ \operatorname{AsyncSuspended}(\_,\ \mathsf{stream}_{\mathsf{state}})\quad \mathsf{input}\ =\ ()\quad \mathsf{order}\ =\ \operatorname{RaceResumeOrder}(\mathsf{stream}_{\mathsf{state}},\ \mathsf{arms}) \\
+\Gamma \ \vdash \ \operatorname{ResumeRaceState}(\mathsf{stream}_{\mathsf{state}}.\mathsf{race}_{\mathsf{state}},\ \mathsf{order},\ \sigma )\ \Downarrow \ (\mathsf{race}_{\mathsf{state}}',\ \sigma_{1} ) \\
+\Gamma \ \vdash \ \operatorname{RaceStepStream}(\mathsf{race}_{\mathsf{state}}',\ \mathsf{arms},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(\mathsf{async}_{\mathsf{state}},\ \mathsf{input}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
+\end{array}
+$$
 
 On resumption of a streaming `race`, the previously yielded arm MUST resume first. Remaining live arms MUST then resume in arm declaration order. The first resumed arm to yield determines the next stream output. The first resumed arm to fail cancels the remaining live arms and determines the failure result.
 
@@ -1306,81 +1598,107 @@ On resumption of a streaming `race`, the previously yielded arm MUST resume firs
 
 Formal `all` rules:
 
-```text
-AllState = { active: [AsyncValue], results: [Option<Value>], failed: Option<Error> }
-InitAll : [Expr] × State → AllState × State
-```
+$$
+\begin{array}{l}
+\mathsf{AllState}\ =\ \{\ \mathsf{active}:\ [\mathsf{AsyncValue}],\ \mathsf{results}:\ [\mathsf{Option}<\mathsf{Value}>],\ \mathsf{failed}:\ \mathsf{Option}<\mathsf{Error}>\ \} \\
+\mathsf{InitAll}\ :\ [\mathsf{Expr}]\ \times \ \mathsf{State}\ \to \ \mathsf{AllState}\ \times \ \mathsf{State}
+\end{array}
+$$
 
 **(InitAll)**
-```text
-∀ i, Γ ⊢ EvalSigma(e_i, σ_i) ⇓ (Val(a_i), σ_{i+1})
-all_state = { active: [a_1, …, a_n], results: [⊥, …, ⊥], failed: ⊥ }
-──────────────────
-Γ ⊢ InitAll([e_1, …, e_n], σ_0) ⇓ (all_state, σ_n)
-```
 
-```text
-AllStep : AllState × State → AllState × State
-```
+$$
+\begin{array}{l}
+\forall \ i,\ \Gamma \ \vdash \ \operatorname{EvalSigma}(e_{i},\ \sigma_{i} )\ \Downarrow \ (\operatorname{Val}(a_{i}),\ \sigma \_\{i+1\}) \\
+\mathsf{all}_{\mathsf{state}}\ =\ \{\ \mathsf{active}:\ [a_{1},\ \ldots ,\ a_{n}],\ \mathsf{results}:\ [\bot ,\ \ldots ,\ \bot ],\ \mathsf{failed}:\ \bot \ \} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{InitAll}([e_{1},\ \ldots ,\ e_{n}],\ \sigma_{0} )\ \Downarrow \ (\mathsf{all}_{\mathsf{state}},\ \sigma_{n} )
+\end{array}
+$$
+
+$$
+\mathsf{AllStep}\ :\ \mathsf{AllState}\ \times \ \mathsf{State}\ \to \ \mathsf{AllState}\ \times \ \mathsf{State}
+$$
 
 **(AllStep-Complete)**
-```text
-∃ i. ModalState(all_state.active[i]) = @Completed    a_i = all_state.active[i]    a_i.value = v
-all_state' = all_state[results[i] ↦ v]
-──────────────────
-Γ ⊢ AllStep(all_state, σ) ⇓ (all_state', σ)
-```
+
+$$
+\begin{array}{l}
+\exists \ i.\ \operatorname{ModalState}(\mathsf{all}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Completed}\quad a_{i}\ =\ \mathsf{all}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{value}\ =\ v \\
+\mathsf{all}_{\mathsf{state}}'\ =\ \mathsf{all}_{\mathsf{state}}[\mathsf{results}[i]\ \mapsto \ v] \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AllStep}(\mathsf{all}_{\mathsf{state}},\ \sigma )\ \Downarrow \ (\mathsf{all}_{\mathsf{state}}',\ \sigma )
+\end{array}
+$$
 
 **(AllStep-Failed)**
-```text
-∃ i. ModalState(all_state.active[i]) = @Failed    a_i = all_state.active[i]    a_i.error = e    all_state.failed = ⊥
-remaining = { a_j | j ≠ i ∧ ModalState(a_j) ≠ @Completed }    CancelAll(remaining, σ) ⇓ σ_1
-all_state' = all_state[failed ↦ e]
-──────────────────
-Γ ⊢ AllStep(all_state, σ) ⇓ (all_state', σ_1)
-```
+
+$$
+\begin{array}{l}
+\exists \ i.\ \operatorname{ModalState}(\mathsf{all}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Failed}\quad a_{i}\ =\ \mathsf{all}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{error}\ =\ e\quad \mathsf{all}_{\mathsf{state}}.\mathsf{failed}\ =\ \bot  \\
+\mathsf{remaining}\ =\ \{\ a_{j}\ \mid \ j\ \ne \ i\ \land \ \operatorname{ModalState}(a_{j})\ \ne \ @\mathsf{Completed}\ \}\quad \operatorname{CancelAll}(\mathsf{remaining},\ \sigma )\ \Downarrow \ \sigma_{1}  \\
+\mathsf{all}_{\mathsf{state}}'\ =\ \mathsf{all}_{\mathsf{state}}[\mathsf{failed}\ \mapsto \ e] \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AllStep}(\mathsf{all}_{\mathsf{state}},\ \sigma )\ \Downarrow \ (\mathsf{all}_{\mathsf{state}}',\ \sigma_{1} )
+\end{array}
+$$
 
 **(AllStep-Resume)**
-```text
-∀ i. ModalState(all_state.active[i]) ≠ @Failed    ∃ j. all_state.results[j] = ⊥ ∧ ModalState(all_state.active[j]) = @Suspended
-SelectReady(all_state.active) = (j, a_j)    Γ ⊢ EvalSigma(Resume(a_j, ()), σ) ⇓ (Val(a_j'), σ_1)
-all_state' = all_state[active[j] ↦ a_j']
-──────────────────
-Γ ⊢ AllStep(all_state, σ) ⇓ (all_state', σ_1)
-```
 
-```text
-AllLoop : AllState × State → EvalOut × State
-```
+$$
+\begin{array}{l}
+\forall \ i.\ \operatorname{ModalState}(\mathsf{all}_{\mathsf{state}}.\mathsf{active}[i])\ \ne \ @\mathsf{Failed}\quad \exists \ j.\ \mathsf{all}_{\mathsf{state}}.\mathsf{results}[j]\ =\ \bot \ \land \ \operatorname{ModalState}(\mathsf{all}_{\mathsf{state}}.\mathsf{active}[j])\ =\ @\mathsf{Suspended} \\
+\operatorname{SelectReady}(\mathsf{all}_{\mathsf{state}}.\mathsf{active})\ =\ (j,\ a_{j})\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(a_{j},\ ()),\ \sigma )\ \Downarrow \ (\operatorname{Val}(a_{j}'),\ \sigma_{1} ) \\
+\mathsf{all}_{\mathsf{state}}'\ =\ \mathsf{all}_{\mathsf{state}}[\mathsf{active}[j]\ \mapsto \ a_{j}'] \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AllStep}(\mathsf{all}_{\mathsf{state}},\ \sigma )\ \Downarrow \ (\mathsf{all}_{\mathsf{state}}',\ \sigma_{1} )
+\end{array}
+$$
+
+$$
+\mathsf{AllLoop}\ :\ \mathsf{AllState}\ \times \ \mathsf{State}\ \to \ \mathsf{EvalOut}\ \times \ \mathsf{State}
+$$
 
 **(AllLoop-AllCompleted)**
-```text
-∀ i. all_state.results[i] ≠ ⊥    all_state.failed = ⊥    tuple = (all_state.results[1], …, all_state.results[n])
-──────────────────
-Γ ⊢ AllLoop(all_state, σ) ⇓ (Val(tuple), σ)
-```
+
+$$
+\begin{array}{l}
+\forall \ i.\ \mathsf{all}_{\mathsf{state}}.\mathsf{results}[i]\ \ne \ \bot \quad \mathsf{all}_{\mathsf{state}}.\mathsf{failed}\ =\ \bot \quad \mathsf{tuple}\ =\ (\mathsf{all}_{\mathsf{state}}.\mathsf{results}[1],\ \ldots ,\ \mathsf{all}_{\mathsf{state}}.\mathsf{results}[n]) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AllLoop}(\mathsf{all}_{\mathsf{state}},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{tuple}),\ \sigma )
+\end{array}
+$$
 
 **(AllLoop-Failed)**
-```text
-all_state.failed = e    e ≠ ⊥
-──────────────────
-Γ ⊢ AllLoop(all_state, σ) ⇓ (Val(e), σ)
-```
+
+$$
+\begin{array}{l}
+\mathsf{all}_{\mathsf{state}}.\mathsf{failed}\ =\ e\quad e\ \ne \ \bot  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AllLoop}(\mathsf{all}_{\mathsf{state}},\ \sigma )\ \Downarrow \ (\operatorname{Val}(e),\ \sigma )
+\end{array}
+$$
 
 **(AllLoop-Continue)**
-```text
-∃ i. all_state.results[i] = ⊥    all_state.failed = ⊥    Γ ⊢ AllStep(all_state, σ) ⇓ (all_state', σ_1)
-Γ ⊢ AllLoop(all_state', σ_1) ⇓ (out, σ_2)
-──────────────────
-Γ ⊢ AllLoop(all_state, σ) ⇓ (out, σ_2)
-```
+
+$$
+\begin{array}{l}
+\exists \ i.\ \mathsf{all}_{\mathsf{state}}.\mathsf{results}[i]\ =\ \bot \quad \mathsf{all}_{\mathsf{state}}.\mathsf{failed}\ =\ \bot \quad \Gamma \ \vdash \ \operatorname{AllStep}(\mathsf{all}_{\mathsf{state}},\ \sigma )\ \Downarrow \ (\mathsf{all}_{\mathsf{state}}',\ \sigma_{1} ) \\
+\Gamma \ \vdash \ \operatorname{AllLoop}(\mathsf{all}_{\mathsf{state}}',\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AllLoop}(\mathsf{all}_{\mathsf{state}},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
+\end{array}
+$$
 
 **(EvalSigma-All)**
-```text
-Γ ⊢ InitAll(exprs, σ) ⇓ (all_state, σ_1)    Γ ⊢ AllLoop(all_state, σ_1) ⇓ (out, σ_2)
-──────────────────
-Γ ⊢ EvalSigma(AllExpr(exprs), σ) ⇓ (out, σ_2)
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{InitAll}(\mathsf{exprs},\ \sigma )\ \Downarrow \ (\mathsf{all}_{\mathsf{state}},\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{AllLoop}(\mathsf{all}_{\mathsf{state}},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{AllExpr}(\mathsf{exprs}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
+\end{array}
+$$
 
 `until` evaluation is:
 
@@ -1390,189 +1708,260 @@ all_state.failed = e    e ≠ ⊥
 
 Async combinators create wrapper async values:
 
-```text
-MappedAsync = ⟨source, f⟩
-FilteredAsync = ⟨source, pred, state⟩    state ∈ {Pending, Done}
-TakeAsync = ⟨source, remaining⟩
-FoldAsync = ⟨source, acc, f⟩
-ChainAsync = ⟨source, f, state⟩    state ∈ {WaitingSource, WaitingChained(inner)}
-```
+$$
+\begin{array}{l}
+\mathsf{MappedAsync}\ =\ \langle \mathsf{source},\ f\rangle  \\
+\mathsf{FilteredAsync}\ =\ \langle \mathsf{source},\ \mathsf{pred},\ \mathsf{state}\rangle \quad \mathsf{state}\ \in \ \{\mathsf{Pending},\ \mathsf{Done}\} \\
+\mathsf{TakeAsync}\ =\ \langle \mathsf{source},\ \mathsf{remaining}\rangle  \\
+\mathsf{FoldAsync}\ =\ \langle \mathsf{source},\ \mathsf{acc},\ f\rangle  \\
+\mathsf{ChainAsync}\ =\ \langle \mathsf{source},\ f,\ \mathsf{state}\rangle \quad \mathsf{state}\ \in \ \{\mathsf{WaitingSource},\ \operatorname{WaitingChained}(\mathsf{inner})\}
+\end{array}
+$$
 
 Formal combinator rules:
 
 **(EvalSigma-Map-Create)**
-```text
-Γ ⊢ EvalSigma(a, σ) ⇓ (Val(src), σ')    Γ ⊢ EvalSigma(f, σ') ⇓ (Val(fn), σ'')
-──────────────────
-Γ ⊢ EvalSigma(a~>map(f), σ) ⇓ (Val(MappedAsync(src, fn)), σ'')
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(a,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{src}),\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(f,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{fn}),\ \sigma '') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(a\sim{}>\operatorname{map}(f),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{MappedAsync}(\mathsf{src},\ \mathsf{fn})),\ \sigma '')
+\end{array}
+$$
 
 **(EvalSigma-Map-Resume-Yield)**
-```text
-a = MappedAsync(src, f)    Γ ⊢ Resume(src, input, σ) ⇓ (@Suspended{output: v}, σ')    Γ ⊢ Apply(f, v, σ') ⇓ (Val(v'), σ'')
-──────────────────
-Γ ⊢ Resume(a, input, σ) ⇓ (@Suspended{output: v'}, σ'')
-```
+
+$$
+\begin{array}{l}
+a\ =\ \operatorname{MappedAsync}(\mathsf{src},\ f)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ \mathsf{input},\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{Apply}(f,\ v,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(v'),\ \sigma '') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Resume}(a,\ \mathsf{input},\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v'\},\ \sigma '')
+\end{array}
+$$
 
 **(EvalSigma-Map-Resume-Complete)**
-```text
-a = MappedAsync(src, f)    Γ ⊢ Resume(src, input, σ) ⇓ (@Completed{value: v}, σ')
-──────────────────
-Γ ⊢ Resume(a, input, σ) ⇓ (@Completed{value: v}, σ')
-```
+
+$$
+\begin{array}{l}
+a\ =\ \operatorname{MappedAsync}(\mathsf{src},\ f)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ \mathsf{input},\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ v\},\ \sigma ') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Resume}(a,\ \mathsf{input},\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ v\},\ \sigma ')
+\end{array}
+$$
 
 **(EvalSigma-Map-Resume-Failed)**
-```text
-a = MappedAsync(src, f)    Γ ⊢ Resume(src, input, σ) ⇓ (@Failed{error: e}, σ')
-──────────────────
-Γ ⊢ Resume(a, input, σ) ⇓ (@Failed{error: e}, σ')
-```
+
+$$
+\begin{array}{l}
+a\ =\ \operatorname{MappedAsync}(\mathsf{src},\ f)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ \mathsf{input},\ \sigma )\ \Downarrow \ (@\mathsf{Failed}\{\mathsf{error}:\ e\},\ \sigma ') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Resume}(a,\ \mathsf{input},\ \sigma )\ \Downarrow \ (@\mathsf{Failed}\{\mathsf{error}:\ e\},\ \sigma ')
+\end{array}
+$$
 
 **(EvalSigma-Filter-Create)**
-```text
-Γ ⊢ EvalSigma(a, σ) ⇓ (Val(src), σ')    Γ ⊢ EvalSigma(p, σ') ⇓ (Val(pred), σ'')
-──────────────────
-Γ ⊢ EvalSigma(a~>filter(p), σ) ⇓ (Val(FilteredAsync(src, pred, Pending)), σ'')
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(a,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{src}),\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(p,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{pred}),\ \sigma '') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(a\sim{}>\operatorname{filter}(p),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{FilteredAsync}(\mathsf{src},\ \mathsf{pred},\ \mathsf{Pending})),\ \sigma '')
+\end{array}
+$$
 
 **(EvalSigma-Filter-Resume-Pass)**
-```text
-a = FilteredAsync(src, pred, Pending)    Γ ⊢ Resume(src, (), σ) ⇓ (@Suspended{output: v}, σ')    Γ ⊢ Apply(pred, v, σ') ⇓ (Val(true), σ'')
-──────────────────
-Γ ⊢ Resume(a, (), σ) ⇓ (@Suspended{output: v}, σ'')
-```
+
+$$
+\begin{array}{l}
+a\ =\ \operatorname{FilteredAsync}(\mathsf{src},\ \mathsf{pred},\ \mathsf{Pending})\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{Apply}(\mathsf{pred},\ v,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma '') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma '')
+\end{array}
+$$
 
 **(EvalSigma-Filter-Resume-Skip)**
-```text
-a = FilteredAsync(src, pred, Pending)    Γ ⊢ Resume(src, (), σ) ⇓ (@Suspended{output: v}, σ')    Γ ⊢ Apply(pred, v, σ') ⇓ (Val(false), σ'')
-Γ ⊢ Resume(FilteredAsync(src, pred, Pending), (), σ'') ⇓ (out, σ''')
-──────────────────
-Γ ⊢ Resume(a, (), σ) ⇓ (out, σ''')
-```
+
+$$
+\begin{array}{l}
+a\ =\ \operatorname{FilteredAsync}(\mathsf{src},\ \mathsf{pred},\ \mathsf{Pending})\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{Apply}(\mathsf{pred},\ v,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{false}),\ \sigma '') \\
+\Gamma \ \vdash \ \operatorname{Resume}(\operatorname{FilteredAsync}(\mathsf{src},\ \mathsf{pred},\ \mathsf{Pending}),\ (),\ \sigma '')\ \Downarrow \ (\mathsf{out},\ \sigma ''') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ''')
+\end{array}
+$$
 
 **(EvalSigma-Filter-Resume-Complete)**
-```text
-a = FilteredAsync(src, pred, _)    Γ ⊢ Resume(src, (), σ) ⇓ (@Completed{value: v}, σ')
-──────────────────
-Γ ⊢ Resume(a, (), σ) ⇓ (@Completed{value: v}, σ')
-```
+
+$$
+\begin{array}{l}
+a\ =\ \operatorname{FilteredAsync}(\mathsf{src},\ \mathsf{pred},\ \_)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ v\},\ \sigma ') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ v\},\ \sigma ')
+\end{array}
+$$
 
 **(EvalSigma-Take-Create)**
-```text
-Γ ⊢ EvalSigma(a, σ) ⇓ (Val(src), σ')    Γ ⊢ EvalSigma(n, σ') ⇓ (Val(count), σ'')
-──────────────────
-Γ ⊢ EvalSigma(a~>take(n), σ) ⇓ (Val(TakeAsync(src, count)), σ'')
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(a,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{src}),\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(n,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{count}),\ \sigma '') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(a\sim{}>\operatorname{take}(n),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{TakeAsync}(\mathsf{src},\ \mathsf{count})),\ \sigma '')
+\end{array}
+$$
 
 **(EvalSigma-Take-Resume-Yield)**
-```text
-a = TakeAsync(src, n)    n > 0    Γ ⊢ Resume(src, (), σ) ⇓ (@Suspended{output: v}, σ')
-──────────────────
-Γ ⊢ Resume(a, (), σ) ⇓ (@Suspended{output: v}, σ')    ∧ a' = TakeAsync(src, n - 1)
-```
+
+$$
+\begin{array}{l}
+a\ =\ \operatorname{TakeAsync}(\mathsf{src},\ n)\quad n\ >\ 0\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma ') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma ')\quad \land \ a'\ =\ \operatorname{TakeAsync}(\mathsf{src},\ n\ -\ 1)
+\end{array}
+$$
 
 **(EvalSigma-Take-Resume-Done)**
-```text
-a = TakeAsync(src, 0)
-──────────────────
-Γ ⊢ Resume(a, (), σ) ⇓ (@Completed{value: ()}, σ)
-```
+
+$$
+\begin{array}{l}
+a\ =\ \operatorname{TakeAsync}(\mathsf{src},\ 0) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ ()\},\ \sigma )
+\end{array}
+$$
 
 **(EvalSigma-Take-Resume-Source-Complete)**
-```text
-a = TakeAsync(src, n)    Γ ⊢ Resume(src, (), σ) ⇓ (@Completed{value: v}, σ')
-──────────────────
-Γ ⊢ Resume(a, (), σ) ⇓ (@Completed{value: ()}, σ')
-```
+
+$$
+\begin{array}{l}
+a\ =\ \operatorname{TakeAsync}(\mathsf{src},\ n)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ v\},\ \sigma ') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ ()\},\ \sigma ')
+\end{array}
+$$
 
 **(EvalSigma-Fold-Create)**
-```text
-Γ ⊢ EvalSigma(a, σ) ⇓ (Val(src), σ')    Γ ⊢ EvalSigma(init, σ') ⇓ (Val(acc), σ'')    Γ ⊢ EvalSigma(f, σ'') ⇓ (Val(fn), σ''')
-──────────────────
-Γ ⊢ EvalSigma(a~>fold(init, f), σ) ⇓ (Val(FoldAsync(src, acc, fn)), σ''')
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(a,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{src}),\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{init},\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{acc}),\ \sigma '')\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(f,\ \sigma '')\ \Downarrow \ (\operatorname{Val}(\mathsf{fn}),\ \sigma ''') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(a\sim{}>\operatorname{fold}(\mathsf{init},\ f),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{FoldAsync}(\mathsf{src},\ \mathsf{acc},\ \mathsf{fn})),\ \sigma ''')
+\end{array}
+$$
 
 **(EvalSigma-Fold-Resume-Accumulate)**
-```text
-a = FoldAsync(src, acc, f)    Γ ⊢ Resume(src, (), σ) ⇓ (@Suspended{output: v}, σ')    Γ ⊢ Apply(f, (acc, v), σ') ⇓ (Val(acc'), σ'')
-──────────────────
-Γ ⊢ Resume(a, (), σ) ⇓ (@Suspended{output: ()}, σ'')    ∧ a' = FoldAsync(src, acc', f)
-```
+
+$$
+\begin{array}{l}
+a\ =\ \operatorname{FoldAsync}(\mathsf{src},\ \mathsf{acc},\ f)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{Apply}(f,\ (\mathsf{acc},\ v),\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{acc}'),\ \sigma '') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ ()\},\ \sigma '')\quad \land \ a'\ =\ \operatorname{FoldAsync}(\mathsf{src},\ \mathsf{acc}',\ f)
+\end{array}
+$$
 
 **(EvalSigma-Fold-Resume-Complete)**
-```text
-a = FoldAsync(src, acc, f)    Γ ⊢ Resume(src, (), σ) ⇓ (@Completed{value: _}, σ')
-──────────────────
-Γ ⊢ Resume(a, (), σ) ⇓ (@Completed{value: acc}, σ')
-```
+
+$$
+\begin{array}{l}
+a\ =\ \operatorname{FoldAsync}(\mathsf{src},\ \mathsf{acc},\ f)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ \_\},\ \sigma ') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ \mathsf{acc}\},\ \sigma ')
+\end{array}
+$$
 
 **(EvalSigma-Fold-Resume-Failed)**
-```text
-a = FoldAsync(src, acc, f)    Γ ⊢ Resume(src, (), σ) ⇓ (@Failed{error: e}, σ')
-──────────────────
-Γ ⊢ Resume(a, (), σ) ⇓ (@Failed{error: e}, σ')
-```
+
+$$
+\begin{array}{l}
+a\ =\ \operatorname{FoldAsync}(\mathsf{src},\ \mathsf{acc},\ f)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Failed}\{\mathsf{error}:\ e\},\ \sigma ') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Failed}\{\mathsf{error}:\ e\},\ \sigma ')
+\end{array}
+$$
 
 **(EvalSigma-Chain-Create)**
-```text
-Γ ⊢ EvalSigma(a, σ) ⇓ (Val(src), σ')    Γ ⊢ EvalSigma(f, σ') ⇓ (Val(fn), σ'')
-──────────────────
-Γ ⊢ EvalSigma(a~>chain(f), σ) ⇓ (Val(ChainAsync(src, fn, WaitingSource)), σ'')
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(a,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{src}),\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(f,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{fn}),\ \sigma '') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(a\sim{}>\operatorname{chain}(f),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{ChainAsync}(\mathsf{src},\ \mathsf{fn},\ \mathsf{WaitingSource})),\ \sigma '')
+\end{array}
+$$
 
 **(EvalSigma-Chain-Resume-Source-Complete)**
-```text
-a = ChainAsync(src, f, WaitingSource)    Γ ⊢ Resume(src, (), σ) ⇓ (@Completed{value: v}, σ')    Γ ⊢ Apply(f, v, σ') ⇓ (Val(inner), σ'')
-──────────────────
-Γ ⊢ Resume(a, (), σ) ⇓ (@Suspended{output: ()}, σ'')    ∧ a' = ChainAsync(src, f, WaitingChained(inner))
-```
+
+$$
+\begin{array}{l}
+a\ =\ \operatorname{ChainAsync}(\mathsf{src},\ f,\ \mathsf{WaitingSource})\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ v\},\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{Apply}(f,\ v,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{inner}),\ \sigma '') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ ()\},\ \sigma '')\quad \land \ a'\ =\ \operatorname{ChainAsync}(\mathsf{src},\ f,\ \operatorname{WaitingChained}(\mathsf{inner}))
+\end{array}
+$$
 
 **(EvalSigma-Chain-Resume-Chained)**
-```text
-a = ChainAsync(_, _, WaitingChained(inner))    Γ ⊢ Resume(inner, (), σ) ⇓ (out, σ')
-──────────────────
-Γ ⊢ Resume(a, (), σ) ⇓ (out, σ')
-```
+
+$$
+\begin{array}{l}
+a\ =\ \operatorname{ChainAsync}(\_,\ \_,\ \operatorname{WaitingChained}(\mathsf{inner}))\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{inner},\ (),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')
+\end{array}
+$$
 
 **(EvalSigma-Chain-Resume-Source-Failed)**
-```text
-a = ChainAsync(src, f, WaitingSource)    Γ ⊢ Resume(src, (), σ) ⇓ (@Failed{error: e}, σ')
-──────────────────
-Γ ⊢ Resume(a, (), σ) ⇓ (@Failed{error: e}, σ')
-```
 
-#### 21.3.6 Lowering
+$$
+\begin{array}{l}
+a\ =\ \operatorname{ChainAsync}(\mathsf{src},\ f,\ \mathsf{WaitingSource})\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Failed}\{\mathsf{error}:\ e\},\ \sigma ') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Failed}\{\mathsf{error}:\ e\},\ \sigma ')
+\end{array}
+$$
 
-```math
+### 21.3.6 Lowering
+
+$$
 \mathsf{AsyncComposeIR}\ =\ \{\mathsf{SyncLoopIR},\ \mathsf{RaceInitIR},\ \mathsf{RaceSelectIR},\ \mathsf{RaceResumeIR},\ \mathsf{AllInitIR},\ \mathsf{AllJoinIR},\ \mathsf{UntilWaiterIR},\ \mathsf{AsyncMapIR},\ \mathsf{AsyncFilterIR},\ \mathsf{AsyncTakeIR},\ \mathsf{AsyncFoldIR},\ \mathsf{AsyncChainIR}\}
-```
+$$
 
 **(Lower-Expr-Sync)**
-```text
-Γ ⊢ LowerExpr(e) ⇓ ⟨IR_e, v_e⟩
-──────────────────
-Γ ⊢ LowerExpr(SyncExpr(e)) ⇓ ⟨SeqIR(IR_e, SyncLoopIR(v_e)), SyncResult(v_e)⟩
-```
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v_{e}\rangle  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{SyncExpr}(e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{SyncLoopIR}(v_{e})),\ \operatorname{SyncResult}(v_{e})\rangle 
+\end{array}
+$$
 
 `SyncLoopIR(v)` MUST loop on the modal state of `v`, resuming `@Suspended` with input `()`, returning `@Completed.value`, and returning the union error value from `@Failed.error`.
 
 **(Lower-Expr-Race-Return)**
-```text
-RaceMode(arms) = `return`
-──────────────────
-Γ ⊢ LowerExpr(RaceExpr(arms)) ⇓ ⟨RaceInitIR(arms, `return`), RaceSelectIR(`return`)⟩
-```
+
+$$
+\begin{array}{l}
+\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{return} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{RaceExpr}(\mathsf{arms}))\ \Downarrow \ \langle \operatorname{RaceInitIR}(\mathsf{arms},\ \texttt{return}),\ \operatorname{RaceSelectIR}(\texttt{return})\rangle 
+\end{array}
+$$
 
 **(Lower-Expr-Race-Stream)**
-```text
-RaceMode(arms) = `yield`
-──────────────────
-Γ ⊢ LowerExpr(RaceExpr(arms)) ⇓ ⟨RaceInitIR(arms, `yield`), RaceSelectIR(`yield`)⟩
-```
 
-```math
+$$
+\begin{array}{l}
+\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{yield} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{RaceExpr}(\mathsf{arms}))\ \Downarrow \ \langle \operatorname{RaceInitIR}(\mathsf{arms},\ \texttt{yield}),\ \operatorname{RaceSelectIR}(\texttt{yield})\rangle 
+\end{array}
+$$
+
+$$
 \mathsf{For}\ \texttt{RaceInitIR(arms, mode)},\ \mathsf{lowering}\ \mathsf{MUST}:
-```
+$$
 1. evaluate all arm expressions left-to-right,
 2. store the live arm states in declaration order,
 3. for streaming mode, allocate race-stream suspension state containing the live arm vector and the yielded-arm index.
@@ -1580,42 +1969,48 @@ RaceMode(arms) = `yield`
 `RaceResumeIR` MUST lower streaming-race resumption according to **(EvalSigma-Race-Stream-Resume)**.
 
 **(Lower-Expr-All)**
-```text
-Γ ⊢ LowerExpr(AllExpr(exprs)) ⇓ ⟨AllInitIR(exprs), AllJoinIR(exprs)⟩
-```
+
+$$
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{AllExpr}(\mathsf{exprs}))\ \Downarrow \ \langle \operatorname{AllInitIR}(\mathsf{exprs}),\ \operatorname{AllJoinIR}(\mathsf{exprs})\rangle 
+$$
 
 `AllJoinIR` MUST preserve expression order in the result tuple and MUST cancel unfinished operands on the first failure.
 
 Async combinators lower to wrapper async state machines around their source operand:
 
 **(Lower-Async-Map)**
-```text
-Γ ⊢ LowerExpr(a~>map(f)) ⇓ ⟨AsyncMapIR(a, f), AsyncMapState(a, f)⟩
-```
+
+$$
+\Gamma \ \vdash \ \operatorname{LowerExpr}(a\sim{}>\operatorname{map}(f))\ \Downarrow \ \langle \operatorname{AsyncMapIR}(a,\ f),\ \operatorname{AsyncMapState}(a,\ f)\rangle 
+$$
 
 **(Lower-Async-Filter)**
-```text
-Γ ⊢ LowerExpr(a~>filter(p)) ⇓ ⟨AsyncFilterIR(a, p), AsyncFilterState(a, p)⟩
-```
+
+$$
+\Gamma \ \vdash \ \operatorname{LowerExpr}(a\sim{}>\operatorname{filter}(p))\ \Downarrow \ \langle \operatorname{AsyncFilterIR}(a,\ p),\ \operatorname{AsyncFilterState}(a,\ p)\rangle 
+$$
 
 **(Lower-Async-Take)**
-```text
-Γ ⊢ LowerExpr(a~>take(n)) ⇓ ⟨AsyncTakeIR(a, n), AsyncTakeState(a, n)⟩
-```
+
+$$
+\Gamma \ \vdash \ \operatorname{LowerExpr}(a\sim{}>\operatorname{take}(n))\ \Downarrow \ \langle \operatorname{AsyncTakeIR}(a,\ n),\ \operatorname{AsyncTakeState}(a,\ n)\rangle 
+$$
 
 **(Lower-Async-Fold)**
-```text
-Γ ⊢ LowerExpr(a~>fold(init, f)) ⇓ ⟨AsyncFoldIR(a, init, f), AsyncFoldState(a, init, f)⟩
-```
+
+$$
+\Gamma \ \vdash \ \operatorname{LowerExpr}(a\sim{}>\operatorname{fold}(\mathsf{init},\ f))\ \Downarrow \ \langle \operatorname{AsyncFoldIR}(a,\ \mathsf{init},\ f),\ \operatorname{AsyncFoldState}(a,\ \mathsf{init},\ f)\rangle 
+$$
 
 **(Lower-Async-Chain)**
-```text
-Γ ⊢ LowerExpr(a~>chain(f)) ⇓ ⟨AsyncChainIR(a, f), AsyncChainState(a, f)⟩
-```
+
+$$
+\Gamma \ \vdash \ \operatorname{LowerExpr}(a\sim{}>\operatorname{chain}(f))\ \Downarrow \ \langle \operatorname{AsyncChainIR}(a,\ f),\ \operatorname{AsyncChainState}(a,\ f)\rangle 
+$$
 
 Each wrapper lowering MUST delegate to the source async via `resume`, store its local wrapper state in the generated async frame, and preserve the dynamic semantics of §21.3.5 exactly.
 
-#### 21.3.7 Diagnostics
+### 21.3.7 Diagnostics
 
 | Code         | Severity | Detection    | Condition                                   |
 | ------------ | -------- | ------------ | ------------------------------------------- |
@@ -1632,41 +2027,40 @@ Each wrapper lowering MUST delegate to the source async via `resume`, store its 
 | `E-CON-0270` | Error    | Compile-time | `all` operand has `Out ≠ ()`                |
 | `E-CON-0271` | Error    | Compile-time | `all` operand has `In ≠ ()`                 |
 
-### 21.4 Async State Machine
+## 21.4 Async State Machine
 
-#### 21.4.1 Syntax
+### 21.4.1 Syntax
 
 This section introduces no additional surface syntax beyond ordinary procedure declarations, calls, and `resume` method calls on `Async@Suspended`.
 
-```math
+$$
 \mathsf{An}\ \mathsf{async}\ \mathsf{procedure}\ \mathsf{is}\ \mathsf{any}\ \mathsf{procedure}\ \mathsf{whose}\ \mathsf{declared}\ \mathsf{return}\ \mathsf{type}\ \texttt{R}\ \mathsf{satisfies}\ \texttt{AsyncSig(R) != bottom}.
-```
+$$
 
-#### 21.4.2 Parsing
+### 21.4.2 Parsing
 
 This section introduces no additional parser productions beyond ordinary procedure, call, and method-call parsing.
 
-#### 21.4.3 AST Representation / Form
+### 21.4.3 AST Representation / Form
 
 Async-state-machine analysis uses the following helper forms:
 
-```text
-SuspendExpr(e) ⇔ e = YieldExpr(_, _) ∨ e = YieldFromExpr(_, _)
-
-AsyncCreateExpr(Call(_, _)) ⇔ AsyncSig(ExprType(Call(_, _))) ≠ ⊥
-AsyncCreateExpr(MethodCall(_, _, _)) ⇔ AsyncSig(ExprType(MethodCall(_, _, _))) ≠ ⊥
-AsyncCreateExpr(RaceExpr(_)) ⇔ AsyncSig(ExprType(RaceExpr(_))) ≠ ⊥
-AsyncCreateExpr(_) ⇔ false
-
-AsyncCaptureArgs(Call(_, args)) = [e | ⟨_, e, _⟩ ∈ args]
-AsyncCaptureArgs(MethodCall(base, _, args)) = [base] ++ [e | ⟨_, e, _⟩ ∈ args]
-AsyncCaptureArgs(RaceExpr(arms)) = [e | ⟨e, _, _⟩ ∈ arms]
-AsyncCaptureArgs(_) = []
-
-ASYNC_LARGE_CAPTURE_THRESHOLD_BYTES = WIDEN_LARGE_PAYLOAD_THRESHOLD_BYTES
-AsyncCaptureSize(args) = Σ_{e ∈ args} sizeof(ExprType(e))
-AsyncCaptureWarnCond(e) ⇔ AsyncCreateExpr(e) ∧ AsyncCaptureSize(AsyncCaptureArgs(e)) > ASYNC_LARGE_CAPTURE_THRESHOLD_BYTES
-```
+$$
+\begin{array}{l}
+\operatorname{SuspendExpr}(e)\ \Leftrightarrow \ e\ =\ \operatorname{YieldExpr}(\_,\ \_)\ \lor \ e\ =\ \operatorname{YieldFromExpr}(\_,\ \_) \\
+\operatorname{AsyncCreateExpr}(\operatorname{Call}(\_,\ \_))\ \Leftrightarrow \ \operatorname{AsyncSig}(\operatorname{ExprType}(\operatorname{Call}(\_,\ \_)))\ \ne \ \bot  \\
+\operatorname{AsyncCreateExpr}(\operatorname{MethodCall}(\_,\ \_,\ \_))\ \Leftrightarrow \ \operatorname{AsyncSig}(\operatorname{ExprType}(\operatorname{MethodCall}(\_,\ \_,\ \_)))\ \ne \ \bot  \\
+\operatorname{AsyncCreateExpr}(\operatorname{RaceExpr}(\_))\ \Leftrightarrow \ \operatorname{AsyncSig}(\operatorname{ExprType}(\operatorname{RaceExpr}(\_)))\ \ne \ \bot  \\
+\operatorname{AsyncCreateExpr}(\_)\ \Leftrightarrow \ \mathsf{false} \\
+\operatorname{AsyncCaptureArgs}(\operatorname{Call}(\_,\ \mathsf{args}))\ =\ [e\ \mid \ \langle \_,\ e,\ \_\rangle \ \in \ \mathsf{args}] \\
+\operatorname{AsyncCaptureArgs}(\operatorname{MethodCall}(\mathsf{base},\ \_,\ \mathsf{args}))\ =\ [\mathsf{base}]\ \mathbin{++} \ [e\ \mid \ \langle \_,\ e,\ \_\rangle \ \in \ \mathsf{args}] \\
+\operatorname{AsyncCaptureArgs}(\operatorname{RaceExpr}(\mathsf{arms}))\ =\ [e\ \mid \ \langle e,\ \_,\ \_\rangle \ \in \ \mathsf{arms}] \\
+\operatorname{AsyncCaptureArgs}(\_)\ =\ [] \\
+\mathsf{ASYNC}_{\mathsf{LARGE}\_\mathsf{CAPTURE}\_\mathsf{THRESHOLD}\_\mathsf{BYTES}}\ =\ \mathsf{WIDEN}_{\mathsf{LARGE}\_\mathsf{PAYLOAD}\_\mathsf{THRESHOLD}\_\mathsf{BYTES}} \\
+\operatorname{AsyncCaptureSize}(\mathsf{args})\ =\ \Sigma \_\{e\ \in \ \mathsf{args}\}\ \operatorname{sizeof}(\operatorname{ExprType}(e)) \\
+\operatorname{AsyncCaptureWarnCond}(e)\ \Leftrightarrow \ \operatorname{AsyncCreateExpr}(e)\ \land \ \operatorname{AsyncCaptureSize}(\operatorname{AsyncCaptureArgs}(e))\ >\ \mathsf{ASYNC}_{\mathsf{LARGE}\_\mathsf{CAPTURE}\_\mathsf{THRESHOLD}\_\mathsf{BYTES}}
+\end{array}
+$$
 
 The async frame stores:
 
@@ -1674,54 +2068,69 @@ The async frame stores:
 - the current resumption point,
 - implementation fields required by the runtime.
 
-#### 21.4.4 Static Semantics
+### 21.4.4 Static Semantics
 
 A binding is live across suspension iff there exists a control-flow path from a suspension point to a use of the binding on which the binding is not redefined.
 
 Large capture warning and capture/escape provenance rules are:
 
 **(Warn-Async-LargeCapture)**
-```text
-AsyncCaptureWarnCond(e)
-──────────────────
-Γ ⊢ WarnAsyncCapture(e) ⇓ ok
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncCaptureWarnCond}(e) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{WarnAsyncCapture}(e)\ \Downarrow \ \mathsf{ok}
+\end{array}
+$$
 
 **(Warn-Async-LargeCapture-Ok)**
-```text
-¬ AsyncCaptureWarnCond(e)
-──────────────────
-Γ ⊢ WarnAsyncCapture(e) ⇓ ok
-```
+
+$$
+\begin{array}{l}
+\lnot \ \operatorname{AsyncCaptureWarnCond}(e) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{WarnAsyncCapture}(e)\ \Downarrow \ \mathsf{ok}
+\end{array}
+$$
 
 When **(Warn-Async-LargeCapture)** applies, emit the warning defined in §21.4.7.
 
 **(Async-Capture-Err)**
-```text
-AsyncCreateExpr(e)    AsyncCaptureArgs(e) = args    ∃ e_i ∈ args. Γ; Ω ⊢ e_i ⇓ π_i ∧ π_i < FrameProv(Γ, Ω)
-──────────────────
-Γ; Ω ⊢ e ⇑
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncCreateExpr}(e)\quad \operatorname{AsyncCaptureArgs}(e)\ =\ \mathsf{args}\quad \exists \ e_{i}\ \in \ \mathsf{args}.\ \Gamma ;\ \Omega \ \vdash \ e_{i}\ \Downarrow \ \pi_{i} \ \land \ \pi_{i} \ <\ \operatorname{FrameProv}(\Gamma ,\ \Omega ) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ \Omega \ \vdash \ e\ \Uparrow 
+\end{array}
+$$
 
 **(P-Async-Create)**
-```text
-AsyncCreateExpr(e)    AsyncCaptureArgs(e) = args    ∀ e_i ∈ args, Γ; Ω ⊢ e_i ⇓ π_i
-∀ e_i ∈ args, ¬(π_i < FrameProv(Γ, Ω))    Γ ⊢ WarnAsyncCapture(e) ⇓ ok
-──────────────────
-Γ; Ω ⊢ e ⇓ FrameProv(Γ, Ω)
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncCreateExpr}(e)\quad \operatorname{AsyncCaptureArgs}(e)\ =\ \mathsf{args}\quad \forall \ e_{i}\ \in \ \mathsf{args},\ \Gamma ;\ \Omega \ \vdash \ e_{i}\ \Downarrow \ \pi_{i}  \\
+\forall \ e_{i}\ \in \ \mathsf{args},\ \lnot (\pi_{i} \ <\ \operatorname{FrameProv}(\Gamma ,\ \Omega ))\quad \Gamma \ \vdash \ \operatorname{WarnAsyncCapture}(e)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ \Omega \ \vdash \ e\ \Downarrow \ \operatorname{FrameProv}(\Gamma ,\ \Omega )
+\end{array}
+$$
 
 **(Prov-Async-Escape-Err)**
-```text
-stmt ∈ {AssignStmt(p, e), CompoundAssignStmt(p, _, e)}    Γ; Ω ⊢ p ⇓ π_x    Γ; Ω ⊢ e ⇓ π_e
-π_e < π_x    AsyncSig(ExprType(e)) ≠ ⊥
-──────────────────
-Γ; Ω ⊢ stmt ⇑
-```
+
+$$
+\begin{array}{l}
+\mathsf{stmt}\ \in \ \{\operatorname{AssignStmt}(p,\ e),\ \operatorname{CompoundAssignStmt}(p,\ \_,\ e)\}\quad \Gamma ;\ \Omega \ \vdash \ p\ \Downarrow \ \pi_{x} \quad \Gamma ;\ \Omega \ \vdash \ e\ \Downarrow \ \pi_{e}  \\
+\pi_{e} \ <\ \pi_{x} \quad \operatorname{AsyncSig}(\operatorname{ExprType}(e))\ \ne \ \bot  \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ \Omega \ \vdash \ \mathsf{stmt}\ \Uparrow 
+\end{array}
+$$
 
 Typing of error propagation in async procedures is defined by the async propagate rules in Chapter 16.
 
-#### 21.4.5 Dynamic Semantics
+### 21.4.5 Dynamic Semantics
 
 Evaluation of a call to an async procedure:
 
@@ -1736,9 +2145,9 @@ Settlement rules are:
 - `return` produces `Async@Completed { value = v }`.
 - error propagation via `?` produces `Async@Failed { error = e }`.
 
-```math
+$$
 \mathsf{Evaluation}\ \mathsf{of}\ \texttt{a\~{}>resume(input)}\ \mathsf{for}\ \texttt{a : Async@Suspended}:
-```
+$$
 
 1. Resume execution at the stored resumption point with the yielded input value bound to the suspended `yield` expression.
 2. Run until the next suspension, completion, or failure, and return the resulting `Async` state.
@@ -1750,27 +2159,32 @@ When an async computation fails:
 3. Run `Drop` implementations for live bindings.
 4. Transition to `@Failed { error }`.
 
-#### 21.4.6 Lowering
+### 21.4.6 Lowering
 
-```math
+$$
 \begin{array}{l}
 \mathsf{AsyncStateMachineJudg}\ =\ \{\mathsf{LowerAsyncProc},\ \mathsf{LowerAsyncResume}\} \\
 \mathsf{AsyncProcIR}\ =\ \{\mathsf{AsyncFrameInitIR},\ \mathsf{AsyncResumeSwitchIR},\ \mathsf{AsyncSuspendStateIR},\ \mathsf{AsyncCompleteStateIR},\ \mathsf{AsyncFailStateIR}\}
 \end{array}
-```
+$$
 
-```text
-GenPoints(proc) = [g_0, …, g_n]    where the suspension expressions of proc are listed in source order
-FrameSlots(proc) = CaptureSet(proc) ∪ LiveAcrossSuspend(proc)
-```
+$$
+\begin{array}{l}
+\operatorname{GenPoints}(\mathsf{proc})\ =\ [g_{0},\ \ldots ,\ g_{n}]\quad \mathsf{where}\ \mathsf{the}\ \mathsf{suspension}\ \mathsf{expressions}\ \mathsf{of}\ \mathsf{proc}\ \mathsf{are}\ \mathsf{listed}\ \mathsf{in}\ \mathsf{source}\ \mathsf{order} \\
+\operatorname{FrameSlots}(\mathsf{proc})\ =\ \operatorname{CaptureSet}(\mathsf{proc})\ \cup \ \operatorname{LiveAcrossSuspend}(\mathsf{proc})
+\end{array}
+$$
 
 **(Lower-Async-Proc)**
-```text
-ProcedureDecl(_, _, name, _, _, params, ret_opt, _, body, _, _) = proc    AsyncSig(ProcReturn(ret_opt)) = sig
-slots = FrameSlots(proc)    gen_points = GenPoints(proc)
-──────────────────
-Γ ⊢ LowerAsyncProc(proc) ⇓ ProcIR(Mangle(proc), params, ProcReturn(ret_opt), AsyncFrameInitIR(name, sig, slots, gen_points))
-```
+
+$$
+\begin{array}{l}
+\operatorname{ProcedureDecl}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \mathsf{body},\ \_,\ \_)\ =\ \mathsf{proc}\quad \operatorname{AsyncSig}(\operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}}))\ =\ \mathsf{sig} \\
+\mathsf{slots}\ =\ \operatorname{FrameSlots}(\mathsf{proc})\quad \mathsf{gen}_{\mathsf{points}}\ =\ \operatorname{GenPoints}(\mathsf{proc}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerAsyncProc}(\mathsf{proc})\ \Downarrow \ \operatorname{ProcIR}(\operatorname{Mangle}(\mathsf{proc}),\ \mathsf{params},\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}}),\ \operatorname{AsyncFrameInitIR}(\mathsf{name},\ \mathsf{sig},\ \mathsf{slots},\ \mathsf{gen}_{\mathsf{points}}))
+\end{array}
+$$
 
 `AsyncFrameInitIR` MUST:
 1. evaluate arguments left-to-right,
@@ -1780,40 +2194,52 @@ slots = FrameSlots(proc)    gen_points = GenPoints(proc)
 5. enter `AsyncResumeSwitchIR`.
 
 **(Lower-Async-Resume)**
-```text
-AsyncSig(ExprType(a)) = sig    CurrentAsyncFrame(Γ) = f    CurrentProcedure(Γ) = proc
-──────────────────
-Γ ⊢ LowerAsyncResume(a) ⇓ AsyncResumeSwitchIR(f, GenPoints(proc))
-```
+
+$$
+\begin{array}{l}
+\operatorname{AsyncSig}(\operatorname{ExprType}(a))\ =\ \mathsf{sig}\quad \operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f\quad \operatorname{CurrentProcedure}(\Gamma )\ =\ \mathsf{proc} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerAsyncResume}(a)\ \Downarrow \ \operatorname{AsyncResumeSwitchIR}(f,\ \operatorname{GenPoints}(\mathsf{proc}))
+\end{array}
+$$
 
 `AsyncResumeSwitchIR` MUST dispatch on the stored `gen_point` and continue execution at the corresponding resumption label.
 
 **(Lower-Async-Suspend)**
-```text
-CurrentAsyncFrame(Γ) = f    CurrentGenPoint(Γ) = g
-──────────────────
-Suspend(async_state) lowers through AsyncSuspendStateIR(f, g)
-```
+
+$$
+\begin{array}{l}
+\operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f\quad \operatorname{CurrentGenPoint}(\Gamma )\ =\ g \\
+\rule{18em}{0.4pt} \\
+\operatorname{Suspend}(\mathsf{async}_{\mathsf{state}})\ \mathsf{lowers}\ \mathsf{through}\ \operatorname{AsyncSuspendStateIR}(f,\ g)
+\end{array}
+$$
 
 **(Lower-Async-Complete)**
-```text
-CurrentAsyncFrame(Γ) = f
-──────────────────
-Return from an async procedure lowers through AsyncCompleteStateIR(f)
-```
+
+$$
+\begin{array}{l}
+\operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f \\
+\rule{18em}{0.4pt} \\
+\mathsf{Return}\ \mathsf{from}\ \mathsf{an}\ \mathsf{async}\ \mathsf{procedure}\ \mathsf{lowers}\ \mathsf{through}\ \operatorname{AsyncCompleteStateIR}(f)
+\end{array}
+$$
 
 **(Lower-Async-Fail)**
-```text
-CurrentAsyncFrame(Γ) = f
-──────────────────
-Async failure lowers through AsyncFailStateIR(f)
-```
 
-```math
+$$
+\begin{array}{l}
+\operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f \\
+\rule{18em}{0.4pt} \\
+\mathsf{Async}\ \mathsf{failure}\ \mathsf{lowers}\ \mathsf{through}\ \operatorname{AsyncFailStateIR}(f)
+\end{array}
+$$
+
+$$
 \texttt{AsyncFailStateIR(f)}\ \mathsf{MUST}\ \mathsf{execute}\ \texttt{defer}\ \mathsf{blocks}\ \mathsf{and}\ \mathsf{drop}\ \mathsf{live}\ \mathsf{frame}\ \mathsf{slots}\ \mathsf{in}\ \mathsf{reverse}\ \mathsf{cleanup}\ \mathsf{order}\ \mathsf{before}\ \mathsf{materializing}\ \texttt{@Failed \{ error \}}.\ \mathsf{If}\ \texttt{AsyncSig(ProcReturn(ret\_opt)).4 = TypePrim("!")},\ \texttt{AsyncFailStateIR(f)}\ \mathsf{is}\ \mathsf{unreachable}\ \mathsf{and}\ \mathsf{MUST}\ \mathsf{NOT}\ \mathsf{be}\ \mathsf{emitted}.
-```
+$$
 
-#### 21.4.7 Diagnostics
+### 21.4.7 Diagnostics
 
 | Code         | Severity | Detection    | Condition                               |
 | ------------ | -------- | ------------ | --------------------------------------- |
@@ -1821,17 +2247,17 @@ Async failure lowers through AsyncFailStateIR(f)
 | `E-CON-0280` | Error    | Compile-time | Captured binding does not outlive async |
 | `E-CON-0281` | Error    | Compile-time | Async operation escapes its region      |
 
-### 21.5 Async-Key Integration
+## 21.5 Async-Key Integration
 
-#### 21.5.1 Syntax
+### 21.5.1 Syntax
 
 This section introduces no additional surface syntax beyond `wait`, `yield`, `yield from`, `yield release`, closures, and the key forms defined in Chapter 19.
 
-#### 21.5.2 Parsing
+### 21.5.2 Parsing
 
 This section introduces no additional parser productions.
 
-#### 21.5.3 AST Representation / Form
+### 21.5.3 AST Representation / Form
 
 Async-key integration is defined over existing forms:
 
@@ -1842,7 +2268,7 @@ Async-key integration is defined over existing forms:
 
 This section introduces no additional AST node variants.
 
-#### 21.5.4 Static Semantics
+### 21.5.4 Static Semantics
 
 Async key restrictions are:
 
@@ -1853,12 +2279,15 @@ Async key restrictions are:
 Shared-capturing closures that contain `yield` are additionally constrained:
 
 **(A-Closure-Yield-Keys-Err)**
-```text
-C = ClosureExpr(params, ret_type_opt, body)    YieldExpr(_, _) ∈ body    SharedCaptures(C) ≠ ∅
-YieldExpr(⊥, _) at program point p within body    Γ_keys(p) ≠ ∅
-──────────────────
-Γ ⊢ C ⇑
-```
+
+$$
+\begin{array}{l}
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{YieldExpr}(\_,\ \_)\ \in \ \mathsf{body}\quad \operatorname{SharedCaptures}(C)\ \ne \ \emptyset  \\
+\operatorname{YieldExpr}(\bot ,\ \_)\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\ \mathsf{within}\ \mathsf{body}\quad \Gamma_{\mathsf{keys}} (p)\ \ne \ \emptyset  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ C\ \Uparrow 
+\end{array}
+$$
 
 A closure that captures `shared` bindings and contains `yield` expressions MUST NOT hold keys across the yield point unless the `release` modifier is present.
 
@@ -1873,7 +2302,7 @@ Async capability requirements are:
 | Timing        | `System`                                    |
 | Async runtime | `Reactor`                                   |
 
-#### 21.5.5 Dynamic Semantics
+### 21.5.5 Dynamic Semantics
 
 At suspension, the task releases access rights. Other tasks MAY acquire keys to the same paths during the suspension period.
 
@@ -1881,43 +2310,55 @@ For `yield release`, key release and reacquisition are defined by §21.2.5.
 
 Async failure handling is defined by §21.4.5.
 
-#### 21.5.6 Lowering
+### 21.5.6 Lowering
 
-```math
+$$
 \mathsf{AsyncKeyIR}\ =\ \{\mathsf{SnapshotHeldKeysIR},\ \mathsf{ReleaseHeldKeysIR},\ \mathsf{ReacquireHeldKeysIR},\ \mathsf{StaleValueMarkIR}\}
-```
+$$
 
 **(Lower-Wait-Key-Illegal)**
-```text
-WaitExpr(h) occurs at program point p    Γ_keys(p) ≠ ∅
-──────────────────
-Γ ⊢ LowerExpr(WaitExpr(h)) ⇑
-```
+
+$$
+\begin{array}{l}
+\operatorname{WaitExpr}(h)\ \mathsf{occurs}\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\quad \Gamma_{\mathsf{keys}} (p)\ \ne \ \emptyset  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{WaitExpr}(h))\ \Uparrow 
+\end{array}
+$$
 
 **(Lower-Yield-Release-Keys)**
-```text
-YieldExpr(Release, e) at program point p    Γ_keys(p) = keys    keys ≠ ∅
-──────────────────
-Lowering MUST emit SnapshotHeldKeysIR(CurrentAsyncFrame(Γ)), then ReleaseHeldKeysIR(CurrentAsyncFrame(Γ)), then the ordinary yield lowering, and MUST prepend ReacquireHeldKeysIR(CurrentAsyncFrame(Γ)) to the resumption target.
-```
+
+$$
+\begin{array}{l}
+\operatorname{YieldExpr}(\mathsf{Release},\ e)\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\quad \Gamma_{\mathsf{keys}} (p)\ =\ \mathsf{keys}\quad \mathsf{keys}\ \ne \ \emptyset  \\
+\rule{18em}{0.4pt} \\
+\mathsf{Lowering}\ \mathsf{MUST}\ \mathsf{emit}\ \operatorname{SnapshotHeldKeysIR}(\operatorname{CurrentAsyncFrame}(\Gamma )),\ \mathsf{then}\ \operatorname{ReleaseHeldKeysIR}(\operatorname{CurrentAsyncFrame}(\Gamma )),\ \mathsf{then}\ \mathsf{the}\ \mathsf{ordinary}\ \mathsf{yield}\ \mathsf{lowering},\ \mathsf{and}\ \mathsf{MUST}\ \mathsf{prepend}\ \operatorname{ReacquireHeldKeysIR}(\operatorname{CurrentAsyncFrame}(\Gamma ))\ \mathsf{to}\ \mathsf{the}\ \mathsf{resumption}\ \mathsf{target}.
+\end{array}
+$$
 
 **(Lower-YieldFrom-Release-Keys)**
-```text
-YieldFromExpr(Release, e) at program point p    Γ_keys(p) = keys    keys ≠ ∅
-──────────────────
-Lowering MUST use the same key snapshot, release, and reacquisition sequence as **(Lower-Yield-Release-Keys)** around the delegated async state machine.
-```
+
+$$
+\begin{array}{l}
+\operatorname{YieldFromExpr}(\mathsf{Release},\ e)\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\quad \Gamma_{\mathsf{keys}} (p)\ =\ \mathsf{keys}\quad \mathsf{keys}\ \ne \ \emptyset  \\
+\rule{18em}{0.4pt} \\
+\mathsf{Lowering}\ \mathsf{MUST}\ \mathsf{use}\ \mathsf{the}\ \mathsf{same}\ \mathsf{key}\ \mathsf{snapshot},\ \mathsf{release},\ \mathsf{and}\ \mathsf{reacquisition}\ \mathsf{sequence}\ \mathsf{as}\ **(\mathsf{Lower}-\mathsf{Yield}-\mathsf{Release}-\mathsf{Keys})**\ \mathsf{around}\ \mathsf{the}\ \mathsf{delegated}\ \mathsf{async}\ \mathsf{state}\ \mathsf{machine}.
+\end{array}
+$$
 
 **(Lower-Closure-Yield-Shared)**
-```text
-C = ClosureExpr(params, ret_type_opt, body)    SharedCaptures(C) ≠ ∅    YieldExpr(Release, _) ∈ body ∨ YieldFromExpr(Release, _) ∈ body
-──────────────────
-Lowering MUST attach the captured-key snapshot to the generated closure async frame and MUST emit StaleValueMarkIR for bindings derived from shared captures across the suspension boundary.
-```
+
+$$
+\begin{array}{l}
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{SharedCaptures}(C)\ \ne \ \emptyset \quad \operatorname{YieldExpr}(\mathsf{Release},\ \_)\ \in \ \mathsf{body}\ \lor \ \operatorname{YieldFromExpr}(\mathsf{Release},\ \_)\ \in \ \mathsf{body} \\
+\rule{18em}{0.4pt} \\
+\mathsf{Lowering}\ \mathsf{MUST}\ \mathsf{attach}\ \mathsf{the}\ \mathsf{captured}-\mathsf{key}\ \mathsf{snapshot}\ \mathsf{to}\ \mathsf{the}\ \mathsf{generated}\ \mathsf{closure}\ \mathsf{async}\ \mathsf{frame}\ \mathsf{and}\ \mathsf{MUST}\ \mathsf{emit}\ \mathsf{StaleValueMarkIR}\ \mathsf{for}\ \mathsf{bindings}\ \mathsf{derived}\ \mathsf{from}\ \mathsf{shared}\ \mathsf{captures}\ \mathsf{across}\ \mathsf{the}\ \mathsf{suspension}\ \mathsf{boundary}.
+\end{array}
+$$
 
 Bindings marked by `StaleValueMarkIR` remain usable but MUST continue to trigger the Chapter 19 staleness warning unless suppressed by `[[stale_ok]]`.
 
-#### 21.5.7 Diagnostics
+### 21.5.7 Diagnostics
 
 | Code         | Severity | Detection    | Condition                                          |
 | ------------ | -------- | ------------ | -------------------------------------------------- |
@@ -1925,7 +2366,7 @@ Bindings marked by `StaleValueMarkIR` remain usable but MUST continue to trigger
 | `E-CON-0213` | Error    | Compile-time | `yield` while key is held (without `release`)      |
 | `E-CON-0224` | Error    | Compile-time | `yield from` while key is held (without `release`) |
 
-### 21.6 Async Diagnostics Supplement
+## 21.6 Async Diagnostics Supplement
 
 This section owns async diagnostics not covered by the syntax-local tables in §§21.1 through 21.5.
 

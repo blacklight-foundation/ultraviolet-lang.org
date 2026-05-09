@@ -3,7 +3,7 @@ title: "Complete Grammar Reference"
 description: "Appendix B. Complete Grammar Reference of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T18:13:03.158Z"
+generatedAt: "2026-05-09T19:35:24.518Z"
 generated: true
 ---
 
@@ -12,11 +12,10 @@ generated: true
   <span>SHA-256: <code>1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e</code></span>
 </div>
 
-## Appendix B. Complete Grammar Reference
 
 This appendix consolidates canonical grammar productions into one parser-oriented reference.
 
-### B.1 Lexical Grammar
+## B.1 Lexical Grammar
 
 ```text
 source_file     ::= normalized_line*
@@ -55,7 +54,7 @@ null_literal ::= "null"
 unit_literal ::= "(" ")"
 ```
 
-### B.2 Type Grammar
+## B.2 Type Grammar
 
 ```text
 type                ::= permission? non_permission_type refinement_clause?
@@ -126,7 +125,7 @@ state_specific_type ::= modal_type_name "@" state_name
 state_name          ::= identifier
 ```
 
-### B.3 Expression Grammar
+## B.3 Expression Grammar
 
 ```text
 expression         ::= attributed_expr | unattributed_expr
@@ -216,7 +215,7 @@ null_ptr_expr    ::= "Ptr" "::" "null" "()"
 transmute_expr   ::= "transmute" "<" type "," type ">" "(" expression ")"
 ```
 
-### B.4 Pattern Grammar
+## B.4 Pattern Grammar
 
 ```text
 pattern                ::= literal_pattern | wildcard_pattern | identifier_pattern | tuple_pattern | record_pattern | enum_pattern | modal_pattern | range_pattern
@@ -235,7 +234,7 @@ modal_pattern          ::= "@" identifier ("{" field_pattern_list? "}")?
 range_pattern          ::= pattern (".." | "..=") pattern
 ```
 
-### B.5 Statement Grammar
+## B.5 Statement Grammar
 
 ```text
 statement ::= binding_stmt | using_local_stmt | assignment_stmt | compound_assign | expr_stmt | return_stmt | break_stmt | continue_stmt | defer_stmt | region_stmt | frame_stmt | unsafe_block | key_block_stmt | comptime_stmt
@@ -261,7 +260,7 @@ defer_stmt   ::= "defer" block_expr
 unsafe_block ::= "unsafe" block_expr
 ```
 
-### B.6 Declaration Grammar
+## B.6 Declaration Grammar
 
 ```text
 top_level_item ::= import_decl | using_decl | static_decl | procedure_decl | comptime_procedure_decl | record_decl | enum_decl | modal_decl | class_declaration | type_alias_decl | extern_block | derive_target_decl
@@ -334,7 +333,7 @@ extern_item       ::= foreign_procedure
 foreign_procedure ::= attribute_list? visibility? "procedure" identifier generic_params? signature predicate_clause? contract_clause? foreign_contract_clause_list? terminator
 ```
 
-### B.7 Contract Grammar
+## B.7 Contract Grammar
 
 ```text
 contract_clause    ::= "|:" contract_body
@@ -350,7 +349,7 @@ type_invariant ::= "where" "{" predicate_expr "}"
 loop_invariant ::= "where" "{" predicate_expr "}"
 ```
 
-### B.8 Attribute Grammar
+## B.8 Attribute Grammar
 
 ```text
 attribute_list ::= attribute+
@@ -395,7 +394,7 @@ derive_attribute              ::= "[[" "derive" "(" derive_target_list ")" "]]"
 derive_target_list            ::= identifier ("," identifier)*
 ```
 
-### B.9 Key System Grammar
+## B.9 Key System Grammar
 
 ```text
 key_path_expr   ::= root_segment ("." path_segment)*
@@ -414,7 +413,7 @@ speculative_block ::= "#" path_list "speculative" "write" block_expr
 coarsened_path    ::= path_segment* "#" path_segment+
 ```
 
-### B.10 Concurrency Grammar
+## B.10 Concurrency Grammar
 
 ```text
 parallel_block ::= "parallel" domain_expr block_options? block_expr
@@ -437,7 +436,7 @@ memory_order_attribute ::= "[[" memory_order "]]"
 memory_order           ::= "relaxed" | "acquire" | "release" | "acqrel" | "seqcst"
 ```
 
-### B.11 Async Grammar
+## B.11 Async Grammar
 
 ```text
 async_class  ::= "class" "Async" "<" type_param (";" type_param)* ">"
@@ -455,7 +454,7 @@ race_handler ::= expression | "yield" expression
 all_expr   ::= "all" "{" expression ("," expression)* ","? "}"
 ```
 
-### B.12 Metaprogramming Grammar
+## B.12 Metaprogramming Grammar
 
 ```text
 comptime_stmt           ::= attribute_list? "comptime" block_expr
@@ -477,7 +476,7 @@ derive_contract_opt ::= "|:" derive_clause ("," derive_clause)*
 derive_clause       ::= "emits" identifier | "requires" identifier
 ```
 
-### B.13 FFI Grammar
+## B.13 FFI Grammar
 
 ```text
 extern_block                 ::= attribute_list? visibility? "extern" abi_string? "{" extern_item* "}"
@@ -492,7 +491,7 @@ foreign_contract             ::= "|:" "@foreign_assumes" "(" predicate_expr ")"
 ensures_predicate            ::= predicate_expr | "@error" ":" predicate_expr | "@null_result" ":" predicate_expr
 foreign_contract_clause_list ::= foreign_contract+
 ```
-### B.14 Region Grammar
+## B.14 Region Grammar
 
 ```text
 region_stmt  ::= "region" region_opts? region_alias? block_expr

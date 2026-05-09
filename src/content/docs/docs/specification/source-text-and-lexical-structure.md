@@ -3,7 +3,7 @@ title: "Source Text and Lexical Structure"
 description: "4. Source Text and Lexical Structure of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T18:13:03.158Z"
+generatedAt: "2026-05-09T19:35:24.518Z"
 generated: true
 ---
 
@@ -12,37 +12,36 @@ generated: true
   <span>SHA-256: <code>1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e</code></span>
 </div>
 
-## 4. Source Text and Lexical Structure
 
-### 4.1 Source Loading and Normalization
+## 4.1 Source Loading and Normalization
 
 **Source File Record.**
 
-```math
+$$
 \mathsf{SourceFile}\ =\ \langle \mathsf{path},\ \mathsf{bytes},\ \mathsf{scalars},\ \mathsf{text},\ \mathsf{byte}_{\mathsf{len}},\ \mathsf{line}_{\mathsf{starts}},\ \mathsf{line}_{\mathsf{count}}\rangle 
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 S.\mathsf{text}\ =\ \operatorname{EncodeUTF8}(S.\mathsf{scalars}) \\
 S.\mathsf{byte}_{\mathsf{len}}\ =\ \operatorname{ByteLen}(S.\mathsf{text}) \\
 S.\mathsf{line}_{\mathsf{count}}\ =\ \mid S.\mathsf{line}_{\mathsf{starts}}\mid 
 \end{array}
-```
+$$
 
 **Unicode Scalars and UTF-8.**
 
-```math
+$$
 \begin{array}{l}
 \mathsf{Byte}\ =\ \{\ n\ \in \ \mathbb{N} \ \mid \ 0\ \le \ n\ \le \ 255\ \} \\
 \mathsf{Bytes}\ =\ [\mathsf{Byte}] \\
 \mathsf{UnicodeScalar}\ =\ \{\ u\ \in \ \mathbb{N} \ \mid \ 0\ \le \ u\ \le \ 0\mathsf{x10FFFF}\ \land \ u\ \notin \ [0\mathsf{xD800},\ 0\mathsf{xDFFF}]\ \} \\
 \mathsf{Scalars}\ =\ [\mathsf{UnicodeScalar}]
 \end{array}
-```
+$$
 String = Scalars
 
-```math
+$$
 \begin{array}{l}
 \operatorname{Utf8Len}(u)\ = \\
 \ 1\ \mathsf{if}\ 0\ \le \ u\ \le \ 0\mathsf{x7F} \\
@@ -60,238 +59,238 @@ String = Scalars
 \operatorname{Utf8Valid}(B)\ \Leftrightarrow \ \exists \ U.\ \operatorname{DecodeUTF8}(B)\ =\ U \\
 \operatorname{Utf8}(s)\ =\ \operatorname{EncodeUTF8}(s)
 \end{array}
-```
+$$
 
-#### 4.1.1 Unicode Normalization Outside Identifiers
+### 4.1.1 Unicode Normalization Outside Identifiers
 
-```math
+$$
 \begin{array}{l}
 \mathsf{NormalizeOutsideIdentifiers}\ :\ \mathsf{Scalars}\ \to \ \mathsf{Scalars} \\
 \operatorname{NormalizeOutsideIdentifiers}(T)\ =\ T
 \end{array}
-```
+$$
 
-#### 4.1.2 Lexically Sensitive Unicode Enforcement
+### 4.1.2 Lexically Sensitive Unicode Enforcement
 
 T = S.scalars
 
-```math
+$$
 \begin{array}{l}
 \operatorname{LexSensitivePos}(S)\ =\ [\ p\ \mid \ 0\ \le \ p\ <\ \mid T\mid \ \land \ \operatorname{Sensitive}(T[p])\ \land \ \lnot \ \operatorname{InsideLiteralOrComment}(p)\ ] \\
 \Gamma \ \vdash \ \operatorname{LexSecure}(S,\ K,\ \operatorname{LexSensitivePos}(S))\ \Downarrow \ \mathsf{ok}
 \end{array}
-```
+$$
 
-#### 4.1.3 UTF-8 Decoding and BOM Handling
+### 4.1.3 UTF-8 Decoding and BOM Handling
 
 **(Decode-Ok)**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{DecodeUTF8}(B)\ \Downarrow \ U \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Decode}(B)\ \Downarrow \ U
 \end{array}
-```
+$$
 
 **(Decode-Err)**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{DecodeUTF8}(B)\ \Uparrow  \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Decode}(B)\ \Uparrow 
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{StripLeadBOM}([])\ =\ [] \\
 \operatorname{StripLeadBOM}(U+\mathsf{FEFF}\mathbin{::} U)\ =\ U \\
 \operatorname{StripLeadBOM}(u\mathbin{::} U)\ =\ u\mathbin{::} U\ \mathsf{if}\ u\ \ne \ U+\mathsf{FEFF}
 \end{array}
-```
+$$
 
 **(StripBOM-Empty)**
 
-```math
+$$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{StripBOM}([])\ \Downarrow \ ([],\ \mathsf{false},\ \bot )
 \end{array}
-```
+$$
 
 **(StripBOM-None)**
 
-```math
+$$
 \begin{array}{l}
 U\ =\ u_{0}\mathbin{::} u_{1}\mathbin{::} \ldots \quad u_{0}\ \ne \ U+\mathsf{FEFF}\quad \forall \ i\ >\ 0,\ u_{i}\ \ne \ U+\mathsf{FEFF} \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{StripBOM}(U)\ \Downarrow \ (U,\ \mathsf{false},\ \bot )
 \end{array}
-```
+$$
 
 **(StripBOM-Start)**
 
-```math
+$$
 \begin{array}{l}
 U\ =\ U+\mathsf{FEFF}\mathbin{::} U_{1}\quad \forall \ i,\ U_{1}[i]\ \ne \ U+\mathsf{FEFF} \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{StripBOM}(U)\ \Downarrow \ (U_{1},\ \mathsf{true},\ \bot )
 \end{array}
-```
+$$
 
 **(StripBOM-Embedded)**
 
-```math
+$$
 \begin{array}{l}
 U'\ =\ \operatorname{StripLeadBOM}(U)\quad b\ =\ (U\ \ne \ []\ \land \ U[0]\ =\ U+\mathsf{FEFF})\quad i\ =\ \mathsf{min}\{\ p\ \mid \ 0\ \le \ p\ <\ \mid U'\mid \ \land \ U'[p]\ =\ U+\mathsf{FEFF}\ \} \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{StripBOM}(U)\ \Downarrow \ (U',\ b,\ i)
 \end{array}
-```
+$$
 
-#### 4.1.4 Line Ending Normalization and Logical Lines
+### 4.1.4 Line Ending Normalization and Logical Lines
 
 CR = U+000D
 LF = U+000A
 
 **(Norm-Empty)**
 
-```math
+$$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{NormalizeLF}([])\ \Downarrow \ []
 \end{array}
-```
+$$
 
 **(Norm-CRLF)**
 
-```math
+$$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{NormalizeLF}(U)\ \Downarrow \ V \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{NormalizeLF}([\mathsf{CR},\ \mathsf{LF}]\ \mathbin{++} \ U)\ \Downarrow \ [\mathsf{LF}]\ \mathbin{++} \ V
 \end{array}
-```
+$$
 
 **(Norm-CR)**
 
-```math
+$$
 \begin{array}{l}
 U\ =\ []\ \lor \ U[0]\ \ne \ \mathsf{LF}\quad \Gamma \ \vdash \ \operatorname{NormalizeLF}(U)\ \Downarrow \ V \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{NormalizeLF}([\mathsf{CR}]\ \mathbin{++} \ U)\ \Downarrow \ [\mathsf{LF}]\ \mathbin{++} \ V
 \end{array}
-```
+$$
 
 **(Norm-LF)**
 
-```math
+$$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{NormalizeLF}(U)\ \Downarrow \ V \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{NormalizeLF}([\mathsf{LF}]\ \mathbin{++} \ U)\ \Downarrow \ [\mathsf{LF}]\ \mathbin{++} \ V
 \end{array}
-```
+$$
 
 **(Norm-Other)**
 
-```math
+$$
 \begin{array}{l}
 c\ \ne \ \mathsf{CR}\quad c\ \ne \ \mathsf{LF}\quad \Gamma \ \vdash \ \operatorname{NormalizeLF}(U)\ \Downarrow \ V \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{NormalizeLF}([c]\ \mathbin{++} \ U)\ \Downarrow \ [c]\ \mathbin{++} \ V
 \end{array}
-```
+$$
 
 **Logical Line Map.**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{Utf8Offsets}([])\ =\ [0] \\
 \operatorname{Utf8Offsets}(c\mathbin{::} \mathsf{cs})\ =\ [0]\ \mathbin{++} \ [o\ +\ \operatorname{Utf8Len}(c)\ \mid \ o\ \in \ \operatorname{Utf8Offsets}(\mathsf{cs})]
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{LineStarts}(T)\ =\ [0]\ \mathbin{++} \ [\operatorname{Utf8Offsets}(T)[i]\ +\ 1\ \mid \ 0\ \le \ i\ <\ \mid T\mid \ \land \ T[i]\ =\ \mathsf{LF}] \\
 \operatorname{LineCount}(T)\ =\ \mid \operatorname{LineStarts}(T)\mid 
 \end{array}
-```
+$$
 
 **Locate (Line/Column).**
 
-```math
+$$
 \begin{array}{l}
 L\ =\ S.\mathsf{line}_{\mathsf{starts}} \\
 o'\ =\ \operatorname{min}(o,\ S.\mathsf{byte}_{\mathsf{len}}) \\
 k\ =\ \mathsf{max}\{\ j\ \mid \ L[j]\ \le \ o'\ \}
 \end{array}
-```
+$$
 
-```math
+$$
 \Gamma \ \vdash \ \operatorname{Locate}(S,\ o)\ \Downarrow \ \langle \mathsf{file}\ =\ S.\mathsf{path},\ \mathsf{offset}\ =\ o',\ \mathsf{line}\ =\ k\ +\ 1,\ \mathsf{col}\ =\ o'\ -\ L[k]\ +\ 1\rangle 
-```
+$$
 
-#### 4.1.5 Prohibited Code Points
+### 4.1.5 Prohibited Code Points
 
-```math
+$$
 \operatorname{Prohibited}(c)\ \Leftrightarrow \ \operatorname{General_Category}(c)\ =\ \mathsf{Cc}\ \land \ c\ \notin \ \{U+0009,\ U+000A,\ U+000C,\ U+000D\}
-```
+$$
 
-```math
+$$
 \operatorname{LiteralSpan}(T)\ =\ \bigcup \ \{\ [\operatorname{ByteOf}(T,\ i),\ \operatorname{ByteOf}(T,\ j))\ \mid \ \operatorname{StringRange}(T,\ i,\ j)\ \lor \ \operatorname{CharRange}(T,\ i,\ j)\ \}
-```
+$$
 
 **(WF-Prohibited)**
 
-```math
+$$
 \begin{array}{l}
 \forall \ i,\ \operatorname{Prohibited}(T[i])\ \Rightarrow \ \operatorname{ByteOf}(T,\ i)\ \in \ \operatorname{LiteralSpan}(T) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ T\ :\ \mathsf{NoProhibited}
 \end{array}
-```
+$$
 
-#### 4.1.6 NFC Normalization for Identifiers and Module Paths
+### 4.1.6 NFC Normalization for Identifiers and Module Paths
 
-```math
+$$
 \operatorname{NFC}(s)\ =\ \mathsf{UnicodeNFC}\_\{15.0.0\}(s)
-```
+$$
 
-```math
+$$
 \operatorname{CaseFold}(s)\ =\ \mathsf{UnicodeCaseFold}\_\{15.0.0\}(s)
-```
+$$
 
 **Totality.**
 The functions NFC and CaseFold are total on sequences of Unicode scalar values. All inputs to IdKey and PathKey MUST be Unicode scalar sequences; inputs are produced by LoadSource, which rejects invalid UTF-8.
 
-```math
+$$
 \begin{array}{l}
 \operatorname{IdKey}(s)\ =\ \operatorname{NFC}(s) \\
 \operatorname{IdEq}(s_{1},\ s_{2})\ \Leftrightarrow \ \operatorname{IdKey}(s_{1})\ =\ \operatorname{IdKey}(s_{2})
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{PathKey}(p)\ =\ [\operatorname{NFC}(c_{1}),\ \ldots ,\ \operatorname{NFC}(c_{n})] \\
 \operatorname{PathEq}(p,\ q)\ \Leftrightarrow \ \operatorname{PathKey}(p)\ =\ \operatorname{PathKey}(q)
 \end{array}
-```
+$$
 
-#### 4.1.7 Newline Tokens and Statement Termination
+### 4.1.7 Newline Tokens and Statement Termination
 
-```math
+$$
 \begin{array}{l}
 \mathsf{Tokenize}\ :\ \mathsf{SourceFile}\ \rightharpoonup \ (\mathsf{Token}*\ \times \ \mathsf{DocComment}*) \\
 \operatorname{Tokenize}(S)\ =\ (K,\ D)\ \Rightarrow \ \operatorname{LexNewline}(K,\ S)\ \land \ \operatorname{LexNoComments}(K,\ S)
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{Depth}(K,\ 0)\ =\ 0 \\
 \operatorname{Depth}(K,\ i+1)\ =\ \operatorname{Depth}(K,\ i)\ +\ \delta (K[i]) \\
@@ -300,18 +299,18 @@ The functions NFC and CaseFold are total on sequences of Unicode scalar values. 
 \ -1\ \mathsf{if}\ t\ \in \ \{\operatorname{Punctuator}(\texttt{")"}),\ \operatorname{Punctuator}(\texttt{"]"})\} \\
 \ 0\ \mathsf{otherwise}
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{Prev}(K,\ i)\ =\ \bot \ \Leftrightarrow \ \{\ j\ \mid \ j\ <\ i\ \land \ K[j].\mathsf{kind}\ \ne \ \mathsf{newline}\ \land \ \forall \ k.\ j\ <\ k\ <\ i\ \Rightarrow \ K[k].\mathsf{kind}\ \ne \ \mathsf{newline}\ \}\ =\ \emptyset  \\
 \operatorname{Prev}(K,\ i)\ =\ K[j]\ \Leftrightarrow \ j\ =\ \mathsf{max}\{\ j\ \mid \ j\ <\ i\ \land \ K[j].\mathsf{kind}\ \ne \ \mathsf{newline}\ \land \ \forall \ k.\ j\ <\ k\ <\ i\ \Rightarrow \ K[k].\mathsf{kind}\ \ne \ \mathsf{newline}\ \} \\
 \operatorname{Next}(K,\ i)\ =\ \bot \ \Leftrightarrow \ \{\ j\ \mid \ j\ >\ i\ \land \ K[j].\mathsf{kind}\ \ne \ \mathsf{newline}\ \}\ =\ \emptyset  \\
 \operatorname{Next}(K,\ i)\ =\ K[j]\ \Leftrightarrow \ j\ =\ \mathsf{min}\{\ j\ \mid \ j\ >\ i\ \land \ K[j].\mathsf{kind}\ \ne \ \mathsf{newline}\ \}
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \mathsf{Ambig}\ =\ \{\texttt{"+"},\ \texttt{"-"},\ \texttt{"*"},\ \texttt{"\&"},\ \texttt{"|"}\} \\
 \mathsf{RangeCont}\ =\ \{\texttt{".."},\ \texttt{"..="}\} \\
@@ -319,52 +318,52 @@ The functions NFC and CaseFold are total on sequences of Unicode scalar values. 
 \mathsf{UnaryOnly}\ =\ \{\texttt{"!"},\ \texttt{"\~{}"},\ \texttt{"?"}\} \\
 \operatorname{AttrClose}(t)\ \Leftrightarrow \ t.\mathsf{kind}\ =\ \mathsf{Punctuator}\ \land \ t.\mathsf{lexeme}\ =\ \texttt{"]]"}
 \end{array}
-```
+$$
 
-```math
+$$
 \operatorname{Continue}(K,\ i)\ \Leftrightarrow \ \operatorname{Depth}(K,\ i)\ >\ 0\ \lor \ (\exists \ t.\ \operatorname{Prev}(K,\ i)\ =\ t\ \land \ (t.\mathsf{lexeme}\ =\ \texttt{","}\ \lor \ (t.\mathsf{kind}\ =\ \mathsf{Operator}\ \land \ ((((t.\mathsf{lexeme}\ \in \ \mathsf{Ambig}\ \lor \ t.\mathsf{lexeme}\ \in \ \mathsf{RangeCont})\ \land \ \exists \ u.\ \operatorname{Next}(K,\ i)\ =\ u\ \land \ \operatorname{BeginsOperand}(u))\ \lor \ (t.\mathsf{lexeme}\ \notin \ \mathsf{UnaryOnly}\ \land \ t.\mathsf{lexeme}\ \notin \ \mathsf{RangeCont}))))))\ \lor \ (\exists \ u.\ \operatorname{Next}(K,\ i)\ =\ u\ \land \ u.\mathsf{lexeme}\ \in \ \{\texttt{"."},\ \texttt{"::"},\ \texttt{"\~{}>"}\})\ \lor \ (\exists \ t,\ u.\ \operatorname{Prev}(K,\ i)\ =\ t\ \land \ \operatorname{AttrClose}(t)\ \land \ \operatorname{Next}(K,\ i)\ =\ u\ \land \ \operatorname{BeginsOperand}(u))
-```
+$$
 
-```math
+$$
 \mathsf{For}\ \texttt{t.lexeme in RangeCont},\ \mathsf{continuation}\ \mathsf{across}\ \mathsf{newline}\ \mathsf{MUST}\ \mathsf{require}\ \texttt{Next(K, i)}\ \mathsf{to}\ \mathsf{begin}\ \mathsf{an}\ \mathsf{operand}.\ \mathsf{This}\ \mathsf{permits}\ \mathsf{split}\ \mathsf{forms}\ \mathsf{like}\ \texttt{a .. \textbackslash{}n b}\ \mathsf{and}\ \texttt{.. \textbackslash{}n b},\ \mathsf{while}\ \mathsf{allowing}\ \mathsf{newline}\ \mathsf{termination}\ \mathsf{after}\ \mathsf{complete}\ \texttt{a ..}\ \mathsf{and}\ \texttt{..}\ \mathsf{forms}.
-```
+$$
 
-```math
+$$
 \operatorname{Filter}(K)\ =\ [\ K[i]\ \mid \ K[i].\mathsf{kind}\ \ne \ \mathsf{newline}\ \lor \ \lnot \ \operatorname{Continue}(K,\ i)\ ]
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{IsTerminator}(t)\ \Leftrightarrow \ t\ =\ \operatorname{Punctuator}(\texttt{";"})\ \lor \ t.\mathsf{kind}\ =\ \mathsf{newline} \\
 \operatorname{BoundaryTokens}(K,\ i)\ =\ \{\ t\ \mid \ t\ =\ K[i]\ \lor \ t\ =\ \operatorname{Prev}(K,\ i)\ \lor \ t\ =\ \operatorname{Next}(K,\ i)\ \}\ \setminus \ \{\bot \} \\
 \operatorname{HasTerminator}(F,\ i)\ \Leftrightarrow \ \exists \ t\ \in \ \operatorname{BoundaryTokens}(F,\ i).\ \operatorname{IsTerminator}(t) \\
 A\ \mathsf{newline}\ \mathsf{inside}\ \texttt{\{ ... \}}\ \mathsf{MUST}\ \mathsf{use}\ \texttt{Continue(K, i)}\ \mathsf{without}\ \mathsf{modification};\ \mathsf{the}\ \mathsf{depth}\ \mathsf{disjunct}\ \mathsf{and}\ \mathsf{non}-\mathsf{depth}\ \mathsf{disjuncts}\ \mathsf{apply}\ \mathsf{uniformly}\ \mathsf{inside}\ \mathsf{and}\ \mathsf{outside}\ \mathsf{braces}.
 \end{array}
-```
+$$
 Commas are separators within a single statement and are never statement terminators. A comma MUST appear only between elements of a comma-delimited production. Item-separated bodies use statement terminators instead and MUST NOT use commas as top-level separators unless their local grammar explicitly permits them. Trailing commas are permitted only when TrailingCommaAllowed (§5.5); otherwise they are ill-formed. A permitted trailing comma does not introduce an empty list element.
 
-```math
+$$
 \begin{array}{l}
 \mathsf{RequiredTerminator}\ :\ \mathsf{Token}*\ \times \ \mathbb{N} \ \to \ \mathsf{Bool} \\
 \mathsf{ContinuesLine}\ :\ \mathsf{Token}*\ \times \ \mathbb{N} \ \to \ \mathsf{Bool} \\
 \operatorname{ContinuesLine}(K,\ i)\ \Leftrightarrow \ K[i].\mathsf{kind}\ =\ \mathsf{newline}\ \land \ \operatorname{Continue}(K,\ i) \\
 \operatorname{RequiredTerminator}(K,\ i)\ \Leftrightarrow \ K[i].\mathsf{kind}\ =\ \mathsf{newline}\ \land \ \lnot \ \operatorname{ContinuesLine}(K,\ i)
 \end{array}
-```
+$$
 
 **(Missing-Terminator-Err)**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{RequiredTerminator}(K,\ i)\quad \lnot \ \operatorname{HasTerminator}(\operatorname{Filter}(K),\ i)\quad c\ =\ \operatorname{Code}(\mathsf{Missing}-\mathsf{Terminator}-\mathsf{Err}) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Emit}(c)
 \end{array}
-```
+$$
 
-#### 4.1.8 Source Loading Pipeline
+### 4.1.8 Source Loading Pipeline
 
-```math
+$$
 \begin{array}{l}
 \mathsf{SourceLoadState}\ =\ \{\operatorname{Start}(f,\ B),\ \operatorname{Sized}(f,\ B),\ \operatorname{Decoded}(f,\ B,\ U),\ \operatorname{BomStripped}(f,\ B,\ U,\ b,\ j),\ \operatorname{Normalized}(f,\ B,\ T,\ j),\ \operatorname{LineMapped}(f,\ B,\ T,\ L),\ \operatorname{Validated}(S),\ \operatorname{Error}(\mathsf{code})\} \\
 B\ \in \ \mathsf{Bytes} \\
@@ -373,241 +372,241 @@ T\ \in \ \mathsf{Scalars} \\
 L\ =\ \operatorname{LineStarts}(T) \\
 j\ \in \ \mathbb{N} \ \cup \ \{\bot \}
 \end{array}
-```
+$$
 
 **(Step-Size)**
 
-```math
+$$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\
 \langle \operatorname{Start}(f,\ B)\rangle \ \to \ \langle \operatorname{Sized}(f,\ B)\rangle 
 \end{array}
-```
+$$
 
 **(Step-Decode)**
 
-```math
+$$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{Decode}(B)\ \Downarrow \ U \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{Sized}(f,\ B)\rangle \ \to \ \langle \operatorname{Decoded}(f,\ B,\ U)\rangle 
 \end{array}
-```
+$$
 
 **(Step-Decode-Err)**
 
-```math
+$$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{Decode}(B)\ \Uparrow  \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{Sized}(f,\ B)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Step}-\mathsf{Decode}-\mathsf{Err}))\rangle 
 \end{array}
-```
+$$
 
 **(Step-BOM)**
 
-```math
+$$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{StripBOM}(U)\ \Downarrow \ (U',\ b,\ j) \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{Decoded}(f,\ B,\ U)\rangle \ \to \ \langle \operatorname{BomStripped}(f,\ B,\ U',\ b,\ j)\rangle 
 \end{array}
-```
+$$
 
 **(Step-Norm)**
 
-```math
+$$
 \begin{array}{l}
 T\ =\ \operatorname{NormalizeOutsideIdentifiers}(U)\quad \Gamma \ \vdash \ \operatorname{NormalizeLF}(T)\ \Downarrow \ V \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{BomStripped}(f,\ B,\ U,\ b,\ j)\rangle \ \to \ \langle \operatorname{Normalized}(f,\ B,\ V,\ j)\rangle 
 \end{array}
-```
+$$
 
 **(Step-EmbeddedBOM-Err)**
 
-```math
+$$
 \begin{array}{l}
 j\ \ne \ \bot  \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{Normalized}(f,\ B,\ T,\ j)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Step}-\mathsf{EmbeddedBOM}-\mathsf{Err}))\rangle 
 \end{array}
-```
+$$
 
 **(Step-LineMap)**
 
-```math
+$$
 \begin{array}{l}
 j\ =\ \bot \quad L\ =\ \operatorname{LineStarts}(T) \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{Normalized}(f,\ B,\ T,\ j)\rangle \ \to \ \langle \operatorname{LineMapped}(f,\ B,\ T,\ L)\rangle 
 \end{array}
-```
+$$
 
 **(Step-Prohibited)**
 
-```math
+$$
 \begin{array}{l}
 \Gamma \ \vdash \ T\ :\ \mathsf{NoProhibited}\quad S\ =\ \langle \mathsf{path}\ =\ f,\ \mathsf{bytes}\ =\ B,\ \mathsf{scalars}\ =\ T,\ \mathsf{text}\ =\ \operatorname{EncodeUTF8}(T),\ \mathsf{byte}_{\mathsf{len}}\ =\ \operatorname{ByteLen}(T),\ \mathsf{line}_{\mathsf{starts}}\ =\ L,\ \mathsf{line}_{\mathsf{count}}\ =\ \mid L\mid \rangle  \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{LineMapped}(f,\ B,\ T,\ L)\rangle \ \to \ \langle \operatorname{Validated}(S)\rangle 
 \end{array}
-```
+$$
 
 **(Step-Prohibited-Err)**
 
-```math
+$$
 \begin{array}{l}
 \Gamma \ \nvdash \ T\ :\ \mathsf{NoProhibited} \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{LineMapped}(f,\ B,\ T,\ L)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Step}-\mathsf{Prohibited}-\mathsf{Err}))\rangle 
 \end{array}
-```
+$$
 
 **Source Load (Big-Step)**
 
 **(LoadSource-Ok)**
 
-```math
+$$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{Decode}(B)\ \Downarrow \ U\quad \Gamma \ \vdash \ \operatorname{StripBOM}(U)\ \Downarrow \ (U',\ b,\ \bot )\quad \Gamma \ \vdash \ \operatorname{NormalizeLF}(\operatorname{NormalizeOutsideIdentifiers}(U'))\ \Downarrow \ T\quad L\ =\ \operatorname{LineStarts}(T)\quad \Gamma \ \vdash \ T\ :\ \mathsf{NoProhibited}\quad S\ =\ \langle \mathsf{path}\ =\ f,\ \mathsf{bytes}\ =\ B,\ \mathsf{scalars}\ =\ T,\ \mathsf{text}\ =\ \operatorname{EncodeUTF8}(T),\ \mathsf{byte}_{\mathsf{len}}\ =\ \operatorname{ByteLen}(T),\ \mathsf{line}_{\mathsf{starts}}\ =\ L,\ \mathsf{line}_{\mathsf{count}}\ =\ \mid L\mid \rangle  \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \Downarrow \ S
 \end{array}
-```
+$$
 
 **(LoadSource-Err)**
 
-```math
+$$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \to *\ \langle \operatorname{Error}(c)\rangle  \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \Uparrow \ c
 \end{array}
-```
+$$
 
-#### 4.1.9 Diagnostic Spans for Source Loading
+### 4.1.9 Diagnostic Spans for Source Loading
 
-```math
+$$
 S_{\mathsf{tmp}}\ =\ \langle \mathsf{path}\ =\ f,\ \mathsf{bytes}\ =\ B,\ \mathsf{text}\ =\ \operatorname{EncodeUTF8}(T),\ \mathsf{byte}_{\mathsf{len}}\ =\ \operatorname{ByteLen}(T),\ \mathsf{line}_{\mathsf{starts}}\ =\ \operatorname{LineStarts}(T),\ \mathsf{line}_{\mathsf{count}}\ =\ \mid \operatorname{LineStarts}(T)\mid \rangle 
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 O\ =\ \operatorname{Utf8Offsets}(T) \\
 O[\mid T\mid ]\ =\ \operatorname{ByteLen}(T)
 \end{array}
-```
+$$
 
-```math
+$$
 \operatorname{SpanAtIndex}(T,\ i)\ =\ \operatorname{SpanOf}(S_{\mathsf{tmp}},\ O[i],\ O[i+1])
-```
+$$
 
-```math
+$$
 \operatorname{SpanAtLineStart}(T,\ k)\ =\ \operatorname{SpanOf}(S_{\mathsf{tmp}},\ s,\ e)
-```
+$$
 s =
 
-```math
+$$
 \begin{array}{l}
 \ \operatorname{LineStarts}(T)[k]\ \mathsf{if}\ k\ <\ \mid \operatorname{LineStarts}(T)\mid  \\
 \ \operatorname{ByteLen}(T)\quad \mathsf{otherwise} \\
 e\ =\ \operatorname{min}(s\ +\ 1,\ \operatorname{ByteLen}(T))
 \end{array}
-```
+$$
 
-```math
+$$
 \mathsf{If}\ b\ =\ \mathsf{true},\ \mathsf{the}\ \mathsf{warning}\ W-\mathsf{SRC}-0101\ \mathsf{MUST}\ \mathsf{be}\ \mathsf{emitted}\ \mathsf{even}\ \mathsf{if}\ \mathsf{LoadSource}\ \mathsf{ultimately}\ \mathsf{fails}.
-```
+$$
 
 **(Span-BOM-Warn)**
 
-```math
+$$
 \begin{array}{l}
 b\ =\ \mathsf{true}\quad e\ =\ \operatorname{min}(1,\ \operatorname{ByteLen}(T)) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Emit}(W-\mathsf{SRC}-0101,\ \operatorname{SpanOf}(S_{\mathsf{tmp}},\ 0,\ e))
 \end{array}
-```
+$$
 
 **(Span-BOM-Embedded)**
 
-```math
+$$
 \begin{array}{l}
 j\ \ne \ \bot \quad i\ =\ \mathsf{min}\{\ p\ \mid \ 0\ \le \ p\ <\ \mid T\mid \ \land \ T[p]\ =\ U+\mathsf{FEFF}\ \} \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Emit}(E-\mathsf{SRC}-0103,\ \operatorname{SpanAtIndex}(T,\ i))
 \end{array}
-```
+$$
 
 **(Span-Prohibited)**
 
-```math
+$$
 \begin{array}{l}
 i\ =\ \mathsf{min}\{\ p\ \mid \ 0\ \le \ p\ <\ \mid T\mid \ \land \ \operatorname{Prohibited}(T[p])\ \land \ O[p]\ \notin \ \operatorname{LiteralSpan}(T)\ \} \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Emit}(E-\mathsf{SRC}-0104,\ \operatorname{SpanAtIndex}(T,\ i))
 \end{array}
-```
+$$
 
 **(NoSpan-Decode)**
 
-```math
+$$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Emit}(E-\mathsf{SRC}-0101,\ \bot )
 \end{array}
-```
+$$
 
-### 4.2 Lexical Analysis
+## 4.2 Lexical Analysis
 
-#### 4.2.1 Inputs, Outputs, and Records
+### 4.2.1 Inputs, Outputs, and Records
 
 **LexerInput.**
 T = S.scalars
 B = S.text
 
-```math
+$$
 \begin{array}{l}
 n\ =\ S.\mathsf{byte}_{\mathsf{len}} \\
 \operatorname{LexerInput}(S)\ =\ \langle T,\ B,\ n\rangle 
 \end{array}
-```
+$$
 
 **LexerOutput.**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{LexerOutput}(S)\ =\ \langle K,\ D\rangle  \\
 K\ \in \ \mathsf{Token}*\quad D\ \in \ \mathsf{DocComment}*
 \end{array}
-```
+$$
 
 **EOF Token.**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{EOFSpan}(S)\ =\ \operatorname{SpanOfText}(S,\ \mid T\mid ,\ \mid T\mid ) \\
 \operatorname{TokenEOF}(S)\ =\ \langle \mathsf{EOF},\ \varepsilon ,\ \operatorname{EOFSpan}(S)\rangle 
 \end{array}
-```
+$$
 
 **LexemeBinding.**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{TokenRange}(S,\ t)\ =\ (i,\ j)\ \Leftrightarrow \ t.\mathsf{span}\ =\ \operatorname{SpanOfText}(S,\ i,\ j) \\
 \operatorname{LexemeBinding}(S,\ T,\ K)\ \Leftrightarrow \ \forall \ t\ \in \ K.\ \exists \ i,\ j.\ \operatorname{TokenRange}(S,\ t)\ =\ (i,\ j)\ \land \ t.\mathsf{lexeme}\ =\ \operatorname{Lexeme}(T,\ i,\ j)
 \end{array}
-```
+$$
 
 **DocComment.**
 
-```math
+$$
 \mathsf{DocComment}\ =\ \langle \mathsf{kind},\ \mathsf{text},\ \mathsf{span}\rangle 
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \mathsf{DocKind}\ =\ \{\mathsf{LineDoc},\ \mathsf{ModuleDoc}\} \\
 \operatorname{StripLeadingSpace}(s)\ = \\
@@ -619,167 +618,167 @@ K\ \in \ \mathsf{Token}*\quad D\ \in \ \mathsf{DocComment}*
 \ \mathsf{ModuleDoc}\ \mathsf{if}\ T[i..i+3]\ =\ \texttt{"//!"} \\
 \ \bot \quad \mathsf{otherwise}
 \end{array}
-```
+$$
 
 **Newline Tokens.**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{NewlineTokenAt}(S,\ T,\ i)\ \Leftrightarrow \ T[i]\ =\ \mathsf{LF}\ \land \ \lnot \ \operatorname{InsideLiteralOrComment}(i) \\
 \operatorname{LexNewline}(K,\ S)\ \Leftrightarrow \ \forall \ i.\ \operatorname{NewlineTokenAt}(S,\ T,\ i)\ \Rightarrow \ \exists \ t\ \in \ K.\ t.\mathsf{kind}\ =\ \mathsf{Newline}\ \land \ \operatorname{TokenRange}(S,\ t)\ =\ (i,\ i+1) \\
 \operatorname{TokenInComment}(S,\ t)\ \Leftrightarrow \ \exists \ i,\ j,\ a,\ b.\ \operatorname{TokenRange}(S,\ t)\ =\ (i,\ j)\ \land \ (\operatorname{LineCommentRange}(T,\ a,\ b)\ \lor \ \operatorname{BlockCommentRange}(T,\ a,\ b))\ \land \ a\ \le \ i\ \land \ j\ \le \ b \\
 \operatorname{LexNoComments}(K,\ S)\ \Leftrightarrow \ \forall \ t\ \in \ K.\ \lnot \ \operatorname{TokenInComment}(S,\ t)
 \end{array}
-```
+$$
 
 **Indices and Lexemes.**
 T = S.scalars
 
-```math
+$$
 \begin{array}{l}
 O\ =\ \operatorname{Utf8Offsets}(T) \\
 \operatorname{ScalarIndex}(T)\ =\ \{\ i\ \mid \ 0\ \le \ i\ \le \ \mid T\mid \ \}
 \end{array}
-```
+$$
 
-```math
+$$
 \operatorname{ByteOf}(T,\ i)\ =\ O[i]
-```
+$$
 
-```math
+$$
 \operatorname{SpanOfText}(S,\ i,\ j)\ =\ \operatorname{SpanOf}(S,\ \operatorname{ByteOf}(T,\ i),\ \operatorname{ByteOf}(T,\ j))
-```
+$$
 
-```math
+$$
 \operatorname{Lexeme}(T,\ i,\ j)\ =\ T[i..j)
-```
+$$
 
-#### 4.2.2 Character Classes
+### 4.2.2 Character Classes
 
-```math
+$$
 c\ \in \ \mathsf{UnicodeScalar}
-```
+$$
 
 **Whitespace.**
 
-```math
+$$
 \operatorname{Whitespace}(c)\ \Leftrightarrow \ c\ \in \ \{U+0020,\ U+0009,\ U+000C\}
-```
+$$
 
 **Line Feed.**
 
-```math
+$$
 \operatorname{LineFeed}(c)\ \Leftrightarrow \ c\ =\ U+000A
-```
+$$
 
 **Identifier Characters.**
 
-```math
+$$
 \begin{array}{l}
 \mathsf{XID}_{\mathsf{Start}}\ :\ \mathsf{UnicodeScalar}\ \to \ \mathsf{Bool} \\
 \mathsf{XID}_{\mathsf{Continue}}\ :\ \mathsf{UnicodeScalar}\ \to \ \mathsf{Bool}
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{IdentStart}(c)\ \Leftrightarrow \ c\ =\ '\_'\ \lor \ \operatorname{XID_Start}(c) \\
 \operatorname{IdentContinue}(c)\ \Leftrightarrow \ c\ =\ '\_'\ \lor \ \operatorname{XID_Continue}(c)
 \end{array}
-```
+$$
 
 XIDVersion = "15.0.0"
 
-```math
+$$
 \begin{array}{l}
 \operatorname{XID_Start}(c)\ \Leftrightarrow \ c\ \in \ \mathsf{UAX31}_{\mathsf{XID}\_\mathsf{Start}}\_\{15.0.0\} \\
 \operatorname{XID_Continue}(c)\ \Leftrightarrow \ c\ \in \ \mathsf{UAX31}_{\mathsf{XID}\_\mathsf{Continue}}\_\{15.0.0\}
 \end{array}
-```
+$$
 
 **Non-Characters.**
 
-```math
+$$
 \operatorname{NonCharacter}(c)\ \Leftrightarrow \ c\ \in \ [U+\mathsf{FDD0},\ U+\mathsf{FDEF}]\ \lor \ (c\ \&\ 0\mathsf{xFFFF})\ \in \ \{0\mathsf{xFFFE},\ 0\mathsf{xFFFF}\}
-```
+$$
 
 **Digits.**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{DecDigit}(c)\ \Leftrightarrow \ c\ \in \ \{'0'\ \ldots \ '9'\} \\
 \operatorname{HexDigit}(c)\ \Leftrightarrow \ \operatorname{DecDigit}(c)\ \lor \ c\ \in \ \{'a'\ \ldots \ 'f',\ 'A'\ \ldots \ 'F'\} \\
 \operatorname{OctDigit}(c)\ \Leftrightarrow \ c\ \in \ \{'0'\ \ldots \ '7'\} \\
 \operatorname{BinDigit}(c)\ \Leftrightarrow \ c\ \in \ \{'0',\ '1'\}
 \end{array}
-```
+$$
 
 **Lexically Sensitive Characters.**
 
-```math
+$$
 \operatorname{Sensitive}(c)\ \Leftrightarrow \ c\ \in \ \{U+202A\ \ldots \ U+202E,\ U+2066\ \ldots \ U+2069,\ U+200C,\ U+200D\}
-```
+$$
 
-#### 4.2.3 Reserved Lexemes
+### 4.2.3 Reserved Lexemes
 
 **Reserved.**
 
-```math
+$$
 \mathsf{Reserved}\ =\ \{\texttt{all},\ \texttt{as},\ \texttt{break},\ \texttt{class},\ \texttt{comptime},\ \texttt{continue},\ \texttt{derive},\ \texttt{dispatch},\ \texttt{else},\ \texttt{enum},\ \texttt{false},\ \texttt{defer},\ \texttt{frame},\ \texttt{from},\ \texttt{if},\ \texttt{imm},\ \texttt{import},\ \texttt{internal},\ \texttt{let},\ \texttt{loop},\ \texttt{modal},\ \texttt{move},\ \texttt{mut},\ \texttt{null},\ \texttt{parallel},\ \texttt{private},\ \texttt{procedure},\ \texttt{public},\ \texttt{quote},\ \texttt{race},\ \texttt{record},\ \texttt{region},\ \texttt{return},\ \texttt{shared},\ \texttt{spawn},\ \texttt{sync},\ \texttt{transition},\ \texttt{transmute},\ \texttt{true},\ \texttt{type},\ \texttt{unique},\ \texttt{unsafe},\ \texttt{var},\ \texttt{widen},\ \texttt{using},\ \texttt{yield},\ \texttt{const},\ \texttt{override}\}
-```
+$$
 
-```math
+$$
 \mathsf{FutureReserved}\ =\ \emptyset 
-```
+$$
 
 **Keyword Predicate.**
 
-```math
+$$
 \operatorname{Keyword}(s)\ \Leftrightarrow \ s\ \in \ \mathsf{Reserved}
-```
+$$
 
 **Reserved Namespaces.**
 
-```math
+$$
 \begin{array}{l}
 \mathsf{ReservedNamespacePrefix}\ =\ \{\texttt{ultraviolet::}\} \\
 \mathsf{ReservedIdentPrefix}\ =\ \{\texttt{gen\_}\}
 \end{array}
-```
+$$
 ReservedNamespacePhase = Phase3
 
 **Universe-Protected Bindings.**
 
-```math
+$$
 \mathsf{UniverseProtected}\ =\ \{\texttt{i8},\ \texttt{i16},\ \texttt{i32},\ \texttt{i64},\ \texttt{i128},\ \texttt{u8},\ \texttt{u16},\ \texttt{u32},\ \texttt{u64},\ \texttt{u128},\ \texttt{f16},\ \texttt{f32},\ \texttt{f64},\ \texttt{bool},\ \texttt{char},\ \texttt{usize},\ \texttt{isize},\ \texttt{Self},\ \texttt{Drop},\ \texttt{Bitcopy},\ \texttt{Clone},\ \texttt{Eq},\ \texttt{Hash},\ \texttt{Hasher},\ \texttt{Iterator},\ \texttt{Step},\ \texttt{FfiSafe},\ \texttt{string},\ \texttt{bytes},\ \texttt{Modal},\ \texttt{Region},\ \texttt{RegionOptions},\ \texttt{CancelToken},\ \texttt{Context},\ \texttt{System},\ \texttt{Network},\ \texttt{ExecutionDomain},\ \texttt{Reactor},\ \texttt{CpuSet},\ \texttt{Priority},\ \texttt{Async},\ \texttt{Future},\ \texttt{Sequence},\ \texttt{Stream},\ \texttt{Pipe},\ \texttt{Exchange},\ \texttt{Tracked},\ \texttt{Spawned}\}
-```
+$$
 UniverseProtectedPhase = Phase3
 
 `Drop`, `Bitcopy`, `Clone`, and `FfiSafe` are reserved predicate names. They MUST NOT be declared as classes or used as user-defined type/value bindings.
 
-#### 4.2.4 Token Kinds
+### 4.2.4 Token Kinds
 
-```math
+$$
 \mathsf{TokenKind}\ \in \ \{\mathsf{Identifier},\ \operatorname{Keyword}(k),\ \mathsf{IntLiteral},\ \mathsf{FloatLiteral},\ \mathsf{StringLiteral},\ \mathsf{CharLiteral},\ \mathsf{BoolLiteral},\ \mathsf{NullLiteral},\ \operatorname{Operator}(o),\ \operatorname{Punctuator}(p),\ \mathsf{Newline},\ \mathsf{Unknown}\}
-```
+$$
 
 **Operator Set.**
 
-```math
+$$
 \mathsf{OperatorSet}\ =\ \{\texttt{"+"},\ \texttt{"-"},\ \texttt{"*"},\ \texttt{"/"},\ \texttt{"\%"},\ \texttt{"**"},\ \texttt{"=="},\ \texttt{"!="},\ \texttt{"<"},\ \texttt{"<="},\ \texttt{">"},\ \texttt{">="},\ \texttt{"\&\&"},\ \texttt{"||"},\ \texttt{"!"},\ \texttt{"\&"},\ \texttt{"|"},\ \texttt{"\^{}"},\ \texttt{"<<"},\ \texttt{">>"},\ \texttt{"="},\ \texttt{"+="},\ \texttt{"-="},\ \texttt{"*="},\ \texttt{"/="},\ \texttt{"\%="},\ \texttt{"\&="},\ \texttt{"|:"},\ \texttt{"\^{}="},\ \texttt{"<<="},\ \texttt{">>="},\ \texttt{":="},\ \texttt{"<:"},\ \texttt{".."},\ \texttt{"..="},\ \texttt{"=>"},\ \texttt{"->"},\ \texttt{"::"},\ \texttt{"\~{}"},\ \texttt{"\~{}>"},\ \texttt{"\~{}!"},\ \texttt{"\~{}\%"},\ \texttt{"?"},\ \texttt{"\#"},\ \texttt{"@"},\ \texttt{"\$"}\}
-```
+$$
 
 **Punctuator Set.**
 
-```math
+$$
 \mathsf{PunctuatorSet}\ =\ \{\texttt{"("},\ \texttt{")"},\ \texttt{"["},\ \texttt{"]"},\ \texttt{"[["},\ \texttt{"]]"},\ \texttt{"\{"},\ \texttt{"\}"},\ \texttt{","},\ \texttt{":"},\ \texttt{";"},\ \texttt{"."}\}
-```
+$$
 
-```math
+$$
 \mathsf{OperatorSet}\ \cap \ \mathsf{PunctuatorSet}\ =\ \emptyset 
-```
+$$
 
-#### 4.2.5 Comment and Whitespace Scanning
+### 4.2.5 Comment and Whitespace Scanning
 
 T = S.scalars
 
@@ -787,97 +786,97 @@ T = S.scalars
 
 **(Scan-Line-Comment)**
 
-```math
+$$
 \begin{array}{l}
 T[i]\ =\ '/'\quad T[i+1]\ =\ '/'\quad j\ =\ \mathsf{min}\{\ p\ \mid \ i\ \le \ p\ \land \ (p\ =\ \mid T\mid \ \lor \ T[p]\ =\ \mathsf{LF})\ \} \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{ScanLineComment}(T,\ i)\ \Downarrow \ j
 \end{array}
-```
+$$
 
 **Doc Comment Classification.**
 
-```math
+$$
 \begin{array}{l}
 \mathsf{kind}\ =\ \operatorname{DocMarker}(T,\ i) \\
 \mathsf{body}\ =\ \operatorname{DocBody}(T,\ i,\ j)
 \end{array}
-```
+$$
 
 **(Doc-Comment)**
 
-```math
+$$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ScanLineComment}(T,\ i)\ \Downarrow \ j\quad \mathsf{kind}\ \ne \ \bot  \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{DocComment}(T,\ i)\ \Downarrow \ \langle \mathsf{kind},\ \mathsf{body},\ \operatorname{SpanOfText}(S,\ i,\ j)\rangle 
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{LineCommentTokens}(T,\ i)\ =\ [] \\
 \operatorname{LineCommentNext}(T,\ i)\ =\ j\ \mathsf{where}\ \Gamma \ \vdash \ \operatorname{ScanLineComment}(T,\ i)\ \Downarrow \ j
 \end{array}
-```
+$$
 
 **Block Comment Scan (Nested).**
 
-```math
+$$
 \mathsf{BlockState}\ =\ \{\ \operatorname{BlockScan}(T,\ i,\ d,\ i_{0})\ \mid \ 0\ \le \ i_{0}\ \le \ i\ \le \ \mid T\mid \ \land \ d\ \in \ \mathbb{N} \ \}\ \cup \ \{\ \operatorname{BlockDone}(j)\ \mid \ 0\ \le \ j\ \le \ \mid T\mid \ \}
-```
+$$
 
 **(Block-Start)**
 T[i] = '/'    T[i+1] = '*'
 
-```math
+$$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\
 \langle \operatorname{BlockScan}(T,\ i,\ d,\ i_{0})\rangle \ \to \ \langle \operatorname{BlockScan}(T,\ i+2,\ d+1,\ i_{0})\rangle 
 \end{array}
-```
+$$
 
 **(Block-End)**
 T[i] = '*'    T[i+1] = '/'    d > 1
 
-```math
+$$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\
 \langle \operatorname{BlockScan}(T,\ i,\ d,\ i_{0})\rangle \ \to \ \langle \operatorname{BlockScan}(T,\ i+2,\ d-1,\ i_{0})\rangle 
 \end{array}
-```
+$$
 
 **(Block-Done)**
 
-```math
+$$
 \begin{array}{l}
 T[i]\ =\ '*'\quad T[i+1]\ =\ '/'\quad d\ =\ 1 \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{BlockScan}(T,\ i,\ d,\ i_{0})\rangle \ \to \ \langle \operatorname{BlockDone}(i+2)\rangle 
 \end{array}
-```
+$$
 
 **(Block-Step)**
 
-```math
+$$
 \begin{array}{l}
 T[i..i+2]\ \ne \ \texttt{"/*"}\quad T[i..i+2]\ \ne \ \texttt{"*/"} \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{BlockScan}(T,\ i,\ d,\ i_{0})\rangle \ \to \ \langle \operatorname{BlockScan}(T,\ i+1,\ d,\ i_{0})\rangle 
 \end{array}
-```
+$$
 
 **(Block-Comment-Unterminated)**
 
-```math
+$$
 \begin{array}{l}
 \langle \operatorname{BlockScan}(T,\ i,\ d,\ i_{0})\rangle \ \to *\ \langle \operatorname{BlockScan}(T,\ \mid T\mid ,\ d,\ i_{0})\rangle \quad d\ >\ 0\quad c\ =\ \operatorname{Code}(\mathsf{Block}-\mathsf{Comment}-\mathsf{Unterminated}) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{SpanOfText}(S,\ i_{0},\ i_{0}+2))
 \end{array}
-```
+$$
 
-#### 4.2.6 Literal Lexing
+### 4.2.6 Literal Lexing
 
 T = S.scalars
 
@@ -902,7 +901,7 @@ escape_sequence  ::= "\n" | "\r" | "\t" | "\\" | "\"" | "\'" | "\0" | "\x" hex_d
 char_literal ::= "'" (char_content | escape_sequence) "'"
 char_content ::= char_content_unit
 
-The productions `string_literal` and `char_literal` define well-formed quoted literal spellings. During tokenization, any terminated quoted span with the corresponding delimiter MUST form a `StringLiteral` or `CharLiteral` token even when its interior is ill-formed. Bad escapes and invalid character-literal contents MUST emit their corresponding diagnostics and MUST NOT suppress token formation. Unterminated quoted spans are excluded from token formation and follow the recovery rules in §4.2.11.
+The productions `string_literal` and `char_literal` define well-formed quoted literal spellings. During tokenization, any terminated quoted span with the corresponding delimiter MUST form a `StringLiteral` or `CharLiteral` token even when its interior is ill-formed. Bad escapes and invalid character-literal contents MUST emit their corresponding diagnostics and MUST NOT suppress token formation. Unterminated quoted spans are excluded from token formation and follow the recovery rules in section4.2.11.
 
 bool_literal ::= "true" | "false"
 null_literal ::= "null"
@@ -913,27 +912,27 @@ Float literals MAY omit a suffix when they contain a decimal point. The suffix `
 
 **Escape Validity.**
 
-```math
+$$
 \begin{array}{l}
 \mathsf{SimpleEscape}\ =\ \{\texttt{\textbackslash{}\textbackslash{}},\ \texttt{\textbackslash{}"},\ \texttt{\textbackslash{}'},\ \texttt{\textbackslash{}n},\ \texttt{\textbackslash{}r},\ \texttt{\textbackslash{}t},\ \texttt{\textbackslash{}0}\} \\
 \operatorname{EscapeOk}(\texttt{\textbackslash{}\textbackslash{}})\ \land \ \operatorname{EscapeOk}(\texttt{\textbackslash{}"})\ \land \ \operatorname{EscapeOk}(\texttt{\textbackslash{}'})\ \land \ \operatorname{EscapeOk}(\texttt{\textbackslash{}n})\ \land \ \operatorname{EscapeOk}(\texttt{\textbackslash{}r})\ \land \ \operatorname{EscapeOk}(\texttt{\textbackslash{}t})\ \land \ \operatorname{EscapeOk}(\texttt{\textbackslash{}0}) \\
 \operatorname{EscapeOk}(\texttt{"\textbackslash{}\textbackslash{}x"}\ h_{1}\ h_{2})\ \Leftrightarrow \ \operatorname{HexDigit}(h_{1})\ \land \ \operatorname{HexDigit}(h_{2}) \\
 \operatorname{EscapeOk}(\texttt{"\textbackslash{}\textbackslash{}u\{"}\ h_{1}\ \ldots \ h_{n}\ \texttt{"\}"})\ \Leftrightarrow \ 1\ \le \ n\ \le \ 6\ \land \ \operatorname{UnicodeScalar}(\operatorname{HexValue}(h_{1}\ \ldots \ h_{n}))
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{StringChar}(c)\ \Leftrightarrow \ \operatorname{UnicodeScalar}(c)\ \land \ c\ \ne \ \texttt{"\textbackslash{}""}\ \land \ c\ \ne \ "\setminus \setminus "\ \land \ c\ \ne \ U+000A \\
 \operatorname{CharContent}(c)\ \Leftrightarrow \ \operatorname{UnicodeScalar}(c)\ \land \ c\ \ne \ \texttt{"'"}\ \land \ c\ \ne \ "\setminus \setminus "\ \land \ c\ \ne \ U+000A \\
 \mathsf{string}_{\mathsf{char}\_\mathsf{unit}}\ =\ \{\ c\ \mid \ \operatorname{StringChar}(c)\ \} \\
 \mathsf{char}_{\mathsf{content}\_\mathsf{unit}}\ =\ \{\ c\ \mid \ \operatorname{CharContent}(c)\ \}
 \end{array}
-```
+$$
 
 **Underscore Constraints.**
 
-```math
+$$
 \begin{array}{l}
 \mathsf{BasePrefix}\ =\ \{\texttt{"0x"},\ \texttt{"0o"},\ \texttt{"0b"}\} \\
 \mathsf{IntSuffixSet}\ =\ \{\texttt{"i8"},\ \texttt{"i16"},\ \texttt{"i32"},\ \texttt{"i64"},\ \texttt{"i128"},\ \texttt{"u8"},\ \texttt{"u16"},\ \texttt{"u32"},\ \texttt{"u64"},\ \texttt{"u128"},\ \texttt{"isize"},\ \texttt{"usize"}\} \\
@@ -964,52 +963,52 @@ Float literals MAY omit a suffix when they contain a decimal point. The suffix `
 \operatorname{BeforeSuffixUnderscore}(s)\ \Leftrightarrow \ \exists \ \mathsf{suf}\ \in \ \mathsf{NumSuffix}.\ \operatorname{EndsWith}(s,\ \operatorname{Concat}(\texttt{"\_"},\ \mathsf{suf})) \\
 \operatorname{NumericUnderscoreOk}(s)\ \Leftrightarrow \ \lnot \ \operatorname{StartsWithUnderscore}(s)\ \land \ \lnot \ \operatorname{EndsWithUnderscore}(s)\ \land \ \lnot \ \operatorname{AfterBasePrefixUnderscore}(s)\ \land \ \lnot \ \operatorname{AdjacentExponentUnderscore}(s)\ \land \ \lnot \ \operatorname{BeforeSuffixUnderscore}(s)
 \end{array}
-```
+$$
 
 **Numeric Scan (Maximal Prefix).**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{DecRun}(T,\ i)\ =\ \operatorname{max}(\{i\}\ \cup \ \{\ j\ \mid \ i\ <\ j\ \le \ \mid T\mid \ \land \ \forall \ k\ \in \ [i,\ j).\ (\operatorname{DecDigit}(T[k])\ \lor \ T[k]\ =\ \texttt{"\_"})\ \}) \\
 \operatorname{HexRun}(T,\ i)\ =\ \operatorname{max}(\{i\}\ \cup \ \{\ j\ \mid \ i\ <\ j\ \le \ \mid T\mid \ \land \ \forall \ k\ \in \ [i,\ j).\ (\operatorname{HexDigit}(T[k])\ \lor \ T[k]\ =\ \texttt{"\_"})\ \}) \\
 \operatorname{OctRun}(T,\ i)\ =\ \operatorname{max}(\{i\}\ \cup \ \{\ j\ \mid \ i\ <\ j\ \le \ \mid T\mid \ \land \ \forall \ k\ \in \ [i,\ j).\ (\operatorname{OctDigit}(T[k])\ \lor \ T[k]\ =\ \texttt{"\_"})\ \}) \\
 \operatorname{BinRun}(T,\ i)\ =\ \operatorname{max}(\{i\}\ \cup \ \{\ j\ \mid \ i\ <\ j\ \le \ \mid T\mid \ \land \ \forall \ k\ \in \ [i,\ j).\ (\operatorname{BinDigit}(T[k])\ \lor \ T[k]\ =\ \texttt{"\_"})\ \})
 \end{array}
-```
+$$
 
-```math
+$$
 \operatorname{SuffixMatch}(T,\ i,\ U)\ =\ \operatorname{max}(\{i\}\ \cup \ \{\ j\ \mid \ i\ <\ j\ \le \ \mid T\mid \ \land \ \operatorname{Lexeme}(T,\ i,\ j)\ \in \ U\ \})
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{ExpSignEnd}(T,\ i)\ = \\
 \ i+1\ \mathsf{if}\ i\ <\ \mid T\mid \ \land \ T[i]\ \in \ \{\texttt{"+"},\ \texttt{"-"}\} \\
 \ i\quad \mathsf{otherwise}
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{ExpEnd}(T,\ i)\ = \\
 \ \operatorname{DecRun}(T,\ \operatorname{ExpSignEnd}(T,\ i+1))\ \mathsf{if}\ i\ <\ \mid T\mid \ \land \ T[i]\ \in \ \{\texttt{"e"},\ \texttt{"E"}\} \\
 \ i\quad \mathsf{otherwise}
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{DecCoreEnd}(T,\ i)\ = \\
 \ \operatorname{ExpEnd}(T,\ q)\ \mathsf{if}\ p\ =\ \operatorname{DecRun}(T,\ i)\ \land \ p\ <\ \mid T\mid \ \land \ T[p]\ =\ \texttt{"."}\ \land \ (p+1\ \ge \ \mid T\mid \ \lor \ T[p+1]\ \ne \ \texttt{"."})\ \land \ q\ =\ \operatorname{DecRun}(T,\ p+1) \\
 \ \operatorname{ExpEnd}(T,\ p)\ \mathsf{if}\ p\ =\ \operatorname{DecRun}(T,\ i)\ \land \ (p\ \ge \ \mid T\mid \ \lor \ T[p]\ \ne \ \texttt{"."}\ \lor \ (p+1\ <\ \mid T\mid \ \land \ T[p+1]\ =\ \texttt{"."}))
 \end{array}
-```
+$$
 
-```math
+$$
 A\ \mathsf{decimal}\ \mathsf{run}\ \mathsf{immediately}\ \mathsf{followed}\ \mathsf{by}\ \texttt{..}\ \mathsf{or}\ \texttt{..=}\ \mathsf{MUST}\ \mathsf{NOT}\ \mathsf{form}\ a\ \mathsf{float}\ \mathsf{core}.\ \mathsf{In}\ \mathsf{that}\ \mathsf{case}\ \texttt{DecCoreEnd(T, i) = DecRun(T, i)},\ \mathsf{and}\ \mathsf{the}\ \mathsf{following}\ \texttt{.}\ \mathsf{remains}\ \mathsf{available}\ \mathsf{to}\ \mathsf{operator}\ \mathsf{tokenization}.
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{NumericCoreEnd}(T,\ i)\ = \\
 \ \operatorname{HexRun}(T,\ i+2)\ \mathsf{if}\ T[i..i+2]\ =\ \texttt{"0x"} \\
@@ -1017,86 +1016,86 @@ A\ \mathsf{decimal}\ \mathsf{run}\ \mathsf{immediately}\ \mathsf{followed}\ \mat
 \ \operatorname{BinRun}(T,\ i+2)\ \mathsf{if}\ T[i..i+2]\ =\ \texttt{"0b"} \\
 \ \operatorname{DecCoreEnd}(T,\ i)\ \mathsf{otherwise}
 \end{array}
-```
+$$
 
-```math
+$$
 \operatorname{NumericScanEnd}(T,\ i)\ =\ \operatorname{SuffixMatch}(T,\ \operatorname{NumericCoreEnd}(T,\ i),\ \mathsf{NumSuffix})
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{HasDot}(T,\ i,\ j)\ \Leftrightarrow \ \exists \ p.\ i\ \le \ p\ <\ j\ \land \ T[p]\ =\ \texttt{"."} \\
 \operatorname{HasExp}(T,\ i,\ j)\ \Leftrightarrow \ \exists \ p.\ i\ \le \ p\ <\ j\ \land \ T[p]\ \in \ \{\texttt{"e"},\ \texttt{"E"}\} \\
 \operatorname{HasFloatCore}(T,\ i,\ j)\ \Leftrightarrow \ \operatorname{HasDot}(T,\ i,\ j)
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{NumericKind}(T,\ i)\ = \\
 \ \mathsf{FloatLiteral}\ \mathsf{if}\ \operatorname{HasFloatCore}(T,\ i,\ \operatorname{NumericCoreEnd}(T,\ i)) \\
 \ \mathsf{IntLiteral}\quad \mathsf{otherwise}
 \end{array}
-```
+$$
 
 **(Lex-Int)**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{DecDigit}(T[i])\quad j\ =\ \operatorname{NumericScanEnd}(T,\ i)\quad \operatorname{NumericKind}(T,\ i)\ =\ \mathsf{IntLiteral} \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{IntLiteral}(T,\ i)\ \Downarrow \ j
 \end{array}
-```
+$$
 
 **(Lex-Float)**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{DecDigit}(T[i])\quad j\ =\ \operatorname{NumericScanEnd}(T,\ i)\quad \operatorname{NumericKind}(T,\ i)\ =\ \mathsf{FloatLiteral} \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{FloatLiteral}(T,\ i)\ \Downarrow \ j
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{NumericLexemeOk}(T,\ i,\ j)\ \Leftrightarrow \ (\operatorname{Lexeme}(T,\ i,\ j)\ \mathsf{matches}\ \mathsf{integer}_{\mathsf{literal}}\ \lor \ \operatorname{Lexeme}(T,\ i,\ j)\ \mathsf{matches}\ \mathsf{float}_{\mathsf{literal}})\ \land \ \operatorname{NumericUnderscoreOk}(\operatorname{Lexeme}(T,\ i,\ j)) \\
 \operatorname{NumericLexemeBad}(T,\ i,\ j)\ \Leftrightarrow \ \lnot \ \operatorname{NumericLexemeOk}(T,\ i,\ j)
 \end{array}
-```
+$$
 
 **(Lex-Numeric-Err)**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{DecDigit}(T[i])\quad j\ =\ \operatorname{NumericScanEnd}(T,\ i)\quad \operatorname{NumericLexemeBad}(T,\ i,\ j)\quad c\ =\ \operatorname{Code}(\mathsf{Lex}-\mathsf{Numeric}-\mathsf{Err}) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{SpanOfText}(S,\ i,\ j))
 \end{array}
-```
+$$
 
 **Leading Zeros.**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{Digits}(s)\ =\ \operatorname{Remove}(s,\ \texttt{"\_"}) \\
 \operatorname{DecimalLeadingZero}(T,\ i,\ j)\ \Leftrightarrow \ \operatorname{Lexeme}(T,\ i,\ j)\ \mathsf{matches}\ \mathsf{decimal}_{\mathsf{integer}}\ \land \ \mid \operatorname{Digits}(\operatorname{Lexeme}(T,\ i,\ j))\mid \ >\ 1\ \land \ \operatorname{At}(\operatorname{Digits}(\operatorname{Lexeme}(T,\ i,\ j)),\ 0)\ =\ '0'
 \end{array}
-```
+$$
 
 DecimalLeadingZero(T, i, j)
 
-```math
+$$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Emit}(W-\mathsf{SRC}-0301,\ \operatorname{SpanOfText}(S,\ i,\ j))
 \end{array}
-```
+$$
 
 **EscapeSequences.**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{EscapeValue}(\texttt{\textbackslash{}\textbackslash{}})\ =\ 0\mathsf{x5C} \\
 \operatorname{EscapeValue}(\texttt{\textbackslash{}"})\ =\ 0\mathsf{x22} \\
@@ -1108,19 +1107,19 @@ DecimalLeadingZero(T, i, j)
 \operatorname{EscapeValue}(\texttt{"\textbackslash{}\textbackslash{}x"}\ h_{1}\ h_{2})\ =\ \operatorname{HexValue}(h_{1}\ h_{2}) \\
 \operatorname{EscapeValue}(\texttt{"\textbackslash{}\textbackslash{}u\{"}\ h_{1}\ \ldots \ h_{n}\ \texttt{"\}"})\ =\ \operatorname{EncodeUTF8}(\operatorname{HexValue}(h_{1}\ \ldots \ h_{n}))
 \end{array}
-```
+$$
 
 **(Lex-String)**
 
-```math
+$$
 \begin{array}{l}
 T[i]\ =\ \texttt{"\textbackslash{}""}\quad \operatorname{StringTerminator}(T,\ i)\ =\ q\quad q\ <\ \mid T\mid \quad T[q]\ =\ \texttt{"\textbackslash{}""} \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{StringLiteral}(T,\ i)\ \Downarrow \ q\ +\ 1
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{BackslashCount}(T,\ p)\ =\ \mathsf{max}\{\ k\ \mid \ 0\ \le \ k\ \le \ p\ \land \ \forall \ r\ \in \ [p-k,\ p).\ T[r]\ =\ "\setminus \setminus "\ \} \\
 \operatorname{UnescapedQuote}(T,\ p)\ \Leftrightarrow \ T[p]\ =\ \texttt{"\textbackslash{}""}\ \land \ \operatorname{BackslashCount}(T,\ p)\ \mathsf{mod}\ 2\ =\ 0 \\
@@ -1130,53 +1129,53 @@ T[i]\ =\ \texttt{"\textbackslash{}""}\quad \operatorname{StringTerminator}(T,\ i
 \operatorname{BadEscapeAt}(T,\ p)\ \Leftrightarrow \ T[p]\ =\ "\setminus \setminus "\ \land \ \lnot \ \exists \ q.\ \operatorname{EscapeMatch}(T,\ p,\ q) \\
 \operatorname{FirstBadStringEscape}(T,\ i)\ =\ \mathsf{min}\{\ p\ \mid \ i\ <\ p\ <\ \operatorname{StringTerminator}(T,\ i)\ \land \ \operatorname{BadEscapeAt}(T,\ p)\ \}
 \end{array}
-```
+$$
 
 **(Lex-String-Unterminated)**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{LineFeedOrEOFBeforeClose}(T,\ i)\quad c\ =\ \operatorname{Code}(\mathsf{Lex}-\mathsf{String}-\mathsf{Unterminated}) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{SpanOfText}(S,\ i,\ i+1))
 \end{array}
-```
+$$
 
 **(Lex-String-BadEscape)**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{FirstBadStringEscape}(T,\ i)\ =\ p\quad c\ =\ \operatorname{Code}(\mathsf{Lex}-\mathsf{String}-\mathsf{BadEscape}) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{SpanOfText}(S,\ p,\ p+1))
 \end{array}
-```
+$$
 
 **(Lex-Char)**
 
-```math
+$$
 \begin{array}{l}
 T[i]\ =\ \texttt{"'"}\quad \operatorname{CharTerminator}(T,\ i)\ =\ q\quad q\ <\ \mid T\mid \quad T[q]\ =\ \texttt{"'"} \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{CharLiteral}(T,\ i)\ \Downarrow \ q\ +\ 1
 \end{array}
-```
+$$
 
 **Character Literal Encoding.**
 
-```math
+$$
 \mathsf{CharValueRange}\ =\ \{\ x\ \mid \ 0\ \le \ x\ \le \ 0\mathsf{x10FFFF}\ \land \ x\ \notin \ [0\mathsf{xD800},\ 0\mathsf{xDFFF}]\ \}
-```
+$$
 CharRepr = `u32`
 
-```math
+$$
 \begin{array}{l}
 \operatorname{SizeOf}(\texttt{char})\ =\ 4 \\
 \operatorname{AlignOf}(\texttt{char})\ =\ 4
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{UnescapedApostrophe}(T,\ p)\ \Leftrightarrow \ T[p]\ =\ \texttt{"'"}\ \land \ \operatorname{BackslashCount}(T,\ p)\ \mathsf{mod}\ 2\ =\ 0 \\
 \operatorname{CharTerminator}(T,\ i)\ =\ \mathsf{min}\{\ q\ \mid \ q\ >\ i\ \land \ (\operatorname{UnescapedApostrophe}(T,\ q)\ \lor \ T[q]\ =\ \mathsf{LF}\ \lor \ q\ =\ \mid T\mid )\ \} \\
@@ -1188,93 +1187,93 @@ CharRepr = `u32`
 \operatorname{CharScalarCountFrom}(T,\ p,\ q)\ =\ 1\ +\ \operatorname{CharScalarCountFrom}(T,\ p+1,\ q)\ \Leftrightarrow \ p\ <\ q\ \land \ T[p]\ =\ "\setminus \setminus "\ \land \ \lnot \ \exists \ r.\ \operatorname{EscapeMatch}(T,\ p,\ r) \\
 \operatorname{CharScalarCount}(T,\ i)\ =\ \operatorname{CharScalarCountFrom}(T,\ i+1,\ \operatorname{CharTerminator}(T,\ i))
 \end{array}
-```
+$$
 
 **(Lex-Char-Unterminated)**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{LineFeedOrEOFBeforeClose}(T,\ i)\quad c\ =\ \operatorname{Code}(\mathsf{Lex}-\mathsf{Char}-\mathsf{Unterminated}) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{SpanOfText}(S,\ i,\ i+1))
 \end{array}
-```
+$$
 
 **(Lex-Char-BadEscape)**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{FirstBadCharEscape}(T,\ i)\ =\ p\quad c\ =\ \operatorname{Code}(\mathsf{Lex}-\mathsf{Char}-\mathsf{BadEscape}) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{SpanOfText}(S,\ p,\ p+1))
 \end{array}
-```
+$$
 
 **(Lex-Char-Invalid)**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{CharLiteralInvalid}(T,\ i)\quad c\ =\ \operatorname{Code}(\mathsf{Lex}-\mathsf{Char}-\mathsf{Invalid}) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{SpanOfText}(S,\ i,\ i+1))
 \end{array}
-```
+$$
 
 **Literal Tokenization Helpers.**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{StringTok}(T,\ i)\ =\ \{\ (\mathsf{StringLiteral},\ j)\ \mid \ \operatorname{StringLiteral}(T,\ i)\ \Downarrow \ j\ \} \\
 \operatorname{CharTok}(T,\ i)\ =\ \{\ (\mathsf{CharLiteral},\ j)\ \mid \ \operatorname{CharLiteral}(T,\ i)\ \Downarrow \ j\ \} \\
 \operatorname{IntTok}(T,\ i)\ =\ \{\ (\mathsf{IntLiteral},\ j)\ \mid \ \operatorname{IntLiteral}(T,\ i)\ \Downarrow \ j\ \} \\
 \operatorname{FloatTok}(T,\ i)\ =\ \{\ (\mathsf{FloatLiteral},\ j)\ \mid \ \operatorname{FloatLiteral}(T,\ i)\ \Downarrow \ j\ \}
 \end{array}
-```
+$$
 
 
-#### 4.2.7 Identifier and Keyword Lexing
+### 4.2.7 Identifier and Keyword Lexing
 
 T = S.scalars
 
 **Identifier Scan.**
 
-```math
+$$
 \operatorname{IdentScanEnd}(T,\ i)\ =\ \mathsf{min}\{\ j\ \mid \ j\ >\ i\ \land \ (\lnot \ \operatorname{IdentContinue}(T[j])\ \lor \ j\ =\ \mid T\mid )\ \land \ \forall \ k\ \in \ (i,\ j).\ \operatorname{IdentContinue}(T[k])\ \}
-```
+$$
 
 **(Lex-Identifier)**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{IdentStart}(T[i])\quad j\ =\ \operatorname{IdentScanEnd}(T,\ i)\quad s\ =\ \operatorname{Lexeme}(T,\ i,\ j) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Ident}(T,\ i)\ \Downarrow \ (s,\ j)
 \end{array}
-```
+$$
 
 **(Lex-Ident-InvalidUnicode)**
 
-```math
+$$
 \begin{array}{l}
 k\ =\ \mathsf{min}\{\ p\ \mid \ i\ \le \ p\ <\ j\ \land \ \operatorname{NonCharacter}(T[p])\ \}\quad c\ =\ \operatorname{Code}(\mathsf{Lex}-\mathsf{Ident}-\mathsf{InvalidUnicode}) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{SpanOfText}(S,\ k,\ k+1))
 \end{array}
-```
+$$
 
 **(Lex-Ident-Token)**
 
-```math
+$$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{Ident}(T,\ i)\ \Downarrow \ (s,\ j)\quad \Gamma \ \vdash \ \operatorname{ClassifyIdent}(s)\ \Downarrow \ k \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{IdentToken}(T,\ i)\ \Downarrow \ (k,\ j)
 \end{array}
-```
+$$
 
 **Keyword Classification.**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{ClassifyIdent}(s)\ = \\
 \ \mathsf{BoolLiteral}\ \mathsf{if}\ s\ \in \ \{\texttt{"true"},\ \texttt{"false"}\} \\
@@ -1282,32 +1281,32 @@ k\ =\ \mathsf{min}\{\ p\ \mid \ i\ \le \ p\ <\ j\ \land \ \operatorname{NonChara
 \ \operatorname{Keyword}(s)\ \mathsf{if}\ \operatorname{Keyword}(s) \\
 \ \mathsf{Identifier}\ \mathsf{otherwise}
 \end{array}
-```
+$$
 
-#### 4.2.8 Operator and Punctuator Lexing
+### 4.2.8 Operator and Punctuator Lexing
 
 OpSet = OperatorSet
 PuncSet = PunctuatorSet
 
-```math
+$$
 \begin{array}{l}
 \operatorname{OpMatch}(T,\ i)\ =\ \{\ (o,\ j)\ \mid \ o\ \in \ \mathsf{OpSet}\ \land \ \operatorname{Lexeme}(T,\ i,\ j)\ =\ o\ \} \\
 \operatorname{PuncMatch}(T,\ i)\ =\ \{\ (p,\ j)\ \mid \ p\ \in \ \mathsf{PuncSet}\ \land \ \operatorname{Lexeme}(T,\ i,\ j)\ =\ p\ \}
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{OpTok}(T,\ i)\ =\ \{\ (\operatorname{Operator}(o),\ j)\ \mid \ (o,\ j)\ \in \ \operatorname{OpMatch}(T,\ i)\ \} \\
 \operatorname{PuncTok}(T,\ i)\ =\ \{\ (\operatorname{Punctuator}(p),\ j)\ \mid \ (p,\ j)\ \in \ \operatorname{PuncMatch}(T,\ i)\ \}
 \end{array}
-```
+$$
 
-#### 4.2.9 Maximal-Munch Rule
+### 4.2.9 Maximal-Munch Rule
 
 T = S.scalars
 
-```math
+$$
 \begin{array}{l}
 \operatorname{IsQuote}(c)\ \Leftrightarrow \ c\ \in \ \{\texttt{"\textbackslash{}""},\ \texttt{"'"}\} \\
 \operatorname{Candidates}(T,\ i)\ = \\
@@ -1317,13 +1316,13 @@ T = S.scalars
 \ \operatorname{OpTok}(T,\ i)\ \cup \ \operatorname{PuncTok}(T,\ i)\quad \mathsf{if}\ \operatorname{OpTok}(T,\ i)\ \ne \ \emptyset \ \lor \ \operatorname{PuncTok}(T,\ i)\ \ne \ \emptyset  \\
 \ \emptyset \quad \mathsf{otherwise}
 \end{array}
-```
+$$
 
-```math
+$$
 \operatorname{Longest}(C)\ =\ \{\ (k,\ j)\ \in \ C\ \mid \ \forall \ (k',\ j')\ \in \ C,\ j\ \ge \ j'\ \}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{KindPriority}(\mathsf{IntLiteral})\ =\ 3 \\
 \operatorname{KindPriority}(\mathsf{FloatLiteral})\ =\ 3 \\
@@ -1336,45 +1335,45 @@ T = S.scalars
 \operatorname{KindPriority}(\operatorname{Operator}(\_))\ =\ 1 \\
 \operatorname{KindPriority}(\operatorname{Punctuator}(\_))\ =\ 0
 \end{array}
-```
+$$
 
-```math
+$$
 \operatorname{PickLongest}(C)\ =\ \mathsf{argmax}\_\{(k,\ j)\ \in \ C\}\ \langle j,\ \operatorname{KindPriority}(k)\rangle 
-```
+$$
 
 **(Max-Munch)**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{PickLongest}(C)\ =\ (k,\ j) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{NextToken}(T,\ i)\ \Downarrow \ (k,\ j)
 \end{array}
-```
+$$
 
 **(Max-Munch-Err)**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{Candidates}(T,\ i)\ =\ \emptyset \quad c\ =\ \operatorname{Code}(\mathsf{Max}-\mathsf{Munch}-\mathsf{Err}) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{NextToken}(T,\ i)\ \Uparrow \ c
 \end{array}
-```
+$$
 
 GenericCloseException = false
 
-#### 4.2.10 Lexical Security
+### 4.2.10 Lexical Security
 
 T = S.scalars
 
-```math
+$$
 O\ =\ \operatorname{Utf8Offsets}(T)
-```
+$$
 
 **Literal and Comment Ranges.**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{LineCommentRange}(T,\ i,\ j)\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{ScanLineComment}(T,\ i)\ \Downarrow \ j \\
 \operatorname{BlockCommentRange}(T,\ i,\ j)\ \Leftrightarrow \ T[i..i+2]\ =\ \texttt{"/*"}\ \land \ \langle \operatorname{BlockScan}(T,\ i,\ 0,\ i)\rangle \ \to *\ \langle \operatorname{BlockDone}(j)\rangle  \\
@@ -1382,288 +1381,288 @@ O\ =\ \operatorname{Utf8Offsets}(T)
 \operatorname{CharRange}(T,\ i,\ j)\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{CharLiteral}(T,\ i)\ \Downarrow \ j \\
 \operatorname{InsideLiteralOrComment}(i)\ \Leftrightarrow \ \exists \ a,\ b.\ a\ \le \ i\ <\ b\ \land \ (\operatorname{LineCommentRange}(T,\ a,\ b)\ \lor \ \operatorname{BlockCommentRange}(T,\ a,\ b)\ \lor \ \operatorname{StringRange}(T,\ a,\ b)\ \lor \ \operatorname{CharRange}(T,\ a,\ b))
 \end{array}
-```
+$$
 
 **Sensitive Positions in a Span.**
 
-```math
+$$
 \operatorname{SensitiveInSpan}(T,\ i,\ j)\ =\ [\ p\ \mid \ i\ \le \ p\ <\ j\ \land \ \operatorname{Sensitive}(T[p])\ ]
-```
+$$
 
 **Unsafe Spans (Token-Only).**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{IsLBrace}(t)\ \Leftrightarrow \ t.\mathsf{kind}\ =\ \operatorname{Punctuator}(\texttt{"\{"}) \\
 \operatorname{IsRBrace}(t)\ \Leftrightarrow \ t.\mathsf{kind}\ =\ \operatorname{Punctuator}(\texttt{"\}"})
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{NextNonNewline}(K,\ i)\ =\ \bot \ \Leftrightarrow \ \{\ j\ \mid \ j\ \ge \ i\ \land \ K[j].\mathsf{kind}\ \ne \ \mathsf{Newline}\ \}\ =\ \emptyset  \\
 \operatorname{NextNonNewline}(K,\ i)\ =\ j\ \Leftrightarrow \ j\ =\ \mathsf{min}\{\ j\ \mid \ j\ \ge \ i\ \land \ K[j].\mathsf{kind}\ \ne \ \mathsf{Newline}\ \}
 \end{array}
-```
+$$
 
-```math
+$$
 \operatorname{MatchBrace}(K,\ j)\ =\ \mathsf{min}\{\ k\ \mid \ k\ >\ j\ \land \ \operatorname{Balance}(j,\ k)\ =\ 0\ \land \ \forall \ m\ \in \ (j,\ k),\ \operatorname{Balance}(j,\ m)\ >\ 0\ \}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{Balance}(K,\ j,\ m)\ =\ \mid \{\ x\ \mid \ j\ \le \ x\ \le \ m\ \land \ \operatorname{IsLBrace}(K[x])\ \}\mid \ -\ \mid \{\ x\ \mid \ j\ \le \ x\ \le \ m\ \land \ \operatorname{IsRBrace}(K[x])\ \}\mid  \\
 \operatorname{MatchBrace}(K,\ j)\ =\ \bot \ \Leftrightarrow \ \{\ k\ \mid \ k\ >\ j\ \land \ \operatorname{Balance}(K,\ j,\ k)\ =\ 0\ \land \ \forall \ m\ \in \ (j,\ k).\ \operatorname{Balance}(K,\ j,\ m)\ >\ 0\ \}\ =\ \emptyset 
 \end{array}
-```
+$$
 
-```math
+$$
 \operatorname{SpanFrom}(t_{a},\ t_{b})\ =\ \langle t_{a}.\mathsf{span}.\mathsf{file},\ t_{a}.\mathsf{span}.\mathsf{start}_{\mathsf{offset}},\ t_{b}.\mathsf{span}.\mathsf{end}_{\mathsf{offset}},\ t_{a}.\mathsf{span}.\mathsf{start}_{\mathsf{line}},\ t_{a}.\mathsf{span}.\mathsf{start}_{\mathsf{col}},\ t_{b}.\mathsf{span}.\mathsf{end}_{\mathsf{line}},\ t_{b}.\mathsf{span}.\mathsf{end}_{\mathsf{col}}\rangle 
-```
+$$
 
-```math
+$$
 \operatorname{UnsafeSpans}(K)\ =\ \{\ \operatorname{SpanFrom}(K[j],\ K[k])\ \mid \ K[i].\mathsf{kind}\ =\ \operatorname{Keyword}(\texttt{"unsafe"}),\ j\ =\ \operatorname{NextNonNewline}(K,\ i+1),\ K[j].\mathsf{kind}\ =\ \operatorname{Punctuator}(\texttt{"\{"}),\ k\ =\ \operatorname{MatchBrace}(K,\ j),\ k\ \ne \ \bot \ \}
-```
+$$
 
-```math
+$$
 \operatorname{UnsafeAtByte}(b)\ \Leftrightarrow \ \exists \ \mathsf{sp}\ \in \ \operatorname{UnsafeSpans}(K).\ b\ \in \ \operatorname{SpanRange}(\mathsf{sp})
-```
+$$
 
 UnsafeSpanMode = TokenOnly
 
 **Lexical Security Check.**
 
-```math
+$$
 \mathsf{Sens}\ =\ [\ p\ \mid \ \operatorname{Sensitive}(T[p])\ \land \ \lnot \ \operatorname{InsideLiteralOrComment}(p)\ ]
-```
+$$
 
 **(LexSecure-Err)**
 
-```math
+$$
 \begin{array}{l}
 i\ =\ \mathsf{min}\{\ p\ \mid \ p\ \in \ \mathsf{Sens}\ \land \ \lnot \ \operatorname{UnsafeAtByte}(\operatorname{ByteOf}(T,\ p))\ \}\quad c\ =\ \operatorname{Code}(\mathsf{LexSecure}-\mathsf{Err}) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{LexSecure}(S,\ K,\ \mathsf{Sens})\ \Uparrow \ c
 \end{array}
-```
+$$
 
 **(LexSecure-Warn)**
 
-```math
+$$
 \begin{array}{l}
 \forall \ p\ \in \ \mathsf{Sens},\ \operatorname{UnsafeAtByte}(\operatorname{ByteOf}(T,\ p))\quad \Gamma \ \vdash \ \operatorname{EmitList}(\operatorname{LexSecureWarns}(S,\ \mathsf{Sens})) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{LexSecure}(S,\ K,\ \mathsf{Sens})\ \Downarrow \ \mathsf{ok}
 \end{array}
-```
+$$
 
 **Confusable Identifier Checks.**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{ConfusablePair}(x,\ y)\ \Leftrightarrow \ \operatorname{Skeleton}(\operatorname{NFC}(x))\ =\ \operatorname{Skeleton}(\operatorname{NFC}(y))\ \land \ \operatorname{NFC}(x)\ \ne \ \operatorname{NFC}(y) \\
 \operatorname{MixedScript}(x)\ \Leftrightarrow \ \operatorname{IdentifierScripts}(\operatorname{NFC}(x))\ \mathsf{contains}\ \mathsf{more}\ \mathsf{than}\ \mathsf{one}\ \mathsf{non}-\mathsf{Common},\ \mathsf{non}-\mathsf{Inherited}\ \mathsf{script}
 \end{array}
-```
+$$
 
 **(Confusable-Err)**
 
-```math
+$$
 \begin{array}{l}
 \exists \ x,\ y\ \in \ \operatorname{IdentifierLexemes}(S).\ \operatorname{ConfusablePair}(x,\ y)\quad c\ =\ \operatorname{Code}(\mathsf{Confusable}-\mathsf{Err}) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{ConfusableCheck}(S)\ \Uparrow \ c
 \end{array}
-```
+$$
 
 **(MixedScript-Err)**
 
-```math
+$$
 \begin{array}{l}
 \exists \ x\ \in \ \operatorname{IdentifierLexemes}(S).\ \operatorname{MixedScript}(x)\quad c\ =\ \operatorname{Code}(\mathsf{MixedScript}-\mathsf{Err}) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{ConfusableCheck}(S)\ \Uparrow \ c
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{LexSecureWarns}(S,\ \mathsf{Sens})\ =\ [\ \langle W-\mathsf{SRC}-0308,\ \operatorname{SpanOfText}(S,\ p,\ p+1)\rangle \ \mid \ p\ \in \ \mathsf{Sens}\ ] \\
 \operatorname{LexSecureErrSpan}(S,\ i)\ =\ \operatorname{SpanOfText}(S,\ i,\ i+1)
 \end{array}
-```
+$$
 
-#### 4.2.11 Tokenization
+### 4.2.11 Tokenization
 
-```math
+$$
 \mathsf{LexState}\ =\ \{\operatorname{LexStart}(S),\ \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens}),\ \operatorname{LexDone}(K,\ D,\ \mathsf{Sens}),\ \operatorname{LexError}(\mathsf{code})\}
-```
+$$
 T = S.scalars
 |T| = len(T)
 
 **(Lex-Start)**
 
-```math
+$$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\
 \langle \operatorname{LexStart}(S)\rangle \ \to \ \langle \operatorname{LexScan}(S,\ 0,\ [],\ [],\ [])\rangle 
 \end{array}
-```
+$$
 
 **(Lex-End)**
 
-```math
+$$
 \begin{array}{l}
 i\ \ge \ \mid T\mid  \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexDone}(K,\ D,\ \mathsf{Sens})\rangle 
 \end{array}
-```
+$$
 
 **(Lex-Whitespace)**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{Whitespace}(T[i]) \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ i+1,\ K,\ D,\ \mathsf{Sens})\rangle 
 \end{array}
-```
+$$
 
 **(Lex-Newline)**
 T[i] = LF
 
-```math
+$$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\
 \langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ i+1,\ K\ \mathbin{++} \ [\langle \mathsf{newline},\ \operatorname{Lexeme}(T,\ i,\ i+1),\ \operatorname{SpanOfText}(S,\ i,\ i+1)\rangle ],\ D,\ \mathsf{Sens})\rangle 
 \end{array}
-```
+$$
 
 **(Lex-Line-Comment)**
 
-```math
+$$
 \begin{array}{l}
 T[i..i+2]\ =\ \texttt{"//"}\quad T[i..i+3]\ \notin \ \{\texttt{"///"},\ \texttt{"//!"}\}\quad \Gamma \ \vdash \ \operatorname{ScanLineComment}(T,\ i)\ \Downarrow \ j \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ j,\ K,\ D,\ \mathsf{Sens})\rangle 
 \end{array}
-```
+$$
 
 **(Lex-Doc-Comment)**
 
-```math
+$$
 \begin{array}{l}
 T[i..i+3]\ \in \ \{\texttt{"///"},\ \texttt{"//!"}\}\quad \Gamma \ \vdash \ \operatorname{ScanLineComment}(T,\ i)\ \Downarrow \ j\quad \Gamma \ \vdash \ \operatorname{DocComment}(T,\ i)\ \Downarrow \ d \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ j,\ K,\ D\ \mathbin{++} \ [d],\ \mathsf{Sens})\rangle 
 \end{array}
-```
+$$
 
 **(Lex-Block-Comment)**
 
-```math
+$$
 \begin{array}{l}
 T[i..i+2]\ =\ \texttt{"/*"}\quad \langle \operatorname{BlockScan}(T,\ i,\ 0,\ i)\rangle \ \to *\ \langle \operatorname{BlockDone}(j)\rangle  \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ j,\ K,\ D,\ \mathsf{Sens})\rangle 
 \end{array}
-```
+$$
 
 **(Lex-String-Unterminated-Recover)**
 
-```math
+$$
 \begin{array}{l}
 T[i]\ =\ \texttt{"\textbackslash{}""}\quad \operatorname{LineFeedOrEOFBeforeClose}(T,\ i)\quad c\ =\ \operatorname{Code}(\mathsf{Lex}-\mathsf{String}-\mathsf{Unterminated})\quad \Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{SpanOfText}(S,\ i,\ i+1))\quad j\ =\ \operatorname{StringTerminator}(T,\ i) \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ j,\ K,\ D,\ \mathsf{Sens})\rangle 
 \end{array}
-```
+$$
 
 **(Lex-Char-Unterminated-Recover)**
 
-```math
+$$
 \begin{array}{l}
 T[i]\ =\ \texttt{"'"}\quad \operatorname{LineFeedOrEOFBeforeClose}(T,\ i)\quad c\ =\ \operatorname{Code}(\mathsf{Lex}-\mathsf{Char}-\mathsf{Unterminated})\quad \Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{SpanOfText}(S,\ i,\ i+1))\quad j\ =\ \operatorname{CharTerminator}(T,\ i) \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ j,\ K,\ D,\ \mathsf{Sens})\rangle 
 \end{array}
-```
+$$
 
 **(Lex-Sensitive)**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{Sensitive}(T[i]) \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ i+1,\ K,\ D,\ \mathsf{Sens}\ \mathbin{++} \ [i])\rangle 
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{SensitiveTok}(T,\ i,\ j,\ k)\ = \\
 \ []\quad \mathsf{if}\ k\ \in \ \{\mathsf{StringLiteral},\ \mathsf{CharLiteral}\} \\
 \ \operatorname{SensitiveInSpan}(T,\ i,\ j)\ \mathsf{otherwise}
 \end{array}
-```
+$$
 
 **Tuple Projection Lexical Disambiguation.**
 The postfix form `postfix_expr "." int_literal` takes precedence over a decimal-float token that would begin immediately after an already-emitted `.` token. If the most recently emitted token in `K` has lexeme `"."`, and the source at `i` admits both an `IntLiteral` token ending at `j_i` and a `FloatLiteral` token ending at `j_f` with `j_i < j_f`, the lexer MUST emit the `IntLiteral` token over `[i, j_i)` and continue from `j_i`. The following `.` remains available for subsequent tokenization.
 
 **(Lex-Token)**
 
-```math
+$$
 \begin{array}{l}
 \lnot \ \operatorname{Whitespace}(T[i])\quad T[i]\ \ne \ \mathsf{LF}\quad T[i..i+2]\ \notin \ \{\texttt{"//"},\ \texttt{"/*"}\}\quad \lnot \ \operatorname{Sensitive}(T[i])\quad \Gamma \ \vdash \ \operatorname{NextToken}(T,\ i)\ \Downarrow \ (k,\ j) \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ j,\ K\ \mathbin{++} \ [\langle k,\ \operatorname{Lexeme}(T,\ i,\ j),\ \operatorname{SpanOfText}(S,\ i,\ j)\rangle ],\ D,\ \mathsf{Sens}\ \mathbin{++} \ \operatorname{SensitiveTok}(T,\ i,\ j,\ k))\rangle 
 \end{array}
-```
+$$
 
 **(Lex-Token-Err)**
 
-```math
+$$
 \begin{array}{l}
 \lnot \ \operatorname{Whitespace}(T[i])\quad T[i]\ \ne \ \mathsf{LF}\quad T[i..i+2]\ \notin \ \{\texttt{"//"},\ \texttt{"/*"}\}\quad \lnot \ (T[i]\ =\ \texttt{"\textbackslash{}""}\ \land \ \operatorname{LineFeedOrEOFBeforeClose}(T,\ i))\quad \lnot \ (T[i]\ =\ \texttt{"'"}\ \land \ \operatorname{LineFeedOrEOFBeforeClose}(T,\ i))\quad \lnot \ \operatorname{Sensitive}(T[i])\quad \Gamma \ \vdash \ \operatorname{NextToken}(T,\ i)\ \Uparrow \ c \\
 \rule{18em}{0.4pt} \\
 \langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexError}(c)\rangle 
 \end{array}
-```
+$$
 
-#### 4.2.12 Tokenize
+### 4.2.12 Tokenize
 
 **(Tokenize-Ok)**
 
-```math
+$$
 \begin{array}{l}
 \langle \operatorname{LexStart}(S)\rangle \ \to *\ \langle \operatorname{LexDone}(K,\ D,\ \mathsf{Sens})\rangle \quad \Gamma \ \vdash \ \operatorname{LexSecure}(S,\ K,\ \mathsf{Sens})\ \Downarrow \ \mathsf{ok} \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Tokenize}(S)\ \Downarrow \ (K,\ D)
 \end{array}
-```
+$$
 
 **(Tokenize-Secure-Err)**
 
-```math
+$$
 \begin{array}{l}
 \langle \operatorname{LexStart}(S)\rangle \ \to *\ \langle \operatorname{LexDone}(K,\ D,\ \mathsf{Sens})\rangle \quad \Gamma \ \vdash \ \operatorname{LexSecure}(S,\ K,\ \mathsf{Sens})\ \Uparrow \ c \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Tokenize}(S)\ \Uparrow \ c
 \end{array}
-```
+$$
 
 **(Tokenize-Err)**
 
-```math
+$$
 \begin{array}{l}
 \langle \operatorname{LexStart}(S)\rangle \ \to *\ \langle \operatorname{LexError}(c)\rangle  \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Tokenize}(S)\ \Uparrow \ c
 \end{array}
-```
+$$
 
-### 4.3 Source Loading and Lexical Diagnostics
+## 4.3 Source Loading and Lexical Diagnostics
 
 This section owns source-loading and lexical diagnostics not reintroduced by later feature chapters.
 

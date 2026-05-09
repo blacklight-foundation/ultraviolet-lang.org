@@ -16,7 +16,7 @@
     "Segoe UI", sans-serif;
   --sl-font-mono: "JetBrains Mono", "SFMono-Regular", Consolas,
     "Liberation Mono", monospace;
-  --sl-content-width: 48rem;
+  --sl-content-width: 64rem;
 }
 
 :root[data-theme="light"] {
@@ -116,7 +116,82 @@
 .sl-markdown-content .katex-display {
   overflow-x: auto;
   overflow-y: hidden;
-  padding-block: 0.2rem;
+  margin: 1rem 0;
+  border: 1px solid color-mix(in srgb, var(--sl-color-gray-5) 76%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--sl-color-gray-6) 24%, var(--sl-color-black));
+  padding: 0.85rem 1rem;
+}
+
+.sl-markdown-content .katex-display > .katex {
+  text-align: left;
+}
+
+.sl-markdown-content .spec-reader-map {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.sl-markdown-content .spec-reader-map a {
+  border: 1px solid color-mix(in srgb, var(--sl-color-gray-5) 80%, transparent);
+  border-radius: 999px;
+  padding: 0.42rem 0.7rem;
+  color: var(--sl-color-gray-1);
+  font-size: 0.88rem;
+  text-decoration: none;
+}
+
+.sl-markdown-content .spec-reader-map a:hover,
+.sl-markdown-content .spec-reader-map a:focus-visible {
+  border-color: color-mix(in srgb, var(--sl-color-accent-high) 64%, var(--sl-color-gray-5));
+  color: var(--sl-color-white);
+}
+
+.sl-markdown-content .spec-index-group {
+  margin: 1.7rem 0;
+}
+
+.sl-markdown-content .spec-index-group h2 {
+  margin-bottom: 0.75rem;
+}
+
+.sl-markdown-content .spec-index-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.sl-markdown-content .spec-index-link {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.7rem;
+  align-items: start;
+  border: 1px solid color-mix(in srgb, var(--sl-color-gray-5) 78%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--sl-color-gray-6) 28%, var(--sl-color-black));
+  padding: 0.75rem;
+  text-decoration: none;
+}
+
+.sl-markdown-content .spec-index-link:hover,
+.sl-markdown-content .spec-index-link:focus-visible {
+  border-color: color-mix(in srgb, var(--sl-color-accent-high) 62%, var(--sl-color-gray-5));
+  text-decoration: none;
+}
+
+.sl-markdown-content .spec-index-link span {
+  min-width: 2.8rem;
+  color: var(--sl-color-accent-high);
+  font-family: var(--sl-font-mono);
+  font-size: 0.78rem;
+}
+
+.sl-markdown-content .spec-index-link strong {
+  color: var(--sl-color-white);
+  font-size: 0.92rem;
+  line-height: 1.35;
 }
 
 .sl-markdown-content .spec-provenance {
@@ -379,6 +454,10 @@
   }
 
   .sl-markdown-content .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sl-markdown-content .spec-index-grid {
     grid-template-columns: 1fr;
   }
 

@@ -3,7 +3,7 @@ title: "Conformance and Notation"
 description: "1. Conformance and Notation of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T18:13:03.158Z"
+generatedAt: "2026-05-09T19:35:24.518Z"
 generated: true
 ---
 
@@ -12,41 +12,40 @@ generated: true
   <span>SHA-256: <code>1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e</code></span>
 </div>
 
-## 1. Conformance and Notation
 
-### 1.1 Conformance
+## 1.1 Conformance
 
 **Conforming.**
 
-```math
+$$
 \operatorname{Conforming}(P)\ \Leftrightarrow \ \operatorname{WF}(P)
-```
+$$
 
 **WF.**
 
-```math
+$$
 \operatorname{WF}(P)\ \Leftrightarrow \ \exists \ \Gamma .\ \operatorname{Project}(\Gamma )\ =\ P\ \land \ \forall \ j\ \in \ \operatorname{ReqJudgments}(P).\ \Gamma \ \vdash \ j\ \Downarrow \ \mathsf{ok}
-```
+$$
 
 **ReqJudgments.**
 
-```math
+$$
 \operatorname{ReqJudgments}(P)\ =\ [\operatorname{Phase1Order}(P),\ \operatorname{Phase2Order}(P),\ \operatorname{Phase3Order}(P),\ \operatorname{Phase4Order}(P)]
-```
+$$
 
 **Phase1Order.**
 
-```math
+$$
 \Gamma \ \vdash \ \operatorname{Phase1Order}(P)\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \exists \ \mathsf{Ms}.\ \Gamma \ \vdash \ \operatorname{ParseModules}(P)\ \Downarrow \ \mathsf{Ms}
-```
+$$
 
 **Phase2Order.**
 
-```math
+$$
 \Gamma \ \vdash \ \operatorname{Phase2Order}(P)\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \exists \ \mathsf{Ms},\ \mathsf{Ms}_{\mathsf{ct}}.\ \Gamma \ \vdash \ \operatorname{ParseModules}(P)\ \Downarrow \ \mathsf{Ms}\ \land \ \Gamma \ \vdash \ \operatorname{ExecuteComptime}(P,\ \mathsf{Ms})\ \Downarrow \ \mathsf{Ms}_{\mathsf{ct}}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{Phase3Checks}(P,\ \mathsf{Ms}_{\mathsf{ct}},\ \mathsf{Ms}_{\mathsf{res}})\ =\ [\Gamma_{\mathsf{ct}} \ \vdash \ \operatorname{ResolveModules}(P_{\mathsf{ct}})\ \Downarrow \ \mathsf{Ms}_{\mathsf{res}},\ \Gamma_{\mathsf{res}} \ \vdash \ \operatorname{DeclTyping}(\mathsf{Ms}_{\mathsf{res}})\ \Downarrow \ \mathsf{ok},\ \Gamma_{\mathsf{res}} \ \vdash \ \operatorname{MainCheck}(P_{\mathsf{res}})\ \Downarrow \ \mathsf{ok}] \\
 \ \mathsf{where} \\
@@ -56,24 +55,24 @@ generated: true
 \ \Gamma_{\mathsf{res}} \ =\ \Gamma [\mathsf{project}\ \mapsto \ P_{\mathsf{res}}] \\
 \operatorname{Phase3Order}(P)\ \Leftrightarrow \ \exists \ \mathsf{Ms},\ \mathsf{Ms}_{\mathsf{ct}},\ \mathsf{Ms}_{\mathsf{res}}.\ \Gamma \ \vdash \ \operatorname{ParseModules}(P)\ \Downarrow \ \mathsf{Ms}\ \land \ \Gamma \ \vdash \ \operatorname{ExecuteComptime}(P,\ \mathsf{Ms})\ \Downarrow \ \mathsf{Ms}_{\mathsf{ct}}\ \land \ \operatorname{FirstFail}(\operatorname{Phase3Checks}(P,\ \mathsf{Ms}_{\mathsf{ct}},\ \mathsf{Ms}_{\mathsf{res}}))\ =\ \bot 
 \end{array}
-```
+$$
 
 **Phase4Order.**
 
-```math
+$$
 \Gamma \ \vdash \ \operatorname{Phase4Order}(P)\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \exists \ \mathsf{Ms},\ \mathsf{Ms}_{\mathsf{ct}},\ \mathsf{Ms}_{\mathsf{res}},\ \mathsf{Objs},\ \mathsf{IRs},\ \mathsf{Artifact}.\ \Gamma \ \vdash \ \operatorname{ParseModules}(P)\ \Downarrow \ \mathsf{Ms}\ \land \ \Gamma \ \vdash \ \operatorname{ExecuteComptime}(P,\ \mathsf{Ms})\ \Downarrow \ \mathsf{Ms}_{\mathsf{ct}}\ \land \ \operatorname{FirstFail}(\operatorname{Phase3Checks}(P,\ \mathsf{Ms}_{\mathsf{ct}},\ \mathsf{Ms}_{\mathsf{res}}))\ =\ \bot \ \land \ P_{\mathsf{res}}\ =\ \operatorname{ProjectView}(P,\ \mathsf{Ms}_{\mathsf{res}})\ \land \ \Gamma_{\mathsf{res}} \ =\ \Gamma [\mathsf{project}\ \mapsto \ P_{\mathsf{res}}]\ \land \ \Gamma_{\mathsf{res}} \ \vdash \ \operatorname{OutputPipeline}(P_{\mathsf{res}})\ \Downarrow \ (\mathsf{Objs},\ \mathsf{IRs},\ \mathsf{Artifact})
-```
+$$
 
 **Constructs.**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{TypeNodes}(P,\ m)\ =\ \{\ t\ \mid \ t\ \in \ \mathsf{Type}\ \land \ \operatorname{Subnode}(\operatorname{ASTModule}(P,\ m),\ t)\ \} \\
 \operatorname{StmtNodes}(P,\ m)\ =\ \{\ s\ \mid \ s\ \in \ \mathsf{Stmt}\ \land \ \operatorname{Subnode}(\operatorname{ASTModule}(P,\ m),\ s)\ \}
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{ItemKind}(\operatorname{UsingDecl}(\_,\ \_,\ \_,\ \_,\ \_))\ =\ \texttt{using\_decl} \\
 \operatorname{ItemKind}(\operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_))\ =\ \texttt{procedure} \\
@@ -85,13 +84,13 @@ generated: true
 \operatorname{ItemKind}(\operatorname{StaticDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_))\ =\ \texttt{static\_decl} \\
 \operatorname{ItemKind}(\_)\ =\ \bot 
 \end{array}
-```
+$$
 
-```math
+$$
 \operatorname{TopDeclConstructs}(P)\ =\ \{\ \operatorname{ItemKind}(\mathsf{it})\ \mid \ m\ \in \ P.\mathsf{modules}\ \land \ \mathsf{it}\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\ \land \ \operatorname{ItemKind}(\mathsf{it})\ \ne \ \bot \ \}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{TypeCtor}(\operatorname{TypePerm}(\_,\ \mathsf{base}))\ =\ \operatorname{TypeCtor}(\mathsf{base}) \\
 \operatorname{TypeCtor}(\operatorname{TypePrim}(\mathsf{name}))\ =\ \{\mathsf{name}\} \\
@@ -122,13 +121,13 @@ generated: true
 \operatorname{TypeCtor}(\operatorname{TypePath}(p))\ =\ \{\texttt{enum}\}\ \mathsf{if}\ \operatorname{EnumDecl}(p)\ \mathsf{defined} \\
 \operatorname{TypeCtor}(\_)\ =\ \emptyset 
 \end{array}
-```
+$$
 
-```math
+$$
 \operatorname{TypeConstructs}(P)\ =\ \bigcup \_\{m\ \in \ P.\mathsf{modules}\}\ \bigcup \_\{t\ \in \ \operatorname{TypeNodes}(P,\ m)\}\ \operatorname{TypeCtor}(t)
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{PermOfType}(\operatorname{TypePerm}(p,\ \_))\ =\ \{p\} \\
 \operatorname{PermOfType}(\_)\ =\ \emptyset  \\
@@ -137,9 +136,9 @@ generated: true
 \operatorname{StateRecvPerms}(\mathsf{states})\ =\ \{\ p\ \mid \ \exists \ S,\ \mathsf{members},\ \mathsf{span},\ \mathsf{doc},\ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body}.\ \operatorname{StateBlock}(S,\ \mathsf{members},\ \mathsf{span},\ \mathsf{doc})\ \in \ \mathsf{states}\ \land \ \operatorname{StateMethodDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \_,\ \_)\ \in \ \mathsf{members}\ \land \ \mathsf{recv}\ =\ \operatorname{ReceiverShorthand}(p)\ \} \\
 \operatorname{PermConstructs}(P)\ =\ \bigcup \_\{m\ \in \ P.\mathsf{modules}\}\ \bigcup \_\{t\ \in \ \operatorname{TypeNodes}(P,\ m)\}\ \operatorname{PermOfType}(t)\ \cup \ \bigcup \_\{m\ \in \ P.\mathsf{modules}\}\ \bigcup \_\{\operatorname{RecordDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{members},\ \_,\ \_,\ \_)\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\}\ \operatorname{RecvPerms}(\mathsf{members})\ \cup \ \bigcup \_\{m\ \in \ P.\mathsf{modules}\}\ \bigcup \_\{\operatorname{ModalDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{states},\ \_,\ \_,\ \_)\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\}\ \operatorname{StateRecvPerms}(\mathsf{states})\ \cup \ \bigcup \_\{m\ \in \ P.\mathsf{modules}\}\ \bigcup \_\{\operatorname{ClassDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{items},\ \_,\ \_)\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\}\ \operatorname{ClassRecvPerms}(\mathsf{items})
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{ExprKind}(\operatorname{Literal}(\_))\ =\ \texttt{literal} \\
 \operatorname{ExprKind}(\operatorname{Identifier}(\_))\ =\ \texttt{identifier} \\
@@ -170,9 +169,9 @@ generated: true
 \operatorname{ExprKind}(\operatorname{AllExpr}(\_))\ =\ \texttt{all} \\
 \operatorname{ExprKind}(\_)\ =\ \bot 
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{StmtKind}(\operatorname{LetStmt}(\_))\ =\ \texttt{let} \\
 \operatorname{StmtKind}(\operatorname{VarStmt}(\_))\ =\ \texttt{var} \\
@@ -189,41 +188,41 @@ generated: true
 \operatorname{StmtKind}(\operatorname{UnsafeBlockStmt}(\_))\ =\ \texttt{unsafe} \\
 \operatorname{StmtKind}(\_)\ =\ \bot 
 \end{array}
-```
+$$
 
-```math
+$$
 \operatorname{ExprStmtConstructs}(P)\ =\ \{\ \operatorname{ExprKind}(e)\ \mid \ m\ \in \ P.\mathsf{modules}\ \land \ e\ \in \ \operatorname{ExprNodes}(P,\ m)\ \land \ \operatorname{ExprKind}(e)\ \ne \ \bot \ \}\ \cup \ \{\ \operatorname{StmtKind}(s)\ \mid \ m\ \in \ P.\mathsf{modules}\ \land \ s\ \in \ \operatorname{StmtNodes}(P,\ m)\ \land \ \operatorname{StmtKind}(s)\ \ne \ \bot \ \}
-```
+$$
 
-```math
+$$
 \operatorname{CapConstructs}(P)\ =\ \{\ c\ \mid \ c\ \in \ \{\texttt{Context},\ \texttt{FileSystem},\ \texttt{Network},\ \texttt{HeapAllocator},\ \texttt{ExecutionDomain},\ \texttt{Reactor}\}\ \land \ \exists \ m,\ t.\ m\ \in \ P.\mathsf{modules}\ \land \ t\ \in \ \operatorname{TypeNodes}(P,\ m)\ \land \ t\ =\ \operatorname{TypePath}([c])\ \}
-```
+$$
 
-```math
+$$
 \operatorname{Constructs}(P)\ =\ \operatorname{TopDeclConstructs}(P)\ \cup \ \operatorname{TypeConstructs}(P)\ \cup \ \operatorname{PermConstructs}(P)\ \cup \ \operatorname{ExprStmtConstructs}(P)\ \cup \ \operatorname{CapConstructs}(P)
-```
+$$
 
 **(Reject-IllFormed)**
 
-```math
+$$
 \begin{array}{l}
 \lnot \ \operatorname{Conforming}(P) \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ \operatorname{Reject}(P)
 \end{array}
-```
+$$
 
 **TranslationPhases.**
 
-```math
+$$
 \mathsf{TranslationPhases}\ =\ [\mathsf{Phase1},\ \mathsf{Phase2},\ \mathsf{Phase3},\ \mathsf{Phase4}]
-```
+$$
 
-### 1.2 Behavior Types
+## 1.2 Behavior Types
 
 **IllFormed.**
 
-```math
+$$
 \begin{array}{l}
 \mathsf{StaticJudgSet}\ =\ \mathsf{WFModulePathJudg}\ \cup \ \mathsf{LinkJudg}\ \cup \ \mathsf{ParseJudgment}\ \cup \ \mathsf{ResolvePathJudg}\ \cup \ \mathsf{ResolveExprListJudg}\ \cup \ \mathsf{ResolveEnumPayloadJudg}\ \cup \ \mathsf{ResolveCalleeJudg}\ \cup \ \mathsf{ResolveIfCaseJudg}\ \cup \ \mathsf{ResolveStmtSeqJudg}\ \cup \ \mathsf{TypeEqJudg}\ \cup \ \mathsf{ConstLenJudg}\ \cup \ \mathsf{SubtypingJudg}\ \cup \ \mathsf{PermAdmitsJudg}\ \cup \ \mathsf{ArgsOkTJudg}\ \cup \ \mathsf{TypeInfJudg}\ \cup \ \mathsf{StmtJudg}\ \cup \ \mathsf{PatJudg}\ \cup \ \mathsf{ExprJudg}\ \cup \ \mathsf{CaseJudg}\ \cup \ \mathsf{DeclJudg}\ \cup \ \mathsf{BJudgment}\ \cup \ \mathsf{ArgPassJudg}\ \cup \ \mathsf{ProvPlaceJudg}\ \cup \ \mathsf{ProvExprJudg}\ \cup \ \mathsf{ProvStmtJudg}\ \cup \ \mathsf{BlockProvJudg}\ \cup \ \mathsf{ArgsOkJudg}\ \cup \ \mathsf{TypeWFJudg}\ \cup \ \mathsf{StringBytesJudg}\ \cup \ \mathsf{BitcopyDropJudg}\ \cup \ \mathsf{BitcopyJudg}\ \cup \ \mathsf{CloneJudg}\ \cup \ \mathsf{DropJudg}\ \cup \ \mathsf{FfiSafeJudg}\ \cup \ \mathsf{TypeRefsJudg}\ \cup \ \mathsf{ValueRefsJudg}\ \cup \ \mathsf{CodegenJudg}\ \cup \ \mathsf{LayoutJudg}\ \cup \ \mathsf{EncodeConstJudg}\ \cup \ \mathsf{ValidValueJudg}\ \cup \ \mathsf{RecordLayoutJudg}\ \cup \ \mathsf{UnionLayoutJudg}\ \cup \ \mathsf{TupleLayoutJudg}\ \cup \ \mathsf{RangeLayoutJudg}\ \cup \ \mathsf{EnumLayoutJudg}\ \cup \ \mathsf{ModalLayoutJudg}\ \cup \ \mathsf{DynLayoutJudg}\ \cup \ \mathsf{ABITyJudg}\ \cup \ \mathsf{ABIParamJudg}\ \cup \ \mathsf{ABIRetJudg}\ \cup \ \mathsf{ABICallJudg}\ \cup \ \mathsf{LowerCallJudg}\ \cup \ \mathsf{MangleJudg}\ \cup \ \mathsf{LinkageJudg}\ \cup \ \mathsf{EvalOrderJudg}\ \cup \ \mathsf{LowerExprJudg}\ \cup \ \mathsf{LowerStmtJudg}\ \cup \ \mathsf{PatternLowerJudg}\ \cup \ \mathsf{LowerBindJudg}\ \cup \ \mathsf{GlobalsJudg}\ \cup \ \mathsf{ConstInitJudg}\ \cup \ \mathsf{CleanupJudg}\ \cup \ \mathsf{RuntimeIfcJudg}\ \cup \ \mathsf{DynDispatchJudg}\ \cup \ \mathsf{ChecksJudg}\ \cup \ \mathsf{LLVMAttrJudg}\ \cup \ \mathsf{RuntimeDeclJudg}\ \cup \ \mathsf{LLVMTyJudg}\ \cup \ \mathsf{LLVMEmitJudg}\ \cup \ \mathsf{LowerIRJudg}\ \cup \ \mathsf{BindStorageJudg}\ \cup \ \mathsf{LLVMCallJudg}\ \cup \ \mathsf{VTableJudg}\ \cup \ \mathsf{LiteralEmitJudg}\ \cup \ \mathsf{BuiltinSymJudg}\ \cup \ \mathsf{DropHookJudg}\ \cup \ \mathsf{EntryJudg}\ \cup \ \mathsf{PoisonJudg} \\
 \mathsf{StaticRuleSet}\ =\ \{\ r\ \mid \ \operatorname{Conclusion}(r)\ \in \ \mathsf{StaticJudgSet}\ \} \\
@@ -236,15 +235,15 @@ generated: true
 \operatorname{PremisesHold}(r,\ x)\ \Leftrightarrow \ \exists \ \theta .\ \operatorname{Subject}(\operatorname{Conclusion}(r)[\theta ])\ =\ x\ \land \ \Gamma_{r} \ =\ \operatorname{EnvOf}(\operatorname{Conclusion}(r)[\theta ])\ \land \ \forall \ \pi \ \in \ \operatorname{Premises}(r)[\theta ].\ \pi \ \ne \ \bot \ \land \ (\pi \ \mathsf{is}\ a\ \mathsf{judgment}\ \Rightarrow \ \Gamma_{r} \ \vdash \ \pi ) \\
 \operatorname{IllFormed}(x)\ \Leftrightarrow \ \exists \ r\ \in \ \mathsf{StaticRuleSet}.\ \operatorname{Applies}(r,\ x)\ \land \ \lnot \ \operatorname{PremisesHold}(r,\ x)
 \end{array}
-```
+$$
 
 **Undefinedness Policy.**
 
-```math
+$$
 \operatorname{StaticUndefined}(J)\ \Leftrightarrow \ \exists \ r.\ \operatorname{Conclusion}(r)\ =\ J\ \land \ \exists \ \pi \ \in \ \operatorname{Premises}(r).\ \pi \ =\ \bot 
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{RuleId}(r)\ =\ \mathsf{id}\ \Leftrightarrow \ r\ \mathsf{is}\ \mathsf{labeled}\ (\mathsf{id}) \\
 \operatorname{DiagIdOf}(J)\ =\ \mathsf{id}\ \Leftrightarrow \ \exists \ r.\ \operatorname{Conclusion}(r)\ =\ J\ \land \ \operatorname{RuleId}(r)\ =\ \mathsf{id} \\
@@ -252,87 +251,87 @@ generated: true
 \operatorname{SectionId}(r)\ \in \ \mathsf{String} \\
 \operatorname{RulesIn}(\Sigma )\ =\ \{\ r\ \mid \ \operatorname{SectionId}(r)\ \in \ \Sigma \ \}
 \end{array}
-```
+$$
 
 **(Static-Undefined)**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{StaticUndefined}(J)\quad \operatorname{Code}(\operatorname{DiagIdOf}(J))\ =\ c \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ J\ \Uparrow \ c
 \end{array}
-```
+$$
 
 **(Static-Undefined-NoCode)**
 
-```math
+$$
 \begin{array}{l}
 \operatorname{StaticUndefined}(J)\quad \operatorname{Code}(\operatorname{DiagIdOf}(J))\ =\ \bot  \\
 \rule{18em}{0.4pt} \\
 \Gamma \ \vdash \ J\ \Uparrow 
 \end{array}
-```
+$$
 
 **OutsideConformance.**
 If OutsideConformance holds, this specification imposes no requirements on observable behavior, diagnostics, or termination. Implementations MAY exhibit any behavior.
 
 **Static vs. Runtime Checks.**
 
-```math
+$$
 \mathsf{CheckKind}\ =\ \{\mathsf{PatternExhaustiveness},\ \mathsf{TypeCompatibility},\ \mathsf{PermissionViolations},\ \mathsf{ProvenanceEscape},\ \mathsf{ArrayBounds},\ \mathsf{SafePointerValidity},\ \mathsf{IntegerOverflow},\ \mathsf{SliceBounds},\ \mathsf{IntDivisionByZero}\}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \mathsf{StaticCheck}\ =\ \{\mathsf{PatternExhaustiveness},\ \mathsf{TypeCompatibility},\ \mathsf{PermissionViolations},\ \mathsf{ProvenanceEscape},\ \mathsf{ArrayBounds},\ \mathsf{SafePointerValidity}\} \\
 \mathsf{RuntimeCheck}\ =\ \{\mathsf{IntegerOverflow},\ \mathsf{SliceBounds},\ \mathsf{IntDivisionByZero}\}
 \end{array}
-```
+$$
 
-```math
+$$
 \begin{array}{l}
 \operatorname{RuntimeBehavior}(\mathsf{IntegerOverflow})\ =\ \mathsf{Panic} \\
 \operatorname{RuntimeBehavior}(\mathsf{SliceBounds})\ =\ \mathsf{Panic} \\
 \operatorname{RuntimeBehavior}(\mathsf{IntDivisionByZero})\ =\ \mathsf{Panic}
 \end{array}
-```
+$$
 
-```math
+$$
 \mathsf{ResourceExhaustion}\ \Rightarrow \ \mathsf{OutsideConformance}
-```
+$$
 
 **Error Recovery.**
 LexRecovery = SkipToNextTokenStart
 
-```math
+$$
 \mathsf{ParseRecovery}\ =\ \operatorname{SyncSet}(\{\texttt{;},\ \texttt{\}},\ \texttt{EOF}\})
-```
+$$
 TypeRecovery = ContinueDecls
 
-```math
+$$
 \mathsf{MaxErrorCount}\ \in \ \mathbb{N} \ \cup \ \{\infty \}
-```
+$$
 SuggestedMaxErrorCount = 100
 
-```math
+$$
 \operatorname{AbortOnErrorCount}(n)\ \Leftrightarrow \ n\ \ge \ \mathsf{MaxErrorCount}
-```
+$$
 
-### 1.3 Document Conventions
+## 1.3 Document Conventions
 
 **NormativeKeywords.**
 
-```math
+$$
 \mathsf{NormativeKeywords}\ =\ \{\texttt{MUST},\ \texttt{MUST NOT},\ \texttt{SHOULD},\ \texttt{SHOULD NOT},\ \texttt{MAY}\}
-```
+$$
 
 **RFC 2119 Interpretation.**
 The keywords in NormativeKeywords MUST be interpreted as described in RFC 2119.
 
 **DiagnosticCodeFormat.**
 
-```math
+$$
 \begin{array}{l}
 \mathsf{DiagPrefix}\ =\ \{E,\ W,\ I,\ P\} \\
 \mathsf{DiagCategory}\ =\ [A-Z]^3 \\
@@ -341,9 +340,9 @@ The keywords in NormativeKeywords MUST be interpreted as described in RFC 2119.
 \operatorname{Bucket}(\mathsf{Digits})\ =\ \mathsf{Digits}[0..1] \\
 \operatorname{Seq}(\mathsf{Digits})\ =\ \mathsf{Digits}[2..3]
 \end{array}
-```
+$$
 
-### 1.4 Normative References
+## 1.4 Normative References
 
 **NormativeRefs.**
 This specification relies on the following external documents:
@@ -367,19 +366,19 @@ This specification relies on the following external documents:
 **Conformance.**
 A conforming implementation MUST implement the features of the referenced standards as specified in this document. Where this specification differs from a referenced standard, this specification takes precedence.
 
-### 1.5 Compile-Time Execution and Phase Ordering
+## 1.5 Compile-Time Execution and Phase Ordering
 
-```math
+$$
 \mathsf{TranslationPhases}\ =\ [\mathsf{Phase1},\ \mathsf{Phase2},\ \mathsf{Phase3},\ \mathsf{Phase4}]
-```
+$$
 Phase1 = ParseAndAggregate
 Phase2 = ExecuteComptime
 Phase3 = ResolveAndTypecheck
 Phase4 = LowerAndEmit
 
-```math
+$$
 \Gamma \ \vdash \ \operatorname{ExecuteComptime}(P,\ \mathsf{Ms})\ \Downarrow \ \mathsf{Ms}_{\mathsf{ct}}\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{ComptimePass}(P,\ \mathsf{Ms})\ \Downarrow \ \mathsf{Ms}_{\mathsf{ct}}
-```
+$$
 
 1. Phase 1 MUST parse and aggregate all modules before Phase 2 begins.
 2. Phase 2 MUST execute all compile-time forms over the Phase 1 module set in deterministic dependency order.
@@ -389,14 +388,14 @@ Phase4 = LowerAndEmit
 
 The syntax and semantics of compile-time forms are defined by Chapter 22.
 
-### 1.6 Target and ABI Assumptions
+## 1.6 Target and ABI Assumptions
 
-```math
+$$
 \begin{array}{l}
 \mathsf{TargetProfile}\ =\ \{\texttt{x86\_64-sysv},\ \texttt{x86\_64-win64},\ \texttt{aarch64-aapcs64}\} \\
 \mathsf{SelectedTargetProfile}\ \in \ \mathsf{TargetProfile}
 \end{array}
-```
+$$
 The selected target profile is resolved once per compilation invocation.
 Resolution order is:
 1. the explicit CLI target-profile override, if provided;
@@ -404,23 +403,23 @@ Resolution order is:
 3. otherwise the compilation invocation is ill-formed.
 A conforming implementation MUST NOT silently infer `SelectedTargetProfile` from the host platform.
 
-```math
+$$
 \begin{array}{l}
 \operatorname{TargetArch}(\texttt{x86\_64-sysv})\ =\ \texttt{x86\_64} \\
 \operatorname{TargetArch}(\texttt{x86\_64-win64})\ =\ \texttt{x86\_64} \\
 \operatorname{TargetArch}(\texttt{aarch64-aapcs64})\ =\ \texttt{aarch64}
 \end{array}
-```
+$$
 
 Endianness = Little
 PtrSizeBytes = PtrSize
 
-```math
+$$
 \begin{array}{l}
 \operatorname{Target}(\texttt{x86\_64-sysv})\ =\ \texttt{"x86\_64-unknown-linux-gnu"} \\
 \operatorname{Target}(\texttt{x86\_64-win64})\ =\ \texttt{"x86\_64-pc-windows-msvc"} \\
 \operatorname{Target}(\texttt{aarch64-aapcs64})\ =\ \texttt{"aarch64-unknown-linux-gnu"}
 \end{array}
-```
+$$
 
 Layout and ABI requirements are defined only by their canonical owner sections in this document, especially Chapters 12, 13, 14.6, and 23.2. The source-draft bundle name `LayoutSpec` is not a separate normative relation in this reorganization.

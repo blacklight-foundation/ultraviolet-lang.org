@@ -3,7 +3,7 @@ title: "Front Matter"
 description: "0. Front Matter of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T18:13:03.158Z"
+generatedAt: "2026-05-09T19:35:24.518Z"
 generated: true
 ---
 
@@ -12,9 +12,8 @@ generated: true
   <span>SHA-256: <code>1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e</code></span>
 </div>
 
-## 0. Front Matter
 
-### 0.1 Document Organization
+## 0.1 Document Organization
 
 1. This file is the canonical normative language specification.
 2. Each feature section MUST have exactly one normative home in this file.
@@ -28,7 +27,7 @@ generated: true
    - `Diagnostics`
 4. Shared framework material belongs only in infrastructure chapters.
 
-### 0.2 Canonical Chapter Outline
+## 0.2 Canonical Chapter Outline
 
 - `0. Front Matter`
 - `1. Conformance and Notation`
@@ -60,7 +59,7 @@ generated: true
 - `Appendix C. AST Form Index Reference`
 - `Appendix D. Layout, ABI, and Runtime Reference`
 
-### 0.3 Required Feature Section Template
+## 0.3 Required Feature Section Template
 
 | Subsection                  | Required Content                                                              |
 | --------------------------- | ----------------------------------------------------------------------------- |
@@ -73,7 +72,7 @@ generated: true
 | `Diagnostics`               | Diagnostic conditions owned by the feature section                            |
 
 
-### 0.4 Language Design Contract
+## 0.4 Language Design Contract
 
 Ultraviolet is a general-purpose systems programming language optimized for
 machine-generated source code and human review.
