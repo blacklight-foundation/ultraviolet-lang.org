@@ -1,3 +1,5 @@
+@import "katex/dist/katex.min.css";
+
 :root {
   --sl-color-accent-low: #171123;
   --sl-color-accent: #8b5cf6;
@@ -77,6 +79,10 @@
   font-size: 1.45rem;
 }
 
+.sl-markdown-content h3 {
+  font-size: 1.12rem;
+}
+
 .sl-markdown-content a {
   text-underline-offset: 0.18em;
 }
@@ -92,6 +98,99 @@
 
 .sl-markdown-content pre code {
   white-space: pre;
+}
+
+.sl-markdown-content table {
+  display: table;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.sl-markdown-content th,
+.sl-markdown-content td {
+  vertical-align: top;
+}
+
+.sl-markdown-content .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-block: 0.2rem;
+}
+
+.sl-markdown-content .spec-provenance {
+  display: grid;
+  gap: 0.35rem;
+  margin: 1.25rem 0;
+  border: 1px solid color-mix(in srgb, var(--sl-color-accent) 34%, var(--sl-color-gray-5));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--sl-color-accent-low) 44%, var(--sl-color-black));
+  padding: 0.85rem 1rem;
+  font-size: 0.88rem;
+}
+
+.sl-markdown-content .spec-provenance strong {
+  color: var(--sl-color-white);
+}
+
+.sl-markdown-content .spec-provenance span {
+  color: var(--sl-color-gray-2);
+}
+
+.sl-markdown-content .feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin: 1.25rem 0;
+}
+
+.sl-markdown-content .feature-card {
+  display: grid;
+  gap: 0.45rem;
+  border: 1px solid color-mix(in srgb, var(--sl-color-gray-5) 78%, transparent);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 4rem),
+    color-mix(in srgb, var(--sl-color-gray-6) 36%, var(--sl-color-black));
+  padding: 0.95rem;
+  text-decoration: none;
+}
+
+.sl-markdown-content .feature-card:hover,
+.sl-markdown-content .feature-card:focus-visible {
+  border-color: color-mix(in srgb, var(--sl-color-accent-high) 62%, var(--sl-color-gray-5));
+  text-decoration: none;
+}
+
+.sl-markdown-content .feature-card strong {
+  color: var(--sl-color-white);
+}
+
+.sl-markdown-content .feature-card span {
+  color: var(--sl-color-gray-2);
+}
+
+.sl-markdown-content .inference-rule {
+  display: grid;
+  gap: 0.45rem;
+  margin: 1rem 0;
+  overflow-x: auto;
+  border: 1px solid color-mix(in srgb, var(--sl-color-gray-5) 78%, transparent);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+}
+
+.sl-markdown-content .inference-rule .premises,
+.sl-markdown-content .inference-rule .conclusion {
+  font-family: var(--sl-font-mono);
+  white-space: pre;
+}
+
+.sl-markdown-content .inference-rule .rule-line {
+  height: 1px;
+  min-width: 18rem;
+  background: var(--sl-color-gray-3);
 }
 
 .sl-markdown-content .docs-status {
@@ -273,6 +372,14 @@
     width: calc(100vw - 2rem);
     max-width: calc(100vw - 2rem);
     font-size: 0.78rem;
+  }
+
+  .sl-markdown-content table {
+    display: block;
+  }
+
+  .sl-markdown-content .feature-grid {
+    grid-template-columns: 1fr;
   }
 
   .sl-markdown-content .newsletter-row {

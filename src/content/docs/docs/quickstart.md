@@ -4,16 +4,16 @@ description: Quickstart for the Ultraviolet public alpha.
 ---
 
 <aside class="docs-status">
-  <strong>Currently in alpha.</strong>
-  <span>The command surface exists in source and the public build path is being hardened. This page tracks the canonical public path as releases land.</span>
+  <strong>Public alpha.</strong>
+  <span>The current repository contains the compiler, runtime, and <code>uv</code> source. The build path is being hardened toward the public specification.</span>
 </aside>
 
 ## Prerequisites
 
-- A current Git installation.
-- Bootstrap dependencies listed in the language repository.
-- Target notes for the active public alpha build path. The first bootstrap target is Windows `x86_64-win64`.
-- A terminal with standard shell utilities.
+- Git.
+- The bootstrap dependencies listed in the language repository.
+- A target profile. The first bootstrap target is Windows `x86_64-win64`.
+- A shell with standard build utilities.
 
 ## Clone
 
@@ -32,16 +32,12 @@ src/
   Main.uv
 ```
 
-`Ultraviolet.toml` declares assemblies:
-
 ```toml
 [[assembly]]
 name = "hello"
 kind = "executable"
 root = "src"
 ```
-
-`src/Main.uv`:
 
 ```text
 public procedure main(
@@ -59,8 +55,12 @@ uv check
 uv build
 uv run
 uv test
+uv clean
+uv version
 ```
+
+The `--target-profile`, `--quiet`, and `--machine-readable` flags are part of the command surface as well.
 
 ## Status note
 
-The public alpha build path is still being hardened. Use the language repository for current bootstrap dependency notes and this page for the stable public shape as releases land.
+The public alpha build path is still being hardened. Use the language repository for bootstrap dependency notes and the [Build the Compiler](/docs/build-the-compiler/) page for the current release path.

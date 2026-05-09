@@ -1,0 +1,16 @@
+---
+interface Props {
+  premises: string;
+  conclusion: string;
+  label?: string;
+}
+
+const { premises, conclusion, label } = Astro.props;
+---
+
+<figure class="inference-rule">
+  {label && <figcaption>{label}</figcaption>}
+  <div class="premises">{premises}</div>
+  <div class="rule-line" aria-hidden="true"></div>
+  <div class="conclusion">{conclusion}</div>
+</figure>

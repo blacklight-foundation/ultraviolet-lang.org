@@ -57,27 +57,22 @@ const sourceTabs = [
 ];
 
 const reviewFlow = [
-  'Generated source',
-  'Visible effects',
+  'AI-written source',
+  'Visible surfaces',
   'Human review',
   'Compiler check',
 ];
 
 const languageFeatures = [
   {
-    title: 'Explicit effects and authority',
-    body: 'Effects flow through typed capabilities and procedure signatures, so externally visible behavior is reviewable in source.',
-    cue: 'effects',
+    title: 'Modal programming',
+    body: 'Model resources, protocols, async work, and execution lifecycles as explicit states with checked transitions.',
+    cue: 'modal',
   },
   {
-    title: 'CPU + GPU programming',
-    body: 'Write code for CPU or GPU execution in one language model, with execution domains exposed as typed capabilities.',
-    cue: 'domains',
-  },
-  {
-    title: 'Canonical source forms',
-    body: 'Semantic operations have one accepted source form where possible, which gives generated code fewer equivalent spellings.',
-    cue: 'source',
+    title: 'Contracts',
+    body: 'Preconditions, postconditions, invariants, and foreign contracts make generated assumptions part of source.',
+    cue: 'contracts',
   },
   {
     title: 'Permission and responsibility',
@@ -85,19 +80,24 @@ const languageFeatures = [
     cue: 'access',
   },
   {
-    title: 'Modal types',
-    body: 'State-specific APIs model protocols, resources, typestate, and async state directly.',
-    cue: 'state',
+    title: 'Key system',
+    body: 'Shared access is coordinated through language-level key paths and conflict checks.',
+    cue: 'keys',
   },
   {
-    title: 'Static by default',
-    body: 'Runtime checks, synchronization, dispatch, allocation, copying, unsafe behavior, and foreign boundaries require explicit opt-in.',
-    cue: 'checks',
-  },
-  {
-    title: 'Structured parallelism',
-    body: 'parallel, spawn, dispatch, sync, race, and related constructs share one execution model.',
+    title: 'Structured concurrency',
+    body: 'parallel, spawn, dispatch, sync, race, and async state share one visible execution model.',
     cue: 'parallel',
+  },
+  {
+    title: 'CPU + GPU programming',
+    body: 'Write code for CPU or GPU execution in one language model, with execution domains exposed as typed capabilities.',
+    cue: 'domains',
+  },
+  {
+    title: 'Explicit effects',
+    body: 'Effect-bearing operations flow through capability values and procedure signatures.',
+    cue: 'effects',
   },
   {
     title: 'Compile-time generation',
@@ -135,13 +135,12 @@ const docsEntrypoints = [
         <p class="eyebrow">Public alpha / Blacklight Foundation</p>
         <h1>Ultraviolet</h1>
         <p class="hero-lede">
-          A general-purpose programming language for generated source that
-          humans can still review.
+          A language for AI-written code humans can trust.
         </p>
         <p class="hero-copy">
-          Ultraviolet makes effects, authority, movement, execution domain, and
-          runtime opt-ins visible in source. It is designed for LLM-generated
-          code that needs to pass compiler checks and human review.
+          Ultraviolet is a general-purpose programming language designed for AI
+          agents to produce performant, safe, auditable code, with source forms
+          that make mistakes visible during review.
         </p>
         <div class="actions" aria-label="Primary actions">
           <a class="button primary" href="/docs/">Start with the alpha docs</a>
@@ -192,10 +191,10 @@ const docsEntrypoints = [
     <div class="section-heading">
       <h2>Generated code still needs source-level review.</h2>
       <p>
-        Reviewers need to see which effects occur, where authority flows, which
-        values move or alias, whether work runs on CPU or GPU, and which
-        behavior depends on runtime checks. Ultraviolet puts those review
-        properties in the source language.
+        Reviewers need to see contracts, states, transitions, permissions, key
+        paths, concurrency structure, CPU/GPU execution domains, and
+        effect-bearing capabilities. Ultraviolet puts those review properties in
+        the source language.
       </p>
     </div>
     <div class="review-flow" aria-label="Review loop">
@@ -255,7 +254,7 @@ const docsEntrypoints = [
       <NewsletterSignup
         source="home"
         heading="Follow the public alpha"
-        description="Compiler progress, language notes, CPU/GPU execution work, funding milestones, and generated-source research updates."
+        description="Compiler progress, language notes, CPU/GPU execution work, funding milestones, and AI-generated-source research updates."
       />
     </div>
   </section>
@@ -297,7 +296,7 @@ const docsEntrypoints = [
   <section class="page-section">
     <div class="section-heading">
       <h2>
-        Help build a language for reviewable generated source.
+        Help build a language for AI-written code humans can trust.
       </h2>
       <div class="actions">
         <a class="button primary" href="/sponsor/">Support the public alpha</a>

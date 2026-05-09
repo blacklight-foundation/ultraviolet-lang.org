@@ -1,0 +1,14 @@
+---
+interface Props {
+  source: string;
+  hash: string;
+}
+
+const { source, hash } = Astro.props;
+---
+
+<div class="spec-provenance">
+  <strong>Generated specification.</strong>
+  <span>Source: <code>{source}</code></span>
+  <span>SHA-256: <code>{hash}</code></span>
+</div>

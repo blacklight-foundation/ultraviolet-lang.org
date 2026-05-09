@@ -2,7 +2,7 @@
 
 This repository contains the public website for Ultraviolet.
 
-Ultraviolet is a general-purpose programming language for generated source that humans can still review.
+Ultraviolet is a general-purpose programming language for AI-written code humans can review.
 
 ## Development
 

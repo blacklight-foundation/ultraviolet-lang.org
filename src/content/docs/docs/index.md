@@ -3,29 +3,64 @@ title: Documentation
 description: Documentation overview for Ultraviolet.
 ---
 
-Ultraviolet is currently in alpha. The specification is the source of truth, and the reference implementation is evolving toward it.
+Ultraviolet is a general-purpose programming language for AI-written code that humans can review.
 
-The current documentation is focused on the public alpha path: project shape, `.uv` source files, the `uv` command surface, first programs, compiler build status, CPU/GPU execution domains, and the language specification.
+The language is designed to make generated code performant, safe, and auditable, and to make the important mistakes visible when generated code misses that bar. Source form is part of the design: contracts, modal states, permissions, keys, concurrency, and CPU/GPU execution choices are meant to stay local enough for review.
+
+<aside class="docs-status">
+  <strong>Public alpha documentation.</strong>
+  <span>The specification is authoritative. The compiler, runtime, and <code>uv</code> tool are evolving toward that specification.</span>
+</aside>
 
 ## Start here
 
-- [Quickstart](/docs/quickstart/) introduces the project layout and `uv` command surface.
-- [Build the compiler](/docs/build-the-compiler/) collects alpha build notes and troubleshooting.
-- [First program](/docs/first-program/) introduces the executable entrypoint shape.
-- [Language tour](/docs/language-tour/) explains the core source-review features.
-- [Specification](/docs/specification/) links to the formal language specification.
+- [Why Ultraviolet](/docs/why-ultraviolet/) explains the AI-agent auditability hook.
+- [Quickstart](/docs/quickstart/) introduces the repository, manifest, first source file, and current command surface.
+- [First program](/docs/first-program/) walks through the executable entrypoint and `Context`.
+- [Build the compiler](/docs/build-the-compiler/) summarizes the alpha bootstrap path.
+- [Specification](/docs/specification/) publishes the full generated website edition of the language specification.
 
-## Current status
+## Main surfaces
 
-<aside class="docs-status">
-  <strong>Currently in alpha.</strong>
-  <span>The public repository contains compiler, runtime, and uv tool source. The clean public build/check path, examples, diagnostics, and CI are being hardened as alpha work continues.</span>
-</aside>
+<div class="feature-grid">
+  <a class="feature-card" href="/docs/modal-programming/">
+    <strong>Modal programming</strong>
+    <span>Organize code around states, transitions, protocols, resources, and lifecycle-specific operations.</span>
+  </a>
+  <a class="feature-card" href="/docs/core-language/contracts/">
+    <strong>Contracts</strong>
+    <span>Write source-level preconditions, postconditions, invariants, and foreign contracts.</span>
+  </a>
+  <a class="feature-card" href="/docs/core-language/permissions/">
+    <strong>Permissions</strong>
+    <span>Separate access, mutation, aliasing, and responsibility with `const`, `shared`, `unique`, and `move`.</span>
+  </a>
+  <a class="feature-card" href="/docs/core-language/key-system/">
+    <strong>Key system</strong>
+    <span>Coordinate shared access with language-level keys and conflict checks.</span>
+  </a>
+  <a class="feature-card" href="/docs/core-language/structured-concurrency/">
+    <strong>Structured concurrency</strong>
+    <span>Keep parallel, async, dispatch, synchronization, and race behavior visible in source.</span>
+  </a>
+  <a class="feature-card" href="/docs/core-language/cpu-gpu-programming/">
+    <strong>CPU/GPU programming</strong>
+    <span>Write CPU and GPU work in one programming language through execution domains.</span>
+  </a>
+</div>
+
+## Documentation map
+
+- [AI-Written Code Review](/docs/ai-written-code-review/) covers the review model for AI-written source.
+- [Modal Programming](/docs/modal-programming/) covers the primary programming style.
+- [Core Language Surfaces](/docs/core-language/) covers contracts, permissions, keys, structured concurrency, CPU/GPU programming, and explicit effects.
+- [Using the Toolchain](/docs/toolchain/) covers manifests, commands, diagnostics, tests, and build notes.
+- [Reference](/docs/reference/) links to the generated specification, grammar, diagnostic index, runtime surface, ABI notes, and compiler architecture.
 
 <section class="newsletter-card docs-newsletter newsletter-card-compact" aria-labelledby="docs-updates-heading">
   <div class="newsletter-copy">
     <h2 id="docs-updates-heading">Get Ultraviolet updates</h2>
-    <p>Public alpha notes, compiler progress, funding milestones, and LLM-generated-source research updates.</p>
+    <p>Public alpha notes, compiler progress, CPU/GPU language work, documentation releases, and AI-generated-source research updates.</p>
   </div>
   <form class="newsletter-form" data-newsletter-form action="/api/subscribe" method="post" novalidate>
     <input type="hidden" name="source" value="docs" />

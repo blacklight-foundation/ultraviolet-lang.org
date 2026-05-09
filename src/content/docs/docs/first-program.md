@@ -3,12 +3,20 @@ title: First Program
 description: First program notes for the Ultraviolet public alpha.
 ---
 
-<aside class="docs-status">
-  <strong>Example status: stabilizing.</strong>
-  <span>The first public program will be kept small enough to verify the parser, typechecker, entrypoint handling, and executable output.</span>
-</aside>
+The smallest useful Ultraviolet executable shows three things: a project manifest, a `.uv` source file, and an entrypoint that receives `Context`.
 
-## Placeholder source
+## Manifest
+
+```toml
+[[assembly]]
+name = "hello"
+kind = "executable"
+root = "src"
+```
+
+The manifest declares an executable assembly named `hello` with source files under `src`.
+
+## Source
 
 ```text
 public procedure main(
@@ -18,34 +26,25 @@ public procedure main(
 }
 ```
 
-The `Context` parameter is the entry capability bundle for an executable. Passing it explicitly keeps effect-bearing authority visible in the procedure signature.
+`Context` is the executable entry capability bundle. Passing it explicitly is part of Ultraviolet's review model: effect-bearing behavior flows through visible values.
 
-## Project file
-
-```toml
-[[assembly]]
-name = "hello"
-kind = "executable"
-root = "src"
-```
-
-## Check and build
+## Check, build, run
 
 ```bash
 uv check
 uv build
-```
-
-## Run
-
-```bash
 uv run
 ```
 
-## CPU and GPU note
+## Next examples
 
-The first program stays minimal. Larger programs can use execution-domain capabilities so CPU and GPU work remain part of the same language model.
+After this minimal program, the important examples are:
 
-## Status note
+- a contract-bearing procedure;
+- a modal type with transitions;
+- a permission-qualified function;
+- a key-mediated shared access block;
+- a CPU dispatch example;
+- a GPU dispatch example.
 
-The canonical first example will be updated when the public compiler and example tree are stabilized.
+Those examples are covered in the [Language Tour](/docs/language-tour/) and [Core Language Surfaces](/docs/core-language/).

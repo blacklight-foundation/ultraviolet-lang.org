@@ -13,17 +13,16 @@ import NewsletterSignup from '../../components/NewsletterSignup.astro';
 
     <p>
       Ultraviolet is currently in alpha. It is a general-purpose programming
-      language for generated source that remains reviewable by humans. The
-      language is designed around canonical source forms, explicit effects and
-      authority, CPU/GPU execution domains, local permission and responsibility,
-      and static checks by default.
+      language for AI-written code humans can review. The language hook is to
+      make it easier for AI agents to write performant, safe, auditable code,
+      and easier for humans to spot when they do not.
     </p>
 
     <p>
-      Generated source still needs source-level review. Reviewers need to see
-      which effects occur, where authority flows, which values move or alias,
-      whether work runs on CPU or GPU, and which behavior depends on runtime
-      checks. Ultraviolet puts those properties in the source language.
+      Ultraviolet's primary programming style is modal programming: organizing
+      code around states, transitions, contracts, permissions, keys, structured
+      concurrency, and execution domains. Reviewers need to see those surfaces
+      directly when reading generated source.
     </p>
 
     <p>
@@ -55,7 +54,7 @@ import NewsletterSignup from '../../components/NewsletterSignup.astro';
     <NewsletterSignup
       source="launch-post"
       heading="Get Ultraviolet updates"
-      description="Public alpha notes, compiler progress, CPU/GPU language work, funding milestones, and generated-source research updates."
+      description="Public alpha notes, compiler progress, CPU/GPU language work, funding milestones, and AI-generated-source research updates."
     />
   </article>
 </BaseLayout>
