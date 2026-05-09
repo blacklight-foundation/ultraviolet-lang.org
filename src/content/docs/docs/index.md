@@ -5,20 +5,21 @@ description: Documentation overview for Ultraviolet.
 
 Ultraviolet is currently in alpha. The specification is the source of truth, and the reference implementation is evolving toward it.
 
-The current documentation is focused on the public alpha path: how to follow the compiler, build the project as it becomes public, run first examples, and read the language specification.
+The current documentation is focused on the public alpha path: project shape, `.uv` source files, the `uv` command surface, first programs, compiler build status, CPU/GPU execution domains, and the language specification.
 
 ## Start here
 
-- [Quickstart](/docs/quickstart/) tracks the install/build/run path.
-- [Build the compiler](/docs/build-the-compiler/) collects build notes and troubleshooting.
-- [First program](/docs/first-program/) introduces the first example shape.
+- [Quickstart](/docs/quickstart/) introduces the project layout and `uv` command surface.
+- [Build the compiler](/docs/build-the-compiler/) collects alpha build notes and troubleshooting.
+- [First program](/docs/first-program/) introduces the executable entrypoint shape.
+- [Language tour](/docs/language-tour/) explains the core source-review features.
 - [Specification](/docs/specification/) links to the formal language specification.
 
 ## Current status
 
 <aside class="docs-status">
   <strong>Currently in alpha.</strong>
-  <span>A bootstrap compiler exists, and the clean public build/check path is being stabilized. Documentation will stabilize alongside the public compiler, examples, diagnostics, and CI.</span>
+  <span>The public repository contains compiler, runtime, and uv tool source. The clean public build/check path, examples, diagnostics, and CI are being hardened as alpha work continues.</span>
 </aside>
 
 <section class="newsletter-card docs-newsletter newsletter-card-compact" aria-labelledby="docs-updates-heading">

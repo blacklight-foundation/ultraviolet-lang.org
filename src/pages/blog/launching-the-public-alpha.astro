@@ -12,31 +12,33 @@ import NewsletterSignup from '../../components/NewsletterSignup.astro';
     </header>
 
     <p>
-      Ultraviolet is currently in alpha. It is a systems programming language
-      for LLM-generated source that remains reviewable by humans. The language
-      is designed around canonical source forms, explicit authority, local
-      permission and responsibility, and static checks by default.
+      Ultraviolet is currently in alpha. It is a general-purpose programming
+      language for generated source that remains reviewable by humans. The
+      language is designed around canonical source forms, explicit effects and
+      authority, CPU/GPU execution domains, local permission and responsibility,
+      and static checks by default.
     </p>
 
     <p>
-      LLM-generated systems source still needs source-level review. Reviewers
-      need to see where authority enters, which values move or alias, when
-      effects occur, and which behavior depends on runtime checks. Ultraviolet
-      puts those properties in the source language.
+      Generated source still needs source-level review. Reviewers need to see
+      which effects occur, where authority flows, which values move or alias,
+      whether work runs on CPU or GPU, and which behavior depends on runtime
+      checks. Ultraviolet puts those properties in the source language.
     </p>
 
     <p>
-      The project currently has a public specification and a bootstrap compiler.
-      The next public work is moving the compiler and surrounding infrastructure
-      into a buildable, documented public alpha with CI, examples, diagnostics,
-      and an open training corpus for LLMs that generate Ultraviolet source.
+      The project currently has a public specification, compiler source, runtime
+      source, and uv tool source. The next public work is hardening the compiler
+      and surrounding infrastructure into a buildable, documented public alpha
+      with CI, examples, diagnostics, and an open training corpus for LLMs that
+      generate Ultraviolet source.
     </p>
 
     <p>
       Blacklight Foundation is funding this work through three concrete goals:
       the $25,000 Public Alpha Launch Fund, the $50,000 Open LLM Training
       Corpus Fund, and the $120,000/year Maintainer-in-Residence Fund. These
-      funds support compiler migration, release infrastructure, documentation,
+      funds support alpha build hardening, release infrastructure, documentation,
       examples, diagnostics, contributor onboarding, public reports, and an open
       corpus for LLM training and evaluation.
     </p>
@@ -53,7 +55,7 @@ import NewsletterSignup from '../../components/NewsletterSignup.astro';
     <NewsletterSignup
       source="launch-post"
       heading="Get Ultraviolet updates"
-      description="Public alpha notes, compiler progress, funding milestones, and LLM-generated-source research updates."
+      description="Public alpha notes, compiler progress, CPU/GPU language work, funding milestones, and generated-source research updates."
     />
   </article>
 </BaseLayout>

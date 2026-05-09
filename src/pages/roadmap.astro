@@ -3,23 +3,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const milestones = [
   {
-    title: 'Compiler migration',
+    title: 'Bootstrap build hardening',
     target: '$7,500',
     status: 'in progress',
     deliverable:
-      'Bootstrap compiler organized under the public Ultraviolet project, with clear build instructions.',
+      'Compiler, runtime, and uv source build through a clear public alpha path.',
   },
   {
-    title: 'Quickstart and first example',
+    title: 'First public example',
     target: '$5,000',
     status: 'fundable',
-    deliverable: 'A clean clone/build/run path and first working example.',
+    deliverable: 'A clean clone/check/build/run path and first maintained .uv example.',
   },
   {
-    title: 'CI and release workflow',
+    title: 'CI smoke tests',
     target: '$5,000',
     status: 'fundable',
     deliverable: 'Public smoke tests, build workflow, and release checklist.',
+  },
+  {
+    title: 'Diagnostics examples',
+    target: '$15,000',
+    status: 'planned',
+    deliverable:
+      'Maintained examples that demonstrate compiler diagnostics, explicit effects, permissions, and CPU/GPU execution-domain code.',
   },
   {
     title: 'Open LLM training corpus',
@@ -29,10 +36,11 @@ const milestones = [
       'Open-licensed corpus of examples, constrained tasks, expected outputs, review annotations, diagnostics cases, and evaluation material for LLMs that generate Ultraviolet source.',
   },
   {
-    title: 'Diagnostics and examples',
-    target: '$15,000',
+    title: 'Self-hosting progress',
+    target: '$120,000/year',
     status: 'planned',
-    deliverable: 'Improved diagnostics and maintained example programs.',
+    deliverable:
+      'Sustained compiler, runtime, release, documentation, contributor, and self-hosting work.',
   },
 ];
 ---
@@ -43,9 +51,9 @@ const milestones = [
       <p class="eyebrow">Project roadmap</p>
       <h1>Public Alpha Roadmap</h1>
       <p>
-        The near-term roadmap is compiler migration, a reliable public build
-        path, documentation, CI, training material for LLM generation, and
-        diagnostics/examples.
+        The near-term roadmap is alpha build hardening, a reliable public
+        command path, first examples, CI, diagnostics, training material for LLM
+        generation, and self-hosting progress.
       </p>
     </header>
 

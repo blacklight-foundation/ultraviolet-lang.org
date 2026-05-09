@@ -8,11 +8,11 @@ export const fundingGoals = [
     href: '/sponsor/#support-tiers',
     summary: 'This fund supports the first usable public alpha of Ultraviolet.',
     body:
-      'Funding goes toward compiler migration, a working build/check path, first examples, CI smoke tests, a release checklist, contributor onboarding, and public reporting.',
+      'Funding goes toward alpha build hardening, a working build/check path, first examples, CI smoke tests, a release checklist, contributor onboarding, and public reporting.',
     outcome:
       'The goal is direct: a technical visitor should be able to find the compiler, build the current alpha, run a first example, and understand the next implementation steps.',
     breakdown: [
-      '$7.5k compiler migration / repo consolidation',
+      '$7.5k bootstrap build hardening / repo consolidation',
       '$5k working quickstart and first example',
       '$5k CI smoke tests and release checklist',
       '$5k contributor onboarding and issue cleanup',
@@ -83,7 +83,7 @@ export const supportTiers = [
     cta: 'Support at $10',
     href: 'https://buy.stripe.com/28EcN63x27llbNo55UeIw01',
     benefits: [
-      'supports compiler migration work',
+      'supports alpha build hardening work',
       'helps fund public project updates',
     ],
   },
@@ -142,11 +142,12 @@ export const oneTimeDonation = {
 };
 
 export const supportFundedWork = [
-  'compiler migration',
+  'alpha build hardening',
   'CI and releases',
   'quickstart documentation',
   'examples',
   'diagnostics',
+  'CPU/GPU language work',
   'open LLM training corpus',
   'contributor onboarding',
   'public roadmap and reporting',

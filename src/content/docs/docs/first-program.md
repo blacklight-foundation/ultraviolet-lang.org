@@ -11,26 +11,40 @@ description: First program notes for the Ultraviolet public alpha.
 ## Placeholder source
 
 ```text
-public procedure main(move ctx: Context) -> i32 {
+public procedure main(
+    move ctx: Context
+) -> i32 {
     return 0
 }
 ```
 
-The `Context` parameter is the entry capability bundle for an executable.
+The `Context` parameter is the entry capability bundle for an executable. Passing it explicitly keeps effect-bearing authority visible in the procedure signature.
 
-## Compile
+## Project file
+
+```toml
+[[assembly]]
+name = "hello"
+kind = "executable"
+root = "src"
+```
+
+## Check and build
 
 ```bash
-# Public alpha compile command placeholder.
-./build/uv build examples/first.uv
+uv check
+uv build
 ```
 
 ## Run
 
 ```bash
-# Public alpha run command placeholder.
-./build/first
+uv run
 ```
+
+## CPU and GPU note
+
+The first program stays minimal. Larger programs can use execution-domain capabilities so CPU and GPU work remain part of the same language model.
 
 ## Status note
 

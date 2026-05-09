@@ -9,7 +9,7 @@ interface Props {
 
 const defaultTitle = 'Ultraviolet';
 const defaultDescription =
-  'A systems programming language for LLM-generated source that remains reviewable by humans.';
+  'A general-purpose programming language for generated source that humans can still review.';
 
 const { title = defaultTitle, description = defaultDescription } = Astro.props;
 const pageTitle =
@@ -19,9 +19,10 @@ const canonical = new URL(Astro.url.pathname, site).toString();
 
 const navLinks = [
   { href: '/docs/', label: 'Docs' },
+  { href: '/docs/language-tour/', label: 'Language' },
+  { href: '/docs/specification/', label: 'Spec' },
   { href: '/roadmap/', label: 'Roadmap' },
-  { href: '/sponsor/', label: 'Support' },
-  { href: '/foundation/', label: 'Foundation' },
+  { href: '/blog/', label: 'Updates' },
   {
     href: 'https://github.com/blacklight-foundation/ultraviolet',
     label: 'GitHub',
@@ -30,9 +31,11 @@ const navLinks = [
 
 const footerPrimaryLinks = [
   { href: '/docs/', label: 'Docs' },
+  { href: '/docs/language-tour/', label: 'Language' },
+  { href: '/docs/specification/', label: 'Specification' },
   { href: '/roadmap/', label: 'Roadmap' },
+  { href: '/blog/', label: 'Updates' },
   { href: '/sponsor/', label: 'Support' },
-  { href: oneTimeDonation.href, label: 'Donate' },
   {
     href: 'https://github.com/blacklight-foundation/ultraviolet',
     label: 'GitHub',
@@ -41,14 +44,15 @@ const footerPrimaryLinks = [
 
 const footerUtilityLinks = [
   { href: '/foundation/', label: 'Foundation' },
+  { href: oneTimeDonation.href, label: 'Donate' },
   { href: 'mailto:hello@blacklight.foundation', label: 'Contact' },
   {
-    href: 'https://github.com/blacklight-foundation/ultraviolet/blob/main/CODE_OF_CONDUCT.md',
-    label: 'Code of Conduct',
+    href: 'https://github.com/blacklight-foundation/ultraviolet/blob/main/LICENSE.md',
+    label: 'License',
   },
   {
-    href: 'https://github.com/blacklight-foundation/ultraviolet/security',
-    label: 'Security',
+    href: 'https://github.com/blacklight-foundation/ultraviolet/blob/main/SPECIFICATION.md',
+    label: 'Specification',
   },
 ];
 ---
@@ -96,8 +100,8 @@ const footerUtilityLinks = [
         }
       </nav>
       <div class="header-actions">
-        <a class="nav-secondary" href="/roadmap/">Read the roadmap</a>
-        <a class="nav-cta" href="/sponsor/">Support the public alpha</a>
+        <a class="nav-secondary" href="/docs/">Start</a>
+        <a class="nav-cta" href="/sponsor/">Support</a>
       </div>
     </header>
     <main id="content">
@@ -118,7 +122,7 @@ const footerUtilityLinks = [
             <span>Ultraviolet</span>
           </a>
           <p class="footer-summary">
-            Systems language currently in alpha for reviewable LLM-generated
+            General-purpose language currently in alpha for reviewable generated
             source, stewarded by Blacklight Foundation.
           </p>
           <nav class="footer-links" aria-label="Footer primary navigation">

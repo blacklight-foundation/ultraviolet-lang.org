@@ -16,6 +16,19 @@ The specification is intended for compiler implementers, language designers, sta
 
 [Ultraviolet specification on GitHub](https://github.com/blacklight-foundation/ultraviolet/blob/main/SPECIFICATION.md)
 
+## What to read first
+
+- Language Design Contract
+- Project and Compilation Model
+- Authority and `Context`
+- Target and ABI Assumptions
+- Permissions and Binding State
+- Modal and Special Types
+- Structured Parallelism
+- Asynchronous Operations
+- Compile-Time Execution and Metaprogramming
+- Foreign Function Interface
+
 ## How to use it
 
 Start with the beginner docs when you want a guided overview. Use the specification when you need exact rules, source-form constraints, or compiler behavior.

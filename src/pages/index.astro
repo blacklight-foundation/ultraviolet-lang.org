@@ -3,79 +3,127 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 import { fundingGoals } from '../data/funding';
 
-const principles = [
+const proofMetrics = [
   {
-    title: 'Canonical source forms',
-    body: 'Semantic operations have one accepted source form where possible, so generated output has fewer equivalent spellings to review.',
-    cue: 'one accepted form',
+    label: '.uv source',
+    value: 'PascalCase.uv files',
   },
   {
-    title: 'Explicit authority',
-    body: 'External effects require capability values. Capability roots enter through Context rather than ambient globals.',
-    cue: 'capability roots',
+    label: 'Project file',
+    value: 'Ultraviolet.toml',
   },
   {
-    title: 'Permission and responsibility',
-    body: 'Permissions such as const, unique, and shared are separate from responsibility transfer through move.',
-    cue: 'access and transfer',
+    label: 'CLI',
+    value: 'uv build/check/run/test',
   },
   {
-    title: 'Static checks by default',
-    body: 'Dynamic checks, synchronization, dispatch, allocation, copying, unsafe behavior, and foreign boundaries require explicit source opt-in.',
-    cue: 'runtime opt-in',
-  },
-];
-
-const statusItems = [
-  {
-    label: 'Status',
-    value: 'Currently in alpha',
-  },
-  {
-    label: 'Compiler',
-    value: 'Bootstrap compiler exists',
-  },
-  {
-    label: 'Build path',
-    value: 'Being stabilized',
+    label: 'Bootstrap target',
+    value: 'x86_64-win64',
   },
   {
     label: 'Spec',
-    value: 'Public specification exists',
+    value: 'Public source of truth',
   },
   {
-    label: 'Stewardship',
-    value: 'Blacklight Foundation',
+    label: 'Source',
+    value: 'Compiler + runtime',
+  },
+];
+
+const sourceTabs = [
+  {
+    label: 'src/Main.uv',
+    body: [
+      'public procedure main(',
+      '    move ctx: Context',
+      ') -> i32 {',
+      '    return 0',
+      '}',
+    ],
   },
   {
-    label: 'Funding',
-    value: 'Subscriptions + milestones',
+    label: 'Ultraviolet.toml',
+    body: [
+      '[[assembly]]',
+      'name = "hello"',
+      'kind = "executable"',
+      'root = "src"',
+    ],
+  },
+  {
+    label: 'uv',
+    body: ['uv init', 'uv check', 'uv build', 'uv run', 'uv test'],
   },
 ];
 
 const reviewFlow = [
-  'LLM prompt',
-  'Ultraviolet source',
+  'Generated source',
+  'Visible effects',
   'Human review',
   'Compiler check',
 ];
 
-const reviewSurface = [
+const languageFeatures = [
   {
-    label: 'authority',
-    value: 'Capability roots enter through Context.',
+    title: 'Explicit effects and authority',
+    body: 'Effects flow through typed capabilities and procedure signatures, so externally visible behavior is reviewable in source.',
+    cue: 'effects',
   },
   {
-    label: 'access',
-    value: 'const, unique, and shared describe permission.',
+    title: 'CPU + GPU programming',
+    body: 'Write code for CPU or GPU execution in one language model, with execution domains exposed as typed capabilities.',
+    cue: 'domains',
   },
   {
-    label: 'responsibility',
-    value: 'move and binding state make transfer visible.',
+    title: 'Canonical source forms',
+    body: 'Semantic operations have one accepted source form where possible, which gives generated code fewer equivalent spellings.',
+    cue: 'source',
   },
   {
-    label: 'runtime opt-ins',
-    value: 'Dynamic checks, synchronization, unsafe behavior, and FFI are explicit.',
+    title: 'Permission and responsibility',
+    body: 'move, const, shared, and unique separate transfer of responsibility from access permission.',
+    cue: 'access',
+  },
+  {
+    title: 'Modal types',
+    body: 'State-specific APIs model protocols, resources, typestate, and async state directly.',
+    cue: 'state',
+  },
+  {
+    title: 'Static by default',
+    body: 'Runtime checks, synchronization, dispatch, allocation, copying, unsafe behavior, and foreign boundaries require explicit opt-in.',
+    cue: 'checks',
+  },
+  {
+    title: 'Structured parallelism',
+    body: 'parallel, spawn, dispatch, sync, race, and related constructs share one execution model.',
+    cue: 'parallel',
+  },
+  {
+    title: 'Compile-time generation',
+    body: 'comptime, quote/splice, reflection, and emission support controlled generated source.',
+    cue: 'comptime',
+  },
+];
+
+const docsEntrypoints = [
+  {
+    title: 'Start with the alpha docs',
+    body: 'Project shape, first program, command surface, and current build notes.',
+    href: '/docs/',
+    cta: 'Open docs',
+  },
+  {
+    title: 'Read the specification',
+    body: 'The authoritative source for syntax, semantics, lowering, diagnostics, ABI, and conformance.',
+    href: '/docs/specification/',
+    cta: 'Open spec guide',
+  },
+  {
+    title: 'Track alpha delivery',
+    body: 'Build hardening, examples, CI, diagnostics, corpus work, and self-hosting progress.',
+    href: '/roadmap/',
+    cta: 'Open roadmap',
   },
 ];
 ---
@@ -84,43 +132,44 @@ const reviewSurface = [
   <section class="hero">
     <div class="hero-grid">
       <div>
-        <p class="eyebrow">Blacklight Foundation public alpha</p>
+        <p class="eyebrow">Public alpha / Blacklight Foundation</p>
         <h1>Ultraviolet</h1>
         <p class="hero-lede">
-          A principled, high-visibility, systems programming language for
-          LLM-generated source that remains reviewable by humans.
+          A general-purpose programming language for generated source that
+          humans can still review.
         </p>
         <p class="hero-copy">
-          Ultraviolet is currently in alpha. It is designed for source produced
-          by LLMs and reviewed by people: canonical source forms, explicit
-          authority, local permission and responsibility, and static checks by
-          default. The project is stewarded by Blacklight Foundation.
+          Ultraviolet makes effects, authority, movement, execution domain, and
+          runtime opt-ins visible in source. It is designed for LLM-generated
+          code that needs to pass compiler checks and human review.
         </p>
         <div class="actions" aria-label="Primary actions">
-          <a class="button primary" href="/docs/">Read the docs</a>
-          <a class="button ghost" href="/sponsor/">Support the public alpha</a>
+          <a class="button primary" href="/docs/">Start with the alpha docs</a>
+          <a class="button secondary" href="/docs/specification/">
+            Read the specification
+          </a>
           <a
-            class="button secondary"
+            class="button ghost"
             href="https://github.com/blacklight-foundation/ultraviolet"
           >
-            View on GitHub
+            View compiler source
           </a>
         </div>
       </div>
-      <div class="proof-panel" aria-label="Generated source review surface">
-        <div class="proof-panel-head">
-          <span>review surface</span>
-          <span>language model</span>
+      <div class="proof-panel code-proof-panel" aria-label="Ultraviolet source and command surface">
+        <div class="code-panel-head">
+          <span>public alpha surface</span>
+          <span>.uv / uv</span>
         </div>
-        <div class="review-surface-list">
-          {
-            reviewSurface.map((item) => (
-              <article>
-                <span>{item.label}</span>
-                <p>{item.value}</p>
-              </article>
-            ))
-          }
+        <div class="code-panel-stack">
+          {sourceTabs.map((tab) => (
+            <article class="code-sample">
+              <div class="code-sample-head">
+                <span>{tab.label}</span>
+              </div>
+              <pre><code>{tab.body.join('\n')}</code></pre>
+            </article>
+          ))}
         </div>
       </div>
     </div>
@@ -129,7 +178,7 @@ const reviewSurface = [
   <section class="proof-strip" aria-label="Current project status">
     <div class="proof-strip-inner">
       {
-        statusItems.map((item) => (
+        proofMetrics.map((item) => (
           <article class="proof-metric">
             <span>{item.label}</span>
             <strong>{item.value}</strong>
@@ -141,12 +190,12 @@ const reviewSurface = [
 
   <section class="page-section problem-section">
     <div class="section-heading">
-      <h2>LLM-generated systems code still needs source-level review.</h2>
+      <h2>Generated code still needs source-level review.</h2>
       <p>
-        Reviewers need to see where authority enters, which values move or
-        alias, when effects occur, and which behavior depends on runtime checks.
-        Ultraviolet puts those review properties in the source language instead
-        of treating them as comments, conventions, or generator policy.
+        Reviewers need to see which effects occur, where authority flows, which
+        values move or alias, whether work runs on CPU or GPU, and which
+        behavior depends on runtime checks. Ultraviolet puts those review
+        properties in the source language.
       </p>
     </div>
     <div class="review-flow" aria-label="Review loop">
@@ -163,11 +212,11 @@ const reviewSurface = [
   <section class="band">
     <div class="page-section compact-section">
       <div class="section-heading">
-        <h2>Language model</h2>
+        <h2>Language features</h2>
       </div>
-      <div class="grid four-col">
+      <div class="grid four-col feature-grid">
         {
-          principles.map((principle) => (
+          languageFeatures.map((principle) => (
             <article class="card principle-card">
               <span>{principle.cue}</span>
               <h3>{principle.title}</h3>
@@ -180,13 +229,45 @@ const reviewSurface = [
   </section>
 
   <section class="page-section">
+    <div class="section-heading">
+      <h2>Start from real language artifacts.</h2>
+      <p>
+        The alpha docs should help technical visitors inspect the project
+        format, command surface, specification, compiler source, runtime source,
+        and delivery roadmap without waiting for a polished release.
+      </p>
+    </div>
+    <div class="grid three-col">
+      {
+        docsEntrypoints.map((entry) => (
+          <a class="card post-card compact-card" href={entry.href}>
+            <h3>{entry.title}</h3>
+            <p>{entry.body}</p>
+            <span class="card-cta">{entry.cta}</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="page-section compact-section">
+      <NewsletterSignup
+        source="home"
+        heading="Follow the public alpha"
+        description="Compiler progress, language notes, CPU/GPU execution work, funding milestones, and generated-source research updates."
+      />
+    </div>
+  </section>
+
+  <section class="page-section support-summary-section">
     <div class="grid two-col funding-summary">
       <div class="section-heading">
-        <h2>Support the public alpha.</h2>
+        <h2>Support public alpha work.</h2>
         <p>
-          Blacklight Foundation funds the public compiler, specification,
-          documentation, examples, diagnostics, CI, training material, and
-          community infrastructure for Ultraviolet.
+          Blacklight Foundation funds compiler and runtime work, examples,
+          diagnostics, CI, documentation, CPU/GPU language work, training
+          corpus material, and community infrastructure for Ultraviolet.
         </p>
         <div class="actions">
           <a class="button primary" href="/sponsor/#support-tiers">
@@ -213,16 +294,10 @@ const reviewSurface = [
     </div>
   </section>
 
-  <section class="band">
-    <div class="page-section">
-      <NewsletterSignup source="home" />
-    </div>
-  </section>
-
   <section class="page-section">
     <div class="section-heading">
       <h2>
-        Help build a language for reviewable LLM-generated systems source.
+        Help build a language for reviewable generated source.
       </h2>
       <div class="actions">
         <a class="button primary" href="/sponsor/">Support the public alpha</a>
