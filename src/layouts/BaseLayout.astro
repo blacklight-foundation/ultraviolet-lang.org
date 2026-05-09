@@ -1,6 +1,5 @@
 ---
 import '../styles/site.css';
-import NewsletterSignup from '../components/NewsletterSignup.astro';
 import { oneTimeDonation } from '../data/funding';
 
 interface Props {
@@ -10,7 +9,7 @@ interface Props {
 
 const defaultTitle = 'Ultraviolet';
 const defaultDescription =
-  'A systems programming language for LLM-generated code humans can still review.';
+  'A systems programming language for LLM-generated source that remains reviewable by humans.';
 
 const { title = defaultTitle, description = defaultDescription } = Astro.props;
 const pageTitle =
@@ -29,13 +28,18 @@ const navLinks = [
   },
 ];
 
-const footerLinks = [
+const footerPrimaryLinks = [
+  { href: '/docs/', label: 'Docs' },
+  { href: '/roadmap/', label: 'Roadmap' },
+  { href: '/sponsor/', label: 'Support' },
+  { href: oneTimeDonation.href, label: 'Donate' },
   {
     href: 'https://github.com/blacklight-foundation/ultraviolet',
     label: 'GitHub',
   },
-  { href: '/sponsor/', label: 'Support' },
-  { href: oneTimeDonation.href, label: 'Donate' },
+];
+
+const footerUtilityLinks = [
   { href: '/foundation/', label: 'Foundation' },
   { href: 'mailto:hello@blacklight.foundation', label: 'Contact' },
   {
@@ -101,29 +105,84 @@ const footerLinks = [
     </main>
     <footer class="site-footer">
       <div class="footer-inner">
-        <div>
-          <a class="footer-brand" href="/">Ultraviolet</a>
-          <p>
-            Stewarded by Blacklight Foundation. Built for public alpha
-            documentation, support transparency, and technical review.
+        <div class="footer-primary">
+          <a class="footer-brand" href="/">
+            <span class="footer-brand-mark" aria-hidden="true">
+              <img
+                src="/images/ultraviolet_darkmode_transparent.png"
+                width="1000"
+                height="1000"
+                alt=""
+              />
+            </span>
+            <span>Ultraviolet</span>
+          </a>
+          <p class="footer-summary">
+            Systems language currently in alpha for reviewable LLM-generated
+            source, stewarded by Blacklight Foundation.
           </p>
+          <nav class="footer-links" aria-label="Footer primary navigation">
+            {
+              footerPrimaryLinks.map((link) => (
+                <a href={link.href}>
+                  {link.label}
+                </a>
+              ))
+            }
+          </nav>
         </div>
-        <NewsletterSignup
-          source="footer"
-          heading="Get updates"
-          description="Public alpha notes, compiler progress, and funding milestones."
-          compact
-          className="footer-newsletter"
-        />
-        <nav class="footer-links" aria-label="Footer navigation">
-          {
-            footerLinks.map((link) => (
-              <a href={link.href}>
-                {link.label}
-              </a>
-            ))
-          }
-        </nav>
+        <div class="footer-secondary">
+          <form
+            class="footer-signup"
+            data-newsletter-form
+            action="/api/subscribe"
+            method="post"
+            novalidate
+          >
+            <input type="hidden" name="source" value="footer" />
+            <label class="sr-only" for="footer-newsletter-email">
+              Email address
+            </label>
+            <input
+              id="footer-newsletter-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              inputmode="email"
+              placeholder="Email for public alpha updates"
+              required
+            />
+            <input
+              class="newsletter-honeypot"
+              name="company"
+              type="text"
+              tabindex="-1"
+              autocomplete="off"
+              aria-hidden="true"
+            />
+            <button type="submit">Subscribe</button>
+            <p
+              class="footer-signup-status"
+              data-newsletter-status
+              aria-live="polite"
+              aria-atomic="true"
+            >
+            </p>
+          </form>
+          <nav class="footer-links footer-utility-links" aria-label="Footer utility navigation">
+            {
+              footerUtilityLinks.map((link) => (
+                <a href={link.href}>
+                  {link.label}
+                </a>
+              ))
+            }
+          </nav>
+          <div class="footer-meta">
+            <span>&copy; 2026 Blacklight Foundation</span>
+            <span>Currently in alpha.</span>
+          </div>
+        </div>
       </div>
     </footer>
   </body>

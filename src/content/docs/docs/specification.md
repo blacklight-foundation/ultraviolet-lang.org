@@ -5,11 +5,16 @@ description: Specification overview for Ultraviolet.
 
 The full Ultraviolet language specification exists and is more formal than the beginner documentation.
 
+<aside class="docs-status">
+  <strong>Specification status: public alpha.</strong>
+  <span>Use the specification for formal rules and the beginner docs for the public alpha learning path.</span>
+</aside>
+
 The specification is intended for compiler implementers, language designers, static-analysis engineers, and reviewers who need authoritative detail on syntax, resolution, typing, lowering, runtime behavior, diagnostics, and conformance.
 
 ## Read the specification
 
-[Ultraviolet specification on GitHub](https://github.com/blacklight-foundation/ultraviolet-lang.org/blob/main/SPECIFICATION.md)
+[Ultraviolet specification on GitHub](https://github.com/blacklight-foundation/ultraviolet/blob/main/SPECIFICATION.md)
 
 ## How to use it
 

@@ -12,25 +12,24 @@ import NewsletterSignup from '../../components/NewsletterSignup.astro';
     </header>
 
     <p>
-      Ultraviolet is an alpha systems programming language for LLM-generated
-      code humans can still review. The language is designed around explicit
-      semantics, local reasoning, one accepted source form where possible, and
-      static-by-default behavior.
+      Ultraviolet is currently in alpha. It is a systems programming language
+      for LLM-generated source that remains reviewable by humans. The language
+      is designed around canonical source forms, explicit authority, local
+      permission and responsibility, and static checks by default.
     </p>
 
     <p>
-      LLM-generated code is becoming infrastructure. It is reviewed in pull
-      requests, debugged when systems fail, audited for security properties, and
-      trusted in production paths. Ultraviolet asks what a systems language
-      should look like when that review path is part of the design.
+      LLM-generated systems source still needs source-level review. Reviewers
+      need to see where authority enters, which values move or alias, when
+      effects occur, and which behavior depends on runtime checks. Ultraviolet
+      puts those properties in the source language.
     </p>
 
     <p>
-      The project currently has an alpha language specification and a
-      bootstrap-built compiler artifact. The next public work is moving the
-      compiler and surrounding infrastructure into a buildable, documented
-      public alpha with CI, examples, diagnostics, and an open training corpus
-      for LLMs that generate Ultraviolet.
+      The project currently has a public specification and a bootstrap compiler.
+      The next public work is moving the compiler and surrounding infrastructure
+      into a buildable, documented public alpha with CI, examples, diagnostics,
+      and an open training corpus for LLMs that generate Ultraviolet source.
     </p>
 
     <p>
@@ -54,7 +53,7 @@ import NewsletterSignup from '../../components/NewsletterSignup.astro';
     <NewsletterSignup
       source="launch-post"
       heading="Get Ultraviolet updates"
-      description="Public alpha notes, compiler progress, funding milestones, and LLM-generated-code research updates."
+      description="Public alpha notes, compiler progress, funding milestones, and LLM-generated-source research updates."
     />
   </article>
 </BaseLayout>

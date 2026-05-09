@@ -5,61 +5,74 @@ const milestones = [
   {
     title: 'Compiler migration',
     target: '$7,500',
+    status: 'in progress',
     deliverable:
       'Bootstrap compiler organized under the public Ultraviolet project, with clear build instructions.',
   },
   {
     title: 'Quickstart and first example',
     target: '$5,000',
+    status: 'fundable',
     deliverable: 'A clean clone/build/run path and first working example.',
   },
   {
     title: 'CI and release workflow',
     target: '$5,000',
+    status: 'fundable',
     deliverable: 'Public smoke tests, build workflow, and release checklist.',
   },
   {
     title: 'Open LLM training corpus',
     target: '$50,000',
+    status: 'fundable',
     deliverable:
       'Open-licensed corpus of examples, constrained tasks, expected outputs, review annotations, diagnostics cases, and evaluation material for LLMs that generate Ultraviolet source.',
   },
   {
     title: 'Diagnostics and examples',
     target: '$15,000',
+    status: 'planned',
     deliverable: 'Improved diagnostics and maintained example programs.',
   },
 ];
 ---
 
 <BaseLayout title="Public Alpha Roadmap">
-  <article class="article-page">
+  <article class="article-page roadmap-page">
     <header>
       <p class="eyebrow">Project roadmap</p>
       <h1>Public Alpha Roadmap</h1>
       <p>
-        The current goal is to make Ultraviolet buildable, documented,
-        testable, and contributor-ready.
+        The near-term roadmap is compiler migration, a reliable public build
+        path, documentation, CI, training material for LLM generation, and
+        diagnostics/examples.
       </p>
     </header>
 
-    <div class="timeline">
+    <div class="roadmap-table" aria-label="Public alpha milestones">
+      <div class="roadmap-table-head">
+        <span>Milestone</span>
+        <span>Target</span>
+        <span>Status</span>
+        <span>Support</span>
+      </div>
       {
         milestones.map((milestone) => (
-          <section class="timeline-item">
-            <div>
-              <span>Milestone</span>
+          <section class="roadmap-row">
+            <div class="roadmap-main">
               <h2>{milestone.title}</h2>
               <p>{milestone.deliverable}</p>
             </div>
             <strong>{milestone.target}</strong>
+            <span class="status-tag">{milestone.status}</span>
+            <a href="/sponsor/#funding-goals">Support</a>
           </section>
         ))
       }
     </div>
 
     <section>
-      <h2>Want to fund one of these milestones?</h2>
+      <h2>Want to support one of these milestones?</h2>
       <div class="actions">
         <a class="button primary" href="/sponsor/#funding-goals">
           Support a milestone

@@ -3,7 +3,7 @@ title: Documentation
 description: Documentation overview for Ultraviolet.
 ---
 
-Ultraviolet is an alpha systems programming language for LLM-generated code humans can still review.
+Ultraviolet is currently in alpha. The specification is the source of truth, and the reference implementation is evolving toward it.
 
 The current documentation is focused on the public alpha path: how to follow the compiler, build the project as it becomes public, run first examples, and read the language specification.
 
@@ -16,12 +16,15 @@ The current documentation is focused on the public alpha path: how to follow the
 
 ## Current status
 
-The language is alpha. A bootstrap-built compiler artifact exists, and the clean public build/check path is being stabilized. Documentation will stabilize alongside the public compiler, examples, diagnostics, and CI.
+<aside class="docs-status">
+  <strong>Currently in alpha.</strong>
+  <span>A bootstrap compiler exists, and the clean public build/check path is being stabilized. Documentation will stabilize alongside the public compiler, examples, diagnostics, and CI.</span>
+</aside>
 
-<section class="newsletter-card docs-newsletter" aria-labelledby="docs-updates-heading">
+<section class="newsletter-card docs-newsletter newsletter-card-compact" aria-labelledby="docs-updates-heading">
   <div class="newsletter-copy">
     <h2 id="docs-updates-heading">Get Ultraviolet updates</h2>
-    <p>Public alpha notes, compiler progress, funding milestones, and LLM-generated-code research updates.</p>
+    <p>Public alpha notes, compiler progress, funding milestones, and LLM-generated-source research updates.</p>
   </div>
   <form class="newsletter-form" data-newsletter-form action="/api/subscribe" method="post" novalidate>
     <input type="hidden" name="source" value="docs" />

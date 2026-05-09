@@ -3,13 +3,16 @@ title: Quickstart
 description: Quickstart for the Ultraviolet public alpha.
 ---
 
-The Ultraviolet compiler is alpha. This quickstart will stabilize as the compiler is moved into the main public project.
+<aside class="docs-status">
+  <strong>Currently in alpha.</strong>
+  <span>This quickstart is provisional while the compiler is moved into the main public project.</span>
+</aside>
 
 ## Prerequisites
 
 - A current Git installation.
-- A supported C/C++ build toolchain for the target platform.
-- LLVM tooling matching the compiler notes in the public repository.
+- Bootstrap dependencies listed in the language repository.
+- Target notes for the active public alpha build path.
 - A terminal with standard shell utilities.
 
 ## Clone

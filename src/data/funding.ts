@@ -6,12 +6,11 @@ export const fundingGoals = [
     purpose: 'Fund the first usable public alpha of Ultraviolet.',
     cta: 'Support this work',
     href: '/sponsor/#support-tiers',
-    summary:
-      'This fund supports the first usable public alpha of Ultraviolet.',
+    summary: 'This fund supports the first usable public alpha of Ultraviolet.',
     body:
-      'Funding goes toward compiler migration, a working quickstart, first examples, CI smoke tests, a release checklist, contributor onboarding, and public support reporting.',
+      'Funding goes toward compiler migration, a working build/check path, first examples, CI smoke tests, a release checklist, contributor onboarding, and public reporting.',
     outcome:
-      'The goal is simple: a technical visitor should be able to find the compiler, build the current alpha, run a first example, and understand what comes next.',
+      'The goal is direct: a technical visitor should be able to find the compiler, build the current alpha, run a first example, and understand the next implementation steps.',
     breakdown: [
       '$7.5k compiler migration / repo consolidation',
       '$5k working quickstart and first example',
@@ -29,11 +28,11 @@ export const fundingGoals = [
     cta: 'Support this work',
     href: '/sponsor/#support-tiers',
     summary:
-      'LLMs need high-quality examples, constraints, and review signals to generate systems code that humans can inspect with confidence.',
+      'LLMs need precise examples, constraints, expected outputs, and diagnostics to generate Ultraviolet source in the intended form.',
     body:
-      'This fund would develop an open-licensed corpus of Ultraviolet materials for LLM training and evaluation: canonical examples, constrained programming tasks, expected source outputs, review annotations, diagnostics examples, and explanations that teach the language\'s explicit authority, effects, ownership, and static-by-default design.',
+      'This fund develops open-licensed materials for LLM training and evaluation: canonical examples, constrained programming tasks, expected source outputs, review annotations, diagnostics cases, and explanations of authority, effects, permissions, responsibility, and static-default design.',
     outcome:
-      'The goal is to make Ultraviolet easier for LLMs to generate correctly and easier for humans to review, audit, and improve.',
+      'The goal is to make Ultraviolet generation more consistent and make the resulting source easier for humans to inspect, audit, and improve.',
     breakdown: [
       '$12.5k corpus design, licensing, and data format',
       '$10k canonical examples and explanations',
@@ -51,12 +50,11 @@ export const fundingGoals = [
       'Fund sustained public compiler, documentation, release, and contributor work.',
     cta: 'Support this work',
     href: '/sponsor/#support-tiers',
-    summary:
-      'Programming languages do not become sustainable through one-off bursts of attention. They need consistent maintainer time.',
+    summary: 'This fund supports one year of focused public maintainer work.',
     body:
-      'The Maintainer-in-Residence Fund supports one year of focused public work on Ultraviolet: compiler development, release engineering, documentation, examples, diagnostics, contributor onboarding, public roadmap updates, support reporting, infrastructure, and compliance.',
+      'The Maintainer-in-Residence Fund supports compiler development, release engineering, documentation, examples, diagnostics, contributor onboarding, public roadmap updates, reporting, infrastructure, and compliance.',
     outcome:
-      "This fund is Blacklight Foundation's path from alpha project to durable public infrastructure.",
+      'The goal is sustained public progress on the compiler, documentation, release process, and contributor surface.',
     breakdown: [
       '$80k maintainer/compiler work',
       '$20k docs, examples, contributor support',
@@ -70,7 +68,7 @@ export const supportTiers = [
   {
     amount: '$5',
     title: 'Community Supporter',
-    description: 'Help keep public alpha work moving.',
+    description: 'Recurring support for public alpha updates.',
     cta: 'Support at $5',
     href: 'https://buy.stripe.com/bJeeVegjOdJJ04G69YeIw00',
     benefits: [
@@ -81,7 +79,7 @@ export const supportTiers = [
   {
     amount: '$10',
     title: 'Individual Supporter',
-    description: 'Support the public alpha as an individual developer.',
+    description: 'Recurring support for individual developers.',
     cta: 'Support at $10',
     href: 'https://buy.stripe.com/28EcN63x27llbNo55UeIw01',
     benefits: [
@@ -92,7 +90,7 @@ export const supportTiers = [
   {
     amount: '$20',
     title: 'Project Supporter',
-    description: 'Back the public compiler, docs, and corpus work.',
+    description: 'Recurring support for compiler, docs, and corpus work.',
     cta: 'Support at $20',
     href: 'https://buy.stripe.com/bJe28s3x2499dVweGueIw02',
     benefits: [
@@ -103,7 +101,7 @@ export const supportTiers = [
   {
     amount: '$50',
     title: 'Alpha Supporter',
-    description: 'Fund larger chunks of public alpha infrastructure.',
+    description: 'Recurring support for public alpha infrastructure.',
     cta: 'Support at $50',
     href: 'https://buy.stripe.com/cNibJ21oUeNN8BceGueIw03',
     benefits: [

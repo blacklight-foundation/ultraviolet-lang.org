@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
 const description =
-  'A systems programming language for LLM-generated code humans can still review.';
+  'A systems programming language for LLM-generated source that remains reviewable by humans.';
 
 export default defineConfig({
   site: 'https://ultraviolet-lang.org',

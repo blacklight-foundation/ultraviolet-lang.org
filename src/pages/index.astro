@@ -5,30 +5,78 @@ import { fundingGoals } from '../data/funding';
 
 const principles = [
   {
-    title: 'One Correct Way',
-    body: 'Semantic operations should have one accepted source form where possible.',
+    title: 'Canonical source forms',
+    body: 'Semantic operations have one accepted source form where possible, so generated output has fewer equivalent spellings to review.',
+    cue: 'one accepted form',
   },
   {
-    title: 'Local Reasoning',
-    body: 'A reader should understand authority, ownership, mutability, and effects from local syntax and signatures.',
+    title: 'Explicit authority',
+    body: 'External effects require capability values. Capability roots enter through Context rather than ambient globals.',
+    cue: 'capability roots',
   },
   {
-    title: 'Explicit over Implicit',
-    body: 'Effects, allocation, synchronization, unsafe behavior, and authority should not hide behind convenience.',
+    title: 'Permission and responsibility',
+    body: 'Permissions such as const, unique, and shared are separate from responsibility transfer through move.',
+    cue: 'access and transfer',
   },
   {
-    title: 'Static by Default',
-    body: 'Prefer static mechanisms. Runtime behavior should require explicit opt-in where possible.',
+    title: 'Static checks by default',
+    body: 'Dynamic checks, synchronization, dispatch, allocation, copying, unsafe behavior, and foreign boundaries require explicit source opt-in.',
+    cue: 'runtime opt-in',
   },
 ];
 
 const statusItems = [
-  'Alpha language',
-  'Bootstrap-built uv compiler artifact exists',
-  'Clean public build/check path is being stabilized',
-  'Public specification exists',
-  'Stewarded by Blacklight Foundation',
-  'Seeking public supporters and milestone funders',
+  {
+    label: 'Status',
+    value: 'Currently in alpha',
+  },
+  {
+    label: 'Compiler',
+    value: 'Bootstrap compiler exists',
+  },
+  {
+    label: 'Build path',
+    value: 'Being stabilized',
+  },
+  {
+    label: 'Spec',
+    value: 'Public specification exists',
+  },
+  {
+    label: 'Stewardship',
+    value: 'Blacklight Foundation',
+  },
+  {
+    label: 'Funding',
+    value: 'Subscriptions + milestones',
+  },
+];
+
+const reviewFlow = [
+  'LLM prompt',
+  'Ultraviolet source',
+  'Human review',
+  'Compiler check',
+];
+
+const reviewSurface = [
+  {
+    label: 'authority',
+    value: 'Capability roots enter through Context.',
+  },
+  {
+    label: 'access',
+    value: 'const, unique, and shared describe permission.',
+  },
+  {
+    label: 'responsibility',
+    value: 'move and binding state make transfer visible.',
+  },
+  {
+    label: 'runtime opt-ins',
+    value: 'Dynamic checks, synchronization, unsafe behavior, and FFI are explicit.',
+  },
 ];
 ---
 
@@ -39,14 +87,14 @@ const statusItems = [
         <p class="eyebrow">Blacklight Foundation public alpha</p>
         <h1>Ultraviolet</h1>
         <p class="hero-lede">
-          A systems programming language for LLM-generated code humans can
-          still review.
+          A principled, high-visibility, systems programming language for
+          LLM-generated source that remains reviewable by humans.
         </p>
         <p class="hero-copy">
-          Ultraviolet is an alpha systems programming language designed around
-          explicit semantics, local reasoning, and predictable source generated
-          by LLMs and other tools. The project is stewarded by Blacklight
-          Foundation.
+          Ultraviolet is currently in alpha. It is designed for source produced
+          by LLMs and reviewed by people: canonical source forms, explicit
+          authority, local permission and responsibility, and static checks by
+          default. The project is stewarded by Blacklight Foundation.
         </p>
         <div class="actions" aria-label="Primary actions">
           <a class="button primary" href="/docs/">Read the docs</a>
@@ -59,60 +107,69 @@ const statusItems = [
           </a>
         </div>
       </div>
-      <div class="signal-panel" aria-label="Public alpha focus">
-        <div class="signal-head">
-          <span>public-alpha.focus</span>
-          <span>reviewable-source</span>
+      <div class="proof-panel" aria-label="Generated source review surface">
+        <div class="proof-panel-head">
+          <span>review surface</span>
+          <span>language model</span>
         </div>
-        <div class="logo-panel">
-          <img
-            class="hero-logo"
-            src="/images/ultraviolet_darkmode_transparent.png"
-            width="1000"
-            height="1000"
-            alt="Ultraviolet language logo"
-          />
+        <div class="review-surface-list">
+          {
+            reviewSurface.map((item) => (
+              <article>
+                <span>{item.label}</span>
+                <p>{item.value}</p>
+              </article>
+            ))
+          }
         </div>
-        <pre><code><span class="token-violet">compiler</span>: migration + release infrastructure
-<span class="token-cyan">docs</span>: quickstart + language tour
-<span class="token-green">corpus</span>: examples + review signals
-support: public alpha + corpus</code></pre>
       </div>
     </div>
   </section>
 
-  <section class="band">
-    <div class="page-section">
-      <div class="section-heading">
-        <h2>Current status</h2>
-      </div>
-      <ul class="status-list">
-        {statusItems.map((item) => <li>{item}</li>)}
-      </ul>
+  <section class="proof-strip" aria-label="Current project status">
+    <div class="proof-strip-inner">
+      {
+        statusItems.map((item) => (
+          <article class="proof-metric">
+            <span>{item.label}</span>
+            <strong>{item.value}</strong>
+          </article>
+        ))
+      }
     </div>
   </section>
 
-  <section class="page-section">
+  <section class="page-section problem-section">
     <div class="section-heading">
-      <h2>LLM-generated code is still human-facing code.</h2>
+      <h2>LLM-generated systems code still needs source-level review.</h2>
       <p>
-        LLM-generated code is reviewed, debugged, diffed, audited, and trusted
-        in production. Ultraviolet gives machine authors a narrower, explicit
-        target and gives human reviewers source that exposes authority,
-        mutability, effects, and ownership locally.
+        Reviewers need to see where authority enters, which values move or
+        alias, when effects occur, and which behavior depends on runtime checks.
+        Ultraviolet puts those review properties in the source language instead
+        of treating them as comments, conventions, or generator policy.
       </p>
     </div>
+    <div class="review-flow" aria-label="Review loop">
+      {
+        reviewFlow.map((item) => (
+          <div class="review-flow-step">
+            <span>{item}</span>
+          </div>
+        ))
+      }
+    </div>
   </section>
 
   <section class="band">
-    <div class="page-section">
+    <div class="page-section compact-section">
       <div class="section-heading">
-        <h2>Design principles</h2>
+        <h2>Language model</h2>
       </div>
       <div class="grid four-col">
         {
           principles.map((principle) => (
-            <article class="card">
+            <article class="card principle-card">
+              <span>{principle.cue}</span>
               <h3>{principle.title}</h3>
               <p>{principle.body}</p>
             </article>
@@ -123,30 +180,32 @@ support: public alpha + corpus</code></pre>
   </section>
 
   <section class="page-section">
-    <div class="grid two-col">
+    <div class="grid two-col funding-summary">
       <div class="section-heading">
-        <h2>Fund the public alpha.</h2>
+        <h2>Support the public alpha.</h2>
         <p>
           Blacklight Foundation funds the public compiler, specification,
-          documentation, examples, diagnostics, CI, and community infrastructure
-          for Ultraviolet.
+          documentation, examples, diagnostics, CI, training material, and
+          community infrastructure for Ultraviolet.
         </p>
         <div class="actions">
-          <a class="button primary" href="/sponsor/#funding-goals">
-            See funding goals
+          <a class="button primary" href="/sponsor/#support-tiers">
+            See support options
           </a>
-          <a class="button secondary" href="/sponsor/#support-tiers">
-            Support the project
+          <a class="button secondary" href="/sponsor/#funding-goals">
+            View funding goals
           </a>
         </div>
       </div>
-      <div class="grid">
+      <div class="funding-rail">
         {
           fundingGoals.map((fund) => (
             <article class="card funding-card">
-              <h3>{fund.title}</h3>
+              <div>
+                <h3>{fund.title}</h3>
+                <p class="muted">{fund.purpose}</p>
+              </div>
               <p class="funding-goal">{fund.goal}</p>
-              <p class="muted">{fund.purpose}</p>
             </article>
           ))
         }
@@ -163,7 +222,7 @@ support: public alpha + corpus</code></pre>
   <section class="page-section">
     <div class="section-heading">
       <h2>
-        Help build a language for reviewable LLM-generated systems code.
+        Help build a language for reviewable LLM-generated systems source.
       </h2>
       <div class="actions">
         <a class="button primary" href="/sponsor/">Support the public alpha</a>

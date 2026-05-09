@@ -3,13 +3,16 @@ title: First Program
 description: First program notes for the Ultraviolet public alpha.
 ---
 
-Examples are being stabilized with the compiler migration. The first public program will be kept small enough to verify the parser, typechecker, entrypoint handling, and executable output.
+<aside class="docs-status">
+  <strong>Example status: stabilizing.</strong>
+  <span>The first public program will be kept small enough to verify the parser, typechecker, entrypoint handling, and executable output.</span>
+</aside>
 
 ## Placeholder source
 
 ```text
 public procedure main(move ctx: Context) -> i32 {
-  return 0
+    return 0
 }
 ```
 

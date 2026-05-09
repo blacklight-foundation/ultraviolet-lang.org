@@ -2,7 +2,7 @@
 
 This repository contains the public website for Ultraviolet.
 
-Ultraviolet is a systems programming language for LLM-generated code humans can still review.
+Ultraviolet is a systems programming language for LLM-generated source that remains reviewable by humans.
 
 ## Development
 
