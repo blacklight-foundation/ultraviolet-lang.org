@@ -3,7 +3,7 @@ title: "Asynchronous Operations"
 description: "21. Asynchronous Operations of the Ultraviolet language specification."
 specSource: "../../Ultraviolet/SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T13:48:04.933Z"
+generatedAt: "2026-05-09T14:44:07.538Z"
 generated: true
 ---
 
@@ -50,8 +50,6 @@ The following built-in async states are reserved and use ordinary modal-state ty
 `Async` is a built-in modal declaration:
 
 ```text
-```
-
 States(`Async`) = { `@Suspended`, `@Completed`, `@Failed` }
 
 AsyncParams = [
@@ -122,8 +120,6 @@ ExchangeDecl = TypeAliasDecl(⊥, `public`, `Exchange`, [⟨`T`, [], ⊥, ⊥⟩
 The built-in async combinator member set is:
 
 ```text
-```
-
 AsyncCombinatorNames = {`map`, `filter`, `take`, `fold`, `chain`}
 BuiltinModalGeneralMember(modal_ref, name) ⇔ ModalRefPath(modal_ref) = ["Async"] ∧ name ∈ AsyncCombinatorNames
 ```
@@ -179,8 +175,6 @@ T = TypeApply(["Async"], args)    DefaultArgs(AsyncParams, args) = args'    ∃ 
 
 **(WF-Async-Path-Err)**
 ```text
-```
-
 T = TypePath(["Async"])
 ────────────────────────────────────────────────────────────────
 Γ ⊢ T wf ⇑
@@ -245,8 +239,6 @@ AliasNorm(T) = T'    AsyncSig(T') = sig    Γ ⊢ LowerAsyncType(T') ⇓ out
 #### 21.2.1 Syntax
 
 ```text
-```
-
 wait_expr       ::= "wait" expression
 yield_expr      ::= "yield" "release"? expression
 yield_from_expr ::= "yield" "release"? "from" expression
@@ -269,8 +261,6 @@ IsIdent(Tok(P))    Lexeme(Tok(P)) = `wait`    Γ ⊢ ParseExpr(Advance(P)) ⇓ (
 
 **(Parse-Yield-From-Expr)**
 ```text
-```
-
 IsKw(Tok(P), `yield`)    P_1 = Advance(P)
 (IsIdent(Tok(P_1)) ∧ Lexeme(Tok(P_1)) = `release` ⇒ release_opt = Release ∧ P_2 = Advance(P_1))
 (¬(IsIdent(Tok(P_1)) ∧ Lexeme(Tok(P_1)) = `release`) ⇒ release_opt = ⊥ ∧ P_2 = P_1)
@@ -283,8 +273,6 @@ IsKw(Tok(P_2), `from`)    Γ ⊢ ParseExpr(Advance(P_2)) ⇓ (P_3, e)
 
 **(Parse-Yield-Expr)**
 ```text
-```
-
 IsKw(Tok(P), `yield`)    P_1 = Advance(P)
 (IsIdent(Tok(P_1)) ∧ Lexeme(Tok(P_1)) = `release` ⇒ release_opt = Release ∧ P_2 = Advance(P_1))
 (¬(IsIdent(Tok(P_1)) ∧ Lexeme(Tok(P_1)) = `release`) ⇒ release_opt = ⊥ ∧ P_2 = P_1)
@@ -315,8 +303,6 @@ Name resolution preserves these forms:
 Evaluation order is:
 
 ```text
-```
-
 Children_LTR(WaitExpr(handle)) = [handle]
 Children_LTR(YieldExpr(release_opt, e)) = [e]
 Children_LTR(YieldFromExpr(release_opt, e)) = [e]
@@ -424,8 +410,6 @@ Key restrictions for `wait`, `yield`, and `yield from` are defined in §21.5.4.
 Formal `wait` rules:
 
 ```text
-```
-
 SpawnHandleState(SpawnedVal(@Ready { value }, _)) = Ready(value)
 SpawnHandleState(SpawnedVal(@Pending, _)) = Pending
 TrackedHandleState(TrackedVal(@Ready { value }, _)) = Ready(value)
@@ -575,15 +559,11 @@ outer_state.inner_async = s    input = i    Γ ⊢ EvalSigma(Resume(s, i), σ) �
 ```
 
 ```text
-```
-
 EvalYieldFromContinue : ReleaseOpt × AsyncValue × State → EvalOut × State
 ```
 
 **(EvalYieldFromContinue-Suspended)**
 ```text
-```
-
 ModalState(s) = @Suspended    s.output = v
 Γ ⊢ EvalSigma(YieldExpr(release_opt, v), σ) ⇓ (Suspend(outer_state), σ_1)
 outer_state' = outer_state[inner_async ↦ s]
@@ -593,8 +573,6 @@ outer_state' = outer_state[inner_async ↦ s]
 
 **(EvalYieldFromContinue-Completed)**
 ```text
-```
-
 ModalState(s) = @Completed    s.value = v
 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Γ ⊢ EvalYieldFromContinue(release_opt, s, σ) ⇓ (Val(v), σ)
@@ -602,8 +580,6 @@ ModalState(s) = @Completed    s.value = v
 
 **(EvalYieldFromContinue-Failed)**
 ```text
-```
-
 ModalState(s) = @Failed    s.error = e
 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Γ ⊢ EvalYieldFromContinue(release_opt, s, σ) ⇓ (Propagate(e), σ)
@@ -684,8 +660,6 @@ For **(Lower-Yield-Release)**, the resumption target `L` MUST begin by executing
 Manual stepping uses ordinary modal-state inspection and method-call syntax.
 
 ```text
-```
-
 sync_expr    ::= "sync" expression
 race_expr    ::= "race" "{" race_arm ("," race_arm)* "}"
 race_arm     ::= expression "->" "|" pattern "|" race_handler
@@ -746,8 +720,6 @@ Race-arm parsing is:
 
 **(Parse-RaceArmsTail-End)**
 ```text
-```
-
 ¬ IsPunc(Tok(P), ",")
 ────────────────────────────────────────────────────────────────
 Γ ⊢ ParseRaceArmsTail(P, xs) ⇓ (P, xs)
@@ -755,8 +727,6 @@ Race-arm parsing is:
 
 **(Parse-RaceArmsTail-TrailingComma)**
 ```text
-```
-
 IsPunc(Tok(P), ",")    IsPunc(Tok(Advance(P)), "}")
 ────────────────────────────────────────────────────────────────
 Γ ⊢ ParseRaceArmsTail(P, xs) ⇓ (Advance(P), xs)
@@ -797,8 +767,6 @@ IsKw(Tok(P), `all`)    IsPunc(Tok(Advance(P)), "{")    Γ ⊢ ParseAllExprList(A
 #### 21.3.3 AST Representation / Form
 
 ```text
-```
-
 RaceHandler = {RaceReturn(expr), RaceYield(expr)}
 RaceArm = ⟨expr, pat, handler⟩    handler ∈ RaceHandler
 RaceArms = [RaceArm]
@@ -812,8 +780,6 @@ Expr includes:
 Async iteration uses the existing loop form:
 
 ```text
-```
-
 LoopIter(pattern, type_opt, iter, inv_opt, body)
 ```
 
@@ -824,8 +790,6 @@ No dedicated AST nodes are introduced for `until` or for async combinators beyon
 Resolution is:
 
 ```text
-```
-
 ResolveRaceJudg = {ResolveRaceArm, ResolveRaceArms, ResolveRaceHandler}
 ResolveAllExprListJudg = {ResolveAllExprList}
 
@@ -844,8 +808,6 @@ ResolveAllExprListJudg = {ResolveAllExprList}
 Evaluation order is:
 
 ```text
-```
-
 RaceArmExprs([]) = []
 RaceArmExprs(⟨e, _, _⟩ :: as) = [e] ++ RaceArmExprs(as)
 
@@ -878,6 +840,7 @@ AsyncSig(R) = ⟨Out_r, In_r, Result_r, E_r⟩    Γ; R; L ⊢ iter : T_iter    
 
 ```text
 Manual stepping is permitted by ordinary modal-state inspection and `a~>resume(input)`. It is required when an async value has `In ≠ ()`.
+```
 
 `sync` typing is:
 
@@ -888,8 +851,6 @@ YieldFromInExpr(e) ⇔ ∃ e' ∈ SubExprsList([e]). e' = YieldFromExpr(_, _)
 
 **(Sync-Yield-Err)**
 ```text
-```
-
 YieldInExpr(e)
 ──────────────────────────────────────────────
 Γ; R; L ⊢ SyncExpr(e) ⇑
@@ -897,8 +858,6 @@ YieldInExpr(e)
 
 **(Sync-YieldFrom-Err)**
 ```text
-```
-
 YieldFromInExpr(e)
 ──────────────────────────────────────────────
 Γ; R; L ⊢ SyncExpr(e) ⇑
@@ -936,8 +895,6 @@ AsyncSig(R) = ⊥    Γ; R; L ⊢ e : T_e    AsyncSig(T_e) = ⟨Out, In, Result,
 `race` typing is:
 
 ```text
-```
-
 RaceMode(arms) =
   { `return`    if ∀ arm ∈ arms. arm.handler = RaceReturn(_)
     `yield`     if ∀ arm ∈ arms. arm.handler = RaceYield(_)
@@ -966,8 +923,6 @@ In_i = TypePrim("()")    Γ ⊢ pat_i ⇐ Out_i ⊣ B_i    Distinct(PatNames(pat
 
 **(Race-Arity-Err)**
 ```text
-```
-
 n = |arms|    n < 2
 ──────────────────────────────────────────────
 Γ; R; L ⊢ RaceExpr(arms) ⇑
@@ -982,8 +937,6 @@ RaceMode(arms) = ⊥
 
 **(Race-Operand-Out-Err)**
 ```text
-```
-
 RaceMode(arms) = `return`
 ∃ i. Γ; R; L ⊢ e_i : T_i ∧ (AsyncSig(T_i) = ⟨Out_i, In_i, Result_i, E_i⟩ ∧ Out_i ≠ TypePrim("()"))
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -992,8 +945,6 @@ RaceMode(arms) = `return`
 
 **(Race-Operand-Err)**
 ```text
-```
-
 RaceMode(arms) = `return`
 ∃ i. Γ; R; L ⊢ e_i : T_i ∧ (AsyncSig(T_i) = ⊥ ∨ (AsyncSig(T_i) = ⟨Out_i, In_i, Result_i, E_i⟩ ∧ Out_i = TypePrim("()") ∧ In_i ≠ TypePrim("()")))
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -1002,8 +953,6 @@ RaceMode(arms) = `return`
 
 **(Race-Stream-Operand-Err)**
 ```text
-```
-
 RaceMode(arms) = `yield`
 ∃ i. Γ; R; L ⊢ e_i : T_i ∧ (AsyncSig(T_i) = ⊥ ∨ (AsyncSig(T_i) = ⟨Out_i, In_i, Result_i, E_i⟩ ∧ In_i ≠ TypePrim("()")))
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -1057,16 +1006,12 @@ Out_i = TypePrim("()")    In_i = TypePrim("()")    T_tuple = TypeTuple([Result_1
 `until` has the source-specified type:
 
 ```text
-```
-
 until : shared T × procedure(const T) -> bool × procedure(unique T) -> R -> Future<R>
 ```
 
 Async combinator typing is:
 
 ```text
-```
-
 map    : Async<Out, In, Result, E> × procedure(Out) -> U -> Async<U, In, Result, E>
 filter : Async<T, (), (), E> × procedure(const T) -> bool -> Async<T, (), (), E>
 take   : Async<T, (), (), E> × usize -> Async<T, (), (), E>
@@ -1134,8 +1079,6 @@ Manual stepping advances an async value by inspecting its modal state and invoki
 Formal `sync` rules:
 
 ```text
-```
-
 SyncStep : AsyncValue × State → AsyncValue × State
 ```
 
@@ -1213,8 +1156,6 @@ race_state = { active: [a_1, …, a_n], completed: ⊥, mode: mode }
 ```
 
 ```text
-```
-
 RaceStepReturn : RaceState × [RaceArm] × State → EvalOut × State
 ```
 
@@ -1253,8 +1194,6 @@ RaceMode(arms) = `return`    Γ ⊢ InitRace(arms, σ) ⇓ (race_state, σ_1)
 ```
 
 ```text
-```
-
 RaceStepStream : RaceState × [RaceArm] × State → EvalOut × State
 ```
 
@@ -1291,8 +1230,6 @@ RaceMode(arms) = `yield`    Γ ⊢ InitRace(arms, σ) ⇓ (race_state, σ_1)
 ```
 
 ```text
-```
-
 CancelAll : [AsyncValue] × State → State
 ```
 
@@ -1306,8 +1243,6 @@ CancelAll(asyncs, σ) ⇓ σ
 Streaming-race suspension state is:
 
 ```text
-```
-
 RaceStreamState = { race_state: RaceState, yielded_arm: Index }
 
 RaceResumeOrder(state, arms) = [state.yielded_arm] ++ [j | 1 ≤ j ≤ |arms| ∧ j ≠ state.yielded_arm ∧ ModalState(state.race_state.active[j]) ≠ @Completed]
@@ -1335,16 +1270,12 @@ state' = state[active[i] ↦ a_i']    Γ ⊢ ResumeRaceState(state', rest, σ_1)
 
 **(ResumeRaceState-Done)**
 ```text
-```
-
 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Γ ⊢ ResumeRaceState(state, [], σ) ⇓ (state, σ)
 ```
 
 **(EvalSigma-Race-Stream-Resume)**
 ```text
-```
-
 async_state = AsyncSuspended(_, stream_state)    input = ()    order = RaceResumeOrder(stream_state, arms)
 Γ ⊢ ResumeRaceState(stream_state.race_state, order, σ) ⇓ (race_state', σ_1)
 Γ ⊢ RaceStepStream(race_state', arms, σ_1) ⇓ (out, σ_2)
@@ -1364,8 +1295,6 @@ On resumption of a streaming `race`, the previously yielded arm MUST resume firs
 Formal `all` rules:
 
 ```text
-```
-
 AllState = { active: [AsyncValue], results: [Option<Value>], failed: Option<Error> }
 InitAll : [Expr] × State → AllState × State
 ```
@@ -1379,8 +1308,6 @@ all_state = { active: [a_1, …, a_n], results: [⊥, …, ⊥], failed: ⊥ }
 ```
 
 ```text
-```
-
 AllStep : AllState × State → AllState × State
 ```
 
@@ -1411,8 +1338,6 @@ all_state' = all_state[active[j] ↦ a_j']
 ```
 
 ```text
-```
-
 AllLoop : AllState × State → EvalOut × State
 ```
 
@@ -1536,8 +1461,6 @@ a = TakeAsync(src, n)    n > 0    Γ ⊢ Resume(src, (), σ) ⇓ (@Suspended{out
 
 **(EvalSigma-Take-Resume-Done)**
 ```text
-```
-
 a = TakeAsync(src, 0)
 ────────────────────────────────────────────────────────────────────────────────────────────
 Γ ⊢ Resume(a, (), σ) ⇓ (@Completed{value: ()}, σ)
@@ -1621,8 +1544,6 @@ AsyncComposeIR = {SyncLoopIR, RaceInitIR, RaceSelectIR, RaceResumeIR, AllInitIR,
 
 **(Lower-Expr-Race-Return)**
 ```text
-```
-
 RaceMode(arms) = `return`
 ────────────────────────────────────────────────────────────────────────────────────────────────
 Γ ⊢ LowerExpr(RaceExpr(arms)) ⇓ ⟨RaceInitIR(arms, `return`), RaceSelectIR(`return`)⟩
@@ -1630,8 +1551,6 @@ RaceMode(arms) = `return`
 
 **(Lower-Expr-Race-Stream)**
 ```text
-```
-
 RaceMode(arms) = `yield`
 ────────────────────────────────────────────────────────────────────────────────────────────────
 Γ ⊢ LowerExpr(RaceExpr(arms)) ⇓ ⟨RaceInitIR(arms, `yield`), RaceSelectIR(`yield`)⟩
@@ -1705,6 +1624,7 @@ This section introduces no additional surface syntax beyond ordinary procedure d
 
 ```text
 An async procedure is any procedure whose declared return type `R` satisfies `AsyncSig(R) ≠ ⊥`.
+```
 
 #### 21.4.2 Parsing
 
@@ -1746,8 +1666,6 @@ Large capture warning and capture/escape provenance rules are:
 
 **(Warn-Async-LargeCapture)**
 ```text
-```
-
 AsyncCaptureWarnCond(e)
 ───────────────────────────────────────────────────────────────
 Γ ⊢ WarnAsyncCapture(e) ⇓ ok
@@ -1755,8 +1673,6 @@ AsyncCaptureWarnCond(e)
 
 **(Warn-Async-LargeCapture-Ok)**
 ```text
-```
-
 ¬ AsyncCaptureWarnCond(e)
 ───────────────────────────────────────────────
 Γ ⊢ WarnAsyncCapture(e) ⇓ ok
@@ -1822,16 +1738,12 @@ AsyncStateMachineJudg = {LowerAsyncProc, LowerAsyncResume}
 AsyncProcIR = {AsyncFrameInitIR, AsyncResumeSwitchIR, AsyncSuspendStateIR, AsyncCompleteStateIR, AsyncFailStateIR}
 
 ```text
-```
-
 GenPoints(proc) = [g_0, …, g_n]    where the suspension expressions of proc are listed in source order
 FrameSlots(proc) = CaptureSet(proc) ∪ LiveAcrossSuspend(proc)
 ```
 
 **(Lower-Async-Proc)**
 ```text
-```
-
 ProcedureDecl(_, _, name, _, _, params, ret_opt, _, body, _, _) = proc    AsyncSig(ProcReturn(ret_opt)) = sig
 slots = FrameSlots(proc)    gen_points = GenPoints(proc)
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────

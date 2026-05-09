@@ -106,6 +106,14 @@ export default defineConfig({
           label: 'Reference',
           items: [
             { label: 'Overview', slug: 'docs/reference' },
+            {
+              label: 'Reading the spec',
+              slug: 'docs/reference/specification-reading-guide',
+            },
+            {
+              label: 'Documentation audit',
+              slug: 'docs/reference/documentation-audit',
+            },
             { label: 'Specification', slug: 'docs/specification' },
             {
               label: 'Grammar',

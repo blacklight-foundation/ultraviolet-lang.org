@@ -3,7 +3,7 @@ title: "Permissions and Binding State"
 description: "10. Permissions and Binding State of the Ultraviolet language specification."
 specSource: "../../Ultraviolet/SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T13:48:04.933Z"
+generatedAt: "2026-05-09T14:44:07.538Z"
 generated: true
 ---
 
@@ -19,8 +19,6 @@ generated: true
 #### 10.1.1 Syntax
 
 ```text
-```
-
 permission         ::= "const" | "unique" | "shared"
 receiver_shorthand ::= "~" | "~!" | "~%"
 ```
@@ -43,6 +41,7 @@ Permission syntax lowers into the following AST forms:
 
 ```text
 A permission-qualified type is represented as `TypePerm(P, T)` where `P ∈ Perm` and `T` is the unqualified base type.
+```
 
 #### 10.1.4 Static Semantics
 
@@ -90,16 +89,19 @@ Permission qualifiers do not alter value layout:
 
 ```text
 Γ ⊢ layout(TypePerm(p, T)) ⇓ L
+```
 
 **(SizeOf-Perm)**
 
 ```text
 Γ ⊢ sizeof(TypePerm(p, T)) = n
+```
 
 **(AlignOf-Perm)**
 
 ```text
 Γ ⊢ alignof(TypePerm(p, T)) = a
+```
 
 ABI and LLVM lowering for permission-qualified types are defined by the shared lowering and ABI framework in Chapter 24.
 
@@ -127,11 +129,13 @@ This section introduces no additional AST forms beyond permission-qualified type
 
 ```text
 aliases(p_1, p_2) ⇔ storage(p_1) ∩ storage(p_2) ≠ ∅
+```
 
 **Exclusivity Invariant.**
 
 ```text
 ∀ p_1, p_2 ∈ Paths. (perm(p_1) = `unique` ∧ overlaps(p_1, p_2)) ⇒ p_1 = p_2
+```
 
 **Coexistence Matrix**
 

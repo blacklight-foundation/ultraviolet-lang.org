@@ -3,7 +3,7 @@ title: "Complete Grammar Reference"
 description: "Appendix B. Complete Grammar Reference of the Ultraviolet language specification."
 specSource: "../../Ultraviolet/SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T13:48:04.933Z"
+generatedAt: "2026-05-09T14:44:07.538Z"
 generated: true
 ---
 
@@ -19,8 +19,6 @@ This appendix consolidates canonical grammar productions into one parser-oriente
 ### B.1 Lexical Grammar
 
 ```text
-```
-
 source_file     ::= normalized_line*
 normalized_line ::= code_point* line_terminator?
 line_terminator ::= "\n"
@@ -60,8 +58,6 @@ unit_literal ::= "(" ")"
 ### B.2 Type Grammar
 
 ```text
-```
-
 type                ::= permission? non_permission_type refinement_clause?
 non_permission_type ::= union_type | non_union_type
 permission          ::= "const" | "unique" | "shared"
@@ -133,8 +129,6 @@ state_name          ::= identifier
 ### B.3 Expression Grammar
 
 ```text
-```
-
 expression         ::= attributed_expr | unattributed_expr
 attributed_expr    ::= attribute_list expression
 unattributed_expr  ::= range_expression | logical_or_expr
@@ -225,8 +219,6 @@ transmute_expr   ::= "transmute" "<" type "," type ">" "(" expression ")"
 ### B.4 Pattern Grammar
 
 ```text
-```
-
 pattern                ::= literal_pattern | wildcard_pattern | identifier_pattern | tuple_pattern | record_pattern | enum_pattern | modal_pattern | range_pattern
 literal_pattern        ::= literal
 wildcard_pattern       ::= "_"
@@ -246,8 +238,6 @@ range_pattern          ::= pattern (".." | "..=") pattern
 ### B.5 Statement Grammar
 
 ```text
-```
-
 statement ::= binding_stmt | using_local_stmt | assignment_stmt | compound_assign | expr_stmt | return_stmt | break_stmt | continue_stmt | defer_stmt | region_stmt | frame_stmt | unsafe_block | key_block_stmt | comptime_stmt
 
 binding_stmt     ::= ("let" | "var") pattern (":" type)? binding_op expression terminator
@@ -274,8 +264,6 @@ unsafe_block ::= "unsafe" block_expr
 ### B.6 Declaration Grammar
 
 ```text
-```
-
 top_level_item ::= import_decl | using_decl | static_decl | procedure_decl | comptime_procedure_decl | record_decl | enum_decl | modal_decl | class_declaration | type_alias_decl | extern_block | derive_target_decl
 
 import_decl     ::= attribute_list? visibility? "import" module_path ("as" identifier)?
@@ -349,8 +337,6 @@ foreign_procedure ::= attribute_list? visibility? "procedure" identifier generic
 ### B.7 Contract Grammar
 
 ```text
-```
-
 contract_clause    ::= "|:" contract_body
 contract_body      ::= precondition_expr
                      | precondition_expr "=>" postcondition_expr
@@ -367,8 +353,6 @@ loop_invariant ::= "where" "{" predicate_expr "}"
 ### B.8 Attribute Grammar
 
 ```text
-```
-
 attribute_list ::= attribute+
 attribute      ::= "[[" attribute_spec ("," attribute_spec)* "]]"
 attribute_spec ::= attribute_name ("(" attribute_args ")")?
@@ -414,8 +398,6 @@ derive_target_list            ::= identifier ("," identifier)*
 ### B.9 Key System Grammar
 
 ```text
-```
-
 key_path_expr   ::= root_segment ("." path_segment)*
 root_segment    ::= key_marker? identifier index_suffix?
 path_segment    ::= key_marker? identifier index_suffix?
@@ -435,8 +417,6 @@ coarsened_path    ::= path_segment* "#" path_segment+
 ### B.10 Concurrency Grammar
 
 ```text
-```
-
 parallel_block ::= "parallel" domain_expr block_options? block_expr
 domain_expr    ::= expression
 block_options  ::= "[" block_option ("," block_option)* "]"
@@ -460,8 +440,6 @@ memory_order           ::= "relaxed" | "acquire" | "release" | "acqrel" | "seqcs
 ### B.11 Async Grammar
 
 ```text
-```
-
 async_class  ::= "class" "Async" "<" type_param (";" type_param)* ">"
 type_param   ::= identifier ("=" type)?
 async_procedure ::= procedure_decl
@@ -480,8 +458,6 @@ all_expr   ::= "all" "{" expression ("," expression)* ","? "}"
 ### B.12 Metaprogramming Grammar
 
 ```text
-```
-
 comptime_stmt           ::= attribute_list? "comptime" block_expr
 comptime_expr           ::= attribute_list? "comptime" "{" expression "}"
 comptime_if             ::= "comptime" "if" expression block_expr ("else" (comptime_if | block_expr))?
@@ -504,8 +480,6 @@ derive_clause       ::= "emits" identifier | "requires" identifier
 ### B.13 FFI Grammar
 
 ```text
-```
-
 extern_block                 ::= attribute_list? visibility? "extern" abi_string? "{" extern_item* "}"
 abi_string                   ::= string_literal
 extern_item                  ::= foreign_procedure
@@ -521,8 +495,6 @@ foreign_contract_clause_list ::= foreign_contract+
 ### B.14 Region Grammar
 
 ```text
-```
-
 region_stmt  ::= "region" region_opts? region_alias? block_expr
 region_opts  ::= "(" expression ")"
 region_alias ::= "as" identifier

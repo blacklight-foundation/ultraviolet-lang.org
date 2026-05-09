@@ -42,6 +42,8 @@ for (const chapter of CHAPTERS) {
   }
 
   checkMathBlocks(path, content);
+  checkFences(path, content);
+  checkMojibake(path, content);
   checkInternalSpecLinks(path, content);
 }
 
@@ -77,6 +79,49 @@ function checkMathBlocks(path, content) {
   // Generated spec pages intentionally avoid validating inline dollar spans.
   // The canonical spec contains source snippets such as `$Cl` and `$ExecutionDomain`
   // that are language syntax, not LaTeX.
+}
+
+function checkFences(path, content) {
+  const lines = content.split(/\r?\n/);
+  let inFence = false;
+  let fenceStart = 0;
+  let contentLines = 0;
+
+  lines.forEach((line, index) => {
+    const fence = line.match(/^```[A-Za-z0-9_-]*\s*$/);
+    if (!fence) {
+      if (inFence && line.trim() !== '') contentLines += 1;
+      return;
+    }
+
+    if (!inFence) {
+      inFence = true;
+      fenceStart = index + 1;
+      contentLines = 0;
+      return;
+    }
+
+    if (contentLines === 0) {
+      errors.push(`${path} has an empty fenced block starting at line ${fenceStart}.`);
+    }
+    inFence = false;
+    fenceStart = 0;
+    contentLines = 0;
+  });
+
+  if (inFence) {
+    errors.push(`${path} has an unclosed fenced block starting at line ${fenceStart}.`);
+  }
+}
+
+function checkMojibake(path, content) {
+  const suspicious = ['Ã', 'Â', 'Î', 'Ï', 'â'];
+  const lines = content.split(/\r?\n/);
+  lines.forEach((line, index) => {
+    if (suspicious.some((token) => line.includes(token))) {
+      errors.push(`${path} has suspicious mojibake at line ${index + 1}: ${line.slice(0, 120)}`);
+    }
+  });
 }
 
 function checkInternalSpecLinks(path, content) {

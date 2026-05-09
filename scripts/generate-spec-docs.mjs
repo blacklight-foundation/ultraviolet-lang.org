@@ -94,46 +94,54 @@ ${normalizedBody}
 function normalizeChapterBody(body) {
   const lines = body.split(/\r?\n/);
   const out = [];
-  let inFence = false;
-  let fenceLang = '';
+  let inSourceFence = false;
+  let sourceFenceLang = '';
+  let inSyntheticFormalBlock = false;
 
   for (const line of lines) {
     const fence = line.match(/^```([A-Za-z0-9_-]*)\s*$/);
     if (fence) {
-      if (!inFence) {
-        inFence = true;
-        fenceLang = fence[1] || '';
-        out.push(['ebnf', 'uv'].includes(fenceLang) ? '```text' : line);
+      if (inSyntheticFormalBlock) {
+        out.push('```');
+        inSyntheticFormalBlock = false;
+      }
+
+      if (!inSourceFence) {
+        inSourceFence = true;
+        sourceFenceLang = fence[1] || '';
+        out.push(['ebnf', 'uv', 'ultraviolet', ''].includes(sourceFenceLang) ? '```text' : line);
       } else {
-        inFence = false;
-        fenceLang = '';
-        out.push(line);
+        inSourceFence = false;
+        sourceFenceLang = '';
+        out.push('```');
       }
       continue;
     }
 
-    if (!inFence && isFormalLine(line)) {
-      if (out.at(-1) !== '```text') {
+    if (!inSourceFence && isFormalLine(line)) {
+      if (!inSyntheticFormalBlock) {
         if (out.at(-1) !== '') out.push('');
         out.push('```text');
+        inSyntheticFormalBlock = true;
       }
       out.push(line);
       continue;
     }
 
-    if (out.at(-1) === '```text' && !isFormalLine(line)) {
+    if (inSyntheticFormalBlock) {
       out.push('```');
+      inSyntheticFormalBlock = false;
       if (line !== '') out.push('');
     }
 
-    if (inFence && fenceLang === 'math') {
+    if (inSourceFence && sourceFenceLang === 'math') {
       out.push(line.replaceAll('\\linewidth', '18em'));
     } else {
       out.push(line);
     }
   }
 
-  if (out.at(-1) === '```text') {
+  if (inSyntheticFormalBlock) {
     out.push('```');
   }
 
@@ -150,5 +158,5 @@ function isFormalLine(line) {
   if (/^\d+\.\s/.test(trimmed)) return false;
   if (/^\$\$/.test(trimmed)) return false;
   if (trimmed.includes('\\rule{18em}{0.4pt}')) return true;
-  return /[ΓΣΞΩπσθλ⊢⇓⇑⇔⇒∀∃∈∉⊆⊥≠≤≥↦⟨⟩]/.test(trimmed);
+  return /[ΓΣΞΩπσθλεκ⊢⇓⇑⇔⇒→∀∃∈∉⊆⊥≠≤≥↦⟨⟩∧∨¬∪∩]/.test(trimmed);
 }

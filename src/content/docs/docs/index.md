@@ -37,7 +37,7 @@ The language is designed to make generated code performant, safe, and auditable,
   </a>
   <a class="feature-card" href="/docs/core-language/key-system/">
     <strong>Key system</strong>
-    <span>Coordinate shared access with language-level keys and conflict checks.</span>
+    <span>Coordinate `shared` access with key paths, modes, scopes, static proofs, and runtime synchronization.</span>
   </a>
   <a class="feature-card" href="/docs/core-language/structured-concurrency/">
     <strong>Structured concurrency</strong>
@@ -48,6 +48,10 @@ The language is designed to make generated code performant, safe, and auditable,
     <span>Write CPU and GPU work in one programming language through execution domains.</span>
   </a>
 </div>
+
+## How the surfaces compose
+
+Ultraviolet's review model is built from a few connected facts. Permissions determine whether a value is read-only, exclusive, or `shared`. The key system defines synchronization and conflict behavior for `shared` access. Structured concurrency creates the parallel, dispatch, spawn, async, sync, and race contexts where those key rules still apply. Capability-bearing values gate external effects. Contracts state the preconditions, postconditions, invariants, and foreign obligations that generated and handwritten code must satisfy.
 
 ## Documentation map
 

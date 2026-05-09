@@ -3,7 +3,7 @@ title: "Procedures and Contracts"
 description: "15. Procedures and Contracts of the Ultraviolet language specification."
 specSource: "../../Ultraviolet/SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T13:48:04.933Z"
+generatedAt: "2026-05-09T14:44:07.538Z"
 generated: true
 ---
 
@@ -19,8 +19,6 @@ generated: true
 #### 15.1.1 Syntax
 
 ```text
-```
-
 procedure_decl ::= attribute_list? visibility? "procedure" identifier generic_params? signature predicate_clause? contract_clause? block_expr
 signature      ::= "(" param_list? ")" ("->" type)?
 param_list      ::= param ("," param)*
@@ -35,19 +33,25 @@ param           ::= "move"? identifier ":" type
 
 ```text
 Γ ⊢ ParseAttrListOpt(P) ⇓ (P_0, attrs_opt)    Γ ⊢ ParseVis(P_0) ⇓ (P_1, vis)    IsKw(Tok(P_1), `procedure`)    Γ ⊢ ParseIdent(Advance(P_1)) ⇓ (P_2, name)    Γ ⊢ ParseGenericParamsOpt(P_2) ⇓ (P_3, gen_params_opt)    Γ ⊢ ParseSignature(P_3) ⇓ (P_4, params, ret_opt)    Γ ⊢ ParsePredicateClauseOpt(P_4) ⇓ (P_5, predicate_clause_opt)    Γ ⊢ ParseContractClauseOpt(P_5) ⇓ (P_6, contract_opt)    Γ ⊢ ParseBlock(P_6) ⇓ (P_7, body)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseItem(P) ⇓ (P_7, ⟨ProcedureDecl, attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, params, ret_opt, contract_opt, body, SpanBetween(P, P_7), []⟩)
+```
 
 **(Parse-Signature)**
 
 ```text
 IsPunc(Tok(P), "(")    Γ ⊢ ParseParamList(Advance(P)) ⇓ (P_1, params)    IsPunc(Tok(P_1), ")")    Γ ⊢ ParseReturnOpt(Advance(P_1)) ⇓ (P_2, ret_opt)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseSignature(P) ⇓ (P_2, params, ret_opt)
+```
 
 **(Parse-ParamList-Empty)**
 IsPunc(Tok(P), ")")
@@ -55,31 +59,43 @@ IsPunc(Tok(P), ")")
 
 ```text
 Γ ⊢ ParseParamList(P) ⇓ (P, [])
+```
 
 **(Parse-ParamList-Cons)**
 
 ```text
 Γ ⊢ ParseParam(P) ⇓ (P_1, param)    Γ ⊢ ParseParamTail(P_1, [param]) ⇓ (P_2, params)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseParamList(P) ⇓ (P_2, params)
+```
 
 **(Parse-Param)**
 
 ```text
 Γ ⊢ ParseParamModeOpt(P) ⇓ (P_1, mode)    Γ ⊢ ParseIdent(P_1) ⇓ (P_2, name)    IsPunc(Tok(P_2), ":")    Γ ⊢ ParseType(Advance(P_2)) ⇓ (P_3, ty)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseParam(P) ⇓ (P_3, ⟨mode, name, ty⟩)
+```
 
 **(Parse-ParamMode-None)**
+
+```text
 ¬ IsKw(Tok(P), `move`)
+```
+
 ──────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseParamModeOpt(P) ⇓ (P, ⊥)
+```
 
 **(Parse-ParamMode-Move)**
 IsKw(Tok(P), `move`)
@@ -87,6 +103,7 @@ IsKw(Tok(P), `move`)
 
 ```text
 Γ ⊢ ParseParamModeOpt(P) ⇓ (Advance(P), `move`)
+```
 
 **(Parse-ParamTail-End)**
 IsPunc(Tok(P), ")")
@@ -94,6 +111,7 @@ IsPunc(Tok(P), ")")
 
 ```text
 Γ ⊢ ParseParamTail(P, xs) ⇓ (P, xs)
+```
 
 **(Parse-ParamTail-TrailingComma)**
 IsPunc(Tok(P), ",")    IsPunc(Tok(Advance(P)), ")")    TrailingCommaAllowed(P_0, P, {Punctuator(")")})
@@ -101,134 +119,145 @@ IsPunc(Tok(P), ",")    IsPunc(Tok(Advance(P)), ")")    TrailingCommaAllowed(P_0,
 
 ```text
 Γ ⊢ ParseParamTail(P, xs) ⇓ (Advance(P), xs)
+```
 
 **(Parse-ParamTail-Comma)**
 
 ```text
 IsPunc(Tok(P), ",")    Γ ⊢ ParseParam(Advance(P)) ⇓ (P_1, p)    Γ ⊢ ParseParamTail(P_1, xs ++ [p]) ⇓ (P_2, ys)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseParamTail(P, xs) ⇓ (P_2, ys)
+```
 
 **(Parse-ReturnOpt-None)**
+
+```text
 ¬ IsOp(Tok(P), "->")
+```
+
 ─────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseReturnOpt(P) ⇓ (P, ⊥)
+```
 
 **(Parse-ReturnOpt-Arrow)**
 
 ```text
 IsOp(Tok(P), "->")    Γ ⊢ ParseType(Advance(P)) ⇓ (P_1, ty)
+```
+
 ────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseReturnOpt(P) ⇓ (P_1, ty)
+```
 
 #### 15.1.3 AST Representation / Form
 
 ```text
 ProcedureDecl = ⟨attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, params, return_type_opt, contract_opt, body, span, doc⟩
-
-```text
 Param = ⟨mode, name, type⟩
+```
 
 ```text
 ParamNames(params) = [x | ⟨_, x, _⟩ ∈ params]
-
-```text
 ParamBinds(params) = [⟨x, T⟩ | ⟨_, x, T⟩ ∈ params]
+```
 
 ProcReturn(ret_opt) =
 
 ```text
   { TypePrim("()")   if ret_opt = ⊥
+```
+
     ret_opt          otherwise }
 
 BodyReturnType(R) =
 
 ```text
   { Result    if AsyncSig(R) = ⟨Out, In, Result, E⟩
+```
+
     R         otherwise }
 
 ```text
 ExplicitReturn(BlockExpr(stmts, tail_opt)) ⇔ tail_opt = ⊥ ∧ stmts ≠ [] ∧ LastStmt(stmts) = ReturnStmt(_)
+```
 
 #### 15.1.4 Static Semantics
 
 ```text
 ReturnAnnOk(ret_opt) ⇔ ret_opt ≠ ⊥
+```
 
 **(WF-ProcedureDecl)**
 
 ```text
 item = ProcedureDecl(_, vis, _, gen_params_opt, predicate_clause_opt, params, ret_opt, _, body, _, _)    params_gen = TypeParamsOpt(gen_params_opt)    params_gen = [P_1, …, P_n]    Γ ⊢ ⟨P_1; …; P_n⟩ wf    Γ_g = BindTypeParams(Γ, params_gen)    Γ_g; params_gen ⊢ predicate_clause_opt wf    Distinct(ParamNames(params))    ReturnAnnOk(ret_opt)    R = ProcReturn(ret_opt)    R_b = BodyReturnType(R)    ∀ ⟨_, x_i, T_i⟩ ∈ params, Γ_g ⊢ T_i wf    Γ_0 = PushScope(Γ_g)    IntroAll(Γ_0, ParamBinds(params)) ⇓ Γ_1    Γ_1; R; ⊥ ⊢ body : T_b    Γ_g ⊢ T_b <: R_b    (R_b ≠ TypePrim("()") ⇒ ExplicitReturn(body))
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 DeclJudg = {Γ ⊢ ProcedureDecl : ok, Γ ⊢ ExternProcDecl : ok, Γ ⊢ ExternBlock : ok, Γ ⊢ StaticDecl : ok, Γ ⊢ RecordDecl : ok, Γ ⊢ EnumDecl : ok, Γ ⊢ ModalDecl : ok, Γ ⊢ ClassDecl : ok}
+```
 
 **DeclTyping.**
 
 ```text
 DeclTyping(Ms) ⇓ ok ⇔ ∀ M ∈ Ms. Γ ⊢ DeclTypingMod(M) ⇓ ok
-
-```text
 DeclTypingMod(M) ⇓ ok ⇔ ∀ it ∈ M.items. Γ ⊢ DeclTypingItem(M.path, it) ⇓ ok
+```
 
 ```text
 ProvBindCheck(params, body) ⇓ ok ⇔ body = BlockExpr(stmts, tail_opt) ∧ ∃ vec{π}. |vec{π}| = |params| ∧ Γ; InitProvEnv(params, vec{π}, []) ⊢ BlockProv(stmts, tail_opt) ⇓ π
+```
 
 ```text
 DeclTypingItem(m, ImportDecl(_)) ⇓ ok
-
-```text
 DeclTypingItem(m, UsingDecl(_)) ⇓ ok
-
-```text
 DeclTypingItem(m, ExternBlock(_, _, _, items, _, _)) ⇓ ok ⇔ Γ ⊢ ExternBlock : ok ∧ ∀ it ∈ items. Γ ⊢ it : ok
-
-```text
 DeclTypingItem(m, StaticDecl(_, _, _, _, _, _)) ⇓ ok ⇔ Γ ⊢ StaticDecl : ok
-
-```text
 DeclTypingItem(m, TypeAliasDecl(_, name, _, _, _, _, _, _)) ⇓ ok ⇔ Γ ⊢ FullPath(m, name) : TypeAliasOk
-
-```text
 DeclTypingItem(m, ProcedureDecl(_, _, _, _, _, params, _, _, body, _, _) = item) ⇓ ok ⇔ Γ ⊢ ProcedureDecl : ok ∧ ProcBindCheck(m, item) ⇓ ok ∧ ProvBindCheck(params, body) ⇓ ok
-
-```text
 DeclTypingItem(m, R) ⇓ ok ⇔ R = RecordDecl(_, _, _, _, _, _, _, _, _, _) ∧ Γ ⊢ R record : ok ∧ ∀ md ∈ Methods(R). MethodBindCheck(m, TypePath(RecordPath(R)), md) ⇓ ok ∧ ProvBindCheck(MethodParamsDecl(TypePath(RecordPath(R)), md), md.body) ⇓ ok
-
-```text
 DeclTypingItem(m, E) ⇓ ok ⇔ E = EnumDecl(_, _, _, _, _, _, _, _, _, _) ∧ Γ ⊢ E enum : ok
-
-```text
 DeclTypingItem(m, M) ⇓ ok ⇔ M = ModalDecl(_, _, _, _, _, _, _, _, _, _) ∧ Γ ⊢ M modal : ok ∧ ∀ S ∈ States(M), ∀ md ∈ Methods(M, S). StateMethodBindCheck(m, M, S, md) ⇓ ok ∧ ProvBindCheck(StateMethodParams(M, S, md), md.body) ⇓ ok ∧ ∀ tr ∈ Transitions(M, S). TransitionBindCheck(m, M, S, tr) ⇓ ok ∧ ProvBindCheck(TransitionParams(M, S, tr), tr.body) ⇓ ok
-
-```text
 DeclTypingItem(m, Cl) ⇓ ok ⇔ Cl = ClassDecl(_, _, _, _, _, _, _, _, _, _) ∧ Γ ⊢ Cl : ok ∧ ∀ md ∈ ClassMethods(Cl). (md.body_opt = ⊥ ∨ (ClassMethodBindCheck(m, Cl, md) ⇓ ok ∧ ProvBindCheck(ClassMethodParams(Cl, md), md.body_opt) ⇓ ok))
+```
 
 ```text
 Γ ⊢ ProcedureDecl : ok
+```
 
 **(WF-ProcedureDecl-MissingReturnType)**
+
+```text
 item = ProcedureDecl(_, _, _, _, _, _, ret_opt, _, _, _, _)    ¬ ReturnAnnOk(ret_opt)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ item ⇑
+```
 
 **(WF-ProcBody-ExplicitReturn-Err)**
 
 ```text
 item = ProcedureDecl(_, _, _, _, _, _, ret_opt, _, body, _, _)    R = ProcReturn(ret_opt)    R_b = BodyReturnType(R)    R_b ≠ TypePrim("()")    ¬ ExplicitReturn(body)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ item ⇑
+```
 
 If the declaration carries `[[export]]` or `[[host_export]]`, the foreign-callable signature obligations from §23.3 also apply.
 
@@ -236,32 +265,41 @@ If the declaration carries `[[export]]` or `[[host_export]]`, the foreign-callab
 
 ```text
 MainDecls(P) = [ d | m ∈ P.modules, d ∈ ASTModule(P, m).items, d = ProcedureDecl(_, vis, name, _, _, params, ret_opt, _, body, span, doc), name = `main` ]
+```
+
 TypeParams(ProcedureDecl(_, _, _, gen_params_opt, _, _, _, _, _, _, _)) = TypeParamsOpt(gen_params_opt)
 
 ```text
 MainGeneric(d) ⇔ TypeParams(d) ≠ []
-
-```text
 MainArgType(d) = ty ⇔ d = ProcedureDecl(_, _, `main`, _, _, [⟨_, _, ty⟩], _, _, _, _, _)
-
-```text
 MainSigOk(d) ⇔ d = ProcedureDecl(_, vis, `main`, _, _, params, ret_opt, _, _, _, _) ∧ vis = `public` ∧ params = [⟨mode, name, ty⟩] ∧ mode ∈ {⊥, `move`} ∧ ContextBundleType(StripPerm(ty)) ∧ ret_opt = TypePrim("i32")
+```
 
 MainCheck : Project ⇀ ok
 
 **(Main-Ok)**
+
+```text
 Executable(P)    MainDecls(P) = [d]    ¬ MainGeneric(d)    MainSigOk(d)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ MainCheck(P) ⇓ ok
+```
 
 **(Main-Bypass-NonExecutable)**
+
+```text
 ¬ Executable(P)
+```
+
 ──────────────────────────────────────────────
 
 ```text
 Γ ⊢ MainCheck(P) ⇓ ok
+```
 
 **(Main-Multiple)**
 Executable(P)    |MainDecls(P)| > 1    c = Code(Main-Multiple)
@@ -269,6 +307,7 @@ Executable(P)    |MainDecls(P)| > 1    c = Code(Main-Multiple)
 
 ```text
 Γ ⊢ MainCheck(P) ⇑ c
+```
 
 **(Main-Generic-Err)**
 Executable(P)    MainDecls(P) = [d]    MainGeneric(d)    c = Code(Main-Generic-Err)
@@ -276,13 +315,19 @@ Executable(P)    MainDecls(P) = [d]    MainGeneric(d)    c = Code(Main-Generic-E
 
 ```text
 Γ ⊢ MainCheck(P) ⇑ c
+```
 
 **(Main-Signature-Err)**
+
+```text
 Executable(P)    MainDecls(P) = [d]    ¬ MainSigOk(d)    c = Code(Main-Signature-Err)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ MainCheck(P) ⇑ c
+```
 
 **(Main-Missing)**
 Executable(P)    MainDecls(P) = []    c = Code(Main-Missing)
@@ -290,6 +335,7 @@ Executable(P)    MainDecls(P) = []    c = Code(Main-Missing)
 
 ```text
 Γ ⊢ MainCheck(P) ⇑ c
+```
 
 MainDiagRefs = {"8.2"}
 
@@ -297,41 +343,43 @@ MainDiagRefs = {"8.2"}
 
 ```text
 FuncVal(sym) defined ⇔ sym ∈ Symbol
+```
 
 ```text
 BindParams([⟨mode_1, x_1, T_1⟩, …, ⟨mode_n, x_n, T_n⟩], [v_1, …, v_n]) = [⟨x_1, v_1⟩, …, ⟨x_n, v_n⟩]
-
-```text
 ArgPassJudg = {Γ ⊢ EvalArgsSigma(params, args, σ) ⇓ (out, σ'), Γ ⊢ EvalRecvSigma(base, mode, σ) ⇓ (out, σ')}
+```
+
 ArgVal = {v, Alias(addr)}
 
 ```text
 CallJudg = {Γ ⊢ EvalArgsSigma(params, args, σ) ⇓ (out, σ'), Γ ⊢ EvalRecvSigma(base, mode, σ) ⇓ (out, σ'), Γ ⊢ ApplyRegionProc(name, vec_v, σ) ⇓ (out, σ'), Γ ⊢ ApplyCancelProc(name, vec_v, σ) ⇓ (out, σ'), Γ ⊢ ApplyProcSigma(proc, vec_v, σ) ⇓ (out, σ'), Γ ⊢ ApplyRecordCtorSigma(p, σ) ⇓ (out, σ'), Γ ⊢ ApplyMethodSigma(base, name, v_self, v_arg, vec_v, σ) ⇓ (out, σ')}
+```
 
 ```text
 CallTarget(FuncVal(sym)) = proc ⇔ Γ ⊢ Mangle(proc) ⇓ sym ∧ (proc = ProcedureDecl(_, _, _, _, _, _, _, _, _, _, _) ∨ proc = ExternProcDecl(_, _, _, _, _, _, _, _, _, _, _))
+```
+
 CallTarget(RecordCtor(p)) = RecordCtor(p)
 
 ```text
 MethodTarget(RecordValue(TypePath(p), fs), name) = m ⇔ LookupMethod(TypePath(p), name) = m
-
-```text
 MethodTarget(v_self, name) = m ∧ m.body = ⊥ ∧ ¬ ∃ vec_v, out. Γ ⊢ PrimCall(MethodOwner(m), MethodName(m), v_self, vec_v) ⇓ out ⇒ IllFormed(MethodTarget(v_self, name))
+```
 
 ```text
 RegionProcParams(name) = params ⇔ RegionProcSig(`Region::`name) = ⟨params, ret⟩
-
-```text
 CancelProcParams(name) = params ⇔ CancelTokenProcSig(`CancelToken::`name) = ⟨params, ret⟩
+```
 
 ```text
 SynthParams([⟨m_1, T_1⟩, …, ⟨m_n, T_n⟩]) = [⟨m_1, ⊥, T_1⟩, …, ⟨m_n, ⊥, T_n⟩]
+```
 
 ```text
 CalleeProc(Identifier(x)) = proc ⇔ Γ ⊢ ResolveValueName(x) ⇓ ent ∧ ent.origin_opt = mp ∧ name = (ent.target_opt if present, else x) ∧ DeclOf(mp, name) = proc ∧ (proc = ProcedureDecl(_, _, _, _, _, _, _, _, _, _, _) ∨ proc = ExternProcDecl(_, _, _, _, _, _, _, _, _, _, _))
-
-```text
 CalleeProc(Path(path, name)) = proc ⇔ Γ ⊢ ResolveQualified(path, name, ValueKind) ⇓ ent ∧ ent.origin_opt = mp ∧ name' = (ent.target_opt if present, else name) ∧ DeclOf(mp, name') = proc ∧ (proc = ProcedureDecl(_, _, _, _, _, _, _, _, _, _, _) ∨ proc = ExternProcDecl(_, _, _, _, _, _, _, _, _, _, _))
+```
 
 Params(Call(callee, args)) =
   { proc.params            if CalleeProc(callee) = proc
@@ -339,6 +387,7 @@ Params(Call(callee, args)) =
 
 ```text
     ⊥                      otherwise }
+```
 
 ReturnOut(Val(v)) = Val(v)
 ReturnOut(Ctrl(Return(v))) = Val(v)
@@ -347,135 +396,172 @@ ReturnOut(Ctrl(Abort)) = Ctrl(Abort)
 
 ```text
 ReturnOut(Ctrl(Break(v_opt))) = ⊥
-
-```text
 ReturnOut(Ctrl(Continue)) = ⊥
-
-```text
 ReturnOut(out) = ⊥ ⇒ IllFormed(ReturnOut(out))
+```
 
 **(EvalArgsSigma-Empty)**
 ──────────────────────────────────────────────
 
 ```text
 Γ ⊢ EvalArgsSigma([], [], σ) ⇓ (Val([]), σ)
+```
 
 **(EvalArgsSigma-Cons-Move)**
 
 ```text
 Γ ⊢ EvalSigma(MovedArg(moved, e), σ) ⇓ (Val(v), σ_1)    Γ ⊢ EvalArgsSigma(ps, as, σ_1) ⇓ (Val(vec_v), σ_2)
+```
+
 ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ EvalArgsSigma([⟨`move`, x, T_p⟩] ++ ps, [⟨moved, e, _⟩] ++ as, σ) ⇓ (Val([v] ++ vec_v), σ_2)
+```
 
 **(EvalArgsSigma-Cons-Ref)**
 
 ```text
 Γ ⊢ AddrOfSigma(RefArgExpr(e), σ) ⇓ (Val(addr), σ_1)    Γ ⊢ EvalArgsSigma(ps, as, σ_1) ⇓ (Val(vec_v), σ_2)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ EvalArgsSigma([⟨⊥, x, T_p⟩] ++ ps, [⟨moved, e, _⟩] ++ as, σ) ⇓ (Val([Alias(addr)] ++ vec_v), σ_2)
+```
 
 **(EvalArgsSigma-Ctrl-Move)**
 
 ```text
 Γ ⊢ EvalSigma(MovedArg(moved, e), σ) ⇓ (Ctrl(κ), σ_1)
+```
+
 ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ EvalArgsSigma([⟨`move`, x, T_p⟩] ++ ps, [⟨moved, e, _⟩] ++ as, σ) ⇓ (Ctrl(κ), σ_1)
+```
 
 **(EvalArgsSigma-Ctrl-Ref)**
 
 ```text
 Γ ⊢ AddrOfSigma(RefArgExpr(e), σ) ⇓ (Ctrl(κ), σ_1)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ EvalArgsSigma([⟨⊥, x, T_p⟩] ++ ps, [⟨moved, e, _⟩] ++ as, σ) ⇓ (Ctrl(κ), σ_1)
+```
 
 **(ApplyRegionProc-NewScoped)**
 
 ```text
 name = `new_scoped`    vec_v = [opts]    RegionNewScoped(σ, opts) ⇓ (σ', v)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ApplyRegionProc(name, vec_v, σ) ⇓ (Val(v), σ')
+```
 
 **(ApplyRegionProc-Alloc)**
 
 ```text
 name = `alloc`    vec_v = [v_r, v]    RegionAllocProc(σ, v_r, v) ⇓ (σ', v')
+```
+
 ───────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ApplyRegionProc(name, vec_v, σ) ⇓ (Val(v'), σ')
+```
 
 **(ApplyRegionProc-Reset)**
 
 ```text
 name = `reset_unchecked`    vec_v = [v_r]    RegionResetProc(σ, v_r) ⇓ (σ', v')
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ApplyRegionProc(name, vec_v, σ) ⇓ (Val(v'), σ')
+```
 
 **(ApplyRegionProc-Freeze)**
 
 ```text
 name = `freeze`    vec_v = [v_r]    RegionFreezeProc(σ, v_r) ⇓ (σ', v')
+```
+
 ───────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ApplyRegionProc(name, vec_v, σ) ⇓ (Val(v'), σ')
+```
 
 **(ApplyRegionProc-Thaw)**
 
 ```text
 name = `thaw`    vec_v = [v_r]    RegionThawProc(σ, v_r) ⇓ (σ', v')
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ApplyRegionProc(name, vec_v, σ) ⇓ (Val(v'), σ')
+```
 
 **(ApplyRegionProc-Free)**
 
 ```text
 name = `free_unchecked`    vec_v = [v_r]    RegionFreeProc(σ, v_r) ⇓ (σ', v')
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ApplyRegionProc(name, vec_v, σ) ⇓ (Val(v'), σ')
+```
 
 **(ApplyCancelProc-New)**
 
 ```text
 name = `new`    vec_v = []    CancelNew() ⇓ v
+```
+
 ──────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ApplyCancelProc(name, vec_v, σ) ⇓ (Val(v), σ)
+```
 
 **(ApplyProcSigma)**
 
 ```text
 BindParams(proc.params, vec_v) = binds    BlockEnter(σ, binds) ⇓ (σ_1, scope)    Γ ⊢ EvalBlockBodySigma(proc.body, σ_1) ⇓ (out, σ_2)    BlockExit(σ_2, scope, out) ⇓ (out', σ_3)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ApplyProcSigma(proc, vec_v, σ) ⇓ (ReturnOut(out'), σ_3)
+```
 
 **(EvalSigma-Call-Proc)**
 
 ```text
 Γ ⊢ EvalSigma(callee, σ) ⇓ (Val(v_c), σ_1)    proc = CallTarget(v_c)    Γ ⊢ EvalArgsSigma(proc.params, args, σ_1) ⇓ (Val(vec_v), σ_2)    Γ ⊢ ApplyProcSigma(proc, vec_v, σ_2) ⇓ (out, σ_3)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ EvalSigma(Call(callee, args), σ) ⇓ (out, σ_3)
+```
 
 #### 15.1.6 Lowering
 
@@ -483,10 +569,13 @@ BindParams(proc.params, vec_v) = binds    BlockEnter(σ, binds) ⇓ (σ_1, scope
 
 ```text
 item = ProcedureDecl(attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, params, ret_opt, contract_opt, body, span, doc)    R = ProcReturn(ret_opt)    Γ ⊢ LowerBlock(body) ⇓ ⟨IR, v⟩    Γ ⊢ Mangle(item) ⇓ sym    params' = CodegenParams(params)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ CodegenItem(item) ⇓ [ProcIR(sym, params', R, IR)]
+```
 
 Program-entry handling for `main` is owned by §24.4.
 
@@ -499,8 +588,6 @@ Diagnostics are defined for missing explicit return annotations, duplicate param
 #### 15.2.1 Syntax
 
 ```text
-```
-
 method_def              ::= visibility? "override"? "procedure" identifier generic_params? "(" receiver ("," param_list)? ")" ("->" type)? contract_clause? block_expr
 receiver                ::= "~" | "~!" | "~%" | ("move"? "self" ":" type)
 state_method_signature  ::= "(" receiver ("," param_list)? ")" ("->" type)?
@@ -514,10 +601,13 @@ Class methods and state-specific methods reuse the same receiver and parameter f
 
 ```text
 Γ ⊢ ParseOverrideOpt(P) ⇓ (P_0, ov)    IsKw(Tok(P_0), `procedure`)    Γ ⊢ ParseIdent(Advance(P_0)) ⇓ (P_1, name)    Γ ⊢ ParseGenericParamsOpt(P_1) ⇓ (P_2, gen_params_opt)    Γ ⊢ ParseMethodSignature(P_2) ⇓ (P_3, receiver, params, ret_opt)    Γ ⊢ ParseContractClauseOpt(P_3) ⇓ (P_4, contract_opt)    Γ ⊢ ParseBlock(P_4) ⇓ (P_5, body)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseMethodDefAfterVis(P, vis, attrs_opt) ⇓ (P_5, ⟨MethodDecl, attrs_opt, vis, ov, name, gen_params_opt, receiver, params, ret_opt, contract_opt, body, SpanBetween(P, P_5), []⟩)
+```
 
 **(Parse-Override-Yes)**
 IsKw(Tok(P), `override`)
@@ -525,31 +615,43 @@ IsKw(Tok(P), `override`)
 
 ```text
 Γ ⊢ ParseOverrideOpt(P) ⇓ (Advance(P), true)
+```
 
 **(Parse-Override-No)**
+
+```text
 ¬ IsKw(Tok(P), `override`)
+```
+
 ──────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseOverrideOpt(P) ⇓ (P, false)
+```
 
 **(Parse-MethodSignature)**
 
 ```text
 IsPunc(Tok(P), "(")    Γ ⊢ ParseReceiver(Advance(P)) ⇓ (P_1, r)    Γ ⊢ ParseMethodParams(P_1) ⇓ (P_2, params)    IsPunc(Tok(P_2), ")")    Γ ⊢ ParseReturnOpt(Advance(P_2)) ⇓ (P_3, ret_opt)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseMethodSignature(P) ⇓ (P_3, r, params, ret_opt)
+```
 
 **(Parse-StateMethodSignature-Receiver)**
 
 ```text
 IsPunc(Tok(P), "(")    Γ ⊢ ParseReceiver(Advance(P)) ⇓ (P_1, r)    Γ ⊢ ParseMethodParams(P_1) ⇓ (P_2, params)    IsPunc(Tok(P_2), ")")    Γ ⊢ ParseReturnOpt(Advance(P_2)) ⇓ (P_3, ret_opt)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseStateMethodSignature(P) ⇓ (P_3, r, params, ret_opt)
+```
 
 **(Parse-MethodParams-None)**
 IsPunc(Tok(P), ")")
@@ -557,15 +659,19 @@ IsPunc(Tok(P), ")")
 
 ```text
 Γ ⊢ ParseMethodParams(P) ⇓ (P, [])
+```
 
 **(Parse-MethodParams-Comma)**
 
 ```text
 IsPunc(Tok(P), ",")    Γ ⊢ ParseParamList(Advance(P)) ⇓ (P_1, params)
+```
+
 ────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseMethodParams(P) ⇓ (P_1, params)
+```
 
 **(Parse-Receiver-Short-Const)**
 IsOp(Tok(P), "~")
@@ -573,6 +679,7 @@ IsOp(Tok(P), "~")
 
 ```text
 Γ ⊢ ParseReceiver(P) ⇓ (Advance(P), ReceiverShorthand(`const`))
+```
 
 **(Parse-Receiver-Short-Unique)**
 IsOp(Tok(P), "~!")
@@ -580,6 +687,7 @@ IsOp(Tok(P), "~!")
 
 ```text
 Γ ⊢ ParseReceiver(P) ⇓ (Advance(P), ReceiverShorthand(`unique`))
+```
 
 **(Parse-Receiver-Short-Shared)**
 IsOp(Tok(P), "~%")
@@ -587,39 +695,39 @@ IsOp(Tok(P), "~%")
 
 ```text
 Γ ⊢ ParseReceiver(P) ⇓ (Advance(P), ReceiverShorthand(`shared`))
+```
 
 **(Parse-Receiver-Explicit)**
 
 ```text
 Γ ⊢ ParseParamModeOpt(P) ⇓ (P_1, mode)    IsIdent(Tok(P_1))    Lexeme(Tok(P_1)) = `self`    IsPunc(Tok(Advance(P_1)), ":")    Γ ⊢ ParseType(Advance(Advance(P_1))) ⇓ (P_2, ty)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseReceiver(P) ⇓ (P_2, ReceiverExplicit(mode, ty))
+```
 
 #### 15.2.3 AST Representation / Form
 
 ```text
 MethodDecl = ⟨attrs_opt, vis, override, name, gen_params_opt, receiver, params, return_type_opt, contract_opt, body, span, doc_opt⟩
-
-```text
 Receiver ∈ {ReceiverShorthand(perm), ReceiverExplicit(mode_opt, type)}
-
-```text
 perm ∈ {`const`, `unique`, `shared`}
-
-```text
 mode_opt ∈ {`move`, ⊥}
+```
 
 ```text
 Fields(R) = [ f | f ∈ R.members ∧ f is FieldDecl ]
-
-```text
 Methods(R) = [ m | m ∈ R.members ∧ m is MethodDecl ]
+```
+
 Self_R = TypePath(RecordPath(R))
 
 ```text
 SelfType(R, ty) ⇔ ty = Self_R ∨ ∃ p. ty = TypePerm(p, Self_R)
+```
 
 RecvType(T, ReceiverShorthand(`const`)) = TypePerm(`const`, T)
 RecvType(T, ReceiverShorthand(`unique`)) = TypePerm(`unique`, T)
@@ -628,6 +736,8 @@ RecvType(T, ReceiverExplicit(mode_opt, ty)) = SubstSelf(T, ty)
 
 ```text
 RecvMode(ReceiverShorthand(_)) = ⊥
+```
+
 RecvMode(ReceiverExplicit(mode_opt, _)) = mode_opt
 
 PermOf(TypePerm(p, _)) = p
@@ -636,16 +746,15 @@ RecvPerm(T, r) = PermOf(RecvType(T, r))
 
 ```text
 ParamSig_T(T, params) = [⟨mode, SubstSelf(T, ty)⟩ | ⟨mode, name, ty⟩ ∈ params]
-
-```text
 ParamBinds_T(T, params) = [⟨x_1, SubstSelf(T, T_1)⟩, …, ⟨x_n, SubstSelf(T, T_n)⟩]
+```
+
 ReturnType_T(T, m) = SubstSelf(T, ReturnType(m))
 
 ```text
 Sig_T(T, m) = ⟨RecvType(T, m.receiver), ParamSig_T(T, m.params), SubstSelf(T, ReturnType(m))⟩
-
-```text
 MethodParamsDecl(T, m) = [⟨RecvMode(m.receiver), `self`, RecvType(T, m.receiver)⟩] ++ m.params
+```
 
 #### 15.2.4 Static Semantics
 
@@ -655,107 +764,143 @@ SelfType(R, ty)
 
 ```text
 Γ ⊢ ReceiverExplicit(mode_opt, ty) : Recv(R, PermOf(ty), mode_opt)
+```
 
 **(Record-Method-RecvSelf-Err)**
+
+```text
 ¬ SelfType(R, ty)
+```
+
 ────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ReceiverExplicit(mode_opt, ty) ⇑
+```
 
 **(Recv-Const)**
 ────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ReceiverShorthand(`const`) : Recv(R, `const`, ⊥)
+```
 
 **(Recv-Unique)**
 ────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ReceiverShorthand(`unique`) : Recv(R, `unique`, ⊥)
+```
 
 **(Recv-Shared)**
 ────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ReceiverShorthand(`shared`) : Recv(R, `shared`, ⊥)
+```
 
 **(WF-Record-Method)**
 
 ```text
 params_gen = TypeParamsOpt(gen_params_opt)    params_gen = [P_1, …, P_n]    Γ ⊢ ⟨P_1; …; P_n⟩ wf    Γ_m = BindTypeParams(Γ, params_gen)    Γ_m ⊢ r : Recv(R, P, mode)    self ∉ ParamNames(params)    Distinct(ParamNames(params))    ∀ ⟨_, _, T_i⟩ ∈ params, Γ_m ⊢ T_i wf    (return_type_opt = ⊥ ∨ Γ_m ⊢ return_type_opt wf)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ⟨MethodDecl, _, _, _, name, gen_params_opt, r, params, return_type_opt, _, body, _, _⟩ : MethodOK(R, P, mode)
+```
 
 **(T-Record-Method-Body)**
 
 ```text
 Γ ⊢ m : MethodOK(R, P, mode)    T_self = RecvType(Self_R, m.receiver)    R_m = ReturnType_T(Self_R, m)    R_b = BodyReturnType(R_m)    Γ_0 = PushScope(Γ)    IntroAll(Γ_0, [⟨`self`, T_self⟩] ++ ParamBinds_T(Self_R, m.params)) ⇓ Γ_1    Γ_1; R_m; ⊥ ⊢ m.body : T_b    Γ ⊢ T_b <: R_b    (R_b ≠ TypePrim("()") ⇒ ExplicitReturn(m.body))
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ m : MethodBodyOK(R)
+```
 
 **(WF-Record-Methods)**
 
 ```text
 Distinct(MethodNames(R))    ∀ m ∈ Methods(R), Γ ⊢ m : MethodOK(R, _, _)    Γ ⊢ m : MethodBodyOK(R)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ Methods(R) : ok
+```
 
 **(Record-Method-Dup)**
+
+```text
 ¬ Distinct(MethodNames(R))
+```
+
 ────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ Methods(R) ⇑
+```
 
 ```text
 ArgsOkJudg = {Γ; R; L ⊢ ArgsOk(params, args)}
+```
 
 ```text
 RecvBaseType(base, mode) = P T ⇔ (mode = ⊥ ∧ Γ; R; L ⊢ RefArgExpr(base) :place P T) ∨ (mode = `move` ∧ Γ; R; L ⊢ base : P T)
+```
 
 **(Args-Empty)**
 ──────────────────────────────────────────────
 
 ```text
 Γ; R; L ⊢ ArgsOk([], [])
+```
 
 **(Args-Cons)**
 
 ```text
 Γ; R; L ⊢ MovedArg(moved, e) ⇐ T_p ⊣ ∅    moved = true    Γ; R; L ⊢ ArgsOk(ps, as)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ; R; L ⊢ ArgsOk([⟨`move`, x, T_p⟩] ++ ps, [⟨moved, e, _⟩] ++ as)
+```
 
 **(Args-Cons-Ref)**
 
 ```text
 Γ; R; L ⊢ RefArgExpr(e) ⇐_place T_p    AddrOfOk(RefArgExpr(e))    moved = false    Γ; R; L ⊢ ArgsOk(ps, as)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ; R; L ⊢ ArgsOk([⟨⊥, x, T_p⟩] ++ ps, [⟨moved, e, _⟩] ++ as)
+```
 
 ```text
 RecvArgOk(base, mode) ⇔ (mode = ⊥ ∧ AddrOfOk(RefArgExpr(base))) ∨ (mode = `move` ∧ ∃ p. base = MoveExpr(p))
+```
 
 **(T-Record-MethodCall)**
 
 ```text
 RecvBaseType(base, RecvMode(m.receiver)) = P_caller R_rec    LookupMethod(R_rec, name) = m    RecvPerm(R_rec, m.receiver) = P_method    PermAdmits(P_caller, P_method)    RecvArgOk(base, RecvMode(m.receiver))    Γ; R; L ⊢ ArgsOk(m.params, args)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ; R; L ⊢ MethodCall(base, name, args) : ReturnType(m)
+```
 
 Class and state-method owners (§14.3 and §13.3) add receiver restrictions specific to `Self` and modal-state receivers, but reuse these common receiver and argument-passing forms.
 
@@ -763,105 +908,118 @@ Class and state-method owners (§14.3 and §13.3) add receiver restrictions spec
 
 ```text
 RecvArgMode(base) = `move` ⇔ ∃ p. base = MoveExpr(p)
-
-```text
 RecvArgMode(base) = ⊥ ⇔ ¬ ∃ p. base = MoveExpr(p)
-
-```text
 MethodOf(base, name) = md ⇔ StripPerm(ExprType(base)) = TypeModalState(modal_ref, S) ∧ ModalDeclOf(modal_ref) = M ∧ LookupStateMethod(M, S, name) = md
-
-```text
 MethodOf(base, name) = tr ⇔ StripPerm(ExprType(base)) = TypeModalState(modal_ref, S) ∧ ModalDeclOf(modal_ref) = M ∧ LookupTransition(M, S, name) = tr
-
-```text
 MethodOf(base, name) = m ⇔ LookupMethod(StripPerm(ExprType(base)), name) = m
-
-```text
 RecvBase(base, name) = T ⇔ MethodOf(base, name) = m ∧ T = StripPerm(ExprType(base))
+```
 
 ```text
 RecvParams(base, name) = StateMethodParams(M, S, md) ⇔ StripPerm(ExprType(base)) = TypeModalState(modal_ref, S) ∧ ModalDeclOf(modal_ref) = M ∧ LookupStateMethod(M, S, name) = md
-
-```text
 RecvParams(base, name) = TransitionParams(M, S, tr) ⇔ StripPerm(ExprType(base)) = TypeModalState(modal_ref, S) ∧ ModalDeclOf(modal_ref) = M ∧ LookupTransition(M, S, name) = tr
-
-```text
 RecvParams(base, name) = [⟨RecvMode(m.receiver), `self`, RecvType(T, m.receiver)⟩] ++ m.params ⇔ LookupMethod(StripPerm(ExprType(base)), name) = m ∧ T = StripPerm(ExprType(base))
+```
 
 **(EvalRecvSigma-Move)**
 
 ```text
 mode = `move`    Γ ⊢ EvalSigma(base, σ) ⇓ (Val(v_self), σ_1)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ EvalRecvSigma(base, mode, σ) ⇓ (Val(⟨v_self, v_self⟩), σ_1)
+```
 
 **(EvalRecvSigma-Ref-Dyn)**
 
 ```text
 mode = ⊥    Γ ⊢ AddrOfSigma(RefArgExpr(base), σ) ⇓ (Val(addr), σ_1)    ReadAddr(σ_1, addr) = Dyn(Cl, RawPtr(`imm`, addr_d), T)    DynAddrState(σ_1, addr_d) = `Valid`
+```
+
 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ EvalRecvSigma(base, mode, σ) ⇓ (Val(⟨Dyn(Cl, RawPtr(`imm`, addr_d), T), Alias(addr_d)⟩), σ_1)
+```
 
 **(EvalRecvSigma-Ref-Dyn-Expired)**
 
 ```text
 mode = ⊥    Γ ⊢ AddrOfSigma(RefArgExpr(base), σ) ⇓ (Val(addr), σ_1)    ReadAddr(σ_1, addr) = Dyn(Cl, RawPtr(`imm`, addr_d), T)    DynAddrState(σ_1, addr_d) = `Expired`
+```
+
 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ EvalRecvSigma(base, mode, σ) ⇓ (Ctrl(Panic), σ_1)
+```
 
 **(EvalRecvSigma-Ref)**
 
 ```text
 mode = ⊥    Γ ⊢ AddrOfSigma(RefArgExpr(base), σ) ⇓ (Val(addr), σ_1)    ReadAddr(σ_1, addr) = v_self    ¬ (∃ Cl, addr_d, T. v_self = Dyn(Cl, RawPtr(`imm`, addr_d), T))
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ EvalRecvSigma(base, mode, σ) ⇓ (Val(⟨v_self, Alias(addr)⟩), σ_1)
+```
 
 **(EvalRecvSigma-Ctrl-Move)**
 
 ```text
 mode = `move`    Γ ⊢ EvalSigma(base, σ) ⇓ (Ctrl(κ), σ_1)
+```
+
 ──────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ EvalRecvSigma(base, mode, σ) ⇓ (Ctrl(κ), σ_1)
+```
 
 **(EvalRecvSigma-Ctrl-Ref)**
 
 ```text
 mode = ⊥    Γ ⊢ AddrOfSigma(RefArgExpr(base), σ) ⇓ (Ctrl(κ), σ_1)
+```
+
 ──────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ EvalRecvSigma(base, mode, σ) ⇓ (Ctrl(κ), σ_1)
+```
 
 ```text
 BindParams(m, v_self, vecv) = {`self` ↦ v_self} ∪ { x_i ↦ v_i | m.params = [⟨_, x_i, _⟩], vecv = [v_i] }
+```
 
 **(ApplyMethodSigma-Prim)**
 
 ```text
 m = MethodTarget(v_self, name)    MethodOwner(m) = owner    MethodName(m) = name    Γ ⊢ PrimCall(owner, name, v_self, vec_v) ⇓ out
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ApplyMethodSigma(base, name, v_self, v_arg, vec_v, σ) ⇓ (out, σ)
+```
 
 **(ApplyMethodSigma)**
 
 ```text
 m = MethodTarget(v_self, name)    ¬IsTransition(m)    BindParams(RecvParams(base, name), [v_arg] ++ vec_v) = binds    BlockEnter(σ, binds) ⇓ (σ_1, scope)    Γ ⊢ EvalBlockBodySigma(m.body, σ_1) ⇓ (out, σ_2)    BlockExit(σ_2, scope, out) ⇓ (out', σ_3)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ApplyMethodSigma(base, name, v_self, v_arg, vec_v, σ) ⇓ (ReturnOut(out'), σ_3)
+```
 
 #### 15.2.6 Lowering
 
@@ -873,6 +1031,7 @@ item = MethodDecl(attrs_opt, vis, override, name, gen_params_opt, receiver, para
 
 ```text
 Γ ⊢ Mangle(item) ⇓ ScopedSym(item)
+```
 
 **(Mangle-Class-Method)**
 item = ClassMethodDecl(attrs_opt, vis, name, gen_params_opt, receiver, params, ret_opt, contract_opt, body_opt, span, doc_opt)
@@ -880,6 +1039,7 @@ item = ClassMethodDecl(attrs_opt, vis, name, gen_params_opt, receiver, params, r
 
 ```text
 Γ ⊢ Mangle(item) ⇓ ScopedSym(item)
+```
 
 **(Mangle-State-Method)**
 item = StateMethodDecl(attrs_opt, vis, name, gen_params_opt, recv, params, ret_opt, contract_opt, body, span, doc_opt)
@@ -887,6 +1047,7 @@ item = StateMethodDecl(attrs_opt, vis, name, gen_params_opt, recv, params, ret_o
 
 ```text
 Γ ⊢ Mangle(item) ⇓ ScopedSym(item)
+```
 
 #### 15.2.7 Diagnostics
 
@@ -906,15 +1067,10 @@ Overload resolution is not a parser concern in this chapter.
 
 ```text
 ClassDefaults(T, name) = { m | ∃ Cl ∈ Implements(T). m ∈ ClassMethodTable(Cl) ∧ m.name = name ∧ m.body ≠ ⊥ }
-
-```text
 LookupMethod(T, name) = m ⇔ MethodByName(T, name) = m
-
-```text
 LookupMethod(T, name) = m ⇔ MethodByName(T, name) = ⊥ ∧ |ClassDefaults(T, name)| = 1 ∧ m ∈ ClassDefaults(T, name)
-
-```text
 LookupMethod(T, name) = ⊥ ⇔ MethodByName(T, name) = ⊥ ∧ (|ClassDefaults(T, name)| = 0 ∨ |ClassDefaults(T, name)| > 1)
+```
 
 #### 15.3.4 Static Semantics
 
@@ -922,19 +1078,25 @@ LookupMethod(T, name) = ⊥ ⇔ MethodByName(T, name) = ⊥ ∧ (|ClassDefaults(
 
 ```text
 Γ; R; L ⊢ base : T_b    MethodByName(StripPerm(T_b), name) = ⊥    ClassDefaults(StripPerm(T_b), name) = ∅
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ; R; L ⊢ MethodCall(base, name, args) ⇑
+```
 
 **(LookupMethod-Ambig)**
 
 ```text
 Γ; R; L ⊢ base : T_b    MethodByName(StripPerm(T_b), name) = ⊥    |ClassDefaults(StripPerm(T_b), name)| > 1
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ; R; L ⊢ MethodCall(base, name, args) ⇑
+```
 
 Free-procedure overload resolution is complete before ordinary `Call` typing.
 
@@ -974,8 +1136,6 @@ Method lookup diagnostics remain defined for missing methods and ambiguous inher
 #### 15.4.1 Syntax
 
 ```text
-```
-
 contract_clause    ::= "|:" contract_body
 contract_body      ::= precondition_expr
                      | precondition_expr "=>" postcondition_expr
@@ -989,55 +1149,71 @@ postcondition_expr ::= predicate_expr
 `ForeignContractStart` is defined by §23.6.2 and is used here only to disambiguate ordinary contract clauses from foreign contract clauses.
 
 **(Parse-ContractClauseOpt-None)**
+
+```text
 ¬ IsOp(Tok(P), "|:") ∨ ForeignContractStart(P)
+```
+
 ──────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseContractClauseOpt(P) ⇓ (P, ⊥)
+```
 
 **(Parse-ContractClauseOpt-Yes)**
 
 ```text
 IsOp(Tok(P), "|:")    Γ ⊢ ParseContractBody(Advance(P)) ⇓ (P_1, clause)
+```
+
 ────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseContractClauseOpt(P) ⇓ (P_1, clause)
+```
 
 **(Parse-ContractBody-PostOnly)**
 
 ```text
 IsOp(Tok(P), "=>")    Γ ⊢ ParsePredicateExpr(Advance(P)) ⇓ (P_1, post)
+```
+
 ────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseContractBody(P) ⇓ (P_1, ⟨⊥, post⟩)
+```
 
 **(Parse-ContractBody-PrePost)**
 
 ```text
 Γ ⊢ ParsePredicateExpr(P) ⇓ (P_1, pre)    IsOp(Tok(P_1), "=>")    Γ ⊢ ParsePredicateExpr(Advance(P_1)) ⇓ (P_2, post)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseContractBody(P) ⇓ (P_2, ⟨pre, post⟩)
+```
 
 **(Parse-ContractBody-PreOnly)**
 
 ```text
 Γ ⊢ ParsePredicateExpr(P) ⇓ (P_1, pre)    ¬ IsOp(Tok(P_1), "=>")
+```
+
 ────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseContractBody(P) ⇓ (P_1, ⟨pre, ⊥⟩)
+```
 
 #### 15.4.3 AST Representation / Form
 
 ```text
 ContractClause = ⟨pre, post⟩
-
-```text
 contract_opt ∈ {⊥} ∪ ContractClause
+```
 
 #### 15.4.4 Static Semantics
 
@@ -1045,13 +1221,14 @@ contract_opt ∈ {⊥} ∪ ContractClause
 
 ```text
 Γ_pre ⊢ P_pre : `bool`    pure(P_pre)
-
-```text
 Γ_post ⊢ P_post : `bool`    pure(P_post)
+```
+
 ────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ `|:` P_pre ⇒ P_post : WF
+```
 
 The purity judgment for contract expressions is:
 
@@ -1059,64 +1236,85 @@ The purity judgment for contract expressions is:
 
 ```text
 v ∈ Literals
+```
+
 ────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ LiteralExpr(v) pure
+```
 
 **(Pure-Ident)**
 
 ```text
 Γ(x) = (T, _)
+```
+
 ────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ Ident(x) pure
+```
 
 **(Pure-Field)**
 
 ```text
 Γ ⊢ e pure
+```
+
 ────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FieldAccess(e, f) pure
+```
 
 **(Pure-Tuple-Access)**
 
 ```text
 Γ ⊢ e pure
+```
+
 ────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ TupleAccess(e, i) pure
+```
 
 **(Pure-Index)**
 
 ```text
 Γ ⊢ e_1 pure    Γ ⊢ e_2 pure
+```
+
 ────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ IndexAccess(e_1, e_2) pure
+```
 
 **(Pure-Unary)**
 
 ```text
 Γ ⊢ e pure    op ∈ {`!`, `-`, `*`}
+```
+
 ────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ UnaryExpr(op, e) pure
+```
 
 **(Pure-Binary)**
 
 ```text
 Γ ⊢ e_1 pure    Γ ⊢ e_2 pure    op ∈ PureOps
+```
+
 ────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ BinaryExpr(op, e_1, e_2) pure
+```
 
 PureOps = {`+`, `-`, `*`, `/`, `%`, `**`, `==`, `!=`, `<`, `<=`, `>`, `>=`, `&&`, `||`, `&`, `|`, `^`, `<<`, `>>`, `..`, `..=`}
 
@@ -1124,155 +1322,190 @@ PureOps = {`+`, `-`, `*`, `/`, `%`, `**`, `==`, `!=`, `<`, `<=`, `>`, `>=`, `&&`
 
 ```text
 Γ ⊢ e pure
+```
+
 ────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ CastExpr(e, T) pure
+```
 
 **(Pure-If)**
 
 ```text
 Γ ⊢ e_cond pure    Γ ⊢ e_then pure    Γ ⊢ e_else pure
+```
+
 ────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ IfExpr(e_cond, e_then, e_else) pure
+```
 
 **(Pure-If-Is)**
 
 ```text
 Γ ⊢ e pure    Γ, PatternBindings(pat) ⊢ b_t pure    Γ ⊢ b_f pure
+```
+
 ────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ IfIsExpr(e, pat, b_t, b_f) pure
+```
 
 **(Pure-If-Is-No-Else)**
 
 ```text
 Γ ⊢ e pure    Γ, PatternBindings(pat) ⊢ b_t pure
+```
+
 ────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ IfIsExpr(e, pat, b_t, ⊥) pure
+```
 
 **(Pure-If-Case)**
 
 ```text
 Γ ⊢ e pure    ∀ case ∈ cases. Γ, PatternBindings(case.pat) ⊢ case.body pure    Γ ⊢ b_f pure
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ IfCaseExpr(e, cases, b_f) pure
+```
 
 **(Pure-If-Case-No-Else)**
 
 ```text
 Γ ⊢ e pure    ∀ case ∈ cases. Γ, PatternBindings(case.pat) ⊢ case.body pure
+```
+
 ────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ IfCaseExpr(e, cases, ⊥) pure
+```
 
 **(Pure-Block)**
 
 ```text
 ∀ s ∈ stmts. Γ ⊢ s pure_stmt    Γ ⊢ e pure
+```
+
 ────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ BlockExpr(stmts, e) pure
+```
 
 **(Pure-Tuple)**
 
 ```text
 ∀ i. Γ ⊢ e_i pure
+```
+
 ────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ TupleExpr([e_1, …, e_n]) pure
+```
 
 **(Pure-Array)**
 
 ```text
 ∀ i. Γ ⊢ e_i pure
+```
+
 ────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ArrayExpr([e_1, …, e_n]) pure
+```
 
 **(Pure-Record)**
 
 ```text
 ∀ (f, e) ∈ fields. Γ ⊢ e pure
+```
+
 ────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ RecordExpr(T, fields) pure
+```
 
 **(Pure-Call-Builtin)**
 
 ```text
 Γ ⊢ e_1 pure    …    Γ ⊢ e_n pure    BuiltinPure(f)
+```
+
 ────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ CallExpr(f, [e_1, …, e_n]) pure
+```
 
 **(Pure-Call-Procedure)**
 
 ```text
 Γ ⊢ e_1 pure    …    Γ ⊢ e_n pure    ProcDecl(f) = P    ¬HasCapabilityParams(P)    IsPureProc(P)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ CallExpr(f, [e_1, …, e_n]) pure
+```
 
 **(Pure-Method-Const)**
 
 ```text
 Γ ⊢ e pure    Γ ⊢ e_1 pure    …    Γ ⊢ e_n pure    ReceiverPerm(m) = `const`    ¬HasCapabilityParams(m)    IsPureProc(m)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ MethodCallExpr(e, m, [e_1, …, e_n]) pure
+```
 
 **(Pure-Comptime)**
 
 ```text
 ComptimeProc(f)    Γ ⊢ e_1 pure    …    Γ ⊢ e_n pure
+```
+
 ────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ CallExpr(f, [e_1, …, e_n]) pure
+```
 
 **Helper Predicates**
 
 ```text
 HasCapabilityParams(P) ⇔ ∃ param ∈ Params(P). IsCapabilityType(ParamType(param))
-
-```text
 IsCapabilityType(T) ⇔ CapInType(T) ≠ ∅
-
-```text
 ContainsCapability(T) ⇔ CapInType(T) ≠ ∅
-
-```text
 BuiltinPure(f) ⇔ f ∈ {sizeof, alignof, type_name, …}
-
-```text
 IsPureProc(P) ⇔ ∀ stmt ∈ Body(P). Γ ⊢ stmt pure_stmt ∧ ¬WritesGlobalState(P)
-
-```text
 ComptimeProc(f) ⇔ HasAttribute(ProcDecl(f), `comptime`)
+```
 
 The following forms are never pure: assignment expressions, mutable method calls, allocation expressions, spawn/dispatch/parallel expressions, yield/wait expressions, procedure calls with capability parameters, and unsafe blocks.
 
 ```text
 **Precondition Evaluation Context (Γ_pre)** includes the receiver binding (if present) and all procedure parameters at entry state. It excludes `@result`, `@entry`, module-scope bindings, enclosing locals, and body-local bindings.
+```
 
 ```text
 **Postcondition Evaluation Context (Γ_post)** includes the receiver, all procedure parameters, `@result`, and `@entry`. Mutable parameters and mutable receivers denote post-state values on the right of `=>`, while `@entry(...)` denotes entry-state values.
+```
 
 #### 15.4.5 Dynamic Semantics
 
@@ -1300,12 +1533,9 @@ Preconditions are parsed as part of `ParseContractBody` in §15.4.2.
 
 ```text
 PreconditionOf(contract_opt) = `true`             if contract_opt = ⊥
-
-```text
 PreconditionOf(⟨pre, post⟩) = `true`              if pre = ⊥
-
-```text
 PreconditionOf(⟨pre, post⟩) = pre                 if pre ≠ ⊥
+```
 
 #### 15.5.4 Static Semantics
 
@@ -1318,10 +1548,13 @@ substitution into the callee precondition.
 
 ```text
 Γ ⊢ f : (T_1, …, T_n) → R    precondition(f) = P_pre    StaticProofAt(S_call, Γ_S, P_pre)
+```
+
 ──────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ f(a_1, …, a_n) @ S : valid
+```
 
 Elision rules:
 
@@ -1351,8 +1584,6 @@ Diagnostics for unsatisfied preconditions are attached to the call site.
 #### 15.6.1 Syntax
 
 ```text
-```
-
 postcondition_expr ::= predicate_expr
 contract_intrinsic ::= "@result" | "@entry" "(" expression ")"
 ```
@@ -1365,15 +1596,19 @@ IsOp(Tok(P), "@")    IsIdent(Tok(Advance(P)))    Lexeme(Tok(Advance(P))) = `resu
 
 ```text
 Γ ⊢ ParsePrimary(P) ⇓ (Advance(Advance(P)), ContractResult)
+```
 
 **(Parse-Contract-Entry)**
 
 ```text
 IsOp(Tok(P), "@")    IsIdent(Tok(Advance(P)))    Lexeme(Tok(Advance(P))) = `entry`    IsPunc(Tok(Advance(Advance(P))), "(")    Γ ⊢ ParseExpr(Advance(Advance(Advance(P)))) ⇓ (P_1, e)    IsPunc(Tok(P_1), ")")
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParsePrimary(P) ⇓ (Advance(P_1), ContractEntry(e))
+```
 
 #### 15.6.3 AST Representation / Form
 
@@ -1381,12 +1616,9 @@ Expr = … | ContractResult | ContractEntry(expr) | …
 
 ```text
 PostconditionOf(contract_opt) = `true`           if contract_opt = ⊥
-
-```text
 PostconditionOf(⟨pre, post⟩) = `true`            if post = ⊥
-
-```text
 PostconditionOf(⟨pre, post⟩) = post              if post ≠ ⊥
+```
 
 #### 15.6.4 Static Semantics
 
@@ -1398,6 +1630,8 @@ binding `@result` to the returned value and uses that proof context.
 
 ```text
 postcondition(f) = P_post    ∀ r ∈ ReturnPoints(f). Γ_r ⊢ P_post : satisfied
+```
+
 ───────────────────────────────────────────────────────────────────────────
 f : postcondition-valid
 
@@ -1422,24 +1656,31 @@ ReturnType(f) = T_1 | T_2 | ... | T_n
 
 ```text
 Γ_post ⊢ @result : T_1 | T_2 | ... | T_n
+```
 
 **(Result-Is-Predicate)**
 
 ```text
 Γ_post ⊢ @result : T_union    T_variant ∈ Variants(T_union)
+```
+
 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ_post ⊢ (@result is T_variant) : bool
+```
 
 **(Result-Narrowing)**
 
 ```text
 (@result is T_variant) = true    Γ_post ⊢ @result : T_union
+```
+
 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ_post ⊢ @result as T_variant : T_variant
+```
 
 **(Propagate-Postcondition)**
 e? propagates error e_err at program point p    ReturnType(f) = T_success | T_error
@@ -1452,6 +1693,7 @@ ReturnType(f) = M@S
 
 ```text
 Γ_post ⊢ @result : M@S
+```
 
 **(Result-Generic)**
 ReturnType(f) = T    T is a type parameter
@@ -1459,6 +1701,7 @@ ReturnType(f) = T    T is a type parameter
 
 ```text
 Γ_post ⊢ @result : T
+```
 
 **(Result-Generic-Constraint)**
 @result op e in postcondition    op requires class C    T is return type parameter
@@ -1476,10 +1719,13 @@ T <: C required in procedure signature
 
 ```text
 Γ_post ⊢ e : T    BitcopyType(T)
+```
+
 ────────────────────────────────────────────────────────
 
 ```text
 Γ_post ⊢ @entry(e) : T
+```
 
 #### 15.6.5 Dynamic Semantics
 
@@ -1504,13 +1750,14 @@ Entry-capture timing:
 
 ```text
 entries = CollectEntryExprs(postcondition(f))    ∀ e_i ∈ entries. Γ_pre ⊢ EvalSigma(e_i, σ_entry) ⇓ (Val(v_i), σ_entry)
-
-```text
 captures = { e_i ↦ Capture(v_i, T_i) | e_i ∈ entries }
+```
+
 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 EntryCapturePhase(f, σ_entry) = (captures, σ_entry)
+```
 
 Capture(v, T) = v    if BitcopyType(T)
 
@@ -1527,8 +1774,6 @@ Diagnostics are defined for `@result` outside postconditions, `@entry` expressio
 #### 15.7.1 Syntax
 
 ```text
-```
-
 type_invariant ::= "|:" "{" predicate_expr "}"
 loop_invariant ::= "|:" "{" predicate_expr "}"
 ```
@@ -1536,23 +1781,32 @@ loop_invariant ::= "|:" "{" predicate_expr "}"
 #### 15.7.2 Parsing
 
 **(Parse-InvariantOpt-None)**
+
+```text
 ¬ (IsOp(Tok(P), "|:") ∧ IsPunc(Tok(Advance(P)), "{"))
+```
+
 ──────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseInvariantOpt(P) ⇓ (P, ⊥)
+```
 
 **(Parse-InvariantOpt-Yes)**
 
 ```text
 IsOp(Tok(P), "|:")    IsPunc(Tok(Advance(P)), "{")    Γ ⊢ ParsePredicateExpr(Advance(Advance(P))) ⇓ (P_1, pred)    IsPunc(Tok(P_1), "}")
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseInvariantOpt(P) ⇓ (Advance(P_1), pred)
+```
 
 ```text
 ParseLoopInvariantOpt(P) ⇓ (P_1, inv_opt) ⇔ Γ ⊢ ParseInvariantOpt(P) ⇓ (P_1, inv_opt)
+```
 
 #### 15.7.3 AST Representation / Form
 
@@ -1560,15 +1814,13 @@ Invariant = Expr
 
 ```text
 invariant_opt ∈ {⊥} ∪ Invariant
+```
 
 ```text
 RecordDecl = ⟨attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, implements, members, invariant_opt, span, doc⟩
-
-```text
 EnumDecl = ⟨attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, implements, variants, invariant_opt, span, doc⟩
-
-```text
 ModalDecl = ⟨attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, implements, states, invariant_opt, span, doc⟩
+```
 
 Loop forms preserve `inv_opt` in their AST representation.
 
@@ -1630,6 +1882,7 @@ VerificationFact = F(P, L, S)
 
 ```text
 CheckState = {CheckStart(P, k, s, ρ, σ), CheckDone(σ), CheckPanic(σ)}
+```
 
 ContractCheck(P, k, s, ρ) = `if` !P[ρ] { `panic`(ContractViolation(k, P, s)) }
 
@@ -1637,9 +1890,8 @@ ContractCheck(P, k, s, ρ) = `if` !P[ρ] { `panic`(ContractViolation(k, P, s)) }
 
 ```text
 DynamicScope(s) ⇔ (∃ d. DynamicDecl(d) ∧ s ⊆ d.span) ∨ (∃ e. DynamicExpr(e) ∧ s ⊆ ExprSpan(e))
-
-```text
 InDynamicContext ⇔ DynamicScope(s) where `s` is the span of the syntactic form currently being verified or type-checked.
+```
 
 ComputeDynamicContext(s, ancestors) =
   let enclosing_dynamic = FindInnermostDynamic(s, ancestors)
@@ -1648,12 +1900,16 @@ ComputeDynamicContext(s, ancestors) =
 ```text
     ⊥       → false
     Some(_) → true
+```
+
   }
 
 **(Contract-Static-OK)**
 
 ```text
 StaticProofAt(S, Γ_S, P)
+```
+
 ──────────────────────────────────────────────
 P : verified
 
@@ -1661,6 +1917,8 @@ P : verified
 
 ```text
 ¬ StaticProofAt(S, Γ_S, P)    ¬ InDynamicContext
+```
+
 ──────────────────────────────────────────────
 program is ill-formed
 
@@ -1668,6 +1926,8 @@ program is ill-formed
 
 ```text
 StaticProofAt(S, Γ_S, P)
+```
+
 ──────────────────────────────────────────────
 P : verified
 
@@ -1675,6 +1935,8 @@ P : verified
 
 ```text
 ¬ StaticProofAt(S, Γ_S, P)    InDynamicContext
+```
+
 ────────────────────────────────────────────────────
 emit runtime check ContractCheck(P, k, s, ρ)
 
@@ -1692,11 +1954,14 @@ For this section, `Gamma_S` denotes the active proof context at program point
 
 ```text
 Let `FlowFactsAt(S) = { P | F(P, L) ∈ Facts ∧ L dom S }`.
+```
 
 Let `ContractFactsAt(S)` be the set of conjuncts imported from the enclosing
 procedure contract precondition that remain in scope at `S`.
 
+```text
 Let `ProofContextAt(S) = FlowFactsAt(S) ∪ ContractFactsAt(S)`.
+```
 
 `Decidable(P)` is the smallest set closed under:
 
@@ -1713,42 +1978,55 @@ P ≡ `true`
 
 ```text
 ProofContextAt(S) ⊢ P
+```
 
 **(Ent-Fact)**
 
 ```text
 P ∈ ProofContextAt(S)
+```
+
 ──────────────────────────────
 
 ```text
 ProofContextAt(S) ⊢ P
+```
 
 **(Ent-And)**
 
 ```text
 ProofContextAt(S) ⊢ P    ProofContextAt(S) ⊢ Q
+```
+
 ────────────────────────────────────────
 
 ```text
 ProofContextAt(S) ⊢ P ∧ Q
+```
 
 **(Ent-Or-L)**
 
 ```text
 ProofContextAt(S) ⊢ P
+```
+
 ────────────────────────
 
 ```text
 ProofContextAt(S) ⊢ P ∨ Q
+```
 
 **(Ent-Or-R)**
 
 ```text
 ProofContextAt(S) ⊢ Q
+```
+
 ────────────────────────
 
 ```text
 ProofContextAt(S) ⊢ P ∨ Q
+```
 
 **(Ent-Linear)**
 LinearEntails(ProofContextAt(S), P)
@@ -1756,26 +2034,31 @@ LinearEntails(ProofContextAt(S), P)
 
 ```text
 ProofContextAt(S) ⊢ P
+```
 
 **Linear Integer Entailment**
 
 ```text
 Let `LinExpr` be expressions of the form `∑_i a_i x_i + c` where `a_i, c ∈ ℤ` and each `x_i` is an integer-typed variable.
+```
 
 Let `LinPred` be predicates comparing two `LinExpr` with `==`, `!=`, `<`, `<=`, `>`, or `>=`.
 
 ```text
 Define `LinFactsAt(S) = { P ∈ ProofContextAt(S) | P ∈ LinPred }`.
+```
 
 Then:
 
 ```text
 LinearEntails(ProofContextAt(S), P) ⇔ P ∈ LinPred ∧ ⋀ LinFactsAt(S) ⊨_ℤ P
+```
 
 Implementations MAY use any sound decision procedure; they MUST be complete for `LinPred` entailment.
 
 ```text
 StaticProofAt(S, ProofContextAt(S), P) ⇔ Decidable(P) ∧ ProofContextAt(S) ⊢ P
+```
 
 Define `NegFact(P)` on simple decidable predicates by:
 
@@ -1798,6 +2081,8 @@ Verification facts:
 
 ```text
 F(P, L) ∈ Facts    L dom S    L ≠ S
+```
+
 ────────────────────────────────────
 P satisfied at S
 
@@ -1827,46 +2112,61 @@ Contract environments:
 
 ```text
 Γ ⊢ EvalSigma(P[ρ], σ) ⇓ (Val(true), σ')
+```
+
 ──────────────────────────────────────────────────────────────────────────────
 
 ```text
 ⟨CheckStart(P, k, s, ρ, σ)⟩ → ⟨CheckDone(σ')⟩
+```
 
 **(Check-False)**
 
 ```text
 Γ ⊢ EvalSigma(P[ρ], σ) ⇓ (Val(false), σ')
+```
+
 ───────────────────────────────────────────────────────────────────────────────
 
 ```text
 ⟨CheckStart(P, k, s, ρ, σ)⟩ → ⟨CheckPanic(σ')⟩
+```
 
 **(Check-Panic)**
 
 ```text
 Γ ⊢ EvalSigma(P[ρ], σ) ⇓ (Ctrl(Panic), σ')
+```
+
 ──────────────────────────────────────────────────────────────────────────────
 
 ```text
 ⟨CheckStart(P, k, s, ρ, σ)⟩ → ⟨CheckPanic(σ')⟩
+```
 
 **(Check-Ok)**
 
 ```text
 ⟨CheckStart(P, k, s, ρ, σ)⟩ →* ⟨CheckDone(σ')⟩
+```
+
 ───────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ContractCheck(P, k, s, ρ, σ) ⇓ σ'
+```
 
 **(Check-Fail)**
 
 ```text
 ⟨CheckStart(P, k, s, ρ, σ)⟩ →* ⟨CheckPanic(σ')⟩
+```
+
 ───────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ContractCheck(P, k, s, ρ, σ) ⇑ panic
+```
 
 Successful dynamic checks inject the corresponding verification fact after the inserted check.
 
@@ -1878,6 +2178,8 @@ Runtime check insertion points:
 
 ```text
 f has contract |: P    InDynamicContext(f)    ¬ StaticProof(Γ_entry, P)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────
 At entry to f, insert: ContractCheck(P, Pre, span(contract), ρ_emptyset)
 
@@ -1885,6 +2187,8 @@ At entry to f, insert: ContractCheck(P, Pre, span(contract), ρ_emptyset)
 
 ```text
 f has contract |: P_pre => P_post    InDynamicContext(f)    ¬ StaticProof(Γ_exit, P_post)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────
 Before each return from f with value v, insert: ContractCheck(P_post, Post, span(contract), ρ_post)
 
@@ -1892,6 +2196,8 @@ Before each return from f with value v, insert: ContractCheck(P_post, Post, span
 
 ```text
 T has invariant |: {P}    InDynamicContext(construction_site)    ¬ StaticProof(Γ, P[v/self])
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────
 After constructing value v of type T, insert: ContractCheck(P[v/self], TypeInv, span(invariant), ρ_emptyset)
 
@@ -1899,6 +2205,8 @@ After constructing value v of type T, insert: ContractCheck(P[v/self], TypeInv, 
 
 ```text
 T has invariant |: {P}    m is public method with receiver ~    InDynamicContext(call_site)    ¬ StaticProof(Γ, P[self/self])
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Before call to self~>m(...), insert: ContractCheck(P, TypeInv, span(invariant), ρ_emptyset)
 
@@ -1906,6 +2214,8 @@ Before call to self~>m(...), insert: ContractCheck(P, TypeInv, span(invariant), 
 
 ```text
 T has invariant |: {P}    m is method with receiver ~!    InDynamicContext(call_site)    ¬ StaticProof(Γ, P[self/self])
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 After return from self~>m(...), insert: ContractCheck(P, TypeInv, span(invariant), ρ_emptyset)
 
@@ -1913,6 +2223,8 @@ After return from self~>m(...), insert: ContractCheck(P, TypeInv, span(invariant
 
 ```text
 loop ... |: {I}    InDynamicContext(loop_site)    ¬ StaticProof(Γ_loop_entry, I)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────
 Before first iteration, insert: ContractCheck(I, LoopInv, span(invariant), ρ_emptyset)
 
@@ -1920,6 +2232,8 @@ Before first iteration, insert: ContractCheck(I, LoopInv, span(invariant), ρ_em
 
 ```text
 loop ... |: {I}    InDynamicContext(loop_site)    ¬ StaticProof(Γ_loop_body_exit, I)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────
 At end of each iteration, insert: ContractCheck(I, LoopInv, span(invariant), ρ_emptyset)
 
@@ -1927,6 +2241,8 @@ At end of each iteration, insert: ContractCheck(I, LoopInv, span(invariant), ρ_
 
 ```text
 e : T |: {P}    InDynamicContext(e)    ¬ StaticProof(Γ, P[e/self])
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────
 After evaluating e, insert: ContractCheck(P[e/self], TypeInv, span(refinement), ρ_emptyset)
 

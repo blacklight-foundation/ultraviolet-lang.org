@@ -3,7 +3,7 @@ title: "Attributes and Metadata"
 description: "9. Attributes and Metadata of the Ultraviolet language specification."
 specSource: "../../Ultraviolet/SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T13:48:04.933Z"
+generatedAt: "2026-05-09T14:44:07.538Z"
 generated: true
 ---
 
@@ -19,8 +19,6 @@ generated: true
 #### 9.1.1 Syntax
 
 ```text
-```
-
 attribute_list    ::= attribute+
 attribute         ::= "[[" attribute_spec ("," attribute_spec)* "]]"
 attribute_spec    ::= attribute_name ("(" attribute_args ")")?
@@ -46,70 +44,100 @@ An attribute list MUST appear immediately before the declaration or expression i
 #### 9.1.2 Parsing
 
 **(Parse-AttrListOpt-None)**
+
+```text
 ¬ IsPunc(Tok(P), "[[")
+```
+
 ──────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrListOpt(P) ⇓ (P, ⊥)
+```
 
 **(Parse-AttrListOpt-Yes)**
 
 ```text
 IsPunc(Tok(P), "[[")    Γ ⊢ ParseAttrList(P) ⇓ (P_1, attrs)
+```
+
 ──────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrListOpt(P) ⇓ (P_1, attrs)
+```
 
 **(Parse-AttrList-Cons)**
 
 ```text
 Γ ⊢ ParseAttrBlock(P) ⇓ (P_1, attrs_0)    Γ ⊢ ParseAttrListTail(P_1, attrs_0) ⇓ (P_2, attrs)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrList(P) ⇓ (P_2, attrs)
+```
 
 **(Parse-AttrListTail-End)**
+
+```text
 ¬ IsPunc(Tok(P), "[[")
+```
+
 ──────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrListTail(P, attrs) ⇓ (P, attrs)
+```
 
 **(Parse-AttrListTail-Cons)**
 
 ```text
 IsPunc(Tok(P), "[[")    Γ ⊢ ParseAttrBlock(P) ⇓ (P_1, attrs_0)    Γ ⊢ ParseAttrListTail(P_1, attrs ++ attrs_0) ⇓ (P_2, attrs_1)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrListTail(P, attrs) ⇓ (P_2, attrs_1)
+```
 
 **(Parse-AttrBlock)**
 
 ```text
 IsPunc(Tok(P), "[[")    P_0 = Advance(P)    Γ ⊢ ParseAttrSpecList(P_0) ⇓ (P_1, specs)    IsPunc(Tok(P_1), "]]")
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrBlock(P) ⇓ (Advance(P_1), specs)
+```
 
 **(Parse-AttrSpecList-Cons)**
 
 ```text
 Γ ⊢ ParseAttrSpec(P) ⇓ (P_1, s)    Γ ⊢ ParseAttrSpecListTail(P_1, [s]) ⇓ (P_2, specs)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrSpecList(P) ⇓ (P_2, specs)
+```
 
 **(Parse-AttrSpecListTail-End)**
+
+```text
 ¬ IsPunc(Tok(P), ",")
+```
+
 ──────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrSpecListTail(P, xs) ⇓ (P, xs)
+```
 
 **(Parse-AttrSpecListTail-TrailingComma)**
 IsPunc(Tok(P), ",")    IsPunc(Tok(Advance(P)), "]]")    TrailingCommaAllowed(P_0, P, {Punctuator("]]")})
@@ -117,56 +145,79 @@ IsPunc(Tok(P), ",")    IsPunc(Tok(Advance(P)), "]]")    TrailingCommaAllowed(P_0
 
 ```text
 Γ ⊢ ParseAttrSpecListTail(P, xs) ⇓ (Advance(P), xs)
+```
 
 **(Parse-AttrSpecListTail-Comma)**
 
 ```text
 IsPunc(Tok(P), ",")    Γ ⊢ ParseAttrSpec(Advance(P)) ⇓ (P_1, s)    Γ ⊢ ParseAttrSpecListTail(P_1, xs ++ [s]) ⇓ (P_2, ys)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrSpecListTail(P, xs) ⇓ (P_2, ys)
+```
 
 **(Parse-AttrSpec)**
 
 ```text
 Γ ⊢ ParseAttrName(P) ⇓ (P_1, name)    Γ ⊢ ParseAttrArgsOpt(P_1) ⇓ (P_2, args)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrSpec(P) ⇓ (P_2, Attr(name, args))
+```
 
 **(Parse-AttrArgsOpt-None)**
+
+```text
 ¬ IsPunc(Tok(P), "(")
+```
+
 ──────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrArgsOpt(P) ⇓ (P, [])
+```
 
 **(Parse-AttrArgsOpt-Yes)**
 
 ```text
 IsPunc(Tok(P), "(")    Γ ⊢ ParseAttrArgList(Advance(P)) ⇓ (P_1, args)    IsPunc(Tok(P_1), ")")
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrArgsOpt(P) ⇓ (Advance(P_1), args)
+```
 
 **(Parse-AttrArgList-Cons)**
 
 ```text
 Γ ⊢ ParseAttrArg(P) ⇓ (P_1, a)    Γ ⊢ ParseAttrArgListTail(P_1, [a]) ⇓ (P_2, args)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrArgList(P) ⇓ (P_2, args)
+```
 
 **(Parse-AttrArgListTail-End)**
+
+```text
 ¬ IsPunc(Tok(P), ",")
+```
+
 ──────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrArgListTail(P, xs) ⇓ (P, xs)
+```
 
 **(Parse-AttrArgListTail-TrailingComma)**
 IsPunc(Tok(P), ",")    IsPunc(Tok(Advance(P)), ")")    TrailingCommaAllowed(P_0, P, {Punctuator(")")})
@@ -174,60 +225,79 @@ IsPunc(Tok(P), ",")    IsPunc(Tok(Advance(P)), ")")    TrailingCommaAllowed(P_0,
 
 ```text
 Γ ⊢ ParseAttrArgListTail(P, xs) ⇓ (Advance(P), xs)
+```
 
 **(Parse-AttrArgListTail-Comma)**
 
 ```text
 IsPunc(Tok(P), ",")    Γ ⊢ ParseAttrArg(Advance(P)) ⇓ (P_1, a)    Γ ⊢ ParseAttrArgListTail(P_1, xs ++ [a]) ⇓ (P_2, ys)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrArgListTail(P, xs) ⇓ (P_2, ys)
+```
 
 **(Parse-AttrArg-Named-Literal)**
 
 ```text
 Γ ⊢ ParseIdent(P) ⇓ (P_1, name)    IsPunc(Tok(P_1), ":")    Tok(Advance(P_1)).kind ∈ LiteralKind
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrArg(P) ⇓ (Advance(Advance(P_1)), ⟨name, Tok(Advance(P_1))⟩)
+```
 
 **(Parse-AttrArg-Named-Ident)**
 
 ```text
 Γ ⊢ ParseIdent(P) ⇓ (P_1, name)    IsPunc(Tok(P_1), ":")    Γ ⊢ ParseIdent(Advance(P_1)) ⇓ (P_2, value)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrArg(P) ⇓ (P_2, ⟨name, value⟩)
+```
 
 **(Parse-AttrArg-Named-Call)**
 
 ```text
 Γ ⊢ ParseIdent(P) ⇓ (P_1, name)    IsPunc(Tok(P_1), "(")    Γ ⊢ ParseAttrArgList(Advance(P_1)) ⇓ (P_2, args)    IsPunc(Tok(P_2), ")")
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrArg(P) ⇓ (Advance(P_2), ⟨name, args⟩)
+```
 
 **(Parse-AttrArg-Literal)**
 
 ```text
 Tok(P).kind ∈ LiteralKind
+```
+
 ────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrArg(P) ⇓ (Advance(P), Tok(P))
+```
 
 **(Parse-AttrArg-Ident)**
 
 ```text
 Γ ⊢ ParseIdent(P) ⇓ (P_1, name)
+```
+
 ──────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrArg(P) ⇓ (P_1, name)
+```
 
 #### 9.1.3 AST Representation / Form
 
@@ -241,25 +311,29 @@ vendor_prefix ::= identifier ("::" identifier)*
 
 ```text
 AttrArg ::= literal | identifier | ⟨name, literal⟩ | ⟨name, identifier⟩ | ⟨name, args⟩
+```
+
 AttributeSpec ::= Attr(name: AttrName, args: [AttrArg])
 AttributeList ::= [AttributeSpec]
 
 ```text
 AttrOpt ::= {⊥} ∪ AttributeList
+```
 
 ```text
 ExprAttrs(e) ∈ AttrOpt
+```
 
 ```text
 AttachExprAttrs(e, attrs) = e' where ExprAttrs(e') = (attrs ++ ExprAttrs(e) if ExprAttrs(e) ≠ ⊥ else attrs) and all other fields of e' equal those of e
+```
 
 AttrListOf(item) = attrs    if item.attrs_opt = attrs
 
 ```text
 AttrListOf(item) = []       if item.attrs_opt = ⊥
-
-```text
 AttrByName(item, n) = [a | a ∈ AttrListOf(item) ∧ a.name = n]
+```
 
 #### 9.1.4 Static Semantics
 
@@ -311,36 +385,47 @@ AttrListJudg = {AttrListWf}
 
 ```text
 A = [a_1, …, a_n]    ∀ i, a_i = ⟨name_i, args_i⟩    ∀ i, name_i ∈ R_spec ∪ R_vendor    ∀ i, τ ∈ AttrTargets(name_i)    ∀ i, AttrArgsOk(name_i, args_i)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ AttrListWf(A, τ) ⇓ ok
+```
 
 **(AttrList-Unknown)**
 
 ```text
 A = [a_1, …, a_n]    ∃ i, a_i = ⟨name_i, _⟩ ∧ name_i ∉ R_spec ∪ R_vendor
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ AttrListWf(A, τ) ⇑ c    c = Code(Attr-Unknown)
+```
 
 **(AttrList-Target-Err)**
 
 ```text
 A = [a_1, …, a_n]    ∃ i, a_i = ⟨name_i, _⟩ ∧ name_i ∈ R_spec ∪ R_vendor ∧ τ ∉ AttrTargets(name_i)
+```
+
 ───────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ AttrListWf(A, τ) ⇑ c    c = Code(Attr-Target-Err)
+```
 
 ```text
 AttrArgsOk(name, args) ⇔ args satisfy the attribute-specific grammar and constraints in §§9.3–9.6, §19.7, §23.4, and §23.6, or the vendor-defined schema for name ∈ R_vendor.
+```
 
 Memory-order attributes are well-formed only when attached to key blocks or expressions that contain key acquisition.
 
 ```text
 For every declaration or expression with an attribute list A and target kind τ, the implementation MUST check Γ ⊢ AttrListWf(A, τ) ⇓ ok.
+```
 
 Multiple attribute lists on the same target are equivalent to a single list with concatenated entries in source order. Attribute application order is left-to-right in that concatenated list.
 
@@ -374,43 +459,61 @@ Vendor-qualified attribute names reuse the general attribute parser with the ven
 
 ```text
 AttrLeafTok(tok, id) ⇔ tok = Identifier(id) ∨ (tok = Keyword(kw) ∧ kw ∈ {`dynamic`, `static`} ∧ id = kw)
+```
 
 **(Parse-AttrName-Plain)**
+
+```text
 AttrLeafTok(Tok(P), id)    P_1 = Advance(P)    ¬ IsPunc(Tok(P_1), ".")    ¬ IsOp(Tok(P_1), "::")
+```
+
 ────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrName(P) ⇓ (P_1, id)
+```
 
 **(Parse-AttrName-Vendor)**
 
 ```text
 Γ ⊢ ParseIdent(P) ⇓ (P_1, id_0)    Γ ⊢ ParseVendorPrefixTail(P_1, [id_0]) ⇓ (P_2, pref)    IsOp(Tok(P_2), "::")    AttrLeafTok(Tok(Advance(P_2)), name)    P_3 = Advance(Advance(P_2))
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseAttrName(P) ⇓ (P_3, ⟨pref, name⟩)
+```
 
 **(Parse-VendorPrefixTail-End)**
+
+```text
 ¬ IsOp(Tok(P), "::")
+```
+
 ──────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseVendorPrefixTail(P, xs) ⇓ (P, xs)
+```
 
 **(Parse-VendorPrefixTail-Cons)**
 
 ```text
 IsOp(Tok(P), "::")    Γ ⊢ ParseIdent(Advance(P)) ⇓ (P_1, id)    Γ ⊢ ParseVendorPrefixTail(P_1, xs ++ [id]) ⇓ (P_2, ys)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseVendorPrefixTail(P, xs) ⇓ (P_2, ys)
+```
 
 #### 9.2.3 AST Representation / Form
 
 ```text
 Vendor-defined attribute names use the scoped `AttrName` form `⟨vendor_prefix, leaf⟩`, where `leaf` is an `identifier` or one of the reserved verification-mode names `dynamic` or `static`. `vendor_prefix` segments are always `identifier` tokens.
+```
 
 #### 9.2.4 Static Semantics
 
@@ -441,8 +544,6 @@ Unknown attribute-name rejection is owned by §9.1.7.
 #### 9.3.1 Syntax
 
 ```text
-```
-
 layout_attribute ::= "[[" "layout" "(" layout_args ")" "]]"
 layout_args      ::= layout_kind ("," layout_kind)*
 layout_kind      ::= "C" | "packed" | "align" "(" integer_literal ")" | int_type
@@ -540,8 +641,6 @@ Layout attributes constrain the layout and ABI calculations used by Chapter 24. 
 #### 9.4.1 Syntax
 
 ```text
-```
-
 inline_attribute ::= "[[" "inline" ("(" inline_mode ")")? "]]"
 inline_mode      ::= "always" | "never" | "default"
 
@@ -598,21 +697,15 @@ ExprAttrList(e) = A    if ExprAttrs(e) = A
 
 ```text
 ExprAttrList(e) = []   if ExprAttrs(e) = ⊥
-
-```text
 ExprAttrByName(e, n) = [a | a ∈ ExprAttrList(e) ∧ a.name = n]
+```
 
 ```text
 DynamicDecl(d) ⇔ AttrByName(d, "dynamic") ≠ []
-
-```text
 DynamicExpr(e) ⇔ ExprAttrByName(e, "dynamic") ≠ []
-
-```text
 DynamicScope(s) ⇔ (∃ d. DynamicDecl(d) ∧ s ⊆ d.span) ∨ (∃ e. DynamicExpr(e) ∧ s ⊆ ExprSpan(e))
-
-```text
 InDynamicContext ⇔ DynamicScope(s) where s is the span of the syntactic form currently being verified or type-checked.
+```
 
 #### 9.5.4 Static Semantics
 
@@ -624,11 +717,11 @@ Scope determination:
 1. `e` is within a `[[dynamic]]` scope if it is enclosed by a `[[dynamic]]` declaration, or by an attributed expression.
 2. Scope is lexical and does not propagate through procedure calls.
 
-ComputeDynamicContext : Span × AncestorList → Bool
-
 ```text
+ComputeDynamicContext : Span × AncestorList → Bool
 ```
 
+```text
 ComputeDynamicContext(s, ancestors) =
   let enclosing_dynamic = FindInnermostDynamic(s, ancestors)
   match enclosing_dynamic {
@@ -637,25 +730,27 @@ ComputeDynamicContext(s, ancestors) =
   }
 ```
 
-FindInnermostDynamic : Span × AncestorList → Option<Span>
-
 ```text
+FindInnermostDynamic : Span × AncestorList → Option<Span>
 ```
 
+```text
 FindInnermostDynamic(s, ancestors) =
   let dynamic_ancestors = [a | a ∈ ancestors ∧ (DynamicDecl(a) ∨ DynamicExpr(a)) ∧ s ⊆ a.span]
   if dynamic_ancestors = [] then ⊥
   else Some(MinimalSpan(dynamic_ancestors))
 ```
 
+```text
 MinimalSpan : [SyntacticForm] → Span
+```
 
 ```text
 MinimalSpan(forms) = argmin_{f ∈ forms} |f.span|
 ```
 
 **(DynamicContext-Override)**
-```
+```text
 ClassProc(C, m) has [[dynamic]]    ClassImpl(T, C) has override m
 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ComputeDynamicContext(override.body.span, Ancestors(override)) = true
@@ -664,7 +759,7 @@ ComputeDynamicContext(override.body.span, Ancestors(override)) = true
 A class procedure's `[[dynamic]]` annotation propagates to implementations.
 
 **(DynamicContext-NoInherit-Call)**
-```
+```text
 CallExpr(f, args) at span s    f is [[dynamic]]    s ⊄ f.span
 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 ComputeDynamicContext(s, Ancestors(s)) does not consider f's [[dynamic]]
@@ -721,8 +816,6 @@ For `[[dynamic]]`, runtime synchronization or runtime verification MUST be inser
 #### 9.6.1 Syntax
 
 ```text
-```
-
 test_attribute      ::= "[[" "test" ("(" test_attribute_args ")")? "]]"
 test_attribute_args ::= test_attribute_arg ("," test_attribute_arg)*
 test_attribute_arg  ::= "name" ":" string_literal
@@ -735,9 +828,8 @@ test_attribute_arg  ::= "name" ":" string_literal
 
 ```text
 argument is represented as `⟨name, string_literal⟩`. Each `covers(...)` argument
-
-```text
 is represented as `⟨covers, [string_literal]⟩`.
+```
 
 #### 9.6.3 AST Representation / Form
 
@@ -791,16 +883,17 @@ authority, or cannot be invoked by the generated harness.
 
 ```text
 TestArg = ⊥ | s where s is the optional positional argument to `uv test`.
+```
 
 ```text
 HostPath(s) ⇔ ResolveHostPath(CurrentDirectory, s) ⇓ p ∧ exists(p)
+```
 
 ```text
 TestInput(⊥) = CurrentDirectory
-
-```text
 TestInput(s) = p  if HostPath(s) ∧ ResolveHostPath(CurrentDirectory, s) ⇓ p
 TestInput(s) = CurrentDirectory  if ¬ HostPath(s)
+```
 
 TestRoot(arg) = FindProjectRoot(TestInput(arg))
 
@@ -808,58 +901,75 @@ TestsPrefix(A) = A.name :: `Tests`
 
 ```text
 TestBearing(A) ⇔ ∃ m ∈ A.modules. Prefix(path(m), TestsPrefix(A))
-
-```text
 TestAssemblies(P) = [A ∈ P.assemblies | TestBearing(A)]
+```
 
 TestScope ::= AllTests | AssemblyTests(A) | ModuleTests(q) | SourceFileTests(f) | DirectoryTests(d)
 
 ```text
 ResolveTestTarget(P, ⊥) = AllTests
+```
+
 ResolveTestTarget(P, s) = SourceFileTests(p)
 
 ```text
   if HostPath(s) ∧ ResolveHostPath(CurrentDirectory, s) ⇓ p ∧ File(p)
+```
+
 ResolveTestTarget(P, s) = AllTests
 
 ```text
   if HostPath(s) ∧ ResolveHostPath(CurrentDirectory, s) ⇓ p ∧ Dir(p) ∧ p = P.root
+```
+
 ResolveTestTarget(P, s) = DirectoryTests(p)
 
 ```text
   if HostPath(s) ∧ ResolveHostPath(CurrentDirectory, s) ⇓ p ∧ Dir(p) ∧ p ≠ P.root
+```
+
 ResolveTestTarget(P, s) = AssemblyTests(A)
 
 ```text
   if ¬ HostPath(s) ∧ A ∈ P.assemblies ∧ A.name = s
+```
+
 ResolveTestTarget(P, s) = ModuleTests(q)
 
 ```text
   if ¬ HostPath(s) ∧ ParseModulePath(s) ⇓ q ∧ ∃ m ∈ ModuleList(P). path(m) = q
-
-```text
 ResolveTestTarget(P, s) ⇑ Code(Test-Target-Err) otherwise
+```
 
 SelectedTests(P, AllTests) =
 
 ```text
   [proc | A ∈ TestAssemblies(P), proc ∈ TestProceduresUnder(A, TestsPrefix(A))]
+```
+
 SelectedTests(P, AssemblyTests(A)) =
 
 ```text
   [proc | proc ∈ TestProceduresUnder(A, TestsPrefix(A))]
+```
+
 SelectedTests(P, ModuleTests(q)) =
 
 ```text
   [proc | proc ∈ TestProceduresUnder(OwnerAssembly(P, q), q)]
+```
+
 SelectedTests(P, SourceFileTests(f)) =
 
 ```text
   [proc | proc ∈ TestProceduresInFile(P, f) ∧ InTestsSubtree(P, proc)]
+```
+
 SelectedTests(P, DirectoryTests(d)) =
 
 ```text
   [proc | proc ∈ TestProceduresUnderDirectory(P, d) ∧ InTestsSubtree(P, proc)]
+```
 
 For each selected assembly A represented in SelectedTests(P, scope), `uv test`
 generates an ephemeral harness in A's build output directory, compiles

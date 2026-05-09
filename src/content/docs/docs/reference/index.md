@@ -7,6 +7,8 @@ Use the reference section when you need exact rules.
 
 ## Language reference
 
+- [Specification Reading Guide](/docs/reference/specification-reading-guide/)
+- [Documentation Audit](/docs/reference/documentation-audit/)
 - [Generated Specification](/docs/specification/)
 - [Grammar](/docs/specification/complete-grammar-reference/)
 - [Diagnostic Index](/docs/specification/diagnostic-index/)

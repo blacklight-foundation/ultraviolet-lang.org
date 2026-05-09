@@ -3,7 +3,7 @@ title: "Foreign Function Interface"
 description: "23. Foreign Function Interface of the Ultraviolet language specification."
 specSource: "../../Ultraviolet/SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T13:48:04.933Z"
+generatedAt: "2026-05-09T14:44:07.538Z"
 generated: true
 ---
 
@@ -18,6 +18,7 @@ generated: true
 
 ```text
 FFIBoundary(proc) ⇔ proc = ExternProcDecl(_, _, _, _, _, _, _, _, _, _, _) ∨ (proc = ProcedureDecl(_, _, _, _, _, _, _, _, _, _, _) ∧ (ExportAttr(proc) defined ∨ HostExportAttr(proc) defined))
+```
 
 ### 23.1 FfiSafe
 
@@ -43,123 +44,78 @@ FfiPrimTypes = {`i8`, `i16`, `i32`, `i64`, `i128`, `u8`, `u16`, `u32`, `u64`, `u
 
 ```text
 HasLayoutC(D) ⇔ `layout(C)` appears in D.attrs_opt
-
-```text
 PayloadTypes(v) = []    if v.payload_opt = ⊥
+```
+
 PayloadTypes(v) = ts    if v.payload_opt = TuplePayload(ts)
 
 ```text
 PayloadTypes(v) = [T_f | ⟨_, f, T_f, _, _, _⟩ ∈ fields]    if v.payload_opt = RecordPayload(fields)
+```
 
 TypeParamSet(params) = Set(TypeParamNames(params))
 
 ```text
 AliasParams(p) = gen_params_opt ⇔ Σ.Types[p] = TypeAliasDecl(_, _, _, gen_params_opt, _, _, _, _)
-
-```text
 AliasPredicateClause(p) = predicate_clause_opt ⇔ Σ.Types[p] = TypeAliasDecl(_, _, _, _, predicate_clause_opt, _, _, _)
+```
 
 ```text
 TypeSubst(θ, TypePath([x])) = θ(x)    if x ∈ dom(θ)
-
-```text
 TypeSubst(θ, TypePath(p)) = TypePath(p)    if p ≠ [x] ∨ x ∉ dom(θ)
-
-```text
 TypeSubst(θ, TypeApply(p, args)) = TypeApply(p, [TypeSubst(θ, a) | a ∈ args])
-
-```text
 TypeSubst(θ, TypePerm(p, T)) = TypePerm(p, TypeSubst(θ, T))
-
-```text
 TypeSubst(θ, TypeTuple(ts)) = TypeTuple([TypeSubst(θ, t) | t ∈ ts])
-
-```text
 TypeSubst(θ, TypeArray(T, e)) = TypeArray(TypeSubst(θ, T), e)
-
-```text
 TypeSubst(θ, TypeSlice(T)) = TypeSlice(TypeSubst(θ, T))
-
-```text
 TypeSubst(θ, TypeUnion(ts)) = TypeUnion([TypeSubst(θ, t) | t ∈ ts])
-
-```text
 TypeSubst(θ, TypeFunc(params, R)) = TypeFunc([⟨m, TypeSubst(θ, T)⟩ | ⟨m, T⟩ ∈ params], TypeSubst(θ, R))
-
-```text
 TypeSubst(θ, TypePtr(T, s)) = TypePtr(TypeSubst(θ, T), s)
-
-```text
 TypeSubst(θ, TypeRawPtr(q, T)) = TypeRawPtr(q, TypeSubst(θ, T))
-
-```text
 TypeSubst(θ, TypeString(s)) = TypeString(s)
-
-```text
 TypeSubst(θ, TypeBytes(s)) = TypeBytes(s)
-
-```text
 ModalRefSubst(θ, TypePath(p)) = TypePath(p)
-
-```text
 ModalRefSubst(θ, TypeApply(p, args)) = TypeApply(p, [TypeSubst(θ, a) | a ∈ args])
-
-```text
 TypeSubst(θ, TypeModalState(modal_ref, S)) = TypeModalState(ModalRefSubst(θ, modal_ref), S)
-
-```text
 TypeSubst(θ, TypeDynamic(p)) = TypeDynamic(p)
-
-```text
 TypeSubst(θ, TypeOpaque(p)) = TypeOpaque(p)
-
-```text
 TypeSubst(θ, TypePrim(n)) = TypePrim(n)
-
-```text
 TypeSubst(θ, TypeRange(base)) = TypeRange(TypeSubst(θ, base))
-
-```text
 TypeSubst(θ, TypeRangeInclusive(base)) = TypeRangeInclusive(TypeSubst(θ, base))
-
-```text
 TypeSubst(θ, TypeRangeFrom(base)) = TypeRangeFrom(TypeSubst(θ, base))
-
-```text
 TypeSubst(θ, TypeRangeTo(base)) = TypeRangeTo(TypeSubst(θ, base))
-
-```text
 TypeSubst(θ, TypeRangeToInclusive(base)) = TypeRangeToInclusive(TypeSubst(θ, base))
-
-```text
 TypeSubst(θ, TypeRangeFull) = TypeRangeFull
+```
 
 ```text
 TypeParamsIn(TypePath([x]), params) = {x}    if x ∈ TypeParamSet(params)
-
-```text
 TypeParamsIn(TypePath(p), params) = ∅        if p ≠ [x] ∨ x ∉ TypeParamSet(params)
-
-```text
 TypeParamsIn(TypeApply(_, args), params) = ⋃_{a ∈ args} TypeParamsIn(a, params)
+```
+
 TypeParamsIn(TypePerm(_, T), params) = TypeParamsIn(T, params)
 
 ```text
 TypeParamsIn(TypeTuple(ts), params) = ⋃_{t ∈ ts} TypeParamsIn(t, params)
+```
+
 TypeParamsIn(TypeArray(T, _), params) = TypeParamsIn(T, params)
 TypeParamsIn(TypeSlice(T), params) = TypeParamsIn(T, params)
 
 ```text
 TypeParamsIn(TypeUnion(ts), params) = ⋃_{t ∈ ts} TypeParamsIn(t, params)
-
-```text
 TypeParamsIn(TypeFunc(params_t, R), params) = ⋃_{⟨_, T⟩ ∈ params_t} TypeParamsIn(T, params) ∪ TypeParamsIn(R, params)
+```
+
 TypeParamsIn(TypePtr(T, _), params) = TypeParamsIn(T, params)
 TypeParamsIn(TypeRawPtr(_, T), params) = TypeParamsIn(T, params)
 TypeParamsInModalRef(TypePath(_), params) = ∅
 
 ```text
 TypeParamsInModalRef(TypeApply(_, args), params) = ⋃_{a ∈ args} TypeParamsIn(a, params)
+```
+
 TypeParamsIn(TypeModalState(modal_ref, _), params) = TypeParamsInModalRef(modal_ref, params)
 TypeParamsIn(TypeString(_), params) = ∅
 TypeParamsIn(TypeBytes(_), params) = ∅
@@ -176,15 +132,13 @@ TypeParamsIn(TypeRangeFull, params) = ∅
 
 ```text
 TypeParamsInFields(fields, params) = ⋃_{f ∈ fields} TypeParamsIn(f.type, params)
-
-```text
 TypeParamsInPayloads(vars, params) = ⋃_{v ∈ vars} ⋃_{T_f ∈ PayloadTypes(v)} TypeParamsIn(T_f, params)
+```
 
 ```text
 HasFfiSafeReq(W, x) ⇔ ∃ wp ∈ PredicateReqs(W). wp = PredicateReq(`FfiSafe`, TypePath([x]))
-
-```text
 FfiSafePredicateClauseOk(params, W, Xs) ⇔ ∀ x ∈ Xs. HasFfiSafeReq(W, x)
+```
 
 ```text
 ProhibitedFfiType(T) ⇔
@@ -205,25 +159,27 @@ ProhibitedFfiType(T) ⇔
  T = TypeRangeTo(_) ∨
  T = TypeRangeToInclusive(_) ∨
  T = TypeRangeFull ∨
+```
+
  T = TypePath(["Context"])
 
 ```text
 FfiByValueType(T) ⇔ StripPerm(T) ∉ {TypeRawPtr(_, _), TypePtr(_, _), TypeFunc(_, _)} ∧ StripPerm(T) ≠ TypePrim("()")
-
-```text
 FfiPassByValueAttr(T) ⇔ (T = TypePath(p) ∧ RecordDecl(p) = R ∧ AttrByName(R, "ffi_pass_by_value") ≠ []) ∨ (T = TypePath(p) ∧ EnumDecl(p) = E ∧ AttrByName(E, "ffi_pass_by_value") ≠ [])
-
-```text
 FfiByValueOk(T) ⇔ ¬(DropType(T) ∧ FfiSafeType(T) ⇓ ok ∧ FfiByValueType(T)) ∨ FfiPassByValueAttr(StripPerm(T))
+```
 
 **(FfiSafe-Prim)**
 
 ```text
 T = TypePrim(t)    t ∈ FfiPrimTypes
+```
+
 ──────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇓ ok
+```
 
 **(FfiSafe-RawPtr)**
 T = TypeRawPtr(_, _)
@@ -231,87 +187,115 @@ T = TypeRawPtr(_, _)
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇓ ok
+```
 
 **(FfiSafe-Array)**
 
 ```text
 T = TypeArray(U, n)    Γ ⊢ ConstLen(n) ⇓ _    Γ ⊢ FfiSafeType(U) ⇓ ok
+```
+
 ────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇓ ok
+```
 
 **(FfiSafe-Func)**
 
 ```text
 T = TypeFunc(params, R)    ∀ ⟨_, T_i⟩ ∈ params. Γ ⊢ FfiSafeType(T_i) ⇓ ok    Γ ⊢ FfiSafeType(R) ⇓ ok
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇓ ok
+```
 
 **(FfiSafe-Perm)**
 
 ```text
 T = TypePerm(_, U)    Γ ⊢ FfiSafeType(U) ⇓ ok
+```
+
 ──────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇓ ok
+```
 
 **(FfiSafe-Alias)**
 
 ```text
 T = TypePath(p)    AliasBody(p) = ty    Γ ⊢ FfiSafeType(ty) ⇓ ok
+```
+
 ────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇓ ok
+```
 
 **(FfiSafe-Alias-Apply)**
 
 ```text
 T = TypeApply(p, args)    AliasBody(p) = ty    params_gen = TypeParamsOpt(AliasParams(p))    DefaultArgs(params_gen, args) = args'    θ = [args'_i / params_gen[i].name]    Γ ⊢ AliasPredicateClause(p)[θ] ok    Γ ⊢ FfiSafeType(TypeSubst(θ, ty)) ⇓ ok
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇓ ok
+```
 
 **(FfiSafe-Record)**
 
 ```text
 T = TypePath(p)    RecordDecl(p) = R    HasLayoutC(R)    TypeParamsOpt(R.gen_params_opt) = []    Γ ⊢ layout(T) ⇓ _    ∀ f : T_f ∈ Fields(R). Γ ⊢ FfiSafeType(T_f) ⇓ ok    FfiSafePredicateClauseOk([], R.predicate_clause_opt, ∅)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇓ ok
+```
 
 **(FfiSafe-Record-Apply)**
 
 ```text
 T = TypeApply(p, args)    RecordDecl(p) = R    params_gen = TypeParamsOpt(R.gen_params_opt)    DefaultArgs(params_gen, args) = args'    θ = [args'_i / params_gen[i].name]    HasLayoutC(R)    Γ ⊢ layout(T) ⇓ _    Γ ⊢ R.predicate_clause_opt[θ] ok    FfiSafePredicateClauseOk(params_gen, R.predicate_clause_opt, TypeParamsInFields(Fields(R), params_gen))    ∀ f : T_f ∈ Fields(R). Γ ⊢ FfiSafeType(TypeSubst(θ, T_f)) ⇓ ok
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇓ ok
+```
 
 **(FfiSafe-Enum)**
 
 ```text
 T = TypePath(p)    EnumDecl(p) = E    HasLayoutC(E)    TypeParamsOpt(E.gen_params_opt) = []    Γ ⊢ layout(T) ⇓ _    ∀ v ∈ Variants(E). ∀ T_f ∈ PayloadTypes(v). Γ ⊢ FfiSafeType(T_f) ⇓ ok    FfiSafePredicateClauseOk([], E.predicate_clause_opt, ∅)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇓ ok
+```
 
 **(FfiSafe-Enum-Apply)**
 
 ```text
 T = TypeApply(p, args)    EnumDecl(p) = E    params_gen = TypeParamsOpt(E.gen_params_opt)    DefaultArgs(params_gen, args) = args'    θ = [args'_i / params_gen[i].name]    HasLayoutC(E)    Γ ⊢ layout(T) ⇓ _    Γ ⊢ E.predicate_clause_opt[θ] ok    FfiSafePredicateClauseOk(params_gen, E.predicate_clause_opt, TypeParamsInPayloads(Variants(E), params_gen))    ∀ v ∈ Variants(E). ∀ T_f ∈ PayloadTypes(v). Γ ⊢ FfiSafeType(TypeSubst(θ, T_f)) ⇓ ok
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇓ ok
+```
 
 **(FfiSafe-Prohibited-Err)**
 ProhibitedFfiType(T)    c = Code(FfiSafe-Prohibited-Err)
@@ -319,101 +303,139 @@ ProhibitedFfiType(T)    c = Code(FfiSafe-Prohibited-Err)
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇑ c
+```
 
 **(FfiSafe-Record-LayoutC-Err)**
+
+```text
 (T = TypePath(p) ∨ T = TypeApply(p, _))    RecordDecl(p) = R    ¬ HasLayoutC(R)    c = Code(FfiSafe-Record-LayoutC-Err)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇑ c
+```
 
 **(FfiSafe-Enum-LayoutC-Err)**
+
+```text
 (T = TypePath(p) ∨ T = TypeApply(p, _))    EnumDecl(p) = E    ¬ HasLayoutC(E)    c = Code(FfiSafe-Enum-LayoutC-Err)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇑ c
+```
 
 **(FfiSafe-Record-Field-Err)**
 
 ```text
 T = TypePath(p)    RecordDecl(p) = R    HasLayoutC(R)    ∃ f : T_f ∈ Fields(R). Γ ⊢ FfiSafeType(T_f) ⇑    c = Code(FfiSafe-Record-Field-Err)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇑ c
+```
 
 **(FfiSafe-Record-Field-Apply-Err)**
 
 ```text
 T = TypeApply(p, args)    RecordDecl(p) = R    params_gen = TypeParamsOpt(R.gen_params_opt)    DefaultArgs(params_gen, args) = args'    θ = [args'_i / params_gen[i].name]    HasLayoutC(R)    ∃ f : T_f ∈ Fields(R). Γ ⊢ FfiSafeType(TypeSubst(θ, T_f)) ⇑    c = Code(FfiSafe-Record-Field-Err)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇑ c
+```
 
 **(FfiSafe-Enum-Field-Err)**
 
 ```text
 T = TypePath(p)    EnumDecl(p) = E    HasLayoutC(E)    ∃ v ∈ Variants(E). ∃ T_f ∈ PayloadTypes(v). Γ ⊢ FfiSafeType(T_f) ⇑    c = Code(FfiSafe-Enum-Field-Err)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇑ c
+```
 
 **(FfiSafe-Enum-Field-Apply-Err)**
 
 ```text
 T = TypeApply(p, args)    EnumDecl(p) = E    params_gen = TypeParamsOpt(E.gen_params_opt)    DefaultArgs(params_gen, args) = args'    θ = [args'_i / params_gen[i].name]    HasLayoutC(E)    ∃ v ∈ Variants(E). ∃ T_f ∈ PayloadTypes(v). Γ ⊢ FfiSafeType(TypeSubst(θ, T_f)) ⇑    c = Code(FfiSafe-Enum-Field-Err)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇑ c
+```
 
 **(FfiSafe-Incomplete-Err)**
 
 ```text
 (T = TypePath(p) ∨ T = TypeApply(p, _))    (RecordDecl(p) = R ∨ EnumDecl(p) = E)    ¬ ∃ τ. Γ ⊢ layout(T) ⇓ τ    c = Code(FfiSafe-Incomplete-Err)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇑ c
+```
 
 **(FfiSafe-Record-Generic-Unbounded-Err)**
 
 ```text
 T = TypePath(p)    RecordDecl(p) = R    params_gen = TypeParamsOpt(R.gen_params_opt)    params_gen ≠ []    ¬ FfiSafePredicateClauseOk(params_gen, R.predicate_clause_opt, TypeParamsInFields(Fields(R), params_gen))    c = Code(FfiSafe-Generic-Unbounded-Err)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇑ c
+```
 
 **(FfiSafe-Enum-Generic-Unbounded-Err)**
 
 ```text
 T = TypePath(p)    EnumDecl(p) = E    params_gen = TypeParamsOpt(E.gen_params_opt)    params_gen ≠ []    ¬ FfiSafePredicateClauseOk(params_gen, E.predicate_clause_opt, TypeParamsInPayloads(Variants(E), params_gen))    c = Code(FfiSafe-Generic-Unbounded-Err)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇑ c
+```
 
 **(FfiSafe-Record-Apply-Generic-Unbounded-Err)**
 
 ```text
 T = TypeApply(p, args)    RecordDecl(p) = R    params_gen = TypeParamsOpt(R.gen_params_opt)    params_gen ≠ []    ¬ FfiSafePredicateClauseOk(params_gen, R.predicate_clause_opt, TypeParamsInFields(Fields(R), params_gen))    c = Code(FfiSafe-Generic-Unbounded-Err)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇑ c
+```
 
 **(FfiSafe-Enum-Apply-Generic-Unbounded-Err)**
 
 ```text
 T = TypeApply(p, args)    EnumDecl(p) = E    params_gen = TypeParamsOpt(E.gen_params_opt)    params_gen ≠ []    ¬ FfiSafePredicateClauseOk(params_gen, E.predicate_clause_opt, TypeParamsInPayloads(Variants(E), params_gen))    c = Code(FfiSafe-Generic-Unbounded-Err)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ FfiSafeType(T) ⇑ c
+```
 
 **Prohibited Categories**
 
@@ -461,8 +483,6 @@ This section introduces no additional runtime mechanism. Dynamic boundary behavi
 #### 23.2.1 Syntax
 
 ```text
-```
-
 extern_procedure_decl ::= attribute_list? visibility? "procedure" identifier generic_params? signature predicate_clause? contract_clause? foreign_contract_clause_list? terminator
 ```
 
@@ -472,10 +492,13 @@ extern_procedure_decl ::= attribute_list? visibility? "procedure" identifier gen
 
 ```text
 Γ ⊢ ParseAttrListOpt(P) ⇓ (P_0, attrs_opt)    Γ ⊢ ParseVis(P_0) ⇓ (P_1, vis)    IsKw(Tok(P_1), `procedure`)    Γ ⊢ ParseIdent(Advance(P_1)) ⇓ (P_2, name)    Γ ⊢ ParseGenericParamsOpt(P_2) ⇓ (P_3, gen_params_opt)    Γ ⊢ ParseSignature(P_3) ⇓ (P_4, params, ret_opt)    Γ ⊢ ParsePredicateClauseOpt(P_4) ⇓ (P_5, predicate_clause_opt)    Γ ⊢ ParseContractClauseOpt(P_5) ⇓ (P_6, contract_opt)    Γ ⊢ ParseForeignContractClauseListOpt(P_6) ⇓ (P_7, foreign_contracts_opt)    Γ ⊢ ConsumeTerminatorReq(P_7) ⇓ P_8
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseExternProcDecl(P) ⇓ (P_8, ExternProcDecl(attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, params, ret_opt, contract_opt, foreign_contracts_opt, SpanBetween(P, P_8), []))
+```
 
 #### 23.2.3 AST Representation / Form
 
@@ -505,37 +528,27 @@ AbiProfileOk("system", profile)
 
 ```text
 AbiProfileOk("stdcall", profile) ⇔ profile = `x86_64-win64`
-
-```text
 AbiProfileOk("fastcall", profile) ⇔ profile = `x86_64-win64`
-
-```text
 AbiProfileOk("vectorcall", profile) ⇔ profile = `x86_64-win64`
-
-```text
 ExternAbiOk(abi_opt) ⇔ ExternAbiName(abi_opt) ∈ ExternAbiSet ∧ AbiProfileOk(ExternAbiName(abi_opt), SelectedTargetProfile)
+```
 
 **Signature Requirements**
 
 ```text
 ExternParamTypes(params) = [T_i | ⟨_, _, T_i⟩ ∈ params]
-
-```text
 ExternSigOk(params, ret_opt) ⇔
  R = ProcReturn(ret_opt) ∧
-
-```text
  (R = TypePrim("()") ∨ Γ ⊢ FfiSafeType(R) ⇓ ok) ∧
-
-```text
  (∀ T ∈ ExternParamTypes(params). Γ ⊢ FfiSafeType(T) ⇓ ok) ∧
-
-```text
  (∀ T ∈ ExternParamTypes(params). FfiByValueOk(T)) ∧
+```
+
  FfiByValueOk(R)
 
 ```text
 SparseFuncType(T) ⇔ T = TypeFunc(_, _)
+```
 
 **FFI Constraints**
 
@@ -592,23 +605,26 @@ ZeroBits(T) = [0x00, …, 0x00] where |ZeroBits(T)| = sizeof(T)
 
 ```text
 ZeroValue(T) = v ⇔ ValueBits(T, v) = ZeroBits(T) ∧ ∀ v'. (ValueBits(T, v') = ZeroBits(T) ⇒ v' = v)
-
-```text
 ZeroableType(T) ⇔ ∃ v. ZeroValue(T) = v
+```
 
 ExportSigJudg = {ExportSigOk}
 
 ```text
 ExportParamTypes(params) = [T_i | ⟨_, _, T_i⟩ ∈ params]
+```
 
 **(ExportSig-Ok)**
 
 ```text
 proc = ProcedureDecl(_, vis, _, _, _, params, ret_opt, _, _, _, _)    vis = `public`    ExportAttr(proc) = ⟨abi, _⟩    abi ∈ ExternAbiSet    AbiProfileOk(abi, SelectedTargetProfile)    R = ProcReturn(ret_opt)    (R = TypePrim("()") ∨ Γ ⊢ FfiSafeType(R) ⇓ ok)    (∀ T ∈ ExportParamTypes(params). Γ ⊢ FfiSafeType(T) ⇓ ok)    (∀ T ∈ ExportParamTypes(params). FfiByValueOk(T))    FfiByValueOk(R)    (UnwindMode(proc) ≠ `catch` ∨ ZeroableType(R))
+```
+
 ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ExportSigOk(proc) ⇓ ok
+```
 
 #### 23.3.5 Dynamic Semantics
 
@@ -616,9 +632,11 @@ Execution of the body follows ordinary procedure semantics. Boundary panic handl
 
 ```text
 For a raw exported procedure `proc` owned by a project `P` satisfying `RawExportLibrary(P)`, a boundary call occurs only through one live loaded library image `i` owned by `P`. Before the first raw export call through a newly loaded image, the implementation MUST establish that image by `LibraryImageInitSigma(P, i, σ)` as defined in §24.4.4. Later raw export calls through the same live image MUST reuse the same image-owned static state, poison flags, and boundary panic record until unload. On unload of that live image, the implementation MUST execute `LibraryImageDestroySigma(P, i, σ)` exactly once. User-procedure execution within that live image is governed by `RawLibraryCallSigma(P, i, proc, vs, σ)` in §24.4.4.
+```
 
 ```text
 For any shared library project `P`, an ordinary Ultraviolet call that crosses a shared-library link boundary into one externally linked procedure owned by `P` likewise occurs only through one live loaded library image `i` owned by `P`. Before the first such linked call through a newly loaded image, the implementation MUST establish that image by `LibraryImageInitSigma(P, i, σ)` as defined in §24.4.4. Later linked calls through the same live image MUST reuse the same image-owned static state, poison flags, and boundary panic record until unload. On unload of that live image, the implementation MUST execute `LibraryImageDestroySigma(P, i, σ)` exactly once. User-procedure execution for that linked call continues to follow ordinary `ApplyProcSigma` under the image-state interpretation defined by §24.4.4.
+```
 
 #### 23.3.6 Lowering
 
@@ -649,46 +667,25 @@ Hosted exports are represented by ordinary `ProcedureDecl(...)` items with `Host
 
 ```text
 HostExported(proc) ⇔ proc = ProcedureDecl(_, _, _, _, _, _, _, _, _, _, _) ∧ HostExportAttr(proc) defined
-
-```text
 HostContextParam(proc) = ⟨mode, name, T_ctx⟩ ⇔ proc = ProcedureDecl(_, _, _, _, _, [⟨mode, name, T_ctx⟩] ++ _, _, _, _, _, _)
-
-```text
 HostVisibleParams(proc) = params_vis ⇔ proc = ProcedureDecl(_, _, _, _, _, [ctx_param] ++ params_vis, _, _, _, _, _)
-
-```text
 HostVisibleParamTypes(proc) = [T_i | ⟨_, _, T_i⟩ ∈ params_vis] ⇔ HostVisibleParams(proc) = params_vis
-
-```text
 HostExports(P) = [d | m ∈ P.modules, d ∈ ASTModule(P, m).items, HostExported(d)]
-
-```text
 RawExports(P) = [d | m ∈ P.modules, d ∈ ASTModule(P, m).items, d = ProcedureDecl(_, _, _, _, _, _, _, _, _, _, _) ∧ ExportAttr(d) defined]
-
-```text
 HostedLibrary(P) ⇔ Library(P) ∧ HostExports(P) ≠ []
-
-```text
 MixedForeignExportModes(P) ⇔ HostedLibrary(P) ∧ RawExports(P) ≠ []
-
-```text
 HostedRootCaps(P) = ⋃{CapInType(StripPerm(T_ctx)) | d ∈ HostExports(P) ∧ HostContextParam(d) = ⟨_, _, T_ctx⟩}
-
-```text
 HostedContextBundleType(T) ⇔ ContextBundleType(T) ∧ AliasNorm(T) ≠ TypePath(["Context"])
+```
+
 HostAbiVersion = 1
 
 ```text
 HostSessionAbiParam = ⟨`move`, `__ultraviolet_session`, TypePrim("usize")⟩
-
-```text
 HostThunkParams(proc) = [HostSessionAbiParam] ++ params_vis ⇔ HostVisibleParams(proc) = params_vis
-
-```text
 HostThunkForeignParamTypes(proc) = [TypePrim("usize")] ++ [T_i | ⟨_, _, T_i⟩ ∈ params_vis] ⇔ HostVisibleParams(proc) = params_vis
-
-```text
 HostThunkSig(proc) = ⟨HostThunkParams(proc), ProcReturn(ret_opt)⟩ ⇔ proc = ProcedureDecl(_, _, _, _, _, _, ret_opt, _, _, _, _)
+```
 
 `HostedRootCaps(P)` is the maximal capability set that may become visible to Ultraviolet user code through hosted exports of `P`.
 
@@ -700,6 +697,7 @@ HostThunkSig(proc) = ⟨HostThunkParams(proc), ProcReturn(ret_opt)⟩ ⇔ proc =
 
 ```text
 For each visible source parameter `⟨mode_i, _, T_i⟩`, the foreign-visible pass kind MUST be derived by `ForeignABIParam(T_i)` (§24.2.5), independent of source parameter mode.
+```
 
 HostExportSigJudg = {HostExportSigOk}
 
@@ -707,64 +705,85 @@ HostExportSigJudg = {HostExportSigOk}
 
 ```text
 Project(Γ) = P    proc = ProcedureDecl(_, vis, _, gen_params_opt, _, params, ret_opt, _, _, _, _)    vis = `public`    HostExportAttr(proc) = ⟨abi, _⟩    TypeParamsOpt(gen_params_opt) = []    ¬ MixedForeignExportModes(P)    Library(P)    params = [⟨⊥, _, T_ctx⟩] ++ params_vis    HostedContextBundleType(StripPerm(T_ctx))    abi ∈ ExternAbiSet    AbiProfileOk(abi, SelectedTargetProfile)    R = ProcReturn(ret_opt)    (R = TypePrim("()") ∨ Γ ⊢ FfiSafeType(R) ⇓ ok)    (∀ T ∈ HostVisibleParamTypes(proc). Γ ⊢ FfiSafeType(T) ⇓ ok)    (∀ T ∈ HostVisibleParamTypes(proc). CapInType(T) = ∅)    CapInType(R) = ∅    (∀ T ∈ HostVisibleParamTypes(proc). FfiByValueOk(T))    FfiByValueOk(R)    (UnwindMode(proc) ≠ `catch` ∨ ZeroableType(R))
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ HostExportSigOk(proc) ⇓ ok
+```
 
 **(HostExport-Library-Err)**
 
 ```text
 Project(Γ) = P    HostExported(proc)    ¬ Library(P)    c = Code(HostExport-Library-Err)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ HostExportSigOk(proc) ⇑ c
+```
 
 **(HostExport-MixedMode-Err)**
 
 ```text
 Project(Γ) = P    HostExported(proc)    MixedForeignExportModes(P)    c = Code(HostExport-MixedMode-Err)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ HostExportSigOk(proc) ⇑ c
+```
 
 **(HostExport-Generic-Err)**
 
 ```text
 proc = ProcedureDecl(_, _, _, gen_params_opt, _, _, _, _, _, _, _)    HostExportAttr(proc) = ⟨_, _⟩    TypeParamsOpt(gen_params_opt) ≠ []    c = Code(HostExport-Generic-Err)
+```
+
 ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ HostExportSigOk(proc) ⇑ c
+```
 
 **(HostExport-Context-Err)**
 
 ```text
 proc = ProcedureDecl(_, _, _, _, _, params, _, _, _, _, _)    HostExportAttr(proc) = ⟨_, _⟩    (params = [] ∨ (params = [⟨mode, _, T_ctx⟩] ++ _ ∧ ¬ ContextBundleType(StripPerm(T_ctx))))    c = Code(HostExport-Context-Err)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ HostExportSigOk(proc) ⇑ c
+```
 
 **(HostExport-Context-Raw-Err)**
 
 ```text
 proc = ProcedureDecl(_, _, _, _, _, [⟨mode, _, T_ctx⟩] ++ _, _, _, _, _, _)    HostExportAttr(proc) = ⟨_, _⟩    AliasNorm(StripPerm(T_ctx)) = TypePath(["Context"])    c = Code(HostExport-Context-Raw-Err)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ HostExportSigOk(proc) ⇑ c
+```
 
 **(HostExport-Context-Move-Err)**
 
 ```text
 proc = ProcedureDecl(_, _, _, _, _, [⟨`move`, _, T_ctx⟩] ++ _, _, _, _, _, _)    HostExportAttr(proc) = ⟨_, _⟩    ContextBundleType(StripPerm(T_ctx))    c = Code(HostExport-Context-Move-Err)
+```
+
 ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ HostExportSigOk(proc) ⇑ c
+```
 
 #### 23.3.12 Dynamic Semantics
 
@@ -795,6 +814,7 @@ Hosted-export lowering MUST preserve the raw-FFI rules of §§23.1–23.5 for th
 
 ```text
 For a hosted export `proc` with `HostExportAttr(proc) = ⟨abi, _⟩` and `HostThunkSig(proc) = ⟨params_thunk, R⟩`, the foreign-visible thunk ABI is determined exactly as follows:
+```
 
 1. `Γ ⊢ ForeignABICall(HostThunkForeignParamTypes(proc), R) ⇓ ⟨[k_1, …, k_n], k_r, sretSigma⟩` determines the complete foreign by-value/by-reference parameter classification and indirect-return decision.
 2. `ConventionLayout(SelectedTargetProfile, AbiToConvention(abi))` determines the calling-convention layout used by the thunk.
@@ -807,27 +827,15 @@ HostThunkRetCarrierJudg = {HostThunkRetCarrier}
 ```text
 HostThunkParamShape(proc) = [⟨k_i, c_i, τ_i⟩] ⇔
   HostThunkForeignParamTypes(proc) = [T_i] ∧
-
-```text
   HostThunkSig(proc) = ⟨_, R⟩ ∧
-
-```text
   Γ ⊢ ForeignABICall([T_i], R) ⇓ ⟨[k_i], k_r, sretSigma_base⟩ ∧
-
-```text
   ∀ i. Γ ⊢ HostThunkParamCarrier(SelectedTargetProfile, k_i, T_i) ⇓ ⟨c_i, τ_i⟩
-
-```text
 HostThunkRetShape(proc) = ⟨k_r, c_r, τ_r, sretSigma⟩ ⇔
-
-```text
   HostThunkSig(proc) = ⟨_, R⟩ ∧
-
-```text
   Γ ⊢ ForeignABICall(HostThunkForeignParamTypes(proc), R) ⇓ ⟨[k_i], k_r, sretSigma_base⟩ ∧
-
-```text
   Γ ⊢ HostThunkRetCarrier(SelectedTargetProfile, k_r, R, sretSigma_base) ⇓ ⟨c_r, τ_r, sretSigma⟩
+```
+
 IntLane(1) = `i8`
 IntLane(2) = `i16`
 IntLane(4) = `i32`
@@ -835,6 +843,7 @@ IntLane(8) = `i64`
 
 ```text
 AggLLVM(T) ⇔ ∃ τ. Γ ⊢ LLVMTy(T) ⇓ τ ∧ (τ is `struct` ∨ τ is `array`)
+```
 
 **(HostThunkParamCarrier-ByRef)**
 k = `ByRef`
@@ -842,60 +851,79 @@ k = `ByRef`
 
 ```text
 Γ ⊢ HostThunkParamCarrier(profile, k, T) ⇓ ⟨`Direct`, LLVMPtrTy(TypePtr(TypePerm(`const`, T), `Valid`))⟩
+```
 
 **(HostThunkParamCarrier-ByValue-Default)**
 
 ```text
 k = `ByValue`    ¬(profile = `x86_64-win64` ∧ AggLLVM(T))    Γ ⊢ LLVMTy(T) ⇓ τ
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ HostThunkParamCarrier(profile, k, T) ⇓ ⟨`Direct`, τ⟩
+```
 
 **(HostThunkParamCarrier-Win64-DirectAgg)**
 
 ```text
 profile = `x86_64-win64`    k = `ByValue`    AggLLVM(T)    Γ ⊢ sizeof(T) = n    n ∈ {1, 2, 4, 8}
+```
+
 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ HostThunkParamCarrier(profile, k, T) ⇓ ⟨`Direct`, IntLane(n)⟩
+```
 
 **(HostThunkParamCarrier-Win64-IndirectAgg)**
 
 ```text
 profile = `x86_64-win64`    k = `ByValue`    AggLLVM(T)    Γ ⊢ sizeof(T) = n    n > 0    n ∉ {1, 2, 4, 8}
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ HostThunkParamCarrier(profile, k, T) ⇓ ⟨`Indirect`, LLVMPtrTy(TypePtr(TypePerm(`const`, T), `Valid`))⟩
+```
 
 **(HostThunkRetCarrier-Default)**
 
 ```text
 profile ≠ `x86_64-win64` ∨ ¬(k_r = `ByValue` ∧ AggLLVM(R))    Γ ⊢ LLVMRetLower(R, k_r) ⇓ τ_r
+```
+
 ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ HostThunkRetCarrier(profile, k_r, R, sretSigma_base) ⇓ ⟨`Direct`, τ_r, sretSigma_base⟩
+```
 
 **(HostThunkRetCarrier-Win64-DirectAgg)**
 
 ```text
 profile = `x86_64-win64`    k_r = `ByValue`    AggLLVM(R)    Γ ⊢ sizeof(R) = n    n ∈ {1, 2, 4, 8}
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ HostThunkRetCarrier(profile, k_r, R, sretSigma_base) ⇓ ⟨`Direct`, IntLane(n), false⟩
+```
 
 **(HostThunkRetCarrier-Win64-SRetAgg)**
 
 ```text
 profile = `x86_64-win64`    k_r = `ByValue`    AggLLVM(R)    Γ ⊢ sizeof(R) = n    n > 0    n ∉ {1, 2, 4, 8}
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ HostThunkRetCarrier(profile, k_r, R, sretSigma_base) ⇓ ⟨`Indirect`, `void`, true⟩
+```
 
 For hosted-export thunk lowering, a conforming implementation MUST use `HostThunkParamShape(proc)` and `HostThunkRetShape(proc)` as the foreign ABI shape.
 
@@ -907,9 +935,11 @@ Hosted thunk foreign parameter classification MUST be mode-independent. Pointer-
 
 ```text
 When `ForeignABIParam(T_i) ≠ ABIParam(mode_i, T_i)`, thunk-to-source call reconstruction MUST preserve source semantics by materializing one temporary storage cell of type `T_i`, storing the incoming foreign value into that cell, and passing that temporary according to `ABIParam(mode_i, T_i)` to the source procedure body.
+```
 
 ```text
 For hosted-library thunk and body emission, loads and stores of `HostedStateSym(Project(Γ), sym)` MUST resolve by full symbol identity `sym` (including cross-module references) and session context, not by module-local global-declaration presence. When `HostedStateSym(Project(Γ), sym)` holds, a conforming implementation MUST NOT substitute `ZeroValue` or any other default value in place of a failed symbol materialization.
+```
 
 For every hosted library, a conforming implementation MUST emit foreign-callable lifecycle exports with the following names and ABIs:
 
@@ -932,6 +962,7 @@ For every hosted export `proc`, a conforming implementation MUST emit one foreig
 
 ```text
 These hosted-export thunks are backend-generated boundary declarations. They are not the same declarations as the user-authored source procedures. A conforming backend MUST emit exactly one hosted-export thunk per `proc ∈ HostExports(P)` in the linked image of `P`, and that thunk MUST use `HostThunkLinkName(proc)` as its foreign symbol while calls from Ultraviolet code continue to target the source procedure body symbol `Mangle(proc)`. A conforming implementation MUST NOT expose `Mangle(proc)` itself as the hosted foreign entrypoint for `proc`; foreign code enters only through the generated thunk.
+```
 
 #### 23.3.14 Diagnostics
 
@@ -950,8 +981,6 @@ Type-admissibility failures in `FfiSafeType` and by-value FFI use for hosted-exp
 #### 23.4.1 Syntax
 
 ```text
-```
-
 mangle_attribute            ::= "[[" "mangle" "(" mangle_mode ")" "]]"
 mangle_mode                 ::= "none" | string_literal
 
@@ -1012,8 +1041,6 @@ FFI attributes are ordinary attribute-list entries attached to their owning decl
 5. Library resolution is:
 
 ```text
-```
-
 ResolveLibraryName(`dylib`, name, `x86_64-sysv`) = "lib" ++ name ++ ".so"
 ResolveLibraryName(`dylib`, name, `aarch64-aapcs64`) = "lib" ++ name ++ ".so"
 ResolveLibraryName(`dylib`, name, `x86_64-win64`) = name ++ ".dll"
@@ -1183,8 +1210,6 @@ Capability-bearing-type violations other than region-local raw-pointer escape ar
 #### 23.6.1 Syntax
 
 ```text
-```
-
 ffi_verification_attr    ::= "[[" ffi_verification_mode "]]"
 ffi_verification_mode    ::= "static" | "dynamic"
 
@@ -1200,65 +1225,91 @@ ensures_predicate        ::= predicate_expr
 
 ```text
 ForeignContractStart(P) ⇔ IsOp(Tok(P), "|:") ∧ IsOp(Tok(Advance(P)), "@") ∧ IsIdent(Tok(Advance(Advance(P)))) ∧ Lexeme(Tok(Advance(Advance(P)))) ∈ {`foreign_assumes`, `foreign_ensures`}
+```
 
 **(Parse-ForeignContractClauseListOpt-None)**
+
+```text
 ¬ ForeignContractStart(P)
+```
+
 ──────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseForeignContractClauseListOpt(P) ⇓ (P, ⊥)
+```
 
 **(Parse-ForeignContractClauseListOpt-Yes)**
 
 ```text
 ForeignContractStart(P)    Γ ⊢ ParseForeignContractClauseList(P) ⇓ (P_1, clauses)
+```
+
 ────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseForeignContractClauseListOpt(P) ⇓ (P_1, clauses)
+```
 
 **(Parse-ForeignContractClauseList-Cons)**
 
 ```text
 Γ ⊢ ParseForeignContractClause(P) ⇓ (P_1, clause)    Γ ⊢ ParseForeignContractClauseListTail(P_1, [clause]) ⇓ (P_2, clauses)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseForeignContractClauseList(P) ⇓ (P_2, clauses)
+```
 
 **(Parse-ForeignContractClauseListTail-End)**
+
+```text
 ¬ ForeignContractStart(P)
+```
+
 ──────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseForeignContractClauseListTail(P, xs) ⇓ (P, xs)
+```
 
 **(Parse-ForeignContractClauseListTail-Cons)**
 
 ```text
 ForeignContractStart(P)    Γ ⊢ ParseForeignContractClause(P) ⇓ (P_1, clause)    Γ ⊢ ParseForeignContractClauseListTail(P_1, xs ++ [clause]) ⇓ (P_2, ys)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseForeignContractClauseListTail(P, xs) ⇓ (P_2, ys)
+```
 
 **(Parse-ForeignContractClause-Assumes)**
 
 ```text
 IsOp(Tok(P), "|:")    IsOp(Tok(Advance(P)), "@")    IsIdent(Tok(Advance(Advance(P))))    Lexeme(Tok(Advance(Advance(P)))) = `foreign_assumes`    IsPunc(Tok(Advance(Advance(Advance(P)))), "(")    Γ ⊢ ParsePredicateExpr(Advance(Advance(Advance(Advance(P))))) ⇓ (P_1, pred)    IsPunc(Tok(P_1), ")")
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseForeignContractClause(P) ⇓ (Advance(P_1), ForeignContractClause(ForeignAssumes, [pred]))
+```
 
 **(Parse-ForeignContractClause-Ensures)**
 
 ```text
 IsOp(Tok(P), "|:")    IsOp(Tok(Advance(P)), "@")    IsIdent(Tok(Advance(Advance(P))))    Lexeme(Tok(Advance(Advance(P)))) = `foreign_ensures`    IsPunc(Tok(Advance(Advance(Advance(P)))), "(")    Γ ⊢ ParseEnsuresPredicate(Advance(Advance(Advance(Advance(P))))) ⇓ (P_1, epred)    IsPunc(Tok(P_1), ")")
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseForeignContractClause(P) ⇓ (Advance(P_1), ForeignContractClause(ForeignEnsuresKind(epred), [ForeignEnsuresExpr(epred)]))
+```
 
 ForeignEnsuresKind(Ensures(pred)) = ForeignEnsures
 ForeignEnsuresKind(EnsuresError(pred)) = ForeignEnsuresError
@@ -1272,28 +1323,38 @@ ForeignEnsuresExpr(EnsuresNullResult(pred)) = pred
 
 ```text
 IsOp(Tok(P), "@")    IsIdent(Tok(Advance(P)))    Lexeme(Tok(Advance(P))) = `error`    IsPunc(Tok(Advance(Advance(P))), ":")    Γ ⊢ ParsePredicateExpr(Advance(Advance(Advance(P)))) ⇓ (P_1, pred)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseEnsuresPredicate(P) ⇓ (P_1, EnsuresError(pred))
+```
 
 **(Parse-EnsuresPredicate-NullResult)**
 
 ```text
 IsOp(Tok(P), "@")    IsIdent(Tok(Advance(P)))    Lexeme(Tok(Advance(P))) = `null_result`    IsPunc(Tok(Advance(Advance(P))), ":")    Γ ⊢ ParsePredicateExpr(Advance(Advance(Advance(P)))) ⇓ (P_1, pred)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseEnsuresPredicate(P) ⇓ (P_1, EnsuresNullResult(pred))
+```
 
 **(Parse-EnsuresPredicate-Plain)**
 
 ```text
 Γ ⊢ ParsePredicateExpr(P) ⇓ (P_1, pred)
+```
+
 ──────────────────────────────────────────────
 
 ```text
 Γ ⊢ ParseEnsuresPredicate(P) ⇓ (P_1, Ensures(pred))
+```
+
 #### 23.6.3 AST Representation / Form
 
 Foreign contracts are attached to extern declarations via `foreign_contracts_opt`.
@@ -1311,8 +1372,6 @@ kind ∈ ForeignContractKind    preds ∈ [Expr]
 Ensures-predicate forms are:
 
 ```text
-```
-
 Ensures(pred)
 EnsuresError(pred)
 EnsuresNullResult(pred)
@@ -1370,11 +1429,15 @@ ErrCond =
 
 ```text
  ⋀_(P ∈ E) P    if E ≠ ∅
+```
+
  `false`        otherwise
 
 NullCond = (`@result` == `null`)
 
+```text
 SuccessCond = ¬ ErrCond
+```
 
 The foreign call is classified as an error iff `ErrCond` holds; otherwise it is classified as success.
 
@@ -1396,8 +1459,6 @@ NullResultEnsures(proc) = [pred | clause ∈ proc.foreign_contracts_opt ∧ clau
 
 **(ForeignEnsures-NullResult-Err)**
 ```text
-```
-
 proc = ExternProcDecl(_, _, _, _, _, _, ret_opt, _, foreign_contracts_opt, _, _)
 NullResultEnsures(proc) ≠ []    R = ProcReturn(ret_opt)    ¬ NullableFfiResult(R)
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -1464,26 +1525,28 @@ Boundary unwind policy is derived from the `[[unwind]]` attribute attached to a 
 
 UnwindModeValue = { `abort`, `catch` }
 
+```text
 UnwindMode : ProcDecl → UnwindModeValue
+```
 
 ```text
 UnwindMode(proc) = m ⇔ UnwindAttr(proc) = m
-
-```text
 UnwindMode(proc) = `abort` ⇔ UnwindAttr(proc) undefined
+```
 
 ```text
 UnwindAttr(proc) = m ⇔ ∃ a ∈ AttrByName(proc, "unwind"). a.args = [StringLiteral(m)] ∧ m ∈ UnwindModeValue
+```
 
 #### 23.7.4 Static Semantics
 
 **Formal UnwindMode Determination**
 
-DetermineUnwindMode : ProcDecl → UnwindModeValue
-
 ```text
+DetermineUnwindMode : ProcDecl → UnwindModeValue
 ```
 
+```text
 DetermineUnwindMode(proc) =
   let attrs = AttrByName(proc, "unwind")
   match attrs {
@@ -1493,11 +1556,11 @@ DetermineUnwindMode(proc) =
   }
 ```
 
-ParseUnwindArg : Attr → UnwindModeValue
-
 ```text
+ParseUnwindArg : Attr → UnwindModeValue
 ```
 
+```text
 ParseUnwindArg(a) =
   match a.args {
     [StringLiteral("abort")] → `abort`
@@ -1507,14 +1570,14 @@ ParseUnwindArg(a) =
 ```
 
 **(UnwindMode-Valid)**
-```
+```text
 UnwindAttr(proc) = m    m ∈ { "abort", "catch" }
 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 UnwindMode(proc) = m
 ```
 
 **(UnwindMode-Invalid-Err)**
-```
+```text
 UnwindAttr(proc) = m    m ∉ { "abort", "catch" }    c = Code(E-SYS-3355)
 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 UnwindMode(proc) ⇑ c
@@ -1544,28 +1607,28 @@ The `UnwindMode` affects generated code at FFI boundaries:
 | `catch` | Install landing pad that converts to Ultraviolet panic | Install frame that catches unwind and returns the boundary zero |
 
 **(CodeGen-UnwindAbort-Import)**
-```
+```text
 UnwindMode(extern_proc) = `abort`    CallSite(extern_proc) at location L
 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 EmitAbortLandingPad(L)
 ```
 
 **(CodeGen-UnwindCatch-Import)**
-```
+```text
 UnwindMode(extern_proc) = `catch`    CallSite(extern_proc) at location L
 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 EmitCatchLandingPad(L, ConvertToUltravioletPanic)
 ```
 
 **(CodeGen-UnwindAbort-Export)**
-```
+```text
 UnwindMode(exported_proc) = `abort`    EntryPoint(exported_proc) at location L
 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 EmitAbortOnPanicFrame(L)
 ```
 
 **(CodeGen-UnwindCatch-Export)**
-```
+```text
 UnwindMode(exported_proc) = `catch`    EntryPoint(exported_proc) at location L
 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 EmitCatchExportFrame(L, ReturnZeroValue)

@@ -3,7 +3,7 @@ title: "Key System"
 description: "19. Key System of the Ultraviolet language specification."
 specSource: "../../Ultraviolet/SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T13:48:04.933Z"
+generatedAt: "2026-05-09T14:44:07.538Z"
 generated: true
 ---
 
@@ -19,8 +19,6 @@ generated: true
 #### 19.1.1 Syntax
 
 ```text
-```
-
 key_path_expr ::= key_root key_seg*
 key_root      ::= identifier
 key_seg       ::= "." key_field | "[" key_index "]"
@@ -50,6 +48,7 @@ KeySeg = {Field(marked, name), Index(marked, expr)}
 
 ```text
 KeyPathExpr = ⟨root, segs⟩
+```
 
 ResolveKeyPathJudg = {
   ResolveKeySeg,
@@ -77,9 +76,11 @@ Root(e) =
 
 ```text
  ⊥_boundary        if e = (*e')
+```
 
 ```text
 where `⊥_boundary` denotes a key boundary introduced by pointer dereference.
+```
 
 **Object Identity**
 
@@ -113,10 +114,13 @@ Let `DynMethods(Cl)` denote the set of procedures callable by vtable dispatch on
 
 ```text
 ∀ m ∈ DynMethods(Cl). m.receiver = `~`
+```
+
 ──────────────────────────────────────────────
 
 ```text
 Γ ⊢ `shared` $Cl wf
+```
 
 If any method requires `shared` (`~%`) or `unique` (`~!`) receiver permission, `shared $Cl` is ill-formed.
 
@@ -140,24 +144,31 @@ KeyPath(e) = P
 
 ```text
 Γ ⊢ LowerKeyPath(e) ⇓ P
+```
 
 **(Lower-KeyAccess-Uncovered)**
 
 ```text
 Γ ⊢ LowerKeyPath(e) ⇓ P    M = RequiredMode(e)    ¬ Covered(P, M, Γ_keys)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ LowerKeyAccess(e) ⇓ SeqIR(CheckConflict(P, M), AcquireKey(P, M, CurrentScope))
+```
 
 **(Lower-KeyAccess-Covered)**
 
 ```text
 Γ ⊢ LowerKeyPath(e) ⇓ P    M = RequiredMode(e)    Covered(P, M, Γ_keys)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ LowerKeyAccess(e) ⇓ ε
+```
 
 #### 19.1.7 Diagnostics
 
@@ -175,8 +186,6 @@ KeyPath(e) = P
 #### 19.2.1 Syntax
 
 ```text
-```
-
 key_block_stmt ::= "#" key_path_list key_block_mod* key_mode_spec? block_expr
 key_path_list  ::= key_path_expr ("," key_path_expr)*
 key_block_mod  ::= "dynamic" | "speculative" | "ordered"
@@ -215,6 +224,7 @@ KeyMode = {Read, Write}
 
 ```text
 KeyModeOpt ∈ {⊥} ∪ KeyMode
+```
 
 KeyBlockMod = {Dynamic, Speculative, Release, Ordered}
 
@@ -224,15 +234,19 @@ KeyPathList = [KeyPathExpr]
 
 ```text
 KeyBlockStmt = ⟨attrs_opt, paths, mods, mode_opt, body, span⟩
+```
 
 ```text
 Key = ⟨Path, Mode, Scope⟩
+```
 
 ```text
 Γ_keys : ProgramPoint → ℘(Key)
+```
 
 ```text
 Held(P, M, S, Γ_keys, p) ⇔ (P, M, S) ∈ Γ_keys(p)
+```
 
 #### 19.2.4 Static Semantics
 
@@ -250,9 +264,9 @@ Read < Write
 
 ```text
 ModeSufficient(M_held, M_required) ⇔ M_required ≤ M_held
-
-```text
 BlockMode(KeyBlockStmt(_, _, _, ⊥, _, _)) = Read
+```
+
 BlockMode(KeyBlockStmt(_, _, _, Read, _, _)) = Read
 BlockMode(KeyBlockStmt(_, _, _, Write, _, _)) = Write
 
@@ -260,6 +274,8 @@ BlockMode(KeyBlockStmt(_, _, _, Write, _, _)) = Write
 
 ```text
 Γ ⊢ e : `shared` T    ReadContext(e)
+```
+
 ────────────────────────────────────
 RequiredMode(e) = Read
 
@@ -267,6 +283,8 @@ RequiredMode(e) = Read
 
 ```text
 Γ ⊢ e : `shared` T    WriteContext(e)
+```
+
 ─────────────────────────────────────
 RequiredMode(e) = Write
 
@@ -297,23 +315,29 @@ Write contexts:
 
 ```text
 Acquire(P, M, S, Γ_keys) = Γ_keys ∪ {(P, M, S)}
+```
 
 ```text
 Release(P, Γ_keys) = Γ_keys \ {(P, M, S) : (P, M, S) ∈ Γ_keys}
+```
 
 ```text
 ReleaseScope(S, Γ_keys) = Γ_keys \ {(P, M, S') : S' = S}
+```
 
 ```text
 ModeTransition(P, M_new, Γ_keys) = (Γ_keys \ {(P, M_old, S)}) ∪ {(P, M_new, S)}
+```
 
 ```text
 PanicRelease(S, Γ_keys) = Γ_keys \ {(P, M, S') : S' ≤_nest S}
+```
 
 **Implicit Acquisition**
 
 ```text
 Covered(Q, M_Q, Γ_keys) ⇔ ∃ (P, M_P, S) ∈ Γ_keys : Prefix(P, Q) ∧ ModeSufficient(M_P, M_Q)
+```
 
 **Valid Key Context**
 
@@ -321,6 +345,7 @@ For an ordinary `shared` access `e`, a valid key context exists iff `KeyPath(e)`
 
 ```text
 If `Covered(KeyPath(e), RequiredMode(e), Γ_keys)` holds, the access reuses the existing key context.
+```
 
 Otherwise the ordinary access establishes an implicit acquisition as defined by **(Lower-KeyAccess-Uncovered)** in §19.1.6.
 
@@ -330,19 +355,25 @@ Being outside an explicit `#` block does not by itself make an ordinary `shared`
 
 ```text
 Γ ⊢ P : `shared` T    M = RequiredMode(P)    ¬ Covered(P, M, Γ_keys)    S = CurrentScope
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ'_keys = Γ_keys ∪ {(P, M, S)}
+```
 
 **(K-Acquire-Covered)**
 
 ```text
 Γ ⊢ P : `shared` T    M = RequiredMode(P)    Covered(P, M, Γ_keys)
+```
+
 ──────────────────────────────────────────────────────────────
 
 ```text
 Γ'_keys = Γ_keys
+```
 
 Subexpressions are evaluated left-to-right, depth-first. Key acquisition follows evaluation order.
 
@@ -352,15 +383,20 @@ Subexpressions are evaluated left-to-right, depth-first. Key acquisition follows
 
 ```text
 Γ ⊢ P_1, …, P_m : `shared` T_i    M = BlockMode(B)    (Q_1, …, Q_m) = CanonicalSort(P_1, …, P_m)    S = NewScope
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ'_keys = Γ_keys ∪ {(Q_i, M, S) : i ∈ 1..m}
+```
 
 **(K-Read-Block-No-Write)**
 
 ```text
 BlockMode(B) = Read    P ∈ KeyedPaths(B)    WriteOf(P) ∈ Body(B)
+```
+
 ──────────────────────────────────────────────────────────────────────────────
 Reject
 
@@ -372,10 +408,13 @@ The `#` marker in a path expression sets the acquisition granularity. The key is
 
 ```text
 P = p_1 … p_(k-1).#p_k … p_n    Γ ⊢ P : `shared` T    M = RequiredMode(P)
+```
+
 ────────────────────────────────────────────────────────────────────────────
 
 ```text
 AcquireKey(p_1 … p_k, M, Γ_keys)
+```
 
 A field declaration marked with `#` establishes a permanent key boundary. Key paths truncate at that field boundary.
 
@@ -395,6 +434,8 @@ For an escaping closure, key paths are rooted at runtime identities of captured 
 
 ```text
 C : |vec_T| → R [`shared`: deps]    Access(x.p, M) ∈ C.body
+```
+
 ─────────────────────────────────────────────────────────────────────────────
 KeyPath(C, x.p) = id(C.x).p
 
@@ -415,28 +456,21 @@ KeyBlockJudg = {AcquireKeysSigma, ReleaseKeysSigma}
 ```text
 AcquireKeysSigma(paths, mode_opt, σ) ⇓ (σ', keys) ⇔
   mode = ModeOf(mode_opt) ∧
-
-```text
   keys = CanonicalOrder([KeyPath(p) | p ∈ paths]) ∧
-
-```text
   ∀ k ∈ keys. AcquireLock(σ, k, mode) ∧
-
-```text
   σ' = σ[held_keys := σ.held_keys ∪ keys]
+```
 
 ```text
 ReleaseKeysSigma(keys, σ) ⇓ σ' ⇔
   rev = Reverse(keys) ∧
-
-```text
   ∀ k ∈ rev. ReleaseLock(σ, k) ∧
-
-```text
   σ' = σ[held_keys := σ.held_keys ∖ keys]
+```
 
 ```text
 ModeOf(⊥) = Read
+```
 
 ModeOf(Read) = Read
 
@@ -446,55 +480,73 @@ ModeOf(Write) = Write
 
 ```text
 Speculative ∉ mods    Release ∉ mods    Γ ⊢ AcquireKeysSigma(paths, mode_opt, σ) ⇓ (σ_1, keys)    Γ ⊢ EvalBlockSigma(body, σ_1) ⇓ (out, σ_2)    Γ ⊢ ReleaseKeysSigma(keys, σ_2) ⇓ σ_3
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ExecSigma(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span), σ) ⇓ (StmtOutOf(out), σ_3)
+```
 
 **(ExecSigma-KeyBlock-Ctrl)**
 
 ```text
 Speculative ∉ mods    Release ∉ mods    Γ ⊢ AcquireKeysSigma(paths, mode_opt, σ) ⇓ (σ_1, keys)    Γ ⊢ EvalBlockSigma(body, σ_1) ⇓ (Ctrl(κ), σ_2)    Γ ⊢ ReleaseKeysSigma(keys, σ_2) ⇓ σ_3
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ExecSigma(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span), σ) ⇓ (Ctrl(κ), σ_3)
+```
 
 **(Step-Exec-KeyBlock-Enter)**
 
 ```text
 Speculative ∉ mods    Γ ⊢ AcquireKeysSigma(paths, mode_opt, σ) ⇓ (σ_1, keys)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 ⟨Exec(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span), σ)⟩ → ⟨KeyBody(keys, body, σ_1)⟩
+```
 
 **(Step-Exec-KeyBlock-Body)**
 
 ```text
 Γ ⊢ EvalBlockSigma(body, σ) ⇓ (out, σ_1)
+```
+
 ────────────────────────────────────────────────────────────────────
 
 ```text
 ⟨KeyBody(keys, body, σ)⟩ → ⟨KeyExit(keys, out, σ_1)⟩
+```
 
 **(Step-Exec-KeyBlock-Exit-Ok)**
 
 ```text
 Γ ⊢ ReleaseKeysSigma(keys, σ) ⇓ σ'    StmtOutOf(out) = ok
+```
+
 ──────────────────────────────────────────────────────────────────────────────
 
 ```text
 ⟨KeyExit(keys, out, σ)⟩ → ⟨ExecDone(σ')⟩
+```
 
 **(Step-Exec-KeyBlock-Exit-Ctrl)**
 
 ```text
 Γ ⊢ ReleaseKeysSigma(keys, σ) ⇓ σ'    StmtOutOf(out) = Ctrl(κ)
+```
+
 ───────────────────────────────────────────────────────────────────────────────
 
 ```text
 ⟨KeyExit(keys, out, σ)⟩ → ⟨ExecCtrl(κ, σ')⟩
+```
 
 Keys are released when their defining scope exits, regardless of whether the exit is normal completion, `return`, `break`, `continue`, panic propagation, or task cancellation. Scope-exit key release occurs before drop actions for bindings in the same scope.
 
@@ -518,27 +570,26 @@ For an escaping closure invocation:
 
 ```text
 LowerKeyPaths([]) ⇓ []
+```
 
 ```text
 LowerKeyPaths([p] ++ ps) ⇓ [P] ++ Ps ⇔ Γ ⊢ LowerKeyPath(p) ⇓ P ∧ Γ ⊢ LowerKeyPaths(ps) ⇓ Ps
+```
 
 **(Lower-Stmt-KeyBlock)**
 
 ```text
 Speculative ∉ mods    Release ∉ mods    Γ ⊢ LowerKeyPaths(paths) ⇓ Ps    mode = ModeOf(mode_opt)    sorted = CanonicalSort(Ps)    S = CurrentScope
-
-```text
 IR_enter = SeqIRList([SeqIR(CheckConflict(P_i, mode), AcquireKey(P_i, mode, S)) | P_i ∈ sorted])
-
-```text
 Γ ⊢ LowerBlock(body) ⇓ ⟨IR_b, v_b⟩
-
-```text
 IR_exit = SeqIRList([ReleaseKey(P_i, S) | P_i ∈ Reverse(sorted)])
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ LowerStmt(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span)) ⇓ SeqIR(IR_enter, IR_b, IR_exit)
+```
 
 #### 19.2.7 Diagnostics
 
@@ -583,14 +634,18 @@ This section introduces no additional parsing rules.
 
 ```text
 Prefix(p_1 … p_m, q_1 … q_n) ⇔ m ≤ n ∧ ∀ i ∈ 1..m, p_i ≡_seg q_i
+```
 
 ```text
 Disjoint(P, Q) ⇔ ¬ Prefix(P, Q) ∧ ¬ Prefix(Q, P)
+```
 
 ```text
 KeyPathLess(p_1, p_2) ⇔
   segments_1 = PathSegments(p_1) ∧
   segments_2 = PathSegments(p_2) ∧
+```
+
   LexLess(segments_1, segments_2, SegmentLess)
 
 ```text
@@ -598,6 +653,7 @@ SegmentLess(s_1, s_2) ⇔
   (IsIdent(s_1) ∧ IsIdent(s_2) ∧ Utf8LexLess(Name(s_1), Name(s_2))) ∨
   (IsIndex(s_1) ∧ IsIndex(s_2) ∧ IndexValue(s_1) < IndexValue(s_2)) ∨
   (IsIdent(s_1) ∧ IsIndex(s_2))
+```
 
 LexLess([], [], _) = false
 
@@ -605,7 +661,9 @@ LexLess([], _::_, _) = true
 
 LexLess(_::_, [], _) = false
 
+```text
 LexLess(a::as, b::bs, cmp) = cmp(a, b) ∨ (a = b ∧ LexLess(as, bs, cmp))
+```
 
 CanonicalOrder(paths) = Sort(paths, KeyPathLess)
 
@@ -617,6 +675,7 @@ Two keys K_1 = (P_1, M_1, S_1) and K_2 = (P_2, M_2, S_2) are compatible if and o
 
 ```text
 Compatible(K_1, K_2) ⇔ Disjoint(P_1, P_2) ∨ (M_1 = Read ∧ M_2 = Read)
+```
 
 KeyModeCompatible(Read, Read) = true
 
@@ -628,9 +687,11 @@ KeyModeCompatible(Write, Write) = false
 
 ```text
 KeysOverlap(p_1, p_2) ⇔ Prefix(p_1, p_2) ∨ Prefix(p_2, p_1) ∨ p_1 = p_2
+```
 
 ```text
 KeyConflict(⟨p_1, m_1, _⟩, ⟨p_2, m_2, _⟩) ⇔ KeysOverlap(p_1, p_2) ∧ ¬KeyModeCompatible(m_1, m_2)
+```
 
 #### 19.3.4 Static Semantics
 
@@ -659,6 +720,8 @@ ConcurrentAccess(P, Q) is statically safe
 
 ```text
 Prefix(P, Q)    Held(P, M, Γ_keys)
+```
+
 ──────────────────────────────────
 Covers((P, M), Q)
 
@@ -679,7 +742,11 @@ These clauses are sufficient proof cases.
 An implementation MAY conservatively recognize any sound subset of them. Failure to prove disjointness is treated as possible overlap.
 
 **(K-Dynamic-Index-Conflict)**
+
+```text
 P_1 = a[e_1]    P_2 = a[e_2]    SameStatement(P_1, P_2)    (Dynamic(e_1) ∨ Dynamic(e_2))    ¬ ProvablyDisjoint(e_1, e_2)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Reject
 
@@ -687,12 +754,15 @@ Reject
 
 ```text
 ReadThenWrite(P, S) ⇔ ∃ e_r, e_w ∈ Subexpressions(S) : ReadsPath(e_r, P) ∧ WritesPath(e_w, P)
+```
 
 ```text
 CompoundRewriteOp(op) ⇔ op ∈ {`+`, `-`, `*`, `/`, `%`}
+```
 
 ```text
 CompoundRewriteCandidate(P, S) ⇔ S = AssignStmt(P, BinaryExpr(op, P, e), span) ∧ CompoundRewriteOp(op)
+```
 
 In this chapter, `ReadThenWrite(P, S)` is required to be diagnosed for assignment and compound-assignment statement surfaces that visibly separate a read of `P` from a write of `P`.
 
@@ -702,6 +772,8 @@ Other write forms continue to be governed by `RequiredMode`, `Covered`, and the 
 
 ```text
 Γ ⊢ P : `shared` T    ReadThenWrite(P, S)    ¬ ∃ (Q, Write, S') ∈ Γ_keys : Prefix(Q, P)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Reject
 
@@ -709,6 +781,8 @@ Reject
 
 ```text
 Γ ⊢ P : `shared` T    ReadThenWrite(P, S)    ∃ (Q, Write, S') ∈ Γ_keys : Prefix(Q, P)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Permitted
 
@@ -716,40 +790,31 @@ Permitted
 
 ```text
 Γ ⊢ P : `shared` T    ReadThenWrite(P, S)    ∃ (Q, Write, S') ∈ Γ_keys : Prefix(Q, P)    CompoundRewriteCandidate(P, S)    w = Code(K-RMW-Explicit-Warn)
-
-```text
 \rule{18em}{0.4pt}
-
-```text
 Γ ⊢ WarnRMW(S) ⇓ w
+```
 
 **(K-RMW-Contention-Warn)**
 
 ```text
 Γ ⊢ P : `shared` T    ReadThenWrite(P, S)    ∃ (Q, Write, S') ∈ Γ_keys : Prefix(Q, P)    ¬ CompoundRewriteCandidate(P, S)    w = Code(K-RMW-Contention-Warn)
-
-```text
 \rule{18em}{0.4pt}
-
-```text
 Γ ⊢ WarnRMW(S) ⇓ w
+```
 
 ```text
 NonIndexShape(P) = [seg | seg ∈ PathSegments(P) ∧ ¬ IsIndex(seg)]
-
-```text
 OrderedBase(P) = ⟨Root(P), NonIndexShape(P)⟩
-
-```text
 OrderedComparable(paths) ⇔ ∀ P, Q ∈ paths. OrderedBase(P) = OrderedBase(Q)
-
-```text
 StaticallyComparableIndices(paths) ⇔ ∀ P, Q ∈ paths. OrderedBase(P) = OrderedBase(Q) ⇒ PathSegments(P) and PathSegments(Q) differ only at index segments whose values are compile-time comparable under `IndexValue`
+```
 
 **(K-Ordered-Ok)**
 
 ```text
 Ordered ∈ mods    OrderedComparable([KeyPath(p) | p ∈ paths])
+```
+
 ────────────────────────────────────────────────────────────────────────────
 OrderedPathsOk(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span))
 
@@ -757,19 +822,25 @@ OrderedPathsOk(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span))
 
 ```text
 Ordered ∈ mods    ¬ OrderedComparable([KeyPath(p) | p ∈ paths])    c = Code(K-Ordered-Base-Err)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span) ⇑ c
+```
 
 **(K-Ordered-Redundant-Warn)**
 
 ```text
 Ordered ∈ mods    OrderedComparable([KeyPath(p) | p ∈ paths])    StaticallyComparableIndices([KeyPath(p) | p ∈ paths])    w = Code(K-Ordered-Redundant-Warn)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ WarnKeyBlock(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span)) ⇓ w
+```
 
 #### 19.3.5 Dynamic Semantics
 
@@ -781,23 +852,23 @@ Ordered ∈ mods    OrderedComparable([KeyPath(p) | p ∈ paths])    StaticallyC
 
 ```text
 LowerConflictChecks(paths, mode_opt) ⇓ IR ⇔
-
-```text
   Γ ⊢ LowerKeyPaths(paths) ⇓ Ps ∧
   mode = ModeOf(mode_opt) ∧
   sorted = CanonicalSort(Ps) ∧
-
-```text
   IR = SeqIRList([CheckConflict(P_i, mode) | P_i ∈ sorted])
+```
 
 **(Lower-Key-ConflictChecks)**
 
 ```text
 Γ ⊢ LowerConflictChecks(paths, mode_opt) ⇓ IR
+```
+
 ────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ LowerKeyChecks(paths, mode_opt) ⇓ IR
+```
 
 #### 19.3.7 Diagnostics
 
@@ -825,6 +896,7 @@ This section introduces no additional parsing rules beyond §19.2.2.
 
 ```text
 Nested release is represented by `KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span)` with `Release ∈ mods`.
+```
 
 #### 19.4.4 Static Semantics
 
@@ -832,12 +904,16 @@ Nested release is represented by `KeyBlockStmt(attrs_opt, paths, mods, mode_opt,
 
 ```text
 Held(P, M_outer, Γ_keys)    #P M_inner { ... }
+```
+
 ──────────────────────────────────────────────────────────────
 if M_inner = M_outer:
  Covered
 
 ```text
 otherwise if M_inner ≠ M_outer ∧ `release` ∈ modifiers:
+```
+
  Release-and-Reacquire
 otherwise:
  Reject
@@ -846,24 +922,20 @@ otherwise:
 
 ```text
 SharedParam(proc, i) ⇔ the i-th formal parameter of proc has type `shared` T for some T
-
-```text
 DirectCalleeAccesses(proc) = {⟨i, rel, M⟩ | SharedParam(proc, i) ∧ proc.body contains KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span) ∧ q ∈ paths ∧ KeyPath(q) = name(param_i) ++ rel ∧ M = BlockMode(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span))}
-
-```text
 CalleeAccessSummary(proc) is the least set A such that DirectCalleeAccesses(proc) ⊆ A and, for every directly resolved call `g(a_1, …, a_n)` in proc.body, every ⟨j, rel, M⟩ ∈ CalleeAccessSummary(g), and every i with SharedParam(proc, i) and KeyPath(a_j) = name(param_i) ++ rel_0, ⟨i, rel_0 ++ rel, M⟩ ∈ A.
-
-```text
 InstantiateCalleeAccess(v, ⟨i, rel, M⟩) = ⟨Q, M⟩ ⇔ KeyPath(v) = Q_0 ∧ Q = Q_0 ++ rel
-
-```text
 CalleeAccesses(Q) at call site `call(f, a_1, …, a_n)` iff ∃ ⟨i, rel, M⟩ ∈ CalleeAccessSummary(f). InstantiateCalleeAccess(a_i, ⟨i, rel, M⟩) = ⟨Q, M⟩
+```
+
 CalleeCovered(Q) at call site iff the instantiated access for Q has required mode M_Q and Covered(Q, M_Q, G_keys).
 
 Held(P, M, G_keys)    Prefix(P, Q)    CalleeAccesses(Q)
 
 ```text
 \rule{18em}{0.4pt}
+```
+
 CalleeCovered(Q)
 
 If CalleeAccessSummary(f) cannot be computed because the callee is unresolved, bodyless, dynamically dispatched, or recursively unknown, the compiler MUST emit the unknown-callee-access warning defined in §19.4.7 once per call site whose `shared` actual argument path lies under a currently held prefix. For static analysis, that call site is treated as potentially accessing every subpath of the actual argument path in `Write` mode.
@@ -872,12 +944,9 @@ Passing a `shared` value as a procedure argument does not itself acquire a key:
 
 ```text
 Γ ⊢ f : (`shared` T) → R    Γ ⊢ v : `shared` T
-
-```text
 \rule{18em}{0.4pt}
-
-```text
 call(f, v) ⇒ no key acquisition at call site
+```
 
 `[[stale_ok]]` suppresses the stale-after-release warning on a binding derived from `shared` data across a `release` boundary. Attribute syntax and attachment are defined in §9.5.
 
@@ -885,10 +954,13 @@ call(f, v) ⇒ no key acquisition at call site
 
 ```text
 Release ∈ modifiers    Held(P, M_outer, Γ_keys)    P ∈ {KeyPath(p) | p ∈ paths}    BlockMode(KeyBlockStmt(attrs_opt, paths, modifiers, mode_opt, body, span)) = M_outer    c = Code(K-Release-SameMode-Err)
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ KeyBlockStmt(attrs_opt, paths, modifiers, mode_opt, body, span) ⇑ c
+```
 
 #### 19.4.5 Dynamic Semantics
 
@@ -906,53 +978,52 @@ Held(P, M_outer, S_outer)    #P `release` M_inner { B }
 
 ```text
 Release(P, Γ_keys);
+```
+
 Acquire(P, M_inner, S_inner);
 Eval(B);
 
 ```text
 Release(P, Γ_keys);
+```
+
 Acquire(P, M_outer, S_outer)
 
 Between steps 1 and 2, and between steps 4 and 5, other tasks MAY acquire conflicting keys to the same path.
 
 ```text
 HeldKeysForPaths(paths, σ) = keys ⇔ keys = [k ∈ σ.held_keys | PathOf(k) ∈ CanonicalOrder([KeyPath(p) | p ∈ paths])]
-
-```text
 PathOf(⟨P, _, _⟩) = P
-
-```text
 KeyModeOf(⟨_, M, _⟩) = M
-
-```text
 KeyScopeOf(⟨_, _, S⟩) = S
+```
 
 ```text
 MarkKeysReleased(σ, keys) = σ' ⇔ σ' = σ[held_keys := σ.held_keys ∖ keys, released_keys := σ.released_keys ∪ keys]
+```
 
 ```text
 ClearReleased(σ, keys) = σ' ⇔ σ' = σ[released_keys := σ.released_keys ∖ keys]
+```
 
 ```text
 ReacquireHeldKeysSigma(keys, σ) ⇓ σ' ⇔
-
-```text
   sorted = CanonicalSort([PathOf(k) | k ∈ keys]) ∧
-
-```text
   ∀ P ∈ sorted. ∃ k ∈ keys. PathOf(k) = P ∧ AcquireLock(σ, P, KeyModeOf(k)) ∧
-
-```text
   σ' = σ[held_keys := σ.held_keys ∪ keys]
+```
 
 **(ExecSigma-KeyBlock-Release)**
 
 ```text
 Release ∈ mods    outer = HeldKeysForPaths(paths, σ)    Γ ⊢ ReleaseKeysSigma(outer, σ) ⇓ σ_1    σ_2 = MarkKeysReleased(σ_1, outer)    Γ ⊢ AcquireKeysSigma(paths, mode_opt, σ_2) ⇓ (σ_3, inner)    Γ ⊢ EvalBlockSigma(body, σ_3) ⇓ (out, σ_4)    Γ ⊢ ReleaseKeysSigma(inner, σ_4) ⇓ σ_5    σ_6 = ClearReleased(σ_5, outer)    Γ ⊢ ReacquireHeldKeysSigma(outer, σ_6) ⇓ σ_7
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ExecSigma(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span), σ) ⇓ (StmtOutOf(out), σ_7)
+```
 
 #### 19.4.6 Lowering
 
@@ -960,25 +1031,18 @@ Release ∈ mods    outer = HeldKeysForPaths(paths, σ)    Γ ⊢ ReleaseKeysSig
 
 ```text
 Release ∈ mods    Γ ⊢ LowerKeyPaths(paths) ⇓ Ps    outer = EnclosingHeldKeys(Ps)    mode = ModeOf(mode_opt)    sorted = CanonicalSort(Ps)
-
-```text
 IR_release_outer = SeqIRList([ReleaseKey(PathOf(k), KeyScopeOf(k)) | k ∈ Reverse(outer)])
-
-```text
 IR_acquire_inner = SeqIRList([SeqIR(CheckConflict(P_i, mode), AcquireKey(P_i, mode, CurrentScope)) | P_i ∈ sorted])
-
-```text
 Γ ⊢ LowerBlock(body) ⇓ ⟨IR_b, v_b⟩
-
-```text
 IR_release_inner = SeqIRList([ReleaseKey(P_i, CurrentScope) | P_i ∈ Reverse(sorted)])
-
-```text
 IR_reacquire_outer = SeqIRList([AcquireKey(PathOf(k), KeyModeOf(k), KeyScopeOf(k)) | k ∈ outer])
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ LowerStmt(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span)) ⇓ SeqIR(IR_release_outer, IR_acquire_inner, IR_b, IR_release_inner, IR_reacquire_outer)
+```
 
 #### 19.4.7 Diagnostics
 
@@ -995,8 +1059,6 @@ IR_reacquire_outer = SeqIRList([AcquireKey(PathOf(k), KeyModeOf(k), KeyScopeOf(k
 #### 19.5.1 Syntax
 
 ```text
-```
-
 speculative_block ::= "#" key_path_list "speculative" "write" block_expr
 ```
 
@@ -1008,6 +1070,7 @@ Speculative blocks use the key-block parser in §19.2.2 together with `Parse-Key
 
 ```text
 Speculative execution is represented by `KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span)` with `Speculative ∈ mods`.
+```
 
 ReadSet = ℘(Path × Value)
 
@@ -1017,27 +1080,15 @@ SpecState = {
 
 ```text
   SpecStart(paths, body, σ),
-
-```text
   SpecSnapshot(paths, body, R, σ),
-
-```text
   SpecExec(body, R, W, σ),
-
-```text
   SpecCommit(R, W, v, σ),
-
-```text
   SpecRetry(paths, body, n, σ),
-
-```text
   SpecFallback(paths, body, σ),
-
-```text
   SpecDone(v, σ),
-
-```text
   SpecPanic(σ)
+```
+
 }
 
 #### 19.5.4 Static Semantics
@@ -1046,6 +1097,8 @@ SpecState = {
 
 ```text
 #P `speculative` M {B}    M ≠ `write`
+```
+
 ────────────────────────────────────────
 Reject
 
@@ -1076,6 +1129,8 @@ Prohibited operations:
 
 ```text
 #P `speculative write` {B}    #Q _ {…} ∈ Subexpressions(B)
+```
+
 ──────────────────────────────────────────────────────────
 Reject
 
@@ -1083,15 +1138,20 @@ Reject
 
 ```text
 #P `speculative write` {B}    ∃ c ∈ Subexpressions(B). IsCallLike(c) ∧ ¬(Γ ⊢ c pure)    c_err = Code(K-Spec-No-Impure-Call)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 G ⊢ KeyBlockStmt(attrs_opt, paths, mods, mode_opt, B, span) ⇑ c_err
+```
 
 **(K-Spec-No-Memory-Ordering)**
 
 ```text
 #P `speculative write` {B}    ∃ x ∈ Subexpressions(B). (IsMemoryOrderAnnotation(x) ∨ IsFenceExpr(x))
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────
 Reject
 
@@ -1099,28 +1159,37 @@ Reject
 
 ```text
 #P `speculative write` {B}    WaitExpr(_) ∈ Subexpressions(B)    c = Code(K-Spec-No-Wait)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ KeyBlockStmt(attrs_opt, paths, mods, mode_opt, B, span) ⇑ c
+```
 
 **(K-Spec-No-Defer)**
 
 ```text
 #P `speculative write` {B}    DeferStmt(_) ∈ SubStatements(B)    c = Code(K-Spec-No-Defer)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ KeyBlockStmt(attrs_opt, paths, mods, mode_opt, B, span) ⇑ c
+```
 
 **(K-Spec-No-Release)**
 
 ```text
 Speculative ∈ mods    Release ∈ mods    c = Code(K-Spec-No-Release)
+```
+
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span) ⇑ c
+```
 
 #### 19.5.5 Dynamic Semantics
 
@@ -1130,31 +1199,23 @@ Speculative ∈ mods    Release ∈ mods    c = Code(K-Spec-No-Release)
 
 ```text
 Speculative ∈ mods    retries = 0
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ ExecSigma(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span), σ) ⇓ SpecLoop(paths, mods, mode_opt, body, retries, σ)
+```
 
 ```text
 SpecLoop(paths, mods, mode_opt, body, retries, σ) ⇓ (out, σ') ⇔
-
-```text
   R = SnapshotKeyedPaths(paths, σ) ∧
-
-```text
   Γ ⊢ EvalBlockSigma(body, σ) ⇓ (out_body, σ_1) ∧
-
-```text
   W = CollectWrites(σ, σ_1) ∧
-
-```text
   (SpeculativeCommit(R, W) ⇒ out = out_body ∧ σ' = ApplyWrites(σ, W)) ∧
-
-```text
   (¬SpeculativeCommit(R, W) ∧ retries < MAX_SPECULATIVE_RETRIES ⇒ SpecLoop(paths, mods, mode_opt, body, retries + 1, σ) ⇓ (out, σ')) ∧
-
-```text
   (¬SpeculativeCommit(R, W) ∧ retries = MAX_SPECULATIVE_RETRIES ⇒ Γ ⊢ ExecSigma(KeyBlockStmt(attrs_opt, paths, mods \ {Speculative}, mode_opt, body, span), σ) ⇓ (out, σ'))
+```
 
 **State Machine**
 
@@ -1163,105 +1224,138 @@ SpecLoop(paths, mods, mode_opt, body, retries, σ) ⇓ (out, σ') ⇔
 
 ```text
 ⟨SpecStart(paths, body, σ)⟩ → ⟨SpecSnapshot(paths, body, ∅, σ)⟩
+```
 
 **(Spec-Snapshot)**
 
 ```text
 ∀ p ∈ paths. ReadPath(σ, p) = v_p    R = {(p, v_p) | p ∈ paths}
+```
+
 ────────────────────────────────────────────────────────────────────
 
 ```text
 ⟨SpecSnapshot(paths, body, ∅, σ)⟩ → ⟨SpecExec(body, R, ∅, σ)⟩
+```
 
 **(Spec-Exec-Ok)**
 
 ```text
 Γ ⊢ EvalSpeculative(body, σ, R) ⇓ (Val(v), W, σ')
+```
+
 ────────────────────────────────────────────────────────────────────
 
 ```text
 ⟨SpecExec(body, R, ∅, σ)⟩ → ⟨SpecCommit(R, W, v, σ')⟩
+```
 
 **(Spec-Exec-Panic)**
 
 ```text
 Γ ⊢ EvalSpeculative(body, σ, R) ⇓ (Ctrl(Panic), W, σ')
+```
+
 ────────────────────────────────────────────────────────────────────
 
 ```text
 ⟨SpecExec(body, R, ∅, σ)⟩ → ⟨SpecPanic(σ')⟩
+```
 
 **(Spec-Commit-Success)**
 
 ```text
 ∀ (p, v) ∈ R. ReadPath(σ, p) = v    ApplyWrites(σ, W) = σ'
+```
+
 ────────────────────────────────────────────────────────────────────
 
 ```text
 ⟨SpecCommit(R, W, v, σ)⟩ → ⟨SpecDone(v, σ')⟩
+```
 
 **(Spec-Commit-Fail-Retry)**
 
 ```text
 ∃ (p, v) ∈ R. ReadPath(σ, p) ≠ v    n < MAX_SPECULATIVE_RETRIES
+```
+
 ────────────────────────────────────────────────────────────────────
 
 ```text
 ⟨SpecCommit(R, W, v, σ)⟩ → ⟨SpecRetry(paths(R), body, n + 1, σ)⟩
+```
 
 **(Spec-Commit-Fail-Fallback)**
 
 ```text
 ∃ (p, v) ∈ R. ReadPath(σ, p) ≠ v    n ≥ MAX_SPECULATIVE_RETRIES
+```
+
 ────────────────────────────────────────────────────────────────────
 
 ```text
 ⟨SpecCommit(R, W, v, σ)⟩ → ⟨SpecFallback(paths(R), body, σ)⟩
+```
 
 **(Spec-Retry)**
 ────────────────────────────────────────────────────────────────────
 
 ```text
 ⟨SpecRetry(paths, body, n, σ)⟩ → ⟨SpecSnapshot(paths, body, ∅, σ)⟩
+```
 
 **(Spec-Fallback)**
 
 ```text
 AcquireKey(σ, paths, Write) = σ_k    Γ ⊢ EvalSigma(body, σ_k) ⇓ (Val(v), σ')    ReleaseKey(σ', paths) = σ''
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 ⟨SpecFallback(paths, body, σ)⟩ → ⟨SpecDone(v, σ'')⟩
+```
 
 **(SpecBlock-Ok)**
 
 ```text
 ⟨SpecStart(paths, body, σ)⟩ →* ⟨SpecDone(v, σ')⟩
+```
+
 ─────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ EvalSpecBlock(paths, body, σ) ⇓ (Val(v), σ')
+```
 
 **(SpecBlock-Panic)**
 
 ```text
 ⟨SpecStart(paths, body, σ)⟩ →* ⟨SpecPanic(σ')⟩
+```
+
 ─────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ EvalSpecBlock(paths, body, σ) ⇓ (Ctrl(Panic), σ')
+```
 
 ```text
 ReadPath(σ, p) = v ⇔ evaluate path expression `p` in state `σ`, returning `v`.
+```
 
 ```text
 ApplyWrites(σ, W) = σ' ⇔ atomically apply all `(p, v) ∈ W` to `σ`.
+```
 
 ```text
 paths(R) = {p | (p, _) ∈ R}
+```
 
 ```text
 EvalSpeculative(body, σ, R) ⇓ (out, W, σ') intercepts writes to paths in `paths(R)` and collects them in `W` instead of applying them to `σ`.
+```
 
 `MAX_SPECULATIVE_RETRIES = 8`.
 
@@ -1281,14 +1375,15 @@ SpeculativeIR = {SpecSnapshotIR(paths), SpecValidateIR(paths), SpecCommitIR(path
 
 ```text
 Speculative ∈ mods    Γ ⊢ LowerKeyPaths(paths) ⇓ Ps    sorted = CanonicalSort(Ps)    Γ ⊢ LowerBlock(body) ⇓ ⟨IR_b, v_b⟩
-
-```text
 IR_fallback = SeqIR(SeqIRList([SeqIR(CheckConflict(P_i, Write), AcquireKey(P_i, Write, CurrentScope)) | P_i ∈ sorted]), IR_b, SeqIRList([ReleaseKey(P_i, CurrentScope) | P_i ∈ Reverse(sorted)]))
+```
+
 IR = SpecLoopIR(SpecSnapshotIR(sorted), IR_b, SpecValidateIR(sorted), SpecCommitIR(sorted), SpecRetryIR, SpecFallbackIR(IR_fallback))
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ LowerStmt(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span)) ⇓ IR
+```
 
 #### 19.5.7 Diagnostics
 
@@ -1346,7 +1441,11 @@ NoRuntimeSync(P)
 An implementation MAY omit runtime synchronization for `P`, or MAY conservatively retain equivalent synchronization, provided observable behavior is preserved.
 
 **(K-Static-Required)**
+
+```text
 ¬ StaticallySafe(P)    ¬ InDynamicContext
+```
+
 ──────────────────────────────────────────
 Reject
 
@@ -1380,7 +1479,11 @@ Observable behavior under statically-proven key safety and under runtime synchro
 #### 19.6.6 Lowering
 
 **(K-Dynamic-Permitted)**
+
+```text
 ¬ StaticallySafe(P)    InDynamicContext
+```
+
 ────────────────────────────────────────
 EmitRuntimeSync(P)
 
@@ -1399,8 +1502,6 @@ When `InDynamicContext` and `StaticallySafe(P)` both hold, runtime synchronizati
 #### 19.7.1 Syntax
 
 ```text
-```
-
 memory_order_attribute ::= "[[" memory_order "]]"
 memory_order           ::= "relaxed" | "acquire" | "release" | "acqrel" | "seqcst"
 fence_expr             ::= "fence" "(" fence_order ")"
@@ -1458,10 +1559,13 @@ Memory-order annotations MUST NOT appear inside speculative blocks.
 
 ```text
 O ∈ {`acquire`, `release`, `seqcst`}
+```
+
 ────────────────────────────────────────
 
 ```text
 Γ ⊢ `fence`(O) : ()
+```
 
 Fence operations MAY appear in runtime expression contexts. They MUST NOT alter the held-key context.
 
@@ -1488,15 +1592,19 @@ Fence evaluation MUST NOT read or write program-visible storage.
 
 ```text
 Γ ⊢ LowerExpr(FenceExpr(order)) ⇓ ⟨FenceIR(order), UnitVal⟩
+```
 
 **(Lower-Ordered-Access)**
 
 ```text
 ContainsSharedAccess(e)    ord = EffectiveOrdering(e)    Γ ⊢ LowerExprCore(e) ⇓ ⟨IR, v⟩
+```
+
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ```text
 Γ ⊢ LowerExpr(e) ⇓ ⟨OrderedAccessIR(ord, IR), v⟩
+```
 
 #### 19.7.7 Diagnostics
 

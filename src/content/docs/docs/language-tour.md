@@ -86,15 +86,19 @@ public procedure consume(
 
 ## Key system
 
-The key system coordinates access to `shared` data. Shared reads and writes are associated with key paths, and the compiler/runtime model can reason about conflicts.
+The key system is the synchronization model for `shared` data. Each `shared` access has a key path, required mode, and scope. Ordinary access can acquire keys implicitly; explicit `#` blocks make wider synchronization scopes, coarsening, ordering, release/reacquire, and speculative execution visible in source.
 
 ```text
-key cache.entries#[id] read {
+# cache.entries[id] read {
     let value = cache.entries[id]
+}
+
+# cache.entries[id] write {
+    cache.entries[id] = value + 1
 }
 ```
 
-Keys make shared access visible in source instead of burying synchronization in conventions.
+`Read` keys permit read-only access. `Write` keys permit reads and writes and exclude incompatible overlapping access. Dynamic indexed access is checked statically when the compiler can prove disjointness; `[[dynamic]]` permits specified runtime synchronization when static proof is unavailable.
 
 ## Structured concurrency
 
@@ -108,7 +112,7 @@ parallel ctx.cpu() {
 }
 ```
 
-Reviewers can see where work starts, where it joins, and which execution domain owns it.
+Reviewers can see where work starts, where it joins, which execution domain owns it, and how `shared` captures remain governed by the key system.
 
 ## CPU and GPU programming
 
@@ -147,3 +151,10 @@ Effects are reviewable because the relevant capability appears in the value flow
 `comptime`, quote/splice, reflection, and emission support generated source without reducing the language model to string rewriting.
 
 Generated code still has to pass the same contracts, modal state rules, permission rules, key rules, and execution-domain checks as handwritten code.
+
+## Specification path
+
+- [19. Key System](/docs/specification/key-system/)
+- [20. Structured Parallelism](/docs/specification/structured-parallelism/)
+- [21. Asynchronous Operations](/docs/specification/asynchronous-operations/)
+- [22. Compile-Time Execution and Metaprogramming](/docs/specification/compile-time-execution-and-metaprogramming/)
