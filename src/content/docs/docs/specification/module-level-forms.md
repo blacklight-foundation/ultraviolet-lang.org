@@ -3,7 +3,7 @@ title: "Module-Level Forms"
 description: "11. Module-Level Forms of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T17:39:45.389Z"
+generatedAt: "2026-05-09T18:13:03.158Z"
 generated: true
 ---
 
@@ -30,22 +30,20 @@ import_decl ::= attribute_list? visibility? "import" module_path ("as" identifie
 
 **(Parse-Import)**
 
-```text
-Γ ⊢ ParseAttrListOpt(P) ⇓ (P_0, attrs_opt)    Γ ⊢ ParseVis(P_0) ⇓ (P_1, vis)    IsKw(Tok(P_1), `import`)    Γ ⊢ ParseModulePath(Advance(P_1)) ⇓ (P_2, path)    Γ ⊢ ParseAliasOpt(P_2) ⇓ (P_3, alias_opt)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseItem(P) ⇓ (P_3, ⟨ImportDecl, attrs_opt, vis, path, alias_opt, SpanBetween(P, P_3), []⟩)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P_{0},\ \mathsf{attrs}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseVis}(P_{0})\ \Downarrow \ (P_{1},\ \mathsf{vis})\quad \operatorname{IsKw}(\operatorname{Tok}(P_{1}),\ \texttt{import})\quad \Gamma \ \vdash \ \operatorname{ParseModulePath}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{path})\quad \Gamma \ \vdash \ \operatorname{ParseAliasOpt}(P_{2})\ \Downarrow \ (P_{3},\ \mathsf{alias}_{\mathsf{opt}}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseItem}(P)\ \Downarrow \ (P_{3},\ \langle \mathsf{ImportDecl},\ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{path},\ \mathsf{alias}_{\mathsf{opt}},\ \operatorname{SpanBetween}(P,\ P_{3}),\ []\rangle )
+\end{array}
 ```
 
 #### 11.1.3 AST Representation / Form
 
 `ImportDecl` is a top-level AST item.
 
-```text
-ImportDecl = ⟨attrs_opt, vis, path, alias_opt, span, doc⟩
+```math
+\mathsf{ImportDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{path},\ \mathsf{alias}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}\rangle 
 ```
 
 #### 11.1.4 Static Semantics
@@ -54,57 +52,51 @@ Import path resolution is defined by §11.5.4. This section defines the binding 
 
 **(Import-Path)**
 
-```text
-u = ⟨ImportDecl, vis, path, alias_opt, _, _⟩    Γ ⊢ ResolveImportPath(path) ⇓ mp    name = alias_opt if present, else Last(path)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ImportNames(u) ⇓ [(name, ⟨ModuleAlias, mp, ⊥, Import⟩)]
+```math
+\begin{array}{l}
+u\ =\ \langle \mathsf{ImportDecl},\ \mathsf{vis},\ \mathsf{path},\ \mathsf{alias}_{\mathsf{opt}},\ \_,\ \_\rangle \quad \Gamma \ \vdash \ \operatorname{ResolveImportPath}(\mathsf{path})\ \Downarrow \ \mathsf{mp}\quad \mathsf{name}\ =\ \mathsf{alias}_{\mathsf{opt}}\ \mathsf{if}\ \mathsf{present},\ \mathsf{else}\ \operatorname{Last}(\mathsf{path}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ImportNames}(u)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{ModuleAlias},\ \mathsf{mp},\ \bot ,\ \mathsf{Import}\rangle )]
+\end{array}
 ```
 
 **(Import-Path-Err)**
 
-```text
-u = ⟨ImportDecl, _, path, _, _, _⟩    Γ ⊢ ResolveImportPath(path) ⇑ c
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ImportNames(u) ⇑ c
+```math
+\begin{array}{l}
+u\ =\ \langle \mathsf{ImportDecl},\ \_,\ \mathsf{path},\ \_,\ \_,\ \_\rangle \quad \Gamma \ \vdash \ \operatorname{ResolveImportPath}(\mathsf{path})\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ImportNames}(u)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Bind-Import)**
 
-```text
-Γ ⊢ ImportNames(u) ⇓ B
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ItemBindings(u, p) ⇓ B
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ImportNames}(u)\ \Downarrow \ B \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemBindings}(u,\ p)\ \Downarrow \ B
+\end{array}
 ```
 
 **(Bind-Import-Err)**
 
-```text
-Γ ⊢ ImportNames(u) ⇑ c
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ItemBindings(u, p) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ImportNames}(u)\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemBindings}(u,\ p)\ \Uparrow \ c
+\end{array}
 ```
 
 **(ResolveItem-Import)**
-──────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveItem(ImportDecl(attrs_opt, vis, path, alias_opt, span, doc)) ⇓ ImportDecl(attrs_opt, vis, path, alias_opt, span, doc)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveItem}(\operatorname{ImportDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{path},\ \mathsf{alias}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}))\ \Downarrow \ \operatorname{ImportDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{path},\ \mathsf{alias}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc})
+\end{array}
 ```
 
 #### 11.1.5 Dynamic Semantics
@@ -142,247 +134,229 @@ using_specifier ::= identifier ("as" identifier)?
 
 **(Parse-Using-Wildcard)**
 
-```text
-Γ ⊢ ParseAttrListOpt(P) ⇓ (P_0, attrs_opt)    Γ ⊢ ParseVis(P_0) ⇓ (P_1, vis)    IsKw(Tok(P_1), `using`)    Γ ⊢ ParseModulePath(Advance(P_1)) ⇓ (P_2, mp)    IsOp(Tok(P_2), "::")    IsOp(Tok(Advance(P_2)), "*")
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseItem(P) ⇓ (Advance(Advance(P_2)), ⟨UsingDecl, attrs_opt, vis, ⟨UsingWildcard, mp⟩, SpanBetween(P, Advance(Advance(P_2))), []⟩)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P_{0},\ \mathsf{attrs}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseVis}(P_{0})\ \Downarrow \ (P_{1},\ \mathsf{vis})\quad \operatorname{IsKw}(\operatorname{Tok}(P_{1}),\ \texttt{using})\quad \Gamma \ \vdash \ \operatorname{ParseModulePath}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{mp})\quad \operatorname{IsOp}(\operatorname{Tok}(P_{2}),\ \texttt{"::"})\quad \operatorname{IsOp}(\operatorname{Tok}(\operatorname{Advance}(P_{2})),\ \texttt{"*"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseItem}(P)\ \Downarrow \ (\operatorname{Advance}(\operatorname{Advance}(P_{2})),\ \langle \mathsf{UsingDecl},\ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \langle \mathsf{UsingWildcard},\ \mathsf{mp}\rangle ,\ \operatorname{SpanBetween}(P,\ \operatorname{Advance}(\operatorname{Advance}(P_{2}))),\ []\rangle )
+\end{array}
 ```
 
 **(Parse-Using-List)**
 
-```text
-Γ ⊢ ParseAttrListOpt(P) ⇓ (P_0, attrs_opt)    Γ ⊢ ParseVis(P_0) ⇓ (P_1, vis)    IsKw(Tok(P_1), `using`)    Γ ⊢ ParseModulePath(Advance(P_1)) ⇓ (P_2, mp)    IsOp(Tok(P_2), "::")    IsPunc(Tok(Advance(P_2)), "{")    Γ ⊢ ParseUsingList(Advance(Advance(P_2))) ⇓ (P_3, specs)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseItem(P) ⇓ (P_3, ⟨UsingDecl, attrs_opt, vis, ⟨UsingList, mp, specs⟩, SpanBetween(P, P_3), []⟩)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P_{0},\ \mathsf{attrs}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseVis}(P_{0})\ \Downarrow \ (P_{1},\ \mathsf{vis})\quad \operatorname{IsKw}(\operatorname{Tok}(P_{1}),\ \texttt{using})\quad \Gamma \ \vdash \ \operatorname{ParseModulePath}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{mp})\quad \operatorname{IsOp}(\operatorname{Tok}(P_{2}),\ \texttt{"::"})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P_{2})),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseUsingList}(\operatorname{Advance}(\operatorname{Advance}(P_{2})))\ \Downarrow \ (P_{3},\ \mathsf{specs}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseItem}(P)\ \Downarrow \ (P_{3},\ \langle \mathsf{UsingDecl},\ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \langle \mathsf{UsingList},\ \mathsf{mp},\ \mathsf{specs}\rangle ,\ \operatorname{SpanBetween}(P,\ P_{3}),\ []\rangle )
+\end{array}
 ```
 
 **(Parse-Using-Item)**
 
-```text
-Γ ⊢ ParseAttrListOpt(P) ⇓ (P_0, attrs_opt)    Γ ⊢ ParseVis(P_0) ⇓ (P_1, vis)    IsKw(Tok(P_1), `using`)    Γ ⊢ ParseModulePath(Advance(P_1)) ⇓ (P_2, mp)    IsOp(Tok(P_2), "::")    IsIdent(Tok(Advance(P_2)))    Γ ⊢ ParseIdent(Advance(P_2)) ⇓ (P_3, id)    Γ ⊢ ParseAliasOpt(P_3) ⇓ (P_4, alias_opt)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseItem(P) ⇓ (P_4, ⟨UsingDecl, attrs_opt, vis, ⟨UsingItem, mp, id, alias_opt⟩, SpanBetween(P, P_4), []⟩)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P_{0},\ \mathsf{attrs}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseVis}(P_{0})\ \Downarrow \ (P_{1},\ \mathsf{vis})\quad \operatorname{IsKw}(\operatorname{Tok}(P_{1}),\ \texttt{using})\quad \Gamma \ \vdash \ \operatorname{ParseModulePath}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{mp})\quad \operatorname{IsOp}(\operatorname{Tok}(P_{2}),\ \texttt{"::"})\quad \operatorname{IsIdent}(\operatorname{Tok}(\operatorname{Advance}(P_{2})))\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P_{2}))\ \Downarrow \ (P_{3},\ \mathsf{id})\quad \Gamma \ \vdash \ \operatorname{ParseAliasOpt}(P_{3})\ \Downarrow \ (P_{4},\ \mathsf{alias}_{\mathsf{opt}}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseItem}(P)\ \Downarrow \ (P_{4},\ \langle \mathsf{UsingDecl},\ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \langle \mathsf{UsingItem},\ \mathsf{mp},\ \mathsf{id},\ \mathsf{alias}_{\mathsf{opt}}\rangle ,\ \operatorname{SpanBetween}(P,\ P_{4}),\ []\rangle )
+\end{array}
 ```
 
 **(Parse-UsingSpec)**
 
-```text
-Γ ⊢ ParseIdent(P) ⇓ (P_1, name)    Γ ⊢ ParseAliasOpt(P_1) ⇓ (P_2, alias_opt)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseUsingSpec(P) ⇓ (P_2, ⟨name, alias_opt⟩)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{name})\quad \Gamma \ \vdash \ \operatorname{ParseAliasOpt}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{alias}_{\mathsf{opt}}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseUsingSpec}(P)\ \Downarrow \ (P_{2},\ \langle \mathsf{name},\ \mathsf{alias}_{\mathsf{opt}}\rangle )
+\end{array}
 ```
 
 **(Parse-UsingList-Empty)**
-IsPunc(Tok(P), "}")
-──────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseUsingList(P) ⇓ (Advance(P), [])
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"\}"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseUsingList}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ [])
+\end{array}
 ```
 
 **(Parse-UsingList-Cons)**
 
-```text
-Γ ⊢ ParseUsingSpec(P) ⇓ (P_1, s)    Γ ⊢ ParseUsingListTail(P_1, [s]) ⇓ (P_2, specs)    IsPunc(Tok(P_2), "}")
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseUsingList(P) ⇓ (Advance(P_2), specs)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseUsingSpec}(P)\ \Downarrow \ (P_{1},\ s)\quad \Gamma \ \vdash \ \operatorname{ParseUsingListTail}(P_{1},\ [s])\ \Downarrow \ (P_{2},\ \mathsf{specs})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{"\}"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseUsingList}(P)\ \Downarrow \ (\operatorname{Advance}(P_{2}),\ \mathsf{specs})
+\end{array}
 ```
 
 **(Parse-UsingListTail-End)**
-IsPunc(Tok(P), "}")
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseUsingListTail(P, xs) ⇓ (P, xs)
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"\}"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseUsingListTail}(P,\ \mathsf{xs})\ \Downarrow \ (P,\ \mathsf{xs})
+\end{array}
 ```
 
 **(Parse-UsingListTail-TrailingComma)**
-IsPunc(Tok(P), ",")    IsPunc(Tok(Advance(P)), "}")    TrailingCommaAllowed(P_0, P, {Punctuator("}")})
-────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseUsingListTail(P, xs) ⇓ (Advance(P), xs)
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"\}"})\quad \operatorname{TrailingCommaAllowed}(P_{0},\ P,\ \{\operatorname{Punctuator}(\texttt{"\}"})\}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseUsingListTail}(P,\ \mathsf{xs})\ \Downarrow \ (\operatorname{Advance}(P),\ \mathsf{xs})
+\end{array}
 ```
 
 **(Parse-UsingListTail-Comma)**
 
-```text
-IsPunc(Tok(P), ",")    Γ ⊢ ParseUsingSpec(Advance(P)) ⇓ (P_1, s)    Γ ⊢ ParseUsingListTail(P_1, xs ++ [s]) ⇓ (P_2, ys)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseUsingListTail(P, xs) ⇓ (P_2, ys)
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \Gamma \ \vdash \ \operatorname{ParseUsingSpec}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ s)\quad \Gamma \ \vdash \ \operatorname{ParseUsingListTail}(P_{1},\ \mathsf{xs}\ \mathbin{++} \ [s])\ \Downarrow \ (P_{2},\ \mathsf{ys}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseUsingListTail}(P,\ \mathsf{xs})\ \Downarrow \ (P_{2},\ \mathsf{ys})
+\end{array}
 ```
 
 #### 11.2.3 AST Representation / Form
 
 `UsingDecl` is a top-level AST item with one of three clause forms.
 
-```text
-UsingDecl = ⟨attrs_opt, vis, clause, span, doc⟩
+```math
+\mathsf{UsingDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{clause},\ \mathsf{span},\ \mathsf{doc}\rangle 
 ```
 
-```text
-UsingClause ∈ {
-  UsingItem = ⟨module_path, name, alias_opt⟩,
-  UsingList = ⟨module_path, specs⟩,
-  UsingWildcard = ⟨module_path⟩
+```math
+\begin{array}{l}
+\mathsf{UsingClause}\ \in \ \{ \\
+\ \mathsf{UsingItem}\ =\ \langle \mathsf{module}_{\mathsf{path}},\ \mathsf{name},\ \mathsf{alias}_{\mathsf{opt}}\rangle , \\
+\ \mathsf{UsingList}\ =\ \langle \mathsf{module}_{\mathsf{path}},\ \mathsf{specs}\rangle , \\
+\ \mathsf{UsingWildcard}\ =\ \langle \mathsf{module}_{\mathsf{path}}\rangle 
+\end{array}
 ```
-
 }
 
-```text
-UsingSpec = ⟨name, alias_opt⟩    name ∈ identifier
+```math
+\mathsf{UsingSpec}\ =\ \langle \mathsf{name},\ \mathsf{alias}_{\mathsf{opt}}\rangle \quad \mathsf{name}\ \in \ \mathsf{identifier}
 ```
 
 #### 11.2.4 Static Semantics
 
 Using-path resolution and import coverage are defined by §11.5.4. Accessibility is defined by Chapter 7. This section defines the bindings produced by each `using` form.
 
-```text
-UsingSpecName(⟨name, alias_opt⟩) =
- alias_opt    if alias_opt ≠ ⊥
+```math
+\begin{array}{l}
+\operatorname{UsingSpecName}(\langle \mathsf{name},\ \mathsf{alias}_{\mathsf{opt}}\rangle )\ = \\
+\ \mathsf{alias}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{alias}_{\mathsf{opt}}\ \ne \ \bot  \\
+\ \mathsf{name}\quad \mathsf{otherwise}
+\end{array}
 ```
 
- name         otherwise
-
-UsingSpecNames([s_1, …, s_n]) = [UsingSpecName(s_1), …, UsingSpecName(s_n)]
+```math
+\operatorname{UsingSpecNames}([s_{1},\ \ldots ,\ s_{n}])\ =\ [\operatorname{UsingSpecName}(s_{1}),\ \ldots ,\ \operatorname{UsingSpecName}(s_{n})]
+```
 
 **(Using-Item)**
 
-```text
-u = ⟨UsingDecl, vis, ⟨UsingItem, mp_raw, item, alias_opt⟩, _, _⟩    Γ ⊢ ResolveUsingPath(mp_raw ++ [item]) ⇓ ⟨mp, item⟩    Γ ⊢ ImportOk(m, mp) ⇓ ok    Γ ⊢ CanAccess(m, DeclOf(mp, item)) ⇓ ok    (vis = `public` ⇒ Vis(DeclOf(mp, item)) = `public`)    NameMap(P, mp)[IdKey(item)] = ⟨k, _, _, _⟩    k ∈ {Value, Type, Class}    name = alias_opt if present, else item
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ UsingNames(u) ⇓ [(name, ⟨k, mp, item, Using⟩)]
+```math
+\begin{array}{l}
+u\ =\ \langle \mathsf{UsingDecl},\ \mathsf{vis},\ \langle \mathsf{UsingItem},\ \mathsf{mp}_{\mathsf{raw}},\ \mathsf{item},\ \mathsf{alias}_{\mathsf{opt}}\rangle ,\ \_,\ \_\rangle \quad \Gamma \ \vdash \ \operatorname{ResolveUsingPath}(\mathsf{mp}_{\mathsf{raw}}\ \mathbin{++} \ [\mathsf{item}])\ \Downarrow \ \langle \mathsf{mp},\ \mathsf{item}\rangle \quad \Gamma \ \vdash \ \operatorname{ImportOk}(m,\ \mathsf{mp})\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{CanAccess}(m,\ \operatorname{DeclOf}(\mathsf{mp},\ \mathsf{item}))\ \Downarrow \ \mathsf{ok}\quad (\mathsf{vis}\ =\ \texttt{public}\ \Rightarrow \ \operatorname{Vis}(\operatorname{DeclOf}(\mathsf{mp},\ \mathsf{item}))\ =\ \texttt{public})\quad \operatorname{NameMap}(P,\ \mathsf{mp})[\operatorname{IdKey}(\mathsf{item})]\ =\ \langle k,\ \_,\ \_,\ \_\rangle \quad k\ \in \ \{\mathsf{Value},\ \mathsf{Type},\ \mathsf{Class}\}\quad \mathsf{name}\ =\ \mathsf{alias}_{\mathsf{opt}}\ \mathsf{if}\ \mathsf{present},\ \mathsf{else}\ \mathsf{item} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{UsingNames}(u)\ \Downarrow \ [(\mathsf{name},\ \langle k,\ \mathsf{mp},\ \mathsf{item},\ \mathsf{Using}\rangle )]
+\end{array}
 ```
 
 **(Using-Item-Public-Err)**
 
-```text
-u = ⟨UsingDecl, `public`, ⟨UsingItem, mp_raw, item, _⟩, _, _⟩    Γ ⊢ ResolveUsingPath(mp_raw ++ [item]) ⇓ ⟨mp, item⟩    Vis(DeclOf(mp, item)) ≠ `public`    c = Code(Using-Path-Item-Public-Err)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ UsingNames(u) ⇑ c
+```math
+\begin{array}{l}
+u\ =\ \langle \mathsf{UsingDecl},\ \texttt{public},\ \langle \mathsf{UsingItem},\ \mathsf{mp}_{\mathsf{raw}},\ \mathsf{item},\ \_\rangle ,\ \_,\ \_\rangle \quad \Gamma \ \vdash \ \operatorname{ResolveUsingPath}(\mathsf{mp}_{\mathsf{raw}}\ \mathbin{++} \ [\mathsf{item}])\ \Downarrow \ \langle \mathsf{mp},\ \mathsf{item}\rangle \quad \operatorname{Vis}(\operatorname{DeclOf}(\mathsf{mp},\ \mathsf{item}))\ \ne \ \texttt{public}\quad c\ =\ \operatorname{Code}(\mathsf{Using}-\mathsf{Path}-\mathsf{Item}-\mathsf{Public}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{UsingNames}(u)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Using-List)**
 
-```text
-u = ⟨UsingDecl, vis, ⟨UsingList, mp_raw, specs⟩, _, _⟩    Distinct(UsingSpecNames(specs))    Γ ⊢ ResolveImportPath(mp_raw) ⇓ mp    Γ ⊢ ImportOk(m, mp) ⇓ ok    ∀ i, s_i = ⟨name_i, alias_i⟩    NameMap(P, mp)[IdKey(name_i)] = ⟨k_i, _, _, _⟩    k_i ∈ {Value, Type, Class}    Γ ⊢ CanAccess(m, DeclOf(mp, name_i)) ⇓ ok    (vis = `public` ⇒ Vis(DeclOf(mp, name_i)) = `public`)    bind_i = ⟨UsingSpecName(s_i), ⟨k_i, mp, name_i, Using⟩⟩
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ UsingNames(u) ⇓ [bind_1, …, bind_n]
+```math
+\begin{array}{l}
+u\ =\ \langle \mathsf{UsingDecl},\ \mathsf{vis},\ \langle \mathsf{UsingList},\ \mathsf{mp}_{\mathsf{raw}},\ \mathsf{specs}\rangle ,\ \_,\ \_\rangle \quad \operatorname{Distinct}(\operatorname{UsingSpecNames}(\mathsf{specs}))\quad \Gamma \ \vdash \ \operatorname{ResolveImportPath}(\mathsf{mp}_{\mathsf{raw}})\ \Downarrow \ \mathsf{mp}\quad \Gamma \ \vdash \ \operatorname{ImportOk}(m,\ \mathsf{mp})\ \Downarrow \ \mathsf{ok}\quad \forall \ i,\ s_{i}\ =\ \langle \mathsf{name}_{i},\ \mathsf{alias}_{i}\rangle \quad \operatorname{NameMap}(P,\ \mathsf{mp})[\operatorname{IdKey}(\mathsf{name}_{i})]\ =\ \langle k_{i},\ \_,\ \_,\ \_\rangle \quad k_{i}\ \in \ \{\mathsf{Value},\ \mathsf{Type},\ \mathsf{Class}\}\quad \Gamma \ \vdash \ \operatorname{CanAccess}(m,\ \operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name}_{i}))\ \Downarrow \ \mathsf{ok}\quad (\mathsf{vis}\ =\ \texttt{public}\ \Rightarrow \ \operatorname{Vis}(\operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name}_{i}))\ =\ \texttt{public})\quad \mathsf{bind}_{i}\ =\ \langle \operatorname{UsingSpecName}(s_{i}),\ \langle k_{i},\ \mathsf{mp},\ \mathsf{name}_{i},\ \mathsf{Using}\rangle \rangle  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{UsingNames}(u)\ \Downarrow \ [\mathsf{bind}_{1},\ \ldots ,\ \mathsf{bind}_{n}]
+\end{array}
 ```
 
 **(Using-Wildcard-Warn)**
 
-```text
-u = ⟨UsingDecl, vis, ⟨UsingWildcard, mp_raw⟩, _, _⟩    Γ ⊢ ResolveImportPath(mp_raw) ⇓ mp    Γ ⊢ ImportOk(m, mp) ⇓ ok    PublicAPI(m)    Items = { name | name ∈ ItemNames(mp) ∧ Γ ⊢ CanAccess(m, DeclOf(mp, name)) ⇓ ok }    (vis = `public` ⇒ ∀ name ∈ Items. Vis(DeclOf(mp, name)) = `public`)    ∀ name ∈ Items, NameMap(P, mp)[IdKey(name)] = ⟨k, _, _, _⟩    k ∈ {Value, Type, Class}    bind_name = ⟨name, ⟨k, mp, name, Using⟩⟩    Γ ⊢ Emit(W-MOD-1201, ⊥)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ UsingNames(u) ⇓ [bind_name | name ∈ Items]
+```math
+\begin{array}{l}
+u\ =\ \langle \mathsf{UsingDecl},\ \mathsf{vis},\ \langle \mathsf{UsingWildcard},\ \mathsf{mp}_{\mathsf{raw}}\rangle ,\ \_,\ \_\rangle \quad \Gamma \ \vdash \ \operatorname{ResolveImportPath}(\mathsf{mp}_{\mathsf{raw}})\ \Downarrow \ \mathsf{mp}\quad \Gamma \ \vdash \ \operatorname{ImportOk}(m,\ \mathsf{mp})\ \Downarrow \ \mathsf{ok}\quad \operatorname{PublicAPI}(m)\quad \mathsf{Items}\ =\ \{\ \mathsf{name}\ \mid \ \mathsf{name}\ \in \ \operatorname{ItemNames}(\mathsf{mp})\ \land \ \Gamma \ \vdash \ \operatorname{CanAccess}(m,\ \operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name}))\ \Downarrow \ \mathsf{ok}\ \}\quad (\mathsf{vis}\ =\ \texttt{public}\ \Rightarrow \ \forall \ \mathsf{name}\ \in \ \mathsf{Items}.\ \operatorname{Vis}(\operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name}))\ =\ \texttt{public})\quad \forall \ \mathsf{name}\ \in \ \mathsf{Items},\ \operatorname{NameMap}(P,\ \mathsf{mp})[\operatorname{IdKey}(\mathsf{name})]\ =\ \langle k,\ \_,\ \_,\ \_\rangle \quad k\ \in \ \{\mathsf{Value},\ \mathsf{Type},\ \mathsf{Class}\}\quad \mathsf{bind}_{\mathsf{name}}\ =\ \langle \mathsf{name},\ \langle k,\ \mathsf{mp},\ \mathsf{name},\ \mathsf{Using}\rangle \rangle \quad \Gamma \ \vdash \ \operatorname{Emit}(W-\mathsf{MOD}-1201,\ \bot ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{UsingNames}(u)\ \Downarrow \ [\mathsf{bind}_{\mathsf{name}}\ \mid \ \mathsf{name}\ \in \ \mathsf{Items}]
+\end{array}
 ```
 
 **(Using-Wildcard)**
 
-```text
-u = ⟨UsingDecl, vis, ⟨UsingWildcard, mp_raw⟩, _, _⟩    Γ ⊢ ResolveImportPath(mp_raw) ⇓ mp    Γ ⊢ ImportOk(m, mp) ⇓ ok    ¬ PublicAPI(m)    Items = { name | name ∈ ItemNames(mp) ∧ Γ ⊢ CanAccess(m, DeclOf(mp, name)) ⇓ ok }    (vis = `public` ⇒ ∀ name ∈ Items. Vis(DeclOf(mp, name)) = `public`)    ∀ name ∈ Items, NameMap(P, mp)[IdKey(name)] = ⟨k, _, _, _⟩    k ∈ {Value, Type, Class}    bind_name = ⟨name, ⟨k, mp, name, Using⟩⟩
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ UsingNames(u) ⇓ [bind_name | name ∈ Items]
+```math
+\begin{array}{l}
+u\ =\ \langle \mathsf{UsingDecl},\ \mathsf{vis},\ \langle \mathsf{UsingWildcard},\ \mathsf{mp}_{\mathsf{raw}}\rangle ,\ \_,\ \_\rangle \quad \Gamma \ \vdash \ \operatorname{ResolveImportPath}(\mathsf{mp}_{\mathsf{raw}})\ \Downarrow \ \mathsf{mp}\quad \Gamma \ \vdash \ \operatorname{ImportOk}(m,\ \mathsf{mp})\ \Downarrow \ \mathsf{ok}\quad \lnot \ \operatorname{PublicAPI}(m)\quad \mathsf{Items}\ =\ \{\ \mathsf{name}\ \mid \ \mathsf{name}\ \in \ \operatorname{ItemNames}(\mathsf{mp})\ \land \ \Gamma \ \vdash \ \operatorname{CanAccess}(m,\ \operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name}))\ \Downarrow \ \mathsf{ok}\ \}\quad (\mathsf{vis}\ =\ \texttt{public}\ \Rightarrow \ \forall \ \mathsf{name}\ \in \ \mathsf{Items}.\ \operatorname{Vis}(\operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name}))\ =\ \texttt{public})\quad \forall \ \mathsf{name}\ \in \ \mathsf{Items},\ \operatorname{NameMap}(P,\ \mathsf{mp})[\operatorname{IdKey}(\mathsf{name})]\ =\ \langle k,\ \_,\ \_,\ \_\rangle \quad k\ \in \ \{\mathsf{Value},\ \mathsf{Type},\ \mathsf{Class}\}\quad \mathsf{bind}_{\mathsf{name}}\ =\ \langle \mathsf{name},\ \langle k,\ \mathsf{mp},\ \mathsf{name},\ \mathsf{Using}\rangle \rangle  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{UsingNames}(u)\ \Downarrow \ [\mathsf{bind}_{\mathsf{name}}\ \mid \ \mathsf{name}\ \in \ \mathsf{Items}]
+\end{array}
 ```
 
 **(Using-List-Dup)**
 
-```text
-u = ⟨UsingDecl, _, ⟨UsingList, mp, specs⟩, _, _⟩    ¬ Distinct(UsingSpecNames(specs))    c = Code(Using-List-Dup)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ UsingNames(u) ⇑ c
+```math
+\begin{array}{l}
+u\ =\ \langle \mathsf{UsingDecl},\ \_,\ \langle \mathsf{UsingList},\ \mathsf{mp},\ \mathsf{specs}\rangle ,\ \_,\ \_\rangle \quad \lnot \ \operatorname{Distinct}(\operatorname{UsingSpecNames}(\mathsf{specs}))\quad c\ =\ \operatorname{Code}(\mathsf{Using}-\mathsf{List}-\mathsf{Dup}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{UsingNames}(u)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Using-List-Public-Err)**
 
-```text
-u = ⟨UsingDecl, `public`, ⟨UsingList, mp_raw, specs⟩, _, _⟩    Γ ⊢ ResolveImportPath(mp_raw) ⇓ mp    ∃ s_i ∈ specs. s_i = ⟨name_i, _⟩ ∧ Vis(DeclOf(mp, name_i)) ≠ `public`    c = Code(Using-List-Public-Err)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ UsingNames(u) ⇑ c
+```math
+\begin{array}{l}
+u\ =\ \langle \mathsf{UsingDecl},\ \texttt{public},\ \langle \mathsf{UsingList},\ \mathsf{mp}_{\mathsf{raw}},\ \mathsf{specs}\rangle ,\ \_,\ \_\rangle \quad \Gamma \ \vdash \ \operatorname{ResolveImportPath}(\mathsf{mp}_{\mathsf{raw}})\ \Downarrow \ \mathsf{mp}\quad \exists \ s_{i}\ \in \ \mathsf{specs}.\ s_{i}\ =\ \langle \mathsf{name}_{i},\ \_\rangle \ \land \ \operatorname{Vis}(\operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name}_{i}))\ \ne \ \texttt{public}\quad c\ =\ \operatorname{Code}(\mathsf{Using}-\mathsf{List}-\mathsf{Public}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{UsingNames}(u)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Bind-Using)**
 
-```text
-Γ ⊢ UsingNames(u) ⇓ B
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ItemBindings(u, p) ⇓ B
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{UsingNames}(u)\ \Downarrow \ B \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemBindings}(u,\ p)\ \Downarrow \ B
+\end{array}
 ```
 
 **(Bind-Using-Err)**
 
-```text
-Γ ⊢ UsingNames(u) ⇑ c
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ItemBindings(u, p) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{UsingNames}(u)\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemBindings}(u,\ p)\ \Uparrow \ c
+\end{array}
 ```
 
 **(ResolveItem-Using)**
-──────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveItem(UsingDecl(attrs_opt, vis, clause, span, doc)) ⇓ UsingDecl(attrs_opt, vis, clause, span, doc)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveItem}(\operatorname{UsingDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{clause},\ \mathsf{span},\ \mathsf{doc}))\ \Downarrow \ \operatorname{UsingDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{clause},\ \mathsf{span},\ \mathsf{doc})
+\end{array}
 ```
 
 #### 11.2.5 Dynamic Semantics
@@ -421,104 +395,90 @@ This chapter uses `StaticDecl` for top-level `let` and `var` items.
 
 **(Parse-Static-Decl)**
 
-```text
-Γ ⊢ ParseAttrListOpt(P) ⇓ (P_0, attrs_opt)    Γ ⊢ ParseVis(P_0) ⇓ (P_1, vis)    Tok(P_1) = Keyword(kw)    kw ∈ {`let`, `var`}    mut = kw    Γ ⊢ ParseBindingAfterLetVar(P_1) ⇓ (P_2, bind)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseItem(P) ⇓ (P_2, ⟨StaticDecl, attrs_opt, vis, mut, bind, SpanBetween(P, P_2), []⟩)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P_{0},\ \mathsf{attrs}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseVis}(P_{0})\ \Downarrow \ (P_{1},\ \mathsf{vis})\quad \operatorname{Tok}(P_{1})\ =\ \operatorname{Keyword}(\mathsf{kw})\quad \mathsf{kw}\ \in \ \{\texttt{let},\ \texttt{var}\}\quad \mathsf{mut}\ =\ \mathsf{kw}\quad \Gamma \ \vdash \ \operatorname{ParseBindingAfterLetVar}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{bind}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseItem}(P)\ \Downarrow \ (P_{2},\ \langle \mathsf{StaticDecl},\ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{mut},\ \mathsf{bind},\ \operatorname{SpanBetween}(P,\ P_{2}),\ []\rangle )
+\end{array}
 ```
 
 #### 11.3.3 AST Representation / Form
 
-```text
-StaticDecl = ⟨attrs_opt, vis, mut, binding, span, doc⟩
+```math
+\mathsf{StaticDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{mut},\ \mathsf{binding},\ \mathsf{span},\ \mathsf{doc}\rangle 
 ```
 
-```text
-mut ∈ {`let`, `var`}
+```math
+\mathsf{mut}\ \in \ \{\texttt{let},\ \texttt{var}\}
 ```
 
 #### 11.3.4 Static Semantics
 
 Top-level `let` and `var` declarations are module-scope bindings. Their names are derived from the bound pattern.
 
-```text
-StaticVisOk(vis, mut) ⇔ ¬ (vis = `public` ∧ mut = `var`)
+```math
+\operatorname{StaticVisOk}(\mathsf{vis},\ \mathsf{mut})\ \Leftrightarrow \ \lnot \ (\mathsf{vis}\ =\ \texttt{public}\ \land \ \mathsf{mut}\ =\ \texttt{var})
 ```
 
 **(Bind-Static)**
 
-```text
-Γ ⊢ PatNames(pat) ⇓ N
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ItemBindings(⟨StaticDecl, _, _, ⟨pat, _, _, _, _⟩, _, _⟩, p) ⇓ [(n, ⟨Value, p, ⊥, Decl⟩) | n ∈ N]
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{PatNames}(\mathsf{pat})\ \Downarrow \ N \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\langle \mathsf{StaticDecl},\ \_,\ \_,\ \langle \mathsf{pat},\ \_,\ \_,\ \_,\ \_\rangle ,\ \_,\ \_\rangle ,\ p)\ \Downarrow \ [(n,\ \langle \mathsf{Value},\ p,\ \bot ,\ \mathsf{Decl}\rangle )\ \mid \ n\ \in \ N]
+\end{array}
 ```
 
 **(WF-StaticDecl)**
 
-```text
-binding = ⟨pat, ty_opt, op, init, _⟩    StaticVisOk(vis, mut)    ty_opt = T_a    Γ; ⊥; ⊥ ⊢ init ⇐ T_a ⊣ ∅    Γ ⊢ pat ⇐ T_a ⊣ B    Distinct(PatNames(pat))
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ StaticDecl : ok
+```math
+\begin{array}{l}
+\mathsf{binding}\ =\ \langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle \quad \operatorname{StaticVisOk}(\mathsf{vis},\ \mathsf{mut})\quad \mathsf{ty}_{\mathsf{opt}}\ =\ T_{a}\quad \Gamma ;\ \bot ;\ \bot \ \vdash \ \mathsf{init}\ \Leftarrow \ T_{a}\ \dashv \ \emptyset \quad \Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ T_{a}\ \dashv \ B\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat})) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{StaticDecl}\ :\ \mathsf{ok}
+\end{array}
 ```
 
 **(WF-StaticDecl-Ann-Mismatch)**
 
-```text
-item = StaticDecl(_, vis, mut, ⟨pat, ty_opt, op, init, _⟩, _, _)    ty_opt = T_a    Γ; ⊥; ⊥ ⊢ init ⇒ T_i ⊣ C    Solve(C) ⇓ θ    ¬(Γ ⊢ θ(T_i) <: T_a)    c = Code(WF-StaticDecl-Ann-Mismatch)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ item ⇑ c
+```math
+\begin{array}{l}
+\mathsf{item}\ =\ \operatorname{StaticDecl}(\_,\ \mathsf{vis},\ \mathsf{mut},\ \langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle ,\ \_,\ \_)\quad \mathsf{ty}_{\mathsf{opt}}\ =\ T_{a}\quad \Gamma ;\ \bot ;\ \bot \ \vdash \ \mathsf{init}\ \Rightarrow \ T_{i}\ \dashv \ C\quad \operatorname{Solve}(C)\ \Downarrow \ \theta \quad \lnot (\Gamma \ \vdash \ \theta (T_{i})\ \mathrel{<:} \ T_{a})\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{StaticDecl}-\mathsf{Ann}-\mathsf{Mismatch}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{item}\ \Uparrow \ c
+\end{array}
 ```
 
 **(WF-StaticDecl-MissingType)**
 
-```text
-item = StaticDecl(_, _, _, ⟨pat, ty_opt, op, init, _⟩, _, _)    ty_opt = ⊥    c = Code(WF-StaticDecl-MissingType)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ item ⇑ c
+```math
+\begin{array}{l}
+\mathsf{item}\ =\ \operatorname{StaticDecl}(\_,\ \_,\ \_,\ \langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle ,\ \_,\ \_)\quad \mathsf{ty}_{\mathsf{opt}}\ =\ \bot \quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{StaticDecl}-\mathsf{MissingType}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{item}\ \Uparrow \ c
+\end{array}
 ```
 
 **(StaticVisOk-Err)**
 
-```text
-item = StaticDecl(_, vis, mut, _, _, _)    ¬ StaticVisOk(vis, mut)    c = Code(StaticVisOk-Err)
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ item ⇑ c
+```math
+\begin{array}{l}
+\mathsf{item}\ =\ \operatorname{StaticDecl}(\_,\ \mathsf{vis},\ \mathsf{mut},\ \_,\ \_,\ \_)\quad \lnot \ \operatorname{StaticVisOk}(\mathsf{vis},\ \mathsf{mut})\quad c\ =\ \operatorname{Code}(\mathsf{StaticVisOk}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{item}\ \Uparrow \ c
+\end{array}
 ```
 
 **(ResolveItem-Static)**
 
-```text
-Γ ⊢ ResolvePattern(pat) ⇓ pat'    Γ ⊢ ResolveExpr(init) ⇓ init'    Γ ⊢ ResolveTypeOpt(ty_opt) ⇓ ty_opt'
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveItem(StaticDecl(attrs_opt, vis, mut, ⟨pat, ty_opt, op, init, span⟩, span', doc)) ⇓ StaticDecl(attrs_opt, vis, mut, ⟨pat', ty_opt', op, init', span⟩, span', doc)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolvePattern}(\mathsf{pat})\ \Downarrow \ \mathsf{pat}'\quad \Gamma \ \vdash \ \operatorname{ResolveExpr}(\mathsf{init})\ \Downarrow \ \mathsf{init}'\quad \Gamma \ \vdash \ \operatorname{ResolveTypeOpt}(\mathsf{ty}_{\mathsf{opt}})\ \Downarrow \ \mathsf{ty}_{\mathsf{opt}}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveItem}(\operatorname{StaticDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{mut},\ \langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \mathsf{span}\rangle ,\ \mathsf{span}',\ \mathsf{doc}))\ \Downarrow \ \operatorname{StaticDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{mut},\ \langle \mathsf{pat}',\ \mathsf{ty}_{\mathsf{opt}}',\ \mathsf{op},\ \mathsf{init}',\ \mathsf{span}\rangle ,\ \mathsf{span}',\ \mathsf{doc})
+\end{array}
 ```
 
 #### 11.3.5 Dynamic Semantics
@@ -527,262 +487,266 @@ item = StaticDecl(_, vis, mut, _, _, _)    ¬ StaticVisOk(vis, mut)    c = Code(
 
 #### 11.3.6 Lowering
 
-ConstInitJudg = {ConstInit}
-
-```text
-Γ ⊢ ConstInit(e) ⇓ bytes ⇔ e = Literal(lit) ∧ Γ ⊢ EncodeConst(ExprType(e), lit) ⇓ bytes
+```math
+\mathsf{ConstInitJudg}\ =\ \{\mathsf{ConstInit}\}
 ```
 
-StaticName(binding) =
-
-```text
- name    if binding = ⟨IdentifierPattern(name), ty_opt, op, init, span⟩
- ⊥       otherwise
+```math
+\Gamma \ \vdash \ \operatorname{ConstInit}(e)\ \Downarrow \ \mathsf{bytes}\ \Leftrightarrow \ e\ =\ \operatorname{Literal}(\mathsf{lit})\ \land \ \Gamma \ \vdash \ \operatorname{EncodeConst}(\operatorname{ExprType}(e),\ \mathsf{lit})\ \Downarrow \ \mathsf{bytes}
 ```
 
-```text
-StaticBindTypes(binding) = B ⇔ binding = ⟨pat, ty_opt, op, init, _⟩ ∧ Γ ⊢ pat ⇐ BindType(binding) ⊣ B
+```math
+\begin{array}{l}
+\operatorname{StaticName}(\mathsf{binding})\ = \\
+\ \mathsf{name}\quad \mathsf{if}\ \mathsf{binding}\ =\ \langle \operatorname{IdentifierPattern}(\mathsf{name}),\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \mathsf{span}\rangle  \\
+\ \bot \quad \mathsf{otherwise}
+\end{array}
 ```
 
-```text
-StaticBindList(binding) = PatNames(pat) ⇔ binding = ⟨pat, _, _, _, _⟩
+```math
+\operatorname{StaticBindTypes}(\mathsf{binding})\ =\ B\ \Leftrightarrow \ \mathsf{binding}\ =\ \langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle \ \land \ \Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ \operatorname{BindType}(\mathsf{binding})\ \dashv \ B
 ```
 
-```text
-StaticBinding : StaticDecl × Name → StaticDecl
+```math
+\operatorname{StaticBindList}(\mathsf{binding})\ =\ \operatorname{PatNames}(\mathsf{pat})\ \Leftrightarrow \ \mathsf{binding}\ =\ \langle \mathsf{pat},\ \_,\ \_,\ \_,\ \_\rangle 
 ```
 
-StaticSym(StaticDecl(_, _, _, binding, _, _), x) =
- Mangle(StaticDecl(_, _, _, binding, _, _))    if StaticName(binding) = x
- Mangle(StaticBinding(StaticDecl(_, _, _, binding, _, _), x))    otherwise
+```math
+\mathsf{StaticBinding}\ :\ \mathsf{StaticDecl}\ \times \ \mathsf{Name}\ \to \ \mathsf{StaticDecl}
+```
+
+```math
+\begin{array}{l}
+\operatorname{StaticSym}(\operatorname{StaticDecl}(\_,\ \_,\ \_,\ \mathsf{binding},\ \_,\ \_),\ x)\ = \\
+\ \operatorname{Mangle}(\operatorname{StaticDecl}(\_,\ \_,\ \_,\ \mathsf{binding},\ \_,\ \_))\quad \mathsf{if}\ \operatorname{StaticName}(\mathsf{binding})\ =\ x \\
+\ \operatorname{Mangle}(\operatorname{StaticBinding}(\operatorname{StaticDecl}(\_,\ \_,\ \_,\ \mathsf{binding},\ \_,\ \_),\ x))\quad \mathsf{otherwise}
+\end{array}
+```
 
 **(Emit-Static-Const)**
 
-```text
-item = StaticDecl(attrs_opt, vis, mut, binding, span, doc)    mut = `let`    StaticName(binding) = name    binding = ⟨pat, ty_opt, op, init, _⟩    Γ ⊢ ConstInit(init) ⇓ bytes    Γ ⊢ Mangle(item) ⇓ sym
-```
-
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EmitGlobal(item) ⇓ [GlobalConst(sym, bytes)]
+```math
+\begin{array}{l}
+\mathsf{item}\ =\ \operatorname{StaticDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{mut},\ \mathsf{binding},\ \mathsf{span},\ \mathsf{doc})\quad \mathsf{mut}\ =\ \texttt{let}\quad \operatorname{StaticName}(\mathsf{binding})\ =\ \mathsf{name}\quad \mathsf{binding}\ =\ \langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle \quad \Gamma \ \vdash \ \operatorname{ConstInit}(\mathsf{init})\ \Downarrow \ \mathsf{bytes}\quad \Gamma \ \vdash \ \operatorname{Mangle}(\mathsf{item})\ \Downarrow \ \mathsf{sym} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EmitGlobal}(\mathsf{item})\ \Downarrow \ [\operatorname{GlobalConst}(\mathsf{sym},\ \mathsf{bytes})]
+\end{array}
 ```
 
 **(Emit-Static-Init)**
 
-```text
-item = StaticDecl(attrs_opt, vis, mut, binding, span, doc)    StaticName(binding) = name    binding = ⟨pat, ty_opt, op, init, _⟩    ((mut = `var`) ∨ (Γ ⊢ ConstInit(init) ⇑))    T = ExprType(init)    Γ ⊢ Mangle(item) ⇓ sym
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EmitGlobal(item) ⇓ [GlobalZero(sym, sizeof(T))]
+```math
+\begin{array}{l}
+\mathsf{item}\ =\ \operatorname{StaticDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{mut},\ \mathsf{binding},\ \mathsf{span},\ \mathsf{doc})\quad \operatorname{StaticName}(\mathsf{binding})\ =\ \mathsf{name}\quad \mathsf{binding}\ =\ \langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle \quad ((\mathsf{mut}\ =\ \texttt{var})\ \lor \ (\Gamma \ \vdash \ \operatorname{ConstInit}(\mathsf{init})\ \Uparrow ))\quad T\ =\ \operatorname{ExprType}(\mathsf{init})\quad \Gamma \ \vdash \ \operatorname{Mangle}(\mathsf{item})\ \Downarrow \ \mathsf{sym} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EmitGlobal}(\mathsf{item})\ \Downarrow \ [\operatorname{GlobalZero}(\mathsf{sym},\ \operatorname{sizeof}(T))]
+\end{array}
 ```
 
 **(Emit-Static-Multi)**
 
-```text
-item = StaticDecl(attrs_opt, vis, mut, binding, span, doc)    StaticName(binding) = ⊥    StaticBindTypes(binding) = B    StaticBindList(binding) = [x_1, …, x_k]    ∀ i, Γ ⊢ Mangle(StaticBinding(item, x_i)) ⇓ sym_i
+```math
+\begin{array}{l}
+\mathsf{item}\ =\ \operatorname{StaticDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{mut},\ \mathsf{binding},\ \mathsf{span},\ \mathsf{doc})\quad \operatorname{StaticName}(\mathsf{binding})\ =\ \bot \quad \operatorname{StaticBindTypes}(\mathsf{binding})\ =\ B\quad \operatorname{StaticBindList}(\mathsf{binding})\ =\ [x_{1},\ \ldots ,\ x_{k}]\quad \forall \ i,\ \Gamma \ \vdash \ \operatorname{Mangle}(\operatorname{StaticBinding}(\mathsf{item},\ x_{i}))\ \Downarrow \ \mathsf{sym}_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EmitGlobal}(\mathsf{item})\ \Downarrow \ [\operatorname{GlobalZero}(\mathsf{sym}_{1},\ \operatorname{sizeof}(B[x_{1}])),\ \ldots ,\ \operatorname{GlobalZero}(\mathsf{sym}_{k},\ \operatorname{sizeof}(B[x_{k}]))]
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EmitGlobal(item) ⇓ [GlobalZero(sym_1, sizeof(B[x_1])), …, GlobalZero(sym_k, sizeof(B[x_k]))]
+```math
+\operatorname{InitSym}(m)\ =\ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"init"}]\ \mathbin{++} \ \operatorname{PathOfModule}(m))
 ```
-
-InitSym(m) = PathSig(["ultraviolet", "runtime", "init"] ++ PathOfModule(m))
 
 **(InitFn)**
-InitSym(m) = sym
-──────────────────────────────
 
-```text
-Γ ⊢ InitFn(m) ⇓ sym
+```math
+\begin{array}{l}
+\operatorname{InitSym}(m)\ =\ \mathsf{sym} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{InitFn}(m)\ \Downarrow \ \mathsf{sym}
+\end{array}
 ```
 
-DeinitSym(m) = PathSig(["ultraviolet", "runtime", "deinit"] ++ PathOfModule(m))
+```math
+\operatorname{DeinitSym}(m)\ =\ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"deinit"}]\ \mathbin{++} \ \operatorname{PathOfModule}(m))
+```
 
 **(DeinitFn)**
-DeinitSym(m) = sym
-──────────────────────────────
 
-```text
-Γ ⊢ DeinitFn(m) ⇓ sym
+```math
+\begin{array}{l}
+\operatorname{DeinitSym}(m)\ =\ \mathsf{sym} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{DeinitFn}(m)\ \Downarrow \ \mathsf{sym}
+\end{array}
 ```
 
-```text
-StaticItems(P, m) = [ item | item ∈ ASTModule(P, m).items ∧ item = StaticDecl(_, _, _, _, _, _) ]
+```math
+\operatorname{StaticItems}(P,\ m)\ =\ [\ \mathsf{item}\ \mid \ \mathsf{item}\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\ \land \ \mathsf{item}\ =\ \operatorname{StaticDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_)\ ]
 ```
 
-```text
-StaticItemOf(path, name) = item ⇔ m = path ∧ item ∈ StaticItems(Project(Γ), m) ∧ item = StaticDecl(_, _, _, binding, _, _) ∧ name ∈ StaticBindList(binding) ∧ ∀ item'. (item' ∈ StaticItems(Project(Γ), m) ∧ item' = StaticDecl(_, _, _, binding', _, _) ∧ name ∈ StaticBindList(binding')) ⇒ item' = item
+```math
+\operatorname{StaticItemOf}(\mathsf{path},\ \mathsf{name})\ =\ \mathsf{item}\ \Leftrightarrow \ m\ =\ \mathsf{path}\ \land \ \mathsf{item}\ \in \ \operatorname{StaticItems}(\operatorname{Project}(\Gamma ),\ m)\ \land \ \mathsf{item}\ =\ \operatorname{StaticDecl}(\_,\ \_,\ \_,\ \mathsf{binding},\ \_,\ \_)\ \land \ \mathsf{name}\ \in \ \operatorname{StaticBindList}(\mathsf{binding})\ \land \ \forall \ \mathsf{item}'.\ (\mathsf{item}'\ \in \ \operatorname{StaticItems}(\operatorname{Project}(\Gamma ),\ m)\ \land \ \mathsf{item}'\ =\ \operatorname{StaticDecl}(\_,\ \_,\ \_,\ \mathsf{binding}',\ \_,\ \_)\ \land \ \mathsf{name}\ \in \ \operatorname{StaticBindList}(\mathsf{binding}'))\ \Rightarrow \ \mathsf{item}'\ =\ \mathsf{item}
 ```
 
-```text
-StaticSymPath(path, name) = StaticSym(item, name) ⇔ StaticItemOf(path, name) = item
+```math
+\operatorname{StaticSymPath}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{StaticSym}(\mathsf{item},\ \mathsf{name})\ \Leftrightarrow \ \operatorname{StaticItemOf}(\mathsf{path},\ \mathsf{name})\ =\ \mathsf{item}
 ```
 
-```text
-StaticAddr(path, name) = addr ⇔ ∃ sym. StaticSymPath(path, name) = sym ∧ AddrOfSym(sym) = addr
+```math
+\operatorname{StaticAddr}(\mathsf{path},\ \mathsf{name})\ =\ \mathsf{addr}\ \Leftrightarrow \ \exists \ \mathsf{sym}.\ \operatorname{StaticSymPath}(\mathsf{path},\ \mathsf{name})\ =\ \mathsf{sym}\ \land \ \operatorname{AddrOfSym}(\mathsf{sym})\ =\ \mathsf{addr}
 ```
 
 For hosted-library session execution, §24.4.1 reinterprets the `AddrOfSym(sym)` occurrence above session-locally for every hosted-state symbol.
 
-```text
-AddrOfSym : Symbol → Addr
+```math
+\mathsf{AddrOfSym}\ :\ \mathsf{Symbol}\ \to \ \mathsf{Addr}
 ```
 
-```text
-StaticType(path, name) = StaticBindTypes(binding)[name] ⇔ StaticItemOf(path, name) = StaticDecl(_, _, mut, binding, _, _)
+```math
+\operatorname{StaticType}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{StaticBindTypes}(\mathsf{binding})[\mathsf{name}]\ \Leftrightarrow \ \operatorname{StaticItemOf}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{StaticDecl}(\_,\ \_,\ \mathsf{mut},\ \mathsf{binding},\ \_,\ \_)
 ```
 
-```text
-StaticBindInfo(path, name) = BindInfoMap(λ U. RespOfInit(init), StaticBindTypes(binding), MovOf(op), mut)[name] ⇔ StaticItemOf(path, name) = StaticDecl(_, _, mut, binding, _, _) ∧ binding = ⟨_, _, op, init, _⟩
+```math
+\operatorname{StaticBindInfo}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{BindInfoMap}(\lambda \ U.\ \operatorname{RespOfInit}(\mathsf{init}),\ \operatorname{StaticBindTypes}(\mathsf{binding}),\ \operatorname{MovOf}(\mathsf{op}),\ \mathsf{mut})[\mathsf{name}]\ \Leftrightarrow \ \operatorname{StaticItemOf}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{StaticDecl}(\_,\ \_,\ \mathsf{mut},\ \mathsf{binding},\ \_,\ \_)\ \land \ \mathsf{binding}\ =\ \langle \_,\ \_,\ \mathsf{op},\ \mathsf{init},\ \_\rangle 
 ```
 
-```text
-SeqIRList([]) = ε
+```math
+\begin{array}{l}
+\operatorname{SeqIRList}([])\ =\ \varepsilon  \\
+\operatorname{SeqIRList}([\mathsf{IR}]\ \mathbin{++} \ \mathsf{IRs})\ =\ \operatorname{SeqIR}(\mathsf{IR},\ \operatorname{SeqIRList}(\mathsf{IRs}))
+\end{array}
 ```
 
-SeqIRList([IR] ++ IRs) = SeqIR(IR, SeqIRList(IRs))
-
-```text
-StaticStoreIR(item, []) = ε
-StaticStoreIR(item, [⟨x, v⟩] ++ bs) = SeqIR(StoreGlobal(StaticSym(item, x), v), StaticStoreIR(item, bs))
+```math
+\begin{array}{l}
+\operatorname{StaticStoreIR}(\mathsf{item},\ [])\ =\ \varepsilon  \\
+\operatorname{StaticStoreIR}(\mathsf{item},\ [\langle x,\ v\rangle ]\ \mathbin{++} \ \mathsf{bs})\ =\ \operatorname{SeqIR}(\operatorname{StoreGlobal}(\operatorname{StaticSym}(\mathsf{item},\ x),\ v),\ \operatorname{StaticStoreIR}(\mathsf{item},\ \mathsf{bs}))
+\end{array}
 ```
 
 **(Lower-StaticInit-Item)**
 
-```text
-item = StaticDecl(attrs_opt, vis, mut, binding, span, doc)    binding = ⟨pat, ty_opt, op, init, _⟩    Γ ⊢ LowerExpr(init) ⇓ ⟨IR_e, v⟩    Γ ⊢ MatchPattern(pat, v) ⇓ B    BindOrder(pat, B) = binds    Γ ⊢ InitPanicHandle(m) ⇓ IR_p
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Lower-StaticInitItem(m, item) ⇓ SeqIR(IR_e, StaticStoreIR(item, binds), IR_p)
+```math
+\begin{array}{l}
+\mathsf{item}\ =\ \operatorname{StaticDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{mut},\ \mathsf{binding},\ \mathsf{span},\ \mathsf{doc})\quad \mathsf{binding}\ =\ \langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{init})\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{MatchPattern}(\mathsf{pat},\ v)\ \Downarrow \ B\quad \operatorname{BindOrder}(\mathsf{pat},\ B)\ =\ \mathsf{binds}\quad \Gamma \ \vdash \ \operatorname{InitPanicHandle}(m)\ \Downarrow \ \mathsf{IR}_{p} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticInitItem}(m,\ \mathsf{item})\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{StaticStoreIR}(\mathsf{item},\ \mathsf{binds}),\ \mathsf{IR}_{p})
+\end{array}
 ```
 
 **(Lower-StaticInitItems-Empty)**
-──────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ Lower-StaticInitItems(m, []) ⇓ ε
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticInitItems}(m,\ [])\ \Downarrow \ \varepsilon 
+\end{array}
 ```
 
 **(Lower-StaticInitItems-Cons)**
 
-```text
-Γ ⊢ Lower-StaticInitItem(m, item) ⇓ IR_i    Γ ⊢ Lower-StaticInitItems(m, items) ⇓ IR_r
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Lower-StaticInitItems(m, [item] ++ items) ⇓ SeqIR(IR_i, IR_r)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticInitItem}(m,\ \mathsf{item})\ \Downarrow \ \mathsf{IR}_{i}\quad \Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticInitItems}(m,\ \mathsf{items})\ \Downarrow \ \mathsf{IR}_{r} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticInitItems}(m,\ [\mathsf{item}]\ \mathbin{++} \ \mathsf{items})\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{i},\ \mathsf{IR}_{r})
+\end{array}
 ```
 
 **(Lower-StaticInit)**
 
-```text
-StaticItems(Project(Γ), m) = items    Γ ⊢ Lower-StaticInitItems(m, items) ⇓ IR
-```
-
-──────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Lower-StaticInit(m) ⇓ IR
+```math
+\begin{array}{l}
+\operatorname{StaticItems}(\operatorname{Project}(\Gamma ),\ m)\ =\ \mathsf{items}\quad \Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticInitItems}(m,\ \mathsf{items})\ \Downarrow \ \mathsf{IR} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticInit}(m)\ \Downarrow \ \mathsf{IR}
+\end{array}
 ```
 
 **(InitCallIR)**
 
-```text
-Γ ⊢ InitFn(m) ⇓ sym
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{InitFn}(m)\ \Downarrow \ \mathsf{sym} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{InitCallIR}(m)\ \Downarrow \ \operatorname{SeqIR}(\operatorname{CallIR}(\mathsf{sym},\ [\mathsf{PanicOutName}]),\ \mathsf{PanicCheck})
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ InitCallIR(m) ⇓ SeqIR(CallIR(sym, [PanicOutName]), PanicCheck)
+```math
+\begin{array}{l}
+\operatorname{Rev}([])\ =\ [] \\
+\operatorname{Rev}([x]\ \mathbin{++} \ \mathsf{xs})\ =\ \operatorname{Rev}(\mathsf{xs})\ \mathbin{++} \ [x]
+\end{array}
 ```
-
-Rev([]) = []
-Rev([x] ++ xs) = Rev(xs) ++ [x]
 
 **(Lower-StaticDeinitNames-Empty)**
-────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ Lower-StaticDeinitNames(path, item, []) ⇓ ε
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticDeinitNames}(\mathsf{path},\ \mathsf{item},\ [])\ \Downarrow \ \varepsilon 
+\end{array}
 ```
 
 **(Lower-StaticDeinitNames-Cons-Resp)**
 
-```text
-StaticBindInfo(path, x).resp = resp    sym = StaticSym(item, x)    Γ ⊢ StateRef(sym) ⇓ slot    Γ ⊢ EmitDrop(StaticType(path, x), Load(slot, StaticType(path, x))) ⇓ IR_d    Γ ⊢ Lower-StaticDeinitNames(path, item, xs) ⇓ IR_r
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Lower-StaticDeinitNames(path, item, [x] ++ xs) ⇓ SeqIR(IR_d, IR_r)
+```math
+\begin{array}{l}
+\operatorname{StaticBindInfo}(\mathsf{path},\ x).\mathsf{resp}\ =\ \mathsf{resp}\quad \mathsf{sym}\ =\ \operatorname{StaticSym}(\mathsf{item},\ x)\quad \Gamma \ \vdash \ \operatorname{StateRef}(\mathsf{sym})\ \Downarrow \ \mathsf{slot}\quad \Gamma \ \vdash \ \operatorname{EmitDrop}(\operatorname{StaticType}(\mathsf{path},\ x),\ \operatorname{Load}(\mathsf{slot},\ \operatorname{StaticType}(\mathsf{path},\ x)))\ \Downarrow \ \mathsf{IR}_{d}\quad \Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticDeinitNames}(\mathsf{path},\ \mathsf{item},\ \mathsf{xs})\ \Downarrow \ \mathsf{IR}_{r} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticDeinitNames}(\mathsf{path},\ \mathsf{item},\ [x]\ \mathbin{++} \ \mathsf{xs})\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{d},\ \mathsf{IR}_{r})
+\end{array}
 ```
 
 **(Lower-StaticDeinitNames-Cons-NoResp)**
 
-```text
-StaticBindInfo(path, x).resp ≠ resp    Γ ⊢ Lower-StaticDeinitNames(path, item, xs) ⇓ IR_r
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Lower-StaticDeinitNames(path, item, [x] ++ xs) ⇓ IR_r
+```math
+\begin{array}{l}
+\operatorname{StaticBindInfo}(\mathsf{path},\ x).\mathsf{resp}\ \ne \ \mathsf{resp}\quad \Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticDeinitNames}(\mathsf{path},\ \mathsf{item},\ \mathsf{xs})\ \Downarrow \ \mathsf{IR}_{r} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticDeinitNames}(\mathsf{path},\ \mathsf{item},\ [x]\ \mathbin{++} \ \mathsf{xs})\ \Downarrow \ \mathsf{IR}_{r}
+\end{array}
 ```
 
 **(Lower-StaticDeinit-Item)**
 
-```text
-item = StaticDecl(attrs_opt, vis, mut, binding, span, doc)    binding = ⟨pat, _, _, _, _⟩    xs = Rev(StaticBindList(binding))    Γ ⊢ Lower-StaticDeinitNames(PathOfModule(m), item, xs) ⇓ IR
-```
-
-─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Lower-StaticDeinitItem(m, item) ⇓ IR
+```math
+\begin{array}{l}
+\mathsf{item}\ =\ \operatorname{StaticDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{mut},\ \mathsf{binding},\ \mathsf{span},\ \mathsf{doc})\quad \mathsf{binding}\ =\ \langle \mathsf{pat},\ \_,\ \_,\ \_,\ \_\rangle \quad \mathsf{xs}\ =\ \operatorname{Rev}(\operatorname{StaticBindList}(\mathsf{binding}))\quad \Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticDeinitNames}(\operatorname{PathOfModule}(m),\ \mathsf{item},\ \mathsf{xs})\ \Downarrow \ \mathsf{IR} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticDeinitItem}(m,\ \mathsf{item})\ \Downarrow \ \mathsf{IR}
+\end{array}
 ```
 
 **(Lower-StaticDeinitItems-Empty)**
-────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ Lower-StaticDeinitItems(m, []) ⇓ ε
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticDeinitItems}(m,\ [])\ \Downarrow \ \varepsilon 
+\end{array}
 ```
 
 **(Lower-StaticDeinitItems-Cons)**
 
-```text
-Γ ⊢ Lower-StaticDeinitItem(m, item) ⇓ IR_i    Γ ⊢ Lower-StaticDeinitItems(m, items) ⇓ IR_r
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Lower-StaticDeinitItems(m, [item] ++ items) ⇓ SeqIR(IR_i, IR_r)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticDeinitItem}(m,\ \mathsf{item})\ \Downarrow \ \mathsf{IR}_{i}\quad \Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticDeinitItems}(m,\ \mathsf{items})\ \Downarrow \ \mathsf{IR}_{r} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticDeinitItems}(m,\ [\mathsf{item}]\ \mathbin{++} \ \mathsf{items})\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{i},\ \mathsf{IR}_{r})
+\end{array}
 ```
 
 **(Lower-StaticDeinit)**
 
-```text
-StaticItems(Project(Γ), m) = items    Γ ⊢ Lower-StaticDeinitItems(m, Rev(items)) ⇓ IR
-```
-
-────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Lower-StaticDeinit(m) ⇓ IR
+```math
+\begin{array}{l}
+\operatorname{StaticItems}(\operatorname{Project}(\Gamma ),\ m)\ =\ \mathsf{items}\quad \Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticDeinitItems}(m,\ \operatorname{Rev}(\mathsf{items}))\ \Downarrow \ \mathsf{IR} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{Lower}-\operatorname{StaticDeinit}(m)\ \Downarrow \ \mathsf{IR}
+\end{array}
 ```
 
 #### 11.3.7 Diagnostics
@@ -811,77 +775,79 @@ The detailed syntax, parsing, and AST form of `extern_procedure_decl` are define
 
 **(Parse-ExternBlock)**
 
-```text
-Γ ⊢ ParseAttrListOpt(P) ⇓ (P_0, attrs_opt)    Γ ⊢ ParseVis(P_0) ⇓ (P_1, vis)    IsKw(Tok(P_1), `extern`)    Γ ⊢ ParseExternAbiOpt(Advance(P_1)) ⇓ (P_2, abi_opt)    IsPunc(Tok(P_2), "{")    Γ ⊢ ParseExternItemList(Advance(P_2)) ⇓ (P_3, items)    IsPunc(Tok(P_3), "}")
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseItem(P) ⇓ (Advance(P_3), ⟨ExternBlock, attrs_opt, vis, abi_opt, items, SpanBetween(P, Advance(P_3)), []⟩)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P_{0},\ \mathsf{attrs}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseVis}(P_{0})\ \Downarrow \ (P_{1},\ \mathsf{vis})\quad \operatorname{IsKw}(\operatorname{Tok}(P_{1}),\ \texttt{extern})\quad \Gamma \ \vdash \ \operatorname{ParseExternAbiOpt}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{abi}_{\mathsf{opt}})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseExternItemList}(\operatorname{Advance}(P_{2}))\ \Downarrow \ (P_{3},\ \mathsf{items})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{3}),\ \texttt{"\}"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseItem}(P)\ \Downarrow \ (\operatorname{Advance}(P_{3}),\ \langle \mathsf{ExternBlock},\ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{abi}_{\mathsf{opt}},\ \mathsf{items},\ \operatorname{SpanBetween}(P,\ \operatorname{Advance}(P_{3})),\ []\rangle )
+\end{array}
 ```
 
 **(Parse-ExternAbiOpt-None)**
 
-```text
-Tok(P).kind ∉ {StringLiteral, Identifier}
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseExternAbiOpt(P) ⇓ (P, ⊥)
+```math
+\begin{array}{l}
+\operatorname{Tok}(P).\mathsf{kind}\ \notin \ \{\mathsf{StringLiteral},\ \mathsf{Identifier}\} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseExternAbiOpt}(P)\ \Downarrow \ (P,\ \bot )
+\end{array}
 ```
 
 **(Parse-ExternAbiOpt-String)**
-Tok(P).kind = StringLiteral
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseExternAbiOpt(P) ⇓ (Advance(P), StringAbi(Tok(P)))
+```math
+\begin{array}{l}
+\operatorname{Tok}(P).\mathsf{kind}\ =\ \mathsf{StringLiteral} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseExternAbiOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \operatorname{StringAbi}(\operatorname{Tok}(P)))
+\end{array}
 ```
 
 **(Parse-ExternAbiOpt-Ident)**
 IsIdent(Tok(P))
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseExternAbiOpt(P) ⇓ (Advance(P), IdentAbi(Lexeme(Tok(P))))
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseExternAbiOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \operatorname{IdentAbi}(\operatorname{Lexeme}(\operatorname{Tok}(P))))
+\end{array}
 ```
 
 **(Parse-ExternItemList-End)**
-IsPunc(Tok(P), "}")
-────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseExternItemList(P) ⇓ (P, [])
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"\}"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseExternItemList}(P)\ \Downarrow \ (P,\ [])
+\end{array}
 ```
 
 **(Parse-ExternItemList-Cons)**
 
-```text
-¬ IsPunc(Tok(P), "}")    Γ ⊢ ParseExternProcDecl(P) ⇓ (P_1, it)    Γ ⊢ ParseExternItemList(P_1) ⇓ (P_2, rest)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseExternItemList(P) ⇓ (P_2, [it] ++ rest)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"\}"})\quad \Gamma \ \vdash \ \operatorname{ParseExternProcDecl}(P)\ \Downarrow \ (P_{1},\ \mathsf{it})\quad \Gamma \ \vdash \ \operatorname{ParseExternItemList}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{rest}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseExternItemList}(P)\ \Downarrow \ (P_{2},\ [\mathsf{it}]\ \mathbin{++} \ \mathsf{rest})
+\end{array}
 ```
 
 #### 11.4.3 AST Representation / Form
 
-```text
-ExternBlock = ⟨attrs_opt, vis, abi_opt, items, span, doc⟩
+```math
+\mathsf{ExternBlock}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{abi}_{\mathsf{opt}},\ \mathsf{items},\ \mathsf{span},\ \mathsf{doc}\rangle 
 ```
 
-```text
-ExternItem ∈ {ExternProcDecl}
+```math
+\mathsf{ExternItem}\ \in \ \{\mathsf{ExternProcDecl}\}
 ```
 
-```text
-abi_opt ∈ {⊥} ∪ ExternAbi
-ExternAbi ∈ {StringAbi, IdentAbi}
+```math
+\begin{array}{l}
+\mathsf{abi}_{\mathsf{opt}}\ \in \ \{\bot \}\ \cup \ \mathsf{ExternAbi} \\
+\mathsf{ExternAbi}\ \in \ \{\mathsf{StringAbi},\ \mathsf{IdentAbi}\}
+\end{array}
 ```
 
 #### 11.4.4 Static Semantics
@@ -890,46 +856,42 @@ Block-level ABI validation and namespace binding are owned by this section. Sign
 
 **(Bind-ExternBlock)**
 
-```text
-B = [(name_i, ⟨Value, p, ⊥, Decl⟩) | ExternProcDecl(_, _, name_i, _, _, _, _, _, _, _, _) ∈ items]
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ItemBindings(⟨ExternBlock, _, _, _, items, _, _⟩, p) ⇓ B
+```math
+\begin{array}{l}
+B\ =\ [(\mathsf{name}_{i},\ \langle \mathsf{Value},\ p,\ \bot ,\ \mathsf{Decl}\rangle )\ \mid \ \operatorname{ExternProcDecl}(\_,\ \_,\ \mathsf{name}_{i},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \in \ \mathsf{items}] \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\langle \mathsf{ExternBlock},\ \_,\ \_,\ \_,\ \mathsf{items},\ \_,\ \_\rangle ,\ p)\ \Downarrow \ B
+\end{array}
 ```
 
 **(WF-ExternBlock)**
-item = ExternBlock(_, _, abi_opt, _, _, _)    ExternAbiOk(abi_opt)
-──────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ExternBlock : ok
+```math
+\begin{array}{l}
+\mathsf{item}\ =\ \operatorname{ExternBlock}(\_,\ \_,\ \mathsf{abi}_{\mathsf{opt}},\ \_,\ \_,\ \_)\quad \operatorname{ExternAbiOk}(\mathsf{abi}_{\mathsf{opt}}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{ExternBlock}\ :\ \mathsf{ok}
+\end{array}
 ```
 
 **(ExternAbi-Unknown-Err)**
 
-```text
-item = ExternBlock(_, _, abi_opt, _, _, _)    ¬ ExternAbiOk(abi_opt)    c = Code(ExternAbi-Unknown-Err)
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ item ⇑ c
+```math
+\begin{array}{l}
+\mathsf{item}\ =\ \operatorname{ExternBlock}(\_,\ \_,\ \mathsf{abi}_{\mathsf{opt}},\ \_,\ \_,\ \_)\quad \lnot \ \operatorname{ExternAbiOk}(\mathsf{abi}_{\mathsf{opt}})\quad c\ =\ \operatorname{Code}(\mathsf{ExternAbi}-\mathsf{Unknown}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{item}\ \Uparrow \ c
+\end{array}
 ```
 
 **(ResolveItem-ExternBlock)**
 
-```text
-Γ ⊢ ResolveExternItemList(items) ⇓ items'
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveItem(ExternBlock(attrs_opt, vis, abi_opt, items, span, doc)) ⇓ ExternBlock(attrs_opt, vis, abi_opt, items', span, doc)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExternItemList}(\mathsf{items})\ \Downarrow \ \mathsf{items}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveItem}(\operatorname{ExternBlock}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{abi}_{\mathsf{opt}},\ \mathsf{items},\ \mathsf{span},\ \mathsf{doc}))\ \Downarrow \ \operatorname{ExternBlock}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{abi}_{\mathsf{opt}},\ \mathsf{items}',\ \mathsf{span},\ \mathsf{doc})
+\end{array}
 ```
 
 #### 11.4.5 Dynamic Semantics
@@ -961,61 +923,66 @@ Module-to-file mapping is defined by the static semantics of this section and ha
 
 **(Parse-ModulePath)**
 
-```text
-Γ ⊢ ParseIdent(P) ⇓ (P_1, id)    Γ ⊢ ParseModulePathTail(P_1, [id]) ⇓ (P_2, path)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseModulePath(P) ⇓ (P_2, path)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{id})\quad \Gamma \ \vdash \ \operatorname{ParseModulePathTail}(P_{1},\ [\mathsf{id}])\ \Downarrow \ (P_{2},\ \mathsf{path}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseModulePath}(P)\ \Downarrow \ (P_{2},\ \mathsf{path})
+\end{array}
 ```
 
 **(Parse-ModulePathTail-End)**
 
-```text
-¬ IsOp(Tok(P), "::")
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseModulePathTail(P, xs) ⇓ (P, xs)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"::"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseModulePathTail}(P,\ \mathsf{xs})\ \Downarrow \ (P,\ \mathsf{xs})
+\end{array}
 ```
 
 **(Parse-ModulePathTail-Cons)**
 
-```text
-IsOp(Tok(P), "::")    Γ ⊢ ParseIdent(Advance(P)) ⇓ (P_1, id)    Γ ⊢ ParseModulePathTail(P_1, xs ++ [id]) ⇓ (P_2, ys)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseModulePathTail(P, xs) ⇓ (P_2, ys)
+```math
+\begin{array}{l}
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"::"})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{id})\quad \Gamma \ \vdash \ \operatorname{ParseModulePathTail}(P_{1},\ \mathsf{xs}\ \mathbin{++} \ [\mathsf{id}])\ \Downarrow \ (P_{2},\ \mathsf{ys}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseModulePathTail}(P,\ \mathsf{xs})\ \Downarrow \ (P_{2},\ \mathsf{ys})
+\end{array}
 ```
 
 #### 11.5.3 AST Representation / Form
 
-Path = [identifier]
+```math
+\mathsf{Path}\ =\ [\mathsf{identifier}]
+```
 ModulePath = Path
 TypePath = Path
 ClassPath = Path
-PathString(p) = StringOfPath(p)
-StringOfPathRef = {"3.4.1"}
 
-```text
-ASTModule = ⟨path, items, module_doc⟩
-ASTModule.path ∈ Path
-ASTModule.items ∈ [ASTItem]
-ASTModule.module_doc ∈ DocList
+```math
+\begin{array}{l}
+\operatorname{PathString}(p)\ =\ \operatorname{StringOfPath}(p) \\
+\mathsf{StringOfPathRef}\ =\ \{\texttt{"3.4.1"}\}
+\end{array}
 ```
 
-```text
-ASTFile = ⟨path, items, module_doc⟩
-ASTFile.path ∈ Path
-ASTFile.items ∈ [ASTItem]
-ASTFile.module_doc ∈ DocList
+```math
+\begin{array}{l}
+\mathsf{ASTModule}\ =\ \langle \mathsf{path},\ \mathsf{items},\ \mathsf{module}_{\mathsf{doc}}\rangle  \\
+\mathsf{ASTModule}.\mathsf{path}\ \in \ \mathsf{Path} \\
+\mathsf{ASTModule}.\mathsf{items}\ \in \ [\mathsf{ASTItem}] \\
+\mathsf{ASTModule}.\mathsf{module}_{\mathsf{doc}}\ \in \ \mathsf{DocList}
+\end{array}
+```
+
+```math
+\begin{array}{l}
+\mathsf{ASTFile}\ =\ \langle \mathsf{path},\ \mathsf{items},\ \mathsf{module}_{\mathsf{doc}}\rangle  \\
+\mathsf{ASTFile}.\mathsf{path}\ \in \ \mathsf{Path} \\
+\mathsf{ASTFile}.\mathsf{items}\ \in \ [\mathsf{ASTItem}] \\
+\mathsf{ASTFile}.\mathsf{module}_{\mathsf{doc}}\ \in \ \mathsf{DocList}
+\end{array}
 ```
 
 #### 11.5.4 Static Semantics
@@ -1026,1575 +993,1471 @@ This section owns file-to-module mapping, visible module sets, import-coverage c
 
 **(Module-Path-Root)**
 
-```text
-relative(d, S) = ε
-```
-
-────────────────────────────
-
-```text
-Γ ⊢ ModulePath(d, S, A) = A
+```math
+\begin{array}{l}
+\operatorname{relative}(d,\ S)\ =\ \varepsilon  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ModulePath}(d,\ S,\ A)\ =\ A
+\end{array}
 ```
 
 **(Module-Path-Rel)**
-relative(d, S) = c_1 / … / c_n
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ModulePath(d, S, A) = A :: c_1 :: … :: c_n
+```math
+\begin{array}{l}
+\operatorname{relative}(d,\ S)\ =\ c_{1}\ /\ \ldots \ /\ c_{n} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ModulePath}(d,\ S,\ A)\ =\ A\ \mathbin{::} \ c_{1}\ \mathbin{::} \ \ldots \ \mathbin{::} \ c_{n}
+\end{array}
 ```
 
 **(Module-Path-Rel-Fail)**
 
-```text
-relative(d, S) ⇑
+```math
+\begin{array}{l}
+\operatorname{relative}(d,\ S)\ \Uparrow  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ModulePath}(d,\ S,\ A)\ \Uparrow 
+\end{array}
 ```
 
-────────────────────────────────
-
-```text
-Γ ⊢ ModulePath(d, S, A) ⇑
+```math
+\begin{array}{l}
+\operatorname{ModuleDirOf}(A,\ S)\ =\ S \\
+\operatorname{ModuleDirOf}(A\ \mathbin{::} \ c_{1}\ \mathbin{::} \ \ldots \ \mathbin{::} \ c_{n},\ S)\ =\ S\ /\ c_{1}\ /\ \ldots \ /\ c_{n}\quad n\ \ge \ 1
+\end{array}
 ```
 
-ModuleDirOf(A, S) = S
-
-```text
-ModuleDirOf(A :: c_1 :: … :: c_n, S) = S / c_1 / … / c_n    n ≥ 1
+```math
+\begin{array}{l}
+\operatorname{ViewPaths}(\mathsf{Ms})\ =\ [M.\mathsf{path}\ \mid \ M\ \in \ \mathsf{Ms}] \\
+\operatorname{ViewAssembly}(A,\ P,\ \mathsf{Ms})\ = \\
+\ A[\mathsf{modules}\ :=\ \operatorname{ViewPaths}(\mathsf{Ms})]\ \mathsf{if}\ A.\mathsf{name}\ =\ P.\mathsf{assembly}.\mathsf{name} \\
+\ A\quad \mathsf{otherwise} \\
+\operatorname{ProjectView}(P,\ \mathsf{Ms})\ =\ P[\mathsf{modules}\ :=\ \operatorname{ViewPaths}(\mathsf{Ms}),\ \mathsf{assembly}\ :=\ P.\mathsf{assembly}[\mathsf{modules}\ :=\ \operatorname{ViewPaths}(\mathsf{Ms})],\ \mathsf{assemblies}\ :=\ [\operatorname{ViewAssembly}(A,\ P,\ \mathsf{Ms})\ \mid \ A\ \in \ P.\mathsf{assemblies}]]
+\end{array}
 ```
 
-```text
-ViewPaths(Ms) = [M.path | M ∈ Ms]
+```math
+\operatorname{SourceRootOfModule}(P,\ p)\ =\ S\ \Leftrightarrow \ \exists \ A\ \in \ P.\mathsf{assemblies}.\ p\ \in \ A.\mathsf{modules}\ \land \ A.\mathsf{name}\ =\ \operatorname{AsmOfPath}(p)\ \land \ S\ =\ A.\mathsf{source}_{\mathsf{root}}
 ```
 
-ViewAssembly(A, P, Ms) =
- A[modules := ViewPaths(Ms)]  if A.name = P.assembly.name
- A                            otherwise
-
-```text
-ProjectView(P, Ms) = P[modules := ViewPaths(Ms), assembly := P.assembly[modules := ViewPaths(Ms)], assemblies := [ViewAssembly(A, P, Ms) | A ∈ P.assemblies]]
+```math
+\mathsf{WFModulePathJudg}\ =\ \{\mathsf{WF}-\mathsf{Module}-\mathsf{Path}\}
 ```
-
-```text
-SourceRootOfModule(P, p) = S ⇔ ∃ A ∈ P.assemblies. p ∈ A.modules ∧ A.name = AsmOfPath(p) ∧ S = A.source_root
-```
-
-WFModulePathJudg = {WF-Module-Path}
 
 **(WF-Module-Path-Ok)**
 
-```text
-∀ comp ∈ p, (Γ ⊢ comp : Identifier) ∧ ¬ Keyword(comp)
-```
-
-────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ WF-Module-Path(p) ⇓ ok
+```math
+\begin{array}{l}
+\forall \ \mathsf{comp}\ \in \ p,\ (\Gamma \ \vdash \ \mathsf{comp}\ :\ \mathsf{Identifier})\ \land \ \lnot \ \operatorname{Keyword}(\mathsf{comp}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{WF}-\mathsf{Module}-\operatorname{Path}(p)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(WF-Module-Path-Reserved)**
 
-```text
-∃ comp ∈ p. Keyword(comp)    c = Code(WF-Module-Path-Reserved)
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ WF-Module-Path(p) ⇑ c
+```math
+\begin{array}{l}
+\exists \ \mathsf{comp}\ \in \ p.\ \operatorname{Keyword}(\mathsf{comp})\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Module}-\mathsf{Path}-\mathsf{Reserved}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{WF}-\mathsf{Module}-\operatorname{Path}(p)\ \Uparrow \ c
+\end{array}
 ```
 
 **(WF-Module-Path-Ident-Err)**
 
-```text
-∃ comp ∈ p. ¬(Γ ⊢ comp : Identifier)    c = Code(WF-Module-Path-Ident-Err)
-```
-
-──────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ WF-Module-Path(p) ⇑ c
+```math
+\begin{array}{l}
+\exists \ \mathsf{comp}\ \in \ p.\ \lnot (\Gamma \ \vdash \ \mathsf{comp}\ :\ \mathsf{Identifier})\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Module}-\mathsf{Path}-\mathsf{Ident}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{WF}-\mathsf{Module}-\operatorname{Path}(p)\ \Uparrow \ c
+\end{array}
 ```
 
 **(WF-Module-Path-Collision)**
 
-```text
-p_1 ≠ p_2    Fold(p_1) = Fold(p_2)
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Emit(Code(WF-Module-Path-Collision))    Γ ⊢ Emit(W-MOD-1101, ⊥)
+```math
+\begin{array}{l}
+p_{1}\ \ne \ p_{2}\quad \operatorname{Fold}(p_{1})\ =\ \operatorname{Fold}(p_{2}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Emit}(\operatorname{Code}(\mathsf{WF}-\mathsf{Module}-\mathsf{Path}-\mathsf{Collision}))\quad \Gamma \ \vdash \ \operatorname{Emit}(W-\mathsf{MOD}-1101,\ \bot )
+\end{array}
 ```
 
 **Module Discovery (Small-Step)**
 
-```text
-ModuleAggInputs(P) = ⟨P.modules, P.source_root, { CompilationUnit(ModuleDirOf(p, P.source_root)) | p ∈ P.modules }⟩
-ModuleAggOutputs(P) = ⟨{ ASTModule(P, p) | p ∈ P.modules }, { NameMap(P, p) | p ∈ P.modules }, G, InitOrder, InitPlan⟩
-ModuleMap(P, p) = M ⇔ SourceRootOfModule(P, p) = S ∧ Γ ⊢ ParseModule(p, S) ⇓ M
-ASTModule(P, p) = M ⇔ ModuleMap(P, p) = M
-PathOfModule(p) = [c_1, …, c_n] ⇔ p = c_1 :: ··· :: c_n
-NameCollectAfterParse(P) ⇔ Γ ⊢ ParseModules(P) ⇓ Ms ∧ ∀ M ∈ Ms. ∃ N. Γ ⊢ CollectNames(M) ⇓ N
+```math
+\begin{array}{l}
+\operatorname{ModuleAggInputs}(P)\ =\ \langle P.\mathsf{modules},\ P.\mathsf{source}_{\mathsf{root}},\ \{\ \operatorname{CompilationUnit}(\operatorname{ModuleDirOf}(p,\ P.\mathsf{source}_{\mathsf{root}}))\ \mid \ p\ \in \ P.\mathsf{modules}\ \}\rangle  \\
+\operatorname{ModuleAggOutputs}(P)\ =\ \langle \{\ \operatorname{ASTModule}(P,\ p)\ \mid \ p\ \in \ P.\mathsf{modules}\ \},\ \{\ \operatorname{NameMap}(P,\ p)\ \mid \ p\ \in \ P.\mathsf{modules}\ \},\ G,\ \mathsf{InitOrder},\ \mathsf{InitPlan}\rangle  \\
+\operatorname{ModuleMap}(P,\ p)\ =\ M\ \Leftrightarrow \ \operatorname{SourceRootOfModule}(P,\ p)\ =\ S\ \land \ \Gamma \ \vdash \ \operatorname{ParseModule}(p,\ S)\ \Downarrow \ M \\
+\operatorname{ASTModule}(P,\ p)\ =\ M\ \Leftrightarrow \ \operatorname{ModuleMap}(P,\ p)\ =\ M \\
+\operatorname{PathOfModule}(p)\ =\ [c_{1},\ \ldots ,\ c_{n}]\ \Leftrightarrow \ p\ =\ c_{1}\ \mathbin{::} \ \cdot \cdot \cdot \ \mathbin{::} \ c_{n} \\
+\operatorname{NameCollectAfterParse}(P)\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{ParseModules}(P)\ \Downarrow \ \mathsf{Ms}\ \land \ \forall \ M\ \in \ \mathsf{Ms}.\ \exists \ N.\ \Gamma \ \vdash \ \operatorname{CollectNames}(M)\ \Downarrow \ N \\
+\mathsf{NameCollectOrderIndepRef}\ =\ \{\texttt{"5.1.5"}\} \\
+\mathsf{ForwardRefOrderRef}\ =\ \{\texttt{"5.12"}\}
+\end{array}
 ```
 
-NameCollectOrderIndepRef = {"5.1.5"}
-ForwardRefOrderRef = {"5.12"}
-
-```text
-ParseModule ∈ RulesIn({"3.4.1", "3.4.2"})
+```math
+\mathsf{ParseModule}\ \in \ \operatorname{RulesIn}(\{\texttt{"3.4.1"},\ \texttt{"3.4.2"}\})
 ```
 
 **ParseModule (Big-Step).**
-U = CompilationUnit(ModuleDirOf(p, S))
-U = [f_1, …, f_n]
+
+```math
+\begin{array}{l}
+U\ =\ \operatorname{CompilationUnit}(\operatorname{ModuleDirOf}(p,\ S)) \\
+U\ =\ [f_{1},\ \ldots ,\ f_{n}]
+\end{array}
+```
 ReadBytes : Path ⇀ Bytes
 
 **(ReadBytes-Ok)**
-read_ok(f) = B
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ReadBytes(f) ⇓ B
+```math
+\begin{array}{l}
+\operatorname{read_ok}(f)\ =\ B \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Downarrow \ B
+\end{array}
 ```
 
 **(ReadBytes-Err)**
 
-```text
-read_ok(f) ⇑    c = Code(ReadBytes-Err)
+```math
+\begin{array}{l}
+\operatorname{read_ok}(f)\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{ReadBytes}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Uparrow \ c
+\end{array}
 ```
 
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ReadBytes(f) ⇑ c
-```
-
-```text
-Bytes(f) = B ⇔ Γ ⊢ ReadBytes(f) ⇓ B
+```math
+\operatorname{Bytes}(f)\ =\ B\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Downarrow \ B
 ```
 
 **(ParseModule-Ok)**
 
-```text
-∀ i, Γ ⊢ ReadBytes(f_i) ⇓ B_i    Γ ⊢ LoadSource(f_i, B_i) ⇓ S_i    Γ ⊢ ParseFile(S_i) ⇓ F_i
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseModule(p, S) ⇓ ⟨p, F_1.items ++ ··· ++ F_n.items, F_1.module_doc ++ ··· ++ F_n.module_doc⟩
+```math
+\begin{array}{l}
+\forall \ i,\ \Gamma \ \vdash \ \operatorname{ReadBytes}(f_{i})\ \Downarrow \ B_{i}\quad \Gamma \ \vdash \ \operatorname{LoadSource}(f_{i},\ B_{i})\ \Downarrow \ S_{i}\quad \Gamma \ \vdash \ \operatorname{ParseFile}(S_{i})\ \Downarrow \ F_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseModule}(p,\ S)\ \Downarrow \ \langle p,\ F_{1}.\mathsf{items}\ \mathbin{++} \ \cdot \cdot \cdot \ \mathbin{++} \ F_{n}.\mathsf{items},\ F_{1}.\mathsf{module}_{\mathsf{doc}}\ \mathbin{++} \ \cdot \cdot \cdot \ \mathbin{++} \ F_{n}.\mathsf{module}_{\mathsf{doc}}\rangle 
+\end{array}
 ```
 
 **(ParseModule-Err-Read)**
 
-```text
-∃ i, Γ ⊢ ReadBytes(f_i) ⇑ c
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseModule(p, S) ⇑ c
+```math
+\begin{array}{l}
+\exists \ i,\ \Gamma \ \vdash \ \operatorname{ReadBytes}(f_{i})\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseModule}(p,\ S)\ \Uparrow \ c
+\end{array}
 ```
 
 **(ParseModule-Err-Load)**
 
-```text
-∃ i, Γ ⊢ ReadBytes(f_i) ⇓ B_i    Γ ⊢ LoadSource(f_i, B_i) ⇑ c
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseModule(p, S) ⇑ c
+```math
+\begin{array}{l}
+\exists \ i,\ \Gamma \ \vdash \ \operatorname{ReadBytes}(f_{i})\ \Downarrow \ B_{i}\quad \Gamma \ \vdash \ \operatorname{LoadSource}(f_{i},\ B_{i})\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseModule}(p,\ S)\ \Uparrow \ c
+\end{array}
 ```
 
 **LoadSource Short-Circuit.**
 
-```text
-If Γ ⊢ LoadSource(f, B) ⇑ c for any file in a compilation unit, ParseModule MUST NOT invoke Tokenize, ParseFile, or subsequent syntactic well-formedness checks for that file.
+```math
+\mathsf{If}\ \Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \Uparrow \ c\ \mathsf{for}\ \mathsf{any}\ \mathsf{file}\ \mathsf{in}\ a\ \mathsf{compilation}\ \mathsf{unit},\ \mathsf{ParseModule}\ \mathsf{MUST}\ \mathsf{NOT}\ \mathsf{invoke}\ \mathsf{Tokenize},\ \mathsf{ParseFile},\ \mathsf{or}\ \mathsf{subsequent}\ \mathsf{syntactic}\ \mathsf{well}-\mathsf{formedness}\ \mathsf{checks}\ \mathsf{for}\ \mathsf{that}\ \mathsf{file}.
 ```
 
 **(ParseModule-Err-Unit)**
 
-```text
-Γ ⊢ CompilationUnit(ModuleDirOf(p, S)) ⇑ c
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseModule(p, S) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{CompilationUnit}(\operatorname{ModuleDirOf}(p,\ S))\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseModule}(p,\ S)\ \Uparrow \ c
+\end{array}
 ```
 
 **(ParseModule-Err-Parse)**
 
-```text
-∃ i, Γ ⊢ ReadBytes(f_i) ⇓ B_i    Γ ⊢ LoadSource(f_i, B_i) ⇓ S_i    Γ ⊢ ParseFile(S_i) ⇑ c
+```math
+\begin{array}{l}
+\exists \ i,\ \Gamma \ \vdash \ \operatorname{ReadBytes}(f_{i})\ \Downarrow \ B_{i}\quad \Gamma \ \vdash \ \operatorname{LoadSource}(f_{i},\ B_{i})\ \Downarrow \ S_{i}\quad \Gamma \ \vdash \ \operatorname{ParseFile}(S_{i})\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseModule}(p,\ S)\ \Uparrow \ c
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseModule(p, S) ⇑ c
-```
-
-```text
-ParseFileBestEffort(S) ⇔ ∃ F. Γ ⊢ ParseFile(S) ⇓ F
-ParseFileOk(S) ⇔ ParseFileBestEffort(S) ∧ ¬ HasError(ParseFileDiag(S))
-ParseFileDiag(S) = Δ ⇔ Γ ⊢ Tokenize(S) ⇓ (K_raw, D) ∧ K = Filter(K_raw) ∧ P_0 = ⟨K, 0, D, 0, 0, []⟩ ∧ Γ ⊢ ParseItems(P_0) ⇓ (P_1, I, MDoc) ∧ DiagStream(P_1) = Δ
-HasError(Δ) ⇔ ∃ d ∈ Δ. d.severity = Error
+```math
+\begin{array}{l}
+\operatorname{ParseFileBestEffort}(S)\ \Leftrightarrow \ \exists \ F.\ \Gamma \ \vdash \ \operatorname{ParseFile}(S)\ \Downarrow \ F \\
+\operatorname{ParseFileOk}(S)\ \Leftrightarrow \ \operatorname{ParseFileBestEffort}(S)\ \land \ \lnot \ \operatorname{HasError}(\operatorname{ParseFileDiag}(S)) \\
+\operatorname{ParseFileDiag}(S)\ =\ \Delta \ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{Tokenize}(S)\ \Downarrow \ (K_{\mathsf{raw}},\ D)\ \land \ K\ =\ \operatorname{Filter}(K_{\mathsf{raw}})\ \land \ P_{0}\ =\ \langle K,\ 0,\ D,\ 0,\ 0,\ []\rangle \ \land \ \Gamma \ \vdash \ \operatorname{ParseItems}(P_{0})\ \Downarrow \ (P_{1},\ I,\ \mathsf{MDoc})\ \land \ \operatorname{DiagStream}(P_{1})\ =\ \Delta  \\
+\operatorname{HasError}(\Delta )\ \Leftrightarrow \ \exists \ d\ \in \ \Delta .\ d.\mathsf{severity}\ =\ \mathsf{Error}
+\end{array}
 ```
 
 **ParseModule (Small-Step).**
-ModState = {ModStart(p, S), ModScan(p, S, U, items, docs), ModDone(M), Error(code)}
+
+```math
+\mathsf{ModState}\ =\ \{\operatorname{ModStart}(p,\ S),\ \operatorname{ModScan}(p,\ S,\ U,\ \mathsf{items},\ \mathsf{docs}),\ \operatorname{ModDone}(M),\ \operatorname{Error}(\mathsf{code})\}
+```
 
 **(Mod-Start)**
-U = CompilationUnit(ModuleDirOf(p, S))
-──────────────────────────────────────────────
 
-```text
-⟨ModStart(p, S)⟩ → ⟨ModScan(p, S, U, [], [])⟩
+```math
+\begin{array}{l}
+U\ =\ \operatorname{CompilationUnit}(\operatorname{ModuleDirOf}(p,\ S)) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{ModStart}(p,\ S)\rangle \ \to \ \langle \operatorname{ModScan}(p,\ S,\ U,\ [],\ [])\rangle 
+\end{array}
 ```
 
 **(Mod-Start-Err-Unit)**
 
-```text
-Γ ⊢ CompilationUnit(ModuleDirOf(p, S)) ⇑ c
-```
-
-──────────────────────────────────────────────
-
-```text
-⟨ModStart(p, S)⟩ → ⟨Error(c)⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{CompilationUnit}(\operatorname{ModuleDirOf}(p,\ S))\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{ModStart}(p,\ S)\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\end{array}
 ```
 
 **(Mod-Scan)**
 
-```text
-U = f :: fs    Γ ⊢ ReadBytes(f) ⇓ B    Γ ⊢ LoadSource(f, B) ⇓ S_f    Γ ⊢ ParseFile(S_f) ⇓ F
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨ModScan(p, S, f :: fs, items, docs)⟩ → ⟨ModScan(p, S, fs, items ++ F.items, docs ++ F.module_doc)⟩
+```math
+\begin{array}{l}
+U\ =\ f\ \mathbin{::} \ \mathsf{fs}\quad \Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Downarrow \ B\quad \Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \Downarrow \ S_{f}\quad \Gamma \ \vdash \ \operatorname{ParseFile}(S_{f})\ \Downarrow \ F \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{fs},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{ModScan}(p,\ S,\ \mathsf{fs},\ \mathsf{items}\ \mathbin{++} \ F.\mathsf{items},\ \mathsf{docs}\ \mathbin{++} \ F.\mathsf{module}_{\mathsf{doc}})\rangle 
+\end{array}
 ```
 
 **(Mod-Scan-Err-Read)**
 
-```text
-U = f :: fs    Γ ⊢ ReadBytes(f) ⇑ c
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-⟨ModScan(p, S, f :: fs, items, docs)⟩ → ⟨Error(c)⟩
+```math
+\begin{array}{l}
+U\ =\ f\ \mathbin{::} \ \mathsf{fs}\quad \Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{fs},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\end{array}
 ```
 
 **(Mod-Scan-Err-Load)**
 
-```text
-U = f :: fs    Γ ⊢ ReadBytes(f) ⇓ B    Γ ⊢ LoadSource(f, B) ⇑ c
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨ModScan(p, S, f :: fs, items, docs)⟩ → ⟨Error(c)⟩
+```math
+\begin{array}{l}
+U\ =\ f\ \mathbin{::} \ \mathsf{fs}\quad \Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Downarrow \ B\quad \Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{fs},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\end{array}
 ```
 
 **(Mod-Scan-Err-Parse)**
 
-```text
-U = f :: fs    Γ ⊢ ReadBytes(f) ⇓ B    Γ ⊢ LoadSource(f, B) ⇓ S_f    Γ ⊢ ParseFile(S_f) ⇑ c
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨ModScan(p, S, f :: fs, items, docs)⟩ → ⟨Error(c)⟩
+```math
+\begin{array}{l}
+U\ =\ f\ \mathbin{::} \ \mathsf{fs}\quad \Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Downarrow \ B\quad \Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \Downarrow \ S_{f}\quad \Gamma \ \vdash \ \operatorname{ParseFile}(S_{f})\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{fs},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\end{array}
 ```
 
 **(Mod-Done)**
-──────────────────────────────────────────────────────────────────────────────
 
-```text
-⟨ModScan(p, S, [], items, docs)⟩ → ⟨ModDone(⟨p, items, docs⟩)⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\langle \operatorname{ModScan}(p,\ S,\ [],\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{ModDone}(\langle p,\ \mathsf{items},\ \mathsf{docs}\rangle )\rangle 
+\end{array}
 ```
 
 **ParseModules (Big-Step).**
 
-P.modules = [p_1, …, p_k]
+```math
+P.\mathsf{modules}\ =\ [p_{1},\ \ldots ,\ p_{k}]
+```
 
 **(ParseModules-Ok)**
 
-```text
-∀ i, Γ ⊢ ParseModule(p_i, P.source_root) ⇓ M_i
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseModules(P) ⇓ [M_1, …, M_k]
+```math
+\begin{array}{l}
+\forall \ i,\ \Gamma \ \vdash \ \operatorname{ParseModule}(p_{i},\ P.\mathsf{source}_{\mathsf{root}})\ \Downarrow \ M_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseModules}(P)\ \Downarrow \ [M_{1},\ \ldots ,\ M_{k}]
+\end{array}
 ```
 
 **(ParseModules-Err)**
 
-```text
-∃ i, Γ ⊢ ParseModule(p_i, P.source_root) ⇑ c
+```math
+\begin{array}{l}
+\exists \ i,\ \Gamma \ \vdash \ \operatorname{ParseModule}(p_{i},\ P.\mathsf{source}_{\mathsf{root}})\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseModules}(P)\ \Uparrow \ c
+\end{array}
 ```
 
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseModules(P) ⇑ c
+```math
+\mathsf{DiscState}\ =\ \{\operatorname{DiscStart}(S,\ A),\ \operatorname{DiscScan}(S,\ A,\ \mathsf{Pending},\ M,\ \mathsf{Seen}),\ \operatorname{DiscDone}(M),\ \operatorname{Error}(\mathsf{code})\}
 ```
-
-DiscState = {DiscStart(S, A), DiscScan(S, A, Pending, M, Seen), DiscDone(M), Error(code)}
 
 **(Disc-Start)**
-────────────────────────────────────────────────────────────────────────────
 
-```text
-⟨DiscStart(S, A)⟩ → ⟨DiscScan(S, A, DirSeq(S), [], ∅)⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\langle \operatorname{DiscStart}(S,\ A)\rangle \ \to \ \langle \operatorname{DiscScan}(S,\ A,\ \operatorname{DirSeq}(S),\ [],\ \emptyset )\rangle 
+\end{array}
 ```
 
 **(Disc-Skip)**
 
-```text
-Γ ⊬ d : ModuleDir
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-⟨DiscScan(S, A, d::ds, M, Seen)⟩ → ⟨DiscScan(S, A, ds, M, Seen)⟩
+```math
+\begin{array}{l}
+\Gamma \ \nvdash \ d\ :\ \mathsf{ModuleDir} \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{DiscScan}(S,\ A,\ d\mathbin{::} \mathsf{ds},\ M,\ \mathsf{Seen})\rangle \ \to \ \langle \operatorname{DiscScan}(S,\ A,\ \mathsf{ds},\ M,\ \mathsf{Seen})\rangle 
+\end{array}
 ```
 
 **(Disc-Add)**
 
-```text
-Γ ⊢ d : ModuleDir    Γ ⊢ ModulePath(d, S, A) = p    Γ ⊢ WF-Module-Path(p) ⇓ ok    Fold(p) ∉ dom(Seen)
-```
-
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨DiscScan(S, A, d::ds, M, Seen)⟩ → ⟨DiscScan(S, A, ds, M ++ [p], Seen ∪ {Fold(p) ↦ p})⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ d\ :\ \mathsf{ModuleDir}\quad \Gamma \ \vdash \ \operatorname{ModulePath}(d,\ S,\ A)\ =\ p\quad \Gamma \ \vdash \ \mathsf{WF}-\mathsf{Module}-\operatorname{Path}(p)\ \Downarrow \ \mathsf{ok}\quad \operatorname{Fold}(p)\ \notin \ \operatorname{dom}(\mathsf{Seen}) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{DiscScan}(S,\ A,\ d\mathbin{::} \mathsf{ds},\ M,\ \mathsf{Seen})\rangle \ \to \ \langle \operatorname{DiscScan}(S,\ A,\ \mathsf{ds},\ M\ \mathbin{++} \ [p],\ \mathsf{Seen}\ \cup \ \{\operatorname{Fold}(p)\ \mapsto \ p\})\rangle 
+\end{array}
 ```
 
 **(Disc-Collision)**
 
-```text
-Γ ⊢ d : ModuleDir    Γ ⊢ ModulePath(d, S, A) = p    Γ ⊢ WF-Module-Path(p) ⇓ ok    Fold(p) ∈ dom(Seen)    Seen[Fold(p)] ≠ p
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨DiscScan(S, A, d::ds, M, Seen)⟩ → ⟨Error(Code(Disc-Collision))⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ d\ :\ \mathsf{ModuleDir}\quad \Gamma \ \vdash \ \operatorname{ModulePath}(d,\ S,\ A)\ =\ p\quad \Gamma \ \vdash \ \mathsf{WF}-\mathsf{Module}-\operatorname{Path}(p)\ \Downarrow \ \mathsf{ok}\quad \operatorname{Fold}(p)\ \in \ \operatorname{dom}(\mathsf{Seen})\quad \mathsf{Seen}[\operatorname{Fold}(p)]\ \ne \ p \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{DiscScan}(S,\ A,\ d\mathbin{::} \mathsf{ds},\ M,\ \mathsf{Seen})\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Disc}-\mathsf{Collision}))\rangle 
+\end{array}
 ```
 
 **(Disc-Invalid-Component)**
 
-```text
-Γ ⊢ d : ModuleDir    Γ ⊢ ModulePath(d, S, A) = p    Γ ⊢ WF-Module-Path(p) ⇑ c
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨DiscScan(S, A, d::ds, M, Seen)⟩ → ⟨Error(c)⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ d\ :\ \mathsf{ModuleDir}\quad \Gamma \ \vdash \ \operatorname{ModulePath}(d,\ S,\ A)\ =\ p\quad \Gamma \ \vdash \ \mathsf{WF}-\mathsf{Module}-\operatorname{Path}(p)\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{DiscScan}(S,\ A,\ d\mathbin{::} \mathsf{ds},\ M,\ \mathsf{Seen})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\end{array}
 ```
 
 **(Disc-Rel-Fail)**
 
-```text
-Γ ⊢ d : ModuleDir    relative(d, S) ⇑
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨DiscScan(S, A, d::ds, M, Seen)⟩ → ⟨Error(Code(Disc-Rel-Fail))⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ d\ :\ \mathsf{ModuleDir}\quad \operatorname{relative}(d,\ S)\ \Uparrow  \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{DiscScan}(S,\ A,\ d\mathbin{::} \mathsf{ds},\ M,\ \mathsf{Seen})\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Disc}-\mathsf{Rel}-\mathsf{Fail}))\rangle 
+\end{array}
 ```
 
 **(Disc-Done)**
-──────────────────────────────────────────────────────────────
 
-```text
-⟨DiscScan(S, A, [], M, Seen)⟩ → ⟨DiscDone(M)⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\langle \operatorname{DiscScan}(S,\ A,\ [],\ M,\ \mathsf{Seen})\rangle \ \to \ \langle \operatorname{DiscDone}(M)\rangle 
+\end{array}
 ```
 
 **Qualified Lookup.**
 
-```text
-P = Project(Γ)
-m = CurrentModule(Γ)
-AllModulePaths(P) = ⋃_{A ∈ P.assemblies} A.modules
-AsmOfPath(p) = p[0]    if |p| ≥ 1
+```math
+\begin{array}{l}
+P\ =\ \operatorname{Project}(\Gamma ) \\
+m\ =\ \operatorname{CurrentModule}(\Gamma ) \\
+\operatorname{AllModulePaths}(P)\ =\ \bigcup \_\{A\ \in \ P.\mathsf{assemblies}\}\ A.\mathsf{modules} \\
+\operatorname{AsmOfPath}(p)\ =\ p[0]\quad \mathsf{if}\ \mid p\mid \ \ge \ 1 \\
+\operatorname{AsmOfModule}(m)\ =\ \operatorname{AsmOfPath}(m) \\
+\operatorname{ImportDecls}(m)\ =\ [d\ \mid \ d\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\ \land \ d\ =\ \operatorname{ImportDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_)] \\
+\operatorname{ImportPaths}(m)\ =\ [\mathsf{mp}\ \mid \ \operatorname{ImportDecl}(\_,\ \_,\ \mathsf{path},\ \_,\ \_,\ \_)\ \in \ \operatorname{ImportDecls}(m)\ \land \ \Gamma \ \vdash \ \operatorname{ResolveImportPath}(\mathsf{path})\ \Downarrow \ \mathsf{mp}] \\
+\operatorname{VisibleAssemblies}(m)\ =\ \{\operatorname{AsmOfModule}(m)\}\ \cup \ \{\operatorname{AsmOfPath}(p)\ \mid \ p\ \in \ \operatorname{ImportPaths}(m)\} \\
+\operatorname{PublicAPI}(m)\ \Leftrightarrow \ \exists \ \mathsf{it}\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}.\ \operatorname{Vis}(\mathsf{it})\ =\ \texttt{public} \\
+\operatorname{VisibleModulePaths}(m)\ =\ \{\ p\ \mid \ p\ \in \ \operatorname{AllModulePaths}(P)\ \land \ \operatorname{AsmOfPath}(p)\ \in \ \operatorname{VisibleAssemblies}(m)\ \} \\
+\mathsf{AllModuleNames}\ =\ \{\ \operatorname{StringOfPath}(p)\ \mid \ p\ \in \ \operatorname{AllModulePaths}(P)\ \} \\
+\operatorname{VisibleModuleNames}(m)\ =\ \{\ \operatorname{StringOfPath}(p)\ \mid \ p\ \in \ \operatorname{VisibleModulePaths}(m)\ \} \\
+\mathsf{ModulePaths}\ =\ \operatorname{VisibleModulePaths}(m) \\
+\mathsf{ModuleNames}\ =\ \operatorname{VisibleModuleNames}(m) \\
+\mathsf{Alias}\ =\ \operatorname{AliasMap}(m) \\
+\mathsf{AllModules}\ =\ \operatorname{AllModulePaths}(P)
+\end{array}
 ```
-
-AsmOfModule(m) = AsmOfPath(m)
-
-```text
-ImportDecls(m) = [d | d ∈ ASTModule(P, m).items ∧ d = ImportDecl(_, _, _, _, _, _)]
-ImportPaths(m) = [mp | ImportDecl(_, _, path, _, _, _) ∈ ImportDecls(m) ∧ Γ ⊢ ResolveImportPath(path) ⇓ mp]
-VisibleAssemblies(m) = {AsmOfModule(m)} ∪ {AsmOfPath(p) | p ∈ ImportPaths(m)}
-PublicAPI(m) ⇔ ∃ it ∈ ASTModule(P, m).items. Vis(it) = `public`
-VisibleModulePaths(m) = { p | p ∈ AllModulePaths(P) ∧ AsmOfPath(p) ∈ VisibleAssemblies(m) }
-AllModuleNames = { StringOfPath(p) | p ∈ AllModulePaths(P) }
-VisibleModuleNames(m) = { StringOfPath(p) | p ∈ VisibleModulePaths(m) }
-```
-
-ModulePaths = VisibleModulePaths(m)
-ModuleNames = VisibleModuleNames(m)
-Alias = AliasMap(m)
-AllModules = AllModulePaths(P)
 
 **Module Prefix Resolution.**
 
-```text
-ModulePathPrefix(path, pref) ⇔ ∃ rest. path = pref ++ rest
+```math
+\operatorname{ModulePathPrefix}(\mathsf{path},\ \mathsf{pref})\ \Leftrightarrow \ \exists \ \mathsf{rest}.\ \mathsf{path}\ =\ \mathsf{pref}\ \mathbin{++} \ \mathsf{rest}
 ```
 
 **(AliasExpand-None)**
 
-```text
-path = a::rest    a ∉ dom(Alias)
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ AliasExpand(path, Alias) ⇓ path
+```math
+\begin{array}{l}
+\mathsf{path}\ =\ a\mathbin{::} \mathsf{rest}\quad a\ \notin \ \operatorname{dom}(\mathsf{Alias}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AliasExpand}(\mathsf{path},\ \mathsf{Alias})\ \Downarrow \ \mathsf{path}
+\end{array}
 ```
 
 **(AliasExpand-Yes)**
 
-```text
-path = a::rest    a ∈ dom(Alias)    Alias[a] = p_a
+```math
+\begin{array}{l}
+\mathsf{path}\ =\ a\mathbin{::} \mathsf{rest}\quad a\ \in \ \operatorname{dom}(\mathsf{Alias})\quad \mathsf{Alias}[a]\ =\ p_{a} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AliasExpand}(\mathsf{path},\ \mathsf{Alias})\ \Downarrow \ p_{a}\ \mathbin{++} \ \mathsf{rest}
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ AliasExpand(path, Alias) ⇓ p_a ++ rest
+```math
+\operatorname{CurrentAsmPath}(m,\ \mathsf{path})\ =\ [\operatorname{AsmOfModule}(m)]\ \mathbin{++} \ \mathsf{path}
 ```
-
-CurrentAsmPath(m, path) = [AsmOfModule(m)] ++ path
 
 **(ModulePrefix-Direct)**
 
-```text
-Γ ⊢ AliasExpand(path, Alias) ⇓ path'    ∃ p ∈ AllModules, ModulePathPrefix(path', p)    p = argmax_{q ∈ AllModules, ModulePathPrefix(path', q)} |q|
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ModulePrefix(path, AllModules, Alias) ⇓ p
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{AliasExpand}(\mathsf{path},\ \mathsf{Alias})\ \Downarrow \ \mathsf{path}'\quad \exists \ p\ \in \ \mathsf{AllModules},\ \operatorname{ModulePathPrefix}(\mathsf{path}',\ p)\quad p\ =\ \mathsf{argmax}\_\{q\ \in \ \mathsf{AllModules},\ \operatorname{ModulePathPrefix}(\mathsf{path}',\ q)\}\ \mid q\mid  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{AllModules},\ \mathsf{Alias})\ \Downarrow \ p
+\end{array}
 ```
 
 **(ModulePrefix-Current)**
 
-```text
-Γ ⊢ AliasExpand(path, Alias) ⇓ path'    ¬ ∃ p ∈ AllModules. ModulePathPrefix(path', p)    path'' = CurrentAsmPath(m, path')    ∃ p ∈ AllModules, ModulePathPrefix(path'', p)    p = argmax_{q ∈ AllModules, ModulePathPrefix(path'', q)} |q|
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ModulePrefix(path, AllModules, Alias) ⇓ p
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{AliasExpand}(\mathsf{path},\ \mathsf{Alias})\ \Downarrow \ \mathsf{path}'\quad \lnot \ \exists \ p\ \in \ \mathsf{AllModules}.\ \operatorname{ModulePathPrefix}(\mathsf{path}',\ p)\quad \mathsf{path}''\ =\ \operatorname{CurrentAsmPath}(m,\ \mathsf{path}')\quad \exists \ p\ \in \ \mathsf{AllModules},\ \operatorname{ModulePathPrefix}(\mathsf{path}'',\ p)\quad p\ =\ \mathsf{argmax}\_\{q\ \in \ \mathsf{AllModules},\ \operatorname{ModulePathPrefix}(\mathsf{path}'',\ q)\}\ \mid q\mid  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{AllModules},\ \mathsf{Alias})\ \Downarrow \ p
+\end{array}
 ```
 
 **(ModulePrefix-None)**
 
-```text
-Γ ⊢ AliasExpand(path, Alias) ⇓ path'    ¬ ∃ p ∈ AllModules. ModulePathPrefix(path', p)    path'' = CurrentAsmPath(m, path')    ¬ ∃ p ∈ AllModules. ModulePathPrefix(path'', p)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ModulePrefix(path, AllModules, Alias) ↑
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{AliasExpand}(\mathsf{path},\ \mathsf{Alias})\ \Downarrow \ \mathsf{path}'\quad \lnot \ \exists \ p\ \in \ \mathsf{AllModules}.\ \operatorname{ModulePathPrefix}(\mathsf{path}',\ p)\quad \mathsf{path}''\ =\ \operatorname{CurrentAsmPath}(m,\ \mathsf{path}')\quad \lnot \ \exists \ p\ \in \ \mathsf{AllModules}.\ \operatorname{ModulePathPrefix}(\mathsf{path}'',\ p) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{AllModules},\ \mathsf{Alias})\ \uparrow 
+\end{array}
 ```
 
 **(Resolve-ModulePath-Direct)**
 
-```text
-Γ ⊢ AliasExpand(path, Alias) ⇓ path'    StringOfPath(path') ∈ ModuleNames
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveModulePath(path, Alias, ModuleNames) ⇓ path'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{AliasExpand}(\mathsf{path},\ \mathsf{Alias})\ \Downarrow \ \mathsf{path}'\quad \operatorname{StringOfPath}(\mathsf{path}')\ \in \ \mathsf{ModuleNames} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveModulePath}(\mathsf{path},\ \mathsf{Alias},\ \mathsf{ModuleNames})\ \Downarrow \ \mathsf{path}'
+\end{array}
 ```
 
 **(Resolve-ModulePath-Current)**
 
-```text
-Γ ⊢ AliasExpand(path, Alias) ⇓ path'    StringOfPath(path') ∉ ModuleNames    path'' = CurrentAsmPath(m, path')    StringOfPath(path'') ∈ ModuleNames
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveModulePath(path, Alias, ModuleNames) ⇓ path''
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{AliasExpand}(\mathsf{path},\ \mathsf{Alias})\ \Downarrow \ \mathsf{path}'\quad \operatorname{StringOfPath}(\mathsf{path}')\ \notin \ \mathsf{ModuleNames}\quad \mathsf{path}''\ =\ \operatorname{CurrentAsmPath}(m,\ \mathsf{path}')\quad \operatorname{StringOfPath}(\mathsf{path}'')\ \in \ \mathsf{ModuleNames} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveModulePath}(\mathsf{path},\ \mathsf{Alias},\ \mathsf{ModuleNames})\ \Downarrow \ \mathsf{path}''
+\end{array}
 ```
 
 **(ResolveModulePath-Err)**
 
-```text
-Γ ⊢ AliasExpand(path, Alias) ⇓ path'    StringOfPath(path') ∉ ModuleNames    path'' = CurrentAsmPath(m, path')    StringOfPath(path'') ∉ ModuleNames    c = Code(ResolveModulePath-Err)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{AliasExpand}(\mathsf{path},\ \mathsf{Alias})\ \Downarrow \ \mathsf{path}'\quad \operatorname{StringOfPath}(\mathsf{path}')\ \notin \ \mathsf{ModuleNames}\quad \mathsf{path}''\ =\ \operatorname{CurrentAsmPath}(m,\ \mathsf{path}')\quad \operatorname{StringOfPath}(\mathsf{path}'')\ \notin \ \mathsf{ModuleNames}\quad c\ =\ \operatorname{Code}(\mathsf{ResolveModulePath}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveModulePath}(\mathsf{path},\ \mathsf{Alias},\ \mathsf{ModuleNames})\ \Uparrow \ c
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveModulePath(path, Alias, ModuleNames) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{ModuleByPath}(P,\ p)\ =\ m\ \Leftrightarrow \ \operatorname{ASTModule}(P,\ p)\ =\ m \\
+\operatorname{ModuleOfPath}(\mathsf{path})\ =\ \mathsf{mp}\ \Leftrightarrow \ \operatorname{SplitLast}(\mathsf{path})\ =\ (\mathsf{mp},\ \mathsf{name})
+\end{array}
 ```
 
-```text
-ModuleByPath(P, p) = m ⇔ ASTModule(P, p) = m
-ModuleOfPath(path) = mp ⇔ SplitLast(path) = (mp, name)
-```
-
-```text
-ItemNames(mp) = { n | NameMap(P, mp)[n].kind ∈ {Value, Type, Class} }
+```math
+\operatorname{ItemNames}(\mathsf{mp})\ =\ \{\ n\ \mid \ \operatorname{NameMap}(P,\ \mathsf{mp})[n].\mathsf{kind}\ \in \ \{\mathsf{Value},\ \mathsf{Type},\ \mathsf{Class}\}\ \}
 ```
 
 **(ItemOfPath)**
 |path| ≥ 2    SplitLast(path) = (mp_raw, name)    Γ ⊢ ResolveImportPath(mp_raw) ⇓ mp    IdKey(name) ∈ ItemNames(mp)
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ItemOfPath(path) ⇓ (mp, name)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemOfPath}(\mathsf{path})\ \Downarrow \ (\mathsf{mp},\ \mathsf{name})
+\end{array}
 ```
 
 **(ItemOfPath-None)**
 
-```text
-¬ (|path| ≥ 2 ∧ SplitLast(path) = (mp_raw, name) ∧ Γ ⊢ ResolveImportPath(mp_raw) ⇓ mp ∧ IdKey(name) ∈ ItemNames(mp))
+```math
+\begin{array}{l}
+\lnot \ (\mid \mathsf{path}\mid \ \ge \ 2\ \land \ \operatorname{SplitLast}(\mathsf{path})\ =\ (\mathsf{mp}_{\mathsf{raw}},\ \mathsf{name})\ \land \ \Gamma \ \vdash \ \operatorname{ResolveImportPath}(\mathsf{mp}_{\mathsf{raw}})\ \Downarrow \ \mathsf{mp}\ \land \ \operatorname{IdKey}(\mathsf{name})\ \in \ \operatorname{ItemNames}(\mathsf{mp})) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemOfPath}(\mathsf{path})\ \uparrow 
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ItemOfPath(path) ↑
+```math
+\begin{array}{l}
+\operatorname{ImportRequired}(m,\ \mathsf{path})\ \Leftrightarrow \ \operatorname{AsmOfPath}(\mathsf{path})\ \ne \ \operatorname{AsmOfModule}(m) \\
+\operatorname{ImportCovers}(m,\ \mathsf{path})\ \Leftrightarrow \ \exists \ p\ \in \ \operatorname{ImportPaths}(m).\ \operatorname{ModulePathPrefix}(p,\ \mathsf{path}) \\
+\mathsf{ImportOkJudg}\ =\ \{\mathsf{ImportOk}\}
+\end{array}
 ```
-
-```text
-ImportRequired(m, path) ⇔ AsmOfPath(path) ≠ AsmOfModule(m)
-ImportCovers(m, path) ⇔ ∃ p ∈ ImportPaths(m). ModulePathPrefix(p, path)
-```
-
-ImportOkJudg = {ImportOk}
 
 **(Import-Ok-Local)**
 
-```text
-¬ ImportRequired(m, path)
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ImportOk(m, path) ⇓ ok
+```math
+\begin{array}{l}
+\lnot \ \operatorname{ImportRequired}(m,\ \mathsf{path}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ImportOk}(m,\ \mathsf{path})\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(Import-Ok-Covered)**
 ImportRequired(m, path)    ImportCovers(m, path)
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ImportOk(m, path) ⇓ ok
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ImportOk}(m,\ \mathsf{path})\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(Import-Ok-Err)**
 
-```text
-ImportRequired(m, path)    ¬ ImportCovers(m, path)    c = Code(Import-Using-Missing)
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ImportOk(m, path) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{ImportRequired}(m,\ \mathsf{path})\quad \lnot \ \operatorname{ImportCovers}(m,\ \mathsf{path})\quad c\ =\ \operatorname{Code}(\mathsf{Import}-\mathsf{Using}-\mathsf{Missing}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ImportOk}(m,\ \mathsf{path})\ \Uparrow \ c
+\end{array}
 ```
 
 **(Resolve-Import-Direct)**
 
-```text
-StringOfPath(path) ∈ AllModuleNames
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveImportPath(path) ⇓ path
+```math
+\begin{array}{l}
+\operatorname{StringOfPath}(\mathsf{path})\ \in \ \mathsf{AllModuleNames} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveImportPath}(\mathsf{path})\ \Downarrow \ \mathsf{path}
+\end{array}
 ```
 
 **(Resolve-Import-Current)**
 
-```text
-StringOfPath(path) ∉ AllModuleNames    path' = CurrentAsmPath(m, path)    StringOfPath(path') ∈ AllModuleNames
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveImportPath(path) ⇓ path'
+```math
+\begin{array}{l}
+\operatorname{StringOfPath}(\mathsf{path})\ \notin \ \mathsf{AllModuleNames}\quad \mathsf{path}'\ =\ \operatorname{CurrentAsmPath}(m,\ \mathsf{path})\quad \operatorname{StringOfPath}(\mathsf{path}')\ \in \ \mathsf{AllModuleNames} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveImportPath}(\mathsf{path})\ \Downarrow \ \mathsf{path}'
+\end{array}
 ```
 
 **(Resolve-Import-Err)**
 
-```text
-StringOfPath(path) ∉ AllModuleNames    path' = CurrentAsmPath(m, path)    StringOfPath(path') ∉ AllModuleNames    c = Code(Resolve-Import-Err)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveImportPath(path) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{StringOfPath}(\mathsf{path})\ \notin \ \mathsf{AllModuleNames}\quad \mathsf{path}'\ =\ \operatorname{CurrentAsmPath}(m,\ \mathsf{path})\quad \operatorname{StringOfPath}(\mathsf{path}')\ \notin \ \mathsf{AllModuleNames}\quad c\ =\ \operatorname{Code}(\mathsf{Resolve}-\mathsf{Import}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveImportPath}(\mathsf{path})\ \Uparrow \ c
+\end{array}
 ```
 
 **(Resolve-Using-Ok)**
 
-```text
-Γ ⊢ ItemOfPath(path) ⇓ (mp, name)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveUsingPath(path) ⇓ ⟨mp, name⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ItemOfPath}(\mathsf{path})\ \Downarrow \ (\mathsf{mp},\ \mathsf{name}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveUsingPath}(\mathsf{path})\ \Downarrow \ \langle \mathsf{mp},\ \mathsf{name}\rangle 
+\end{array}
 ```
 
 **(Resolve-Using-Err)**
 
-```text
-Γ ⊢ ItemOfPath(path) ↑    c = Code(Resolve-Using-None)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveUsingPath(path) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ItemOfPath}(\mathsf{path})\ \uparrow \quad c\ =\ \operatorname{Code}(\mathsf{Resolve}-\mathsf{Using}-\mathsf{None}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveUsingPath}(\mathsf{path})\ \Uparrow \ c
+\end{array}
 ```
 
 Accessibility of resolved items is defined by Chapter 7.
 
 **Initialization Dependency Analysis.**
 
-```text
-env_m = ⟨self = m, Modules = AllModules, Alias = AliasMap(m), UsingValueMap = UsingValueMap(m), UsingTypeMap = UsingTypeMap(m)⟩
+```math
+\mathsf{env}_{m}\ =\ \langle \mathsf{self}\ =\ m,\ \mathsf{Modules}\ =\ \mathsf{AllModules},\ \mathsf{Alias}\ =\ \operatorname{AliasMap}(m),\ \mathsf{UsingValueMap}\ =\ \operatorname{UsingValueMap}(m),\ \mathsf{UsingTypeMap}\ =\ \operatorname{UsingTypeMap}(m)\rangle 
 ```
 
 **(Reachable-Edge)**
 
-```text
-(u, v) ∈ E
-```
-
-──────────────────────────
-
-```text
-Γ ⊢ Reachable(u, v, E)
+```math
+\begin{array}{l}
+(u,\ v)\ \in \ E \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Reachable}(u,\ v,\ E)
+\end{array}
 ```
 
 **(Reachable-Step)**
 
-```text
-(u, w) ∈ E    Γ ⊢ Reachable(w, v, E)
+```math
+\begin{array}{l}
+(u,\ w)\ \in \ E\quad \Gamma \ \vdash \ \operatorname{Reachable}(w,\ v,\ E) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Reachable}(u,\ v,\ E)
+\end{array}
 ```
 
-────────────────────────────────────
-
-```text
-Γ ⊢ Reachable(u, v, E)
+```math
+\begin{array}{l}
+\operatorname{FullPath}(\mathsf{path},\ \mathsf{name})\ =\ \mathsf{path}\ \mathbin{++} \ [\mathsf{name}] \\
+\operatorname{EnumPath}(\mathsf{path})\ =\ p\ \Leftrightarrow \ \operatorname{SplitLast}(\mathsf{path})\ =\ (p,\ n) \\
+\operatorname{VariantName}(\mathsf{path})\ =\ n\ \Leftrightarrow \ \operatorname{SplitLast}(\mathsf{path})\ =\ (p,\ n)
+\end{array}
 ```
 
-FullPath(path, name) = path ++ [name]
-
-```text
-EnumPath(path) = p ⇔ SplitLast(path) = (p, n)
-VariantName(path) = n ⇔ SplitLast(path) = (p, n)
+```math
+\mathsf{TypeRefsJudg}\ =\ \{\mathsf{TypeRefsTy},\ \mathsf{TypeRefsRef},\ \mathsf{TypeRefsExpr},\ \mathsf{TypeRefsPat},\ \mathsf{TypeRefsArgs}\}
 ```
-
-TypeRefsJudg = {TypeRefsTy, TypeRefsRef, TypeRefsExpr, TypeRefsPat, TypeRefsArgs}
 Modules = env.Modules
 Alias = env.Alias
 UsingTypeMap = env.UsingTypeMap
 
 **(TypeRef-Path)**
 |path| ≥ 2    Γ ⊢ ModulePrefix(path, Modules, Alias) ⇓ mp    mp ≠ env.self
-────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ TypeRefsTy(TypePath(path), env) ⇓ {mp}
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypePath}(\mathsf{path}),\ \mathsf{env})\ \Downarrow \ \{\mathsf{mp}\}
+\end{array}
 ```
 
 **(TypeRef-Using)**
 
-```text
-path = [name]    name ∈ dom(UsingTypeMap)    UsingTypeMap[name] ≠ env.self
-```
-
-────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsTy(TypePath(path), env) ⇓ {UsingTypeMap[name]}
+```math
+\begin{array}{l}
+\mathsf{path}\ =\ [\mathsf{name}]\quad \mathsf{name}\ \in \ \operatorname{dom}(\mathsf{UsingTypeMap})\quad \mathsf{UsingTypeMap}[\mathsf{name}]\ \ne \ \mathsf{env}.\mathsf{self} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypePath}(\mathsf{path}),\ \mathsf{env})\ \Downarrow \ \{\mathsf{UsingTypeMap}[\mathsf{name}]\}
+\end{array}
 ```
 
 **(TypeRef-Path-Local)**
 
-```text
-(|path| ≠ 1 ∨ (path = [name] ∧ name ∉ dom(UsingTypeMap)))    (Γ ⊢ ModulePrefix(path, Modules, Alias) ⇑ ∨ Γ ⊢ ModulePrefix(path, Modules, Alias) ⇓ env.self)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsTy(TypePath(path), env) ⇓ ∅
+```math
+\begin{array}{l}
+(\mid \mathsf{path}\mid \ \ne \ 1\ \lor \ (\mathsf{path}\ =\ [\mathsf{name}]\ \land \ \mathsf{name}\ \notin \ \operatorname{dom}(\mathsf{UsingTypeMap})))\quad (\Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{Modules},\ \mathsf{Alias})\ \Uparrow \ \lor \ \Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{Modules},\ \mathsf{Alias})\ \Downarrow \ \mathsf{env}.\mathsf{self}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypePath}(\mathsf{path}),\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(TypeRef-Dynamic)**
 
-```text
-Γ ⊢ TypeRefsTy(TypePath(path), env) ⇓ T
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsTy(TypeDynamic(path), env) ⇓ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypePath}(\mathsf{path}),\ \mathsf{env})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeDynamic}(\mathsf{path}),\ \mathsf{env})\ \Downarrow \ T
+\end{array}
 ```
 
 **(TypeRef-ModalState)**
 
-```text
-Γ ⊢ TypeRefsRef(modal_ref, env) ⇓ T
-```
-
-──────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsTy(TypeModalState(modal_ref, state), env) ⇓ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsRef}(\mathsf{modal}_{\mathsf{ref}},\ \mathsf{env})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ \mathsf{state}),\ \mathsf{env})\ \Downarrow \ T
+\end{array}
 ```
 
 **(TypeRef-Apply)**
 
-```text
-Γ ⊢ TypeRefsTy(TypePath(path), env) ⇓ T_p    ∀ i, Γ ⊢ TypeRefsTy(args_i, env) ⇓ T_i
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsTy(TypeApply(path, args), env) ⇓ T_p ∪ ⋃_{i=1}^n T_i
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypePath}(\mathsf{path}),\ \mathsf{env})\ \Downarrow \ T_{p}\quad \forall \ i,\ \Gamma \ \vdash \ \operatorname{TypeRefsTy}(\mathsf{args}_{i},\ \mathsf{env})\ \Downarrow \ T_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeApply}(\mathsf{path},\ \mathsf{args}),\ \mathsf{env})\ \Downarrow \ T_{p}\ \cup \ \bigcup \_\{i=1\}^n\ T_{i}
+\end{array}
 ```
 
 **(TypeRef-Perm)**
 
-```text
-Γ ⊢ TypeRefsTy(base, env) ⇓ T
-```
-
-────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsTy(TypePerm(perm, base), env) ⇓ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\mathsf{base},\ \mathsf{env})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypePerm}(\mathsf{perm},\ \mathsf{base}),\ \mathsf{env})\ \Downarrow \ T
+\end{array}
 ```
 
 **(TypeRef-Prim)**
-────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ TypeRefsTy(TypePrim(_), env) ⇓ ∅
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypePrim}(\_),\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(TypeRef-Tuple)**
 
-```text
-∀ i, Γ ⊢ TypeRefsTy(t_i, env) ⇓ T_i
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsTy(TypeTuple([t_1, …, t_n]), env) ⇓ ⋃_{i=1}^n T_i
+```math
+\begin{array}{l}
+\forall \ i,\ \Gamma \ \vdash \ \operatorname{TypeRefsTy}(t_{i},\ \mathsf{env})\ \Downarrow \ T_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeTuple}([t_{1},\ \ldots ,\ t_{n}]),\ \mathsf{env})\ \Downarrow \ \bigcup \_\{i=1\}^n\ T_{i}
+\end{array}
 ```
 
 **(TypeRef-Array)**
 
-```text
-Γ ⊢ TypeRefsTy(elem, env) ⇓ T_e    Γ ⊢ TypeRefsExpr(size_expr, env) ⇓ T_s
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsTy(TypeArray(elem, size_expr), env) ⇓ T_e ∪ T_s
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\mathsf{elem},\ \mathsf{env})\ \Downarrow \ T_{e}\quad \Gamma \ \vdash \ \operatorname{TypeRefsExpr}(\mathsf{size}_{\mathsf{expr}},\ \mathsf{env})\ \Downarrow \ T_{s} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeArray}(\mathsf{elem},\ \mathsf{size}_{\mathsf{expr}}),\ \mathsf{env})\ \Downarrow \ T_{e}\ \cup \ T_{s}
+\end{array}
 ```
 
 **(TypeRef-Slice)**
 
-```text
-Γ ⊢ TypeRefsTy(elem, env) ⇓ T
-```
-
-────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsTy(TypeSlice(elem), env) ⇓ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\mathsf{elem},\ \mathsf{env})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeSlice}(\mathsf{elem}),\ \mathsf{env})\ \Downarrow \ T
+\end{array}
 ```
 
 **(TypeRef-Union)**
 
-```text
-∀ i, Γ ⊢ TypeRefsTy(t_i, env) ⇓ T_i
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsTy(TypeUnion([t_1, …, t_n]), env) ⇓ ⋃_{i=1}^n T_i
+```math
+\begin{array}{l}
+\forall \ i,\ \Gamma \ \vdash \ \operatorname{TypeRefsTy}(t_{i},\ \mathsf{env})\ \Downarrow \ T_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeUnion}([t_{1},\ \ldots ,\ t_{n}]),\ \mathsf{env})\ \Downarrow \ \bigcup \_\{i=1\}^n\ T_{i}
+\end{array}
 ```
 
 **(TypeRef-Func)**
 
-```text
-∀ i, params_i = ⟨m_i, t_i⟩    Γ ⊢ TypeRefsTy(t_i, env) ⇓ T_i    Γ ⊢ TypeRefsTy(ret, env) ⇓ T_r
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsTy(TypeFunc([params_1, …, params_n], ret), env) ⇓ (⋃_{i=1}^n T_i) ∪ T_r
+```math
+\begin{array}{l}
+\forall \ i,\ \mathsf{params}_{i}\ =\ \langle m_{i},\ t_{i}\rangle \quad \Gamma \ \vdash \ \operatorname{TypeRefsTy}(t_{i},\ \mathsf{env})\ \Downarrow \ T_{i}\quad \Gamma \ \vdash \ \operatorname{TypeRefsTy}(\mathsf{ret},\ \mathsf{env})\ \Downarrow \ T_{r} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeFunc}([\mathsf{params}_{1},\ \ldots ,\ \mathsf{params}_{n}],\ \mathsf{ret}),\ \mathsf{env})\ \Downarrow \ (\bigcup \_\{i=1\}^n\ T_{i})\ \cup \ T_{r}
+\end{array}
 ```
 
 **(TypeRef-String)**
-────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ TypeRefsTy(TypeString(_), env) ⇓ ∅
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeString}(\_),\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(TypeRef-Bytes)**
-───────────────────────────────────────────────────────
 
-```text
-Γ ⊢ TypeRefsTy(TypeBytes(_), env) ⇓ ∅
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeBytes}(\_),\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(TypeRef-Ptr)**
 
-```text
-Γ ⊢ TypeRefsTy(elem, env) ⇓ T
-```
-
-────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsTy(TypePtr(elem, _), env) ⇓ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\mathsf{elem},\ \mathsf{env})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypePtr}(\mathsf{elem},\ \_),\ \mathsf{env})\ \Downarrow \ T
+\end{array}
 ```
 
 **(TypeRef-RawPtr)**
 
-```text
-Γ ⊢ TypeRefsTy(elem, env) ⇓ T
-```
-
-────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsTy(TypeRawPtr(_, elem), env) ⇓ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\mathsf{elem},\ \mathsf{env})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeRawPtr}(\_,\ \mathsf{elem}),\ \mathsf{env})\ \Downarrow \ T
+\end{array}
 ```
 
 **(TypeRef-Range)**
 
-```text
-Γ ⊢ TypeRefsTy(base, env) ⇓ T
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsTy(TypeRange(base), env) ⇓ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\mathsf{base},\ \mathsf{env})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeRange}(\mathsf{base}),\ \mathsf{env})\ \Downarrow \ T
+\end{array}
 ```
 
 **(TypeRef-RangeInclusive)**
 
-```text
-Γ ⊢ TypeRefsTy(base, env) ⇓ T
-```
-
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsTy(TypeRangeInclusive(base), env) ⇓ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\mathsf{base},\ \mathsf{env})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeRangeInclusive}(\mathsf{base}),\ \mathsf{env})\ \Downarrow \ T
+\end{array}
 ```
 
 **(TypeRef-RangeFrom)**
 
-```text
-Γ ⊢ TypeRefsTy(base, env) ⇓ T
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsTy(TypeRangeFrom(base), env) ⇓ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\mathsf{base},\ \mathsf{env})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeRangeFrom}(\mathsf{base}),\ \mathsf{env})\ \Downarrow \ T
+\end{array}
 ```
 
 **(TypeRef-RangeTo)**
 
-```text
-Γ ⊢ TypeRefsTy(base, env) ⇓ T
-```
-
-────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsTy(TypeRangeTo(base), env) ⇓ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\mathsf{base},\ \mathsf{env})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeRangeTo}(\mathsf{base}),\ \mathsf{env})\ \Downarrow \ T
+\end{array}
 ```
 
 **(TypeRef-RangeToInclusive)**
 
-```text
-Γ ⊢ TypeRefsTy(base, env) ⇓ T
-```
-
-──────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsTy(TypeRangeToInclusive(base), env) ⇓ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\mathsf{base},\ \mathsf{env})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeRangeToInclusive}(\mathsf{base}),\ \mathsf{env})\ \Downarrow \ T
+\end{array}
 ```
 
 **(TypeRef-RangeFull)**
-──────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ TypeRefsTy(TypeRangeFull, env) ⇓ ∅
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\mathsf{TypeRangeFull},\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(TypeRef-Ref-Path)**
 
-```text
-Γ ⊢ TypeRefsTy(TypePath(path), env) ⇓ T
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsRef(TypePath(path), env) ⇓ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypePath}(\mathsf{path}),\ \mathsf{env})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsRef}(\operatorname{TypePath}(\mathsf{path}),\ \mathsf{env})\ \Downarrow \ T
+\end{array}
 ```
 
 **(TypeRef-Ref-Apply)**
 
-```text
-Γ ⊢ TypeRefsTy(TypeApply(path, args), env) ⇓ T
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsRef(TypeApply(path, args), env) ⇓ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeApply}(\mathsf{path},\ \mathsf{args}),\ \mathsf{env})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsRef}(\operatorname{TypeApply}(\mathsf{path},\ \mathsf{args}),\ \mathsf{env})\ \Downarrow \ T
+\end{array}
 ```
 
 **(TypeRef-Ref-ModalState)**
 
-```text
-Γ ⊢ TypeRefsTy(TypeModalState(modal_ref, state), env) ⇓ T
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsRef(ModalStateRef(modal_ref, state), env) ⇓ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ \mathsf{state}),\ \mathsf{env})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsRef}(\operatorname{ModalStateRef}(\mathsf{modal}_{\mathsf{ref}},\ \mathsf{state}),\ \mathsf{env})\ \Downarrow \ T
+\end{array}
 ```
 
 **(TypeRef-RecordExpr)**
 
-```text
-Γ ⊢ TypeRefsRef(r, env) ⇓ T_t    Γ ⊢ TypeRefsExprs(fields, env) ⇓ T_e
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsExpr(RecordExpr(r, fields), env) ⇓ T_t ∪ T_e
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsRef}(r,\ \mathsf{env})\ \Downarrow \ T_{t}\quad \Gamma \ \vdash \ \operatorname{TypeRefsExprs}(\mathsf{fields},\ \mathsf{env})\ \Downarrow \ T_{e} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsExpr}(\operatorname{RecordExpr}(r,\ \mathsf{fields}),\ \mathsf{env})\ \Downarrow \ T_{t}\ \cup \ T_{e}
+\end{array}
 ```
 
 **(TypeRef-EnumLiteral)**
 
-```text
-Γ ⊢ TypeRefsTy(TypePath(EnumPath(path)), env) ⇓ T_t    Γ ⊢ TypeRefsEnumPayload(payload_opt, env) ⇓ T_p
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsExpr(EnumLiteral(path, payload_opt), env) ⇓ T_t ∪ T_p
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypePath}(\operatorname{EnumPath}(\mathsf{path})),\ \mathsf{env})\ \Downarrow \ T_{t}\quad \Gamma \ \vdash \ \operatorname{TypeRefsEnumPayload}(\mathsf{payload}_{\mathsf{opt}},\ \mathsf{env})\ \Downarrow \ T_{p} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsExpr}(\operatorname{EnumLiteral}(\mathsf{path},\ \mathsf{payload}_{\mathsf{opt}}),\ \mathsf{env})\ \Downarrow \ T_{t}\ \cup \ T_{p}
+\end{array}
 ```
 
 **(TypeRef-QualBrace)**
 
-```text
-Γ ⊢ TypeRefsTy(TypePath(FullPath(path, name)), env) ⇓ T_t    Γ ⊢ TypeRefsExprs(fields, env) ⇓ T_f
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsExpr(QualifiedApply(path, name, Brace(fields)), env) ⇓ T_t ∪ T_f
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypePath}(\operatorname{FullPath}(\mathsf{path},\ \mathsf{name})),\ \mathsf{env})\ \Downarrow \ T_{t}\quad \Gamma \ \vdash \ \operatorname{TypeRefsExprs}(\mathsf{fields},\ \mathsf{env})\ \Downarrow \ T_{f} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsExpr}(\operatorname{QualifiedApply}(\mathsf{path},\ \mathsf{name},\ \operatorname{Brace}(\mathsf{fields})),\ \mathsf{env})\ \Downarrow \ T_{t}\ \cup \ T_{f}
+\end{array}
 ```
 
 **(TypeRef-Cast)**
 
-```text
-Γ ⊢ TypeRefsExpr(e, env) ⇓ T_e    Γ ⊢ TypeRefsTy(ty, env) ⇓ T_t
-```
-
-────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsExpr(Cast(e, ty), env) ⇓ T_e ∪ T_t
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsExpr}(e,\ \mathsf{env})\ \Downarrow \ T_{e}\quad \Gamma \ \vdash \ \operatorname{TypeRefsTy}(\mathsf{ty},\ \mathsf{env})\ \Downarrow \ T_{t} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsExpr}(\operatorname{Cast}(e,\ \mathsf{ty}),\ \mathsf{env})\ \Downarrow \ T_{e}\ \cup \ T_{t}
+\end{array}
 ```
 
 **(TypeRef-Transmute)**
 
-```text
-Γ ⊢ TypeRefsExpr(e, env) ⇓ T_e    Γ ⊢ TypeRefsTy(t_1, env) ⇓ T_1    Γ ⊢ TypeRefsTy(t_2, env) ⇓ T_2
-```
-
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsExpr(TransmuteExpr(t_1, t_2, e), env) ⇓ T_e ∪ T_1 ∪ T_2
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsExpr}(e,\ \mathsf{env})\ \Downarrow \ T_{e}\quad \Gamma \ \vdash \ \operatorname{TypeRefsTy}(t_{1},\ \mathsf{env})\ \Downarrow \ T_{1}\quad \Gamma \ \vdash \ \operatorname{TypeRefsTy}(t_{2},\ \mathsf{env})\ \Downarrow \ T_{2} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsExpr}(\operatorname{TransmuteExpr}(t_{1},\ t_{2},\ e),\ \mathsf{env})\ \Downarrow \ T_{e}\ \cup \ T_{1}\ \cup \ T_{2}
+\end{array}
 ```
 
 **(TypeRef-CallTypeArgs)**
 
-```text
-Γ ⊢ TypeRefsExpr(callee, env) ⇓ T_c    Γ ⊢ TypeRefsArgs(args, env) ⇓ T_a    ∀ i, Γ ⊢ TypeRefsTy(type_args[i], env) ⇓ T_i
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsExpr}(\mathsf{callee},\ \mathsf{env})\ \Downarrow \ T_{c}\quad \Gamma \ \vdash \ \operatorname{TypeRefsArgs}(\mathsf{args},\ \mathsf{env})\ \Downarrow \ T_{a}\quad \forall \ i,\ \Gamma \ \vdash \ \operatorname{TypeRefsTy}(\mathsf{type}_{\mathsf{args}}[i],\ \mathsf{env})\ \Downarrow \ T_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsExpr}(\operatorname{CallTypeArgs}(\mathsf{callee},\ \mathsf{type}_{\mathsf{args}},\ \mathsf{args}),\ \mathsf{env})\ \Downarrow \ T_{c}\ \cup \ T_{a}\ \cup \ \bigcup \_\{i=1\}^n\ T_{i}
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsExpr(CallTypeArgs(callee, type_args, args), env) ⇓ T_c ∪ T_a ∪ ⋃_{i=1}^n T_i
-```
-
-TypeRefsExprRules = {TypeRef-RecordExpr, TypeRef-EnumLiteral, TypeRef-QualBrace, TypeRef-Cast, TypeRef-Transmute, TypeRef-CallTypeArgs, TypeRef-Expr-Sub}
-
-```text
-NoSpecificTypeRefsExpr(e) ⇔ ¬ ∃ r ∈ TypeRefsExprRules \ {TypeRef-Expr-Sub}. PremisesHold(r, e)
+```math
+\begin{array}{l}
+\mathsf{TypeRefsExprRules}\ =\ \{\mathsf{TypeRef}-\mathsf{RecordExpr},\ \mathsf{TypeRef}-\mathsf{EnumLiteral},\ \mathsf{TypeRef}-\mathsf{QualBrace},\ \mathsf{TypeRef}-\mathsf{Cast},\ \mathsf{TypeRef}-\mathsf{Transmute},\ \mathsf{TypeRef}-\mathsf{CallTypeArgs},\ \mathsf{TypeRef}-\mathsf{Expr}-\mathsf{Sub}\} \\
+\operatorname{NoSpecificTypeRefsExpr}(e)\ \Leftrightarrow \ \lnot \ \exists \ r\ \in \ \mathsf{TypeRefsExprRules}\ \setminus \ \{\mathsf{TypeRef}-\mathsf{Expr}-\mathsf{Sub}\}.\ \operatorname{PremisesHold}(r,\ e)
+\end{array}
 ```
 
 **(TypeRef-Expr-Sub)**
 
-```text
-NoSpecificTypeRefsExpr(e)    Children_LTR(e) = [e_1, …, e_n]    ∀ i, Γ ⊢ TypeRefsExpr(e_i, env) ⇓ T_i
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsExpr(e, env) ⇓ ⋃_{i=1}^n T_i
+```math
+\begin{array}{l}
+\operatorname{NoSpecificTypeRefsExpr}(e)\quad \operatorname{Children_LTR}(e)\ =\ [e_{1},\ \ldots ,\ e_{n}]\quad \forall \ i,\ \Gamma \ \vdash \ \operatorname{TypeRefsExpr}(e_{i},\ \mathsf{env})\ \Downarrow \ T_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsExpr}(e,\ \mathsf{env})\ \Downarrow \ \bigcup \_\{i=1\}^n\ T_{i}
+\end{array}
 ```
 
 **(TypeRef-RecordPattern)**
 
-```text
-Γ ⊢ TypeRefsTy(TypePath(tp), env) ⇓ T_t    Γ ⊢ TypeRefsFields(fields, env) ⇓ T_f
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsPat(RecordPattern(tp, fields), env) ⇓ T_t ∪ T_f
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypePath}(\mathsf{tp}),\ \mathsf{env})\ \Downarrow \ T_{t}\quad \Gamma \ \vdash \ \operatorname{TypeRefsFields}(\mathsf{fields},\ \mathsf{env})\ \Downarrow \ T_{f} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\operatorname{RecordPattern}(\mathsf{tp},\ \mathsf{fields}),\ \mathsf{env})\ \Downarrow \ T_{t}\ \cup \ T_{f}
+\end{array}
 ```
 
 **(TypeRef-EnumPattern)**
 
-```text
-Γ ⊢ TypeRefsTy(TypePath(tp), env) ⇓ T_t    Γ ⊢ TypeRefsPayload(payload, env) ⇓ T_p
-```
-
-─────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsPat(EnumPattern(tp, _, payload), env) ⇓ T_t ∪ T_p
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypePath}(\mathsf{tp}),\ \mathsf{env})\ \Downarrow \ T_{t}\quad \Gamma \ \vdash \ \operatorname{TypeRefsPayload}(\mathsf{payload},\ \mathsf{env})\ \Downarrow \ T_{p} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\operatorname{EnumPattern}(\mathsf{tp},\ \_,\ \mathsf{payload}),\ \mathsf{env})\ \Downarrow \ T_{t}\ \cup \ T_{p}
+\end{array}
 ```
 
 **(TypeRef-LiteralPattern)**
-──────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ TypeRefsPat(LiteralPattern(_), env) ⇓ ∅
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\operatorname{LiteralPattern}(\_),\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(TypeRef-WildcardPattern)**
-───────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ TypeRefsPat(WildcardPattern, env) ⇓ ∅
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\mathsf{WildcardPattern},\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(TypeRef-IdentifierPattern)**
-───────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ TypeRefsPat(IdentifierPattern(_), env) ⇓ ∅
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\operatorname{IdentifierPattern}(\_),\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(TypeRef-TuplePattern)**
 
-```text
-∀ i, Γ ⊢ TypeRefsPat(p_i, env) ⇓ T_i
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsPat(TuplePattern([p_1, …, p_n]), env) ⇓ ⋃_{i=1}^n T_i
+```math
+\begin{array}{l}
+\forall \ i,\ \Gamma \ \vdash \ \operatorname{TypeRefsPat}(p_{i},\ \mathsf{env})\ \Downarrow \ T_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\operatorname{TuplePattern}([p_{1},\ \ldots ,\ p_{n}]),\ \mathsf{env})\ \Downarrow \ \bigcup \_\{i=1\}^n\ T_{i}
+\end{array}
 ```
 
 **(TypeRef-ModalPattern-None)**
-────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ TypeRefsPat(ModalPattern(_, ⊥), env) ⇓ ∅
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\operatorname{ModalPattern}(\_,\ \bot ),\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(TypeRef-ModalPattern-Record)**
 
-```text
-Γ ⊢ TypeRefsFields(fields, env) ⇓ T
-```
-
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsPat(ModalPattern(_, ModalRecordPayload(fields)), env) ⇓ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsFields}(\mathsf{fields},\ \mathsf{env})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\operatorname{ModalPattern}(\_,\ \operatorname{ModalRecordPayload}(\mathsf{fields})),\ \mathsf{env})\ \Downarrow \ T
+\end{array}
 ```
 
 **(TypeRef-RangePattern)**
 
-```text
-Γ ⊢ TypeRefsPat(p_l, env) ⇓ T_l    Γ ⊢ TypeRefsPat(p_h, env) ⇓ T_h
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsPat(RangePattern(_, p_l, p_h), env) ⇓ T_l ∪ T_h
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(p_{l},\ \mathsf{env})\ \Downarrow \ T_{l}\quad \Gamma \ \vdash \ \operatorname{TypeRefsPat}(p_{h},\ \mathsf{env})\ \Downarrow \ T_{h} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\operatorname{RangePattern}(\_,\ p_{l},\ p_{h}),\ \mathsf{env})\ \Downarrow \ T_{l}\ \cup \ T_{h}
+\end{array}
 ```
 
 **(TypeRef-Field-Explicit)**
 
-```text
-Γ ⊢ TypeRefsPat(p, env) ⇓ T
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsPat(⟨name, pattern_opt = p, span⟩, env) ⇓ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(p,\ \mathsf{env})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\langle \mathsf{name},\ \mathsf{pattern}_{\mathsf{opt}}\ =\ p,\ \mathsf{span}\rangle ,\ \mathsf{env})\ \Downarrow \ T
+\end{array}
 ```
 
 **(TypeRef-Field-Implicit)**
-────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ TypeRefsPat(⟨name, pattern_opt = ⊥, span⟩, env) ⇓ ∅
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\langle \mathsf{name},\ \mathsf{pattern}_{\mathsf{opt}}\ =\ \bot ,\ \mathsf{span}\rangle ,\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(TypeRefsExprs-Empty)**
-────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ TypeRefsExprs([], env) ⇓ ∅
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsExprs}([],\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(TypeRefsExprs-Cons)**
 
-```text
-f = ⟨name, e⟩    Γ ⊢ TypeRefsExpr(e, env) ⇓ T_e    Γ ⊢ TypeRefsExprs(fs, env) ⇓ T_f
+```math
+\begin{array}{l}
+f\ =\ \langle \mathsf{name},\ e\rangle \quad \Gamma \ \vdash \ \operatorname{TypeRefsExpr}(e,\ \mathsf{env})\ \Downarrow \ T_{e}\quad \Gamma \ \vdash \ \operatorname{TypeRefsExprs}(\mathsf{fs},\ \mathsf{env})\ \Downarrow \ T_{f} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsExprs}(f\mathbin{::} \mathsf{fs},\ \mathsf{env})\ \Downarrow \ T_{e}\ \cup \ T_{f}
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsExprs(f::fs, env) ⇓ T_e ∪ T_f
+```math
+\mathsf{TypeRefsArgsJudg}\ =\ \{\mathsf{TypeRefsArgs}\}
 ```
-
-TypeRefsArgsJudg = {TypeRefsArgs}
 
 **(TypeRefsArgs-Empty)**
-────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ TypeRefsArgs([], env) ⇓ ∅
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsArgs}([],\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(TypeRefsArgs-Cons)**
 
-```text
-a = ⟨moved, e, span⟩    Γ ⊢ TypeRefsExpr(e, env) ⇓ T_e    Γ ⊢ TypeRefsArgs(rest, env) ⇓ T_r
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsArgs(a::rest, env) ⇓ T_e ∪ T_r
+```math
+\begin{array}{l}
+a\ =\ \langle \mathsf{moved},\ e,\ \mathsf{span}\rangle \quad \Gamma \ \vdash \ \operatorname{TypeRefsExpr}(e,\ \mathsf{env})\ \Downarrow \ T_{e}\quad \Gamma \ \vdash \ \operatorname{TypeRefsArgs}(\mathsf{rest},\ \mathsf{env})\ \Downarrow \ T_{r} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsArgs}(a\mathbin{::} \mathsf{rest},\ \mathsf{env})\ \Downarrow \ T_{e}\ \cup \ T_{r}
+\end{array}
 ```
 
 **(TypeRefsEnumPayload-None)**
-──────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ TypeRefsEnumPayload(⊥, env) ⇓ ∅
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsEnumPayload}(\bot ,\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(TypeRefsEnumPayload-Tuple)**
 
-```text
-∀ i, Γ ⊢ TypeRefsExpr(e_i, env) ⇓ T_i
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsEnumPayload(Paren([e_1, …, e_n]), env) ⇓ ⋃_{i=1}^n T_i
+```math
+\begin{array}{l}
+\forall \ i,\ \Gamma \ \vdash \ \operatorname{TypeRefsExpr}(e_{i},\ \mathsf{env})\ \Downarrow \ T_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsEnumPayload}(\operatorname{Paren}([e_{1},\ \ldots ,\ e_{n}]),\ \mathsf{env})\ \Downarrow \ \bigcup \_\{i=1\}^n\ T_{i}
+\end{array}
 ```
 
 **(TypeRefsEnumPayload-Record)**
 
-```text
-Γ ⊢ TypeRefsExprs(fields, env) ⇓ T
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsEnumPayload(Brace(fields), env) ⇓ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsExprs}(\mathsf{fields},\ \mathsf{env})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsEnumPayload}(\operatorname{Brace}(\mathsf{fields}),\ \mathsf{env})\ \Downarrow \ T
+\end{array}
 ```
 
 **(TypeRefsFields-Empty)**
-────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ TypeRefsFields([], env) ⇓ ∅
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsFields}([],\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(TypeRefsFields-Cons)**
 
-```text
-Γ ⊢ TypeRefsPat(f, env) ⇓ T_f    Γ ⊢ TypeRefsFields(fs, env) ⇓ T_s
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsFields(f::fs, env) ⇓ T_f ∪ T_s
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(f,\ \mathsf{env})\ \Downarrow \ T_{f}\quad \Gamma \ \vdash \ \operatorname{TypeRefsFields}(\mathsf{fs},\ \mathsf{env})\ \Downarrow \ T_{s} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsFields}(f\mathbin{::} \mathsf{fs},\ \mathsf{env})\ \Downarrow \ T_{f}\ \cup \ T_{s}
+\end{array}
 ```
 
 **(TypeRefsPayload-None)**
-────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ TypeRefsPayload(⊥, env) ⇓ ∅
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsPayload}(\bot ,\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(TypeRefsPayload-Tuple)**
 
-```text
-∀ i, Γ ⊢ TypeRefsPat(p_i, env) ⇓ T_i
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsPayload(TuplePayloadPattern([p_1, …, p_n]), env) ⇓ ⋃_{i=1}^n T_i
+```math
+\begin{array}{l}
+\forall \ i,\ \Gamma \ \vdash \ \operatorname{TypeRefsPat}(p_{i},\ \mathsf{env})\ \Downarrow \ T_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsPayload}(\operatorname{TuplePayloadPattern}([p_{1},\ \ldots ,\ p_{n}]),\ \mathsf{env})\ \Downarrow \ \bigcup \_\{i=1\}^n\ T_{i}
+\end{array}
 ```
 
 **(TypeRefsPayload-Record)**
 
-```text
-Γ ⊢ TypeRefsFields(fields, env) ⇓ T
-```
-
-───────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeRefsPayload(RecordPayloadPattern(fields), env) ⇓ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TypeRefsFields}(\mathsf{fields},\ \mathsf{env})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeRefsPayload}(\operatorname{RecordPayloadPattern}(\mathsf{fields}),\ \mathsf{env})\ \Downarrow \ T
+\end{array}
 ```
 
 UsingValueMap = env.UsingValueMap
-ValueRefsJudg = {ValueRefs, ValueRefsArgs, ValueRefsFields}
+
+```math
+\mathsf{ValueRefsJudg}\ =\ \{\mathsf{ValueRefs},\ \mathsf{ValueRefsArgs},\ \mathsf{ValueRefsFields}\}
+```
 
 **(ValueRef-Ident)**
 
-```text
-name ∈ dom(UsingValueMap)    UsingValueMap[name] ≠ env.self
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ValueRefs(Identifier(name), env) ⇓ {UsingValueMap[name]}
+```math
+\begin{array}{l}
+\mathsf{name}\ \in \ \operatorname{dom}(\mathsf{UsingValueMap})\quad \mathsf{UsingValueMap}[\mathsf{name}]\ \ne \ \mathsf{env}.\mathsf{self} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ValueRefs}(\operatorname{Identifier}(\mathsf{name}),\ \mathsf{env})\ \Downarrow \ \{\mathsf{UsingValueMap}[\mathsf{name}]\}
+\end{array}
 ```
 
 **(ValueRef-Ident-Local)**
 
-```text
-name ∉ dom(UsingValueMap)
-```
-
-────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ValueRefs(Identifier(name), env) ⇓ ∅
+```math
+\begin{array}{l}
+\mathsf{name}\ \notin \ \operatorname{dom}(\mathsf{UsingValueMap}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ValueRefs}(\operatorname{Identifier}(\mathsf{name}),\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(ValueRef-Qual)**
 
-```text
-Γ ⊢ ModulePrefix(path, Modules, Alias) ⇓ mp    mp ≠ env.self
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ValueRefs(QualifiedName(path, _), env) ⇓ {mp}
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{Modules},\ \mathsf{Alias})\ \Downarrow \ \mathsf{mp}\quad \mathsf{mp}\ \ne \ \mathsf{env}.\mathsf{self} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ValueRefs}(\operatorname{QualifiedName}(\mathsf{path},\ \_),\ \mathsf{env})\ \Downarrow \ \{\mathsf{mp}\}
+\end{array}
 ```
 
 **(ValueRef-Qual-Local)**
 
-```text
-Γ ⊢ ModulePrefix(path, Modules, Alias) ⇑ ∨ Γ ⊢ ModulePrefix(path, Modules, Alias) ⇓ env.self
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ValueRefs(QualifiedName(path, _), env) ⇓ ∅
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{Modules},\ \mathsf{Alias})\ \Uparrow \ \lor \ \Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{Modules},\ \mathsf{Alias})\ \Downarrow \ \mathsf{env}.\mathsf{self} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ValueRefs}(\operatorname{QualifiedName}(\mathsf{path},\ \_),\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(ValueRef-QualApply)**
 
-```text
-Γ ⊢ ModulePrefix(path, Modules, Alias) ⇓ mp    mp ≠ env.self    Γ ⊢ ValueRefsArgs(args, env) ⇓ V_a
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ValueRefs(QualifiedApply(path, _, Paren(args)), env) ⇓ {mp} ∪ V_a
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{Modules},\ \mathsf{Alias})\ \Downarrow \ \mathsf{mp}\quad \mathsf{mp}\ \ne \ \mathsf{env}.\mathsf{self}\quad \Gamma \ \vdash \ \operatorname{ValueRefsArgs}(\mathsf{args},\ \mathsf{env})\ \Downarrow \ V_{a} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ValueRefs}(\operatorname{QualifiedApply}(\mathsf{path},\ \_,\ \operatorname{Paren}(\mathsf{args})),\ \mathsf{env})\ \Downarrow \ \{\mathsf{mp}\}\ \cup \ V_{a}
+\end{array}
 ```
 
 **(ValueRef-QualApply-Local)**
 
-```text
-(Γ ⊢ ModulePrefix(path, Modules, Alias) ⇑ ∨ Γ ⊢ ModulePrefix(path, Modules, Alias) ⇓ env.self)    Γ ⊢ ValueRefsArgs(args, env) ⇓ V_a
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ValueRefs(QualifiedApply(path, _, Paren(args)), env) ⇓ V_a
+```math
+\begin{array}{l}
+(\Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{Modules},\ \mathsf{Alias})\ \Uparrow \ \lor \ \Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{Modules},\ \mathsf{Alias})\ \Downarrow \ \mathsf{env}.\mathsf{self})\quad \Gamma \ \vdash \ \operatorname{ValueRefsArgs}(\mathsf{args},\ \mathsf{env})\ \Downarrow \ V_{a} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ValueRefs}(\operatorname{QualifiedApply}(\mathsf{path},\ \_,\ \operatorname{Paren}(\mathsf{args})),\ \mathsf{env})\ \Downarrow \ V_{a}
+\end{array}
 ```
 
 **(ValueRef-QualApply-Brace)**
 
-```text
-Γ ⊢ ValueRefsFields(fields, env) ⇓ V_f
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ValueRefsFields}(\mathsf{fields},\ \mathsf{env})\ \Downarrow \ V_{f} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ValueRefs}(\operatorname{QualifiedApply}(\mathsf{path},\ \_,\ \operatorname{Brace}(\mathsf{fields})),\ \mathsf{env})\ \Downarrow \ V_{f}
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ValueRefs(QualifiedApply(path, _, Brace(fields)), env) ⇓ V_f
-```
-
-ValueRefsRules = {ValueRef-Ident, ValueRef-Ident-Local, ValueRef-Qual, ValueRef-Qual-Local, ValueRef-QualApply, ValueRef-QualApply-Local, ValueRef-QualApply-Brace, ValueRef-Expr-Sub}
-
-```text
-NoSpecificValueRefsExpr(e) ⇔ ¬ ∃ r ∈ ValueRefsRules \ {ValueRef-Expr-Sub}. PremisesHold(r, e)
+```math
+\begin{array}{l}
+\mathsf{ValueRefsRules}\ =\ \{\mathsf{ValueRef}-\mathsf{Ident},\ \mathsf{ValueRef}-\mathsf{Ident}-\mathsf{Local},\ \mathsf{ValueRef}-\mathsf{Qual},\ \mathsf{ValueRef}-\mathsf{Qual}-\mathsf{Local},\ \mathsf{ValueRef}-\mathsf{QualApply},\ \mathsf{ValueRef}-\mathsf{QualApply}-\mathsf{Local},\ \mathsf{ValueRef}-\mathsf{QualApply}-\mathsf{Brace},\ \mathsf{ValueRef}-\mathsf{Expr}-\mathsf{Sub}\} \\
+\operatorname{NoSpecificValueRefsExpr}(e)\ \Leftrightarrow \ \lnot \ \exists \ r\ \in \ \mathsf{ValueRefsRules}\ \setminus \ \{\mathsf{ValueRef}-\mathsf{Expr}-\mathsf{Sub}\}.\ \operatorname{PremisesHold}(r,\ e)
+\end{array}
 ```
 
 **(ValueRef-Expr-Sub)**
 
-```text
-NoSpecificValueRefsExpr(e)    Children_LTR(e) = [e_1, …, e_n]    ∀ i, Γ ⊢ ValueRefs(e_i, env) ⇓ V_i
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ValueRefs(e, env) ⇓ ⋃_{i=1}^n V_i
+```math
+\begin{array}{l}
+\operatorname{NoSpecificValueRefsExpr}(e)\quad \operatorname{Children_LTR}(e)\ =\ [e_{1},\ \ldots ,\ e_{n}]\quad \forall \ i,\ \Gamma \ \vdash \ \operatorname{ValueRefs}(e_{i},\ \mathsf{env})\ \Downarrow \ V_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ValueRefs}(e,\ \mathsf{env})\ \Downarrow \ \bigcup \_\{i=1\}^n\ V_{i}
+\end{array}
 ```
 
 **(ValueRefsArgs-Empty)**
-────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ValueRefsArgs([], env) ⇓ ∅
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ValueRefsArgs}([],\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(ValueRefsArgs-Cons)**
 
-```text
-a = ⟨moved, e, span⟩    Γ ⊢ ValueRefs(e, env) ⇓ V_e    Γ ⊢ ValueRefsArgs(args, env) ⇓ V_a
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ValueRefsArgs(a::args, env) ⇓ V_e ∪ V_a
+```math
+\begin{array}{l}
+a\ =\ \langle \mathsf{moved},\ e,\ \mathsf{span}\rangle \quad \Gamma \ \vdash \ \operatorname{ValueRefs}(e,\ \mathsf{env})\ \Downarrow \ V_{e}\quad \Gamma \ \vdash \ \operatorname{ValueRefsArgs}(\mathsf{args},\ \mathsf{env})\ \Downarrow \ V_{a} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ValueRefsArgs}(a\mathbin{::} \mathsf{args},\ \mathsf{env})\ \Downarrow \ V_{e}\ \cup \ V_{a}
+\end{array}
 ```
 
 **(ValueRefsFields-Empty)**
-────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ValueRefsFields([], env) ⇓ ∅
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ValueRefsFields}([],\ \mathsf{env})\ \Downarrow \ \emptyset 
+\end{array}
 ```
 
 **(ValueRefsFields-Cons)**
 
-```text
-f = ⟨name, e⟩    Γ ⊢ ValueRefs(e, env) ⇓ V_e    Γ ⊢ ValueRefsFields(fs, env) ⇓ V_f
+```math
+\begin{array}{l}
+f\ =\ \langle \mathsf{name},\ e\rangle \quad \Gamma \ \vdash \ \operatorname{ValueRefs}(e,\ \mathsf{env})\ \Downarrow \ V_{e}\quad \Gamma \ \vdash \ \operatorname{ValueRefsFields}(\mathsf{fs},\ \mathsf{env})\ \Downarrow \ V_{f} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ValueRefsFields}(f\mathbin{::} \mathsf{fs},\ \mathsf{env})\ \Downarrow \ V_{e}\ \cup \ V_{f}
+\end{array}
 ```
 
-───────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ValueRefsFields(f::fs, env) ⇓ V_e ∪ V_f
+```math
+\begin{array}{l}
+\operatorname{Elems}(v)\ = \\
+\ \{v\}\quad \mathsf{if}\ v\ \in \ \mathsf{ASTNode} \\
+\ \{x\ \mid \ x\ \in \ v\ \land \ x\ \in \ \mathsf{ASTNode}\}\quad \mathsf{if}\ v\ \in \ [\_] \\
+\ \emptyset \quad \mathsf{if}\ v\ =\ \bot  \\
+\ \emptyset \quad \mathsf{otherwise}
+\end{array}
 ```
 
-Elems(v) =
-
-```text
- {v}    if v ∈ ASTNode
- {x | x ∈ v ∧ x ∈ ASTNode}    if v ∈ [_]
- ∅    if v = ⊥
+```math
+\begin{array}{l}
+\operatorname{Child}(x,\ y)\ \Leftrightarrow \ \exists \ C,\ a_{1},\ \ldots ,\ a_{k}.\ x\ =\ \operatorname{C}(a_{1},\ \ldots ,\ a_{k})\ \land \ y\ \in \ \bigcup \_\{i=1\}^k\ \operatorname{Elems}(a_{i}) \\
+E_{\mathsf{child}}\ =\ \{\ (x,\ y)\ \mid \ \operatorname{Child}(x,\ y)\ \} \\
+\operatorname{Subnode}(x,\ y)\ \Leftrightarrow \ x\ =\ y\ \lor \ \Gamma \ \vdash \ \operatorname{Reachable}(x,\ y,\ E_{\mathsf{child}})
+\end{array}
 ```
 
- ∅    otherwise
-
-```text
-Child(x, y) ⇔ ∃ C, a_1, …, a_k. x = C(a_1, …, a_k) ∧ y ∈ ⋃_{i=1}^k Elems(a_i)
+```math
+\begin{array}{l}
+\operatorname{ExprNodes}(P,\ m)\ =\ \{\ e\ \mid \ e\ \in \ \mathsf{Expr}\ \land \ \operatorname{Subnode}(\operatorname{ASTModule}(P,\ m),\ e)\ \} \\
+\operatorname{PatNodes}(P,\ m)\ =\ \{\ p\ \mid \ p\ \in \ \mathsf{Pattern}\ \land \ \operatorname{Subnode}(\operatorname{ASTModule}(P,\ m),\ p)\ \} \\
+\operatorname{ExprNodesOf}(x)\ =\ \{\ e\ \mid \ e\ \in \ \mathsf{Expr}\ \land \ \operatorname{Subnode}(x,\ e)\ \}
+\end{array}
 ```
 
-E_child = { (x, y) | Child(x, y) }
-
-```text
-Subnode(x, y) ⇔ x = y ∨ Γ ⊢ Reachable(x, y, E_child)
+```math
+\begin{array}{l}
+\operatorname{VariantPayloadTypeSet}(\bot )\ =\ \emptyset  \\
+\operatorname{VariantPayloadTypeSet}(\operatorname{TuplePayload}(\mathsf{tys}))\ =\ \{\ t\ \mid \ t\ \in \ \mathsf{tys}\ \} \\
+\operatorname{VariantPayloadTypeSet}(\operatorname{RecordPayload}(\mathsf{fields}))\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{boundary},\ \mathsf{name},\ \mathsf{init}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}.\ \operatorname{FieldDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{boundary},\ \mathsf{name},\ t,\ \mathsf{init}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}})\ \in \ \mathsf{fields}\ \} \\
+\operatorname{EnumVariantTypeSet}(\mathsf{variants})\ =\ \{\ t\ \mid \ \exists \ \mathsf{name},\ \mathsf{payload}_{\mathsf{opt}},\ \mathsf{disc}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}.\ \operatorname{VariantDecl}(\mathsf{name},\ \mathsf{payload}_{\mathsf{opt}},\ \mathsf{disc}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}})\ \in \ \mathsf{variants}\ \land \ t\ \in \ \operatorname{VariantPayloadTypeSet}(\mathsf{payload}_{\mathsf{opt}})\ \} \\
+\operatorname{TypeOptSet}(\bot )\ =\ \emptyset  \\
+\operatorname{TypeOptSet}(T)\ =\ \{T\} \\
+\operatorname{ParamTypeSet}(\mathsf{params})\ =\ \{\ t\ \mid \ \exists \ \mathsf{mode},\ \mathsf{name}.\ \langle \mathsf{mode},\ \mathsf{name},\ t\rangle \ \in \ \mathsf{params}\ \} \\
+\operatorname{RecvTypeSet}(\operatorname{ReceiverExplicit}(\_,\ t))\ =\ \{t\} \\
+\operatorname{RecvTypeSet}(\operatorname{ReceiverShorthand}(\_))\ =\ \emptyset  \\
+\operatorname{ClassPathTypeSet}(\mathsf{paths})\ =\ \{\ \operatorname{TypePath}(p)\ \mid \ p\ \in \ \mathsf{paths}\ \} \\
+\operatorname{RecordFieldTypeSet}(\mathsf{members})\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{boundary},\ \mathsf{name},\ \mathsf{init},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{FieldDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{boundary},\ \mathsf{name},\ t,\ \mathsf{init},\ \mathsf{span},\ \mathsf{doc})\ \in \ \mathsf{members}\ \} \\
+\operatorname{RecordMethodRecvTypes}(\mathsf{members})\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{ov},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{MethodDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{ov},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc})\ \in \ \mathsf{members}\ \land \ t\ \in \ \operatorname{RecvTypeSet}(\mathsf{recv})\ \} \\
+\operatorname{RecordMethodParamTypes}(\mathsf{members})\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{ov},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{MethodDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{ov},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc})\ \in \ \mathsf{members}\ \land \ t\ \in \ \operatorname{ParamTypeSet}(\mathsf{params})\ \} \\
+\operatorname{RecordMethodRetTypes}(\mathsf{members})\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{ov},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{MethodDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{ov},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc})\ \in \ \mathsf{members}\ \land \ t\ \in \ \operatorname{TypeOptSet}(\mathsf{ret})\ \} \\
+\operatorname{RecordMemberTypeSet}(\mathsf{members})\ =\ \operatorname{RecordFieldTypeSet}(\mathsf{members})\ \cup \ \operatorname{RecordMethodRecvTypes}(\mathsf{members})\ \cup \ \operatorname{RecordMethodParamTypes}(\mathsf{members})\ \cup \ \operatorname{RecordMethodRetTypes}(\mathsf{members}) \\
+\operatorname{ClassFieldTypeSet}(\mathsf{items})\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{boundary},\ \mathsf{name},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{ClassFieldDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{boundary},\ \mathsf{name},\ t,\ \mathsf{span},\ \mathsf{doc})\ \in \ \mathsf{items}\ \} \\
+\operatorname{ClassMethodRecvTypes}(\mathsf{items})\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{ClassMethodDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc})\ \in \ \mathsf{items}\ \land \ t\ \in \ \operatorname{RecvTypeSet}(\mathsf{recv})\ \} \\
+\operatorname{ClassMethodParamTypes}(\mathsf{items})\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{ClassMethodDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc})\ \in \ \mathsf{items}\ \land \ t\ \in \ \operatorname{ParamTypeSet}(\mathsf{params})\ \} \\
+\operatorname{ClassMethodRetTypes}(\mathsf{items})\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{ClassMethodDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc})\ \in \ \mathsf{items}\ \land \ t\ \in \ \operatorname{TypeOptSet}(\mathsf{ret})\ \} \\
+\operatorname{ClassItemTypeSet}(\mathsf{items})\ =\ \operatorname{ClassFieldTypeSet}(\mathsf{items})\ \cup \ \operatorname{ClassMethodRecvTypes}(\mathsf{items})\ \cup \ \operatorname{ClassMethodParamTypes}(\mathsf{items})\ \cup \ \operatorname{ClassMethodRetTypes}(\mathsf{items})
+\end{array}
 ```
 
-```text
-ExprNodes(P, m) = { e | e ∈ Expr ∧ Subnode(ASTModule(P, m), e) }
-PatNodes(P, m) = { p | p ∈ Pattern ∧ Subnode(ASTModule(P, m), p) }
-ExprNodesOf(x) = { e | e ∈ Expr ∧ Subnode(x, e) }
+```math
+\begin{array}{l}
+\operatorname{TypePos_Static}(P,\ m)\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{mut},\ \mathsf{bind},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{StaticDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{mut},\ \mathsf{bind},\ \mathsf{span},\ \mathsf{doc})\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\ \land \ \mathsf{bind}.\mathsf{type}_{\mathsf{opt}}\ =\ t\ \land \ t\ \ne \ \bot \ \} \\
+\operatorname{TypePos_Proc}(P,\ m)\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{params},\ \mathsf{return}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{ProcedureDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{params},\ \mathsf{return}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc})\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\ \land \ t\ \in \ (\operatorname{ParamTypeSet}(\mathsf{params})\ \cup \ \operatorname{TypeOptSet}(\mathsf{return}_{\mathsf{type}\_\mathsf{opt}}))\ \} \\
+\operatorname{TypePos_Record}(P,\ m)\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{impls},\ \mathsf{members},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{RecordDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{impls},\ \mathsf{members},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc})\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\ \land \ t\ \in \ (\operatorname{ClassPathTypeSet}(\mathsf{impls})\ \cup \ \operatorname{RecordMemberTypeSet}(\mathsf{members}))\ \} \\
+\operatorname{TypePos_Enum}(P,\ m)\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{impls},\ \mathsf{variants},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{EnumDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{impls},\ \mathsf{variants},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc})\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\ \land \ t\ \in \ (\operatorname{ClassPathTypeSet}(\mathsf{impls})\ \cup \ \operatorname{EnumVariantTypeSet}(\mathsf{variants}))\ \} \\
+\operatorname{TypePos_Modal}(P,\ m)\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{impls},\ \mathsf{states},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{ModalDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{impls},\ \mathsf{states},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc})\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\ \land \ t\ \in \ \operatorname{ClassPathTypeSet}(\mathsf{impls})\ \} \\
+\operatorname{TypePos_Class}(P,\ m)\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{modal},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{supers},\ \mathsf{items},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{ClassDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{modal},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{supers},\ \mathsf{items},\ \mathsf{span},\ \mathsf{doc})\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\ \land \ t\ \in \ (\operatorname{ClassPathTypeSet}(\mathsf{supers})\ \cup \ \operatorname{ClassItemTypeSet}(\mathsf{items}))\ \} \\
+\operatorname{TypePos_Alias}(P,\ m)\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{ty},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{TypeAliasDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{ty},\ \mathsf{span},\ \mathsf{doc})\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\ \land \ t\ =\ \mathsf{ty}\ \} \\
+\operatorname{TypePositions}(P,\ m)\ =\ \operatorname{TypePos_Static}(P,\ m)\ \cup \ \operatorname{TypePos_Proc}(P,\ m)\ \cup \ \operatorname{TypePos_Record}(P,\ m)\ \cup \ \operatorname{TypePos_Enum}(P,\ m)\ \cup \ \operatorname{TypePos_Modal}(P,\ m)\ \cup \ \operatorname{TypePos_Class}(P,\ m)\ \cup \ \operatorname{TypePos_Alias}(P,\ m)
+\end{array}
 ```
 
-```text
-VariantPayloadTypeSet(⊥) = ∅
-VariantPayloadTypeSet(TuplePayload(tys)) = { t | t ∈ tys }
-VariantPayloadTypeSet(RecordPayload(fields)) = { t | ∃ attrs_opt, vis, boundary, name, init_opt, span, doc_opt. FieldDecl(attrs_opt, vis, boundary, name, t, init_opt, span, doc_opt) ∈ fields }
-EnumVariantTypeSet(variants) = { t | ∃ name, payload_opt, disc_opt, span, doc_opt. VariantDecl(name, payload_opt, disc_opt, span, doc_opt) ∈ variants ∧ t ∈ VariantPayloadTypeSet(payload_opt) }
-TypeOptSet(⊥) = ∅
+```math
+\begin{array}{l}
+\operatorname{ArraySizeExprs}(P,\ m)\ =\ \{\ e\ \mid \ \exists \ \mathsf{elem}.\ \operatorname{TypeArray}(\mathsf{elem},\ e)\ \in \ \operatorname{TypePositions}(P,\ m)\ \} \\
+\operatorname{EnumDiscriminantExprs}(P,\ m)\ =\ \{\ e\ \mid \ \exists \ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{impls},\ \mathsf{variants},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{EnumDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{impls},\ \mathsf{variants},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc})\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\ \land \ \exists \ v.\ v\ =\ \operatorname{VariantDecl}(\_,\ \_,\ e,\ \_,\ \_)\ \in \ \mathsf{variants}\ \land \ e\ \ne \ \bot \ \} \\
+\operatorname{TypePosExprs}(P,\ m)\ =\ \operatorname{ArraySizeExprs}(P,\ m)\ \cup \ \operatorname{EnumDiscriminantExprs}(P,\ m)
+\end{array}
 ```
 
-TypeOptSet(T) = {T}
-
-```text
-ParamTypeSet(params) = { t | ∃ mode, name. ⟨mode, name, t⟩ ∈ params }
+```math
+\operatorname{TypeDeps}(P,\ m)\ =\ \{\ n\ \mid \ \exists \ t\ \in \ \operatorname{TypePositions}(P,\ m).\ \Gamma \ \vdash \ \operatorname{TypeRefsTy}(t,\ \mathsf{env}_{m})\ \Downarrow \ T\ \land \ n\ \in \ T\ \}\ \cup \ \{\ n\ \mid \ \exists \ p\ \in \ \operatorname{PatNodes}(P,\ m).\ \Gamma \ \vdash \ \operatorname{TypeRefsPat}(p,\ \mathsf{env}_{m})\ \Downarrow \ T\ \land \ n\ \in \ T\ \}\ \cup \ \{\ n\ \mid \ \exists \ e\ \in \ (\operatorname{ExprNodes}(P,\ m)\ \cup \ \operatorname{TypePosExprs}(P,\ m)).\ \Gamma \ \vdash \ \operatorname{TypeRefsExpr}(e,\ \mathsf{env}_{m})\ \Downarrow \ T\ \land \ n\ \in \ T\ \}
 ```
 
-RecvTypeSet(ReceiverExplicit(_, t)) = {t}
-RecvTypeSet(ReceiverShorthand(_)) = ∅
-
-```text
-ClassPathTypeSet(paths) = { TypePath(p) | p ∈ paths }
-RecordFieldTypeSet(members) = { t | ∃ attrs, vis, boundary, name, init, span, doc. FieldDecl(attrs, vis, boundary, name, t, init, span, doc) ∈ members }
-RecordMethodRecvTypes(members) = { t | ∃ attrs, vis, ov, name, gen_params, recv, params, ret, contract, body, span, doc. MethodDecl(attrs, vis, ov, name, gen_params, recv, params, ret, contract, body, span, doc) ∈ members ∧ t ∈ RecvTypeSet(recv) }
-RecordMethodParamTypes(members) = { t | ∃ attrs, vis, ov, name, gen_params, recv, params, ret, contract, body, span, doc. MethodDecl(attrs, vis, ov, name, gen_params, recv, params, ret, contract, body, span, doc) ∈ members ∧ t ∈ ParamTypeSet(params) }
-RecordMethodRetTypes(members) = { t | ∃ attrs, vis, ov, name, gen_params, recv, params, ret, contract, body, span, doc. MethodDecl(attrs, vis, ov, name, gen_params, recv, params, ret, contract, body, span, doc) ∈ members ∧ t ∈ TypeOptSet(ret) }
-RecordMemberTypeSet(members) = RecordFieldTypeSet(members) ∪ RecordMethodRecvTypes(members) ∪ RecordMethodParamTypes(members) ∪ RecordMethodRetTypes(members)
-ClassFieldTypeSet(items) = { t | ∃ attrs, vis, boundary, name, span, doc. ClassFieldDecl(attrs, vis, boundary, name, t, span, doc) ∈ items }
-ClassMethodRecvTypes(items) = { t | ∃ attrs, vis, name, gen_params, recv, params, ret, contract, body, span, doc. ClassMethodDecl(attrs, vis, name, gen_params, recv, params, ret, contract, body, span, doc) ∈ items ∧ t ∈ RecvTypeSet(recv) }
-ClassMethodParamTypes(items) = { t | ∃ attrs, vis, name, gen_params, recv, params, ret, contract, body, span, doc. ClassMethodDecl(attrs, vis, name, gen_params, recv, params, ret, contract, body, span, doc) ∈ items ∧ t ∈ ParamTypeSet(params) }
-ClassMethodRetTypes(items) = { t | ∃ attrs, vis, name, gen_params, recv, params, ret, contract, body, span, doc. ClassMethodDecl(attrs, vis, name, gen_params, recv, params, ret, contract, body, span, doc) ∈ items ∧ t ∈ TypeOptSet(ret) }
-ClassItemTypeSet(items) = ClassFieldTypeSet(items) ∪ ClassMethodRecvTypes(items) ∪ ClassMethodParamTypes(items) ∪ ClassMethodRetTypes(items)
+```math
+\begin{array}{l}
+\operatorname{StaticInitExprs}(P,\ m)\ =\ \{\ \mathsf{init}\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{mut},\ \mathsf{bind},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{StaticDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{mut},\ \mathsf{bind},\ \mathsf{span},\ \mathsf{doc})\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\ \land \ \mathsf{bind}.\mathsf{init}\ =\ \mathsf{init}\ \} \\
+\operatorname{RecordFieldInitExprs}(P,\ m)\ =\ \{\ \mathsf{init}\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{impls},\ \mathsf{members},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{RecordDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{impls},\ \mathsf{members},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc})\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\ \land \ \exists \ f.\ f\ =\ \operatorname{FieldDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{init},\ \_,\ \_)\ \in \ \mathsf{members}\ \land \ \mathsf{init}\ \ne \ \bot \ \} \\
+\operatorname{ProcBodies}(P,\ m)\ =\ \{\ \mathsf{body}\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{ProcedureDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc})\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\ \} \\
+\operatorname{RecordMethodBodies}(P,\ m)\ =\ \{\ \mathsf{body}\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{impls},\ \mathsf{members},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{RecordDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{impls},\ \mathsf{members},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc})\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\ \land \ \exists \ \mathsf{md}.\ \mathsf{md}\ =\ \operatorname{MethodDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{body},\ \_,\ \_)\ \in \ \mathsf{members}\ \} \\
+\operatorname{ClassMethodBodies}(P,\ m)\ =\ \{\ \mathsf{body}\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{modal},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{supers},\ \mathsf{items},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{ClassDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{modal},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{supers},\ \mathsf{items},\ \mathsf{span},\ \mathsf{doc})\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\ \land \ \exists \ \mathsf{md}.\ \mathsf{md}\ =\ \operatorname{ClassMethodDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{body},\ \_,\ \_)\ \in \ \mathsf{items}\ \land \ \mathsf{body}\ \ne \ \bot \ \}
+\end{array}
 ```
 
-```text
-TypePos_Static(P, m) = { t | ∃ attrs_opt, vis, mut, bind, span, doc. StaticDecl(attrs_opt, vis, mut, bind, span, doc) ∈ ASTModule(P, m).items ∧ bind.type_opt = t ∧ t ≠ ⊥ }
-TypePos_Proc(P, m) = { t | ∃ attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, params, return_type_opt, contract_opt, body, span, doc. ProcedureDecl(attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, params, return_type_opt, contract_opt, body, span, doc) ∈ ASTModule(P, m).items ∧ t ∈ (ParamTypeSet(params) ∪ TypeOptSet(return_type_opt)) }
-TypePos_Record(P, m) = { t | ∃ attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, impls, members, invariant_opt, span, doc. RecordDecl(attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, impls, members, invariant_opt, span, doc) ∈ ASTModule(P, m).items ∧ t ∈ (ClassPathTypeSet(impls) ∪ RecordMemberTypeSet(members)) }
-TypePos_Enum(P, m) = { t | ∃ attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, impls, variants, invariant_opt, span, doc. EnumDecl(attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, impls, variants, invariant_opt, span, doc) ∈ ASTModule(P, m).items ∧ t ∈ (ClassPathTypeSet(impls) ∪ EnumVariantTypeSet(variants)) }
-TypePos_Modal(P, m) = { t | ∃ attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, impls, states, invariant_opt, span, doc. ModalDecl(attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, impls, states, invariant_opt, span, doc) ∈ ASTModule(P, m).items ∧ t ∈ ClassPathTypeSet(impls) }
-TypePos_Class(P, m) = { t | ∃ attrs_opt, vis, modal, name, gen_params_opt, predicate_clause_opt, supers, items, span, doc. ClassDecl(attrs_opt, vis, modal, name, gen_params_opt, predicate_clause_opt, supers, items, span, doc) ∈ ASTModule(P, m).items ∧ t ∈ (ClassPathTypeSet(supers) ∪ ClassItemTypeSet(items)) }
-TypePos_Alias(P, m) = { t | ∃ attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, ty, span, doc. TypeAliasDecl(attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, ty, span, doc) ∈ ASTModule(P, m).items ∧ t = ty }
-TypePositions(P, m) = TypePos_Static(P, m) ∪ TypePos_Proc(P, m) ∪ TypePos_Record(P, m) ∪ TypePos_Enum(P, m) ∪ TypePos_Modal(P, m) ∪ TypePos_Class(P, m) ∪ TypePos_Alias(P, m)
-```
-
-```text
-ArraySizeExprs(P, m) = { e | ∃ elem. TypeArray(elem, e) ∈ TypePositions(P, m) }
-EnumDiscriminantExprs(P, m) = { e | ∃ attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, impls, variants, invariant_opt, span, doc. EnumDecl(attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, impls, variants, invariant_opt, span, doc) ∈ ASTModule(P, m).items ∧ ∃ v. v = VariantDecl(_, _, e, _, _) ∈ variants ∧ e ≠ ⊥ }
-TypePosExprs(P, m) = ArraySizeExprs(P, m) ∪ EnumDiscriminantExprs(P, m)
-```
-
-```text
-TypeDeps(P, m) = { n | ∃ t ∈ TypePositions(P, m). Γ ⊢ TypeRefsTy(t, env_m) ⇓ T ∧ n ∈ T } ∪ { n | ∃ p ∈ PatNodes(P, m). Γ ⊢ TypeRefsPat(p, env_m) ⇓ T ∧ n ∈ T } ∪ { n | ∃ e ∈ (ExprNodes(P, m) ∪ TypePosExprs(P, m)). Γ ⊢ TypeRefsExpr(e, env_m) ⇓ T ∧ n ∈ T }
-```
-
-```text
-StaticInitExprs(P, m) = { init | ∃ attrs, vis, mut, bind, span, doc. StaticDecl(attrs, vis, mut, bind, span, doc) ∈ ASTModule(P, m).items ∧ bind.init = init }
-RecordFieldInitExprs(P, m) = { init | ∃ attrs, vis, name, gen_params_opt, predicate_clause_opt, impls, members, invariant_opt, span, doc. RecordDecl(attrs, vis, name, gen_params_opt, predicate_clause_opt, impls, members, invariant_opt, span, doc) ∈ ASTModule(P, m).items ∧ ∃ f. f = FieldDecl(_, _, _, _, _, init, _, _) ∈ members ∧ init ≠ ⊥ }
-ProcBodies(P, m) = { body | ∃ attrs, vis, name, gen_params_opt, predicate_clause_opt, params, ret_opt, contract_opt, body, span, doc. ProcedureDecl(attrs, vis, name, gen_params_opt, predicate_clause_opt, params, ret_opt, contract_opt, body, span, doc) ∈ ASTModule(P, m).items }
-RecordMethodBodies(P, m) = { body | ∃ attrs, vis, name, gen_params_opt, predicate_clause_opt, impls, members, invariant_opt, span, doc. RecordDecl(attrs, vis, name, gen_params_opt, predicate_clause_opt, impls, members, invariant_opt, span, doc) ∈ ASTModule(P, m).items ∧ ∃ md. md = MethodDecl(_, _, _, _, _, _, _, _, _, body, _, _) ∈ members }
-ClassMethodBodies(P, m) = { body | ∃ attrs, vis, modal, name, gen_params_opt, predicate_clause_opt, supers, items, span, doc. ClassDecl(attrs, vis, modal, name, gen_params_opt, predicate_clause_opt, supers, items, span, doc) ∈ ASTModule(P, m).items ∧ ∃ md. md = ClassMethodDecl(_, _, _, _, _, _, _, _, body, _, _) ∈ items ∧ body ≠ ⊥ }
-```
-
-```text
-ValueDepsEager(P, m) = { n | ∃ e ∈ StaticInitExprs(P, m). Γ ⊢ ValueRefs(e, env_m) ⇓ V ∧ n ∈ V }
-ValueDepsLazy(P, m) = { n | ∃ e ∈ RecordFieldInitExprs(P, m) ∪ ⋃_{b ∈ (ProcBodies(P, m) ∪ RecordMethodBodies(P, m) ∪ ClassMethodBodies(P, m))} ExprNodesOf(b). Γ ⊢ ValueRefs(e, env_m) ⇓ V ∧ n ∈ V }
+```math
+\begin{array}{l}
+\operatorname{ValueDepsEager}(P,\ m)\ =\ \{\ n\ \mid \ \exists \ e\ \in \ \operatorname{StaticInitExprs}(P,\ m).\ \Gamma \ \vdash \ \operatorname{ValueRefs}(e,\ \mathsf{env}_{m})\ \Downarrow \ V\ \land \ n\ \in \ V\ \} \\
+\operatorname{ValueDepsLazy}(P,\ m)\ =\ \{\ n\ \mid \ \exists \ e\ \in \ \operatorname{RecordFieldInitExprs}(P,\ m)\ \cup \ \bigcup \_\{b\ \in \ (\operatorname{ProcBodies}(P,\ m)\ \cup \ \operatorname{RecordMethodBodies}(P,\ m)\ \cup \ \operatorname{ClassMethodBodies}(P,\ m))\}\ \operatorname{ExprNodesOf}(b).\ \Gamma \ \vdash \ \operatorname{ValueRefs}(e,\ \mathsf{env}_{m})\ \Downarrow \ V\ \land \ n\ \in \ V\ \}
+\end{array}
 ```
 
 V = AllModules
 
-```text
-E_type = {(m, n) | n ∈ TypeDeps(P, m)}
-E_val^{eager} = {(m, n) | n ∈ ValueDepsEager(P, m)}
-E_val^{lazy} = {(m, n) | n ∈ ValueDepsLazy(P, m)}
+```math
+\begin{array}{l}
+E_{\mathsf{type}}\ =\ \{(m,\ n)\ \mid \ n\ \in \ \operatorname{TypeDeps}(P,\ m)\} \\
+E_{\mathsf{val}}^\{\mathsf{eager}\}\ =\ \{(m,\ n)\ \mid \ n\ \in \ \operatorname{ValueDepsEager}(P,\ m)\} \\
+E_{\mathsf{val}}^\{\mathsf{lazy}\}\ =\ \{(m,\ n)\ \mid \ n\ \in \ \operatorname{ValueDepsLazy}(P,\ m)\}
+\end{array}
 ```
 
-```text
-G = ⟨V, E_type, E_val^{eager}, E_val^{lazy}⟩
-G_e = ⟨V, E_val^{eager}⟩
+```math
+\begin{array}{l}
+G\ =\ \langle V,\ E_{\mathsf{type}},\ E_{\mathsf{val}}^\{\mathsf{eager}\},\ E_{\mathsf{val}}^\{\mathsf{lazy}\}\rangle  \\
+G_{e}\ =\ \langle V,\ E_{\mathsf{val}}^\{\mathsf{eager}\}\rangle 
+\end{array}
 ```
 
 **(WF-Acyclic-Eager)**
 
-```text
-∀ v ∈ V. ¬ Reachable(v, v, E_val^{eager})
-```
-
-───────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ G_e : DAG
+```math
+\begin{array}{l}
+\forall \ v\ \in \ V.\ \lnot \ \operatorname{Reachable}(v,\ v,\ E_{\mathsf{val}}^\{\mathsf{eager}\}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ G_{e}\ :\ \mathsf{DAG}
+\end{array}
 ```
 
 #### 11.5.5 Dynamic Semantics

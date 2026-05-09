@@ -3,7 +3,7 @@ title: "Project and Compilation Model"
 description: "3. Project and Compilation Model of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T17:39:45.389Z"
+generatedAt: "2026-05-09T18:13:03.158Z"
 generated: true
 ---
 
@@ -16,74 +16,84 @@ generated: true
 
 ### 3.1 Core Project Records
 
-AssemblyKind = {`executable`, `library`, `dependency`}
-LinkKind = {`shared`, `static`}
-
-```text
-Project = ⟨root, assemblies, assembly, source_root, outputs, modules, toolchain, build⟩
+```math
+\begin{array}{l}
+\mathsf{AssemblyKind}\ =\ \{\texttt{executable},\ \texttt{library},\ \texttt{dependency}\} \\
+\mathsf{LinkKind}\ =\ \{\texttt{shared},\ \texttt{static}\}
+\end{array}
 ```
 
-Assemblies(P) = P.assemblies
-Assembly(P) = P.assembly
-
-```text
-AsmNames(P) = [A.name | A ∈ Assemblies(P)]
-AsmByName(P, n) = A ⇔ A ∈ Assemblies(P) ∧ A.name = n ∧ (∀ B ∈ Assemblies(P). B.name = n ⇒ B = A)
+```math
+\begin{array}{l}
+\mathsf{Project}\ =\ \langle \mathsf{root},\ \mathsf{assemblies},\ \mathsf{assembly},\ \mathsf{source}_{\mathsf{root}},\ \mathsf{outputs},\ \mathsf{modules},\ \mathsf{toolchain},\ \mathsf{build}\rangle  \\
+\operatorname{Assemblies}(P)\ =\ P.\mathsf{assemblies} \\
+\operatorname{Assembly}(P)\ =\ P.\mathsf{assembly} \\
+\operatorname{AsmNames}(P)\ =\ [A.\mathsf{name}\ \mid \ A\ \in \ \operatorname{Assemblies}(P)] \\
+\operatorname{AsmByName}(P,\ n)\ =\ A\ \Leftrightarrow \ A\ \in \ \operatorname{Assemblies}(P)\ \land \ A.\mathsf{name}\ =\ n\ \land \ (\forall \ B\ \in \ \operatorname{Assemblies}(P).\ B.\mathsf{name}\ =\ n\ \Rightarrow \ B\ =\ A)
+\end{array}
 ```
 
-```text
-Executable(P) ⇔ P.assembly.kind = `executable`
-Library(P) ⇔ P.assembly.kind = `library`
-Dependency(P) ⇔ P.assembly.kind = `dependency`
-Linkable(P) ⇔ Executable(P) ∨ Library(P)
-SharedLibrary(P) ⇔ Library(P) ∧ P.assembly.link_kind = `shared`
-StaticLibrary(P) ⇔ Library(P) ∧ P.assembly.link_kind = `static`
+```math
+\begin{array}{l}
+\operatorname{Executable}(P)\ \Leftrightarrow \ P.\mathsf{assembly}.\mathsf{kind}\ =\ \texttt{executable} \\
+\operatorname{Library}(P)\ \Leftrightarrow \ P.\mathsf{assembly}.\mathsf{kind}\ =\ \texttt{library} \\
+\operatorname{Dependency}(P)\ \Leftrightarrow \ P.\mathsf{assembly}.\mathsf{kind}\ =\ \texttt{dependency} \\
+\operatorname{Linkable}(P)\ \Leftrightarrow \ \operatorname{Executable}(P)\ \lor \ \operatorname{Library}(P) \\
+\operatorname{SharedLibrary}(P)\ \Leftrightarrow \ \operatorname{Library}(P)\ \land \ P.\mathsf{assembly}.\mathsf{link}_{\mathsf{kind}}\ =\ \texttt{shared} \\
+\operatorname{StaticLibrary}(P)\ \Leftrightarrow \ \operatorname{Library}(P)\ \land \ P.\mathsf{assembly}.\mathsf{link}_{\mathsf{kind}}\ =\ \texttt{static}
+\end{array}
 ```
 
 **Build/Project Validation Scope.**
-Phase0Checks = RulesIn({"3"})
-SourceChecks = RulesIn({"4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23"})
 
-```text
-Phase0Checks ∩ SourceChecks = ∅
+```math
+\begin{array}{l}
+\mathsf{Phase0Checks}\ =\ \operatorname{RulesIn}(\{\texttt{"3"}\}) \\
+\mathsf{SourceChecks}\ =\ \operatorname{RulesIn}(\{\texttt{"4"},\ \texttt{"5"},\ \texttt{"6"},\ \texttt{"7"},\ \texttt{"8"},\ \texttt{"9"},\ \texttt{"10"},\ \texttt{"11"},\ \texttt{"12"},\ \texttt{"13"},\ \texttt{"14"},\ \texttt{"15"},\ \texttt{"16"},\ \texttt{"17"},\ \texttt{"18"},\ \texttt{"19"},\ \texttt{"20"},\ \texttt{"21"},\ \texttt{"22"},\ \texttt{"23"}\}) \\
+\mathsf{Phase0Checks}\ \cap \ \mathsf{SourceChecks}\ =\ \emptyset 
+\end{array}
 ```
 
 **Command-Line Output.**
-DumpProject(P, dump) =
- ProjectSummary(P) ++ OutputSummary(P) ++ LinkOutputSummary(P)  if dump = false
 
-```text
- ProjectSummary(P) ++ OutputSummary(P) ++ LinkOutputSummary(P) ++ ["file:" ++ f | A ∈ EmitAssemblies(P), m ∈ A.modules, d = ModuleDirOf(m, A.source_root), f ∈ CompilationUnit(d)]  if dump = true
+```math
+\begin{array}{l}
+\operatorname{DumpProject}(P,\ \mathsf{dump})\ = \\
+\ \operatorname{ProjectSummary}(P)\ \mathbin{++} \ \operatorname{OutputSummary}(P)\ \mathbin{++} \ \operatorname{LinkOutputSummary}(P)\ \mathsf{if}\ \mathsf{dump}\ =\ \mathsf{false} \\
+\ \operatorname{ProjectSummary}(P)\ \mathbin{++} \ \operatorname{OutputSummary}(P)\ \mathbin{++} \ \operatorname{LinkOutputSummary}(P)\ \mathbin{++} \ [\texttt{"file:"}\ \mathbin{++} \ f\ \mid \ A\ \in \ \operatorname{EmitAssemblies}(P),\ m\ \in \ A.\mathsf{modules},\ d\ =\ \operatorname{ModuleDirOf}(m,\ A.\mathsf{source}_{\mathsf{root}}),\ f\ \in \ \operatorname{CompilationUnit}(d)]\ \mathsf{if}\ \mathsf{dump}\ =\ \mathsf{true}
+\end{array}
 ```
 
-```text
-ProjectSummary(P) = [⟨`project_root`, P.root⟩, ⟨`assemblies`, AsmNames(P)⟩, ⟨`assembly_name`, P.assembly.name⟩, ⟨`assembly_kind`, P.assembly.kind⟩, ⟨`link_kind`, P.assembly.link_kind⟩, ⟨`source_root`, P.source_root⟩, ⟨`output_root`, OutputRoot(P)⟩, ⟨`module_list`, ModuleList(P)⟩]
+```math
+\operatorname{ProjectSummary}(P)\ =\ [\langle \texttt{project\_root},\ P.\mathsf{root}\rangle ,\ \langle \texttt{assemblies},\ \operatorname{AsmNames}(P)\rangle ,\ \langle \texttt{assembly\_name},\ P.\mathsf{assembly}.\mathsf{name}\rangle ,\ \langle \texttt{assembly\_kind},\ P.\mathsf{assembly}.\mathsf{kind}\rangle ,\ \langle \texttt{link\_kind},\ P.\mathsf{assembly}.\mathsf{link}_{\mathsf{kind}}\rangle ,\ \langle \texttt{source\_root},\ P.\mathsf{source}_{\mathsf{root}}\rangle ,\ \langle \texttt{output\_root},\ \operatorname{OutputRoot}(P)\rangle ,\ \langle \texttt{module\_list},\ \operatorname{ModuleList}(P)\rangle ]
 ```
 
-```text
-OutputSummary(P) = [⟨`module`, m, `obj`, ObjPath(P, m), `ir`, IROpt(P, m)⟩ | m ∈ EmitModuleList(P)]
+```math
+\operatorname{OutputSummary}(P)\ =\ [\langle \texttt{module},\ m,\ \texttt{obj},\ \operatorname{ObjPath}(P,\ m),\ \texttt{ir},\ \operatorname{IROpt}(P,\ m)\rangle \ \mid \ m\ \in \ \operatorname{EmitModuleList}(P)]
 ```
 
-LinkOutputSummary(P) =
-
-```text
- [⟨`artifact`, PrimaryArtifact(P), `import_lib`, ImportLibOpt(P)⟩]  if Linkable(P)
+```math
+\begin{array}{l}
+\operatorname{LinkOutputSummary}(P)\ = \\
+\ [\langle \texttt{artifact},\ \operatorname{PrimaryArtifact}(P),\ \texttt{import\_lib},\ \operatorname{ImportLibOpt}(P)\rangle ]\ \mathsf{if}\ \operatorname{Linkable}(P) \\
+\ []\quad \mathsf{otherwise}
+\end{array}
 ```
 
- []                                                                 otherwise
-
-IROpt(P, m) =
-
-```text
- IRPath(P, m, P.assembly.emit_ir)  if P.assembly.emit_ir ≠ `none`
- ⊥                                if P.assembly.emit_ir = `none`
+```math
+\begin{array}{l}
+\operatorname{IROpt}(P,\ m)\ = \\
+\ \operatorname{IRPath}(P,\ m,\ P.\mathsf{assembly}.\mathsf{emit}_{\mathsf{ir}})\ \mathsf{if}\ P.\mathsf{assembly}.\mathsf{emit}_{\mathsf{ir}}\ \ne \ \texttt{none} \\
+\ \bot \quad \mathsf{if}\ P.\mathsf{assembly}.\mathsf{emit}_{\mathsf{ir}}\ =\ \texttt{none}
+\end{array}
 ```
 
-ImportLibOpt(P) =
-
-```text
- ImportLibPath(P)  if ImportLibPath(P) ≠ ⊥
- ⊥                 otherwise
+```math
+\begin{array}{l}
+\operatorname{ImportLibOpt}(P)\ = \\
+\ \operatorname{ImportLibPath}(P)\ \mathsf{if}\ \operatorname{ImportLibPath}(P)\ \ne \ \bot  \\
+\ \bot \quad \mathsf{otherwise}
+\end{array}
 ```
 
 **Command-Line Diagnostics.**
@@ -102,44 +112,38 @@ ParseTOML : Path ⇀ TOMLTable
 
 **(Parse-Manifest-Ok)**
 
-```text
-ParseTOML(R/`Ultraviolet.toml`) ⇓ T
-```
-
-────────────────────────────────
-
-```text
-Γ ⊢ ParseManifest(R) ⇓ T
+```math
+\begin{array}{l}
+\operatorname{ParseTOML}(R/\texttt{Ultraviolet.toml})\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseManifest}(R)\ \Downarrow \ T
+\end{array}
 ```
 
 **(Parse-Manifest-Missing)**
 
-```text
-¬ exists(R/`Ultraviolet.toml`)    c = Code(Parse-Manifest-Missing)
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseManifest(R) ⇑ c
+```math
+\begin{array}{l}
+\lnot \ \operatorname{exists}(R/\texttt{Ultraviolet.toml})\quad c\ =\ \operatorname{Code}(\mathsf{Parse}-\mathsf{Manifest}-\mathsf{Missing}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseManifest}(R)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Parse-Manifest-Err)**
 
-```text
-ParseTOML(R/`Ultraviolet.toml`) ⇑    c = Code(Parse-Manifest-Err)
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseManifest(R) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{ParseTOML}(R/\texttt{Ultraviolet.toml})\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{Parse}-\mathsf{Manifest}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseManifest}(R)\ \Uparrow \ c
+\end{array}
 ```
 
 **Manifest Required (No Single-File Fallback).**
 
-```text
-If Γ ⊢ ParseManifest(R) ⇑ c, then Γ ⊢ LoadProject(R, target) ⇑ c and the implementation MUST NOT attempt any single-file or heuristic fallback project construction.
+```math
+\mathsf{If}\ \Gamma \ \vdash \ \operatorname{ParseManifest}(R)\ \Uparrow \ c,\ \mathsf{then}\ \Gamma \ \vdash \ \operatorname{LoadProject}(R,\ \mathsf{target})\ \Uparrow \ c\ \mathsf{and}\ \mathsf{the}\ \mathsf{implementation}\ \mathsf{MUST}\ \mathsf{NOT}\ \mathsf{attempt}\ \mathsf{any}\ \mathsf{single}-\mathsf{file}\ \mathsf{or}\ \mathsf{heuristic}\ \mathsf{fallback}\ \mathsf{project}\ \mathsf{construction}.
 ```
 
 **Manifest Path Resolution.**
@@ -152,912 +156,827 @@ When project loading begins from one command-line input path `p`, the implementa
 n = t.name
 k = t.kind
 r = t.root
-o = t.out_dir
-e = t.emit_ir
-l = t.link_kind
+
+```math
+\begin{array}{l}
+o\ =\ t.\mathsf{out}_{\mathsf{dir}} \\
+e\ =\ t.\mathsf{emit}_{\mathsf{ir}} \\
+l\ =\ t.\mathsf{link}_{\mathsf{kind}}
+\end{array}
+```
 
 **(WF-Assembly-Name)**
 
-```text
-Γ ⊢ n : Identifier    Γ ⊢ n : NotKeyword
-```
-
-────────────────────────────────────────
-
-```text
-Γ ⊢ n : Name
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ n\ :\ \mathsf{Identifier}\quad \Gamma \ \vdash \ n\ :\ \mathsf{NotKeyword} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ n\ :\ \mathsf{Name}
+\end{array}
 ```
 
 **(WF-Assembly-Name-Err)**
 
-```text
-¬(Γ ⊢ n : Identifier ∧ Γ ⊢ n : NotKeyword)    c = Code(WF-Assembly-Name-Err)
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ n : Name ⇑ c
+```math
+\begin{array}{l}
+\lnot (\Gamma \ \vdash \ n\ :\ \mathsf{Identifier}\ \land \ \Gamma \ \vdash \ n\ :\ \mathsf{NotKeyword})\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Assembly}-\mathsf{Name}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ n\ :\ \mathsf{Name}\ \Uparrow \ c
+\end{array}
 ```
 
 **(WF-Assembly-Kind)**
 
-```text
-k ∈ AssemblyKind
-──────────────────
-Γ ⊢ k : Kind
+```math
+\begin{array}{l}
+k\ \in \ \mathsf{AssemblyKind} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ k\ :\ \mathsf{Kind}
+\end{array}
 ```
 
 **(WF-Assembly-Kind-Err)**
 
-```text
-k ∉ AssemblyKind    c = Code(WF-Assembly-Kind-Err)
-```
-
-──────────────────────────────────────────────────
-
-```text
-Γ ⊢ k : Kind ⇑ c
+```math
+\begin{array}{l}
+k\ \notin \ \mathsf{AssemblyKind}\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Assembly}-\mathsf{Kind}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ k\ :\ \mathsf{Kind}\ \Uparrow \ c
+\end{array}
 ```
 
 **(WF-Assembly-Root-Path)**
 
-```text
-Γ ⊢ r : RelPath
-```
-
-────────────────
-
-```text
-Γ ⊢ r : RootPath
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ r\ :\ \mathsf{RelPath} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ r\ :\ \mathsf{RootPath}
+\end{array}
 ```
 
 **(WF-Assembly-Root-Path-Err)**
 
-```text
-¬(Γ ⊢ r : RelPath)    c = Code(WF-Assembly-Root-Path-Err)
-```
-
-────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ r : RootPath ⇑ c
+```math
+\begin{array}{l}
+\lnot (\Gamma \ \vdash \ r\ :\ \mathsf{RelPath})\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Assembly}-\mathsf{Root}-\mathsf{Path}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ r\ :\ \mathsf{RootPath}\ \Uparrow \ c
+\end{array}
 ```
 
 **(WF-Assembly-OutDir-Path)**
 
-```text
-o = ⊥ ∨ Γ ⊢ o : RelPath
-```
-
-────────────────────────
-
-```text
-Γ ⊢ o : OutDirPath
+```math
+\begin{array}{l}
+o\ =\ \bot \ \lor \ \Gamma \ \vdash \ o\ :\ \mathsf{RelPath} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ o\ :\ \mathsf{OutDirPath}
+\end{array}
 ```
 
 **(WF-Assembly-OutDir-Path-Err)**
 
-```text
-o ≠ ⊥    ¬(Γ ⊢ o : RelPath)    c = Code(WF-Assembly-OutDir-Path-Err)
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ o : OutDirPath ⇑ c
+```math
+\begin{array}{l}
+o\ \ne \ \bot \quad \lnot (\Gamma \ \vdash \ o\ :\ \mathsf{RelPath})\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Assembly}-\mathsf{OutDir}-\mathsf{Path}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ o\ :\ \mathsf{OutDirPath}\ \Uparrow \ c
+\end{array}
 ```
 
 **(WF-Assembly-EmitIR)**
 
-```text
-e ∈ {⊥, `none`, `ll`, `bc`}
-```
-
-───────────────────────────
-
-```text
-Γ ⊢ e : EmitIR
+```math
+\begin{array}{l}
+e\ \in \ \{\bot ,\ \texttt{none},\ \texttt{ll},\ \texttt{bc}\} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ e\ :\ \mathsf{EmitIR}
+\end{array}
 ```
 
 **(WF-Assembly-EmitIR-Err)**
 
-```text
-e ∉ {⊥, `none`, `ll`, `bc`}    c = Code(WF-Assembly-EmitIR-Err)
+```math
+\begin{array}{l}
+e\ \notin \ \{\bot ,\ \texttt{none},\ \texttt{ll},\ \texttt{bc}\}\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Assembly}-\mathsf{EmitIR}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ e\ :\ \mathsf{EmitIR}\ \Uparrow \ c
+\end{array}
 ```
 
-─────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ e : EmitIR ⇑ c
-```
-
-AsmLinkKind(k, l) =
-
-```text
- `shared`  if k = `library` ∧ l = ⊥
- l         if k = `library` ∧ l ∈ LinkKind
- ⊥         otherwise
+```math
+\begin{array}{l}
+\operatorname{AsmLinkKind}(k,\ l)\ = \\
+\ \texttt{shared}\ \mathsf{if}\ k\ =\ \texttt{library}\ \land \ l\ =\ \bot  \\
+\ l\quad \mathsf{if}\ k\ =\ \texttt{library}\ \land \ l\ \in \ \mathsf{LinkKind} \\
+\ \bot \quad \mathsf{otherwise}
+\end{array}
 ```
 
 **Manifest Validation (Big-Step)**
-Keys(T) = Dom(T)
-AsmField(T) = T[`assembly`]
-AsmTables(T) =
- [AsmField(T)]  if IsTable(AsmField(T))
- AsmField(T)    if IsArrayTable(AsmField(T))
 
-```text
- ⊥              otherwise
+```math
+\begin{array}{l}
+\operatorname{Keys}(T)\ =\ \operatorname{Dom}(T) \\
+\operatorname{AsmField}(T)\ =\ T[\texttt{assembly}] \\
+\operatorname{AsmTables}(T)\ = \\
+\ [\operatorname{AsmField}(T)]\ \mathsf{if}\ \operatorname{IsTable}(\operatorname{AsmField}(T)) \\
+\ \operatorname{AsmField}(T)\quad \mathsf{if}\ \operatorname{IsArrayTable}(\operatorname{AsmField}(T)) \\
+\ \bot \quad \mathsf{otherwise}
+\end{array}
 ```
 
-TopKeys = {"assembly", "toolchain", "build"}
+```math
+\mathsf{TopKeys}\ =\ \{\texttt{"assembly"},\ \texttt{"toolchain"},\ \texttt{"build"}\}
+```
 
 **(WF-TopKeys)**
 
-```text
-Keys(T) ⊆ TopKeys
-```
-
-────────────────────────
-
-```text
-Γ ⊢ T : TopKeys
+```math
+\begin{array}{l}
+\operatorname{Keys}(T)\ \subseteq \ \mathsf{TopKeys} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ :\ \mathsf{TopKeys}
+\end{array}
 ```
 
 **(WF-TopKeys-Err)**
 
-```text
-¬(Keys(T) ⊆ TopKeys)    c = Code(WF-TopKeys-Err)
-```
-
-──────────────────────────────────────────────────
-
-```text
-Γ ⊢ T : TopKeys ⇑ c
+```math
+\begin{array}{l}
+\lnot (\operatorname{Keys}(T)\ \subseteq \ \mathsf{TopKeys})\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{TopKeys}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ :\ \mathsf{TopKeys}\ \Uparrow \ c
+\end{array}
 ```
 
 **(WF-Assembly-Table)**
 
-```text
-AsmTables(T) ≠ ⊥
-```
-
-────────────────────────
-
-```text
-Γ ⊢ T : AssemblyTable
+```math
+\begin{array}{l}
+\operatorname{AsmTables}(T)\ \ne \ \bot  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ :\ \mathsf{AssemblyTable}
+\end{array}
 ```
 
 **(WF-Assembly-Table-Err)**
 
-```text
-AsmTables(T) = ⊥    c = Code(WF-Assembly-Table-Err)
-```
-
-────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T : AssemblyTable ⇑ c
+```math
+\begin{array}{l}
+\operatorname{AsmTables}(T)\ =\ \bot \quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Assembly}-\mathsf{Table}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ :\ \mathsf{AssemblyTable}\ \Uparrow \ c
+\end{array}
 ```
 
 **(WF-Assembly-Count)**
 
-```text
-AsmTables(T) = Ts    |Ts| ≥ 1
-```
-
-────────────────────────────────
-
-```text
-Γ ⊢ T : AssemblyCount
+```math
+\begin{array}{l}
+\operatorname{AsmTables}(T)\ =\ \mathsf{Ts}\quad \mid \mathsf{Ts}\mid \ \ge \ 1 \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ :\ \mathsf{AssemblyCount}
+\end{array}
 ```
 
 **(WF-Assembly-Count-Err)**
-AsmTables(T) = Ts    |Ts| = 0    c = Code(WF-Assembly-Count-Err)
-───────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ T : AssemblyCount ⇑ c
+```math
+\begin{array}{l}
+\operatorname{AsmTables}(T)\ =\ \mathsf{Ts}\quad \mid \mathsf{Ts}\mid \ =\ 0\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Assembly}-\mathsf{Count}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ :\ \mathsf{AssemblyCount}\ \Uparrow \ c
+\end{array}
 ```
 
 **(WF-Assembly-Name-Dup)**
 
-```text
-AsmTables(T) = Ts    Distinct([t.name | t ∈ Ts])
-```
-
-────────────────────────────────────────────────
-
-```text
-Γ ⊢ T : AssemblyNames
+```math
+\begin{array}{l}
+\operatorname{AsmTables}(T)\ =\ \mathsf{Ts}\quad \operatorname{Distinct}([t.\mathsf{name}\ \mid \ t\ \in \ \mathsf{Ts}]) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ :\ \mathsf{AssemblyNames}
+\end{array}
 ```
 
 **(WF-Assembly-Name-Dup-Err)**
 
-```text
-AsmTables(T) = Ts    ¬ Distinct([t.name | t ∈ Ts])    c = Code(WF-Assembly-Name-Dup)
+```math
+\begin{array}{l}
+\operatorname{AsmTables}(T)\ =\ \mathsf{Ts}\quad \lnot \ \operatorname{Distinct}([t.\mathsf{name}\ \mid \ t\ \in \ \mathsf{Ts}])\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Assembly}-\mathsf{Name}-\mathsf{Dup}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ :\ \mathsf{AssemblyNames}\ \Uparrow \ c
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T : AssemblyNames ⇑ c
+```math
+\begin{array}{l}
+\mathsf{Req}\ =\ \{\texttt{name},\ \texttt{kind},\ \texttt{root}\} \\
+\mathsf{Opt}\ =\ \{\texttt{out\_dir},\ \texttt{emit\_ir},\ \texttt{link\_kind}\}
+\end{array}
 ```
-
-Req = {`name`, `kind`, `root`}
-Opt = {`out_dir`, `emit_ir`, `link_kind`}
 
 **(WF-Assembly-Keys)**
 
-```text
-Keys(t) ⊆ (Req ∪ Opt)
-```
-
-──────────────────────
-
-```text
-Γ ⊢ t : KnownKeys
+```math
+\begin{array}{l}
+\operatorname{Keys}(t)\ \subseteq \ (\mathsf{Req}\ \cup \ \mathsf{Opt}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ t\ :\ \mathsf{KnownKeys}
+\end{array}
 ```
 
 **(WF-Assembly-Keys-Err)**
 
-```text
-¬(Keys(t) ⊆ (Req ∪ Opt))    c = Code(WF-Assembly-Keys-Err)
-```
-
-───────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ t : KnownKeys ⇑ c
+```math
+\begin{array}{l}
+\lnot (\operatorname{Keys}(t)\ \subseteq \ (\mathsf{Req}\ \cup \ \mathsf{Opt}))\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Assembly}-\mathsf{Keys}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ t\ :\ \mathsf{KnownKeys}\ \Uparrow \ c
+\end{array}
 ```
 
 **(WF-Assembly-Required-Types)**
 
-```text
-∀ k ∈ Req. IsString(t[k])
-```
-
-──────────────────────────
-
-```text
-Γ ⊢ t : ReqTypes
+```math
+\begin{array}{l}
+\forall \ k\ \in \ \mathsf{Req}.\ \operatorname{IsString}(t[k]) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ t\ :\ \mathsf{ReqTypes}
+\end{array}
 ```
 
 **(WF-Assembly-Required-Types-Err)**
 
-```text
-∃ k ∈ Req. t[k] = ⊥ ∨ ¬ IsString(t[k])    c = Code(WF-Assembly-Required-Types-Err)
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ t : ReqTypes ⇑ c
+```math
+\begin{array}{l}
+\exists \ k\ \in \ \mathsf{Req}.\ t[k]\ =\ \bot \ \lor \ \lnot \ \operatorname{IsString}(t[k])\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Assembly}-\mathsf{Required}-\mathsf{Types}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ t\ :\ \mathsf{ReqTypes}\ \Uparrow \ c
+\end{array}
 ```
 
 **(WF-Assembly-Optional-Types)**
 
-```text
-t[`out_dir`] ∈ {string, ⊥}
-```
-
-──────────────────────────
-
-```text
-Γ ⊢ t : OutDirType
+```math
+\begin{array}{l}
+t[\texttt{out\_dir}]\ \in \ \{\mathsf{string},\ \bot \} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ t\ :\ \mathsf{OutDirType}
+\end{array}
 ```
 
 **(WF-Assembly-OutDirType-Err)**
 
-```text
-t[`out_dir`] ∉ {string, ⊥}    c = Code(WF-Assembly-OutDirType-Err)
+```math
+\begin{array}{l}
+t[\texttt{out\_dir}]\ \notin \ \{\mathsf{string},\ \bot \}\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Assembly}-\mathsf{OutDirType}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ t\ :\ \mathsf{OutDirType}\ \Uparrow \ c
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ t : OutDirType ⇑ c
-```
-
-```text
-t[`emit_ir`] ∈ {string, ⊥}
-```
-
-──────────────────────────
-
-```text
-Γ ⊢ t : EmitIRType
+```math
+\begin{array}{l}
+t[\texttt{emit\_ir}]\ \in \ \{\mathsf{string},\ \bot \} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ t\ :\ \mathsf{EmitIRType}
+\end{array}
 ```
 
 **(WF-Assembly-EmitIRType-Err)**
 
-```text
-t[`emit_ir`] ∉ {string, ⊥}    c = Code(WF-Assembly-EmitIRType-Err)
+```math
+\begin{array}{l}
+t[\texttt{emit\_ir}]\ \notin \ \{\mathsf{string},\ \bot \}\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Assembly}-\mathsf{EmitIRType}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ t\ :\ \mathsf{EmitIRType}\ \Uparrow \ c
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ t : EmitIRType ⇑ c
-```
-
-```text
-t[`link_kind`] ∈ {string, ⊥}
-```
-
-────────────────────────────
-
-```text
-Γ ⊢ t : LinkKindType
+```math
+\begin{array}{l}
+t[\texttt{link\_kind}]\ \in \ \{\mathsf{string},\ \bot \} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ t\ :\ \mathsf{LinkKindType}
+\end{array}
 ```
 
 **(WF-Assembly-LinkKindType-Err)**
 
-```text
-t[`link_kind`] ∉ {string, ⊥}    c = Code(WF-Assembly-LinkKindType-Err)
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ t : LinkKindType ⇑ c
+```math
+\begin{array}{l}
+t[\texttt{link\_kind}]\ \notin \ \{\mathsf{string},\ \bot \}\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Assembly}-\mathsf{LinkKindType}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ t\ :\ \mathsf{LinkKindType}\ \Uparrow \ c
+\end{array}
 ```
 
 **(WF-Assembly-LinkKind)**
 
-```text
-(t.kind = `library` ∧ t.link_kind ∈ {⊥, `shared`, `static`}) ∨ (t.kind ∈ {`executable`, `dependency`} ∧ t.link_kind = ⊥)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ t : LinkKindField
+```math
+\begin{array}{l}
+(t.\mathsf{kind}\ =\ \texttt{library}\ \land \ t.\mathsf{link}_{\mathsf{kind}}\ \in \ \{\bot ,\ \texttt{shared},\ \texttt{static}\})\ \lor \ (t.\mathsf{kind}\ \in \ \{\texttt{executable},\ \texttt{dependency}\}\ \land \ t.\mathsf{link}_{\mathsf{kind}}\ =\ \bot ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ t\ :\ \mathsf{LinkKindField}
+\end{array}
 ```
 
 **(WF-Assembly-LinkKind-Err)**
 
-```text
-t.kind = `library`    t.link_kind ∉ {⊥, `shared`, `static`}    c = Code(WF-Assembly-LinkKind-Err)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ t : LinkKindField ⇑ c
+```math
+\begin{array}{l}
+t.\mathsf{kind}\ =\ \texttt{library}\quad t.\mathsf{link}_{\mathsf{kind}}\ \notin \ \{\bot ,\ \texttt{shared},\ \texttt{static}\}\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Assembly}-\mathsf{LinkKind}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ t\ :\ \mathsf{LinkKindField}\ \Uparrow \ c
+\end{array}
 ```
 
 **(WF-Assembly-LinkKind-Use-Err)**
 
-```text
-t.kind ∈ {`executable`, `dependency`}    t.link_kind ≠ ⊥    c = Code(WF-Assembly-LinkKind-Use-Err)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ t : LinkKindField ⇑ c
+```math
+\begin{array}{l}
+t.\mathsf{kind}\ \in \ \{\texttt{executable},\ \texttt{dependency}\}\quad t.\mathsf{link}_{\mathsf{kind}}\ \ne \ \bot \quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Assembly}-\mathsf{LinkKind}-\mathsf{Use}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ t\ :\ \mathsf{LinkKindField}\ \Uparrow \ c
+\end{array}
 ```
 
 **Toolchain Configuration**
-ToolchainKeys = {"llvm_bin", "runtime_lib", "target_profile"}
 
-```text
-ToolchainTargetProfileOk(v) ⇔ v = ⊥ ∨ (v : string ∧ v ∈ TargetProfile)
+```math
+\begin{array}{l}
+\mathsf{ToolchainKeys}\ =\ \{\texttt{"llvm\_bin"},\ \texttt{"runtime\_lib"},\ \texttt{"target\_profile"}\} \\
+\operatorname{ToolchainTargetProfileOk}(v)\ \Leftrightarrow \ v\ =\ \bot \ \lor \ (v\ :\ \mathsf{string}\ \land \ v\ \in \ \mathsf{TargetProfile})
+\end{array}
 ```
 
 **(WF-Toolchain)**
 
-```text
-T["toolchain"] = ⊥ ∨ (IsTable(T["toolchain"]) ∧ Keys(T["toolchain"]) ⊆ ToolchainKeys ∧ (T["toolchain"]["llvm_bin"] = ⊥ ∨ T["toolchain"]["llvm_bin"] : string) ∧ (T["toolchain"]["runtime_lib"] = ⊥ ∨ T["toolchain"]["runtime_lib"] : string) ∧ ToolchainTargetProfileOk(T["toolchain"]["target_profile"]))
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T : ToolchainValid
+```math
+\begin{array}{l}
+T[\texttt{"toolchain"}]\ =\ \bot \ \lor \ (\operatorname{IsTable}(T[\texttt{"toolchain"}])\ \land \ \operatorname{Keys}(T[\texttt{"toolchain"}])\ \subseteq \ \mathsf{ToolchainKeys}\ \land \ (T[\texttt{"toolchain"}][\texttt{"llvm\_bin"}]\ =\ \bot \ \lor \ T[\texttt{"toolchain"}][\texttt{"llvm\_bin"}]\ :\ \mathsf{string})\ \land \ (T[\texttt{"toolchain"}][\texttt{"runtime\_lib"}]\ =\ \bot \ \lor \ T[\texttt{"toolchain"}][\texttt{"runtime\_lib"}]\ :\ \mathsf{string})\ \land \ \operatorname{ToolchainTargetProfileOk}(T[\texttt{"toolchain"}][\texttt{"target\_profile"}])) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ :\ \mathsf{ToolchainValid}
+\end{array}
 ```
 
 **(WF-Toolchain-Err)**
 
-```text
-T["toolchain"] ≠ ⊥ ∧ ¬(IsTable(T["toolchain"]) ∧ Keys(T["toolchain"]) ⊆ ToolchainKeys ∧ (T["toolchain"]["llvm_bin"] = ⊥ ∨ T["toolchain"]["llvm_bin"] : string) ∧ (T["toolchain"]["runtime_lib"] = ⊥ ∨ T["toolchain"]["runtime_lib"] : string) ∧ ToolchainTargetProfileOk(T["toolchain"]["target_profile"]))    c = Code(WF-Toolchain-Err)
+```math
+\begin{array}{l}
+T[\texttt{"toolchain"}]\ \ne \ \bot \ \land \ \lnot (\operatorname{IsTable}(T[\texttt{"toolchain"}])\ \land \ \operatorname{Keys}(T[\texttt{"toolchain"}])\ \subseteq \ \mathsf{ToolchainKeys}\ \land \ (T[\texttt{"toolchain"}][\texttt{"llvm\_bin"}]\ =\ \bot \ \lor \ T[\texttt{"toolchain"}][\texttt{"llvm\_bin"}]\ :\ \mathsf{string})\ \land \ (T[\texttt{"toolchain"}][\texttt{"runtime\_lib"}]\ =\ \bot \ \lor \ T[\texttt{"toolchain"}][\texttt{"runtime\_lib"}]\ :\ \mathsf{string})\ \land \ \operatorname{ToolchainTargetProfileOk}(T[\texttt{"toolchain"}][\texttt{"target\_profile"}]))\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Toolchain}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ :\ \mathsf{ToolchainValid}\ \Uparrow \ c
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T : ToolchainValid ⇑ c
+```math
+\begin{array}{l}
+\operatorname{ToolchainConfig}(T)\ = \\
+\ \langle \mathsf{llvm}_{\mathsf{bin}}\ =\ T[\texttt{"toolchain"}][\texttt{"llvm\_bin"}],\ \mathsf{runtime}_{\mathsf{lib}}\ =\ T[\texttt{"toolchain"}][\texttt{"runtime\_lib"}],\ \mathsf{target}_{\mathsf{profile}}\ =\ T[\texttt{"toolchain"}][\texttt{"target\_profile"}]\rangle \ \mathsf{if}\ T[\texttt{"toolchain"}]\ \ne \ \bot  \\
+\ \langle \mathsf{llvm}_{\mathsf{bin}}\ =\ \bot ,\ \mathsf{runtime}_{\mathsf{lib}}\ =\ \bot ,\ \mathsf{target}_{\mathsf{profile}}\ =\ \bot \rangle \quad \mathsf{otherwise}
+\end{array}
 ```
 
-ToolchainConfig(T) =
-
-```text
- ⟨llvm_bin = T["toolchain"]["llvm_bin"], runtime_lib = T["toolchain"]["runtime_lib"], target_profile = T["toolchain"]["target_profile"]⟩  if T["toolchain"] ≠ ⊥
- ⟨llvm_bin = ⊥, runtime_lib = ⊥, target_profile = ⊥⟩                                                                                otherwise
+```math
+\begin{array}{l}
+\operatorname{SelectedTargetProfile}(\mathsf{cli},\ T)\ = \\
+\ \mathsf{cli}\quad \mathsf{if}\ \mathsf{cli}\ \ne \ \bot  \\
+\ \operatorname{ToolchainConfig}(T).\mathsf{target}_{\mathsf{profile}}\ \mathsf{if}\ \mathsf{cli}\ =\ \bot \ \land \ \operatorname{ToolchainConfig}(T).\mathsf{target}_{\mathsf{profile}}\ \ne \ \bot  \\
+\ \mathsf{error}\quad \mathsf{otherwise}
+\end{array}
 ```
-
-SelectedTargetProfile(cli, T) =
-
-```text
- cli                               if cli ≠ ⊥
- ToolchainConfig(T).target_profile if cli = ⊥ ∧ ToolchainConfig(T).target_profile ≠ ⊥
-```
-
- error                             otherwise
 
 **Build Configuration**
-BuildKeys = {"incremental", "progress"}
+
+```math
+\mathsf{BuildKeys}\ =\ \{\texttt{"incremental"},\ \texttt{"progress"}\}
+```
 
 **(WF-Build)**
 
-```text
-T["build"] = ⊥ ∨ (IsTable(T["build"]) ∧ Keys(T["build"]) ⊆ BuildKeys ∧ ∀ k ∈ Keys(T["build"]). T["build"][k] : bool)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T : BuildValid
+```math
+\begin{array}{l}
+T[\texttt{"build"}]\ =\ \bot \ \lor \ (\operatorname{IsTable}(T[\texttt{"build"}])\ \land \ \operatorname{Keys}(T[\texttt{"build"}])\ \subseteq \ \mathsf{BuildKeys}\ \land \ \forall \ k\ \in \ \operatorname{Keys}(T[\texttt{"build"}]).\ T[\texttt{"build"}][k]\ :\ \mathsf{bool}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ :\ \mathsf{BuildValid}
+\end{array}
 ```
 
 **(WF-Build-Err)**
 
-```text
-T["build"] ≠ ⊥ ∧ ¬(IsTable(T["build"]) ∧ Keys(T["build"]) ⊆ BuildKeys ∧ ∀ k ∈ Keys(T["build"]). T["build"][k] : bool)    c = Code(WF-Build-Err)
+```math
+\begin{array}{l}
+T[\texttt{"build"}]\ \ne \ \bot \ \land \ \lnot (\operatorname{IsTable}(T[\texttt{"build"}])\ \land \ \operatorname{Keys}(T[\texttt{"build"}])\ \subseteq \ \mathsf{BuildKeys}\ \land \ \forall \ k\ \in \ \operatorname{Keys}(T[\texttt{"build"}]).\ T[\texttt{"build"}][k]\ :\ \mathsf{bool})\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Build}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ :\ \mathsf{BuildValid}\ \Uparrow \ c
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T : BuildValid ⇑ c
-```
-
-BuildConfig(T) =
-
-```text
- ⟨incremental = false, progress = true⟩                                                                                 if T["build"] = ⊥
- ⟨incremental = T["build"]["incremental"], progress = (T["build"]["progress"] if T["build"]["progress"] ≠ ⊥ else true)⟩  if T["build"] ≠ ⊥ ∧ T["build"]["incremental"] ≠ ⊥
- ⟨incremental = false, progress = (T["build"]["progress"] if T["build"]["progress"] ≠ ⊥ else true)⟩                     otherwise
+```math
+\begin{array}{l}
+\operatorname{BuildConfig}(T)\ = \\
+\ \langle \mathsf{incremental}\ =\ \mathsf{false},\ \mathsf{progress}\ =\ \mathsf{true}\rangle \quad \mathsf{if}\ T[\texttt{"build"}]\ =\ \bot  \\
+\ \langle \mathsf{incremental}\ =\ T[\texttt{"build"}][\texttt{"incremental"}],\ \mathsf{progress}\ =\ (T[\texttt{"build"}][\texttt{"progress"}]\ \mathsf{if}\ T[\texttt{"build"}][\texttt{"progress"}]\ \ne \ \bot \ \mathsf{else}\ \mathsf{true})\rangle \ \mathsf{if}\ T[\texttt{"build"}]\ \ne \ \bot \ \land \ T[\texttt{"build"}][\texttt{"incremental"}]\ \ne \ \bot  \\
+\ \langle \mathsf{incremental}\ =\ \mathsf{false},\ \mathsf{progress}\ =\ (T[\texttt{"build"}][\texttt{"progress"}]\ \mathsf{if}\ T[\texttt{"build"}][\texttt{"progress"}]\ \ne \ \bot \ \mathsf{else}\ \mathsf{true})\rangle \quad \mathsf{otherwise}
+\end{array}
 ```
 
 **Path Resolution**
-WinSep = {"\\", "/"}
 
-```text
-AsciiLetter(c) ⇔ (c ∈ {"A", …, "Z"} ∨ c ∈ {"a", …, "z"})
-DriveRooted(p) ⇔ |p| ≥ 3 ∧ AsciiLetter(At(p, 0)) ∧ At(p, 1) = ":" ∧ At(p, 2) ∈ WinSep
-UNC(p) ⇔ StartsWith(p, "//") ∨ StartsWith(p, "\\\\")
-RootRelative(p) ⇔ (StartsWith(p, "/") ∨ StartsWith(p, "\\")) ∧ ¬ UNC(p) ∧ ¬ DriveRooted(p)
+```math
+\begin{array}{l}
+\mathsf{WinSep}\ =\ \{\texttt{"\textbackslash{}\textbackslash{}", "}/"\} \\
+\operatorname{AsciiLetter}(c)\ \Leftrightarrow \ (c\ \in \ \{\texttt{"A"},\ \ldots ,\ \texttt{"Z"}\}\ \lor \ c\ \in \ \{\texttt{"a"},\ \ldots ,\ \texttt{"z"}\}) \\
+\operatorname{DriveRooted}(p)\ \Leftrightarrow \ \mid p\mid \ \ge \ 3\ \land \ \operatorname{AsciiLetter}(\operatorname{At}(p,\ 0))\ \land \ \operatorname{At}(p,\ 1)\ =\ \texttt{":"}\ \land \ \operatorname{At}(p,\ 2)\ \in \ \mathsf{WinSep} \\
+\operatorname{UNC}(p)\ \Leftrightarrow \ \operatorname{StartsWith}(p,\ \texttt{"//"})\ \lor \ \operatorname{StartsWith}(p,\ "\setminus \setminus \setminus \setminus ") \\
+\operatorname{RootRelative}(p)\ \Leftrightarrow \ (\operatorname{StartsWith}(p,\ \texttt{"/"})\ \lor \ \operatorname{StartsWith}(p,\ "\setminus \setminus "))\ \land \ \lnot \ \operatorname{UNC}(p)\ \land \ \lnot \ \operatorname{DriveRooted}(p) \\
+\operatorname{RootTag}(p)\ = \\
+\ p[0..2)\ \mathsf{if}\ \operatorname{DriveRooted}(p) \\
+\ \texttt{"//"}\quad \mathsf{if}\ \operatorname{UNC}(p) \\
+\ \texttt{"/"}\quad \mathsf{if}\ \operatorname{RootRelative}(p) \\
+\ \texttt{"\textbackslash{}""}\quad \mathsf{otherwise} \\
+\operatorname{Tail}(p)\ = \\
+\ p[3..\mid p\mid )\ \mathsf{if}\ \operatorname{DriveRooted}(p) \\
+\ p[2..\mid p\mid )\ \mathsf{if}\ \operatorname{UNC}(p) \\
+\ p[1..\mid p\mid )\ \mathsf{if}\ \operatorname{RootRelative}(p) \\
+\ p\quad \mathsf{otherwise} \\
+\operatorname{Segs}(p)\ =\ [\ p[i..j)\ \mid \ 0\ \le \ i\ <\ j\ \le \ \mid p\mid \ \land \ (\forall \ k\ \in \ [i,\ j).\ \operatorname{At}(p,\ k)\ \notin \ \mathsf{WinSep})\ \land \ (i\ =\ 0\ \lor \ \operatorname{At}(p,\ i-1)\ \in \ \mathsf{WinSep})\ \land \ (j\ =\ \mid p\mid \ \lor \ \operatorname{At}(p,\ j)\ \in \ \mathsf{WinSep})\ ] \\
+\operatorname{PathComps}(p)\ = \\
+\ \operatorname{Segs}(p)\ \mathsf{if}\ \operatorname{RootTag}(p)\ =\ \texttt{"\textbackslash{}""} \\
+\ [\operatorname{RootTag}(p)]\ \mathbin{++} \ \operatorname{Segs}(\operatorname{Tail}(p))\ \mathsf{otherwise} \\
+\operatorname{JoinComp}([])\ =\ \texttt{"\textbackslash{}""} \\
+\operatorname{JoinComp}([c])\ =\ c \\
+\operatorname{JoinComp}(c\mathbin{::} \mathsf{cs})\ = \\
+\ c\ \mathbin{++} \ \operatorname{JoinComp}(\mathsf{cs})\quad \mathsf{if}\ c\ \in \ \{\texttt{"/"},\ \texttt{"//"}\} \\
+\ c\ \mathbin{++} \ \texttt{"/"}\ \mathbin{++} \ \operatorname{JoinComp}(\mathsf{cs})\ \mathsf{if}\ \operatorname{DriveRooted}(c\ \mathbin{++} \ \texttt{"/"}) \\
+\ c\ \mathbin{++} \ \texttt{"/"}\ \mathbin{++} \ \operatorname{JoinComp}(\mathsf{cs})\ \mathsf{otherwise} \\
+\operatorname{Join}(a,\ b)\ = \\
+\ b\ \mathsf{if}\ \operatorname{AbsPath}(b) \\
+\ \operatorname{JoinComp}(\operatorname{PathComps}(a)\ \mathbin{++} \ \operatorname{PathComps}(b))\ \mathsf{otherwise}
+\end{array}
 ```
 
-RootTag(p) =
- p[0..2)  if DriveRooted(p)
- "//"     if UNC(p)
- "/"      if RootRelative(p)
- "\""     otherwise
-Tail(p) =
- p[3..|p|)  if DriveRooted(p)
- p[2..|p|)  if UNC(p)
- p[1..|p|)  if RootRelative(p)
- p         otherwise
-
-```text
-Segs(p) = [ p[i..j) | 0 ≤ i < j ≤ |p| ∧ (∀ k ∈ [i, j). At(p, k) ∉ WinSep) ∧ (i = 0 ∨ At(p, i-1) ∈ WinSep) ∧ (j = |p| ∨ At(p, j) ∈ WinSep) ]
+```math
+\begin{array}{l}
+\operatorname{AbsPath}(p)\ \Leftrightarrow \ \operatorname{DriveRooted}(p)\ \lor \ \operatorname{UNC}(p)\ \lor \ \operatorname{RootRelative}(p) \\
+\operatorname{is_relative}(p)\ \Leftrightarrow \ \lnot \ \operatorname{AbsPath}(p) \\
+\mathsf{Join}\ :\ \mathsf{Path}\ \times \ \mathsf{Path}\ \to \ \mathsf{Path} \\
+\mathsf{Normalize}\ :\ \mathsf{Path}\ \to \ \mathsf{Path}
+\end{array}
 ```
-
-PathComps(p) =
- Segs(p)  if RootTag(p) = "\""
- [RootTag(p)] ++ Segs(Tail(p))  otherwise
-JoinComp([]) = "\""
-JoinComp([c]) = c
-JoinComp(c::cs) =
-
-```text
- c ++ JoinComp(cs)          if c ∈ {"/", "//"}
-```
-
- c ++ "/" ++ JoinComp(cs)   if DriveRooted(c ++ "/")
- c ++ "/" ++ JoinComp(cs)   otherwise
-Join(a, b) =
- b  if AbsPath(b)
- JoinComp(PathComps(a) ++ PathComps(b))  otherwise
-
-```text
-AbsPath(p) ⇔ DriveRooted(p) ∨ UNC(p) ∨ RootRelative(p)
-is_relative(p) ⇔ ¬ AbsPath(p)
-Join : Path × Path → Path
-Normalize : Path → Path
-```
-
 Canon : Path ⇀ Path
 
-```text
-prefix(p, q) ⇔ PathPrefix(PathComps(q), PathComps(p))
-Normalize(p) = JoinComp([ c | c ∈ PathComps(p) ∧ c ≠ "." ])
-Under(p, O) ⇔ prefix(Normalize(p), Normalize(O))
-Canon(p) = ⊥ ⇔ ∃ c ∈ PathComps(Normalize(p)). c = ".."
-Canon(p) = Normalize(p) ⇔ ¬ ∃ c ∈ PathComps(Normalize(p)). c = ".."
+```math
+\begin{array}{l}
+\operatorname{prefix}(p,\ q)\ \Leftrightarrow \ \operatorname{PathPrefix}(\operatorname{PathComps}(q),\ \operatorname{PathComps}(p)) \\
+\operatorname{Normalize}(p)\ =\ \operatorname{JoinComp}([\ c\ \mid \ c\ \in \ \operatorname{PathComps}(p)\ \land \ c\ \ne \ \texttt{"."}\ ]) \\
+\operatorname{Under}(p,\ O)\ \Leftrightarrow \ \operatorname{prefix}(\operatorname{Normalize}(p),\ \operatorname{Normalize}(O)) \\
+\operatorname{Canon}(p)\ =\ \bot \ \Leftrightarrow \ \exists \ c\ \in \ \operatorname{PathComps}(\operatorname{Normalize}(p)).\ c\ =\ \texttt{".."} \\
+\operatorname{Canon}(p)\ =\ \operatorname{Normalize}(p)\ \Leftrightarrow \ \lnot \ \exists \ c\ \in \ \operatorname{PathComps}(\operatorname{Normalize}(p)).\ c\ =\ \texttt{".."} \\
+\operatorname{Drop}(0,\ \mathsf{xs})\ =\ \mathsf{xs}\quad \operatorname{Drop}(n,\ [])\ =\ []\quad \operatorname{Drop}(n,\ x\mathbin{::} \mathsf{xs})\ =\ \operatorname{Drop}(n-1,\ \mathsf{xs})\ (n\ >\ 0) \\
+\operatorname{relative}(p,\ \mathsf{base})\ =\ \mathsf{rel}\ \Leftrightarrow \ \operatorname{Canon}(p)\ =\ p'\ \land \ \operatorname{Canon}(\mathsf{base})\ =\ b'\ \land \ \operatorname{PathPrefix}(\operatorname{PathComps}(b'),\ \operatorname{PathComps}(p'))\ \land \ \mathsf{rel}\ =\ \operatorname{JoinComp}(\operatorname{Drop}(\mid \operatorname{PathComps}(b')\mid ,\ \operatorname{PathComps}(p'))) \\
+\operatorname{Basename}(p)\ = \\
+\ \texttt{"\textbackslash{}""}\ \mathsf{if}\ \mid \operatorname{PathComps}(p)\mid \ =\ 0 \\
+\ \operatorname{last}(\operatorname{PathComps}(p))\ \mathsf{otherwise} \\
+\operatorname{last}([x])\ =\ x\quad \operatorname{last}(x\mathbin{::} \mathsf{xs})\ =\ \operatorname{last}(\mathsf{xs})\ (\mid \mathsf{xs}\mid \ >\ 0)
+\end{array}
 ```
 
-Drop(0, xs) = xs    Drop(n, []) = []    Drop(n, x::xs) = Drop(n-1, xs) (n > 0)
-
-```text
-relative(p, base) = rel ⇔ Canon(p) = p' ∧ Canon(base) = b' ∧ PathPrefix(PathComps(b'), PathComps(p')) ∧ rel = JoinComp(Drop(|PathComps(b')|, PathComps(p')))
-```
-
-Basename(p) =
- "\""  if |PathComps(p)| = 0
- last(PathComps(p))  otherwise
-last([x]) = x    last(x::xs) = last(xs) (|xs| > 0)
-
-b = Basename(p)
-
-```text
-D = { j | 0 ≤ j < |b| ∧ b[j] = "." }
-```
-
-FileExt(p) =
- "\""  if D = ∅
-
-```text
- "\""  if D ≠ ∅ ∧ max(D) = 0
- b[max(D)..|b|)  if D ≠ ∅ ∧ max(D) > 0
+```math
+\begin{array}{l}
+b\ =\ \operatorname{Basename}(p) \\
+D\ =\ \{\ j\ \mid \ 0\ \le \ j\ <\ \mid b\mid \ \land \ b[j]\ =\ \texttt{"."}\ \} \\
+\operatorname{FileExt}(p)\ = \\
+\ \texttt{"\textbackslash{}""}\ \mathsf{if}\ D\ =\ \emptyset  \\
+\ \texttt{"\textbackslash{}""}\ \mathsf{if}\ D\ \ne \ \emptyset \ \land \ \operatorname{max}(D)\ =\ 0 \\
+\ b[\operatorname{max}(D)..\mid b\mid )\ \mathsf{if}\ D\ \ne \ \emptyset \ \land \ \operatorname{max}(D)\ >\ 0
+\end{array}
 ```
 
 **(Resolve-Canonical)**
-p' = Normalize(Join(R, p))    Canon(R) = R'    Canon(p') = p''
-─────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ Resolve(R, p) ⇓ (R', p'')
+```math
+\begin{array}{l}
+p'\ =\ \operatorname{Normalize}(\operatorname{Join}(R,\ p))\quad \operatorname{Canon}(R)\ =\ R'\quad \operatorname{Canon}(p')\ =\ p'' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Resolve}(R,\ p)\ \Downarrow \ (R',\ p'')
+\end{array}
 ```
 
 **(Resolve-Canonical-Err)**
 
-```text
-p' = Normalize(Join(R, p))    (Canon(R) = ⊥ ∨ Canon(p') = ⊥)    c = Code(Resolve-Canonical-Err)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Resolve(R, p) ⇑ c
+```math
+\begin{array}{l}
+p'\ =\ \operatorname{Normalize}(\operatorname{Join}(R,\ p))\quad (\operatorname{Canon}(R)\ =\ \bot \ \lor \ \operatorname{Canon}(p')\ =\ \bot )\quad c\ =\ \operatorname{Code}(\mathsf{Resolve}-\mathsf{Canonical}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Resolve}(R,\ p)\ \Uparrow \ c
+\end{array}
 ```
 
 **(WF-RelPath)**
 
-```text
-is_relative(p)    Γ ⊢ Resolve(R, p) ⇓ (R', p'')    prefix(p'', R')
-```
-
-──────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ p : RelPath
+```math
+\begin{array}{l}
+\operatorname{is_relative}(p)\quad \Gamma \ \vdash \ \operatorname{Resolve}(R,\ p)\ \Downarrow \ (R',\ p'')\quad \operatorname{prefix}(p'',\ R') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ p\ :\ \mathsf{RelPath}
+\end{array}
 ```
 
 **(WF-RelPath-Err)**
 
-```text
-¬ is_relative(p) ∨ (Γ ⊢ Resolve(R, p) ⇓ (R', p'') ∧ ¬ prefix(p'', R'))    c = Code(WF-RelPath-Err)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{is_relative}(p)\ \lor \ (\Gamma \ \vdash \ \operatorname{Resolve}(R,\ p)\ \Downarrow \ (R',\ p'')\ \land \ \lnot \ \operatorname{prefix}(p'',\ R'))\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{RelPath}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ p\ :\ \mathsf{RelPath}\ \Uparrow \ c
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ p : RelPath ⇑ c
-```
-
-```text
-Project(Γ) = P ⇔ Γ.project = P
+```math
+\operatorname{Project}(\Gamma )\ =\ P\ \Leftrightarrow \ \Gamma .\mathsf{project}\ =\ P
 ```
 
 **(WF-Project-Root)**
 exists(`Ultraviolet.toml` at R)
-───────────────────────────
 
-```text
-⊢ R : ProjectRoot
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\vdash \ R\ :\ \mathsf{ProjectRoot}
+\end{array}
 ```
 
 ### 3.3 Assemblies and Project Loading
 
 **(WF-Assembly)**
 
-```text
-A_0.kind ∈ AssemblyKind
-```
-
-────────────────────────
-
-```text
-Γ ⊢ A_0 : Assembly
+```math
+\begin{array}{l}
+A_{0}.\mathsf{kind}\ \in \ \mathsf{AssemblyKind} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ A_{0}\ :\ \mathsf{Assembly}
+\end{array}
 ```
 
 **Project Load (Small-Step)**
 
-```text
-AssemblyTarget = Name ∪ {⊥}
+```math
+\begin{array}{l}
+\mathsf{AssemblyTarget}\ =\ \mathsf{Name}\ \cup \ \{\bot \} \\
+\mathsf{ProjLoadState}\ =\ \{\operatorname{Start}(R,\ \mathsf{target}),\ \operatorname{Parsed}(R,\ \mathsf{target},\ T),\ \operatorname{Validated}(R,\ \mathsf{target},\ T),\ \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ \mathsf{Ts},\ \mathsf{As}),\ \operatorname{Discovered}(P),\ \operatorname{Error}(\mathsf{code})\}
+\end{array}
 ```
-
-ProjLoadState = {Start(R, target), Parsed(R, target, T), Validated(R, target, T), ProjAsmScan(R, target, T, Ts, As), Discovered(P), Error(code)}
 
 **(Step-Parse)**
 
-```text
-Γ ⊢ ParseManifest(R) ⇓ T
-```
-
-────────────────────────────────────────────────────────
-
-```text
-⟨Start(R, target)⟩ → ⟨Parsed(R, target, T)⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseManifest}(R)\ \Downarrow \ T \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{Start}(R,\ \mathsf{target})\rangle \ \to \ \langle \operatorname{Parsed}(R,\ \mathsf{target},\ T)\rangle 
+\end{array}
 ```
 
 **(Step-Parse-Err)**
 
-```text
-Γ ⊢ ParseManifest(R) ⇑ c
-```
-
-──────────────────────────────────────────────
-
-```text
-⟨Start(R, target)⟩ → ⟨Error(c)⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseManifest}(R)\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{Start}(R,\ \mathsf{target})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\end{array}
 ```
 
 **(Step-Validate)**
 
-```text
-Γ ⊢ ValidateManifest(T) ⇓ ok
-```
-
-──────────────────────────────────────────────────────────
-
-```text
-⟨Parsed(R, target, T)⟩ → ⟨Validated(R, target, T)⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ValidateManifest}(T)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{Parsed}(R,\ \mathsf{target},\ T)\rangle \ \to \ \langle \operatorname{Validated}(R,\ \mathsf{target},\ T)\rangle 
+\end{array}
 ```
 
 **(Step-Validate-Err)**
 
-```text
-Γ ⊢ ValidateManifest(T) ⇑ c
-```
-
-───────────────────────────────────────────────
-
-```text
-⟨Parsed(R, target, T)⟩ → ⟨Error(c)⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ValidateManifest}(T)\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{Parsed}(R,\ \mathsf{target},\ T)\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\end{array}
 ```
 
 **Manifest Validation (Deterministic).**
 
-```text
-ChecksAsm(t) = [Γ ⊢ t : KnownKeys, Γ ⊢ t : ReqTypes, Γ ⊢ t : OutDirType, Γ ⊢ t : EmitIRType, Γ ⊢ t : LinkKindType, Γ ⊢ t.name : Name, Γ ⊢ t.kind : Kind, Γ ⊢ t : LinkKindField, Γ ⊢ t.emit_ir : EmitIR, Γ ⊢ t.root : RootPath, Γ ⊢ t.out_dir : OutDirPath]
-BaseChecks(T) = [Γ ⊢ T : TopKeys, Γ ⊢ T : AssemblyTable, Γ ⊢ T : AssemblyCount, Γ ⊢ T : AssemblyNames]
+```math
+\begin{array}{l}
+\operatorname{ChecksAsm}(t)\ =\ [\Gamma \ \vdash \ t\ :\ \mathsf{KnownKeys},\ \Gamma \ \vdash \ t\ :\ \mathsf{ReqTypes},\ \Gamma \ \vdash \ t\ :\ \mathsf{OutDirType},\ \Gamma \ \vdash \ t\ :\ \mathsf{EmitIRType},\ \Gamma \ \vdash \ t\ :\ \mathsf{LinkKindType},\ \Gamma \ \vdash \ t.\mathsf{name}\ :\ \mathsf{Name},\ \Gamma \ \vdash \ t.\mathsf{kind}\ :\ \mathsf{Kind},\ \Gamma \ \vdash \ t\ :\ \mathsf{LinkKindField},\ \Gamma \ \vdash \ t.\mathsf{emit}_{\mathsf{ir}}\ :\ \mathsf{EmitIR},\ \Gamma \ \vdash \ t.\mathsf{root}\ :\ \mathsf{RootPath},\ \Gamma \ \vdash \ t.\mathsf{out}_{\mathsf{dir}}\ :\ \mathsf{OutDirPath}] \\
+\operatorname{BaseChecks}(T)\ =\ [\Gamma \ \vdash \ T\ :\ \mathsf{TopKeys},\ \Gamma \ \vdash \ T\ :\ \mathsf{AssemblyTable},\ \Gamma \ \vdash \ T\ :\ \mathsf{AssemblyCount},\ \Gamma \ \vdash \ T\ :\ \mathsf{AssemblyNames}] \\
+\operatorname{AsmChecks}(T)\ = \\
+\ []\ \mathsf{if}\ \operatorname{AsmTables}(T)\ =\ \bot  \\
+\ \mathbin{++} \_\{t\ \in \ \operatorname{AsmTables}(T)\}\ \operatorname{ChecksAsm}(t)\ \mathsf{otherwise} \\
+\operatorname{Checks}(T)\ =\ \operatorname{BaseChecks}(T)\ \mathbin{++} \ \operatorname{AsmChecks}(T)
+\end{array}
 ```
 
-AsmChecks(T) =
-
-```text
- []  if AsmTables(T) = ⊥
- ++_{t ∈ AsmTables(T)} ChecksAsm(t)  otherwise
-```
-
-Checks(T) = BaseChecks(T) ++ AsmChecks(T)
-
-```text
-FirstFail([]) = ⊥
-FirstFail(J::Js) = c ⇔ Γ ⊢ J ⇑ c
-FirstFail(J::Js) = FirstFail(Js) ⇔ Γ ⊢ J ⇓ ok
+```math
+\begin{array}{l}
+\operatorname{FirstFail}([])\ =\ \bot  \\
+\operatorname{FirstFail}(J\mathbin{::} \mathsf{Js})\ =\ c\ \Leftrightarrow \ \Gamma \ \vdash \ J\ \Uparrow \ c \\
+\operatorname{FirstFail}(J\mathbin{::} \mathsf{Js})\ =\ \operatorname{FirstFail}(\mathsf{Js})\ \Leftrightarrow \ \Gamma \ \vdash \ J\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(ValidateManifest-Ok)**
 
-```text
-FirstFail(Checks(T)) = ⊥
-```
-
-────────────────────────────────────
-
-```text
-Γ ⊢ ValidateManifest(T) ⇓ ok
+```math
+\begin{array}{l}
+\operatorname{FirstFail}(\operatorname{Checks}(T))\ =\ \bot  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ValidateManifest}(T)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(ValidateManifest-Err)**
-FirstFail(Checks(T)) = c
-───────────────────────────────────
 
-```text
-Γ ⊢ ValidateManifest(T) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{FirstFail}(\operatorname{Checks}(T))\ =\ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ValidateManifest}(T)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Step-Asm-Init)**
-Ts = AsmTables(T)
-──────────────────────────────────────────────────────────
 
-```text
-⟨Validated(R, target, T)⟩ → ⟨ProjAsmScan(R, target, T, Ts, [])⟩
+```math
+\begin{array}{l}
+\mathsf{Ts}\ =\ \operatorname{AsmTables}(T) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{Validated}(R,\ \mathsf{target},\ T)\rangle \ \to \ \langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ \mathsf{Ts},\ [])\rangle 
+\end{array}
 ```
 
 **(Step-Asm-Cons)**
 
-```text
-Γ ⊢ BuildAssembly(R, t_0) ⇓ A
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨ProjAsmScan(R, target, T, t_0::ts, As)⟩ → ⟨ProjAsmScan(R, target, T, ts, As ++ [A])⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{BuildAssembly}(R,\ t_{0})\ \Downarrow \ A \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ t_{0}\mathbin{::} \mathsf{ts},\ \mathsf{As})\rangle \ \to \ \langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ \mathsf{ts},\ \mathsf{As}\ \mathbin{++} \ [A])\rangle 
+\end{array}
 ```
 
 **(Step-Asm-Err)**
 
-```text
-Γ ⊢ BuildAssembly(R, t_0) ⇑ c
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-⟨ProjAsmScan(R, target, T, t_0::ts, As)⟩ → ⟨Error(c)⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{BuildAssembly}(R,\ t_{0})\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ t_{0}\mathbin{::} \mathsf{ts},\ \mathsf{As})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\end{array}
 ```
 
 **(Step-Asm-Done)**
 
-```text
-Γ ⊢ OwnAssemblies(As) ⇓ As'    Γ ⊢ SelectAssembly(As', target) ⇓ A_0    P = ⟨root = R, assemblies = As', assembly = A_0, source_root = A_0.source_root, outputs = A_0.outputs, modules = A_0.modules, toolchain = ToolchainConfig(T), build = BuildConfig(T)⟩
-```
-
-─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨ProjAsmScan(R, target, T, [], As)⟩ → ⟨Discovered(P)⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{OwnAssemblies}(\mathsf{As})\ \Downarrow \ \mathsf{As}'\quad \Gamma \ \vdash \ \operatorname{SelectAssembly}(\mathsf{As}',\ \mathsf{target})\ \Downarrow \ A_{0}\quad P\ =\ \langle \mathsf{root}\ =\ R,\ \mathsf{assemblies}\ =\ \mathsf{As}',\ \mathsf{assembly}\ =\ A_{0},\ \mathsf{source}_{\mathsf{root}}\ =\ A_{0}.\mathsf{source}_{\mathsf{root}},\ \mathsf{outputs}\ =\ A_{0}.\mathsf{outputs},\ \mathsf{modules}\ =\ A_{0}.\mathsf{modules},\ \mathsf{toolchain}\ =\ \operatorname{ToolchainConfig}(T),\ \mathsf{build}\ =\ \operatorname{BuildConfig}(T)\rangle  \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ [],\ \mathsf{As})\rangle \ \to \ \langle \operatorname{Discovered}(P)\rangle 
+\end{array}
 ```
 
 **(Step-Asm-Own-Err)**
 
-```text
-Γ ⊢ OwnAssemblies(As) ⇑ c
-```
-
-───────────────────────────────────────────────
-
-```text
-⟨ProjAsmScan(R, target, T, [], As)⟩ → ⟨Error(c)⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{OwnAssemblies}(\mathsf{As})\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ [],\ \mathsf{As})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\end{array}
 ```
 
 **(Step-Asm-Done-Err)**
 
-```text
-Γ ⊢ OwnAssemblies(As) ⇓ As'    Γ ⊢ SelectAssembly(As', target) ⇑ c
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨ProjAsmScan(R, target, T, [], As)⟩ → ⟨Error(c)⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{OwnAssemblies}(\mathsf{As})\ \Downarrow \ \mathsf{As}'\quad \Gamma \ \vdash \ \operatorname{SelectAssembly}(\mathsf{As}',\ \mathsf{target})\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ [],\ \mathsf{As})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\end{array}
 ```
 
 **Assembly Selection**
 
 **(Select-Only)**
 |As| = 1    target = ⊥    As = [A_0]
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ SelectAssembly(As, target) ⇓ A_0
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{SelectAssembly}(\mathsf{As},\ \mathsf{target})\ \Downarrow \ A_{0}
+\end{array}
 ```
 
 **(Select-Only-Exe)**
 |As| > 1    target = ⊥    |{A ∈ As | A.kind = "executable"}| = 1    A_e ∈ As    A_e.kind = "executable"
-────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ SelectAssembly(As, target) ⇓ A_e
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{SelectAssembly}(\mathsf{As},\ \mathsf{target})\ \Downarrow \ A_{e}
+\end{array}
 ```
 
 **(Select-By-Name)**
 
-```text
-target ≠ ⊥    A ∈ As    A.name = target
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ SelectAssembly(As, target) ⇓ A
+```math
+\begin{array}{l}
+\mathsf{target}\ \ne \ \bot \quad A\ \in \ \mathsf{As}\quad A.\mathsf{name}\ =\ \mathsf{target} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{SelectAssembly}(\mathsf{As},\ \mathsf{target})\ \Downarrow \ A
+\end{array}
 ```
 
 **(Select-Err)**
 
-```text
-(target = ⊥ ∧ |As| ≠ 1 ∧ |{A ∈ As | A.kind = "executable"}| ≠ 1) ∨ (target ≠ ⊥ ∧ ¬ ∃ A ∈ As. A.name = target)    c = Code(Assembly-Select-Err)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ SelectAssembly(As, target) ⇑ c
+```math
+\begin{array}{l}
+(\mathsf{target}\ =\ \bot \ \land \ \mid \mathsf{As}\mid \ \ne \ 1\ \land \ \mid \{A\ \in \ \mathsf{As}\ \mid \ A.\mathsf{kind}\ =\ \texttt{"executable"}\}\mid \ \ne \ 1)\ \lor \ (\mathsf{target}\ \ne \ \bot \ \land \ \lnot \ \exists \ A\ \in \ \mathsf{As}.\ A.\mathsf{name}\ =\ \mathsf{target})\quad c\ =\ \operatorname{Code}(\mathsf{Assembly}-\mathsf{Select}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{SelectAssembly}(\mathsf{As},\ \mathsf{target})\ \Uparrow \ c
+\end{array}
 ```
 
 **Assembly Build (Big-Step)**
 
 **(BuildAssembly-Ok)**
 
-```text
-Γ ⊢ Resolve(R, t.root) ⇓ (R', S)    Γ ⊢ S : SourceRoot    Γ ⊢ Modules(S, t.name) ⇓ M    L = sort_{≺_mod}(M)    A = ⟨name = t.name, kind = t.kind, link_kind = AsmLinkKind(t.kind, t.link_kind), root = t.root, out_dir = t.out_dir, emit_ir = t.emit_ir, source_root = S, outputs = OutputPaths(R, t), modules = L⟩
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ BuildAssembly(R, t) ⇓ A
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{Resolve}(R,\ t.\mathsf{root})\ \Downarrow \ (R',\ S)\quad \Gamma \ \vdash \ S\ :\ \mathsf{SourceRoot}\quad \Gamma \ \vdash \ \operatorname{Modules}(S,\ t.\mathsf{name})\ \Downarrow \ M\quad L\ =\ \mathsf{sort}\_\{\prec_{\mathsf{mod}} \}(M)\quad A\ =\ \langle \mathsf{name}\ =\ t.\mathsf{name},\ \mathsf{kind}\ =\ t.\mathsf{kind},\ \mathsf{link}_{\mathsf{kind}}\ =\ \operatorname{AsmLinkKind}(t.\mathsf{kind},\ t.\mathsf{link}_{\mathsf{kind}}),\ \mathsf{root}\ =\ t.\mathsf{root},\ \mathsf{out}_{\mathsf{dir}}\ =\ t.\mathsf{out}_{\mathsf{dir}},\ \mathsf{emit}_{\mathsf{ir}}\ =\ t.\mathsf{emit}_{\mathsf{ir}},\ \mathsf{source}_{\mathsf{root}}\ =\ S,\ \mathsf{outputs}\ =\ \operatorname{OutputPaths}(R,\ t),\ \mathsf{modules}\ =\ L\rangle  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{BuildAssembly}(R,\ t)\ \Downarrow \ A
+\end{array}
 ```
 
 **(BuildAssembly-Err-Resolve)**
 
-```text
-Γ ⊢ Resolve(R, t.root) ⇑ c
-```
-
-─────────────────────────────────
-
-```text
-Γ ⊢ BuildAssembly(R, t) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{Resolve}(R,\ t.\mathsf{root})\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{BuildAssembly}(R,\ t)\ \Uparrow \ c
+\end{array}
 ```
 
 **(BuildAssembly-Err-Root)**
 
-```text
-Γ ⊢ Resolve(R, t.root) ⇓ (R', S)    Γ ⊢ S : SourceRoot ⇑ c
-```
-
-─────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ BuildAssembly(R, t) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{Resolve}(R,\ t.\mathsf{root})\ \Downarrow \ (R',\ S)\quad \Gamma \ \vdash \ S\ :\ \mathsf{SourceRoot}\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{BuildAssembly}(R,\ t)\ \Uparrow \ c
+\end{array}
 ```
 
 **(BuildAssembly-Err-Modules)**
 
-```text
-Γ ⊢ Resolve(R, t.root) ⇓ (R', S)    Γ ⊢ S : SourceRoot    Γ ⊢ Modules(S, t.name) ⇑ c
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ BuildAssembly(R, t) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{Resolve}(R,\ t.\mathsf{root})\ \Downarrow \ (R',\ S)\quad \Gamma \ \vdash \ S\ :\ \mathsf{SourceRoot}\quad \Gamma \ \vdash \ \operatorname{Modules}(S,\ t.\mathsf{name})\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{BuildAssembly}(R,\ t)\ \Uparrow \ c
+\end{array}
 ```
 
 **Project Load (Big-Step)**
 
 **(LoadProject-Ok)**
 
-```text
-Γ ⊢ ParseManifest(R) ⇓ T    Γ ⊢ ValidateManifest(T) ⇓ ok    AsmTables(T) = [t_1, …, t_n]    ∀ i, Γ ⊢ BuildAssembly(R, t_i) ⇓ A_i    As = [A_1, …, A_n]    Γ ⊢ OwnAssemblies(As) ⇓ As'    Γ ⊢ SelectAssembly(As', target) ⇓ A_0    P = ⟨root = R, assemblies = As', assembly = A_0, source_root = A_0.source_root, outputs = A_0.outputs, modules = A_0.modules, toolchain = ToolchainConfig(T), build = BuildConfig(T)⟩
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ LoadProject(R, target) ⇓ P
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseManifest}(R)\ \Downarrow \ T\quad \Gamma \ \vdash \ \operatorname{ValidateManifest}(T)\ \Downarrow \ \mathsf{ok}\quad \operatorname{AsmTables}(T)\ =\ [t_{1},\ \ldots ,\ t_{n}]\quad \forall \ i,\ \Gamma \ \vdash \ \operatorname{BuildAssembly}(R,\ t_{i})\ \Downarrow \ A_{i}\quad \mathsf{As}\ =\ [A_{1},\ \ldots ,\ A_{n}]\quad \Gamma \ \vdash \ \operatorname{OwnAssemblies}(\mathsf{As})\ \Downarrow \ \mathsf{As}'\quad \Gamma \ \vdash \ \operatorname{SelectAssembly}(\mathsf{As}',\ \mathsf{target})\ \Downarrow \ A_{0}\quad P\ =\ \langle \mathsf{root}\ =\ R,\ \mathsf{assemblies}\ =\ \mathsf{As}',\ \mathsf{assembly}\ =\ A_{0},\ \mathsf{source}_{\mathsf{root}}\ =\ A_{0}.\mathsf{source}_{\mathsf{root}},\ \mathsf{outputs}\ =\ A_{0}.\mathsf{outputs},\ \mathsf{modules}\ =\ A_{0}.\mathsf{modules},\ \mathsf{toolchain}\ =\ \operatorname{ToolchainConfig}(T),\ \mathsf{build}\ =\ \operatorname{BuildConfig}(T)\rangle  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LoadProject}(R,\ \mathsf{target})\ \Downarrow \ P
+\end{array}
 ```
 
 **(LoadProject-Err)**
 
-```text
-Γ ⊢ LoadProject(R, target) →* ⟨Error(c)⟩
-```
-
-────────────────────────────────────────────
-
-```text
-Γ ⊢ LoadProject(R, target) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LoadProject}(R,\ \mathsf{target})\ \to *\ \langle \operatorname{Error}(c)\rangle  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LoadProject}(R,\ \mathsf{target})\ \Uparrow \ c
+\end{array}
 ```
 
 **Assembly Graph Constraints**
@@ -1070,1151 +989,1098 @@ Let `AsmDeps(A)` be the set of assembly names referenced by the first path segme
 
 ### 3.4 Deterministic Ordering and Case Folding
 
-```text
-FoldPath(r) = JoinComp([CaseFold(NFC(c)) | c ∈ PathComps(r)])
+```math
+\operatorname{FoldPath}(r)\ =\ \operatorname{JoinComp}([\operatorname{CaseFold}(\operatorname{NFC}(c))\ \mid \ c\ \in \ \operatorname{PathComps}(r)])
 ```
 
-FileKey(f, d) =
-
-```text
- ⟨FoldPath(rel), rel⟩  if relative(f, d) ⇓ rel
- ⟨⊥, Basename(f)⟩      if relative(f, d) ⇑
+```math
+\begin{array}{l}
+\operatorname{FileKey}(f,\ d)\ = \\
+\ \langle \operatorname{FoldPath}(\mathsf{rel}),\ \mathsf{rel}\rangle \ \mathsf{if}\ \operatorname{relative}(f,\ d)\ \Downarrow \ \mathsf{rel} \\
+\ \langle \bot ,\ \operatorname{Basename}(f)\rangle \quad \mathsf{if}\ \operatorname{relative}(f,\ d)\ \Uparrow 
+\end{array}
 ```
 
-```text
-f_1 ≺_file f_2 ⇔ Utf8LexLess(FileKey(f_1, d), FileKey(f_2, d))
+```math
+f_{1}\ \prec_{\mathsf{file}} \ f_{2}\ \Leftrightarrow \ \operatorname{Utf8LexLess}(\operatorname{FileKey}(f_{1},\ d),\ \operatorname{FileKey}(f_{2},\ d))
 ```
 
 **(FileOrder-Rel-Fail)**
 
-```text
-relative(f, d) ⇑    c = Code(FileOrder-Rel-Fail)
-```
-
-────────────────────────────────────────────────
-
-```text
-Γ ⊢ Emit(c)
+```math
+\begin{array}{l}
+\operatorname{relative}(f,\ d)\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{FileOrder}-\mathsf{Rel}-\mathsf{Fail}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Emit}(c)
+\end{array}
 ```
 
 **Fold.**
 
-```text
-Fold(p) = [CaseFold(NFC(c)) | c ∈ p]
+```math
+\operatorname{Fold}(p)\ =\ [\operatorname{CaseFold}(\operatorname{NFC}(c))\ \mid \ c\ \in \ p]
 ```
 
-DirKey(d, S) =
-
-```text
- ⟨FoldPath(rel), rel⟩  if relative(d, S) ⇓ rel
- ⟨⊥, Basename(d)⟩      if relative(d, S) ⇑
+```math
+\begin{array}{l}
+\operatorname{DirKey}(d,\ S)\ = \\
+\ \langle \operatorname{FoldPath}(\mathsf{rel}),\ \mathsf{rel}\rangle \ \mathsf{if}\ \operatorname{relative}(d,\ S)\ \Downarrow \ \mathsf{rel} \\
+\ \langle \bot ,\ \operatorname{Basename}(d)\rangle \quad \mathsf{if}\ \operatorname{relative}(d,\ S)\ \Uparrow 
+\end{array}
 ```
 
-```text
-d_1 ≺_dir d_2 ⇔ Utf8LexLess(DirKey(d_1, S), DirKey(d_2, S))
+```math
+d_{1}\ \prec_{\mathsf{dir}} \ d_{2}\ \Leftrightarrow \ \operatorname{Utf8LexLess}(\operatorname{DirKey}(d_{1},\ S),\ \operatorname{DirKey}(d_{2},\ S))
 ```
 
-DirSeq(S) = sort_{≺_dir}(Dirs(S))
+```math
+\operatorname{DirSeq}(S)\ =\ \mathsf{sort}\_\{\prec_{\mathsf{dir}} \}(\operatorname{Dirs}(S))
+```
 
 **(DirSeq-Read-Err)**
 
-```text
-Dirs(S) ⇑    c = Code(DirSeq-Read-Err)
-```
-
-──────────────────────────────────────
-
-```text
-Γ ⊢ Emit(c)
+```math
+\begin{array}{l}
+\operatorname{Dirs}(S)\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{DirSeq}-\mathsf{Read}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Emit}(c)
+\end{array}
 ```
 
 **(DirSeq-Rel-Fail)**
 
-```text
-relative(d, S) ⇑    c = Code(DirSeq-Rel-Fail)
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ Emit(c)
+```math
+\begin{array}{l}
+\operatorname{relative}(d,\ S)\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{DirSeq}-\mathsf{Rel}-\mathsf{Fail}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Emit}(c)
+\end{array}
 ```
 
 ### 3.5 Source Roots, Module Directories, and Compilation Units
 
 **Dirs.**
 
-```text
-Dirs(S) = { d | is_dir(d) ∧ relative(d, S) ⇓ r }
-S ∈ Dirs(S)
+```math
+\begin{array}{l}
+\operatorname{Dirs}(S)\ =\ \{\ d\ \mid \ \operatorname{is_dir}(d)\ \land \ \operatorname{relative}(d,\ S)\ \Downarrow \ r\ \} \\
+S\ \in \ \operatorname{Dirs}(S)
+\end{array}
 ```
 
 **(WF-Source-Root)**
 is_dir(S)
-──────────────
 
-```text
-Γ ⊢ S : SourceRoot
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ S\ :\ \mathsf{SourceRoot}
+\end{array}
 ```
 
 **(WF-Source-Root-Err)**
 
-```text
-¬ is_dir(S)    c = Code(WF-Source-Root-Err)
-```
-
-───────────────────────────────────────────
-
-```text
-Γ ⊢ S : SourceRoot ⇑ c
+```math
+\begin{array}{l}
+\lnot \ \operatorname{is_dir}(S)\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Source}-\mathsf{Root}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ S\ :\ \mathsf{SourceRoot}\ \Uparrow \ c
+\end{array}
 ```
 
 **(Module-Dir)**
 
-```text
-∃ f ∈ Files(d) : FileExt(f) = ".uv"
+```math
+\begin{array}{l}
+\exists \ f\ \in \ \operatorname{Files}(d)\ :\ \operatorname{FileExt}(f)\ =\ \texttt{".uv"} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ d\ :\ \mathsf{ModuleDir}
+\end{array}
 ```
 
-─────────────────────────────────────────
-
-```text
-Γ ⊢ d : ModuleDir
+```math
+\operatorname{Files}(d)\ =\ \{\ f\ \mid \ f\ \in \ d\ \land \ \operatorname{FileExt}(f)\ =\ \texttt{".uv"}\ \}
 ```
 
-```text
-Files(d) = { f | f ∈ d ∧ FileExt(f) = ".uv" }
+```math
+\operatorname{CompilationUnit}(d)\ =\ \mathsf{sort}\_\{\prec_{\mathsf{file}} \}(\operatorname{Files}(d))
 ```
-
-CompilationUnit(d) = sort_{≺_file}(Files(d))
 
 **(CompilationUnit-Rel-Fail)**
 
-```text
-∃ f ∈ Files(d). relative(f, d) ⇑    c = Code(FileOrder-Rel-Fail)
-```
-
-─────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ CompilationUnit(d) ⇑ c
+```math
+\begin{array}{l}
+\exists \ f\ \in \ \operatorname{Files}(d).\ \operatorname{relative}(f,\ d)\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{FileOrder}-\mathsf{Rel}-\mathsf{Fail}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{CompilationUnit}(d)\ \Uparrow \ c
+\end{array}
 ```
 
 Module discovery state transitions and module-path formation are defined by §11.5.4. This chapter defines the filesystem-level relations consumed by those rules and by project loading.
 
 **(Modules-Ok)**
 
-```text
-⟨DiscStart(S, A)⟩ →* ⟨DiscDone(M)⟩
-```
-
-──────────────────────────────────
-
-```text
-Γ ⊢ Modules(S, A) ⇓ M
+```math
+\begin{array}{l}
+\langle \operatorname{DiscStart}(S,\ A)\rangle \ \to *\ \langle \operatorname{DiscDone}(M)\rangle  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Modules}(S,\ A)\ \Downarrow \ M
+\end{array}
 ```
 
 **(Modules-Err)**
 
-```text
-⟨DiscStart(S, A)⟩ →* ⟨Error(c)⟩
+```math
+\begin{array}{l}
+\langle \operatorname{DiscStart}(S,\ A)\rangle \ \to *\ \langle \operatorname{Error}(c)\rangle  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Modules}(S,\ A)\ \Uparrow \ c
+\end{array}
 ```
 
-─────────────────────────────────
-
-```text
-Γ ⊢ Modules(S, A) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{AssemblySourceRoots}(\mathsf{As})\ =\ \{\ A.\mathsf{source}_{\mathsf{root}}\ \mid \ A\ \in \ \mathsf{As}\ \} \\
+\operatorname{RootDepth}(S)\ =\ \mid \operatorname{PathComps}(S)\mid 
+\end{array}
 ```
 
-```text
-AssemblySourceRoots(As) = { A.source_root | A ∈ As }
+```math
+\operatorname{OwnerRoot}(d,\ \mathsf{Rs})\ =\ S_{k}\ \Leftrightarrow \ S_{k}\ \in \ \mathsf{Rs}\ \land \ \operatorname{prefix}(d,\ S_{k})\ \land \ (\forall \ S_{i}\ \in \ \mathsf{Rs}.\ \operatorname{prefix}(d,\ S_{i})\ \Rightarrow \ \operatorname{RootDepth}(S_{i})\ \le \ \operatorname{RootDepth}(S_{k}))\ \land \ (\forall \ S_{j}\ \in \ \mathsf{Rs}.\ \operatorname{prefix}(d,\ S_{j})\ \land \ \operatorname{RootDepth}(S_{j})\ =\ \operatorname{RootDepth}(S_{k})\ \Rightarrow \ S_{j}\ =\ S_{k})
 ```
 
-RootDepth(S) = |PathComps(S)|
-
-```text
-OwnerRoot(d, Rs) = S_k ⇔ S_k ∈ Rs ∧ prefix(d, S_k) ∧ (∀ S_i ∈ Rs. prefix(d, S_i) ⇒ RootDepth(S_i) ≤ RootDepth(S_k)) ∧ (∀ S_j ∈ Rs. prefix(d, S_j) ∧ RootDepth(S_j) = RootDepth(S_k) ⇒ S_j = S_k)
-```
-
-```text
-OwnedModules(A, As) = [ m ∈ A.modules | OwnerRoot(ModuleDirOf(m, A.source_root), AssemblySourceRoots(As)) = A.source_root ]
+```math
+\operatorname{OwnedModules}(A,\ \mathsf{As})\ =\ [\ m\ \in \ A.\mathsf{modules}\ \mid \ \operatorname{OwnerRoot}(\operatorname{ModuleDirOf}(m,\ A.\mathsf{source}_{\mathsf{root}}),\ \operatorname{AssemblySourceRoots}(\mathsf{As}))\ =\ A.\mathsf{source}_{\mathsf{root}}\ ]
 ```
 
 **(OwnAssemblies-Ok)**
 
-```text
-∀ A ∈ As, ∀ m ∈ A.modules. ∃ S. OwnerRoot(ModuleDirOf(m, A.source_root), AssemblySourceRoots(As)) = S    As = [A_1, …, A_n]    As' = [A_1[modules := OwnedModules(A_1, As)], …, A_n[modules := OwnedModules(A_n, As)]]
-```
-
-─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ OwnAssemblies(As) ⇓ As'
+```math
+\begin{array}{l}
+\forall \ A\ \in \ \mathsf{As},\ \forall \ m\ \in \ A.\mathsf{modules}.\ \exists \ S.\ \operatorname{OwnerRoot}(\operatorname{ModuleDirOf}(m,\ A.\mathsf{source}_{\mathsf{root}}),\ \operatorname{AssemblySourceRoots}(\mathsf{As}))\ =\ S\quad \mathsf{As}\ =\ [A_{1},\ \ldots ,\ A_{n}]\quad \mathsf{As}'\ =\ [A_{1}[\mathsf{modules}\ :=\ \operatorname{OwnedModules}(A_{1},\ \mathsf{As})],\ \ldots ,\ A_{n}[\mathsf{modules}\ :=\ \operatorname{OwnedModules}(A_{n},\ \mathsf{As})]] \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{OwnAssemblies}(\mathsf{As})\ \Downarrow \ \mathsf{As}'
+\end{array}
 ```
 
 **(WF-Assembly-Root-Owner-Ambiguous)**
 
-```text
-∃ A ∈ As, m ∈ A.modules. ¬ ∃ S. OwnerRoot(ModuleDirOf(m, A.source_root), AssemblySourceRoots(As)) = S    c = Code(WF-Assembly-Root-Owner-Ambiguous)
-```
-
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ OwnAssemblies(As) ⇑ c
+```math
+\begin{array}{l}
+\exists \ A\ \in \ \mathsf{As},\ m\ \in \ A.\mathsf{modules}.\ \lnot \ \exists \ S.\ \operatorname{OwnerRoot}(\operatorname{ModuleDirOf}(m,\ A.\mathsf{source}_{\mathsf{root}}),\ \operatorname{AssemblySourceRoots}(\mathsf{As}))\ =\ S\quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{Assembly}-\mathsf{Root}-\mathsf{Owner}-\mathsf{Ambiguous}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{OwnAssemblies}(\mathsf{As})\ \Uparrow \ c
+\end{array}
 ```
 
 ### 3.6 Output Artifacts and Linking
 
-AssemblyProject(P, A) = P[assembly := A, source_root := A.source_root, outputs := A.outputs, modules := A.modules]
-
-```text
-ModulePaths(A) = { m.path | m ∈ A.modules }
-AsmImportGraph(P) = ⟨Assemblies(P), E⟩
-E = {⟨A, B⟩ | A ∈ Assemblies(P) ∧ B ∈ Assemblies(P) ∧ A ≠ B ∧ ∃ m ∈ A.modules, attrs_opt, vis, path, alias_opt, span, doc. ImportDecl(attrs_opt, vis, path, alias_opt, span, doc) ∈ ASTModule(AssemblyProject(P, A), m).items ∧ Γ_A ⊢ ResolveImportPath(path) ⇓ mp ∧ mp ∈ ModulePaths(B)}
-Γ_A = Γ[project ↦ AssemblyProject(P, A)]
-Vertices(⟨V, E⟩) = V
-Edges(⟨V, E⟩) = E
+```math
+\begin{array}{l}
+\operatorname{AssemblyProject}(P,\ A)\ =\ P[\mathsf{assembly}\ :=\ A,\ \mathsf{source}_{\mathsf{root}}\ :=\ A.\mathsf{source}_{\mathsf{root}},\ \mathsf{outputs}\ :=\ A.\mathsf{outputs},\ \mathsf{modules}\ :=\ A.\mathsf{modules}] \\
+\operatorname{ModulePaths}(A)\ =\ \{\ m.\mathsf{path}\ \mid \ m\ \in \ A.\mathsf{modules}\ \} \\
+\operatorname{AsmImportGraph}(P)\ =\ \langle \operatorname{Assemblies}(P),\ E\rangle  \\
+E\ =\ \{\langle A,\ B\rangle \ \mid \ A\ \in \ \operatorname{Assemblies}(P)\ \land \ B\ \in \ \operatorname{Assemblies}(P)\ \land \ A\ \ne \ B\ \land \ \exists \ m\ \in \ A.\mathsf{modules},\ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{path},\ \mathsf{alias}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{ImportDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{path},\ \mathsf{alias}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc})\ \in \ \operatorname{ASTModule}(\operatorname{AssemblyProject}(P,\ A),\ m).\mathsf{items}\ \land \ \Gamma_{A} \ \vdash \ \operatorname{ResolveImportPath}(\mathsf{path})\ \Downarrow \ \mathsf{mp}\ \land \ \mathsf{mp}\ \in \ \operatorname{ModulePaths}(B)\} \\
+\Gamma_{A} \ =\ \Gamma [\mathsf{project}\ \mapsto \ \operatorname{AssemblyProject}(P,\ A)] \\
+\operatorname{Vertices}(\langle V,\ E\rangle )\ =\ V \\
+\operatorname{Edges}(\langle V,\ E\rangle )\ =\ E
+\end{array}
 ```
 
-```text
-GraphPath(⟨V, E⟩, [A_0, …, A_n]) ⇔ n ≥ 0 ∧ ∀ i ∈ [0, n). ⟨A_i, A_{i+1}⟩ ∈ E
-GraphReach(⟨V, E⟩, A, B) ⇔ ∃ π. GraphPath(⟨V, E⟩, π) ∧ π[0] = A ∧ last(π) = B
-NoLibraryInterior([A_0, …, A_n]) ⇔ ∀ i ∈ [1, n). A_i.kind ≠ `library`
-LibraryBoundaryCycle(P) ⇔ ∃ π. GraphPath(AsmImportGraph(P), π) ∧ π[0] = last(π) ∧ |π| > 1 ∧ GraphReach(AsmImportGraph(P), P.assembly, π[0]) ∧ ∃ A ∈ π. A.kind = `library`
-ImportsExecutable(P) ⇔ ∃ A ∈ Assemblies(P). A ≠ P.assembly ∧ GraphReach(AsmImportGraph(P), P.assembly, A) ∧ A.kind = `executable`
-HostedLibraryImportsLinkedLibrary(P) ⇔ HostedLibrary(P) ∧ ∃ A. A ∈ Assemblies(P) ∧ A ≠ P.assembly ∧ GraphReach(AsmImportGraph(P), P.assembly, A) ∧ A.kind = `library`
+```math
+\begin{array}{l}
+\operatorname{GraphPath}(\langle V,\ E\rangle ,\ [A_{0},\ \ldots ,\ A_{n}])\ \Leftrightarrow \ n\ \ge \ 0\ \land \ \forall \ i\ \in \ [0,\ n).\ \langle A_{i},\ A\_\{i+1\}\rangle \ \in \ E \\
+\operatorname{GraphReach}(\langle V,\ E\rangle ,\ A,\ B)\ \Leftrightarrow \ \exists \ \pi .\ \operatorname{GraphPath}(\langle V,\ E\rangle ,\ \pi )\ \land \ \pi [0]\ =\ A\ \land \ \operatorname{last}(\pi )\ =\ B \\
+\operatorname{NoLibraryInterior}([A_{0},\ \ldots ,\ A_{n}])\ \Leftrightarrow \ \forall \ i\ \in \ [1,\ n).\ A_{i}.\mathsf{kind}\ \ne \ \texttt{library} \\
+\operatorname{LibraryBoundaryCycle}(P)\ \Leftrightarrow \ \exists \ \pi .\ \operatorname{GraphPath}(\operatorname{AsmImportGraph}(P),\ \pi )\ \land \ \pi [0]\ =\ \operatorname{last}(\pi )\ \land \ \mid \pi \mid \ >\ 1\ \land \ \operatorname{GraphReach}(\operatorname{AsmImportGraph}(P),\ P.\mathsf{assembly},\ \pi [0])\ \land \ \exists \ A\ \in \ \pi .\ A.\mathsf{kind}\ =\ \texttt{library} \\
+\operatorname{ImportsExecutable}(P)\ \Leftrightarrow \ \exists \ A\ \in \ \operatorname{Assemblies}(P).\ A\ \ne \ P.\mathsf{assembly}\ \land \ \operatorname{GraphReach}(\operatorname{AsmImportGraph}(P),\ P.\mathsf{assembly},\ A)\ \land \ A.\mathsf{kind}\ =\ \texttt{executable} \\
+\operatorname{HostedLibraryImportsLinkedLibrary}(P)\ \Leftrightarrow \ \operatorname{HostedLibrary}(P)\ \land \ \exists \ A.\ A\ \in \ \operatorname{Assemblies}(P)\ \land \ A\ \ne \ P.\mathsf{assembly}\ \land \ \operatorname{GraphReach}(\operatorname{AsmImportGraph}(P),\ P.\mathsf{assembly},\ A)\ \land \ A.\mathsf{kind}\ =\ \texttt{library}
+\end{array}
 ```
 
 **(Assembly-Graph-Ok)**
 
-```text
-¬ ImportsExecutable(P)    ¬ LibraryBoundaryCycle(P)    ¬ HostedLibraryImportsLinkedLibrary(P)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ AssemblyGraph(P) ⇓ ok
+```math
+\begin{array}{l}
+\lnot \ \operatorname{ImportsExecutable}(P)\quad \lnot \ \operatorname{LibraryBoundaryCycle}(P)\quad \lnot \ \operatorname{HostedLibraryImportsLinkedLibrary}(P) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AssemblyGraph}(P)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(Assembly-Graph-Err)**
 
-```text
-ImportsExecutable(P) ∨ LibraryBoundaryCycle(P)    c = Code(Assembly-Graph-Err)
-```
-
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ AssemblyGraph(P) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{ImportsExecutable}(P)\ \lor \ \operatorname{LibraryBoundaryCycle}(P)\quad c\ =\ \operatorname{Code}(\mathsf{Assembly}-\mathsf{Graph}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AssemblyGraph}(P)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Assembly-Graph-HostedImport-Err)**
-HostedLibraryImportsLinkedLibrary(P)    c = Code(Assembly-Graph-HostedImport-Err)
-────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ AssemblyGraph(P) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{HostedLibraryImportsLinkedLibrary}(P)\quad c\ =\ \operatorname{Code}(\mathsf{Assembly}-\mathsf{Graph}-\mathsf{HostedImport}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AssemblyGraph}(P)\ \Uparrow \ c
+\end{array}
 ```
 
-```text
-EmitAssemblies(P) = { A | A = P.assembly ∨ (A.kind = `dependency` ∧ ∃ π. GraphPath(AsmImportGraph(P), π) ∧ π[0] = P.assembly ∧ last(π) = A ∧ NoLibraryInterior(π)) }
-ImportedLibraries(P) = { A | A.kind = `library` ∧ GraphReach(AsmImportGraph(P), P.assembly, A) }
+```math
+\begin{array}{l}
+\operatorname{EmitAssemblies}(P)\ =\ \{\ A\ \mid \ A\ =\ P.\mathsf{assembly}\ \lor \ (A.\mathsf{kind}\ =\ \texttt{dependency}\ \land \ \exists \ \pi .\ \operatorname{GraphPath}(\operatorname{AsmImportGraph}(P),\ \pi )\ \land \ \pi [0]\ =\ P.\mathsf{assembly}\ \land \ \operatorname{last}(\pi )\ =\ A\ \land \ \operatorname{NoLibraryInterior}(\pi ))\ \} \\
+\operatorname{ImportedLibraries}(P)\ =\ \{\ A\ \mid \ A.\mathsf{kind}\ =\ \texttt{library}\ \land \ \operatorname{GraphReach}(\operatorname{AsmImportGraph}(P),\ P.\mathsf{assembly},\ A)\ \} \\
+\operatorname{ImportedLibrariesExSelf}(P)\ =\ \operatorname{ImportedLibraries}(P)\ \setminus \ \{P.\mathsf{assembly}\} \\
+\operatorname{LibraryPred}(P,\ B,\ A)\ \Leftrightarrow \ B\ \in \ \operatorname{ImportedLibrariesExSelf}(P)\ \land \ A\ \in \ \operatorname{ImportedLibrariesExSelf}(P)\ \land \ B\ \ne \ A\ \land \ \exists \ \pi .\ \operatorname{GraphPath}(\operatorname{AsmImportGraph}(P),\ \pi )\ \land \ \pi [0]\ =\ A\ \land \ \operatorname{last}(\pi )\ =\ B\ \land \ \operatorname{NoLibraryInterior}(\pi )
+\end{array}
 ```
 
-ImportedLibrariesExSelf(P) = ImportedLibraries(P) \ {P.assembly}
-
-```text
-LibraryPred(P, B, A) ⇔ B ∈ ImportedLibrariesExSelf(P) ∧ A ∈ ImportedLibrariesExSelf(P) ∧ B ≠ A ∧ ∃ π. GraphPath(AsmImportGraph(P), π) ∧ π[0] = A ∧ last(π) = B ∧ NoLibraryInterior(π)
-```
-
-```text
-LibraryReady(P, S, A) ⇔ A ∈ ImportedLibrariesExSelf(P) ∧ (∀ B. LibraryPred(P, B, A) ⇒ B ∈ S)
-LibraryTopo(P) = [A_1, …, A_n] ⇔ {A_1, …, A_n} = ImportedLibrariesExSelf(P) ∧ ∀ i. ReadyLexLeast(P, {A_1, …, A_{i-1}}, A_i)
-ReadyLexLeast(P, S, A) ⇔ LibraryReady(P, S, A) ∧ ∀ B. LibraryReady(P, S, B) ⇒ Utf8LexLess(A.name, B.name) ∨ A.name = B.name
+```math
+\begin{array}{l}
+\operatorname{LibraryReady}(P,\ S,\ A)\ \Leftrightarrow \ A\ \in \ \operatorname{ImportedLibrariesExSelf}(P)\ \land \ (\forall \ B.\ \operatorname{LibraryPred}(P,\ B,\ A)\ \Rightarrow \ B\ \in \ S) \\
+\operatorname{LibraryTopo}(P)\ =\ [A_{1},\ \ldots ,\ A_{n}]\ \Leftrightarrow \ \{A_{1},\ \ldots ,\ A_{n}\}\ =\ \operatorname{ImportedLibrariesExSelf}(P)\ \land \ \forall \ i.\ \operatorname{ReadyLexLeast}(P,\ \{A_{1},\ \ldots ,\ A\_\{i-1\}\},\ A_{i}) \\
+\operatorname{ReadyLexLeast}(P,\ S,\ A)\ \Leftrightarrow \ \operatorname{LibraryReady}(P,\ S,\ A)\ \land \ \forall \ B.\ \operatorname{LibraryReady}(P,\ S,\ B)\ \Rightarrow \ \operatorname{Utf8LexLess}(A.\mathsf{name},\ B.\mathsf{name})\ \lor \ A.\mathsf{name}\ =\ B.\mathsf{name}
+\end{array}
 ```
 
 **(EmitModuleList-Ok)**
 
-```text
-L = sort_{≺_mod}(⋃_{A ∈ EmitAssemblies(P)} A.modules)
+```math
+\begin{array}{l}
+L\ =\ \mathsf{sort}\_\{\prec_{\mathsf{mod}} \}(\bigcup \_\{A\ \in \ \operatorname{EmitAssemblies}(P)\}\ A.\mathsf{modules}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EmitModuleList}(P)\ \Downarrow \ L
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EmitModuleList(P) ⇓ L
+```math
+\begin{array}{l}
+\operatorname{RequiredOutputs}(P)\ =\ \{\operatorname{ObjPath}(P,\ m)\ \mid \ m\ \in \ \operatorname{EmitModuleList}(P)\}\ \cup \ \operatorname{IRSet}(P)\ \cup \ \operatorname{PrimaryArtifactSet}(P)\ \cup \ \operatorname{ImportLibSet}(P) \\
+\operatorname{IRSet}(P)\ = \\
+\ \{\operatorname{IRPath}(P,\ m,\ P.\mathsf{assembly}.\mathsf{emit}_{\mathsf{ir}})\ \mid \ m\ \in \ \operatorname{EmitModuleList}(P)\}\ \mathsf{if}\ P.\mathsf{assembly}.\mathsf{emit}_{\mathsf{ir}}\ \in \ \{\texttt{ll},\ \texttt{bc}\} \\
+\ \emptyset \quad \mathsf{otherwise} \\
+\operatorname{PrimaryArtifactSet}(P)\ = \\
+\ \{\operatorname{PrimaryArtifact}(P)\}\ \mathsf{if}\ \operatorname{Linkable}(P) \\
+\ \emptyset \quad \mathsf{otherwise} \\
+\operatorname{ImportLibSet}(P)\ = \\
+\ \{\operatorname{ImportLibPath}(P)\}\ \mathsf{if}\ \operatorname{SharedLibrary}(P)\ \land \ \operatorname{EmitsImportLib}(\mathsf{SelectedTargetProfile}) \\
+\ \emptyset \quad \mathsf{otherwise}
+\end{array}
 ```
-
-```text
-RequiredOutputs(P) = {ObjPath(P, m) | m ∈ EmitModuleList(P)} ∪ IRSet(P) ∪ PrimaryArtifactSet(P) ∪ ImportLibSet(P)
-```
-
-IRSet(P) =
-
-```text
- {IRPath(P, m, P.assembly.emit_ir) | m ∈ EmitModuleList(P)}  if P.assembly.emit_ir ∈ {`ll`, `bc`}
-```
-
- ∅                                                      otherwise
-PrimaryArtifactSet(P) =
- {PrimaryArtifact(P)}  if Linkable(P)
- ∅                    otherwise
-ImportLibSet(P) =
-
-```text
- {ImportLibPath(P)}  if SharedLibrary(P) ∧ EmitsImportLib(SelectedTargetProfile)
-```
-
- ∅                  otherwise
 
 **Output Root.**
-O = OutputRoot(P) =
- P.root/P.assembly.out_dir  if provided
- P.root/`build`             otherwise
+
+```math
+\begin{array}{l}
+O\ =\ \operatorname{OutputRoot}(P)\ = \\
+\ P.\mathsf{root}/P.\mathsf{assembly}.\mathsf{out}_{\mathsf{dir}}\ \mathsf{if}\ \mathsf{provided} \\
+\ P.\mathsf{root}/\texttt{build}\quad \mathsf{otherwise}
+\end{array}
+```
 
 **Output Hygiene.**
 
-```text
-OutputHygiene(P) ⇔ ∀ p ∈ RequiredOutputs(P). Under(p, OutputRoot(P))
+```math
+\operatorname{OutputHygiene}(P)\ \Leftrightarrow \ \forall \ p\ \in \ \operatorname{RequiredOutputs}(P).\ \operatorname{Under}(p,\ \operatorname{OutputRoot}(P))
 ```
 
-OutputPaths(R, A).root =
- R/A.out_dir  if provided
- R/`build`    otherwise
-OutputPaths(R, A).obj_dir = OutputPaths(R, A).root/`obj`
-OutputPaths(R, A).ir_dir = OutputPaths(R, A).root/`ir`
-OutputPaths(R, A).bin_dir = OutputPaths(R, A).root/`bin`
-OutputPaths(R, A).lib_dir = OutputPaths(R, A).root/`lib`
+```math
+\begin{array}{l}
+\operatorname{OutputPaths}(R,\ A).\mathsf{root}\ = \\
+\ R/A.\mathsf{out}_{\mathsf{dir}}\ \mathsf{if}\ \mathsf{provided} \\
+\ R/\texttt{build}\quad \mathsf{otherwise} \\
+\operatorname{OutputPaths}(R,\ A).\mathsf{obj}_{\mathsf{dir}}\ =\ \operatorname{OutputPaths}(R,\ A).\mathsf{root}/\texttt{obj} \\
+\operatorname{OutputPaths}(R,\ A).\mathsf{ir}_{\mathsf{dir}}\ =\ \operatorname{OutputPaths}(R,\ A).\mathsf{root}/\texttt{ir} \\
+\operatorname{OutputPaths}(R,\ A).\mathsf{bin}_{\mathsf{dir}}\ =\ \operatorname{OutputPaths}(R,\ A).\mathsf{root}/\texttt{bin} \\
+\operatorname{OutputPaths}(R,\ A).\mathsf{lib}_{\mathsf{dir}}\ =\ \operatorname{OutputPaths}(R,\ A).\mathsf{root}/\texttt{lib}
+\end{array}
+```
 
 P.outputs = P.assembly.outputs
 
 **Object File Naming**
 
-```text
-PathToPrefix(s) = Concat([BMap(b) | b ∈ Utf8(NFC(s))])
+```math
+\begin{array}{l}
+\operatorname{PathToPrefix}(s)\ =\ \operatorname{Concat}([\operatorname{BMap}(b)\ \mid \ b\ \in \ \operatorname{Utf8}(\operatorname{NFC}(s))]) \\
+\operatorname{BMap}(b)\ = \\
+\ \operatorname{chr}(b)\quad \mathsf{if}\ b\ \in \ [0-9A-\mathsf{Za}-z] \\
+\ \texttt{"\_x"}\ \mathbin{++} \ \operatorname{Hex2}(b)\ \mathsf{otherwise}
+\end{array}
 ```
 
-BMap(b) =
-
-```text
- chr(b)           if b ∈ [0-9A-Za-z]
+```math
+\begin{array}{l}
+\operatorname{mangle}(s)\ =\ \operatorname{PathToPrefix}(s) \\
+\operatorname{MangleModulePath}(p)\ =\ \operatorname{mangle}(\operatorname{PathString}(\operatorname{PathKey}(p)))
+\end{array}
 ```
 
- "_x" ++ Hex2(b)  otherwise
-
-mangle(s) = PathToPrefix(s)
-MangleModulePath(p) = mangle(PathString(PathKey(p)))
-
-obj(m) = O / `obj` / (MangleModulePath(p) ++ ObjExt(SelectedTargetProfile))
+```math
+\operatorname{obj}(m)\ =\ O\ /\ \texttt{obj}\ /\ (\operatorname{MangleModulePath}(p)\ \mathbin{++} \ \operatorname{ObjExt}(\mathsf{SelectedTargetProfile}))
+```
 
 **Final Artifact Naming**
-libname = LibraryPrefix(SelectedTargetProfile) ++ assembly_name
-exe = O / `bin` / (assembly_name ++ ExeSuffix(SelectedTargetProfile))
-shared = O / `bin` / (libname ++ SharedLibSuffix(SelectedTargetProfile))
-static = O / `lib` / (libname ++ StaticLibSuffix(SelectedTargetProfile))
-import = O / `lib` / (libname ++ ImportLibSuffix(SelectedTargetProfile))
+
+```math
+\begin{array}{l}
+\mathsf{libname}\ =\ \operatorname{LibraryPrefix}(\mathsf{SelectedTargetProfile})\ \mathbin{++} \ \mathsf{assembly}_{\mathsf{name}} \\
+\mathsf{exe}\ =\ O\ /\ \texttt{bin}\ /\ (\mathsf{assembly}_{\mathsf{name}}\ \mathbin{++} \ \operatorname{ExeSuffix}(\mathsf{SelectedTargetProfile})) \\
+\mathsf{shared}\ =\ O\ /\ \texttt{bin}\ /\ (\mathsf{libname}\ \mathbin{++} \ \operatorname{SharedLibSuffix}(\mathsf{SelectedTargetProfile})) \\
+\mathsf{static}\ =\ O\ /\ \texttt{lib}\ /\ (\mathsf{libname}\ \mathbin{++} \ \operatorname{StaticLibSuffix}(\mathsf{SelectedTargetProfile})) \\
+\mathsf{import}\ =\ O\ /\ \texttt{lib}\ /\ (\mathsf{libname}\ \mathbin{++} \ \operatorname{ImportLibSuffix}(\mathsf{SelectedTargetProfile}))
+\end{array}
+```
 
 **Output and Linking Semantics (Formal Rules)**
-path(m) = m.path
-S = P.source_root
+
+```math
+\begin{array}{l}
+\operatorname{path}(m)\ =\ m.\mathsf{path} \\
+S\ =\ P.\mathsf{source}_{\mathsf{root}}
+\end{array}
+```
 
 **Module Emission Order.**
 
-```text
-m_1 ≺_mod m_2 ⇔ Utf8LexLess(Fold(path(m_1)), Fold(path(m_2))) ∨ (Fold(path(m_1)) = Fold(path(m_2)) ∧ Utf8LexLess(path(m_1), path(m_2)))
+```math
+m_{1}\ \prec_{\mathsf{mod}} \ m_{2}\ \Leftrightarrow \ \operatorname{Utf8LexLess}(\operatorname{Fold}(\operatorname{path}(m_{1})),\ \operatorname{Fold}(\operatorname{path}(m_{2})))\ \lor \ (\operatorname{Fold}(\operatorname{path}(m_{1}))\ =\ \operatorname{Fold}(\operatorname{path}(m_{2}))\ \land \ \operatorname{Utf8LexLess}(\operatorname{path}(m_{1}),\ \operatorname{path}(m_{2})))
 ```
 
-```text
-Utf8LexLess(a, b) ⇔ LexBytes(Utf8(a), Utf8(b))
+```math
+\operatorname{Utf8LexLess}(a,\ b)\ \Leftrightarrow \ \operatorname{LexBytes}(\operatorname{Utf8}(a),\ \operatorname{Utf8}(b))
 ```
 
 **(ModuleList-Ok)**
-L = sort_{≺_mod}(P.modules)
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ModuleList(P) ⇓ L
+```math
+\begin{array}{l}
+L\ =\ \mathsf{sort}\_\{\prec_{\mathsf{mod}} \}(P.\mathsf{modules}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ModuleList}(P)\ \Downarrow \ L
+\end{array}
 ```
 
 **Output Paths.**
-O = OutputRoot(P)
-assembly_name = P.assembly.name
-ext(e) =
- ".ll"  if e = `ll`
- ".bc"  if e = `bc`
 
-ObjPath(P, m) = O / `obj` / (MangleModulePath(path(m)) ++ ObjExt(SelectedTargetProfile))
-IRPath(P, m, e) = O / `ir` / (MangleModulePath(path(m)) ++ ext(e))
-ExePath(P) =
- O / `bin` / (assembly_name ++ ExeSuffix(SelectedTargetProfile))  if Executable(P)
-
-```text
- ⊥                                                                otherwise
+```math
+\begin{array}{l}
+O\ =\ \operatorname{OutputRoot}(P) \\
+\mathsf{assembly}_{\mathsf{name}}\ =\ P.\mathsf{assembly}.\mathsf{name} \\
+\operatorname{ext}(e)\ = \\
+\ \texttt{".ll"}\ \mathsf{if}\ e\ =\ \texttt{ll} \\
+\ \texttt{".bc"}\ \mathsf{if}\ e\ =\ \texttt{bc}
+\end{array}
 ```
 
-SharedLibPath(P) =
- O / `bin` / ((LibraryPrefix(SelectedTargetProfile) ++ assembly_name) ++ SharedLibSuffix(SelectedTargetProfile))  if SharedLibrary(P)
-
-```text
- ⊥                                                                                                                  otherwise
+```math
+\begin{array}{l}
+\operatorname{ObjPath}(P,\ m)\ =\ O\ /\ \texttt{obj}\ /\ (\operatorname{MangleModulePath}(\operatorname{path}(m))\ \mathbin{++} \ \operatorname{ObjExt}(\mathsf{SelectedTargetProfile})) \\
+\operatorname{IRPath}(P,\ m,\ e)\ =\ O\ /\ \texttt{ir}\ /\ (\operatorname{MangleModulePath}(\operatorname{path}(m))\ \mathbin{++} \ \operatorname{ext}(e)) \\
+\operatorname{ExePath}(P)\ = \\
+\ O\ /\ \texttt{bin}\ /\ (\mathsf{assembly}_{\mathsf{name}}\ \mathbin{++} \ \operatorname{ExeSuffix}(\mathsf{SelectedTargetProfile}))\ \mathsf{if}\ \operatorname{Executable}(P) \\
+\ \bot \quad \mathsf{otherwise} \\
+\operatorname{SharedLibPath}(P)\ = \\
+\ O\ /\ \texttt{bin}\ /\ ((\operatorname{LibraryPrefix}(\mathsf{SelectedTargetProfile})\ \mathbin{++} \ \mathsf{assembly}_{\mathsf{name}})\ \mathbin{++} \ \operatorname{SharedLibSuffix}(\mathsf{SelectedTargetProfile}))\ \mathsf{if}\ \operatorname{SharedLibrary}(P) \\
+\ \bot \quad \mathsf{otherwise} \\
+\operatorname{StaticLibPath}(P)\ = \\
+\ O\ /\ \texttt{lib}\ /\ ((\operatorname{LibraryPrefix}(\mathsf{SelectedTargetProfile})\ \mathbin{++} \ \mathsf{assembly}_{\mathsf{name}})\ \mathbin{++} \ \operatorname{StaticLibSuffix}(\mathsf{SelectedTargetProfile}))\ \mathsf{if}\ \operatorname{StaticLibrary}(P) \\
+\ \bot \quad \mathsf{otherwise} \\
+\operatorname{ImportLibPath}(P)\ = \\
+\ O\ /\ \texttt{lib}\ /\ ((\operatorname{LibraryPrefix}(\mathsf{SelectedTargetProfile})\ \mathbin{++} \ \mathsf{assembly}_{\mathsf{name}})\ \mathbin{++} \ \operatorname{ImportLibSuffix}(\mathsf{SelectedTargetProfile}))\ \mathsf{if}\ \operatorname{SharedLibrary}(P)\ \land \ \operatorname{EmitsImportLib}(\mathsf{SelectedTargetProfile}) \\
+\ \bot \quad \mathsf{otherwise} \\
+\operatorname{PrimaryArtifact}(P)\ = \\
+\ \operatorname{ExePath}(P)\quad \mathsf{if}\ \operatorname{Executable}(P) \\
+\ \operatorname{SharedLibPath}(P)\ \mathsf{if}\ \operatorname{SharedLibrary}(P) \\
+\ \operatorname{StaticLibPath}(P)\ \mathsf{if}\ \operatorname{StaticLibrary}(P) \\
+\ \bot \quad \mathsf{otherwise} \\
+\operatorname{UsesBinDir}(P)\ \Leftrightarrow \ \operatorname{Executable}(P)\ \lor \ \operatorname{SharedLibrary}(P) \\
+\operatorname{UsesLibDir}(P)\ \Leftrightarrow \ \operatorname{StaticLibrary}(P)\ \lor \ (\operatorname{SharedLibrary}(P)\ \land \ \operatorname{EmitsImportLib}(\mathsf{SelectedTargetProfile}))
+\end{array}
 ```
 
-StaticLibPath(P) =
- O / `lib` / ((LibraryPrefix(SelectedTargetProfile) ++ assembly_name) ++ StaticLibSuffix(SelectedTargetProfile))  if StaticLibrary(P)
-
-```text
- ⊥                                                                                                                  otherwise
-```
-
-ImportLibPath(P) =
-
-```text
- O / `lib` / ((LibraryPrefix(SelectedTargetProfile) ++ assembly_name) ++ ImportLibSuffix(SelectedTargetProfile))  if SharedLibrary(P) ∧ EmitsImportLib(SelectedTargetProfile)
- ⊥                                                                                                                  otherwise
-```
-
-PrimaryArtifact(P) =
- ExePath(P)        if Executable(P)
- SharedLibPath(P)  if SharedLibrary(P)
- StaticLibPath(P)  if StaticLibrary(P)
-
-```text
- ⊥                 otherwise
-UsesBinDir(P) ⇔ Executable(P) ∨ SharedLibrary(P)
-UsesLibDir(P) ⇔ StaticLibrary(P) ∨ (SharedLibrary(P) ∧ EmitsImportLib(SelectedTargetProfile))
-```
-
-```text
-ObjPaths(P, ms) = [ObjPath(P, m) | m ∈ ms]
-IRPaths(P, ms, e) = [IRPath(P, m, e) | m ∈ ms]
-LibraryArtifactInputs(P) = [PrimaryArtifact(AssemblyProject(P, A)) | A ∈ LibraryTopo(P)]
+```math
+\begin{array}{l}
+\operatorname{ObjPaths}(P,\ \mathsf{ms})\ =\ [\operatorname{ObjPath}(P,\ m)\ \mid \ m\ \in \ \mathsf{ms}] \\
+\operatorname{IRPaths}(P,\ \mathsf{ms},\ e)\ =\ [\operatorname{IRPath}(P,\ m,\ e)\ \mid \ m\ \in \ \mathsf{ms}] \\
+\operatorname{LibraryArtifactInputs}(P)\ =\ [\operatorname{PrimaryArtifact}(\operatorname{AssemblyProject}(P,\ A))\ \mid \ A\ \in \ \operatorname{LibraryTopo}(P)]
+\end{array}
 ```
 
 **Module Index and Symbol Name.**
-EmitModuleList(P) = [m_1, …, m_n]
-Index(P, m_i) = i
-pad4(i) = PadLeft(Decimal(i), '0', 4)
-SymbolName(P, m) =
- "main"  if path(m) = P.assembly.name
- "mod" ++ pad4(Index(P, m))  otherwise
 
-trunc8(s) = PadRight(Take(Utf8(s), 8), 8, 0x00)
+```math
+\begin{array}{l}
+\operatorname{EmitModuleList}(P)\ =\ [m_{1},\ \ldots ,\ m_{n}] \\
+\operatorname{Index}(P,\ m_{i})\ =\ i \\
+\operatorname{pad4}(i)\ =\ \operatorname{PadLeft}(\operatorname{Decimal}(i),\ '0',\ 4) \\
+\operatorname{SymbolName}(P,\ m)\ = \\
+\ \texttt{"main"}\ \mathsf{if}\ \operatorname{path}(m)\ =\ P.\mathsf{assembly}.\mathsf{name} \\
+\ \texttt{"mod"}\ \mathbin{++} \ \operatorname{pad4}(\operatorname{Index}(P,\ m))\ \mathsf{otherwise}
+\end{array}
+```
+
+```math
+\operatorname{trunc8}(s)\ =\ \operatorname{PadRight}(\operatorname{Take}(\operatorname{Utf8}(s),\ 8),\ 8,\ 0\mathsf{x00})
+```
 
 **LLVM Target Constants.**
-LLVMTriple = LLVMTripleOf(SelectedTargetProfile)
-LLVMDataLayout = LLVMDataLayoutOf(SelectedTargetProfile)
 
-```text
-IsRootModule(P, m) ⇔ path(m) = P.assembly.name
+```math
+\begin{array}{l}
+\mathsf{LLVMTriple}\ =\ \operatorname{LLVMTripleOf}(\mathsf{SelectedTargetProfile}) \\
+\mathsf{LLVMDataLayout}\ =\ \operatorname{LLVMDataLayoutOf}(\mathsf{SelectedTargetProfile})
+\end{array}
 ```
 
-WithEntry(P, m, IR) =
-
-```text
- IR ++ [EntryStub(P)]  if Executable(P) ∧ IsRootModule(P, m)
+```math
+\operatorname{IsRootModule}(P,\ m)\ \Leftrightarrow \ \operatorname{path}(m)\ =\ P.\mathsf{assembly}.\mathsf{name}
 ```
 
- IR                    otherwise
+```math
+\begin{array}{l}
+\operatorname{WithEntry}(P,\ m,\ \mathsf{IR})\ = \\
+\ \mathsf{IR}\ \mathbin{++} \ [\operatorname{EntryStub}(P)]\ \mathsf{if}\ \operatorname{Executable}(P)\ \land \ \operatorname{IsRootModule}(P,\ m) \\
+\ \mathsf{IR}\quad \mathsf{otherwise}
+\end{array}
+```
 
 **(CodegenObj-LLVM)**
 
-```text
-Project(Γ) = P    Γ ⊢ CodegenModule(m) ⇓ IR    IR' = WithEntry(P, m, IR)    Γ ⊢ LowerIR(IR') ⇓ L    Γ ⊢ EmitObj(L) ⇓ b
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ CodegenObj(m) ⇓ b
+```math
+\begin{array}{l}
+\operatorname{Project}(\Gamma )\ =\ P\quad \Gamma \ \vdash \ \operatorname{CodegenModule}(m)\ \Downarrow \ \mathsf{IR}\quad \mathsf{IR}'\ =\ \operatorname{WithEntry}(P,\ m,\ \mathsf{IR})\quad \Gamma \ \vdash \ \operatorname{LowerIR}(\mathsf{IR}')\ \Downarrow \ L\quad \Gamma \ \vdash \ \operatorname{EmitObj}(L)\ \Downarrow \ b \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{CodegenObj}(m)\ \Downarrow \ b
+\end{array}
 ```
 
 **(CodegenIR-LLVM)**
 
-```text
-Project(Γ) = P    e ∈ {`ll`, `bc`}    Γ ⊢ CodegenModule(m) ⇓ IR    IR' = WithEntry(P, m, IR)    Γ ⊢ LowerIR(IR') ⇓ L    Γ ⊢ EmitLLVM(L) ⇓ b
-```
-
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ CodegenIR(m, e) ⇓ b
+```math
+\begin{array}{l}
+\operatorname{Project}(\Gamma )\ =\ P\quad e\ \in \ \{\texttt{ll},\ \texttt{bc}\}\quad \Gamma \ \vdash \ \operatorname{CodegenModule}(m)\ \Downarrow \ \mathsf{IR}\quad \mathsf{IR}'\ =\ \operatorname{WithEntry}(P,\ m,\ \mathsf{IR})\quad \Gamma \ \vdash \ \operatorname{LowerIR}(\mathsf{IR}')\ \Downarrow \ L\quad \Gamma \ \vdash \ \operatorname{EmitLLVM}(L)\ \Downarrow \ b \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ e)\ \Downarrow \ b
+\end{array}
 ```
 
 **File Emission.**
 
-```text
-WriteFileOk(p, b) ⇒ Overwrites(p, b)
-Overwrites(p, b) ⇔ ∃ fs, ω, ω'. FSWriteFile(fs, p, b, ω) ⇓ (ok, ω')
+```math
+\begin{array}{l}
+\operatorname{WriteFileOk}(p,\ b)\ \Rightarrow \ \operatorname{Overwrites}(p,\ b) \\
+\operatorname{Overwrites}(p,\ b)\ \Leftrightarrow \ \exists \ \mathsf{fs},\ \omega ,\ \omega '.\ \operatorname{FSWriteFile}(\mathsf{fs},\ p,\ b,\ \omega )\ \Downarrow \ (\mathsf{ok},\ \omega ')
+\end{array}
 ```
 
 **Directory Creation.**
 
-```text
-EnsureDir(p) ⇓ ok ⇒ IsDir(p)
-IsDir(p) ⇔ ∃ fs, ω, ω'. FSKind(fs, p, ω) ⇓ (`Dir`, ω')
-IsFile(p) ⇔ FSKind(p) = File
+```math
+\begin{array}{l}
+\operatorname{EnsureDir}(p)\ \Downarrow \ \mathsf{ok}\ \Rightarrow \ \operatorname{IsDir}(p) \\
+\operatorname{IsDir}(p)\ \Leftrightarrow \ \exists \ \mathsf{fs},\ \omega ,\ \omega '.\ \operatorname{FSKind}(\mathsf{fs},\ p,\ \omega )\ \Downarrow \ (\texttt{Dir},\ \omega ') \\
+\operatorname{IsFile}(p)\ \Leftrightarrow \ \operatorname{FSKind}(p)\ =\ \mathsf{File}
+\end{array}
 ```
 
 **Emit Objects**
 
 **(Emit-Objects-Empty)**
-────────────────────────────────────────
 
-```text
-Γ ⊢ EmitObjects([], P) ⇓ []
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EmitObjects}([],\ P)\ \Downarrow \ []
+\end{array}
 ```
 
 **(Emit-Objects-Cons)**
 
-```text
-Γ ⊢ CodegenObj(m) ⇓ b    Γ ⊢ WriteFile(ObjPath(P, m), b) ⇓ ok    Γ ⊢ EmitObjects(ms, P) ⇓ L
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EmitObjects(m::ms, P) ⇓ ObjPath(P, m)::L
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{CodegenObj}(m)\ \Downarrow \ b\quad \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{ObjPath}(P,\ m),\ b)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EmitObjects}(\mathsf{ms},\ P)\ \Downarrow \ L \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EmitObjects}(m\mathbin{::} \mathsf{ms},\ P)\ \Downarrow \ \operatorname{ObjPath}(P,\ m)\mathbin{::} L
+\end{array}
 ```
 
 **Emit IR**
 
 **(Emit-IR-None)**
 e = `none`
-───────────────────────────────
 
-```text
-Γ ⊢ EmitIR(ms, P, e) ⇓ []
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EmitIR}(\mathsf{ms},\ P,\ e)\ \Downarrow \ []
+\end{array}
 ```
 
 **(Emit-IR-Cons-LL)**
 
-```text
-e = `ll`    Γ ⊢ CodegenIR(m, e) ⇓ b    Γ ⊢ WriteFile(IRPath(P, m, e), b) ⇓ ok    Γ ⊢ EmitIR(ms, P, e) ⇓ L
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EmitIR(m::ms, P, e) ⇓ IRPath(P, m, e)::L
+```math
+\begin{array}{l}
+e\ =\ \texttt{ll}\quad \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ e)\ \Downarrow \ b\quad \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{IRPath}(P,\ m,\ e),\ b)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EmitIR}(\mathsf{ms},\ P,\ e)\ \Downarrow \ L \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EmitIR}(m\mathbin{::} \mathsf{ms},\ P,\ e)\ \Downarrow \ \operatorname{IRPath}(P,\ m,\ e)\mathbin{::} L
+\end{array}
 ```
 
 **(Emit-IR-Cons-BC)**
 
-```text
-e = `bc`    Γ ⊢ CodegenIR(m, `ll`) ⇓ t    Γ ⊢ ResolveTool(`llvm-as`) ⇓ a    Γ ⊢ AssembleIR(a, t) ⇓ b    Γ ⊢ WriteFile(IRPath(P, m, e), b) ⇓ ok    Γ ⊢ EmitIR(ms, P, e) ⇓ L
+```math
+\begin{array}{l}
+e\ =\ \texttt{bc}\quad \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ t\quad \Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Downarrow \ a\quad \Gamma \ \vdash \ \operatorname{AssembleIR}(a,\ t)\ \Downarrow \ b\quad \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{IRPath}(P,\ m,\ e),\ b)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EmitIR}(\mathsf{ms},\ P,\ e)\ \Downarrow \ L \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EmitIR}(m\mathbin{::} \mathsf{ms},\ P,\ e)\ \Downarrow \ \operatorname{IRPath}(P,\ m,\ e)\mathbin{::} L
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EmitIR(m::ms, P, e) ⇓ IRPath(P, m, e)::L
-```
-
-```text
-EmitIRFail(m, P, `ll`) ⇔ Γ ⊢ CodegenIR(m, `ll`) ⇑ ∨ (∃ b. Γ ⊢ CodegenIR(m, `ll`) ⇓ b ∧ Γ ⊢ WriteFile(IRPath(P, m, `ll`), b) ⇑)
-EmitIRFail(m, P, `bc`) ⇔
- Γ ⊢ CodegenIR(m, `ll`) ⇑ ∨
- (∃ t. Γ ⊢ CodegenIR(m, `ll`) ⇓ t ∧ Γ ⊢ ResolveTool(`llvm-as`) ⇑) ∨
- (∃ t, a. Γ ⊢ CodegenIR(m, `ll`) ⇓ t ∧ Γ ⊢ ResolveTool(`llvm-as`) ⇓ a ∧ Γ ⊢ AssembleIR(a, t) ⇑) ∨
- (∃ t, a, b. Γ ⊢ CodegenIR(m, `ll`) ⇓ t ∧ Γ ⊢ ResolveTool(`llvm-as`) ⇓ a ∧ Γ ⊢ AssembleIR(a, t) ⇓ b ∧ Γ ⊢ WriteFile(IRPath(P, m, `bc`), b) ⇑)
+```math
+\begin{array}{l}
+\operatorname{EmitIRFail}(m,\ P,\ \texttt{ll})\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Uparrow \ \lor \ (\exists \ b.\ \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ b\ \land \ \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{IRPath}(P,\ m,\ \texttt{ll}),\ b)\ \Uparrow ) \\
+\operatorname{EmitIRFail}(m,\ P,\ \texttt{bc})\ \Leftrightarrow  \\
+\ \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Uparrow \ \lor  \\
+\ (\exists \ t.\ \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ t\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Uparrow )\ \lor  \\
+\ (\exists \ t,\ a.\ \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ t\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Downarrow \ a\ \land \ \Gamma \ \vdash \ \operatorname{AssembleIR}(a,\ t)\ \Uparrow )\ \lor  \\
+\ (\exists \ t,\ a,\ b.\ \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ t\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Downarrow \ a\ \land \ \Gamma \ \vdash \ \operatorname{AssembleIR}(a,\ t)\ \Downarrow \ b\ \land \ \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{IRPath}(P,\ m,\ \texttt{bc}),\ b)\ \Uparrow )
+\end{array}
 ```
 
 **(Emit-IR-Err)**
-EmitIRFail(m, P, e)    c = Code(Out-IR-Err)
-────────────────────────────────────────────
 
-```text
-Γ ⊢ EmitIR(m::ms, P, e) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{EmitIRFail}(m,\ P,\ e)\quad c\ =\ \operatorname{Code}(\mathsf{Out}-\mathsf{IR}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EmitIR}(m\mathbin{::} \mathsf{ms},\ P,\ e)\ \Uparrow \ c
+\end{array}
 ```
 
-LinkJudg = {AssemblyGraph, ResolveRuntimeLib, BuildLibrariesSeq, BuildLibraries, Link, Archive, Finalize}
-RuntimeLibName = RuntimeLibNameFor(SelectedTargetProfile)
-CompilerExecutableDir(P) = DirectoryOf(CurrentCompilerExecutable)
-
-```text
-LegacySidecarsBeside(d) ⇔ exists(d / `runtime`) ∨ exists(d / `tools`) ∨ exists(d / `bin`) ∨ exists(d / `lib`)
-PackagedHostSidecarsBeside(d) ⇔ exists(d / `windows` / `tools`) ∨ exists(d / `windows` / `bin`) ∨ exists(d / `windows` / `lib`) ∨ exists(d / `linux` / `tools`) ∨ exists(d / `linux` / `bin`) ∨ exists(d / `linux` / `lib`)
+```math
+\begin{array}{l}
+\mathsf{LinkJudg}\ =\ \{\mathsf{AssemblyGraph},\ \mathsf{ResolveRuntimeLib},\ \mathsf{BuildLibrariesSeq},\ \mathsf{BuildLibraries},\ \mathsf{Link},\ \mathsf{Archive},\ \mathsf{Finalize}\} \\
+\mathsf{RuntimeLibName}\ =\ \operatorname{RuntimeLibNameFor}(\mathsf{SelectedTargetProfile}) \\
+\operatorname{CompilerExecutableDir}(P)\ =\ \operatorname{DirectoryOf}(\mathsf{CurrentCompilerExecutable}) \\
+\operatorname{LegacySidecarsBeside}(d)\ \Leftrightarrow \ \operatorname{exists}(d\ /\ \texttt{runtime})\ \lor \ \operatorname{exists}(d\ /\ \texttt{tools})\ \lor \ \operatorname{exists}(d\ /\ \texttt{bin})\ \lor \ \operatorname{exists}(d\ /\ \texttt{lib}) \\
+\operatorname{PackagedHostSidecarsBeside}(d)\ \Leftrightarrow \ \operatorname{exists}(d\ /\ \texttt{windows}\ /\ \texttt{tools})\ \lor \ \operatorname{exists}(d\ /\ \texttt{windows}\ /\ \texttt{bin})\ \lor \ \operatorname{exists}(d\ /\ \texttt{windows}\ /\ \texttt{lib})\ \lor \ \operatorname{exists}(d\ /\ \texttt{linux}\ /\ \texttt{tools})\ \lor \ \operatorname{exists}(d\ /\ \texttt{linux}\ /\ \texttt{bin})\ \lor \ \operatorname{exists}(d\ /\ \texttt{linux}\ /\ \texttt{lib}) \\
+\operatorname{CompilerSupportRoot}(P)\ =\ \operatorname{CompilerExecutableDir}(P)\quad \mathsf{if}\ \operatorname{PackagedHostSidecarsBeside}(\operatorname{CompilerExecutableDir}(P)) \\
+\ \operatorname{CompilerExecutableDir}(P)\quad \mathsf{if}\ \operatorname{LegacySidecarsBeside}(\operatorname{CompilerExecutableDir}(P)) \\
+\ \operatorname{Parent}(\operatorname{CompilerExecutableDir}(P))\quad \mathsf{if}\ \operatorname{LegacySidecarsBeside}(\operatorname{Parent}(\operatorname{CompilerExecutableDir}(P))) \\
+\ \operatorname{CompilerExecutableDir}(P)\quad \mathsf{otherwise} \\
+\operatorname{CompilerRuntimeLibPath}(P)\ =\ \operatorname{CompilerExecutableDir}(P)\ /\ \mathsf{RuntimeLibName}\quad \mathsf{if}\ \operatorname{exists}(\operatorname{CompilerExecutableDir}(P)\ /\ \mathsf{RuntimeLibName}) \\
+\ \operatorname{CompilerSupportRoot}(P)\ /\ \texttt{runtime}\ /\ \mathsf{RuntimeLibName}\quad \mathsf{otherwise} \\
+\operatorname{RuntimeLibPath}(P)\ = \\
+\ \operatorname{ToolchainConfig}(P).\mathsf{runtime}_{\mathsf{lib}}\ \mathsf{if}\ \operatorname{ToolchainConfig}(P).\mathsf{runtime}_{\mathsf{lib}}\ \ne \ \bot  \\
+\ \operatorname{CompilerRuntimeLibPath}(P)\quad \mathsf{otherwise}
+\end{array}
 ```
-
-CompilerSupportRoot(P) = CompilerExecutableDir(P)                  if PackagedHostSidecarsBeside(CompilerExecutableDir(P))
- CompilerExecutableDir(P)                                          if LegacySidecarsBeside(CompilerExecutableDir(P))
- Parent(CompilerExecutableDir(P))                                  if LegacySidecarsBeside(Parent(CompilerExecutableDir(P)))
- CompilerExecutableDir(P)                                          otherwise
-CompilerRuntimeLibPath(P) = CompilerExecutableDir(P) / RuntimeLibName    if exists(CompilerExecutableDir(P) / RuntimeLibName)
- CompilerSupportRoot(P) / `runtime` / RuntimeLibName                     otherwise
-RuntimeLibPath(P) =
-
-```text
- ToolchainConfig(P).runtime_lib  if ToolchainConfig(P).runtime_lib ≠ ⊥
-```
-
- CompilerRuntimeLibPath(P)      otherwise
 
 **(ResolveRuntimeLib-Ok)**
 
-```text
-Γ ⊢ ReadBytes(RuntimeLibPath(P)) ⇓ _
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveRuntimeLib(P) ⇓ RuntimeLibPath(P)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ReadBytes}(\operatorname{RuntimeLibPath}(P))\ \Downarrow \ \_ \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveRuntimeLib}(P)\ \Downarrow \ \operatorname{RuntimeLibPath}(P)
+\end{array}
 ```
 
 **(ResolveRuntimeLib-Err)**
 
-```text
-Γ ⊢ ReadBytes(RuntimeLibPath(P)) ⇑
-```
-
-─────────────────────────────────
-
-```text
-Γ ⊢ ResolveRuntimeLib(P) ⇑
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ReadBytes}(\operatorname{RuntimeLibPath}(P))\ \Uparrow  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveRuntimeLib}(P)\ \Uparrow 
+\end{array}
 ```
 
 **(Build-LibrariesSeq-Empty)**
-───────────────────────────────────────
 
-```text
-Γ ⊢ BuildLibrariesSeq([], P) ⇓ ok
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{BuildLibrariesSeq}([],\ P)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(Build-LibrariesSeq-Cons)**
 
-```text
-Γ ⊢ OutputPipeline(AssemblyProject(P, A)) ⇓ _    Γ ⊢ BuildLibrariesSeq(As, P) ⇓ ok
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ BuildLibrariesSeq(A::As, P) ⇓ ok
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{OutputPipeline}(\operatorname{AssemblyProject}(P,\ A))\ \Downarrow \ \_\quad \Gamma \ \vdash \ \operatorname{BuildLibrariesSeq}(\mathsf{As},\ P)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{BuildLibrariesSeq}(A\mathbin{::} \mathsf{As},\ P)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(Build-Libraries-Ok)**
 
-```text
-LibraryTopo(P) = As    Γ ⊢ BuildLibrariesSeq(As, P) ⇓ ok
+```math
+\begin{array}{l}
+\operatorname{LibraryTopo}(P)\ =\ \mathsf{As}\quad \Gamma \ \vdash \ \operatorname{BuildLibrariesSeq}(\mathsf{As},\ P)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{BuildLibraries}(P)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
-─────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ BuildLibraries(P) ⇓ ok
+```math
+\mathsf{LinkerSyms}\ :\ \mathsf{Path}\ \times \ \operatorname{List}(\mathsf{Path})\ \times \ \mathsf{Path}\ \rightharpoonup \ \wp (\mathsf{Symbol})
 ```
-
-LinkerSyms : Path × List(Path) × Path ⇀ ℘(Symbol)
 RuntimeRequiredSyms = RuntimeSyms
 
-```text
-MissingRuntimeSym(t, L, out) ⇔ RuntimeRequiredSyms ⊈ LinkerSyms(t, L, out)
+```math
+\operatorname{MissingRuntimeSym}(t,\ L,\ \mathsf{out})\ \Leftrightarrow \ \mathsf{RuntimeRequiredSyms}\ \nsubseteq \ \operatorname{LinkerSyms}(t,\ L,\ \mathsf{out})
 ```
 
-LinkObjs(P) = ObjPaths(P, EmitModuleList(P))
-LinkMode(P) =
- `exe`     if Executable(P)
- `shared`  if SharedLibrary(P)
-
-```text
- ⊥         otherwise
-```
-
-LinkOutputPath(P) =
- ExePath(P)        if Executable(P)
- SharedLibPath(P)  if SharedLibrary(P)
-
-```text
- ⊥                 otherwise
-```
-
-LinkImportLibOpt(P) =
-
-```text
- ImportLibPath(P)  if SharedLibrary(P) ∧ EmitsImportLib(SelectedTargetProfile)
- ⊥                 otherwise
-```
-
-LinkInputs(P) = LinkObjs(P) ++ LibraryArtifactInputs(P) ++ [RuntimeLibPath(P)]
-ArchiveInputs(P) = LinkObjs(P)
-LinkFlags(P) = LinkFlagsFor(SelectedTargetProfile, LinkMode(P), LinkOutputPath(P), LinkImportLibOpt(P))
-ArchiveFlags(P) = ArchiveFlagsFor(SelectedTargetProfile, StaticLibPath(P))
-
-```text
-LinkArgsOk(P, L, out, imp) ⇔ L = LinkInputs(P) ∧ out = LinkOutputPath(P) ∧ imp = LinkImportLibOpt(P) ∧ LinkFlags(P) = LinkFlagsFor(SelectedTargetProfile, LinkMode(P), LinkOutputPath(P), LinkImportLibOpt(P))
-ArchiveArgsOk(P, L, out) ⇔ L = ArchiveInputs(P) ∧ out = StaticLibPath(P) ∧ ArchiveFlags(P) = ArchiveFlagsFor(SelectedTargetProfile, StaticLibPath(P))
+```math
+\begin{array}{l}
+\operatorname{LinkObjs}(P)\ =\ \operatorname{ObjPaths}(P,\ \operatorname{EmitModuleList}(P)) \\
+\operatorname{LinkMode}(P)\ = \\
+\ \texttt{exe}\quad \mathsf{if}\ \operatorname{Executable}(P) \\
+\ \texttt{shared}\ \mathsf{if}\ \operatorname{SharedLibrary}(P) \\
+\ \bot \quad \mathsf{otherwise} \\
+\operatorname{LinkOutputPath}(P)\ = \\
+\ \operatorname{ExePath}(P)\quad \mathsf{if}\ \operatorname{Executable}(P) \\
+\ \operatorname{SharedLibPath}(P)\ \mathsf{if}\ \operatorname{SharedLibrary}(P) \\
+\ \bot \quad \mathsf{otherwise} \\
+\operatorname{LinkImportLibOpt}(P)\ = \\
+\ \operatorname{ImportLibPath}(P)\ \mathsf{if}\ \operatorname{SharedLibrary}(P)\ \land \ \operatorname{EmitsImportLib}(\mathsf{SelectedTargetProfile}) \\
+\ \bot \quad \mathsf{otherwise} \\
+\operatorname{LinkInputs}(P)\ =\ \operatorname{LinkObjs}(P)\ \mathbin{++} \ \operatorname{LibraryArtifactInputs}(P)\ \mathbin{++} \ [\operatorname{RuntimeLibPath}(P)] \\
+\operatorname{ArchiveInputs}(P)\ =\ \operatorname{LinkObjs}(P) \\
+\operatorname{LinkFlags}(P)\ =\ \operatorname{LinkFlagsFor}(\mathsf{SelectedTargetProfile},\ \operatorname{LinkMode}(P),\ \operatorname{LinkOutputPath}(P),\ \operatorname{LinkImportLibOpt}(P)) \\
+\operatorname{ArchiveFlags}(P)\ =\ \operatorname{ArchiveFlagsFor}(\mathsf{SelectedTargetProfile},\ \operatorname{StaticLibPath}(P)) \\
+\operatorname{LinkArgsOk}(P,\ L,\ \mathsf{out},\ \mathsf{imp})\ \Leftrightarrow \ L\ =\ \operatorname{LinkInputs}(P)\ \land \ \mathsf{out}\ =\ \operatorname{LinkOutputPath}(P)\ \land \ \mathsf{imp}\ =\ \operatorname{LinkImportLibOpt}(P)\ \land \ \operatorname{LinkFlags}(P)\ =\ \operatorname{LinkFlagsFor}(\mathsf{SelectedTargetProfile},\ \operatorname{LinkMode}(P),\ \operatorname{LinkOutputPath}(P),\ \operatorname{LinkImportLibOpt}(P)) \\
+\operatorname{ArchiveArgsOk}(P,\ L,\ \mathsf{out})\ \Leftrightarrow \ L\ =\ \operatorname{ArchiveInputs}(P)\ \land \ \mathsf{out}\ =\ \operatorname{StaticLibPath}(P)\ \land \ \operatorname{ArchiveFlags}(P)\ =\ \operatorname{ArchiveFlagsFor}(\mathsf{SelectedTargetProfile},\ \operatorname{StaticLibPath}(P))
+\end{array}
 ```
 
 **(Link-Ok)**
 
-```text
-Executable(P) ∨ SharedLibrary(P)    Γ ⊢ AssemblyGraph(P) ⇓ ok    Γ ⊢ BuildLibraries(P) ⇓ ok    Γ ⊢ ResolveTool(LinkerToolName(SelectedTargetProfile)) ⇓ t    Γ ⊢ ResolveRuntimeLib(P) ⇓ lib    LinkArgsOk(P, Objs ++ LibraryArtifactInputs(P) ++ [lib], LinkOutputPath(P), LinkImportLibOpt(P))    Γ ⊢ InvokeLinker(t, Objs ++ LibraryArtifactInputs(P) ++ [lib], LinkOutputPath(P), LinkImportLibOpt(P)) ⇓ ok
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Link(Objs, P) ⇓ ok
+```math
+\begin{array}{l}
+\operatorname{Executable}(P)\ \lor \ \operatorname{SharedLibrary}(P)\quad \Gamma \ \vdash \ \operatorname{AssemblyGraph}(P)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{BuildLibraries}(P)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{ResolveTool}(\operatorname{LinkerToolName}(\mathsf{SelectedTargetProfile}))\ \Downarrow \ t\quad \Gamma \ \vdash \ \operatorname{ResolveRuntimeLib}(P)\ \Downarrow \ \mathsf{lib}\quad \operatorname{LinkArgsOk}(P,\ \mathsf{Objs}\ \mathbin{++} \ \operatorname{LibraryArtifactInputs}(P)\ \mathbin{++} \ [\mathsf{lib}],\ \operatorname{LinkOutputPath}(P),\ \operatorname{LinkImportLibOpt}(P))\quad \Gamma \ \vdash \ \operatorname{InvokeLinker}(t,\ \mathsf{Objs}\ \mathbin{++} \ \operatorname{LibraryArtifactInputs}(P)\ \mathbin{++} \ [\mathsf{lib}],\ \operatorname{LinkOutputPath}(P),\ \operatorname{LinkImportLibOpt}(P))\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Link}(\mathsf{Objs},\ P)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(Link-NotFound)**
 
-```text
-Executable(P) ∨ SharedLibrary(P)    Γ ⊢ AssemblyGraph(P) ⇓ ok    Γ ⊢ BuildLibraries(P) ⇓ ok    Γ ⊢ ResolveTool(LinkerToolName(SelectedTargetProfile)) ⇑    c = Code(Out-Link-NotFound)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Link(Objs, P) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{Executable}(P)\ \lor \ \operatorname{SharedLibrary}(P)\quad \Gamma \ \vdash \ \operatorname{AssemblyGraph}(P)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{BuildLibraries}(P)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{ResolveTool}(\operatorname{LinkerToolName}(\mathsf{SelectedTargetProfile}))\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{Out}-\mathsf{Link}-\mathsf{NotFound}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Link}(\mathsf{Objs},\ P)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Link-Runtime-Missing)**
 
-```text
-Executable(P) ∨ SharedLibrary(P)    Γ ⊢ AssemblyGraph(P) ⇓ ok    Γ ⊢ BuildLibraries(P) ⇓ ok    Γ ⊢ ResolveTool(LinkerToolName(SelectedTargetProfile)) ⇓ t    Γ ⊢ ResolveRuntimeLib(P) ⇑    c = Code(Out-Link-Runtime-Missing)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Link(Objs, P) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{Executable}(P)\ \lor \ \operatorname{SharedLibrary}(P)\quad \Gamma \ \vdash \ \operatorname{AssemblyGraph}(P)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{BuildLibraries}(P)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{ResolveTool}(\operatorname{LinkerToolName}(\mathsf{SelectedTargetProfile}))\ \Downarrow \ t\quad \Gamma \ \vdash \ \operatorname{ResolveRuntimeLib}(P)\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{Out}-\mathsf{Link}-\mathsf{Runtime}-\mathsf{Missing}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Link}(\mathsf{Objs},\ P)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Link-Runtime-Incompatible)**
 
-```text
-Executable(P) ∨ SharedLibrary(P)    Γ ⊢ AssemblyGraph(P) ⇓ ok    Γ ⊢ BuildLibraries(P) ⇓ ok    Γ ⊢ ResolveTool(LinkerToolName(SelectedTargetProfile)) ⇓ t    Γ ⊢ ResolveRuntimeLib(P) ⇓ lib    LinkArgsOk(P, Objs ++ LibraryArtifactInputs(P) ++ [lib], LinkOutputPath(P), LinkImportLibOpt(P))    MissingRuntimeSym(t, Objs ++ LibraryArtifactInputs(P) ++ [lib], LinkOutputPath(P))    c = Code(Out-Link-Runtime-Incompatible)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Link(Objs, P) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{Executable}(P)\ \lor \ \operatorname{SharedLibrary}(P)\quad \Gamma \ \vdash \ \operatorname{AssemblyGraph}(P)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{BuildLibraries}(P)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{ResolveTool}(\operatorname{LinkerToolName}(\mathsf{SelectedTargetProfile}))\ \Downarrow \ t\quad \Gamma \ \vdash \ \operatorname{ResolveRuntimeLib}(P)\ \Downarrow \ \mathsf{lib}\quad \operatorname{LinkArgsOk}(P,\ \mathsf{Objs}\ \mathbin{++} \ \operatorname{LibraryArtifactInputs}(P)\ \mathbin{++} \ [\mathsf{lib}],\ \operatorname{LinkOutputPath}(P),\ \operatorname{LinkImportLibOpt}(P))\quad \operatorname{MissingRuntimeSym}(t,\ \mathsf{Objs}\ \mathbin{++} \ \operatorname{LibraryArtifactInputs}(P)\ \mathbin{++} \ [\mathsf{lib}],\ \operatorname{LinkOutputPath}(P))\quad c\ =\ \operatorname{Code}(\mathsf{Out}-\mathsf{Link}-\mathsf{Runtime}-\mathsf{Incompatible}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Link}(\mathsf{Objs},\ P)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Link-Fail)**
 
-```text
-Executable(P) ∨ SharedLibrary(P)    Γ ⊢ AssemblyGraph(P) ⇓ ok    Γ ⊢ BuildLibraries(P) ⇓ ok    Γ ⊢ ResolveTool(LinkerToolName(SelectedTargetProfile)) ⇓ t    Γ ⊢ ResolveRuntimeLib(P) ⇓ lib    LinkArgsOk(P, Objs ++ LibraryArtifactInputs(P) ++ [lib], LinkOutputPath(P), LinkImportLibOpt(P))    ¬ MissingRuntimeSym(t, Objs ++ LibraryArtifactInputs(P) ++ [lib], LinkOutputPath(P))    Γ ⊢ InvokeLinker(t, Objs ++ LibraryArtifactInputs(P) ++ [lib], LinkOutputPath(P), LinkImportLibOpt(P)) ⇑    c = Code(Out-Link-Fail)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Link(Objs, P) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{Executable}(P)\ \lor \ \operatorname{SharedLibrary}(P)\quad \Gamma \ \vdash \ \operatorname{AssemblyGraph}(P)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{BuildLibraries}(P)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{ResolveTool}(\operatorname{LinkerToolName}(\mathsf{SelectedTargetProfile}))\ \Downarrow \ t\quad \Gamma \ \vdash \ \operatorname{ResolveRuntimeLib}(P)\ \Downarrow \ \mathsf{lib}\quad \operatorname{LinkArgsOk}(P,\ \mathsf{Objs}\ \mathbin{++} \ \operatorname{LibraryArtifactInputs}(P)\ \mathbin{++} \ [\mathsf{lib}],\ \operatorname{LinkOutputPath}(P),\ \operatorname{LinkImportLibOpt}(P))\quad \lnot \ \operatorname{MissingRuntimeSym}(t,\ \mathsf{Objs}\ \mathbin{++} \ \operatorname{LibraryArtifactInputs}(P)\ \mathbin{++} \ [\mathsf{lib}],\ \operatorname{LinkOutputPath}(P))\quad \Gamma \ \vdash \ \operatorname{InvokeLinker}(t,\ \mathsf{Objs}\ \mathbin{++} \ \operatorname{LibraryArtifactInputs}(P)\ \mathbin{++} \ [\mathsf{lib}],\ \operatorname{LinkOutputPath}(P),\ \operatorname{LinkImportLibOpt}(P))\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{Out}-\mathsf{Link}-\mathsf{Fail}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Link}(\mathsf{Objs},\ P)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Archive-Ok)**
 
-```text
-StaticLibrary(P)    Γ ⊢ AssemblyGraph(P) ⇓ ok    Γ ⊢ BuildLibraries(P) ⇓ ok    Γ ⊢ ResolveTool(ArchiverToolName(SelectedTargetProfile)) ⇓ t    ArchiveArgsOk(P, Objs, StaticLibPath(P))    Γ ⊢ InvokeArchiver(t, Objs, StaticLibPath(P)) ⇓ ok
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Archive(Objs, P) ⇓ ok
+```math
+\begin{array}{l}
+\operatorname{StaticLibrary}(P)\quad \Gamma \ \vdash \ \operatorname{AssemblyGraph}(P)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{BuildLibraries}(P)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{ResolveTool}(\operatorname{ArchiverToolName}(\mathsf{SelectedTargetProfile}))\ \Downarrow \ t\quad \operatorname{ArchiveArgsOk}(P,\ \mathsf{Objs},\ \operatorname{StaticLibPath}(P))\quad \Gamma \ \vdash \ \operatorname{InvokeArchiver}(t,\ \mathsf{Objs},\ \operatorname{StaticLibPath}(P))\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Archive}(\mathsf{Objs},\ P)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(Archive-NotFound)**
 
-```text
-StaticLibrary(P)    Γ ⊢ AssemblyGraph(P) ⇓ ok    Γ ⊢ BuildLibraries(P) ⇓ ok    Γ ⊢ ResolveTool(ArchiverToolName(SelectedTargetProfile)) ⇑    c = Code(Out-Link-NotFound)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Archive(Objs, P) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{StaticLibrary}(P)\quad \Gamma \ \vdash \ \operatorname{AssemblyGraph}(P)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{BuildLibraries}(P)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{ResolveTool}(\operatorname{ArchiverToolName}(\mathsf{SelectedTargetProfile}))\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{Out}-\mathsf{Link}-\mathsf{NotFound}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Archive}(\mathsf{Objs},\ P)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Archive-Fail)**
 
-```text
-StaticLibrary(P)    Γ ⊢ AssemblyGraph(P) ⇓ ok    Γ ⊢ BuildLibraries(P) ⇓ ok    Γ ⊢ ResolveTool(ArchiverToolName(SelectedTargetProfile)) ⇓ t    ArchiveArgsOk(P, Objs, StaticLibPath(P))    Γ ⊢ InvokeArchiver(t, Objs, StaticLibPath(P)) ⇑    c = Code(Out-Link-Fail)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Archive(Objs, P) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{StaticLibrary}(P)\quad \Gamma \ \vdash \ \operatorname{AssemblyGraph}(P)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{BuildLibraries}(P)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{ResolveTool}(\operatorname{ArchiverToolName}(\mathsf{SelectedTargetProfile}))\ \Downarrow \ t\quad \operatorname{ArchiveArgsOk}(P,\ \mathsf{Objs},\ \operatorname{StaticLibPath}(P))\quad \Gamma \ \vdash \ \operatorname{InvokeArchiver}(t,\ \mathsf{Objs},\ \operatorname{StaticLibPath}(P))\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{Out}-\mathsf{Link}-\mathsf{Fail}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Archive}(\mathsf{Objs},\ P)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Finalize-Link)**
 
-```text
-Executable(P) ∨ SharedLibrary(P)    Γ ⊢ Link(Objs, P) ⇓ ok
-```
-
-───────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Finalize(Objs, P) ⇓ ok
+```math
+\begin{array}{l}
+\operatorname{Executable}(P)\ \lor \ \operatorname{SharedLibrary}(P)\quad \Gamma \ \vdash \ \operatorname{Link}(\mathsf{Objs},\ P)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Finalize}(\mathsf{Objs},\ P)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(Finalize-Archive)**
 
-```text
-StaticLibrary(P)    Γ ⊢ Archive(Objs, P) ⇓ ok
-```
-
-───────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Finalize(Objs, P) ⇓ ok
+```math
+\begin{array}{l}
+\operatorname{StaticLibrary}(P)\quad \Gamma \ \vdash \ \operatorname{Archive}(\mathsf{Objs},\ P)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Finalize}(\mathsf{Objs},\ P)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **Output Pipeline (Big-Step)**
-O = OutputRoot(P)
-ms = EmitModuleList(P)
-e = P.assembly.emit_ir
+
+```math
+\begin{array}{l}
+O\ =\ \operatorname{OutputRoot}(P) \\
+\mathsf{ms}\ =\ \operatorname{EmitModuleList}(P) \\
+e\ =\ P.\mathsf{assembly}.\mathsf{emit}_{\mathsf{ir}}
+\end{array}
+```
 
 **(Output-Pipeline-Linkable)**
 
-```text
-Linkable(P)    Γ ⊢ EnsureDir(O) ⇓ ok    Γ ⊢ EnsureDir(O / `obj`) ⇓ ok    (¬ UsesBinDir(P) ∨ Γ ⊢ EnsureDir(O / `bin`) ⇓ ok)    (¬ UsesLibDir(P) ∨ Γ ⊢ EnsureDir(O / `lib`) ⇓ ok)    (e = `none` ∨ Γ ⊢ EnsureDir(O / `ir`) ⇓ ok)    Γ ⊢ EmitObjects(ms, P) ⇓ Objs    Γ ⊢ EmitIR(ms, P, e) ⇓ IRs    Γ ⊢ Finalize(Objs, P) ⇓ ok
-```
-
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ OutputPipeline(P) ⇓ (Objs, IRs, PrimaryArtifact(P))
+```math
+\begin{array}{l}
+\operatorname{Linkable}(P)\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{obj})\ \Downarrow \ \mathsf{ok}\quad (\lnot \ \operatorname{UsesBinDir}(P)\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{bin})\ \Downarrow \ \mathsf{ok})\quad (\lnot \ \operatorname{UsesLibDir}(P)\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{lib})\ \Downarrow \ \mathsf{ok})\quad (e\ =\ \texttt{none}\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{ir})\ \Downarrow \ \mathsf{ok})\quad \Gamma \ \vdash \ \operatorname{EmitObjects}(\mathsf{ms},\ P)\ \Downarrow \ \mathsf{Objs}\quad \Gamma \ \vdash \ \operatorname{EmitIR}(\mathsf{ms},\ P,\ e)\ \Downarrow \ \mathsf{IRs}\quad \Gamma \ \vdash \ \operatorname{Finalize}(\mathsf{Objs},\ P)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{OutputPipeline}(P)\ \Downarrow \ (\mathsf{Objs},\ \mathsf{IRs},\ \operatorname{PrimaryArtifact}(P))
+\end{array}
 ```
 
 **(Output-Pipeline-Dependency)**
 
-```text
-Dependency(P)    Γ ⊢ EnsureDir(O) ⇓ ok    Γ ⊢ EnsureDir(O / `obj`) ⇓ ok    (e = `none` ∨ Γ ⊢ EnsureDir(O / `ir`) ⇓ ok)    Γ ⊢ EmitObjects(ms, P) ⇓ Objs    Γ ⊢ EmitIR(ms, P, e) ⇓ IRs
-```
-
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ OutputPipeline(P) ⇓ (Objs, IRs, ⊥)
+```math
+\begin{array}{l}
+\operatorname{Dependency}(P)\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{obj})\ \Downarrow \ \mathsf{ok}\quad (e\ =\ \texttt{none}\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{ir})\ \Downarrow \ \mathsf{ok})\quad \Gamma \ \vdash \ \operatorname{EmitObjects}(\mathsf{ms},\ P)\ \Downarrow \ \mathsf{Objs}\quad \Gamma \ \vdash \ \operatorname{EmitIR}(\mathsf{ms},\ P,\ e)\ \Downarrow \ \mathsf{IRs} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{OutputPipeline}(P)\ \Downarrow \ (\mathsf{Objs},\ \mathsf{IRs},\ \bot )
+\end{array}
 ```
 
 **(Output-Pipeline-Err)**
 
-```text
-⟨OutStart(P)⟩ →* ⟨Error(c)⟩
-```
-
-────────────────────────────────
-
-```text
-Γ ⊢ OutputPipeline(P) ⇑ c
+```math
+\begin{array}{l}
+\langle \operatorname{OutStart}(P)\rangle \ \to *\ \langle \operatorname{Error}(c)\rangle  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{OutputPipeline}(P)\ \Uparrow \ c
+\end{array}
 ```
 
 **Output Pipeline (Small-Step)**
-OutState = {OutStart(P), OutDirs(P), OutObjs(P, ms, Objs), OutIR(P, ms, Objs, IRs, e), OutFinal(P, Objs, IRs), OutDone(Objs, IRs, Artifact), Error(code)}
-O = OutputRoot(P)
-ms = EmitModuleList(P)
-e = P.assembly.emit_ir
+
+```math
+\begin{array}{l}
+\mathsf{OutState}\ =\ \{\operatorname{OutStart}(P),\ \operatorname{OutDirs}(P),\ \operatorname{OutObjs}(P,\ \mathsf{ms},\ \mathsf{Objs}),\ \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e),\ \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs}),\ \operatorname{OutDone}(\mathsf{Objs},\ \mathsf{IRs},\ \mathsf{Artifact}),\ \operatorname{Error}(\mathsf{code})\} \\
+O\ =\ \operatorname{OutputRoot}(P) \\
+\mathsf{ms}\ =\ \operatorname{EmitModuleList}(P) \\
+e\ =\ P.\mathsf{assembly}.\mathsf{emit}_{\mathsf{ir}}
+\end{array}
+```
 
 **(Out-Start)**
-────────────────────────────────────────
 
-```text
-⟨OutStart(P)⟩ → ⟨OutDirs(P)⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutStart}(P)\rangle \ \to \ \langle \operatorname{OutDirs}(P)\rangle 
+\end{array}
 ```
 
 **(Out-Dirs-Ok)**
 
-```text
-Γ ⊢ EnsureDir(O) ⇓ ok    Γ ⊢ EnsureDir(O / `obj`) ⇓ ok    (¬ UsesBinDir(P) ∨ Γ ⊢ EnsureDir(O / `bin`) ⇓ ok)    (¬ UsesLibDir(P) ∨ Γ ⊢ EnsureDir(O / `lib`) ⇓ ok)    (e = `none` ∨ Γ ⊢ EnsureDir(O / `ir`) ⇓ ok)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨OutDirs(P)⟩ → ⟨OutObjs(P, ms, [])⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EnsureDir}(O)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{obj})\ \Downarrow \ \mathsf{ok}\quad (\lnot \ \operatorname{UsesBinDir}(P)\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{bin})\ \Downarrow \ \mathsf{ok})\quad (\lnot \ \operatorname{UsesLibDir}(P)\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{lib})\ \Downarrow \ \mathsf{ok})\quad (e\ =\ \texttt{none}\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{ir})\ \Downarrow \ \mathsf{ok}) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutDirs}(P)\rangle \ \to \ \langle \operatorname{OutObjs}(P,\ \mathsf{ms},\ [])\rangle 
+\end{array}
 ```
 
 **(Out-Dirs-Err)**
 
-```text
-Γ ⊢ EnsureDir(O) ⇑ ∨ Γ ⊢ EnsureDir(O / `obj`) ⇑ ∨ (UsesBinDir(P) ∧ Γ ⊢ EnsureDir(O / `bin`) ⇑) ∨ (UsesLibDir(P) ∧ Γ ⊢ EnsureDir(O / `lib`) ⇑) ∨ (e ∈ {`ll`, `bc`} ∧ Γ ⊢ EnsureDir(O / `ir`) ⇑)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨OutDirs(P)⟩ → ⟨Error(Code(Out-Dirs-Err))⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EnsureDir}(O)\ \Uparrow \ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{obj})\ \Uparrow \ \lor \ (\operatorname{UsesBinDir}(P)\ \land \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{bin})\ \Uparrow )\ \lor \ (\operatorname{UsesLibDir}(P)\ \land \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{lib})\ \Uparrow )\ \lor \ (e\ \in \ \{\texttt{ll},\ \texttt{bc}\}\ \land \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{ir})\ \Uparrow ) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutDirs}(P)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Out}-\mathsf{Dirs}-\mathsf{Err}))\rangle 
+\end{array}
 ```
 
 **(Out-Obj-Collision)**
 
-```text
-¬ Distinct(L ++ ObjPaths(P, ms))
-```
-
-──────────────────────────────────────────────
-
-```text
-⟨OutObjs(P, ms, L)⟩ → ⟨Error(Code(Out-Obj-Collision))⟩
+```math
+\begin{array}{l}
+\lnot \ \operatorname{Distinct}(L\ \mathbin{++} \ \operatorname{ObjPaths}(P,\ \mathsf{ms})) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutObjs}(P,\ \mathsf{ms},\ L)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Out}-\mathsf{Obj}-\mathsf{Collision}))\rangle 
+\end{array}
 ```
 
 **(Out-Obj-Cons)**
 
-```text
-Γ ⊢ CodegenObj(m) ⇓ b    Γ ⊢ WriteFile(ObjPath(P, m), b) ⇓ ok
-```
-
-─────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨OutObjs(P, m::ms, L)⟩ → ⟨OutObjs(P, ms, L ++ [ObjPath(P, m)])⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{CodegenObj}(m)\ \Downarrow \ b\quad \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{ObjPath}(P,\ m),\ b)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutObjs}(P,\ m\mathbin{::} \mathsf{ms},\ L)\rangle \ \to \ \langle \operatorname{OutObjs}(P,\ \mathsf{ms},\ L\ \mathbin{++} \ [\operatorname{ObjPath}(P,\ m)])\rangle 
+\end{array}
 ```
 
 **(Out-Obj-Err)**
 
-```text
-Γ ⊢ CodegenObj(m) ⇑ ∨ (Γ ⊢ CodegenObj(m) ⇓ b ∧ Γ ⊢ WriteFile(ObjPath(P, m), b) ⇑)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨OutObjs(P, m::ms, L)⟩ → ⟨Error(Code(Out-Obj-Err))⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{CodegenObj}(m)\ \Uparrow \ \lor \ (\Gamma \ \vdash \ \operatorname{CodegenObj}(m)\ \Downarrow \ b\ \land \ \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{ObjPath}(P,\ m),\ b)\ \Uparrow ) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutObjs}(P,\ m\mathbin{::} \mathsf{ms},\ L)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Out}-\mathsf{Obj}-\mathsf{Err}))\rangle 
+\end{array}
 ```
 
 **(Out-Obj-Done)**
-────────────────────────────────────────────────────────────────────
 
-```text
-⟨OutObjs(P, [], L)⟩ → ⟨OutIR(P, EmitModuleList(P), L, [], e)⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutObjs}(P,\ [],\ L)\rangle \ \to \ \langle \operatorname{OutIR}(P,\ \operatorname{EmitModuleList}(P),\ L,\ [],\ e)\rangle 
+\end{array}
 ```
 
 **(Out-IR-None-Finalize)**
-e = `none`    Linkable(P)
-──────────────────────────────────────────────────────────────────────
 
-```text
-⟨OutIR(P, ms, Objs, IRs, e)⟩ → ⟨OutFinal(P, Objs, IRs)⟩
+```math
+\begin{array}{l}
+e\ =\ \texttt{none}\quad \operatorname{Linkable}(P) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs})\rangle 
+\end{array}
 ```
 
 **(Out-IR-None-NoFinalize)**
-e = `none`    Dependency(P)
-────────────────────────────────────────────────────────────────────────
 
-```text
-⟨OutIR(P, ms, Objs, IRs, e)⟩ → ⟨OutDone(Objs, IRs, ⊥)⟩
+```math
+\begin{array}{l}
+e\ =\ \texttt{none}\quad \operatorname{Dependency}(P) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{OutDone}(\mathsf{Objs},\ \mathsf{IRs},\ \bot )\rangle 
+\end{array}
 ```
 
 **(Out-IR-Collision)**
 
-```text
-e ∈ {`ll`, `bc`}    ¬ Distinct(IRs ++ IRPaths(P, ms, e))
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨OutIR(P, ms, Objs, IRs, e)⟩ → ⟨Error(Code(Out-IR-Collision))⟩
+```math
+\begin{array}{l}
+e\ \in \ \{\texttt{ll},\ \texttt{bc}\}\quad \lnot \ \operatorname{Distinct}(\mathsf{IRs}\ \mathbin{++} \ \operatorname{IRPaths}(P,\ \mathsf{ms},\ e)) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Out}-\mathsf{IR}-\mathsf{Collision}))\rangle 
+\end{array}
 ```
 
 **(Out-IR-Cons-LL)**
 
-```text
-e = `ll`    Γ ⊢ CodegenIR(m, e) ⇓ b    Γ ⊢ WriteFile(IRPath(P, m, e), b) ⇓ ok
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨OutIR(P, m::ms, Objs, IRs, e)⟩ → ⟨OutIR(P, ms, Objs, IRs ++ [IRPath(P, m, e)], e)⟩
+```math
+\begin{array}{l}
+e\ =\ \texttt{ll}\quad \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ e)\ \Downarrow \ b\quad \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{IRPath}(P,\ m,\ e),\ b)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutIR}(P,\ m\mathbin{::} \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs}\ \mathbin{++} \ [\operatorname{IRPath}(P,\ m,\ e)],\ e)\rangle 
+\end{array}
 ```
 
 **(Out-IR-Cons-BC)**
 
-```text
-e = `bc`    Γ ⊢ CodegenIR(m, `ll`) ⇓ t    Γ ⊢ ResolveTool(`llvm-as`) ⇓ a    Γ ⊢ AssembleIR(a, t) ⇓ b    Γ ⊢ WriteFile(IRPath(P, m, e), b) ⇓ ok
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨OutIR(P, m::ms, Objs, IRs, e)⟩ → ⟨OutIR(P, ms, Objs, IRs ++ [IRPath(P, m, e)], e)⟩
+```math
+\begin{array}{l}
+e\ =\ \texttt{bc}\quad \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ t\quad \Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Downarrow \ a\quad \Gamma \ \vdash \ \operatorname{AssembleIR}(a,\ t)\ \Downarrow \ b\quad \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{IRPath}(P,\ m,\ e),\ b)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutIR}(P,\ m\mathbin{::} \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs}\ \mathbin{++} \ [\operatorname{IRPath}(P,\ m,\ e)],\ e)\rangle 
+\end{array}
 ```
 
 **(Out-IR-Err)**
 
-```text
-(e = `ll` ∧ (Γ ⊢ CodegenIR(m, e) ⇑ ∨ (Γ ⊢ CodegenIR(m, e) ⇓ b ∧ Γ ⊢ WriteFile(IRPath(P, m, e), b) ⇑))) ∨
-(e = `bc` ∧ (Γ ⊢ CodegenIR(m, `ll`) ⇑ ∨ (Γ ⊢ CodegenIR(m, `ll`) ⇓ t ∧ Γ ⊢ ResolveTool(`llvm-as`) ⇑) ∨ (Γ ⊢ CodegenIR(m, `ll`) ⇓ t ∧ Γ ⊢ ResolveTool(`llvm-as`) ⇓ a ∧ Γ ⊢ AssembleIR(a, t) ⇑) ∨ (Γ ⊢ CodegenIR(m, `ll`) ⇓ t ∧ Γ ⊢ ResolveTool(`llvm-as`) ⇓ a ∧ Γ ⊢ AssembleIR(a, t) ⇓ b ∧ Γ ⊢ WriteFile(IRPath(P, m, e), b) ⇑)))
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨OutIR(P, m::ms, Objs, IRs, e)⟩ → ⟨Error(Code(Out-IR-Err))⟩
+```math
+\begin{array}{l}
+(e\ =\ \texttt{ll}\ \land \ (\Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ e)\ \Uparrow \ \lor \ (\Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ e)\ \Downarrow \ b\ \land \ \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{IRPath}(P,\ m,\ e),\ b)\ \Uparrow )))\ \lor  \\
+(e\ =\ \texttt{bc}\ \land \ (\Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Uparrow \ \lor \ (\Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ t\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Uparrow )\ \lor \ (\Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ t\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Downarrow \ a\ \land \ \Gamma \ \vdash \ \operatorname{AssembleIR}(a,\ t)\ \Uparrow )\ \lor \ (\Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ t\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Downarrow \ a\ \land \ \Gamma \ \vdash \ \operatorname{AssembleIR}(a,\ t)\ \Downarrow \ b\ \land \ \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{IRPath}(P,\ m,\ e),\ b)\ \Uparrow ))) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutIR}(P,\ m\mathbin{::} \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Out}-\mathsf{IR}-\mathsf{Err}))\rangle 
+\end{array}
 ```
 
 **(Out-IR-Done-Finalize)**
 
-```text
-e ∈ {`ll`, `bc`}    ms = []    Linkable(P)
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨OutIR(P, ms, Objs, IRs, e)⟩ → ⟨OutFinal(P, Objs, IRs)⟩
+```math
+\begin{array}{l}
+e\ \in \ \{\texttt{ll},\ \texttt{bc}\}\quad \mathsf{ms}\ =\ []\quad \operatorname{Linkable}(P) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs})\rangle 
+\end{array}
 ```
 
 **(Out-IR-Done-NoFinalize)**
 
-```text
-e ∈ {`ll`, `bc`}    ms = []    Dependency(P)
-```
-
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨OutIR(P, ms, Objs, IRs, e)⟩ → ⟨OutDone(Objs, IRs, ⊥)⟩
+```math
+\begin{array}{l}
+e\ \in \ \{\texttt{ll},\ \texttt{bc}\}\quad \mathsf{ms}\ =\ []\quad \operatorname{Dependency}(P) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{OutDone}(\mathsf{Objs},\ \mathsf{IRs},\ \bot )\rangle 
+\end{array}
 ```
 
 **(Out-Final-Link-Ok)**
 
-```text
-Executable(P) ∨ SharedLibrary(P)    Γ ⊢ Link(Objs, P) ⇓ ok
-```
-
-───────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨OutFinal(P, Objs, IRs)⟩ → ⟨OutDone(Objs, IRs, PrimaryArtifact(P))⟩
+```math
+\begin{array}{l}
+\operatorname{Executable}(P)\ \lor \ \operatorname{SharedLibrary}(P)\quad \Gamma \ \vdash \ \operatorname{Link}(\mathsf{Objs},\ P)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs})\rangle \ \to \ \langle \operatorname{OutDone}(\mathsf{Objs},\ \mathsf{IRs},\ \operatorname{PrimaryArtifact}(P))\rangle 
+\end{array}
 ```
 
 **(Out-Final-Link-Err)**
 
-```text
-Executable(P) ∨ SharedLibrary(P)    Γ ⊢ Link(Objs, P) ⇑ c
-```
-
-────────────────────────────────────────────────────────────────────────
-
-```text
-⟨OutFinal(P, Objs, IRs)⟩ → ⟨Error(c)⟩
+```math
+\begin{array}{l}
+\operatorname{Executable}(P)\ \lor \ \operatorname{SharedLibrary}(P)\quad \Gamma \ \vdash \ \operatorname{Link}(\mathsf{Objs},\ P)\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\end{array}
 ```
 
 **(Out-Final-Archive-Ok)**
 
-```text
-StaticLibrary(P)    Γ ⊢ Archive(Objs, P) ⇓ ok
-```
-
-───────────────────────────────────────────────────────────
-
-```text
-⟨OutFinal(P, Objs, IRs)⟩ → ⟨OutDone(Objs, IRs, PrimaryArtifact(P))⟩
+```math
+\begin{array}{l}
+\operatorname{StaticLibrary}(P)\quad \Gamma \ \vdash \ \operatorname{Archive}(\mathsf{Objs},\ P)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs})\rangle \ \to \ \langle \operatorname{OutDone}(\mathsf{Objs},\ \mathsf{IRs},\ \operatorname{PrimaryArtifact}(P))\rangle 
+\end{array}
 ```
 
 **(Out-Final-Archive-Err)**
 
-```text
-StaticLibrary(P)    Γ ⊢ Archive(Objs, P) ⇑ c
-```
-
-──────────────────────────────────────────────────────
-
-```text
-⟨OutFinal(P, Objs, IRs)⟩ → ⟨Error(c)⟩
+```math
+\begin{array}{l}
+\operatorname{StaticLibrary}(P)\quad \Gamma \ \vdash \ \operatorname{Archive}(\mathsf{Objs},\ P)\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\end{array}
 ```
 
 ### 3.7 Tool Resolution and IR Assembly Inputs
 
-SearchDirs(P) =
-
-```text
- [ToolchainConfig(P).llvm_bin]  if ToolchainConfig(P).llvm_bin ≠ ⊥
+```math
+\begin{array}{l}
+\operatorname{SearchDirs}(P)\ = \\
+\ [\operatorname{ToolchainConfig}(P).\mathsf{llvm}_{\mathsf{bin}}]\ \mathsf{if}\ \operatorname{ToolchainConfig}(P).\mathsf{llvm}_{\mathsf{bin}}\ \ne \ \bot  \\
+\ [\operatorname{CompilerToolBinDir}(P)]\quad \mathsf{if}\ \operatorname{exists}(\operatorname{CompilerToolBinDir}(P)) \\
+\ \mathsf{PATHDirs}\ \mathsf{otherwise}
+\end{array}
 ```
 
- [CompilerToolBinDir(P)]        if exists(CompilerToolBinDir(P))
- PATHDirs  otherwise
-
-```text
-CompilerToolBinDir(P) = CompilerSupportRoot(P) / `windows` / `tools`    if ObjectFormatOf(P) = Coff ∧ PackagedHostSidecarsBeside(CompilerSupportRoot(P))
- CompilerSupportRoot(P) / `linux` / `tools`                             if ObjectFormatOf(P) = Elf ∧ PackagedHostSidecarsBeside(CompilerSupportRoot(P))
+```math
+\begin{array}{l}
+\operatorname{CompilerToolBinDir}(P)\ =\ \operatorname{CompilerSupportRoot}(P)\ /\ \texttt{windows}\ /\ \texttt{tools}\quad \mathsf{if}\ \operatorname{ObjectFormatOf}(P)\ =\ \mathsf{Coff}\ \land \ \operatorname{PackagedHostSidecarsBeside}(\operatorname{CompilerSupportRoot}(P)) \\
+\ \operatorname{CompilerSupportRoot}(P)\ /\ \texttt{linux}\ /\ \texttt{tools}\quad \mathsf{if}\ \operatorname{ObjectFormatOf}(P)\ =\ \mathsf{Elf}\ \land \ \operatorname{PackagedHostSidecarsBeside}(\operatorname{CompilerSupportRoot}(P)) \\
+\ \operatorname{CompilerSupportRoot}(P)\ /\ \texttt{tools}\quad \mathsf{otherwise}
+\end{array}
 ```
 
- CompilerSupportRoot(P) / `tools`                                       otherwise
-
-ToolVersion(t) = v    where invoking t with `--version` reports v
+```math
+\operatorname{ToolVersion}(t)\ =\ v\quad \mathsf{where}\ \mathsf{invoking}\ t\ \mathsf{with}\ \texttt{--version}\ \mathsf{reports}\ v
+```
 
 **(ResolveTool-Ok)**
 
-```text
-Project(Γ) = P    SearchDirs(P) contains x at t    (x = `llvm-as` ⇒ ToolVersion(t) = LLVMToolchain)
-```
-
-───────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveTool(x) ⇓ t
+```math
+\begin{array}{l}
+\operatorname{Project}(\Gamma )\ =\ P\quad \operatorname{SearchDirs}(P)\ \mathsf{contains}\ x\ \mathsf{at}\ t\quad (x\ =\ \texttt{llvm-as}\ \Rightarrow \ \operatorname{ToolVersion}(t)\ =\ \mathsf{LLVMToolchain}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveTool}(x)\ \Downarrow \ t
+\end{array}
 ```
 
 **(ResolveTool-Err-Linker)**
 
-```text
-Project(Γ) = P    x = LinkerToolName(SelectedTargetProfile)    SearchDirs(P) does not contain x
-```
-
-─────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveTool(x) ⇑
+```math
+\begin{array}{l}
+\operatorname{Project}(\Gamma )\ =\ P\quad x\ =\ \operatorname{LinkerToolName}(\mathsf{SelectedTargetProfile})\quad \operatorname{SearchDirs}(P)\ \mathsf{does}\ \mathsf{not}\ \mathsf{contain}\ x \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveTool}(x)\ \Uparrow 
+\end{array}
 ```
 
 **(ResolveTool-Err-Archiver)**
 
-```text
-Project(Γ) = P    x = ArchiverToolName(SelectedTargetProfile)    SearchDirs(P) does not contain x
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveTool(x) ⇑
+```math
+\begin{array}{l}
+\operatorname{Project}(\Gamma )\ =\ P\quad x\ =\ \operatorname{ArchiverToolName}(\mathsf{SelectedTargetProfile})\quad \operatorname{SearchDirs}(P)\ \mathsf{does}\ \mathsf{not}\ \mathsf{contain}\ x \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveTool}(x)\ \Uparrow 
+\end{array}
 ```
 
 **(ResolveTool-Err-IR)**
 
-```text
-Project(Γ) = P    x = `llvm-as`    ¬∃ t. SearchDirs(P) contains x at t ∧ ToolVersion(t) = LLVMToolchain
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveTool(x) ⇑
+```math
+\begin{array}{l}
+\operatorname{Project}(\Gamma )\ =\ P\quad x\ =\ \texttt{llvm-as}\quad \lnot \exists \ t.\ \operatorname{SearchDirs}(P)\ \mathsf{contains}\ x\ \mathsf{at}\ t\ \land \ \operatorname{ToolVersion}(t)\ =\ \mathsf{LLVMToolchain} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveTool}(x)\ \Uparrow 
+\end{array}
 ```
 
 **(AssembleIR-Ok)**
 
-```text
-Invoke(a, t) ⇓ b
-```
-
-────────────────────────
-
-```text
-Γ ⊢ AssembleIR(a, t) ⇓ b
+```math
+\begin{array}{l}
+\operatorname{Invoke}(a,\ t)\ \Downarrow \ b \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AssembleIR}(a,\ t)\ \Downarrow \ b
+\end{array}
 ```
 
 **(AssembleIR-Err)**
 
-```text
-Invoke(a, t) ⇑
-```
-
-────────────────────────
-
-```text
-Γ ⊢ AssembleIR(a, t) ⇑
+```math
+\begin{array}{l}
+\operatorname{Invoke}(a,\ t)\ \Uparrow  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AssembleIR}(a,\ t)\ \Uparrow 
+\end{array}
 ```
 
 ### 3.8 Project Diagnostics

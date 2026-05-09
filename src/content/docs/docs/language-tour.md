@@ -3,7 +3,7 @@ title: Language Tour
 description: Tour of Ultraviolet's main language surfaces.
 ---
 
-Ultraviolet is a general-purpose programming language for AI-written code that humans can review. The language makes contracts, states, permissions, keys, concurrency, and CPU/GPU execution choices visible in source.
+Ultraviolet is a high-visibility, general-purpose programming language for AI and Humans. The language makes contracts, states, permissions, keys, concurrency, and CPU/GPU execution choices visible in source.
 
 <aside class="docs-status">
   <strong>Tour status: alpha.</strong>

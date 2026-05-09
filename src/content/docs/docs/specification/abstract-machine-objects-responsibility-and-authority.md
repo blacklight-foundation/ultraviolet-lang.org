@@ -3,7 +3,7 @@ title: "Abstract Machine, Objects, Responsibility, and Authority"
 description: "6. Abstract Machine, Objects, Responsibility, and Authority of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T17:39:45.389Z"
+generatedAt: "2026-05-09T18:13:03.158Z"
 generated: true
 ---
 
@@ -20,29 +20,33 @@ The language adopts a no ambient authority discipline: observable external effec
 
 #### 6.1.1 Capability Universe
 
-CapToken = {FileSystem, Network, HeapAllocator, Reactor, ExecutionDomain, System}
-
-```text
-CapInType : Type → 𝒫(CapToken)
+```math
+\mathsf{CapToken}\ =\ \{\mathsf{FileSystem},\ \mathsf{Network},\ \mathsf{HeapAllocator},\ \mathsf{Reactor},\ \mathsf{ExecutionDomain},\ \mathsf{System}\}
 ```
 
-CapInType(TypePath([`Context`])) = {FileSystem, Network, HeapAllocator, Reactor, ExecutionDomain, System}
-CapInType(TypePath([`System`])) = {System}
-CapInType(TypeDynamic([`FileSystem`])) = {FileSystem}
-CapInType(TypeDynamic([`Network`])) = {Network}
-CapInType(TypeDynamic([`HeapAllocator`])) = {HeapAllocator}
-CapInType(TypeDynamic([`Reactor`])) = {Reactor}
-CapInType(TypeDynamic([`ExecutionDomain`])) = {ExecutionDomain}
-CapInType(TypePerm(_, T)) = CapInType(T)
-
-```text
-CapInType(TypeTuple(Ts)) = ⋃{CapInType(T) | T ∈ Ts}
+```math
+\mathsf{CapInType}\ :\ \mathsf{Type}\ \to \ 𝒫(\mathsf{CapToken})
 ```
 
-CapInType(TypeArray(T, _)) = CapInType(T)
-CapInType(TypeSlice(T)) = CapInType(T)
+```math
+\begin{array}{l}
+\operatorname{CapInType}(\operatorname{TypePath}([\texttt{Context}]))\ =\ \{\mathsf{FileSystem},\ \mathsf{Network},\ \mathsf{HeapAllocator},\ \mathsf{Reactor},\ \mathsf{ExecutionDomain},\ \mathsf{System}\} \\
+\operatorname{CapInType}(\operatorname{TypePath}([\texttt{System}]))\ =\ \{\mathsf{System}\} \\
+\operatorname{CapInType}(\operatorname{TypeDynamic}([\texttt{FileSystem}]))\ =\ \{\mathsf{FileSystem}\} \\
+\operatorname{CapInType}(\operatorname{TypeDynamic}([\texttt{Network}]))\ =\ \{\mathsf{Network}\} \\
+\operatorname{CapInType}(\operatorname{TypeDynamic}([\texttt{HeapAllocator}]))\ =\ \{\mathsf{HeapAllocator}\} \\
+\operatorname{CapInType}(\operatorname{TypeDynamic}([\texttt{Reactor}]))\ =\ \{\mathsf{Reactor}\} \\
+\operatorname{CapInType}(\operatorname{TypeDynamic}([\texttt{ExecutionDomain}]))\ =\ \{\mathsf{ExecutionDomain}\} \\
+\operatorname{CapInType}(\operatorname{TypePerm}(\_,\ T))\ =\ \operatorname{CapInType}(T) \\
+\operatorname{CapInType}(\operatorname{TypeTuple}(\mathsf{Ts}))\ =\ \bigcup \{\operatorname{CapInType}(T)\ \mid \ T\ \in \ \mathsf{Ts}\} \\
+\operatorname{CapInType}(\operatorname{TypeArray}(T,\ \_))\ =\ \operatorname{CapInType}(T) \\
+\operatorname{CapInType}(\operatorname{TypeSlice}(T))\ =\ \operatorname{CapInType}(T)
+\end{array}
+```
 
-<!-- Source: "CapInType(TypeStruct(_), TypeRecord(_), TypeUnion(_), TypeEnum(_), TypeModalState(_), TypeApply(_), …) distributes structurally over the immediate component types of the type constructor (after alias expansion)." -->
+```math
+<!--\ \mathsf{Source}:\ \texttt{"CapInType(TypeStruct(\_), TypeRecord(\_), TypeUnion(\_), TypeEnum(\_), TypeModalState(\_), TypeApply(\_), ...) distributes structurally over the immediate component types of the type constructor (after alias expansion)."}\ -\to 
+```
 CapInType(T) distributes structurally over compound nominal, modal, union, and applied types after alias expansion.
 
 Implementations MAY compute `CapInType` by least fixed-point over nominal and alias expansion. Cycles MUST terminate by memoization or an equivalent visited-node strategy.
@@ -57,10 +61,12 @@ Implementations MAY compute `CapInType` by least fixed-point over nominal and al
 - a runtime host primitive classified in §6.2, or
 - a built-in procedure or method whose receiver is a capability value.
 
-CapReq(d) = ⋃{CapInType(T_i) | T_i is the type of a parameter or receiver of declaration d}
+```math
+\operatorname{CapReq}(d)\ =\ \bigcup \{\operatorname{CapInType}(T_{i})\ \mid \ T_{i}\ \mathsf{is}\ \mathsf{the}\ \mathsf{type}\ \mathsf{of}\ a\ \mathsf{parameter}\ \mathsf{or}\ \mathsf{receiver}\ \mathsf{of}\ \mathsf{declaration}\ d\}
+```
 
-```text
-For every direct call from `d_src` to `d_tgt`, a conforming implementation MUST reject the program unless `CapReq(d_tgt) ⊆ CapReq(d_src)`.
+```math
+\mathsf{For}\ \mathsf{every}\ \mathsf{direct}\ \mathsf{call}\ \mathsf{from}\ \texttt{d\_src}\ \mathsf{to}\ \texttt{d\_tgt},\ a\ \mathsf{conforming}\ \mathsf{implementation}\ \mathsf{MUST}\ \mathsf{reject}\ \mathsf{the}\ \mathsf{program}\ \mathsf{unless}\ \texttt{CapReq(d\_tgt) subseteq CapReq(d\_src)}.
 ```
 
 #### 6.1.3 Attenuation Requirements
@@ -76,7 +82,9 @@ The following operations are attenuation operations:
 
 A conforming implementation MUST ensure attenuation is monotone: a derived capability MUST NOT grant authority beyond the source capability from which it was derived.
 
-For every attenuation operation `ChildCap = ParentCap~>attenuate(...)`, a conforming implementation MUST enforce all of the following:
+```math
+\mathsf{For}\ \mathsf{every}\ \mathsf{attenuation}\ \mathsf{operation}\ \texttt{ChildCap = ParentCap\~{}>attenuate(...)},\ a\ \mathsf{conforming}\ \mathsf{implementation}\ \mathsf{MUST}\ \mathsf{enforce}\ \mathsf{all}\ \mathsf{of}\ \mathsf{the}\ \mathsf{following}:
+```
 - `ChildCap` remains operational only while `ParentCap` remains live.
 - Dropping `ChildCap` MUST NOT invalidate or diminish `ParentCap`.
 - Dropping `ParentCap` while any derived child capability remains live is ill-formed.
@@ -84,15 +92,16 @@ For every attenuation operation `ChildCap = ParentCap~>attenuate(...)`, a confor
 
 #### 6.1.4 Observable Behavior and As-If Rule
 
-```text
-ObservableEffect ∈ {
+```math
+\begin{array}{l}
+\mathsf{ObservableEffect}\ \in \ \{ \\
+\ \operatorname{HostEffect}(\mathsf{proc},\ \mathsf{args}), \\
+\ \operatorname{FfiEffect}(\mathsf{proc},\ \mathsf{abi},\ \mathsf{dir}), \\
+\ \operatorname{PanicEffect}(\mathsf{kind}), \\
+\ \operatorname{DropEffect}(\mathsf{target}), \\
+\ \operatorname{KeyEffect}(\mathsf{kind},\ \mathsf{paths})
+\end{array}
 ```
-
-  HostEffect(proc, args),
-  FfiEffect(proc, abi, dir),
-  PanicEffect(kind),
-  DropEffect(target),
-  KeyEffect(kind, paths)
 }
 
 An event is observable iff it is:
@@ -143,361 +152,374 @@ The no-ambient-authority requirements constrain the safe execution model. `unsaf
 
 ### 6.2 Host Primitives
 
-FSPrim = {FSOpenRead, FSOpenWrite, FSOpenAppend, FSCreateWrite, FSReadFile, FSReadBytes, FSWriteFile, FSWriteStdout, FSWriteStderr, FSExists, FSRemove, FSOpenDir, FSCreateDir, FSEnsureDir, FSKind, FSRestrict}
-FilePrim = {FileReadAll, FileReadAllBytes, FileWrite, FileFlush, FileClose}
-DirPrim = {DirNext, DirClose}
-SystemPrim = {SystemGetEnv, SystemExit, SystemRun}
-NetworkPrim = {NetRestrictHost}
-HeapPrim = {HeapWithQuota, HeapAllocRaw, HeapDeallocRaw}
-ReactorPrim = {ReactorRun, ReactorRegister}
-CancelPrim = {CancelNew, CancelChild, CancelDoCancel, CancelIsCancelled, CancelWaitCancelled}
-
-```text
-HostPrim = {ParseTOML, ReadBytes, WriteFile, ResolveTool, ResolveRuntimeLib, Invoke, AssembleIR, InvokeLinker, InvokeArchiver, ArchiveMembers} ∪ FSPrim ∪ FilePrim ∪ DirPrim ∪ SystemPrim ∪ NetworkPrim ∪ HeapPrim ∪ ReactorPrim ∪ CancelPrim
+```math
+\begin{array}{l}
+\mathsf{FSPrim}\ =\ \{\mathsf{FSOpenRead},\ \mathsf{FSOpenWrite},\ \mathsf{FSOpenAppend},\ \mathsf{FSCreateWrite},\ \mathsf{FSReadFile},\ \mathsf{FSReadBytes},\ \mathsf{FSWriteFile},\ \mathsf{FSWriteStdout},\ \mathsf{FSWriteStderr},\ \mathsf{FSExists},\ \mathsf{FSRemove},\ \mathsf{FSOpenDir},\ \mathsf{FSCreateDir},\ \mathsf{FSEnsureDir},\ \mathsf{FSKind},\ \mathsf{FSRestrict}\} \\
+\mathsf{FilePrim}\ =\ \{\mathsf{FileReadAll},\ \mathsf{FileReadAllBytes},\ \mathsf{FileWrite},\ \mathsf{FileFlush},\ \mathsf{FileClose}\} \\
+\mathsf{DirPrim}\ =\ \{\mathsf{DirNext},\ \mathsf{DirClose}\} \\
+\mathsf{SystemPrim}\ =\ \{\mathsf{SystemGetEnv},\ \mathsf{SystemExit},\ \mathsf{SystemRun}\} \\
+\mathsf{NetworkPrim}\ =\ \{\mathsf{NetRestrictHost}\} \\
+\mathsf{HeapPrim}\ =\ \{\mathsf{HeapWithQuota},\ \mathsf{HeapAllocRaw},\ \mathsf{HeapDeallocRaw}\} \\
+\mathsf{ReactorPrim}\ =\ \{\mathsf{ReactorRun},\ \mathsf{ReactorRegister}\} \\
+\mathsf{CancelPrim}\ =\ \{\mathsf{CancelNew},\ \mathsf{CancelChild},\ \mathsf{CancelDoCancel},\ \mathsf{CancelIsCancelled},\ \mathsf{CancelWaitCancelled}\}
+\end{array}
 ```
 
-HostPrimDiag = {ParseTOML, ReadBytes, WriteFile, ResolveTool, ResolveRuntimeLib, Invoke, AssembleIR, InvokeLinker, InvokeArchiver, ArchiveMembers}
-
-```text
-HostPrimRuntime = FSPrim ∪ FilePrim ∪ DirPrim ∪ SystemPrim ∪ NetworkPrim ∪ HeapPrim ∪ ReactorPrim ∪ CancelPrim
+```math
+\begin{array}{l}
+\mathsf{HostPrim}\ =\ \{\mathsf{ParseTOML},\ \mathsf{ReadBytes},\ \mathsf{WriteFile},\ \mathsf{ResolveTool},\ \mathsf{ResolveRuntimeLib},\ \mathsf{Invoke},\ \mathsf{AssembleIR},\ \mathsf{InvokeLinker},\ \mathsf{InvokeArchiver},\ \mathsf{ArchiveMembers}\}\ \cup \ \mathsf{FSPrim}\ \cup \ \mathsf{FilePrim}\ \cup \ \mathsf{DirPrim}\ \cup \ \mathsf{SystemPrim}\ \cup \ \mathsf{NetworkPrim}\ \cup \ \mathsf{HeapPrim}\ \cup \ \mathsf{ReactorPrim}\ \cup \ \mathsf{CancelPrim} \\
+\mathsf{HostPrimDiag}\ =\ \{\mathsf{ParseTOML},\ \mathsf{ReadBytes},\ \mathsf{WriteFile},\ \mathsf{ResolveTool},\ \mathsf{ResolveRuntimeLib},\ \mathsf{Invoke},\ \mathsf{AssembleIR},\ \mathsf{InvokeLinker},\ \mathsf{InvokeArchiver},\ \mathsf{ArchiveMembers}\} \\
+\mathsf{HostPrimRuntime}\ =\ \mathsf{FSPrim}\ \cup \ \mathsf{FilePrim}\ \cup \ \mathsf{DirPrim}\ \cup \ \mathsf{SystemPrim}\ \cup \ \mathsf{NetworkPrim}\ \cup \ \mathsf{HeapPrim}\ \cup \ \mathsf{ReactorPrim}\ \cup \ \mathsf{CancelPrim}
+\end{array}
 ```
 
-```text
-MapsToDiagOrRuntime(p) ⇔ p ∈ HostPrimDiag ∪ HostPrimRuntime
-HostPrimFail(p) ⇔ p ∈ HostPrim ∧ ∃ args. Γ ⊢ p(args) ⇑
+```math
+\begin{array}{l}
+\operatorname{MapsToDiagOrRuntime}(p)\ \Leftrightarrow \ p\ \in \ \mathsf{HostPrimDiag}\ \cup \ \mathsf{HostPrimRuntime} \\
+\operatorname{HostPrimFail}(p)\ \Leftrightarrow \ p\ \in \ \mathsf{HostPrim}\ \land \ \exists \ \mathsf{args}.\ \Gamma \ \vdash \ \operatorname{p}(\mathsf{args})\ \Uparrow 
+\end{array}
 ```
 
-```text
-HostPrimFail(p) ∧ ¬ MapsToDiagOrRuntime(p) ⇒ IllFormed(p)
+```math
+\operatorname{HostPrimFail}(p)\ \land \ \lnot \ \operatorname{MapsToDiagOrRuntime}(p)\ \Rightarrow \ \operatorname{IllFormed}(p)
 ```
 
 #### 6.2.1 FileSystem, File, and Directory Primitive Relations
 
 Feature-local runtime behavior for capability-bearing filesystem operations is owned here. The built-in capability and modal declarations in Chapters 13 and 14 define the type surface; this section defines the runtime relations they invoke.
 
-```text
-FSJudg = {FSOpenRead(fs, path) ⇓ r, FSOpenWrite(fs, path) ⇓ r, FSOpenAppend(fs, path) ⇓ r, FSCreateWrite(fs, path) ⇓ r, FSReadFile(fs, path) ⇓ r, FSReadBytes(fs, path) ⇓ r, FSWriteFile(fs, path, data) ⇓ r, FSWriteStdout(fs, data) ⇓ r, FSWriteStderr(fs, data) ⇓ r, FSExists(fs, path) ⇓ b, FSRemove(fs, path) ⇓ r, FSOpenDir(fs, path) ⇓ r, FSCreateDir(fs, path) ⇓ r, FSEnsureDir(fs, path) ⇓ r, FSKind(fs, path) ⇓ r, FSRestrict(fs, path) ⇓ fs', FileReadAll(handle) ⇓ r, FileReadAllBytes(handle) ⇓ r, FileWrite(handle, data) ⇓ r, FileFlush(handle) ⇓ r, FileClose(handle) ⇓ ok, DirNext(handle) ⇓ r, DirClose(handle) ⇓ ok}
+```math
+\begin{array}{l}
+\mathsf{FSJudg}\ =\ \{\operatorname{FSOpenRead}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSOpenWrite}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSOpenAppend}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSCreateWrite}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSReadFile}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSReadBytes}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSWriteFile}(\mathsf{fs},\ \mathsf{path},\ \mathsf{data})\ \Downarrow \ r,\ \operatorname{FSWriteStdout}(\mathsf{fs},\ \mathsf{data})\ \Downarrow \ r,\ \operatorname{FSWriteStderr}(\mathsf{fs},\ \mathsf{data})\ \Downarrow \ r,\ \operatorname{FSExists}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ b,\ \operatorname{FSRemove}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSOpenDir}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSCreateDir}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSEnsureDir}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSKind}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSRestrict}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ \mathsf{fs}',\ \operatorname{FileReadAll}(\mathsf{handle})\ \Downarrow \ r,\ \operatorname{FileReadAllBytes}(\mathsf{handle})\ \Downarrow \ r,\ \operatorname{FileWrite}(\mathsf{handle},\ \mathsf{data})\ \Downarrow \ r,\ \operatorname{FileFlush}(\mathsf{handle})\ \Downarrow \ r,\ \operatorname{FileClose}(\mathsf{handle})\ \Downarrow \ \mathsf{ok},\ \operatorname{DirNext}(\mathsf{handle})\ \Downarrow \ r,\ \operatorname{DirClose}(\mathsf{handle})\ \Downarrow \ \mathsf{ok}\} \\
+\operatorname{FSResType}(\mathsf{FSOpenRead})\ =\ \texttt{Outcome<File@Read, IoError>} \\
+\operatorname{FSResType}(\mathsf{FSOpenWrite})\ =\ \texttt{Outcome<File@Write, IoError>} \\
+\operatorname{FSResType}(\mathsf{FSOpenAppend})\ =\ \texttt{Outcome<File@Append, IoError>} \\
+\operatorname{FSResType}(\mathsf{FSCreateWrite})\ =\ \texttt{Outcome<File@Write, IoError>} \\
+\operatorname{FSResType}(\mathsf{FSReadFile})\ =\ \texttt{Outcome<unique string@Managed, IoError>} \\
+\operatorname{FSResType}(\mathsf{FSReadBytes})\ =\ \texttt{Outcome<unique bytes@Managed, IoError>} \\
+\operatorname{FSResType}(\mathsf{FSWriteFile})\ =\ \texttt{Outcome<(), IoError>} \\
+\operatorname{FSResType}(\mathsf{FSWriteStdout})\ =\ \texttt{Outcome<(), IoError>} \\
+\operatorname{FSResType}(\mathsf{FSWriteStderr})\ =\ \texttt{Outcome<(), IoError>} \\
+\operatorname{FSResType}(\mathsf{FSExists})\ =\ \texttt{bool} \\
+\operatorname{FSResType}(\mathsf{FSRemove})\ =\ \texttt{Outcome<(), IoError>} \\
+\operatorname{FSResType}(\mathsf{FSOpenDir})\ =\ \texttt{Outcome<DirIter@Open, IoError>} \\
+\operatorname{FSResType}(\mathsf{FSCreateDir})\ =\ \texttt{Outcome<(), IoError>} \\
+\operatorname{FSResType}(\mathsf{FSEnsureDir})\ =\ \texttt{Outcome<(), IoError>} \\
+\operatorname{FSResType}(\mathsf{FSKind})\ =\ \texttt{Outcome<FileKind, IoError>} \\
+\operatorname{FSResType}(\mathsf{FSRestrict})\ =\ \texttt{\$FileSystem} \\
+\operatorname{FSResType}(\mathsf{FileReadAll})\ =\ \texttt{Outcome<unique string@Managed, IoError>} \\
+\operatorname{FSResType}(\mathsf{FileReadAllBytes})\ =\ \texttt{Outcome<unique bytes@Managed, IoError>} \\
+\operatorname{FSResType}(\mathsf{FileWrite})\ =\ \texttt{Outcome<(), IoError>} \\
+\operatorname{FSResType}(\mathsf{FileFlush})\ =\ \texttt{Outcome<(), IoError>} \\
+\operatorname{FSResType}(\mathsf{FileClose})\ =\ \texttt{ok} \\
+\operatorname{FSResType}(\mathsf{DirNext})\ =\ \texttt{Outcome<DirEntry | (), IoError>} \\
+\operatorname{FSResType}(\mathsf{DirClose})\ =\ \texttt{ok}
+\end{array}
 ```
 
-FSResType(FSOpenRead) = `Outcome<File@Read, IoError>`
-FSResType(FSOpenWrite) = `Outcome<File@Write, IoError>`
-FSResType(FSOpenAppend) = `Outcome<File@Append, IoError>`
-FSResType(FSCreateWrite) = `Outcome<File@Write, IoError>`
-FSResType(FSReadFile) = `Outcome<unique string@Managed, IoError>`
-FSResType(FSReadBytes) = `Outcome<unique bytes@Managed, IoError>`
-FSResType(FSWriteFile) = `Outcome<(), IoError>`
-FSResType(FSWriteStdout) = `Outcome<(), IoError>`
-FSResType(FSWriteStderr) = `Outcome<(), IoError>`
-FSResType(FSExists) = `bool`
-FSResType(FSRemove) = `Outcome<(), IoError>`
-FSResType(FSOpenDir) = `Outcome<DirIter@Open, IoError>`
-FSResType(FSCreateDir) = `Outcome<(), IoError>`
-FSResType(FSEnsureDir) = `Outcome<(), IoError>`
-FSResType(FSKind) = `Outcome<FileKind, IoError>`
-FSResType(FSRestrict) = `$FileSystem`
-FSResType(FileReadAll) = `Outcome<unique string@Managed, IoError>`
-FSResType(FileReadAllBytes) = `Outcome<unique bytes@Managed, IoError>`
-FSResType(FileWrite) = `Outcome<(), IoError>`
-FSResType(FileFlush) = `Outcome<(), IoError>`
-FSResType(FileClose) = `ok`
-FSResType(DirNext) = `Outcome<DirEntry | (), IoError>`
-FSResType(DirClose) = `ok`
-
-When `FSResType(Op) = Outcome<T, E>`, a primitive relation in this section that
+```math
+\mathsf{When}\ \texttt{FSResType(Op) = Outcome<T, E>},\ a\ \mathsf{primitive}\ \mathsf{relation}\ \mathsf{in}\ \mathsf{this}\ \mathsf{section}\ \mathsf{that}
+```
 returns a successful payload `v` denotes `Outcome<T, E>@Value{value: v}`.
 A primitive relation that returns an `IoError` value `e` denotes
 `Outcome<T, IoError>@Error{error: e}`. For `DirNext`, the successful payload
 type is `DirEntry | ()`, so exhausted iteration returns the `()` member inside
 `Outcome<DirEntry | (), IoError>@Value`.
 
-Handle = ℕ
-Entry ::= FileEntry(bytes) | DirEntry(names) | OtherEntry
-
-```text
-FSState = ⟨entries, handles, diriters, flushed, failmap⟩
-Entries(⟨entries, handles, diriters, flushed, failmap⟩) = entries
-Handles(⟨entries, handles, diriters, flushed, failmap⟩) = handles
-DirIters(⟨entries, handles, diriters, flushed, failmap⟩) = diriters
-FlushedSet(⟨entries, handles, diriters, flushed, failmap⟩) = flushed
-FailMap(⟨entries, handles, diriters, flushed, failmap⟩) = failmap
+```math
+\begin{array}{l}
+\mathsf{Handle}\ =\ \mathbb{N}  \\
+\mathsf{Entry}\ \mathbin{::} =\ \operatorname{FileEntry}(\mathsf{bytes})\ \mid \ \operatorname{DirEntry}(\mathsf{names})\ \mid \ \mathsf{OtherEntry} \\
+\mathsf{FSState}\ =\ \langle \mathsf{entries},\ \mathsf{handles},\ \mathsf{diriters},\ \mathsf{flushed},\ \mathsf{failmap}\rangle  \\
+\operatorname{Entries}(\langle \mathsf{entries},\ \mathsf{handles},\ \mathsf{diriters},\ \mathsf{flushed},\ \mathsf{failmap}\rangle )\ =\ \mathsf{entries} \\
+\operatorname{Handles}(\langle \mathsf{entries},\ \mathsf{handles},\ \mathsf{diriters},\ \mathsf{flushed},\ \mathsf{failmap}\rangle )\ =\ \mathsf{handles} \\
+\operatorname{DirIters}(\langle \mathsf{entries},\ \mathsf{handles},\ \mathsf{diriters},\ \mathsf{flushed},\ \mathsf{failmap}\rangle )\ =\ \mathsf{diriters} \\
+\operatorname{FlushedSet}(\langle \mathsf{entries},\ \mathsf{handles},\ \mathsf{diriters},\ \mathsf{flushed},\ \mathsf{failmap}\rangle )\ =\ \mathsf{flushed} \\
+\operatorname{FailMap}(\langle \mathsf{entries},\ \mathsf{handles},\ \mathsf{diriters},\ \mathsf{flushed},\ \mathsf{failmap}\rangle )\ =\ \mathsf{failmap} \\
+\operatorname{EntryKind}(\omega ,\ \mathsf{path})\ = \\
+\ \texttt{File}\ \mathsf{if}\ \operatorname{Entries}(\omega )[\mathsf{path}]\ =\ \operatorname{FileEntry}(\_) \\
+\ \texttt{Dir}\ \mathsf{if}\ \operatorname{Entries}(\omega )[\mathsf{path}]\ =\ \operatorname{DirEntry}(\_) \\
+\ \texttt{Other}\ \mathsf{if}\ \operatorname{Entries}(\omega )[\mathsf{path}]\ =\ \mathsf{OtherEntry} \\
+\ \texttt{Other}\ \mathsf{otherwise} \\
+\operatorname{FileBytes}(\omega ,\ \mathsf{path})\ =\ \mathsf{bytes}\ \Leftrightarrow \ \operatorname{Entries}(\omega )[\mathsf{path}]\ =\ \operatorname{FileEntry}(\mathsf{bytes}) \\
+\operatorname{DirNames}(\omega ,\ \mathsf{path})\ =\ \mathsf{names}\ \Leftrightarrow \ \operatorname{Entries}(\omega )[\mathsf{path}]\ =\ \operatorname{DirEntry}(\mathsf{names}) \\
+\operatorname{HandleStateOf}(\omega ,\ h)\ = \\
+\ \operatorname{Handles}(\omega )[h].\mathsf{state}\ \mathsf{if}\ \operatorname{Handles}(\omega )[h]\ \mathsf{defined} \\
+\ \texttt{Closed}\quad \mathsf{otherwise} \\
+\operatorname{HandlePos}(\omega ,\ h)\ = \\
+\ \operatorname{Handles}(\omega )[h].\mathsf{pos}\ \mathsf{if}\ \operatorname{Handles}(\omega )[h]\ \mathsf{defined} \\
+\ 0\quad \mathsf{otherwise} \\
+\operatorname{HandleLen}(\omega ,\ h)\ = \\
+\ \operatorname{Handles}(\omega )[h].\mathsf{len}\ \mathsf{if}\ \operatorname{Handles}(\omega )[h]\ \mathsf{defined} \\
+\ 0\quad \mathsf{otherwise} \\
+\operatorname{HandlePath}(\omega ,\ h)\ = \\
+\ \operatorname{Handles}(\omega )[h].\mathsf{path}\ \mathsf{if}\ \operatorname{Handles}(\omega )[h]\ \mathsf{defined} \\
+\ \texttt{"\textbackslash{}""}\quad \mathsf{otherwise} \\
+\operatorname{DirIterFS}(\omega ,\ h)\ = \\
+\ \operatorname{DirIters}(\omega )[h].\mathsf{fs}\ \mathsf{if}\ \operatorname{DirIters}(\omega )[h]\ \mathsf{defined} \\
+\ \bot \quad \mathsf{otherwise} \\
+\operatorname{DirIterPath}(\omega ,\ h)\ = \\
+\ \operatorname{DirIters}(\omega )[h].\mathsf{path}\ \mathsf{if}\ \operatorname{DirIters}(\omega )[h]\ \mathsf{defined} \\
+\ \texttt{"\textbackslash{}""}\quad \mathsf{otherwise} \\
+\operatorname{DirIterEntries}(\omega ,\ h)\ = \\
+\ \operatorname{DirIters}(\omega )[h].\mathsf{entries}\ \mathsf{if}\ \operatorname{DirIters}(\omega )[h]\ \mathsf{defined} \\
+\ []\quad \mathsf{otherwise} \\
+\operatorname{DirIterPos}(\omega ,\ h)\ = \\
+\ \operatorname{DirIters}(\omega )[h].\mathsf{pos}\ \mathsf{if}\ \operatorname{DirIters}(\omega )[h]\ \mathsf{defined} \\
+\ 0\quad \mathsf{otherwise} \\
+\operatorname{DirIterOpen}(\omega ,\ h)\ \Leftrightarrow \ \operatorname{DirIters}(\omega )[h]\ \mathsf{defined} \\
+\operatorname{Flushed}(\omega ,\ h)\ \Leftrightarrow \ h\ \in \ \operatorname{FlushedSet}(\omega ) \\
+\mathsf{FSJudg}\_\omega \ =\ \{\operatorname{FSOpenRead}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSOpenWrite}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSOpenAppend}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSCreateWrite}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSReadFile}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSReadBytes}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSWriteFile}(\mathsf{fs},\ \mathsf{path},\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSWriteStdout}(\mathsf{fs},\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSWriteStderr}(\mathsf{fs},\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSExists}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (b,\ \omega '),\ \operatorname{FSRemove}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSOpenDir}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSCreateDir}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSEnsureDir}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSKind}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ')\} \\
+\mathsf{FileJudg}\_\omega \ =\ \{\operatorname{FileReadAll}(h,\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FileReadAllBytes}(h,\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FileWrite}(h,\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FileFlush}(h,\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FileClose}(h,\ \omega )\ \Downarrow \ (\mathsf{ok},\ \omega ')\} \\
+\mathsf{DirJudg}\_\omega \ =\ \{\operatorname{DirNext}(h,\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{DirClose}(h,\ \omega )\ \Downarrow \ (\mathsf{ok},\ \omega ')\}
+\end{array}
 ```
 
-EntryKind(ω, path) =
- `File`  if Entries(ω)[path] = FileEntry(_)
- `Dir`   if Entries(ω)[path] = DirEntry(_)
- `Other` if Entries(ω)[path] = OtherEntry
- `Other` otherwise
-
-```text
-FileBytes(ω, path) = bytes ⇔ Entries(ω)[path] = FileEntry(bytes)
-DirNames(ω, path) = names ⇔ Entries(ω)[path] = DirEntry(names)
+```math
+\begin{array}{l}
+\operatorname{FSOpenRead}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSOpenRead}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{FSOpenWrite}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSOpenWrite}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{FSOpenAppend}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSOpenAppend}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{FSCreateWrite}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSCreateWrite}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{FSReadFile}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSReadFile}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{FSReadBytes}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSReadBytes}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{FSWriteFile}(\mathsf{fs},\ \mathsf{path},\ \mathsf{data})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSWriteFile}(\mathsf{fs},\ \mathsf{path},\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{FSWriteStdout}(\mathsf{fs},\ \mathsf{data})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSWriteStdout}(\mathsf{fs},\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{FSWriteStderr}(\mathsf{fs},\ \mathsf{data})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSWriteStderr}(\mathsf{fs},\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{FSExists}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ b\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSExists}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (b,\ \omega ') \\
+\operatorname{FSRemove}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSRemove}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{FSOpenDir}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSOpenDir}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{FSCreateDir}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSCreateDir}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{FSEnsureDir}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSEnsureDir}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{FSKind}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSKind}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{FileReadAll}(h)\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FileReadAll}(h,\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{FileReadAllBytes}(h)\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FileReadAllBytes}(h,\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{FileWrite}(h,\ \mathsf{data})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FileWrite}(h,\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{FileFlush}(h)\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FileFlush}(h,\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{FileClose}(h)\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FileClose}(h,\ \omega )\ \Downarrow \ (\mathsf{ok},\ \omega ') \\
+\operatorname{DirNext}(h)\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{DirNext}(h,\ \omega )\ \Downarrow \ (r,\ \omega ') \\
+\operatorname{DirClose}(h)\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{DirClose}(h,\ \omega )\ \Downarrow \ (\mathsf{ok},\ \omega ')
+\end{array}
 ```
 
-HandleStateOf(ω, h) =
- Handles(ω)[h].state  if Handles(ω)[h] defined
- `Closed`             otherwise
-HandlePos(ω, h) =
- Handles(ω)[h].pos  if Handles(ω)[h] defined
- 0                  otherwise
-HandleLen(ω, h) =
- Handles(ω)[h].len  if Handles(ω)[h] defined
- 0                  otherwise
-HandlePath(ω, h) =
- Handles(ω)[h].path  if Handles(ω)[h] defined
- "\""                otherwise
-DirIterFS(ω, h) =
- DirIters(ω)[h].fs  if DirIters(ω)[h] defined
-
-```text
- ⊥                  otherwise
+```math
+\begin{array}{l}
+\operatorname{RestrictPath}(\mathsf{base},\ \mathsf{path})\ =\ p\ \Leftrightarrow \ \lnot \ \operatorname{AbsPath}(\mathsf{path})\ \land \ b\ =\ \operatorname{Canon}(\operatorname{Normalize}(\mathsf{base}))\ \land \ b\ \ne \ \bot \ \land \ p\ =\ \operatorname{Canon}(\operatorname{Normalize}(\operatorname{Join}(b,\ \mathsf{path})))\ \land \ p\ \ne \ \bot \ \land \ \operatorname{prefix}(p,\ b) \\
+\operatorname{RestrictPath}(\mathsf{base},\ \mathsf{path})\ =\ \bot \ \Leftrightarrow \ \operatorname{AbsPath}(\mathsf{path})\ \lor \ \operatorname{Canon}(\operatorname{Normalize}(\mathsf{base}))\ =\ \bot \ \lor \ \operatorname{Canon}(\operatorname{Normalize}(\operatorname{Join}(\operatorname{Canon}(\operatorname{Normalize}(\mathsf{base})),\ \mathsf{path})))\ =\ \bot \ \lor \ \lnot \ \operatorname{prefix}(\operatorname{Canon}(\operatorname{Normalize}(\operatorname{Join}(\operatorname{Canon}(\operatorname{Normalize}(\mathsf{base})),\ \mathsf{path}))),\ \operatorname{Canon}(\operatorname{Normalize}(\mathsf{base}))) \\
+\mathsf{FSOp}\ =\ \{\mathsf{FSOpenRead},\ \mathsf{FSOpenWrite},\ \mathsf{FSOpenAppend},\ \mathsf{FSCreateWrite},\ \mathsf{FSReadFile},\ \mathsf{FSReadBytes},\ \mathsf{FSWriteFile},\ \mathsf{FSWriteStdout},\ \mathsf{FSWriteStderr},\ \mathsf{FSExists},\ \mathsf{FSRemove},\ \mathsf{FSOpenDir},\ \mathsf{FSCreateDir},\ \mathsf{FSEnsureDir},\ \mathsf{FSKind}\} \\
+\operatorname{FSRestrict}(\mathsf{fs},\ \mathsf{base})\ \Downarrow \ \mathsf{fs}'\ \land \ \mathsf{Op}\ \in \ \mathsf{FSOp}\ \land \ \operatorname{RestrictPath}(\mathsf{base},\ p)\ =\ q\ \Rightarrow \ \operatorname{Op}(\mathsf{fs}',\ p)\ =\ \operatorname{Op}(\mathsf{fs},\ q) \\
+\operatorname{FSRestrict}(\mathsf{fs},\ \mathsf{base})\ \Downarrow \ \mathsf{fs}'\ \land \ \mathsf{Op}\ \in \ \mathsf{FSOp}\ \land \ \operatorname{RestrictPath}(\mathsf{base},\ p)\ =\ \bot \ \land \ \mathsf{Op}\ \ne \ \mathsf{FSExists}\ \Rightarrow \ \operatorname{Op}(\mathsf{fs}',\ p)\ =\ \mathsf{IoError}\mathbin{::} \mathsf{InvalidPath} \\
+\operatorname{FSRestrict}(\mathsf{fs},\ \mathsf{base})\ \Downarrow \ \mathsf{fs}'\ \land \ \operatorname{RestrictPath}(\mathsf{base},\ p)\ =\ \bot \ \Rightarrow \ \operatorname{FSExists}(\mathsf{fs}',\ p)\ =\ \mathsf{false}
+\end{array}
 ```
 
-DirIterPath(ω, h) =
- DirIters(ω)[h].path  if DirIters(ω)[h] defined
- "\""                 otherwise
-DirIterEntries(ω, h) =
- DirIters(ω)[h].entries  if DirIters(ω)[h] defined
- []                      otherwise
-DirIterPos(ω, h) =
- DirIters(ω)[h].pos  if DirIters(ω)[h] defined
- 0                    otherwise
-
-```text
-DirIterOpen(ω, h) ⇔ DirIters(ω)[h] defined
-Flushed(ω, h) ⇔ h ∈ FlushedSet(ω)
-FSJudg_ω = {FSOpenRead(fs, path, ω) ⇓ (r, ω'), FSOpenWrite(fs, path, ω) ⇓ (r, ω'), FSOpenAppend(fs, path, ω) ⇓ (r, ω'), FSCreateWrite(fs, path, ω) ⇓ (r, ω'), FSReadFile(fs, path, ω) ⇓ (r, ω'), FSReadBytes(fs, path, ω) ⇓ (r, ω'), FSWriteFile(fs, path, data, ω) ⇓ (r, ω'), FSWriteStdout(fs, data, ω) ⇓ (r, ω'), FSWriteStderr(fs, data, ω) ⇓ (r, ω'), FSExists(fs, path, ω) ⇓ (b, ω'), FSRemove(fs, path, ω) ⇓ (r, ω'), FSOpenDir(fs, path, ω) ⇓ (r, ω'), FSCreateDir(fs, path, ω) ⇓ (r, ω'), FSEnsureDir(fs, path, ω) ⇓ (r, ω'), FSKind(fs, path, ω) ⇓ (r, ω')}
-FileJudg_ω = {FileReadAll(h, ω) ⇓ (r, ω'), FileReadAllBytes(h, ω) ⇓ (r, ω'), FileWrite(h, data, ω) ⇓ (r, ω'), FileFlush(h, ω) ⇓ (r, ω'), FileClose(h, ω) ⇓ (ok, ω')}
-DirJudg_ω = {DirNext(h, ω) ⇓ (r, ω'), DirClose(h, ω) ⇓ (ok, ω')}
+```math
+\begin{array}{l}
+\mathsf{FSPathOp}_{0}\ =\ \{\mathsf{FSOpenRead},\ \mathsf{FSOpenWrite},\ \mathsf{FSOpenAppend},\ \mathsf{FSCreateWrite},\ \mathsf{FSReadFile},\ \mathsf{FSReadBytes},\ \mathsf{FSRemove},\ \mathsf{FSOpenDir},\ \mathsf{FSCreateDir},\ \mathsf{FSEnsureDir},\ \mathsf{FSKind}\} \\
+\mathsf{FSPathOp}_{1}\ =\ \{\mathsf{FSWriteFile}\} \\
+\mathsf{FSRequiresExisting}\ =\ \{\mathsf{FSOpenRead},\ \mathsf{FSOpenWrite},\ \mathsf{FSOpenAppend},\ \mathsf{FSReadFile},\ \mathsf{FSReadBytes},\ \mathsf{FSOpenDir},\ \mathsf{FSKind},\ \mathsf{FSRemove}\} \\
+\operatorname{PathInvalid}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Leftrightarrow \ \operatorname{Canon}(\operatorname{Normalize}(\mathsf{path}))\ =\ \bot  \\
+\operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \Leftrightarrow \ \operatorname{Entries}(\omega )[\mathsf{path}]\ \mathsf{defined} \\
+\operatorname{PermissionDenied}(\mathsf{fs},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Leftrightarrow \ \operatorname{FailMap}(\omega )[\langle \mathsf{Op},\ \mathsf{path}\rangle ]\ =\ \mathsf{IoError}\mathbin{::} \mathsf{PermissionDenied} \\
+\operatorname{Busy}(\mathsf{fs},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Leftrightarrow \ \operatorname{FailMap}(\omega )[\langle \mathsf{Op},\ \mathsf{path}\rangle ]\ =\ \mathsf{IoError}\mathbin{::} \mathsf{Busy} \\
+\operatorname{OtherFailure}(\mathsf{fs},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Leftrightarrow \ \operatorname{FailMap}(\omega )[\langle \mathsf{Op},\ \mathsf{path}\rangle ]\ =\ \mathsf{IoError}\mathbin{::} \mathsf{IoFailure}
+\end{array}
 ```
 
-```text
-FSOpenRead(fs, path) ⇓ r ⇔ ∃ ω, ω'. FSOpenRead(fs, path, ω) ⇓ (r, ω')
-FSOpenWrite(fs, path) ⇓ r ⇔ ∃ ω, ω'. FSOpenWrite(fs, path, ω) ⇓ (r, ω')
-FSOpenAppend(fs, path) ⇓ r ⇔ ∃ ω, ω'. FSOpenAppend(fs, path, ω) ⇓ (r, ω')
-FSCreateWrite(fs, path) ⇓ r ⇔ ∃ ω, ω'. FSCreateWrite(fs, path, ω) ⇓ (r, ω')
-FSReadFile(fs, path) ⇓ r ⇔ ∃ ω, ω'. FSReadFile(fs, path, ω) ⇓ (r, ω')
-FSReadBytes(fs, path) ⇓ r ⇔ ∃ ω, ω'. FSReadBytes(fs, path, ω) ⇓ (r, ω')
-FSWriteFile(fs, path, data) ⇓ r ⇔ ∃ ω, ω'. FSWriteFile(fs, path, data, ω) ⇓ (r, ω')
-FSWriteStdout(fs, data) ⇓ r ⇔ ∃ ω, ω'. FSWriteStdout(fs, data, ω) ⇓ (r, ω')
-FSWriteStderr(fs, data) ⇓ r ⇔ ∃ ω, ω'. FSWriteStderr(fs, data, ω) ⇓ (r, ω')
-FSExists(fs, path) ⇓ b ⇔ ∃ ω, ω'. FSExists(fs, path, ω) ⇓ (b, ω')
-FSRemove(fs, path) ⇓ r ⇔ ∃ ω, ω'. FSRemove(fs, path, ω) ⇓ (r, ω')
-FSOpenDir(fs, path) ⇓ r ⇔ ∃ ω, ω'. FSOpenDir(fs, path, ω) ⇓ (r, ω')
-FSCreateDir(fs, path) ⇓ r ⇔ ∃ ω, ω'. FSCreateDir(fs, path, ω) ⇓ (r, ω')
-FSEnsureDir(fs, path) ⇓ r ⇔ ∃ ω, ω'. FSEnsureDir(fs, path, ω) ⇓ (r, ω')
-FSKind(fs, path) ⇓ r ⇔ ∃ ω, ω'. FSKind(fs, path, ω) ⇓ (r, ω')
-FileReadAll(h) ⇓ r ⇔ ∃ ω, ω'. FileReadAll(h, ω) ⇓ (r, ω')
-FileReadAllBytes(h) ⇓ r ⇔ ∃ ω, ω'. FileReadAllBytes(h, ω) ⇓ (r, ω')
-FileWrite(h, data) ⇓ r ⇔ ∃ ω, ω'. FileWrite(h, data, ω) ⇓ (r, ω')
-FileFlush(h) ⇓ r ⇔ ∃ ω, ω'. FileFlush(h, ω) ⇓ (r, ω')
-FileClose(h) ⇓ ok ⇔ ∃ ω, ω'. FileClose(h, ω) ⇓ (ok, ω')
-DirNext(h) ⇓ r ⇔ ∃ ω, ω'. DirNext(h, ω) ⇓ (r, ω')
-DirClose(h) ⇓ ok ⇔ ∃ ω, ω'. DirClose(h, ω) ⇓ (ok, ω')
+```math
+\begin{array}{l}
+\mathsf{Op}\ \in \ \mathsf{FSPathOp}_{0}\ \land \ \operatorname{PathInvalid}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Rightarrow \ \operatorname{Op}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{InvalidPath},\ \omega ) \\
+\mathsf{Op}\ \in \ \mathsf{FSPathOp}_{1}\ \land \ \operatorname{PathInvalid}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Rightarrow \ \operatorname{Op}(\mathsf{fs},\ \mathsf{path},\ \mathsf{data},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{InvalidPath},\ \omega ) \\
+\mathsf{Op}\ \in \ \mathsf{FSRequiresExisting}\ \land \ \lnot \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \Rightarrow \ \operatorname{Op}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{NotFound},\ \omega ) \\
+\operatorname{PermissionDenied}(\mathsf{fs},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Rightarrow \ \operatorname{Op}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{PermissionDenied},\ \omega ) \\
+\mathsf{Op}\ =\ \mathsf{FSCreateWrite}\ \land \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \Rightarrow \ \operatorname{Op}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{AlreadyExists},\ \omega ) \\
+\mathsf{Op}\ \in \ \{\mathsf{FSCreateDir},\ \mathsf{FSEnsureDir}\}\ \land \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \land \ \operatorname{EntryKind}(\omega ,\ \mathsf{path})\ \ne \ \texttt{Dir}\ \Rightarrow \ \operatorname{Op}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{AlreadyExists},\ \omega ) \\
+\mathsf{Op}\ =\ \mathsf{FSOpenDir}\ \land \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \land \ \operatorname{EntryKind}(\omega ,\ \mathsf{path})\ \ne \ \texttt{Dir}\ \Rightarrow \ \operatorname{Op}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{InvalidPath},\ \omega ) \\
+\operatorname{Busy}(\mathsf{fs},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Rightarrow \ \operatorname{Op}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{Busy},\ \omega ) \\
+\operatorname{OtherFailure}(\mathsf{fs},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Rightarrow \ \operatorname{Op}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{IoFailure},\ \omega )
+\end{array}
 ```
 
-```text
-RestrictPath(base, path) = p ⇔ ¬ AbsPath(path) ∧ b = Canon(Normalize(base)) ∧ b ≠ ⊥ ∧ p = Canon(Normalize(Join(b, path))) ∧ p ≠ ⊥ ∧ prefix(p, b)
-RestrictPath(base, path) = ⊥ ⇔ AbsPath(path) ∨ Canon(Normalize(base)) = ⊥ ∨ Canon(Normalize(Join(Canon(Normalize(base)), path))) = ⊥ ∨ ¬ prefix(Canon(Normalize(Join(Canon(Normalize(base)), path))), Canon(Normalize(base)))
+```math
+\begin{array}{l}
+\operatorname{FSReadFile}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ')\ \land \ \operatorname{FSReadBytes}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{bytes},\ \omega '')\ \land \ \lnot \ \operatorname{Utf8Valid}(\mathsf{bytes})\ \Rightarrow \ r\ =\ \mathsf{IoError}\mathbin{::} \mathsf{IoFailure} \\
+\operatorname{FileReadAll}(h,\ \omega )\ \Downarrow \ (r,\ \omega ')\ \land \ \operatorname{FileReadAllBytes}(h,\ \omega )\ \Downarrow \ (\mathsf{bytes},\ \omega '')\ \land \ \lnot \ \operatorname{Utf8Valid}(\mathsf{bytes})\ \Rightarrow \ r\ =\ \mathsf{IoError}\mathbin{::} \mathsf{IoFailure}
+\end{array}
 ```
 
-FSOp = {FSOpenRead, FSOpenWrite, FSOpenAppend, FSCreateWrite, FSReadFile, FSReadBytes, FSWriteFile, FSWriteStdout, FSWriteStderr, FSExists, FSRemove, FSOpenDir, FSCreateDir, FSEnsureDir, FSKind}
-
-```text
-FSRestrict(fs, base) ⇓ fs' ∧ Op ∈ FSOp ∧ RestrictPath(base, p) = q ⇒ Op(fs', p) = Op(fs, q)
-FSRestrict(fs, base) ⇓ fs' ∧ Op ∈ FSOp ∧ RestrictPath(base, p) = ⊥ ∧ Op ≠ FSExists ⇒ Op(fs', p) = IoError::InvalidPath
-FSRestrict(fs, base) ⇓ fs' ∧ RestrictPath(base, p) = ⊥ ⇒ FSExists(fs', p) = false
+```math
+\begin{array}{l}
+\operatorname{FSExists}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{true},\ \omega ')\ \Rightarrow \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \land \ \lnot \ \operatorname{PathInvalid}(\mathsf{fs},\ \mathsf{path},\ \omega ) \\
+\operatorname{FSExists}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{false},\ \omega ')\ \Rightarrow \ \operatorname{PathInvalid}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \lor \ \lnot \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})
+\end{array}
 ```
 
-FSPathOp_0 = {FSOpenRead, FSOpenWrite, FSOpenAppend, FSCreateWrite, FSReadFile, FSReadBytes, FSRemove, FSOpenDir, FSCreateDir, FSEnsureDir, FSKind}
-FSPathOp_1 = {FSWriteFile}
-FSRequiresExisting = {FSOpenRead, FSOpenWrite, FSOpenAppend, FSReadFile, FSReadBytes, FSOpenDir, FSKind, FSRemove}
-
-```text
-PathInvalid(fs, path, ω) ⇔ Canon(Normalize(path)) = ⊥
-EntryExists(ω, path) ⇔ Entries(ω)[path] defined
-PermissionDenied(fs, path, Op, ω) ⇔ FailMap(ω)[⟨Op, path⟩] = IoError::PermissionDenied
-Busy(fs, path, Op, ω) ⇔ FailMap(ω)[⟨Op, path⟩] = IoError::Busy
-OtherFailure(fs, path, Op, ω) ⇔ FailMap(ω)[⟨Op, path⟩] = IoError::IoFailure
+```math
+\begin{array}{l}
+\mathsf{HandleState}\ =\ \{\texttt{OpenRead},\ \texttt{OpenWrite},\ \texttt{OpenAppend},\ \texttt{Closed}\} \\
+\operatorname{HandleOpen}(\omega ,\ h)\ \Leftrightarrow \ \operatorname{HandleStateOf}(\omega ,\ h)\ \ne \ \texttt{Closed} \\
+\operatorname{HandleMode}(\omega ,\ h)\ = \\
+\ \texttt{Read}\quad \mathsf{if}\ \operatorname{HandleStateOf}(\omega ,\ h)\ =\ \texttt{OpenRead} \\
+\ \texttt{Write}\ \mathsf{if}\ \operatorname{HandleStateOf}(\omega ,\ h)\ =\ \texttt{OpenWrite} \\
+\ \texttt{Append}\ \mathsf{if}\ \operatorname{HandleStateOf}(\omega ,\ h)\ =\ \texttt{OpenAppend} \\
+\operatorname{FileLenAt}(\omega ,\ \mathsf{path})\ = \\
+\ \operatorname{ByteLen}(\mathsf{bytes})\ \mathsf{if}\ \operatorname{Entries}(\omega )[\mathsf{path}]\ =\ \operatorname{FileEntry}(\mathsf{bytes}) \\
+\ 0\quad \mathsf{otherwise} \\
+\operatorname{ByteLen}(\mathsf{data})\ =
+\end{array}
 ```
-
-```text
-Op ∈ FSPathOp_0 ∧ PathInvalid(fs, path, ω) ⇒ Op(fs, path, ω) ⇓ (IoError::InvalidPath, ω)
-Op ∈ FSPathOp_1 ∧ PathInvalid(fs, path, ω) ⇒ Op(fs, path, data, ω) ⇓ (IoError::InvalidPath, ω)
-Op ∈ FSRequiresExisting ∧ ¬ EntryExists(ω, path) ⇒ Op(fs, path, ω) ⇓ (IoError::NotFound, ω)
-PermissionDenied(fs, path, Op, ω) ⇒ Op(fs, path, ω) ⇓ (IoError::PermissionDenied, ω)
-Op = FSCreateWrite ∧ EntryExists(ω, path) ⇒ Op(fs, path, ω) ⇓ (IoError::AlreadyExists, ω)
-Op ∈ {FSCreateDir, FSEnsureDir} ∧ EntryExists(ω, path) ∧ EntryKind(ω, path) ≠ `Dir` ⇒ Op(fs, path, ω) ⇓ (IoError::AlreadyExists, ω)
-Op = FSOpenDir ∧ EntryExists(ω, path) ∧ EntryKind(ω, path) ≠ `Dir` ⇒ Op(fs, path, ω) ⇓ (IoError::InvalidPath, ω)
-Busy(fs, path, Op, ω) ⇒ Op(fs, path, ω) ⇓ (IoError::Busy, ω)
-OtherFailure(fs, path, Op, ω) ⇒ Op(fs, path, ω) ⇓ (IoError::IoFailure, ω)
-```
-
-```text
-FSReadFile(fs, path, ω) ⇓ (r, ω') ∧ FSReadBytes(fs, path, ω) ⇓ (bytes, ω'') ∧ ¬ Utf8Valid(bytes) ⇒ r = IoError::IoFailure
-FileReadAll(h, ω) ⇓ (r, ω') ∧ FileReadAllBytes(h, ω) ⇓ (bytes, ω'') ∧ ¬ Utf8Valid(bytes) ⇒ r = IoError::IoFailure
-```
-
-```text
-FSExists(fs, path, ω) ⇓ (true, ω') ⇒ EntryExists(ω, path) ∧ ¬ PathInvalid(fs, path, ω)
-FSExists(fs, path, ω) ⇓ (false, ω') ⇒ PathInvalid(fs, path, ω) ∨ ¬ EntryExists(ω, path)
-```
-
-HandleState = {`OpenRead`, `OpenWrite`, `OpenAppend`, `Closed`}
-
-```text
-HandleOpen(ω, h) ⇔ HandleStateOf(ω, h) ≠ `Closed`
-```
-
-HandleMode(ω, h) =
- `Read`    if HandleStateOf(ω, h) = `OpenRead`
- `Write`   if HandleStateOf(ω, h) = `OpenWrite`
- `Append`  if HandleStateOf(ω, h) = `OpenAppend`
-FileLenAt(ω, path) =
- ByteLen(bytes)  if Entries(ω)[path] = FileEntry(bytes)
- 0               otherwise
-ByteLen(data) =
  |data|       if data ∈ Bytes
  |Utf8(data)| if data ∈ String
  0            otherwise
 
-```text
-LexBytes(b_1, b_2) ⇔ (∃ k. 0 ≤ k < min(|b_1|, |b_2|) ∧ (∀ i < k. b_1[i] = b_2[i]) ∧ b_1[k] < b_2[k]) ∨ (|b_1| < |b_2| ∧ ∀ i < |b_1|. b_1[i] = b_2[i])
+```math
+\begin{array}{l}
+\operatorname{LexBytes}(b_{1},\ b_{2})\ \Leftrightarrow \ (\exists \ k.\ 0\ \le \ k\ <\ \operatorname{min}(\mid b_{1}\mid ,\ \mid b_{2}\mid )\ \land \ (\forall \ i\ <\ k.\ b_{1}[i]\ =\ b_{2}[i])\ \land \ b_{1}[k]\ <\ b_{2}[k])\ \lor \ (\mid b_{1}\mid \ <\ \mid b_{2}\mid \ \land \ \forall \ i\ <\ \mid b_{1}\mid .\ b_{1}[i]\ =\ b_{2}[i]) \\
+\operatorname{EntryKey}(\mathsf{name})\ =\ \operatorname{CaseFold}(\operatorname{NFC}(\mathsf{name})) \\
+\operatorname{EntryOrder}(a,\ b)\ \Leftrightarrow \ \operatorname{LexBytes}(\operatorname{Utf8}(\operatorname{EntryKey}(a)),\ \operatorname{Utf8}(\operatorname{EntryKey}(b)))\ \lor \ (\operatorname{EntryKey}(a)\ =\ \operatorname{EntryKey}(b)\ \land \ \operatorname{LexBytes}(\operatorname{Utf8}(a),\ \operatorname{Utf8}(b))) \\
+\operatorname{DirSnapshot}(\mathsf{fs},\ \mathsf{path},\ \omega )\ = \\
+\ [\ \texttt{DirEntry}\{\texttt{path}:\ \operatorname{Join}(\mathsf{path},\ \mathsf{name}),\ \texttt{name}:\ \mathsf{name},\ \texttt{kind}:\ \operatorname{EntryKind}(\omega ,\ \operatorname{Join}(\mathsf{path},\ \mathsf{name}))\}\ \mid \ \mathsf{name}\ \in \ \operatorname{DirNames}(\omega ,\ \mathsf{path})\ \land \ \mathsf{name}\ \ne \ \texttt{"."}\ \land \ \mathsf{name}\ \ne \ \texttt{".."}\ ]\ \mathsf{if}\ \operatorname{Entries}(\omega )[\mathsf{path}]\ =\ \operatorname{DirEntry}(\_) \\
+\ []\quad \mathsf{otherwise} \\
+\operatorname{DirEntries}(\mathsf{fs},\ \mathsf{path},\ \omega )\ =\ \mathsf{sort}\_\{\lambda \ a,\ b.\ \operatorname{EntryOrder}(a.\mathsf{name},\ b.\mathsf{name})\}(\operatorname{DirSnapshot}(\mathsf{fs},\ \mathsf{path},\ \omega ))
+\end{array}
 ```
 
-EntryKey(name) = CaseFold(NFC(name))
-
-```text
-EntryOrder(a, b) ⇔ LexBytes(Utf8(EntryKey(a)), Utf8(EntryKey(b))) ∨ (EntryKey(a) = EntryKey(b) ∧ LexBytes(Utf8(a), Utf8(b)))
+```math
+\begin{array}{l}
+\operatorname{FSOpenRead}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{File@Read}\{\texttt{handle}:\ h\},\ \omega ')\ \Rightarrow \ \operatorname{HandleStateOf}(\omega ',\ h)\ =\ \texttt{OpenRead}\ \land \ \operatorname{HandlePos}(\omega ',\ h)\ =\ 0\ \land \ \operatorname{HandlePath}(\omega ',\ h)\ =\ \mathsf{path}\ \land \ \operatorname{HandleLen}(\omega ',\ h)\ =\ \operatorname{FileLenAt}(\omega ,\ \mathsf{path}) \\
+\operatorname{FSOpenWrite}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{File@Write}\{\texttt{handle}:\ h\},\ \omega ')\ \Rightarrow \ \operatorname{HandleStateOf}(\omega ',\ h)\ =\ \texttt{OpenWrite}\ \land \ \operatorname{HandlePos}(\omega ',\ h)\ =\ 0\ \land \ \operatorname{HandlePath}(\omega ',\ h)\ =\ \mathsf{path}\ \land \ \operatorname{HandleLen}(\omega ',\ h)\ =\ \operatorname{FileLenAt}(\omega ,\ \mathsf{path}) \\
+\operatorname{FSOpenAppend}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{File@Append}\{\texttt{handle}:\ h\},\ \omega ')\ \Rightarrow \ \operatorname{HandleStateOf}(\omega ',\ h)\ =\ \texttt{OpenAppend}\ \land \ \operatorname{HandlePos}(\omega ',\ h)\ =\ \operatorname{FileLenAt}(\omega ,\ \mathsf{path})\ \land \ \operatorname{HandlePath}(\omega ',\ h)\ =\ \mathsf{path}\ \land \ \operatorname{HandleLen}(\omega ',\ h)\ =\ \operatorname{FileLenAt}(\omega ,\ \mathsf{path}) \\
+\operatorname{FSCreateWrite}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{File@Write}\{\texttt{handle}:\ h\},\ \omega ')\ \Rightarrow \ \operatorname{HandleStateOf}(\omega ',\ h)\ =\ \texttt{OpenWrite}\ \land \ \operatorname{HandlePos}(\omega ',\ h)\ =\ 0\ \land \ \operatorname{HandlePath}(\omega ',\ h)\ =\ \mathsf{path}\ \land \ \operatorname{HandleLen}(\omega ',\ h)\ =\ 0
+\end{array}
 ```
 
-DirSnapshot(fs, path, ω) =
-
-```text
- [ `DirEntry`{`path`: Join(path, name), `name`: name, `kind`: EntryKind(ω, Join(path, name))} | name ∈ DirNames(ω, path) ∧ name ≠ "." ∧ name ≠ ".." ]  if Entries(ω)[path] = DirEntry(_)
+```math
+\begin{array}{l}
+\operatorname{FSReadFile}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ')\ \Leftrightarrow \ \exists \ h,\ \omega_{1} ,\ \omega_{2} .\ \operatorname{FSOpenRead}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{File@Read}\{\texttt{handle}:\ h\},\ \omega_{1} )\ \land \ \operatorname{FileReadAll}(h,\ \omega_{1} )\ \Downarrow \ (r,\ \omega_{2} )\ \land \ \operatorname{FileClose}(h,\ \omega_{2} )\ \Downarrow \ (\mathsf{ok},\ \omega ') \\
+\operatorname{FSReadBytes}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ')\ \Leftrightarrow \ \exists \ h,\ \omega_{1} ,\ \omega_{2} .\ \operatorname{FSOpenRead}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{File@Read}\{\texttt{handle}:\ h\},\ \omega_{1} )\ \land \ \operatorname{FileReadAllBytes}(h,\ \omega_{1} )\ \Downarrow \ (r,\ \omega_{2} )\ \land \ \operatorname{FileClose}(h,\ \omega_{2} )\ \Downarrow \ (\mathsf{ok},\ \omega ')
+\end{array}
 ```
 
- []                                                                                                                        otherwise
-
-```text
-DirEntries(fs, path, ω) = sort_{λ a, b. EntryOrder(a.name, b.name)}(DirSnapshot(fs, path, ω))
+```math
+\begin{array}{l}
+\lnot \ \operatorname{HandleOpen}(\omega ,\ h)\ \Rightarrow \ \operatorname{FileReadAll}(h,\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{IoFailure},\ \omega ) \\
+\lnot \ \operatorname{HandleOpen}(\omega ,\ h)\ \Rightarrow \ \operatorname{FileReadAllBytes}(h,\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{IoFailure},\ \omega ) \\
+\lnot \ \operatorname{HandleOpen}(\omega ,\ h)\ \Rightarrow \ \operatorname{FileWrite}(h,\ \mathsf{data},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{IoFailure},\ \omega ) \\
+\lnot \ \operatorname{HandleOpen}(\omega ,\ h)\ \Rightarrow \ \operatorname{FileFlush}(h,\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{IoFailure},\ \omega )
+\end{array}
 ```
 
-```text
-FSOpenRead(fs, path, ω) ⇓ (`File@Read`{`handle`: h}, ω') ⇒ HandleStateOf(ω', h) = `OpenRead` ∧ HandlePos(ω', h) = 0 ∧ HandlePath(ω', h) = path ∧ HandleLen(ω', h) = FileLenAt(ω, path)
-FSOpenWrite(fs, path, ω) ⇓ (`File@Write`{`handle`: h}, ω') ⇒ HandleStateOf(ω', h) = `OpenWrite` ∧ HandlePos(ω', h) = 0 ∧ HandlePath(ω', h) = path ∧ HandleLen(ω', h) = FileLenAt(ω, path)
-FSOpenAppend(fs, path, ω) ⇓ (`File@Append`{`handle`: h}, ω') ⇒ HandleStateOf(ω', h) = `OpenAppend` ∧ HandlePos(ω', h) = FileLenAt(ω, path) ∧ HandlePath(ω', h) = path ∧ HandleLen(ω', h) = FileLenAt(ω, path)
-FSCreateWrite(fs, path, ω) ⇓ (`File@Write`{`handle`: h}, ω') ⇒ HandleStateOf(ω', h) = `OpenWrite` ∧ HandlePos(ω', h) = 0 ∧ HandlePath(ω', h) = path ∧ HandleLen(ω', h) = 0
+```math
+\begin{array}{l}
+\operatorname{FileReadAll}(h,\ \omega )\ \Downarrow \ (r,\ \omega ')\ \land \ r\ \ne \ \mathsf{IoError}\mathbin{::} \mathsf{IoFailure}\ \Rightarrow \ \operatorname{HandlePos}(\omega ',\ h)\ =\ \operatorname{HandleLen}(\omega ,\ h) \\
+\operatorname{FileReadAllBytes}(h,\ \omega )\ \Downarrow \ (r,\ \omega ')\ \land \ r\ \ne \ \mathsf{IoError}\mathbin{::} \mathsf{IoFailure}\ \Rightarrow \ \operatorname{HandlePos}(\omega ',\ h)\ =\ \operatorname{HandleLen}(\omega ,\ h)
+\end{array}
 ```
 
-```text
-FSReadFile(fs, path, ω) ⇓ (r, ω') ⇔ ∃ h, ω_1, ω_2. FSOpenRead(fs, path, ω) ⇓ (`File@Read`{`handle`: h}, ω_1) ∧ FileReadAll(h, ω_1) ⇓ (r, ω_2) ∧ FileClose(h, ω_2) ⇓ (ok, ω')
-FSReadBytes(fs, path, ω) ⇓ (r, ω') ⇔ ∃ h, ω_1, ω_2. FSOpenRead(fs, path, ω) ⇓ (`File@Read`{`handle`: h}, ω_1) ∧ FileReadAllBytes(h, ω_1) ⇓ (r, ω_2) ∧ FileClose(h, ω_2) ⇓ (ok, ω')
+```math
+\begin{array}{l}
+\operatorname{FileWrite}(h,\ \mathsf{data},\ \omega )\ \Downarrow \ (\mathsf{ok},\ \omega ')\ \Rightarrow \ \operatorname{HandleOpen}(\omega ,\ h)\ \land \ (\operatorname{HandleMode}(\omega ,\ h)\ =\ \texttt{Append}\ \Rightarrow \ \operatorname{HandlePos}(\omega ',\ h)\ =\ \operatorname{HandleLen}(\omega ,\ h)\ +\ \operatorname{ByteLen}(\mathsf{data}))\ \land \ (\operatorname{HandleMode}(\omega ,\ h)\ \ne \ \texttt{Append}\ \Rightarrow \ \operatorname{HandlePos}(\omega ',\ h)\ =\ \operatorname{HandlePos}(\omega ,\ h)\ +\ \operatorname{ByteLen}(\mathsf{data})) \\
+\operatorname{FileWrite}(h,\ \mathsf{data},\ \omega )\ \Downarrow \ (\mathsf{ok},\ \omega ')\ \Rightarrow \ \operatorname{HandleLen}(\omega ',\ h)\ =\ \operatorname{max}(\operatorname{HandleLen}(\omega ,\ h),\ \operatorname{HandlePos}(\omega ',\ h))
+\end{array}
 ```
 
-```text
-¬ HandleOpen(ω, h) ⇒ FileReadAll(h, ω) ⇓ (IoError::IoFailure, ω)
-¬ HandleOpen(ω, h) ⇒ FileReadAllBytes(h, ω) ⇓ (IoError::IoFailure, ω)
-¬ HandleOpen(ω, h) ⇒ FileWrite(h, data, ω) ⇓ (IoError::IoFailure, ω)
-¬ HandleOpen(ω, h) ⇒ FileFlush(h, ω) ⇓ (IoError::IoFailure, ω)
+```math
+\begin{array}{l}
+\operatorname{FileFlush}(h,\ \omega )\ \Downarrow \ (\mathsf{ok},\ \omega ')\ \Rightarrow \ \operatorname{Flushed}(\omega ',\ h) \\
+\operatorname{FileClose}(h,\ \omega )\ \Downarrow \ (\mathsf{ok},\ \omega ')\ \Rightarrow \ \operatorname{HandleStateOf}(\omega ',\ h)\ =\ \texttt{Closed}
+\end{array}
 ```
 
-```text
-FileReadAll(h, ω) ⇓ (r, ω') ∧ r ≠ IoError::IoFailure ⇒ HandlePos(ω', h) = HandleLen(ω, h)
-FileReadAllBytes(h, ω) ⇓ (r, ω') ∧ r ≠ IoError::IoFailure ⇒ HandlePos(ω', h) = HandleLen(ω, h)
+```math
+\operatorname{FSOpenDir}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{DirIter@Open}\{\texttt{handle}:\ h\},\ \omega ')\ \Rightarrow \ \operatorname{DirIterOpen}(\omega ',\ h)\ \land \ \operatorname{DirIterFS}(\omega ',\ h)\ =\ \mathsf{fs}\ \land \ \operatorname{DirIterPath}(\omega ',\ h)\ =\ \mathsf{path}\ \land \ \operatorname{DirIterEntries}(\omega ',\ h)\ =\ \operatorname{DirEntries}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \land \ \operatorname{DirIterPos}(\omega ',\ h)\ =\ 0
 ```
 
-```text
-FileWrite(h, data, ω) ⇓ (ok, ω') ⇒ HandleOpen(ω, h) ∧ (HandleMode(ω, h) = `Append` ⇒ HandlePos(ω', h) = HandleLen(ω, h) + ByteLen(data)) ∧ (HandleMode(ω, h) ≠ `Append` ⇒ HandlePos(ω', h) = HandlePos(ω, h) + ByteLen(data))
-FileWrite(h, data, ω) ⇓ (ok, ω') ⇒ HandleLen(ω', h) = max(HandleLen(ω, h), HandlePos(ω', h))
+```math
+\begin{array}{l}
+\lnot \ \operatorname{DirIterOpen}(\omega ,\ h)\ \Rightarrow \ \operatorname{DirNext}(h,\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{IoFailure},\ \omega ) \\
+\operatorname{DirIterOpen}(\omega ,\ h)\ \land \ \operatorname{DirIterPos}(\omega ,\ h)\ =\ i\ \land \ i\ \ge \ \mid \operatorname{DirIterEntries}(\omega ,\ h)\mid \ \Rightarrow \ \operatorname{DirNext}(h,\ \omega )\ \Downarrow \ ((),\ \omega ) \\
+\operatorname{DirIterOpen}(\omega ,\ h)\ \land \ \operatorname{DirIterPos}(\omega ,\ h)\ =\ i\ \land \ i\ <\ \mid \operatorname{DirIterEntries}(\omega ,\ h)\mid \ \land \ \mathsf{entry}\ =\ \operatorname{DirIterEntries}(\omega ,\ h)[i]\ \Rightarrow \ \operatorname{DirNext}(h,\ \omega )\ \Downarrow \ (\mathsf{entry},\ \omega_{2} )\ \land \ \operatorname{DirIterPos}(\omega_{2} ,\ h)\ =\ i\ +\ 1
+\end{array}
 ```
 
-```text
-FileFlush(h, ω) ⇓ (ok, ω') ⇒ Flushed(ω', h)
-FileClose(h, ω) ⇓ (ok, ω') ⇒ HandleStateOf(ω', h) = `Closed`
-```
-
-```text
-FSOpenDir(fs, path, ω) ⇓ (`DirIter@Open`{`handle`: h}, ω') ⇒ DirIterOpen(ω', h) ∧ DirIterFS(ω', h) = fs ∧ DirIterPath(ω', h) = path ∧ DirIterEntries(ω', h) = DirEntries(fs, path, ω) ∧ DirIterPos(ω', h) = 0
-```
-
-```text
-¬ DirIterOpen(ω, h) ⇒ DirNext(h, ω) ⇓ (IoError::IoFailure, ω)
-DirIterOpen(ω, h) ∧ DirIterPos(ω, h) = i ∧ i ≥ |DirIterEntries(ω, h)| ⇒ DirNext(h, ω) ⇓ ((), ω)
-DirIterOpen(ω, h) ∧ DirIterPos(ω, h) = i ∧ i < |DirIterEntries(ω, h)| ∧ entry = DirIterEntries(ω, h)[i] ⇒ DirNext(h, ω) ⇓ (entry, ω_2) ∧ DirIterPos(ω_2, h) = i + 1
-```
-
-```text
-DirClose(h, ω) ⇓ (ok, ω') ⇒ ¬ DirIterOpen(ω', h)
+```math
+\operatorname{DirClose}(h,\ \omega )\ \Downarrow \ (\mathsf{ok},\ \omega ')\ \Rightarrow \ \lnot \ \operatorname{DirIterOpen}(\omega ',\ h)
 ```
 
 #### 6.2.2 System Primitive Relations
 
-```text
-SysState = ⟨env, exit_code_opt⟩
-Env(⟨env, exit_code_opt⟩) = env
-ExitCode(⟨env, exit_code_opt⟩) = exit_code_opt
-SetExitCode(⟨env, _⟩, code) = ⟨env, code⟩
+```math
+\begin{array}{l}
+\mathsf{SysState}\ =\ \langle \mathsf{env},\ \mathsf{exit}_{\mathsf{code}\_\mathsf{opt}}\rangle  \\
+\operatorname{Env}(\langle \mathsf{env},\ \mathsf{exit}_{\mathsf{code}\_\mathsf{opt}}\rangle )\ =\ \mathsf{env} \\
+\operatorname{ExitCode}(\langle \mathsf{env},\ \mathsf{exit}_{\mathsf{code}\_\mathsf{opt}}\rangle )\ =\ \mathsf{exit}_{\mathsf{code}\_\mathsf{opt}} \\
+\operatorname{SetExitCode}(\langle \mathsf{env},\ \_\rangle ,\ \mathsf{code})\ =\ \langle \mathsf{env},\ \mathsf{code}\rangle 
+\end{array}
 ```
 
-```text
-SystemJudg = {SystemGetEnv(key) ⇓ r, SystemExit(code) ⇓ ok, SystemRun(command) ⇓ code}
-SystemJudg_sys = {SystemGetEnv(key, sys) ⇓ (r, sys'), SystemExit(code, sys) ⇓ sys', SystemRun(command, sys) ⇓ (code, sys')}
+```math
+\begin{array}{l}
+\mathsf{SystemJudg}\ =\ \{\operatorname{SystemGetEnv}(\mathsf{key})\ \Downarrow \ r,\ \operatorname{SystemExit}(\mathsf{code})\ \Downarrow \ \mathsf{ok},\ \operatorname{SystemRun}(\mathsf{command})\ \Downarrow \ \mathsf{code}\} \\
+\mathsf{SystemJudg}_{\mathsf{sys}}\ =\ \{\operatorname{SystemGetEnv}(\mathsf{key},\ \mathsf{sys})\ \Downarrow \ (r,\ \mathsf{sys}'),\ \operatorname{SystemExit}(\mathsf{code},\ \mathsf{sys})\ \Downarrow \ \mathsf{sys}',\ \operatorname{SystemRun}(\mathsf{command},\ \mathsf{sys})\ \Downarrow \ (\mathsf{code},\ \mathsf{sys}')\}
+\end{array}
 ```
 
-```text
-SystemGetEnv(key) ⇓ r ⇔ ∃ sys, sys'. SystemGetEnv(key, sys) ⇓ (r, sys')
-SystemExit(code) ⇓ ok ⇔ ∃ sys, sys'. SystemExit(code, sys) ⇓ sys'
-SystemRun(command) ⇓ code ⇔ ∃ sys, sys'. SystemRun(command, sys) ⇓ (code, sys')
+```math
+\begin{array}{l}
+\operatorname{SystemGetEnv}(\mathsf{key})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \mathsf{sys},\ \mathsf{sys}'.\ \operatorname{SystemGetEnv}(\mathsf{key},\ \mathsf{sys})\ \Downarrow \ (r,\ \mathsf{sys}') \\
+\operatorname{SystemExit}(\mathsf{code})\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \exists \ \mathsf{sys},\ \mathsf{sys}'.\ \operatorname{SystemExit}(\mathsf{code},\ \mathsf{sys})\ \Downarrow \ \mathsf{sys}' \\
+\operatorname{SystemRun}(\mathsf{command})\ \Downarrow \ \mathsf{code}\ \Leftrightarrow \ \exists \ \mathsf{sys},\ \mathsf{sys}'.\ \operatorname{SystemRun}(\mathsf{command},\ \mathsf{sys})\ \Downarrow \ (\mathsf{code},\ \mathsf{sys}')
+\end{array}
 ```
 
-```text
-EmptyStringVal = v ⇔ ∃ lit. lit.kind = StringLiteral ∧ StringBytes(lit) = [] ∧ LiteralValue(lit, TypeString(`@View`)) = v
+```math
+\mathsf{EmptyStringVal}\ =\ v\ \Leftrightarrow \ \exists \ \mathsf{lit}.\ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{StringLiteral}\ \land \ \operatorname{StringBytes}(\mathsf{lit})\ =\ []\ \land \ \operatorname{LiteralValue}(\mathsf{lit},\ \operatorname{TypeString}(\texttt{@View}))\ =\ v
 ```
 
 **(System-GetEnv-Ok)**
-Env(sys)[key] = v
-──────────────────────────────────────────────
 
-```text
-SystemGetEnv(key, sys) ⇓ (v, sys)
+```math
+\begin{array}{l}
+\operatorname{Env}(\mathsf{sys})[\mathsf{key}]\ =\ v \\
+\rule{18em}{0.4pt} \\
+\operatorname{SystemGetEnv}(\mathsf{key},\ \mathsf{sys})\ \Downarrow \ (v,\ \mathsf{sys})
+\end{array}
 ```
 
 **(System-GetEnv-None)**
 
-```text
-key ∉ dom(Env(sys))
-```
-
-──────────────────────────────────────────────
-
-```text
-SystemGetEnv(key, sys) ⇓ (v, sys)    EmptyStringVal = v
+```math
+\begin{array}{l}
+\mathsf{key}\ \notin \ \operatorname{dom}(\operatorname{Env}(\mathsf{sys})) \\
+\rule{18em}{0.4pt} \\
+\operatorname{SystemGetEnv}(\mathsf{key},\ \mathsf{sys})\ \Downarrow \ (v,\ \mathsf{sys})\quad \mathsf{EmptyStringVal}\ =\ v
+\end{array}
 ```
 
 **(System-Exit)**
-sys' = SetExitCode(sys, code)
-──────────────────────────────────────────────
 
-```text
-SystemExit(code, sys) ⇓ sys'
+```math
+\begin{array}{l}
+\mathsf{sys}'\ =\ \operatorname{SetExitCode}(\mathsf{sys},\ \mathsf{code}) \\
+\rule{18em}{0.4pt} \\
+\operatorname{SystemExit}(\mathsf{code},\ \mathsf{sys})\ \Downarrow \ \mathsf{sys}'
+\end{array}
 ```
 
 **(System-Run)**
 
-```text
-HostRun(command) ⇓ code
-```
-
-──────────────────────────────────────────────
-
-```text
-SystemRun(command, sys) ⇓ (code, sys)
+```math
+\begin{array}{l}
+\operatorname{HostRun}(\mathsf{command})\ \Downarrow \ \mathsf{code} \\
+\rule{18em}{0.4pt} \\
+\operatorname{SystemRun}(\mathsf{command},\ \mathsf{sys})\ \Downarrow \ (\mathsf{code},\ \mathsf{sys})
+\end{array}
 ```
 
 #### 6.2.3 Network Primitive Relations
 
-```text
-NetworkJudg = {NetRestrictHost(v_net, host) ⇓ v_net'}
+```math
+\mathsf{NetworkJudg}\ =\ \{\operatorname{NetRestrictHost}(v_{\mathsf{net}},\ \mathsf{host})\ \Downarrow \ v_{\mathsf{net}}'\}
 ```
 
 `NetRestrictHost` is a runtime host-primitive relation with required semantics.
@@ -510,440 +532,373 @@ A conforming implementation MUST satisfy all of the following:
 
 #### 6.2.4 Primitive Method Application
 
-```text
-HandleOf(v) = h ⇔ v = `File@Read`{`handle`: h} ∨ v = `File@Write`{`handle`: h} ∨ v = `File@Append`{`handle`: h}
-DirHandleOf(v) = h ⇔ v = `DirIter@Open`{`handle`: h}
+```math
+\begin{array}{l}
+\operatorname{HandleOf}(v)\ =\ h\ \Leftrightarrow \ v\ =\ \texttt{File@Read}\{\texttt{handle}:\ h\}\ \lor \ v\ =\ \texttt{File@Write}\{\texttt{handle}:\ h\}\ \lor \ v\ =\ \texttt{File@Append}\{\texttt{handle}:\ h\} \\
+\operatorname{DirHandleOf}(v)\ =\ h\ \Leftrightarrow \ v\ =\ \texttt{DirIter@Open}\{\texttt{handle}:\ h\}
+\end{array}
 ```
 
-MethodName(MethodDecl(_, _, _, name, _, _, _, _, _, _, _, _)) = name
-MethodName(ClassMethodDecl(_, _, name, _, _, _, _, _, _, _, _)) = name
-MethodName(StateMethodDecl(_, _, name, _, _, _, _, _, _, _, _)) = name
-MethodName(TransitionDecl(_, _, name, _, _, _, _, _)) = name
-
-```text
-MethodOwner(m) = owner ⇔ ∃ T. MethodByName(T, MethodName(m)) = m ∧ owner = T
-MethodOwner(m) = ModalStateRef(modal_ref, S) ⇔ ModalDeclOf(modal_ref) = M ∧ (m ∈ Methods(M, S) ∨ m ∈ Transitions(M, S))
-PrimCallJudg = {PrimCall(Owner, name, v_self, args) ⇓ out}
+```math
+\begin{array}{l}
+\operatorname{MethodName}(\operatorname{MethodDecl}(\_,\ \_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_))\ =\ \mathsf{name} \\
+\operatorname{MethodName}(\operatorname{ClassMethodDecl}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_))\ =\ \mathsf{name} \\
+\operatorname{MethodName}(\operatorname{StateMethodDecl}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_))\ =\ \mathsf{name} \\
+\operatorname{MethodName}(\operatorname{TransitionDecl}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_))\ =\ \mathsf{name} \\
+\operatorname{MethodOwner}(m)\ =\ \mathsf{owner}\ \Leftrightarrow \ \exists \ T.\ \operatorname{MethodByName}(T,\ \operatorname{MethodName}(m))\ =\ m\ \land \ \mathsf{owner}\ =\ T \\
+\operatorname{MethodOwner}(m)\ =\ \operatorname{ModalStateRef}(\mathsf{modal}_{\mathsf{ref}},\ S)\ \Leftrightarrow \ \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\ \land \ (m\ \in \ \operatorname{Methods}(M,\ S)\ \lor \ m\ \in \ \operatorname{Transitions}(M,\ S)) \\
+\mathsf{PrimCallJudg}\ =\ \{\operatorname{PrimCall}(\mathsf{Owner},\ \mathsf{name},\ v_{\mathsf{self}},\ \mathsf{args})\ \Downarrow \ \mathsf{out}\}
+\end{array}
 ```
 
 **(Prim-FS-OpenRead)**
 
-```text
-Γ ⊢ FSOpenRead(v_fs, p) ⇓ r
-```
-
-──────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`FileSystem`, `open_read`, v_fs, [p]) ⇓ Val(r)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{FSOpenRead}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{open\_read},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-FS-OpenWrite)**
 
-```text
-Γ ⊢ FSOpenWrite(v_fs, p) ⇓ r
-```
-
-───────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`FileSystem`, `open_write`, v_fs, [p]) ⇓ Val(r)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{FSOpenWrite}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{open\_write},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-FS-OpenAppend)**
 
-```text
-Γ ⊢ FSOpenAppend(v_fs, p) ⇓ r
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`FileSystem`, `open_append`, v_fs, [p]) ⇓ Val(r)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{FSOpenAppend}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{open\_append},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-FS-CreateWrite)**
 
-```text
-Γ ⊢ FSCreateWrite(v_fs, p) ⇓ r
-```
-
-──────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`FileSystem`, `create_write`, v_fs, [p]) ⇓ Val(r)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{FSCreateWrite}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{create\_write},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-FS-ReadFile)**
 
-```text
-Γ ⊢ FSReadFile(v_fs, p) ⇓ r
-```
-
-──────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`FileSystem`, `read_file`, v_fs, [p]) ⇓ Val(r)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{FSReadFile}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{read\_file},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-FS-ReadBytes)**
 
-```text
-Γ ⊢ FSReadBytes(v_fs, p) ⇓ r
-```
-
-───────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`FileSystem`, `read_bytes`, v_fs, [p]) ⇓ Val(r)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{FSReadBytes}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{read\_bytes},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-FS-WriteFile)**
 
-```text
-Γ ⊢ FSWriteFile(v_fs, p, d) ⇓ r
-```
-
-──────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`FileSystem`, `write_file`, v_fs, [p, d]) ⇓ Val(r)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{FSWriteFile}(v_{\mathsf{fs}},\ p,\ d)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{write\_file},\ v_{\mathsf{fs}},\ [p,\ d])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-FS-WriteStdout)**
 
-```text
-Γ ⊢ FSWriteStdout(v_fs, d) ⇓ r
-```
-
-──────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`FileSystem`, `write_stdout`, v_fs, [d]) ⇓ Val(r)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{FSWriteStdout}(v_{\mathsf{fs}},\ d)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{write\_stdout},\ v_{\mathsf{fs}},\ [d])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-FS-WriteStderr)**
 
-```text
-Γ ⊢ FSWriteStderr(v_fs, d) ⇓ r
-```
-
-──────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`FileSystem`, `write_stderr`, v_fs, [d]) ⇓ Val(r)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{FSWriteStderr}(v_{\mathsf{fs}},\ d)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{write\_stderr},\ v_{\mathsf{fs}},\ [d])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-FS-Exists)**
 
-```text
-Γ ⊢ FSExists(v_fs, p) ⇓ b
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`FileSystem`, `exists`, v_fs, [p]) ⇓ Val(b)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{FSExists}(v_{\mathsf{fs}},\ p)\ \Downarrow \ b \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{exists},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(b)
+\end{array}
 ```
 
 **(Prim-FS-Remove)**
 
-```text
-Γ ⊢ FSRemove(v_fs, p) ⇓ r
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`FileSystem`, `remove`, v_fs, [p]) ⇓ Val(r)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{FSRemove}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{remove},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-FS-OpenDir)**
 
-```text
-Γ ⊢ FSOpenDir(v_fs, p) ⇓ r
-```
-
-──────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`FileSystem`, `open_dir`, v_fs, [p]) ⇓ Val(r)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{FSOpenDir}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{open\_dir},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-FS-CreateDir)**
 
-```text
-Γ ⊢ FSCreateDir(v_fs, p) ⇓ r
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`FileSystem`, `create_dir`, v_fs, [p]) ⇓ Val(r)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{FSCreateDir}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{create\_dir},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-FS-EnsureDir)**
 
-```text
-Γ ⊢ FSEnsureDir(v_fs, p) ⇓ r
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`FileSystem`, `ensure_dir`, v_fs, [p]) ⇓ Val(r)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{FSEnsureDir}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{ensure\_dir},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-FS-Kind)**
 
-```text
-Γ ⊢ FSKind(v_fs, p) ⇓ r
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`FileSystem`, `kind`, v_fs, [p]) ⇓ Val(r)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{FSKind}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{kind},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-FS-Restrict)**
 
-```text
-Γ ⊢ FSRestrict(v_fs, p) ⇓ v_fs'
-```
-
-──────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`FileSystem`, `restrict`, v_fs, [p]) ⇓ Val(v_fs')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{FSRestrict}(v_{\mathsf{fs}},\ p)\ \Downarrow \ v_{\mathsf{fs}}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{restrict},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(v_{\mathsf{fs}}')
+\end{array}
 ```
 
 **(Prim-File-ReadAll)**
 
-```text
-HandleOf(v) = h    Γ ⊢ FileReadAll(h) ⇓ r
-```
-
-───────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(ModalStateRef(["File"], `@Read`), `read_all`, v, []) ⇓ Val(r)
+```math
+\begin{array}{l}
+\operatorname{HandleOf}(v)\ =\ h\quad \Gamma \ \vdash \ \operatorname{FileReadAll}(h)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\operatorname{ModalStateRef}([\texttt{"File"}],\ \texttt{@Read}),\ \texttt{read\_all},\ v,\ [])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-File-ReadAllBytes)**
 
-```text
-HandleOf(v) = h    Γ ⊢ FileReadAllBytes(h) ⇓ r
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(ModalStateRef(["File"], `@Read`), `read_all_bytes`, v, []) ⇓ Val(r)
+```math
+\begin{array}{l}
+\operatorname{HandleOf}(v)\ =\ h\quad \Gamma \ \vdash \ \operatorname{FileReadAllBytes}(h)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\operatorname{ModalStateRef}([\texttt{"File"}],\ \texttt{@Read}),\ \texttt{read\_all\_bytes},\ v,\ [])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-File-Write)**
 
-```text
-HandleOf(v) = h    Γ ⊢ FileWrite(h, d) ⇓ r
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(ModalStateRef(["File"], `@Write`), `write`, v, [d]) ⇓ Val(r)
+```math
+\begin{array}{l}
+\operatorname{HandleOf}(v)\ =\ h\quad \Gamma \ \vdash \ \operatorname{FileWrite}(h,\ d)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\operatorname{ModalStateRef}([\texttt{"File"}],\ \texttt{@Write}),\ \texttt{write},\ v,\ [d])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-File-Flush)**
 
-```text
-HandleOf(v) = h    Γ ⊢ FileFlush(h) ⇓ r
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(ModalStateRef(["File"], `@Write`), `flush`, v, []) ⇓ Val(r)
+```math
+\begin{array}{l}
+\operatorname{HandleOf}(v)\ =\ h\quad \Gamma \ \vdash \ \operatorname{FileFlush}(h)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\operatorname{ModalStateRef}([\texttt{"File"}],\ \texttt{@Write}),\ \texttt{flush},\ v,\ [])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-File-Write-Append)**
 
-```text
-HandleOf(v) = h    Γ ⊢ FileWrite(h, d) ⇓ r
-```
-
-─────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(ModalStateRef(["File"], `@Append`), `write`, v, [d]) ⇓ Val(r)
+```math
+\begin{array}{l}
+\operatorname{HandleOf}(v)\ =\ h\quad \Gamma \ \vdash \ \operatorname{FileWrite}(h,\ d)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\operatorname{ModalStateRef}([\texttt{"File"}],\ \texttt{@Append}),\ \texttt{write},\ v,\ [d])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-File-Flush-Append)**
 
-```text
-HandleOf(v) = h    Γ ⊢ FileFlush(h) ⇓ r
-```
-
-─────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(ModalStateRef(["File"], `@Append`), `flush`, v, []) ⇓ Val(r)
+```math
+\begin{array}{l}
+\operatorname{HandleOf}(v)\ =\ h\quad \Gamma \ \vdash \ \operatorname{FileFlush}(h)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\operatorname{ModalStateRef}([\texttt{"File"}],\ \texttt{@Append}),\ \texttt{flush},\ v,\ [])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-File-Close-Read)**
 
-```text
-HandleOf(v) = h    Γ ⊢ FileClose(h) ⇓ ok
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(ModalStateRef(["File"], `@Read`), `close`, v, []) ⇓ Val(`File@Closed`{})
+```math
+\begin{array}{l}
+\operatorname{HandleOf}(v)\ =\ h\quad \Gamma \ \vdash \ \operatorname{FileClose}(h)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\operatorname{ModalStateRef}([\texttt{"File"}],\ \texttt{@Read}),\ \texttt{close},\ v,\ [])\ \Downarrow \ \operatorname{Val}(\texttt{File@Closed}\{\})
+\end{array}
 ```
 
 **(Prim-File-Close-Write)**
 
-```text
-HandleOf(v) = h    Γ ⊢ FileClose(h) ⇓ ok
-```
-
-───────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(ModalStateRef(["File"], `@Write`), `close`, v, []) ⇓ Val(`File@Closed`{})
+```math
+\begin{array}{l}
+\operatorname{HandleOf}(v)\ =\ h\quad \Gamma \ \vdash \ \operatorname{FileClose}(h)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\operatorname{ModalStateRef}([\texttt{"File"}],\ \texttt{@Write}),\ \texttt{close},\ v,\ [])\ \Downarrow \ \operatorname{Val}(\texttt{File@Closed}\{\})
+\end{array}
 ```
 
 **(Prim-File-Close-Append)**
 
-```text
-HandleOf(v) = h    Γ ⊢ FileClose(h) ⇓ ok
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(ModalStateRef(["File"], `@Append`), `close`, v, []) ⇓ Val(`File@Closed`{})
+```math
+\begin{array}{l}
+\operatorname{HandleOf}(v)\ =\ h\quad \Gamma \ \vdash \ \operatorname{FileClose}(h)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\operatorname{ModalStateRef}([\texttt{"File"}],\ \texttt{@Append}),\ \texttt{close},\ v,\ [])\ \Downarrow \ \operatorname{Val}(\texttt{File@Closed}\{\})
+\end{array}
 ```
 
 **(Prim-Dir-Next)**
 
-```text
-DirHandleOf(v) = h    Γ ⊢ DirNext(h) ⇓ r
-```
-
-─────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(ModalStateRef(["DirIter"], `@Open`), `next`, v, []) ⇓ Val(r)
+```math
+\begin{array}{l}
+\operatorname{DirHandleOf}(v)\ =\ h\quad \Gamma \ \vdash \ \operatorname{DirNext}(h)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\operatorname{ModalStateRef}([\texttt{"DirIter"}],\ \texttt{@Open}),\ \texttt{next},\ v,\ [])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-Dir-Close)**
 
-```text
-DirHandleOf(v) = h    Γ ⊢ DirClose(h) ⇓ ok
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(ModalStateRef(["DirIter"], `@Open`), `close`, v, []) ⇓ Val(`DirIter@Closed`{})
+```math
+\begin{array}{l}
+\operatorname{DirHandleOf}(v)\ =\ h\quad \Gamma \ \vdash \ \operatorname{DirClose}(h)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\operatorname{ModalStateRef}([\texttt{"DirIter"}],\ \texttt{@Open}),\ \texttt{close},\ v,\ [])\ \Downarrow \ \operatorname{Val}(\texttt{DirIter@Closed}\{\})
+\end{array}
 ```
 
 **(Prim-System-GetEnv)**
 
-```text
-Γ ⊢ SystemGetEnv(k) ⇓ r
-```
-
-──────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`System`, `get_env`, v_sys, [k]) ⇓ Val(r)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{SystemGetEnv}(k)\ \Downarrow \ r \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{System},\ \texttt{get\_env},\ v_{\mathsf{sys}},\ [k])\ \Downarrow \ \operatorname{Val}(r)
+\end{array}
 ```
 
 **(Prim-System-ExecutablePath)**
 
-```text
-Γ ⊢ SystemExecutablePath() ⇓ path
-```
-
-────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`System`, `executable_path`, v_sys, []) ⇓ Val(path)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{SystemExecutablePath}()\ \Downarrow \ \mathsf{path} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{System},\ \texttt{executable\_path},\ v_{\mathsf{sys}},\ [])\ \Downarrow \ \operatorname{Val}(\mathsf{path})
+\end{array}
 ```
 
 **(Prim-System-ArgumentCount)**
 
-```text
-Γ ⊢ SystemArgumentCount() ⇓ n
-```
-
-────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`System`, `argument_count`, v_sys, []) ⇓ Val(n)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{SystemArgumentCount}()\ \Downarrow \ n \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{System},\ \texttt{argument\_count},\ v_{\mathsf{sys}},\ [])\ \Downarrow \ \operatorname{Val}(n)
+\end{array}
 ```
 
 **(Prim-System-Argument)**
 
-```text
-Γ ⊢ SystemArgument(index) ⇓ text    index < SystemArgumentCount()
-```
-
-────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`System`, `argument`, v_sys, [index]) ⇓ Val(text)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{SystemArgument}(\mathsf{index})\ \Downarrow \ \mathsf{text}\quad \mathsf{index}\ <\ \operatorname{SystemArgumentCount}() \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{System},\ \texttt{argument},\ v_{\mathsf{sys}},\ [\mathsf{index}])\ \Downarrow \ \operatorname{Val}(\mathsf{text})
+\end{array}
 ```
 
 **(Prim-System-CurrentDirectory)**
 
-```text
-Γ ⊢ SystemCurrentDirectory() ⇓ path
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`System`, `current_directory`, v_sys, []) ⇓ Val(path)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{SystemCurrentDirectory}()\ \Downarrow \ \mathsf{path} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{System},\ \texttt{current\_directory},\ v_{\mathsf{sys}},\ [])\ \Downarrow \ \operatorname{Val}(\mathsf{path})
+\end{array}
 ```
 
 **(Prim-System-Exit)**
 
-```text
-Γ ⊢ SystemExit(code) ⇓ ok
-```
-
-──────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`System`, `exit`, v_sys, [code]) ⇓ Ctrl(Abort)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{SystemExit}(\mathsf{code})\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{System},\ \texttt{exit},\ v_{\mathsf{sys}},\ [\mathsf{code}])\ \Downarrow \ \operatorname{Ctrl}(\mathsf{Abort})
+\end{array}
 ```
 
 **(Prim-System-Run)**
 
-```text
-Γ ⊢ SystemRun(command) ⇓ code
-```
-
-──────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`System`, `run`, v_sys, [command]) ⇓ Val(code)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{SystemRun}(\mathsf{command})\ \Downarrow \ \mathsf{code} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{System},\ \texttt{run},\ v_{\mathsf{sys}},\ [\mathsf{command}])\ \Downarrow \ \operatorname{Val}(\mathsf{code})
+\end{array}
 ```
 
 **(Prim-Network-RestrictHost)**
 
-```text
-Γ ⊢ NetRestrictHost(v_net, host) ⇓ v_net'
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PrimCall(`Network`, `restrict_to_host`, v_net, [host]) ⇓ Val(v_net')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{NetRestrictHost}(v_{\mathsf{net}},\ \mathsf{host})\ \Downarrow \ v_{\mathsf{net}}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{Network},\ \texttt{restrict\_to\_host},\ v_{\mathsf{net}},\ [\mathsf{host}])\ \Downarrow \ \operatorname{Val}(v_{\mathsf{net}}')
+\end{array}
 ```
 
 When `PrimCall(System, exit, ...)` yields `Ctrl(Abort)`, program execution terminates and the observable exit status is `code`.
@@ -952,571 +907,617 @@ When `PrimCall(System, exit, ...)` yields `Ctrl(Abort)`, program execution termi
 
 #### 6.3.1 Binding State
 
-```text
-BindingState ::= Valid | Moved | PartiallyMoved(F)    (F ⊆ Name)
+```math
+\mathsf{BindingState}\ \mathbin{::} =\ \mathsf{Valid}\ \mid \ \mathsf{Moved}\ \mid \ \operatorname{PartiallyMoved}(F)\quad (F\ \subseteq \ \mathsf{Name})
 ```
 
-Movability ::= mov | immov
-Responsibility ::= resp | alias
-Mutability = {`let`, `var`}
-
-```text
-BindInfo ::= ⟨state, mov, mut, resp⟩
+```math
+\begin{array}{l}
+\mathsf{Movability}\ \mathbin{::} =\ \mathsf{mov}\ \mid \ \mathsf{immov} \\
+\mathsf{Responsibility}\ \mathbin{::} =\ \mathsf{resp}\ \mid \ \mathsf{alias} \\
+\mathsf{Mutability}\ =\ \{\texttt{let},\ \texttt{var}\} \\
+\mathsf{BindInfo}\ \mathbin{::} =\ \langle \mathsf{state},\ \mathsf{mov},\ \mathsf{mut},\ \mathsf{resp}\rangle 
+\end{array}
 ```
 
-BindScope = Map(Identifier, BindInfo)
+```math
+\mathsf{BindScope}\ =\ \operatorname{Map}(\mathsf{Identifier},\ \mathsf{BindInfo})
+```
 𝔅 = [BindScope]
 
-PushScope_B(𝔅) = [∅] ++ 𝔅
-PopScope_B([_] ++ 𝔅) = 𝔅
-
-```text
-Lookup_B([σ] ++ 𝔅', x) =
-  { σ[x]                if x ∈ dom(σ)
+```math
+\begin{array}{l}
+\operatorname{PushScope_B}(𝔅)\ =\ [\emptyset ]\ \mathbin{++} \ 𝔅 \\
+\operatorname{PopScope_B}([\_]\ \mathbin{++} \ 𝔅)\ =\ 𝔅
+\end{array}
 ```
 
-    Lookup_B(𝔅', x)     otherwise }
-
-```text
-Lookup_B([], x) = ⊥
+```math
+\begin{array}{l}
+\operatorname{Lookup_B}([\sigma ]\ \mathbin{++} \ 𝔅',\ x)\ = \\
+\ \{\ \sigma [x]\quad \mathsf{if}\ x\ \in \ \operatorname{dom}(\sigma ) \\
+\quad \operatorname{Lookup_B}(𝔅',\ x)\quad \mathsf{otherwise}\ \} \\
+\operatorname{Lookup_B}([],\ x)\ =\ \bot 
+\end{array}
 ```
 
-```text
-Update_B([σ] ++ 𝔅', x, info) =
-  { [σ[x ↦ info]] ++ 𝔅'            if x ∈ dom(σ)
-    [σ] ++ Update_B(𝔅', x, info)   otherwise }
-Update_B([], x, info) = ⊥
+```math
+\begin{array}{l}
+\operatorname{Update_B}([\sigma ]\ \mathbin{++} \ 𝔅',\ x,\ \mathsf{info})\ = \\
+\ \{\ [\sigma [x\ \mapsto \ \mathsf{info}]]\ \mathbin{++} \ 𝔅'\quad \mathsf{if}\ x\ \in \ \operatorname{dom}(\sigma ) \\
+\quad [\sigma ]\ \mathbin{++} \ \operatorname{Update_B}(𝔅',\ x,\ \mathsf{info})\ \mathsf{otherwise}\ \} \\
+\operatorname{Update_B}([],\ x,\ \mathsf{info})\ =\ \bot 
+\end{array}
 ```
 
-```text
-Intro_B([σ] ++ 𝔅', x, info) = [σ[x ↦ info]] ++ 𝔅'
+```math
+\operatorname{Intro_B}([\sigma ]\ \mathbin{++} \ 𝔅',\ x,\ \mathsf{info})\ =\ [\sigma [x\ \mapsto \ \mathsf{info}]]\ \mathbin{++} \ 𝔅'
 ```
 
 #### 6.3.2 Permission Activity State
 
-PermOf(TypePerm(p, T)) = p
-
-```text
-PermOf(T) = `const`    if T ≠ TypePerm(_, _)
+```math
+\begin{array}{l}
+\operatorname{PermOf}(\operatorname{TypePerm}(p,\ T))\ =\ p \\
+\operatorname{PermOf}(T)\ =\ \texttt{const}\quad \mathsf{if}\ T\ \ne \ \operatorname{TypePerm}(\_,\ \_)
+\end{array}
 ```
 
-ActiveState ::= Active | Inactive
+```math
+\mathsf{ActiveState}\ \mathbin{::} =\ \mathsf{Active}\ \mid \ \mathsf{Inactive}
+```
 
-PermKey = Identifier × FieldPath
-PermScope = Map(PermKey, ActiveState)
+```math
+\begin{array}{l}
+\mathsf{PermKey}\ =\ \mathsf{Identifier}\ \times \ \mathsf{FieldPath} \\
+\mathsf{PermScope}\ =\ \operatorname{Map}(\mathsf{PermKey},\ \mathsf{ActiveState})
+\end{array}
+```
 Π = [PermScope]
 
-PushScope_Π(Π) = [∅] ++ Π
-PopScope_Π([_] ++ Π) = Π
-
-```text
-Lookup_Π([σ] ++ Π', k) =
-  { Inactive             if k ∈ dom(σ) ∧ σ[k] = Inactive
+```math
+\begin{array}{l}
+\mathsf{PushScope}\_\Pi (\Pi )\ =\ [\emptyset ]\ \mathbin{++} \ \Pi  \\
+\mathsf{PopScope}\_\Pi ([\_]\ \mathbin{++} \ \Pi )\ =\ \Pi 
+\end{array}
 ```
 
-    Lookup_Π(Π', k)      otherwise }
+```math
+\begin{array}{l}
+\mathsf{Lookup}\_\Pi ([\sigma ]\ \mathbin{++} \ \Pi ',\ k)\ = \\
+\ \{\ \mathsf{Inactive}\quad \mathsf{if}\ k\ \in \ \operatorname{dom}(\sigma )\ \land \ \sigma [k]\ =\ \mathsf{Inactive} \\
+\quad \mathsf{Lookup}\_\Pi (\Pi ',\ k)\quad \mathsf{otherwise}\ \}
+\end{array}
+```
 Lookup_Π([], k) = Active
 
-```text
-Update_Π([σ] ++ Π', k, s) = [σ[k ↦ s]] ++ Π'
+```math
+\mathsf{Update}\_\Pi ([\sigma ]\ \mathbin{++} \ \Pi ',\ k,\ s)\ =\ [\sigma [k\ \mapsto \ s]]\ \mathbin{++} \ \Pi '
 ```
 
 #### 6.3.3 Join and Transition Operations
 
-JoinState(Moved, s) = Moved
-JoinState(s, Moved) = Moved
-
-```text
-JoinState(PartiallyMoved(F_1), PartiallyMoved(F_2)) = PartiallyMoved(F_1 ∪ F_2)
+```math
+\begin{array}{l}
+\operatorname{JoinState}(\mathsf{Moved},\ s)\ =\ \mathsf{Moved} \\
+\operatorname{JoinState}(s,\ \mathsf{Moved})\ =\ \mathsf{Moved} \\
+\operatorname{JoinState}(\operatorname{PartiallyMoved}(F_{1}),\ \operatorname{PartiallyMoved}(F_{2}))\ =\ \operatorname{PartiallyMoved}(F_{1}\ \cup \ F_{2}) \\
+\operatorname{JoinState}(\mathsf{Valid},\ \operatorname{PartiallyMoved}(F))\ =\ \operatorname{PartiallyMoved}(F) \\
+\operatorname{JoinState}(\operatorname{PartiallyMoved}(F),\ \mathsf{Valid})\ =\ \operatorname{PartiallyMoved}(F) \\
+\operatorname{JoinState}(\mathsf{Valid},\ \mathsf{Valid})\ =\ \mathsf{Valid}
+\end{array}
 ```
 
-JoinState(Valid, PartiallyMoved(F)) = PartiallyMoved(F)
-JoinState(PartiallyMoved(F), Valid) = PartiallyMoved(F)
-JoinState(Valid, Valid) = Valid
-
-```text
-StateTransition = Valid → Moved | Valid → PartiallyMoved(F) | PartiallyMoved(F) → PartiallyMoved(F ∪ {f}) | PartiallyMoved(F) → Moved
+```math
+\mathsf{StateTransition}\ =\ \mathsf{Valid}\ \to \ \mathsf{Moved}\ \mid \ \mathsf{Valid}\ \to \ \operatorname{PartiallyMoved}(F)\ \mid \ \operatorname{PartiallyMoved}(F)\ \to \ \operatorname{PartiallyMoved}(F\ \cup \ \{f\})\ \mid \ \operatorname{PartiallyMoved}(F)\ \to \ \mathsf{Moved}
 ```
 
 **(Trans-Move-Whole)**
 
-```text
-Lookup_B(𝔅, x) = ⟨Valid, mv, mut, resp⟩    MoveWhole(x) occurs
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Update_B(𝔅, x, ⟨Moved, mv, mut, resp⟩)
+```math
+\begin{array}{l}
+\operatorname{Lookup_B}(𝔅,\ x)\ =\ \langle \mathsf{Valid},\ \mathsf{mv},\ \mathsf{mut},\ \mathsf{resp}\rangle \quad \operatorname{MoveWhole}(x)\ \mathsf{occurs} \\
+\rule{18em}{0.4pt} \\
+\operatorname{Update_B}(𝔅,\ x,\ \langle \mathsf{Moved},\ \mathsf{mv},\ \mathsf{mut},\ \mathsf{resp}\rangle )
+\end{array}
 ```
 
 **(Trans-Move-Field)**
 
-```text
-Lookup_B(𝔅, x) = ⟨Valid, mv, mut, resp⟩    MoveField(x, f) occurs
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-Update_B(𝔅, x, ⟨PartiallyMoved({f}), mv, mut, resp⟩)
+```math
+\begin{array}{l}
+\operatorname{Lookup_B}(𝔅,\ x)\ =\ \langle \mathsf{Valid},\ \mathsf{mv},\ \mathsf{mut},\ \mathsf{resp}\rangle \quad \operatorname{MoveField}(x,\ f)\ \mathsf{occurs} \\
+\rule{18em}{0.4pt} \\
+\operatorname{Update_B}(𝔅,\ x,\ \langle \operatorname{PartiallyMoved}(\{f\}),\ \mathsf{mv},\ \mathsf{mut},\ \mathsf{resp}\rangle )
+\end{array}
 ```
 
 **(Trans-Move-Field-Partial)**
 
-```text
-Lookup_B(𝔅, x) = ⟨PartiallyMoved(F), mv, mut, resp⟩    MoveField(x, f) occurs    f ∉ F
-```
-
-────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Update_B(𝔅, x, ⟨PartiallyMoved(F ∪ {f}), mv, mut, resp⟩)
+```math
+\begin{array}{l}
+\operatorname{Lookup_B}(𝔅,\ x)\ =\ \langle \operatorname{PartiallyMoved}(F),\ \mathsf{mv},\ \mathsf{mut},\ \mathsf{resp}\rangle \quad \operatorname{MoveField}(x,\ f)\ \mathsf{occurs}\quad f\ \notin \ F \\
+\rule{18em}{0.4pt} \\
+\operatorname{Update_B}(𝔅,\ x,\ \langle \operatorname{PartiallyMoved}(F\ \cup \ \{f\}),\ \mathsf{mv},\ \mathsf{mut},\ \mathsf{resp}\rangle )
+\end{array}
 ```
 
 **(Trans-Partial-To-Moved)**
 
-```text
-Lookup_B(𝔅, x) = ⟨PartiallyMoved(F), mv, mut, resp⟩    AllFields(TypeOf(x)) = F
-```
-
-────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Update_B(𝔅, x, ⟨Moved, mv, mut, resp⟩)
+```math
+\begin{array}{l}
+\operatorname{Lookup_B}(𝔅,\ x)\ =\ \langle \operatorname{PartiallyMoved}(F),\ \mathsf{mv},\ \mathsf{mut},\ \mathsf{resp}\rangle \quad \operatorname{AllFields}(\operatorname{TypeOf}(x))\ =\ F \\
+\rule{18em}{0.4pt} \\
+\operatorname{Update_B}(𝔅,\ x,\ \langle \mathsf{Moved},\ \mathsf{mv},\ \mathsf{mut},\ \mathsf{resp}\rangle )
+\end{array}
 ```
 
 **(Trans-Reassign)**
 
-```text
-Lookup_B(𝔅, x) = ⟨s, mv, `var`, resp⟩    Reassign(x, v) occurs    s ∈ {Moved, PartiallyMoved(_)}
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Update_B(𝔅, x, ⟨Valid, mv, `var`, resp⟩)
+```math
+\begin{array}{l}
+\operatorname{Lookup_B}(𝔅,\ x)\ =\ \langle s,\ \mathsf{mv},\ \texttt{var},\ \mathsf{resp}\rangle \quad \operatorname{Reassign}(x,\ v)\ \mathsf{occurs}\quad s\ \in \ \{\mathsf{Moved},\ \operatorname{PartiallyMoved}(\_)\} \\
+\rule{18em}{0.4pt} \\
+\operatorname{Update_B}(𝔅,\ x,\ \langle \mathsf{Valid},\ \mathsf{mv},\ \texttt{var},\ \mathsf{resp}\rangle )
+\end{array}
 ```
 
 **(Trans-Moved-NoAccess)**
 
-```text
-Lookup_B(𝔅, x) = ⟨Moved, _, _, _⟩    Read(x) ∨ Move(x) occurs
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-⇑ Code(E-MEM-3001)
+```math
+\begin{array}{l}
+\operatorname{Lookup_B}(𝔅,\ x)\ =\ \langle \mathsf{Moved},\ \_,\ \_,\ \_\rangle \quad \operatorname{Read}(x)\ \lor \ \operatorname{Move}(x)\ \mathsf{occurs} \\
+\rule{18em}{0.4pt} \\
+\Uparrow \ \operatorname{Code}(E-\mathsf{MEM}-3001)
+\end{array}
 ```
 
 **(Trans-Partial-NoAccess)**
 
-```text
-Lookup_B(𝔅, x) = ⟨PartiallyMoved(F), _, _, _⟩    Read(x.f) ∨ Move(x.f) occurs    f ∈ F
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⇑ Code(E-MEM-3001)
+```math
+\begin{array}{l}
+\operatorname{Lookup_B}(𝔅,\ x)\ =\ \langle \operatorname{PartiallyMoved}(F),\ \_,\ \_,\ \_\rangle \quad \operatorname{Read}(x.f)\ \lor \ \operatorname{Move}(x.f)\ \mathsf{occurs}\quad f\ \in \ F \\
+\rule{18em}{0.4pt} \\
+\Uparrow \ \operatorname{Code}(E-\mathsf{MEM}-3001)
+\end{array}
 ```
 
 **(Trans-Let-NoReassign)**
 
-```text
-Lookup_B(𝔅, x) = ⟨s, mv, `let`, resp⟩    Reassign(x, v) occurs    s ∈ {Moved, PartiallyMoved(_)}
+```math
+\begin{array}{l}
+\operatorname{Lookup_B}(𝔅,\ x)\ =\ \langle s,\ \mathsf{mv},\ \texttt{let},\ \mathsf{resp}\rangle \quad \operatorname{Reassign}(x,\ v)\ \mathsf{occurs}\quad s\ \in \ \{\mathsf{Moved},\ \operatorname{PartiallyMoved}(\_)\} \\
+\rule{18em}{0.4pt} \\
+\Uparrow \ \operatorname{Code}(E-\mathsf{MEM}-3006)
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⇑ Code(E-MEM-3006)
+```math
+\begin{array}{l}
+\operatorname{JoinBindInfo}(\langle s_{1},\ \mathsf{mv}_{1},\ \mathsf{mut}_{1},\ \mathsf{resp}_{1}\rangle ,\ \langle s_{2},\ \mathsf{mv}_{2},\ \mathsf{mut}_{2},\ \mathsf{resp}_{2}\rangle )\ = \\
+\ \{\ \langle \operatorname{JoinState}(s_{1},\ s_{2}),\ \mathsf{mv}_{1},\ \mathsf{mut}_{1},\ \mathsf{resp}_{1}\rangle \ \mathsf{if}\ \mathsf{mv}_{1}\ =\ \mathsf{mv}_{2}\ \land \ \mathsf{mut}_{1}\ =\ \mathsf{mut}_{2}\ \land \ \mathsf{resp}_{1}\ =\ \mathsf{resp}_{2} \\
+\quad \bot \quad \mathsf{otherwise}\ \}
+\end{array}
 ```
 
-```text
-JoinBindInfo(⟨s_1, mv_1, mut_1, resp_1⟩, ⟨s_2, mv_2, mut_2, resp_2⟩) =
-  { ⟨JoinState(s_1, s_2), mv_1, mut_1, resp_1⟩   if mv_1 = mv_2 ∧ mut_1 = mut_2 ∧ resp_1 = resp_2
-    ⊥                                            otherwise }
+```math
+\begin{array}{l}
+\operatorname{JoinScope_B}(B_{1},\ B_{2})\ = \\
+\ \{\ \{\ x\ \mapsto \ \operatorname{JoinBindInfo}(B_{1}[x],\ B_{2}[x])\ \mid \ x\ \in \ \operatorname{dom}(B_{1})\ \}\quad \mathsf{if}\ \operatorname{dom}(B_{1})\ =\ \operatorname{dom}(B_{2})\ \land \ \forall \ x\ \in \ \operatorname{dom}(B_{1}).\ \operatorname{JoinBindInfo}(B_{1}[x],\ B_{2}[x])\ \ne \ \bot  \\
+\quad \bot \quad \mathsf{otherwise}\ \}
+\end{array}
 ```
 
-JoinScope_B(B_1, B_2) =
-
-```text
-  { { x ↦ JoinBindInfo(B_1[x], B_2[x]) | x ∈ dom(B_1) }    if dom(B_1) = dom(B_2) ∧ ∀ x ∈ dom(B_1). JoinBindInfo(B_1[x], B_2[x]) ≠ ⊥
-    ⊥                                                      otherwise }
+```math
+\begin{array}{l}
+\operatorname{Join_B}([],\ [])\ =\ [] \\
+\operatorname{Join_B}(B_{1}\ \mathbin{::} \ 𝔅\_1,\ B_{2}\ \mathbin{::} \ 𝔅\_2)\ = \\
+\ \{\ \operatorname{JoinScope_B}(B_{1},\ B_{2})\ \mathbin{::} \ \operatorname{Join_B}(𝔅\_1,\ 𝔅\_2)\quad \mathsf{if}\ \operatorname{JoinScope_B}(B_{1},\ B_{2})\ \ne \ \bot \ \land \ \operatorname{Join_B}(𝔅\_1,\ 𝔅\_2)\ \ne \ \bot  \\
+\quad \bot \quad \mathsf{otherwise}\ \} \\
+\operatorname{Join_B}(𝔅\_1,\ 𝔅\_2)\ =\ \bot \quad \mathsf{if}\ \mid 𝔅\_1\mid \ \ne \ \mid 𝔅\_2\mid 
+\end{array}
 ```
 
-Join_B([], []) = []
-Join_B(B_1 :: 𝔅_1, B_2 :: 𝔅_2) =
-
-```text
-  { JoinScope_B(B_1, B_2) :: Join_B(𝔅_1, 𝔅_2)    if JoinScope_B(B_1, B_2) ≠ ⊥ ∧ Join_B(𝔅_1, 𝔅_2) ≠ ⊥
-    ⊥                                           otherwise }
-Join_B(𝔅_1, 𝔅_2) = ⊥    if |𝔅_1| ≠ |𝔅_2|
+```math
+\begin{array}{l}
+\operatorname{JoinPermState}(\mathsf{Active},\ \mathsf{Active})\ =\ \mathsf{Active} \\
+\operatorname{JoinPermState}(\_,\ \_)\ =\ \mathsf{Inactive}\quad \mathsf{otherwise}
+\end{array}
 ```
 
-JoinPermState(Active, Active) = Active
-JoinPermState(_, _) = Inactive    otherwise
-
-PermAt(B, x) =
-
-```text
-  { B[x]     if x ∈ dom(B)
+```math
+\begin{array}{l}
+\operatorname{PermAt}(B,\ x)\ = \\
+\ \{\ B[x]\quad \mathsf{if}\ x\ \in \ \operatorname{dom}(B) \\
+\quad \mathsf{Active}\ \mathsf{otherwise}\ \}
+\end{array}
 ```
 
-    Active   otherwise }
-
-```text
-JoinScope_Π(B_1, B_2) = { x ↦ JoinPermState(PermAt(B_1, x), PermAt(B_2, x)) | x ∈ dom(B_1) ∪ dom(B_2) }
+```math
+\mathsf{JoinScope}\_\Pi (B_{1},\ B_{2})\ =\ \{\ x\ \mapsto \ \operatorname{JoinPermState}(\operatorname{PermAt}(B_{1},\ x),\ \operatorname{PermAt}(B_{2},\ x))\ \mid \ x\ \in \ \operatorname{dom}(B_{1})\ \cup \ \operatorname{dom}(B_{2})\ \}
 ```
 
-JoinPerm([], []) = []
-JoinPerm(B_1 :: Π_1, B_2 :: Π_2) =
-
-```text
-  { JoinScope_Π(B_1, B_2) :: JoinPerm(Π_1, Π_2)    if JoinScope_Π(B_1, B_2) ≠ ⊥ ∧ JoinPerm(Π_1, Π_2) ≠ ⊥
-    ⊥                                             otherwise }
-JoinPerm(Π_1, Π_2) = ⊥    if |Π_1| ≠ |Π_2|
+```math
+\begin{array}{l}
+\operatorname{JoinPerm}([],\ [])\ =\ [] \\
+\operatorname{JoinPerm}(B_{1}\ \mathbin{::} \ \Pi_{1} ,\ B_{2}\ \mathbin{::} \ \Pi_{2} )\ = \\
+\ \{\ \mathsf{JoinScope}\_\Pi (B_{1},\ B_{2})\ \mathbin{::} \ \operatorname{JoinPerm}(\Pi_{1} ,\ \Pi_{2} )\quad \mathsf{if}\ \mathsf{JoinScope}\_\Pi (B_{1},\ B_{2})\ \ne \ \bot \ \land \ \operatorname{JoinPerm}(\Pi_{1} ,\ \Pi_{2} )\ \ne \ \bot  \\
+\quad \bot \quad \mathsf{otherwise}\ \} \\
+\operatorname{JoinPerm}(\Pi_{1} ,\ \Pi_{2} )\ =\ \bot \quad \mathsf{if}\ \mid \Pi_{1} \mid \ \ne \ \mid \Pi_{2} \mid 
+\end{array}
 ```
 
 #### 6.3.4 Access and Binding Introduction Helpers
 
-```text
-FieldHead(Identifier(x)) = ⊥
+```math
+\begin{array}{l}
+\operatorname{FieldHead}(\operatorname{Identifier}(x))\ =\ \bot  \\
+\operatorname{FieldHead}(\operatorname{FieldAccess}(p,\ f))\ = \\
+\ \{\ f\quad \mathsf{if}\ \operatorname{FieldHead}(p)\ =\ \bot  \\
+\quad \operatorname{FieldHead}(p)\quad \mathsf{otherwise}\ \} \\
+\operatorname{FieldHead}(\operatorname{TupleAccess}(p,\ \_))\ =\ \operatorname{FieldHead}(p) \\
+\operatorname{FieldHead}(\operatorname{IndexAccess}(p,\ \_))\ =\ \operatorname{FieldHead}(p) \\
+\operatorname{FieldHead}(\operatorname{Deref}(p))\ =\ \bot 
+\end{array}
 ```
 
-FieldHead(FieldAccess(p, f)) =
-
-```text
-  { f                if FieldHead(p) = ⊥
+```math
+\begin{array}{l}
+\mathsf{FieldPath}\ =\ [\mathsf{Name}] \\
+\operatorname{FieldPathOf}(\operatorname{Identifier}(x))\ =\ [] \\
+\operatorname{FieldPathOf}(\operatorname{FieldAccess}(p,\ f))\ =\ \operatorname{FieldPathOf}(p)\ \mathbin{++} \ [f] \\
+\operatorname{FieldPathOf}(\operatorname{TupleAccess}(p,\ \_))\ =\ \operatorname{FieldPathOf}(p) \\
+\operatorname{FieldPathOf}(\operatorname{IndexAccess}(p,\ \_))\ =\ \operatorname{FieldPathOf}(p) \\
+\operatorname{FieldPathOf}(\operatorname{Deref}(p))\ =\ []
+\end{array}
 ```
 
-    FieldHead(p)     otherwise }
-FieldHead(TupleAccess(p, _)) = FieldHead(p)
-FieldHead(IndexAccess(p, _)) = FieldHead(p)
-
-```text
-FieldHead(Deref(p)) = ⊥
+```math
+\begin{array}{l}
+\operatorname{PlacePath}(p)\ = \\
+\ \{\ (\operatorname{PlaceRoot}(p),\ [])\quad \mathsf{if}\ p\ =\ \operatorname{Identifier}(x) \\
+\quad (\operatorname{PlaceRoot}(p),\ \operatorname{FieldPathOf}(p))\ \mathsf{otherwise}\ \}
+\end{array}
 ```
 
-FieldPath = [Name]
-FieldPathOf(Identifier(x)) = []
-FieldPathOf(FieldAccess(p, f)) = FieldPathOf(p) ++ [f]
-FieldPathOf(TupleAccess(p, _)) = FieldPathOf(p)
-FieldPathOf(IndexAccess(p, _)) = FieldPathOf(p)
-FieldPathOf(Deref(p)) = []
-
-PlacePath(p) =
-  { (PlaceRoot(p), [])               if p = Identifier(x)
-    (PlaceRoot(p), FieldPathOf(p))   otherwise }
-
-Prefixes([]) = [[]]
-
-```text
-Prefixes([f] ++ fs) = [[]] ∪ { [f] ++ p | p ∈ Prefixes(fs) }
-AncPaths(p) = { (PlaceRoot(p), fp) | fp ∈ Prefixes(FieldPathOf(p)) }
-AccessPathOk(Π, p) ⇔ ∀ k ∈ AncPaths(p). Lookup_Π(Π, k) = Active
+```math
+\begin{array}{l}
+\operatorname{Prefixes}([])\ =\ [[]] \\
+\operatorname{Prefixes}([f]\ \mathbin{++} \ \mathsf{fs})\ =\ [[]]\ \cup \ \{\ [f]\ \mathbin{++} \ p\ \mid \ p\ \in \ \operatorname{Prefixes}(\mathsf{fs})\ \} \\
+\operatorname{AncPaths}(p)\ =\ \{\ (\operatorname{PlaceRoot}(p),\ \mathsf{fp})\ \mid \ \mathsf{fp}\ \in \ \operatorname{Prefixes}(\operatorname{FieldPathOf}(p))\ \} \\
+\operatorname{AccessPathOk}(\Pi ,\ p)\ \Leftrightarrow \ \forall \ k\ \in \ \operatorname{AncPaths}(p).\ \mathsf{Lookup}\_\Pi (\Pi ,\ k)\ =\ \mathsf{Active} \\
+\operatorname{SuspendUniquePath}(\Pi ,\ \mathsf{mode},\ p)\ = \\
+\ \{\ \operatorname{SetTop}(\Pi ,\ \operatorname{InactivateScope}(\operatorname{Top}(\Pi ),\ \operatorname{AncPaths}(p)))\quad \mathsf{if}\ \mathsf{mode}\ =\ \bot \ \land \ \operatorname{IsPlace}(p)\ \land \ \operatorname{PermOf}(\operatorname{ExprType}(p))\ =\ \texttt{unique} \\
+\quad \Pi \quad \mathsf{otherwise}\ \} \\
+\operatorname{SuspendUnique}(\Pi ,\ \mathsf{mode},\ e)\ = \\
+\ \{\ \operatorname{SuspendUniquePath}(\Pi ,\ \mathsf{mode},\ e)\quad \mathsf{if}\ \operatorname{IsPlace}(e) \\
+\quad \Pi \quad \mathsf{otherwise}\ \} \\
+\operatorname{RemoveKeys}(\sigma ,\ D)\ =\ \{\ k\ \mapsto \ \sigma [k]\ \mid \ k\ \in \ \operatorname{dom}(\sigma )\ \land \ k\ \notin \ D\ \} \\
+\operatorname{Reactivate}([\sigma ]\ \mathbin{++} \ \Pi ',\ D)\ =\ [\operatorname{RemoveKeys}(\sigma ,\ D)]\ \mathbin{++} \ \Pi ' \\
+\operatorname{ArgPassExpr}(\mathsf{mode},\ \mathsf{moved},\ e)\ = \\
+\ \{\ \operatorname{MovedArg}(\mathsf{moved},\ e)\quad \mathsf{if}\ \mathsf{mode}\ =\ \texttt{move}\ \land \ \mathsf{moved}\ =\ \mathsf{true} \\
+\quad \operatorname{MovedArg}(\mathsf{true},\ \operatorname{CallTemp}(e))\ \mathsf{if}\ \mathsf{mode}\ =\ \texttt{move}\ \land \ \mathsf{moved}\ =\ \mathsf{false}\ \land \ \lnot \ \operatorname{HasSourceProvenance}(e) \\
+\quad \operatorname{RefArgExpr}(e)\quad \mathsf{if}\ \mathsf{mode}\ =\ \bot \ \land \ \mathsf{moved}\ =\ \mathsf{false} \\
+\quad e\quad \mathsf{otherwise}\ \}
+\end{array}
 ```
 
-SuspendUniquePath(Π, mode, p) =
-
-```text
-  { SetTop(Π, InactivateScope(Top(Π), AncPaths(p)))    if mode = ⊥ ∧ IsPlace(p) ∧ PermOf(ExprType(p)) = `unique`
+```math
+\begin{array}{l}
+\operatorname{AccessStateOk}(\mathsf{Valid},\ p)\ =\ \mathsf{true} \\
+\operatorname{AccessStateOk}(\operatorname{PartiallyMoved}(F),\ p)\ =\ (\operatorname{FieldHead}(p)\ =\ f\ \land \ f\ \notin \ F) \\
+\operatorname{AccessStateOk}(\mathsf{Moved},\ p)\ =\ \mathsf{false} \\
+\operatorname{PM}(\mathsf{Valid},\ f)\ =\ \operatorname{PartiallyMoved}(\{f\}) \\
+\operatorname{PM}(\operatorname{PartiallyMoved}(F),\ f)\ =\ \operatorname{PartiallyMoved}(F\ \cup \ \{f\}) \\
+\operatorname{PM}(\mathsf{Moved},\ f)\ =\ \bot 
+\end{array}
 ```
 
-    Π                                                 otherwise }
-SuspendUnique(Π, mode, e) =
-  { SuspendUniquePath(Π, mode, e)    if IsPlace(e)
-    Π                               otherwise }
-
-```text
-RemoveKeys(σ, D) = { k ↦ σ[k] | k ∈ dom(σ) ∧ k ∉ D }
-Reactivate([σ] ++ Π', D) = [RemoveKeys(σ, D)] ++ Π'
+```math
+\begin{array}{l}
+\operatorname{ExprType}(e)\ =\ T\ \Leftrightarrow \ \Gamma ;\ R;\ L\ \vdash \ e\ :\ T \\
+\operatorname{ExprType}(p)\ =\ T\ \Leftrightarrow \ \operatorname{IsPlace}(p)\ \land \ \Gamma ;\ R;\ L\ \vdash \ p\ :\mathsf{place}\ T
+\end{array}
 ```
 
-ArgPassExpr(mode, moved, e) =
-
-```text
-  { MovedArg(moved, e)          if mode = `move` ∧ moved = true
-    MovedArg(true, CallTemp(e)) if mode = `move` ∧ moved = false ∧ ¬ HasSourceProvenance(e)
-    RefArgExpr(e)               if mode = ⊥ ∧ moved = false
+```math
+\begin{array}{l}
+\operatorname{AccessOk_B}(𝔅,\ p)\ \Leftrightarrow \ x\ =\ \operatorname{PlaceRoot}(p)\ \land \ \operatorname{Lookup_B}(𝔅,\ x)\ =\ \langle s,\ \_,\ \_,\ \_\rangle \ \land \ \operatorname{AccessStateOk}(s,\ p) \\
+\mathsf{AccessOk}\_\Pi (\Pi ,\ p)\ \Leftrightarrow \ (\operatorname{PermOf}(\operatorname{ExprType}(p))\ \ne \ \texttt{unique})\ \lor \ \operatorname{AccessPathOk}(\Pi ,\ p) \\
+\operatorname{AccessOk}(𝔅,\ \Pi ,\ p)\ \Leftrightarrow \ \operatorname{AccessOk_B}(𝔅,\ p)\ \land \ \mathsf{AccessOk}\_\Pi (\Pi ,\ p)
+\end{array}
 ```
 
-    e                           otherwise }
-
-AccessStateOk(Valid, p) = true
-
-```text
-AccessStateOk(PartiallyMoved(F), p) = (FieldHead(p) = f ∧ f ∉ F)
+```math
+\begin{array}{l}
+\operatorname{MovOf}(\texttt{"="})\ =\ \mathsf{mov} \\
+\operatorname{MovOf}(\texttt{":="})\ =\ \mathsf{immov}
+\end{array}
 ```
 
-AccessStateOk(Moved, p) = false
-PM(Valid, f) = PartiallyMoved({f})
-
-```text
-PM(PartiallyMoved(F), f) = PartiallyMoved(F ∪ {f})
-PM(Moved, f) = ⊥
+```math
+\begin{array}{l}
+\operatorname{IsMoveExpr}(\operatorname{MoveExpr}(\_))\ =\ \mathsf{true} \\
+\operatorname{IsMoveExpr}(\_)\ =\ \mathsf{false}
+\end{array}
 ```
 
-```text
-ExprType(e) = T ⇔ Γ; R; L ⊢ e : T
-ExprType(p) = T ⇔ IsPlace(p) ∧ Γ; R; L ⊢ p :place T
+```math
+\begin{array}{l}
+\operatorname{RespOfInit}(\mathsf{init})\ = \\
+\ \{\ \mathsf{resp}\quad \mathsf{if}\ \lnot \ \operatorname{IsPlace}(\mathsf{init}) \\
+\quad \mathsf{resp}\quad \mathsf{if}\ \operatorname{IsMoveExpr}(\mathsf{init}) \\
+\quad \mathsf{alias}\ \mathsf{otherwise}\ \}
+\end{array}
 ```
-
-```text
-AccessOk_B(𝔅, p) ⇔ x = PlaceRoot(p) ∧ Lookup_B(𝔅, x) = ⟨s, _, _, _⟩ ∧ AccessStateOk(s, p)
-AccessOk_Π(Π, p) ⇔ (PermOf(ExprType(p)) ≠ `unique`) ∨ AccessPathOk(Π, p)
-AccessOk(𝔅, Π, p) ⇔ AccessOk_B(𝔅, p) ∧ AccessOk_Π(Π, p)
-```
-
-MovOf("=") = mov
-MovOf(":=") = immov
-
-IsMoveExpr(MoveExpr(_)) = true
-IsMoveExpr(_) = false
-
-RespOfInit(init) =
-
-```text
-  { resp    if ¬ IsPlace(init)
-```
-
-    resp    if IsMoveExpr(init)
-    alias   otherwise }
 
 **Temporary Lifetime.**
 
-```text
-InitExpr(⟨_, _, _, init, _⟩) = init
+```math
+\operatorname{InitExpr}(\langle \_,\ \_,\ \_,\ \mathsf{init},\ \_\rangle )\ =\ \mathsf{init}
 ```
 
-```text
-BindInitScope(e) = BindScope(s) ⇔
-  (s = LetStmt(binding) ∧ InitExpr(binding) = e) ∨
-  (s = VarStmt(binding) ∧ InitExpr(binding) = e)
+```math
+\begin{array}{l}
+\operatorname{BindInitScope}(e)\ =\ \operatorname{BindScope}(s)\ \Leftrightarrow  \\
+\ (s\ =\ \operatorname{LetStmt}(\mathsf{binding})\ \land \ \operatorname{InitExpr}(\mathsf{binding})\ =\ e)\ \lor  \\
+\ (s\ =\ \operatorname{VarStmt}(\mathsf{binding})\ \land \ \operatorname{InitExpr}(\mathsf{binding})\ =\ e)
+\end{array}
 ```
 
-TempScope(e) =
-
-```text
-  { BindInitScope(e)            if BindInitScope(e) ≠ ⊥
+```math
+\begin{array}{l}
+\operatorname{TempScope}(e)\ = \\
+\ \{\ \operatorname{BindInitScope}(e)\quad \mathsf{if}\ \operatorname{BindInitScope}(e)\ \ne \ \bot  \\
+\quad \operatorname{StmtScope}(\operatorname{EnclosingStmt}(e))\ \mathsf{otherwise}\ \}
+\end{array}
 ```
 
-    StmtScope(EnclosingStmt(e)) otherwise }
-
-```text
-TempValue(e) ⇔ ¬ IsPlace(e)
+```math
+\operatorname{TempValue}(e)\ \Leftrightarrow \ \lnot \ \operatorname{IsPlace}(e)
 ```
 
-TempOrderList([]) = []
-TempOrderList([e] ++ es) = TempOrder(e) ++ TempOrderList(es)
-
-TempOrder(e) =
-  { TempOrderList(Children_LTR(e)) ++ [e]    if TempValue(e)
-    TempOrderList(Children_LTR(e))           otherwise }
-
-TempOrderStmt(s) = TempOrderList(StmtExprs(s))
-
-ControlExpr(ReturnStmt(e)) = e
-ControlExpr(BreakStmt(e)) = e
-
-```text
-ControlExpr(s) = ⊥    if s ∉ {ReturnStmt(_), BreakStmt(_)}
+```math
+\begin{array}{l}
+\operatorname{TempOrderList}([])\ =\ [] \\
+\operatorname{TempOrderList}([e]\ \mathbin{++} \ \mathsf{es})\ =\ \operatorname{TempOrder}(e)\ \mathbin{++} \ \operatorname{TempOrderList}(\mathsf{es})
+\end{array}
 ```
 
-```text
-TempStmtList(s) = [ e ∈ TempOrderStmt(s) | TempScope(e) = StmtScope(s) ∧ e ≠ ControlExpr(s) ]
+```math
+\begin{array}{l}
+\operatorname{TempOrder}(e)\ = \\
+\ \{\ \operatorname{TempOrderList}(\operatorname{Children_LTR}(e))\ \mathbin{++} \ [e]\quad \mathsf{if}\ \operatorname{TempValue}(e) \\
+\quad \operatorname{TempOrderList}(\operatorname{Children_LTR}(e))\quad \mathsf{otherwise}\ \}
+\end{array}
 ```
 
-TempDropOrder(s) = Rev(TempStmtList(s))
-
-```text
-OptList(⊥) = []
-OptList(e) = [e]    if e ≠ ⊥
+```math
+\operatorname{TempOrderStmt}(s)\ =\ \operatorname{TempOrderList}(\operatorname{StmtExprs}(s))
 ```
 
-```text
-StmtExprs(LetStmt(⟨_, _, _, init, _⟩)) = [init]
-StmtExprs(VarStmt(⟨_, _, _, init, _⟩)) = [init]
+```math
+\begin{array}{l}
+\operatorname{ControlExpr}(\operatorname{ReturnStmt}(e))\ =\ e \\
+\operatorname{ControlExpr}(\operatorname{BreakStmt}(e))\ =\ e \\
+\operatorname{ControlExpr}(s)\ =\ \bot \quad \mathsf{if}\ s\ \notin \ \{\operatorname{ReturnStmt}(\_),\ \operatorname{BreakStmt}(\_)\}
+\end{array}
 ```
 
-StmtExprs(UsingLocalStmt(_, _, _)) = []
-StmtExprs(AssignStmt(p, e)) = [e, p]
-StmtExprs(CompoundAssignStmt(p, _, e)) = [p, e]
-StmtExprs(ExprStmt(e)) = [e]
-StmtExprs(ReturnStmt(e_opt)) = OptList(e_opt)
-StmtExprs(BreakStmt(e_opt)) = OptList(e_opt)
-StmtExprs(ContinueStmt) = []
-StmtExprs(DeferStmt(_)) = []
-StmtExprs(UnsafeBlockStmt(b)) = [b]
-StmtExprs(RegionStmt(opts_opt, _, b)) = [RegionOptsExpr(opts_opt), b]
-StmtExprs(FrameStmt(_, b)) = [b]
-StmtExprs(ErrorStmt(_)) = []
-
-StmtScope(s) = s
-BindScope(s) = BlockOfStmt(s)
-
-```text
-EnclosingStmt(e) = s ⇔ e ∈ SubExprs(s) ∧ ∀ s' ∈ SubStmts(s). e ∉ SubExprs(s')
-BlockOfStmt(s) = b ⇔ s ∈ BlockStmts(b) ∧ ∀ b' ∈ SubBlocks(b). s ∉ BlockStmts(b')
+```math
+\begin{array}{l}
+\operatorname{TempStmtList}(s)\ =\ [\ e\ \in \ \operatorname{TempOrderStmt}(s)\ \mid \ \operatorname{TempScope}(e)\ =\ \operatorname{StmtScope}(s)\ \land \ e\ \ne \ \operatorname{ControlExpr}(s)\ ] \\
+\operatorname{TempDropOrder}(s)\ =\ \operatorname{Rev}(\operatorname{TempStmtList}(s))
+\end{array}
 ```
 
-BlockStmts(BlockExpr(stmts, _)) = stmts
-
-StmtBlocks(UnsafeBlockStmt(b)) = [b]
-StmtBlocks(DeferStmt(b)) = [b]
-StmtBlocks(RegionStmt(_, _, b)) = [b]
-StmtBlocks(FrameStmt(_, b)) = [b]
-
-```text
-StmtBlocks(s) = []    if s ∉ {UnsafeBlockStmt(_), DeferStmt(_), RegionStmt(_, _, _), FrameStmt(_, _)}
+```math
+\begin{array}{l}
+\operatorname{OptList}(\bot )\ =\ [] \\
+\operatorname{OptList}(e)\ =\ [e]\quad \mathsf{if}\ e\ \ne \ \bot 
+\end{array}
 ```
 
-SubExprs(s) = SubExprsList(StmtExprs(s))
-SubExprsList([]) = ∅
-
-```text
-SubExprsList([e] ++ es) = {e} ∪ SubExprsList(Children_LTR(e)) ∪ SubExprsList(es)
+```math
+\begin{array}{l}
+\operatorname{StmtExprs}(\operatorname{LetStmt}(\langle \_,\ \_,\ \_,\ \mathsf{init},\ \_\rangle ))\ =\ [\mathsf{init}] \\
+\operatorname{StmtExprs}(\operatorname{VarStmt}(\langle \_,\ \_,\ \_,\ \mathsf{init},\ \_\rangle ))\ =\ [\mathsf{init}] \\
+\operatorname{StmtExprs}(\operatorname{UsingLocalStmt}(\_,\ \_,\ \_))\ =\ [] \\
+\operatorname{StmtExprs}(\operatorname{AssignStmt}(p,\ e))\ =\ [e,\ p] \\
+\operatorname{StmtExprs}(\operatorname{CompoundAssignStmt}(p,\ \_,\ e))\ =\ [p,\ e] \\
+\operatorname{StmtExprs}(\operatorname{ExprStmt}(e))\ =\ [e] \\
+\operatorname{StmtExprs}(\operatorname{ReturnStmt}(e_{\mathsf{opt}}))\ =\ \operatorname{OptList}(e_{\mathsf{opt}}) \\
+\operatorname{StmtExprs}(\operatorname{BreakStmt}(e_{\mathsf{opt}}))\ =\ \operatorname{OptList}(e_{\mathsf{opt}}) \\
+\operatorname{StmtExprs}(\mathsf{ContinueStmt})\ =\ [] \\
+\operatorname{StmtExprs}(\operatorname{DeferStmt}(\_))\ =\ [] \\
+\operatorname{StmtExprs}(\operatorname{UnsafeBlockStmt}(b))\ =\ [b] \\
+\operatorname{StmtExprs}(\operatorname{RegionStmt}(\mathsf{opts}_{\mathsf{opt}},\ \_,\ b))\ =\ [\operatorname{RegionOptsExpr}(\mathsf{opts}_{\mathsf{opt}}),\ b] \\
+\operatorname{StmtExprs}(\operatorname{FrameStmt}(\_,\ b))\ =\ [b] \\
+\operatorname{StmtExprs}(\operatorname{ErrorStmt}(\_))\ =\ []
+\end{array}
 ```
 
-SubStmts(s) = SubStmtsList(StmtBlocks(s))
-SubStmtsList([]) = ∅
-
-```text
-SubStmtsList([b] ++ bs) = BlockStmts(b) ∪ SubStmtsSeq(BlockStmts(b)) ∪ SubStmtsList(bs)
+```math
+\begin{array}{l}
+\operatorname{StmtScope}(s)\ =\ s \\
+\operatorname{BindScope}(s)\ =\ \operatorname{BlockOfStmt}(s) \\
+\operatorname{EnclosingStmt}(e)\ =\ s\ \Leftrightarrow \ e\ \in \ \operatorname{SubExprs}(s)\ \land \ \forall \ s'\ \in \ \operatorname{SubStmts}(s).\ e\ \notin \ \operatorname{SubExprs}(s') \\
+\operatorname{BlockOfStmt}(s)\ =\ b\ \Leftrightarrow \ s\ \in \ \operatorname{BlockStmts}(b)\ \land \ \forall \ b'\ \in \ \operatorname{SubBlocks}(b).\ s\ \notin \ \operatorname{BlockStmts}(b')
+\end{array}
 ```
 
-SubStmtsSeq([]) = ∅
-
-```text
-SubStmtsSeq([s] ++ ss) = SubStmts(s) ∪ SubStmtsSeq(ss)
+```math
+\operatorname{BlockStmts}(\operatorname{BlockExpr}(\mathsf{stmts},\ \_))\ =\ \mathsf{stmts}
 ```
 
-SubBlocks(b) = SubBlocksSeq(BlockStmts(b))
-SubBlocksSeq([]) = ∅
-
-```text
-SubBlocksSeq([s] ++ ss) = StmtBlocks(s) ∪ (⋃_{b' ∈ StmtBlocks(s)} SubBlocks(b')) ∪ SubBlocksSeq(ss)
+```math
+\begin{array}{l}
+\operatorname{StmtBlocks}(\operatorname{UnsafeBlockStmt}(b))\ =\ [b] \\
+\operatorname{StmtBlocks}(\operatorname{DeferStmt}(b))\ =\ [b] \\
+\operatorname{StmtBlocks}(\operatorname{RegionStmt}(\_,\ \_,\ b))\ =\ [b] \\
+\operatorname{StmtBlocks}(\operatorname{FrameStmt}(\_,\ b))\ =\ [b] \\
+\operatorname{StmtBlocks}(s)\ =\ []\quad \mathsf{if}\ s\ \notin \ \{\operatorname{UnsafeBlockStmt}(\_),\ \operatorname{DeferStmt}(\_),\ \operatorname{RegionStmt}(\_,\ \_,\ \_),\ \operatorname{FrameStmt}(\_,\ \_)\}
+\end{array}
 ```
 
-```text
-Entries(B) = [⟨x_1, B[x_1]⟩, …, ⟨x_n, B[x_n]⟩] ⇔ [x_1, …, x_n] enumerates dom(B) without repetition
+```math
+\begin{array}{l}
+\operatorname{SubExprs}(s)\ =\ \operatorname{SubExprsList}(\operatorname{StmtExprs}(s)) \\
+\operatorname{SubExprsList}([])\ =\ \emptyset  \\
+\operatorname{SubExprsList}([e]\ \mathbin{++} \ \mathsf{es})\ =\ \{e\}\ \cup \ \operatorname{SubExprsList}(\operatorname{Children_LTR}(e))\ \cup \ \operatorname{SubExprsList}(\mathsf{es})
+\end{array}
 ```
 
-```text
-MapUnion(M_1, M_2) = { x ↦ (M_2[x] if x ∈ dom(M_2) else M_1[x]) | x ∈ dom(M_1) ∪ dom(M_2) }
+```math
+\begin{array}{l}
+\operatorname{SubStmts}(s)\ =\ \operatorname{SubStmtsList}(\operatorname{StmtBlocks}(s)) \\
+\operatorname{SubStmtsList}([])\ =\ \emptyset  \\
+\operatorname{SubStmtsList}([b]\ \mathbin{++} \ \mathsf{bs})\ =\ \operatorname{BlockStmts}(b)\ \cup \ \operatorname{SubStmtsSeq}(\operatorname{BlockStmts}(b))\ \cup \ \operatorname{SubStmtsList}(\mathsf{bs}) \\
+\operatorname{SubStmtsSeq}([])\ =\ \emptyset  \\
+\operatorname{SubStmtsSeq}([s]\ \mathbin{++} \ \mathsf{ss})\ =\ \operatorname{SubStmts}(s)\ \cup \ \operatorname{SubStmtsSeq}(\mathsf{ss})
+\end{array}
 ```
 
-```text
-IntroAll_B([σ] ++ 𝔅', B) = [MapUnion(σ, B)] ++ 𝔅'
+```math
+\begin{array}{l}
+\operatorname{SubBlocks}(b)\ =\ \operatorname{SubBlocksSeq}(\operatorname{BlockStmts}(b)) \\
+\operatorname{SubBlocksSeq}([])\ =\ \emptyset  \\
+\operatorname{SubBlocksSeq}([s]\ \mathbin{++} \ \mathsf{ss})\ =\ \operatorname{StmtBlocks}(s)\ \cup \ (\bigcup \_\{b'\ \in \ \operatorname{StmtBlocks}(s)\}\ \operatorname{SubBlocks}(b'))\ \cup \ \operatorname{SubBlocksSeq}(\mathsf{ss})
+\end{array}
 ```
 
-```text
-BindInfoMap(f, B, mv, mut) = { x ↦ ⟨Valid, MovEff(mv, f(B[x])), mut, f(B[x])⟩ | x ∈ dom(B) }
+```math
+\operatorname{Entries}(B)\ =\ [\langle x_{1},\ B[x_{1}]\rangle ,\ \ldots ,\ \langle x_{n},\ B[x_{n}]\rangle ]\ \Leftrightarrow \ [x_{1},\ \ldots ,\ x_{n}]\ \mathsf{enumerates}\ \operatorname{dom}(B)\ \mathsf{without}\ \mathsf{repetition}
 ```
 
-MovEff(mv, resp) = mv
-MovEff(mv, alias) = immov
-
-T_Region = TypeModalState([`Region`], `Active`)
-
-```text
-RegionBindName(Γ, alias_opt) =
-  { alias_opt         if alias_opt ≠ ⊥
-    FreshRegion(Γ)    otherwise }
-RegionBindMap(Γ, alias_opt) = { r ↦ T_Region | r = RegionBindName(Γ, alias_opt) }
-RegionBindInfo(Γ, alias_opt) = BindInfoMap(λ U. resp, RegionBindMap(Γ, alias_opt), mov, `let`)
-FrameBindInfo(Γ) = RegionBindInfo(Γ, ⊥)
+```math
+\operatorname{MapUnion}(M_{1},\ M_{2})\ =\ \{\ x\ \mapsto \ (M_{2}[x]\ \mathsf{if}\ x\ \in \ \operatorname{dom}(M_{2})\ \mathsf{else}\ M_{1}[x])\ \mid \ x\ \in \ \operatorname{dom}(M_{1})\ \cup \ \operatorname{dom}(M_{2})\ \}
 ```
 
-Names(B) = dom(B)
-
-```text
-JoinAll_B([]) = ⊥
+```math
+\operatorname{IntroAll_B}([\sigma ]\ \mathbin{++} \ 𝔅',\ B)\ =\ [\operatorname{MapUnion}(\sigma ,\ B)]\ \mathbin{++} \ 𝔅'
 ```
 
-JoinAll_B([𝔅]) = 𝔅
-JoinAll_B(𝔅_1 :: 𝔅_2 :: rest) = JoinAll_B([Join_B(𝔅_1, 𝔅_2)] ++ rest)
-
-```text
-JoinAllPerm([]) = ⊥
+```math
+\operatorname{BindInfoMap}(f,\ B,\ \mathsf{mv},\ \mathsf{mut})\ =\ \{\ x\ \mapsto \ \langle \mathsf{Valid},\ \operatorname{MovEff}(\mathsf{mv},\ \operatorname{f}(B[x])),\ \mathsf{mut},\ \operatorname{f}(B[x])\rangle \ \mid \ x\ \in \ \operatorname{dom}(B)\ \}
 ```
 
-JoinAllPerm([Π]) = Π
-JoinAllPerm(Π_1 :: Π_2 :: rest) = JoinAllPerm([JoinPerm(Π_1, Π_2)] ++ rest)
-
-```text
-Top([σ] ++ Π') = σ
-SetTop([σ] ++ Π', σ') = [σ'] ++ Π'
-InactivateScope(σ, K) = { x ↦ (Inactive if x ∈ K else σ[x]) | x ∈ dom(σ) ∪ K }
-Roots(Π_2, Π_1) = { k | Top(Π_2)[k] = Inactive ∧ Lookup_Π(Π_1, k) = Active }
+```math
+\begin{array}{l}
+\operatorname{MovEff}(\mathsf{mv},\ \mathsf{resp})\ =\ \mathsf{mv} \\
+\operatorname{MovEff}(\mathsf{mv},\ \mathsf{alias})\ =\ \mathsf{immov}
+\end{array}
 ```
 
-ConsumeOnMove(𝔅, e) =
-
-```text
-  { Update_B(𝔅, x, ⟨Moved, mv, mut, resp⟩)    if IsMoveExpr(e) ∧ x = PlaceRoot(MoveInner(e)) ∧ Lookup_B(𝔅, x) = ⟨s, mv, mut, resp⟩
+```math
+\begin{array}{l}
+T_{\mathsf{Region}}\ =\ \operatorname{TypeModalState}([\texttt{Region}],\ \texttt{Active}) \\
+\operatorname{RegionBindName}(\Gamma ,\ \mathsf{alias}_{\mathsf{opt}})\ = \\
+\ \{\ \mathsf{alias}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{alias}_{\mathsf{opt}}\ \ne \ \bot  \\
+\quad \operatorname{FreshRegion}(\Gamma )\quad \mathsf{otherwise}\ \} \\
+\operatorname{RegionBindMap}(\Gamma ,\ \mathsf{alias}_{\mathsf{opt}})\ =\ \{\ r\ \mapsto \ T_{\mathsf{Region}}\ \mid \ r\ =\ \operatorname{RegionBindName}(\Gamma ,\ \mathsf{alias}_{\mathsf{opt}})\ \} \\
+\operatorname{RegionBindInfo}(\Gamma ,\ \mathsf{alias}_{\mathsf{opt}})\ =\ \operatorname{BindInfoMap}(\lambda \ U.\ \mathsf{resp},\ \operatorname{RegionBindMap}(\Gamma ,\ \mathsf{alias}_{\mathsf{opt}}),\ \mathsf{mov},\ \texttt{let}) \\
+\operatorname{FrameBindInfo}(\Gamma )\ =\ \operatorname{RegionBindInfo}(\Gamma ,\ \bot )
+\end{array}
 ```
 
-    𝔅                                         otherwise }
-
-MoveInner(MoveExpr(p)) = p
-
-```text
-BJudgment = {Γ; 𝔅; Π ⊢ e ⇒ 𝔅' ▷ Π', Γ; 𝔅; Π ⊢ s ⇒ 𝔅' ▷ Π'}
+```math
+\operatorname{Names}(B)\ =\ \operatorname{dom}(B)
 ```
 
-```text
-StaticBindTypesMod(P, m) = ++_{item ∈ ASTModule(P, m).items, item = StaticDecl(_, _, _, binding, _, _)} StaticBindTypes(binding)
-StaticBindInfo(item) = BindInfoMap(λ U. RespOfInit(init), StaticBindTypes(binding), MovOf(op), mut) ⇔ item = StaticDecl(_, _, mut, binding, _, _) ∧ binding = ⟨_, _, op, init, _⟩
-StaticBindMap(P, m) = ++_{item ∈ ASTModule(P, m).items, item = StaticDecl(_, _, _, _, _, _)} StaticBindInfo(item)
+```math
+\begin{array}{l}
+\operatorname{JoinAll_B}([])\ =\ \bot  \\
+\operatorname{JoinAll_B}([𝔅])\ =\ 𝔅 \\
+\operatorname{JoinAll_B}(𝔅\_1\ \mathbin{::} \ 𝔅\_2\ \mathbin{::} \ \mathsf{rest})\ =\ \operatorname{JoinAll_B}([\operatorname{Join_B}(𝔅\_1,\ 𝔅\_2)]\ \mathbin{++} \ \mathsf{rest})
+\end{array}
+```
+
+```math
+\begin{array}{l}
+\operatorname{JoinAllPerm}([])\ =\ \bot  \\
+\operatorname{JoinAllPerm}([\Pi ])\ =\ \Pi  \\
+\operatorname{JoinAllPerm}(\Pi_{1} \ \mathbin{::} \ \Pi_{2} \ \mathbin{::} \ \mathsf{rest})\ =\ \operatorname{JoinAllPerm}([\operatorname{JoinPerm}(\Pi_{1} ,\ \Pi_{2} )]\ \mathbin{++} \ \mathsf{rest})
+\end{array}
+```
+
+```math
+\begin{array}{l}
+\operatorname{Top}([\sigma ]\ \mathbin{++} \ \Pi ')\ =\ \sigma  \\
+\operatorname{SetTop}([\sigma ]\ \mathbin{++} \ \Pi ',\ \sigma ')\ =\ [\sigma ']\ \mathbin{++} \ \Pi ' \\
+\operatorname{InactivateScope}(\sigma ,\ K)\ =\ \{\ x\ \mapsto \ (\mathsf{Inactive}\ \mathsf{if}\ x\ \in \ K\ \mathsf{else}\ \sigma [x])\ \mid \ x\ \in \ \operatorname{dom}(\sigma )\ \cup \ K\ \} \\
+\operatorname{Roots}(\Pi_{2} ,\ \Pi_{1} )\ =\ \{\ k\ \mid \ \operatorname{Top}(\Pi_{2} )[k]\ =\ \mathsf{Inactive}\ \land \ \mathsf{Lookup}\_\Pi (\Pi_{1} ,\ k)\ =\ \mathsf{Active}\ \}
+\end{array}
+```
+
+```math
+\begin{array}{l}
+\operatorname{ConsumeOnMove}(𝔅,\ e)\ = \\
+\ \{\ \operatorname{Update_B}(𝔅,\ x,\ \langle \mathsf{Moved},\ \mathsf{mv},\ \mathsf{mut},\ \mathsf{resp}\rangle )\quad \mathsf{if}\ \operatorname{IsMoveExpr}(e)\ \land \ x\ =\ \operatorname{PlaceRoot}(\operatorname{MoveInner}(e))\ \land \ \operatorname{Lookup_B}(𝔅,\ x)\ =\ \langle s,\ \mathsf{mv},\ \mathsf{mut},\ \mathsf{resp}\rangle  \\
+\quad 𝔅\quad \mathsf{otherwise}\ \}
+\end{array}
+```
+
+```math
+\operatorname{MoveInner}(\operatorname{MoveExpr}(p))\ =\ p
+```
+
+```math
+\mathsf{BJudgment}\ =\ \{\Gamma ;\ 𝔅;\ \Pi \ \vdash \ e\ \Rightarrow \ 𝔅'\ \triangleright \ \Pi ',\ \Gamma ;\ 𝔅;\ \Pi \ \vdash \ s\ \Rightarrow \ 𝔅'\ \triangleright \ \Pi '\}
+```
+
+```math
+\begin{array}{l}
+\operatorname{StaticBindTypesMod}(P,\ m)\ =\ \mathbin{++} \_\{\mathsf{item}\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items},\ \mathsf{item}\ =\ \operatorname{StaticDecl}(\_,\ \_,\ \_,\ \mathsf{binding},\ \_,\ \_)\}\ \operatorname{StaticBindTypes}(\mathsf{binding}) \\
+\operatorname{StaticBindInfo}(\mathsf{item})\ =\ \operatorname{BindInfoMap}(\lambda \ U.\ \operatorname{RespOfInit}(\mathsf{init}),\ \operatorname{StaticBindTypes}(\mathsf{binding}),\ \operatorname{MovOf}(\mathsf{op}),\ \mathsf{mut})\ \Leftrightarrow \ \mathsf{item}\ =\ \operatorname{StaticDecl}(\_,\ \_,\ \mathsf{mut},\ \mathsf{binding},\ \_,\ \_)\ \land \ \mathsf{binding}\ =\ \langle \_,\ \_,\ \mathsf{op},\ \mathsf{init},\ \_\rangle  \\
+\operatorname{StaticBindMap}(P,\ m)\ =\ \mathbin{++} \_\{\mathsf{item}\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items},\ \mathsf{item}\ =\ \operatorname{StaticDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_)\}\ \operatorname{StaticBindInfo}(\mathsf{item})
+\end{array}
 ```
 
 **Procedure Entry.**
 
-```text
-𝔅_global = IntroAll_B(PushScope_B(𝔅), StaticBindMap(Project(Γ), m))
+```math
+\begin{array}{l}
+𝔅\_\mathsf{global}\ =\ \operatorname{IntroAll_B}(\operatorname{PushScope_B}(𝔅),\ \operatorname{StaticBindMap}(\operatorname{Project}(\Gamma ),\ m)) \\
+𝔅\_\mathsf{proc}\ =\ \operatorname{IntroAll_B}(\operatorname{PushScope_B}(𝔅\_\mathsf{global}),\ \operatorname{ParamBindMap}(\mathsf{params})) \\
+\operatorname{ParamBindMap}([])\ =\ \emptyset  \\
+\operatorname{ParamBindMap}([\langle \mathsf{mode},\ x,\ T\rangle ]\ \mathbin{++} \ \mathsf{ps})\ =\ \operatorname{MapUnion}(\operatorname{ParamBindMap}(\mathsf{ps}),\ \{\ x\ \mapsto \ \langle \mathsf{Valid},\ \operatorname{ParamMov}(\mathsf{mode}),\ \texttt{let},\ \operatorname{ParamResp}(\mathsf{mode})\rangle \ \}) \\
+\operatorname{MethodParamBindMap}(\mathsf{base},\ \mathsf{name})\ =\ \operatorname{ParamBindMap}(\operatorname{RecvParams}(\mathsf{base},\ \mathsf{name})) \\
+\operatorname{ParamTypeMap}([])\ =\ \emptyset  \\
+\operatorname{ParamTypeMap}([\langle \mathsf{mode},\ x,\ T\rangle ]\ \mathbin{++} \ \mathsf{ps})\ =\ \operatorname{MapUnion}(\operatorname{ParamTypeMap}(\mathsf{ps}),\ \{\ x\ \mapsto \ T\ \}) \\
+\operatorname{ParamMov}(\texttt{move})\ =\ \mathsf{mov}\quad \operatorname{ParamMov}(\bot )\ =\ \mathsf{immov} \\
+\operatorname{ParamResp}(\texttt{move})\ =\ \mathsf{resp}\quad \operatorname{ParamResp}(\bot )\ =\ \mathsf{alias}
+\end{array}
 ```
 
-𝔅_proc = IntroAll_B(PushScope_B(𝔅_global), ParamBindMap(params))
-ParamBindMap([]) = ∅
-
-```text
-ParamBindMap([⟨mode, x, T⟩] ++ ps) = MapUnion(ParamBindMap(ps), { x ↦ ⟨Valid, ParamMov(mode), `let`, ParamResp(mode)⟩ })
+```math
+\begin{array}{l}
+\operatorname{Init_B}(m,\ \mathsf{params})\ =\ \operatorname{IntroAll_B}(\operatorname{PushScope_B}(\operatorname{IntroAll_B}(\operatorname{PushScope_B}([]),\ \operatorname{StaticBindMap}(\operatorname{Project}(\Gamma ),\ m))),\ \operatorname{ParamBindMap}(\mathsf{params})) \\
+\mathsf{Init}\_\Pi (m,\ \mathsf{params})\ =\ [\{\ x\ \mapsto \ \mathsf{Active}\ \mid \ (x:T)\ \in \ \operatorname{ParamTypeMap}(\mathsf{params})\ \land \ \operatorname{PermOf}(T)\ =\ \texttt{unique}\ \}]\ \mathbin{++} \ [\{\ x\ \mapsto \ \mathsf{Active}\ \mid \ (x:T)\ \in \ \operatorname{StaticBindTypesMod}(\operatorname{Project}(\Gamma ),\ m)\ \land \ \operatorname{PermOf}(T)\ =\ \texttt{unique}\ \}]
+\end{array}
 ```
 
-MethodParamBindMap(base, name) = ParamBindMap(RecvParams(base, name))
-ParamTypeMap([]) = ∅
-
-```text
-ParamTypeMap([⟨mode, x, T⟩] ++ ps) = MapUnion(ParamTypeMap(ps), { x ↦ T })
-ParamMov(`move`) = mov    ParamMov(⊥) = immov
-ParamResp(`move`) = resp    ParamResp(⊥) = alias
+```math
+\operatorname{BindCheck}(m,\ \mathsf{params},\ \mathsf{body})\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \Gamma ;\ \operatorname{Init_B}(m,\ \mathsf{params});\ \mathsf{Init}\_\Pi (m,\ \mathsf{params})\ \vdash \ \mathsf{body}\ \Rightarrow \ 𝔅'\ \triangleright \ \Pi '
 ```
 
-```text
-Init_B(m, params) = IntroAll_B(PushScope_B(IntroAll_B(PushScope_B([]), StaticBindMap(Project(Γ), m))), ParamBindMap(params))
-Init_Π(m, params) = [{ x ↦ Active | (x:T) ∈ ParamTypeMap(params) ∧ PermOf(T) = `unique` }] ++ [{ x ↦ Active | (x:T) ∈ StaticBindTypesMod(Project(Γ), m) ∧ PermOf(T) = `unique` }]
+```math
+\operatorname{ProcBindCheck}(m,\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{params},\ \_,\ \_,\ \mathsf{body},\ \_,\ \_))\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \operatorname{BindCheck}(m,\ \mathsf{params},\ \mathsf{body})\ \Downarrow \ \mathsf{ok}
 ```
 
-```text
-BindCheck(m, params, body) ⇓ ok ⇔ Γ; Init_B(m, params); Init_Π(m, params) ⊢ body ⇒ 𝔅' ▷ Π'
+```math
+\begin{array}{l}
+\operatorname{MethodParamsDecl}(T,\ m)\ =\ [\langle \operatorname{RecvMode}(m.\mathsf{receiver}),\ \texttt{self},\ \operatorname{RecvType}(T,\ m.\mathsf{receiver})\rangle ]\ \mathbin{++} \ m.\mathsf{params} \\
+\operatorname{MethodBindCheck}(m,\ T,\ \mathsf{md})\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \mathsf{md}.\mathsf{body}\ =\ \mathsf{body}\ \land \ \operatorname{BindCheck}(m,\ \operatorname{MethodParamsDecl}(T,\ \mathsf{md}),\ \mathsf{body})\ \Downarrow \ \mathsf{ok} \\
+\operatorname{ClassMethodBindCheck}(m,\ \mathsf{Cl},\ \mathsf{md})\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \mathsf{md}.\mathsf{body}_{\mathsf{opt}}\ =\ \mathsf{body}\ \land \ \operatorname{BindCheck}(m,\ \operatorname{ClassMethodParams}(\mathsf{Cl},\ \mathsf{md}),\ \mathsf{body})\ \Downarrow \ \mathsf{ok} \\
+\operatorname{StateMethodBindCheck}(m,\ M,\ S,\ \mathsf{md})\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \mathsf{md}.\mathsf{body}\ =\ \mathsf{body}\ \land \ \operatorname{BindCheck}(m,\ \operatorname{StateMethodParams}(M,\ S,\ \mathsf{md}),\ \mathsf{body})\ \Downarrow \ \mathsf{ok} \\
+\operatorname{TransitionBindCheck}(m,\ M,\ S,\ \mathsf{tr})\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \mathsf{tr}.\mathsf{body}\ =\ \mathsf{body}\ \land \ \operatorname{BindCheck}(m,\ \operatorname{TransitionParams}(M,\ S,\ \mathsf{tr}),\ \mathsf{body})\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
-```text
-ProcBindCheck(m, ProcedureDecl(_, _, _, _, _, params, _, _, body, _, _)) ⇓ ok ⇔ BindCheck(m, params, body) ⇓ ok
+```math
+\mathsf{BindDiagRefs}\ =\ \{\texttt{"8.2"},\ \texttt{"8.7"},\ \texttt{"8.10"}\}
 ```
-
-```text
-MethodParamsDecl(T, m) = [⟨RecvMode(m.receiver), `self`, RecvType(T, m.receiver)⟩] ++ m.params
-MethodBindCheck(m, T, md) ⇓ ok ⇔ md.body = body ∧ BindCheck(m, MethodParamsDecl(T, md), body) ⇓ ok
-ClassMethodBindCheck(m, Cl, md) ⇓ ok ⇔ md.body_opt = body ∧ BindCheck(m, ClassMethodParams(Cl, md), body) ⇓ ok
-StateMethodBindCheck(m, M, S, md) ⇓ ok ⇔ md.body = body ∧ BindCheck(m, StateMethodParams(M, S, md), body) ⇓ ok
-TransitionBindCheck(m, M, S, tr) ⇓ ok ⇔ tr.body = body ∧ BindCheck(m, TransitionParams(M, S, tr), body) ⇓ ok
-```
-
-BindDiagRefs = {"8.2", "8.7", "8.10"}
 
 This chapter defines only the environments and helper operations. Feature-specific `BJudgment` clauses are owned by the consuming chapters.
 
@@ -1524,713 +1525,773 @@ This chapter defines only the environments and helper operations. Feature-specif
 
 #### 6.4.1 Built-In Region Options and Region Helpers
 
-RegionOptionsFields = [
-
-```text
-  ⟨⊥, `public`, false, `stack_size`, TypePrim("usize"), Literal(IntLiteral(0)), ⊥, ⊥⟩,
-  ⟨⊥, `public`, false, `name`, TypeString(⊥), Literal(StringLiteral("\"")), ⊥, ⊥⟩
+```math
+\begin{array}{l}
+\mathsf{RegionOptionsFields}\ =\ [ \\
+\ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{stack\_size},\ \operatorname{TypePrim}(\texttt{"usize"}),\ \operatorname{Literal}(\operatorname{IntLiteral}(0)),\ \bot ,\ \bot \rangle , \\
+\ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{name},\ \operatorname{TypeString}(\bot ),\ \operatorname{Literal}(\operatorname{StringLiteral}(\texttt{"\textbackslash{}""})),\ \bot ,\ \bot \rangle 
+\end{array}
 ```
-
 ]
 
-```text
-RegionOptionsDecl = RecordDecl(⊥, `public`, `RegionOptions`, ⊥, ⊥, [], RegionOptionsFields, ⊥, ⊥, ⊥)
-Σ.Types[`RegionOptions`] = RegionOptionsDecl
+```math
+\begin{array}{l}
+\mathsf{RegionOptionsDecl}\ =\ \operatorname{RecordDecl}(\bot ,\ \texttt{public},\ \texttt{RegionOptions},\ \bot ,\ \bot ,\ [],\ \mathsf{RegionOptionsFields},\ \bot ,\ \bot ,\ \bot ) \\
+\Sigma .\mathsf{Types}[\texttt{RegionOptions}]\ =\ \mathsf{RegionOptionsDecl}
+\end{array}
 ```
 
-RegionPrealloc(opts) = opts.stack_size
-
-```text
-NoPrealloc(opts) ⇔ RegionPrealloc(opts) = 0
+```math
+\begin{array}{l}
+\operatorname{RegionPrealloc}(\mathsf{opts})\ =\ \mathsf{opts}.\mathsf{stack}_{\mathsf{size}} \\
+\operatorname{NoPrealloc}(\mathsf{opts})\ \Leftrightarrow \ \operatorname{RegionPrealloc}(\mathsf{opts})\ =\ 0
+\end{array}
 ```
 
-```text
-RegionActiveType(T) ⇔ StripPerm(T) = TypeModalState([`Region`], `Active`)
+```math
+\operatorname{RegionActiveType}(T)\ \Leftrightarrow \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeModalState}([\texttt{Region}],\ \texttt{Active})
 ```
 
-```text
-FreshRegion(Γ) ∈ Name \ dom(Γ)
+```math
+\operatorname{FreshRegion}(\Gamma )\ \in \ \mathsf{Name}\ \setminus \ \operatorname{dom}(\Gamma )
 ```
 
-```text
-RegionOptsExpr(⊥) = Call(Identifier(`RegionOptions`), [])
-RegionOptsExpr(e) = e    if e ≠ ⊥
+```math
+\begin{array}{l}
+\operatorname{RegionOptsExpr}(\bot )\ =\ \operatorname{Call}(\operatorname{Identifier}(\texttt{RegionOptions}),\ []) \\
+\operatorname{RegionOptsExpr}(e)\ =\ e\quad \mathsf{if}\ e\ \ne \ \bot 
+\end{array}
 ```
 
-```text
-RegionBind(Γ, alias_opt) = Γ_r ⇔ r =
-  { alias_opt           if alias_opt ≠ ⊥
-    FreshRegion(Γ)      otherwise } ∧ IntroAll(Γ, [⟨r, TypePerm(`unique`, TypeModalState([`Region`], `Active`))⟩]) ⇓ Γ_r
+```math
+\begin{array}{l}
+\operatorname{RegionBind}(\Gamma ,\ \mathsf{alias}_{\mathsf{opt}})\ =\ \Gamma_{r} \ \Leftrightarrow \ r\ = \\
+\ \{\ \mathsf{alias}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{alias}_{\mathsf{opt}}\ \ne \ \bot  \\
+\quad \operatorname{FreshRegion}(\Gamma )\quad \mathsf{otherwise}\ \}\ \land \ \operatorname{IntroAll}(\Gamma ,\ [\langle r,\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{Region}],\ \texttt{Active}))\rangle ])\ \Downarrow \ \Gamma_{r} 
+\end{array}
 ```
 
-```text
-InnermostActiveRegion([]) = ⊥
-InnermostActiveRegion([σ] ++ Γ') =
-  { r                          if ∃ r. r ∈ dom(σ) ∧ RegionActiveType(σ[r])
-    InnermostActiveRegion(Γ')  otherwise }
+```math
+\begin{array}{l}
+\operatorname{InnermostActiveRegion}([])\ =\ \bot  \\
+\operatorname{InnermostActiveRegion}([\sigma ]\ \mathbin{++} \ \Gamma ')\ = \\
+\ \{\ r\quad \mathsf{if}\ \exists \ r.\ r\ \in \ \operatorname{dom}(\sigma )\ \land \ \operatorname{RegionActiveType}(\sigma [r]) \\
+\quad \operatorname{InnermostActiveRegion}(\Gamma ')\ \mathsf{otherwise}\ \}
+\end{array}
 ```
 
-```text
-FrameBind(Γ, target_opt) = Γ_f ⇔ r =
-  { InnermostActiveRegion(Γ)    if target_opt = ⊥
-    target_opt                  if target_opt ≠ ⊥ ∧ Γ; R; L ⊢ Identifier(target_opt) : T_r ∧ RegionActiveType(T_r) } ∧ F = FreshRegion(Γ) ∧ IntroAll(Γ, [⟨F, TypePerm(`unique`, TypeModalState([`Region`], `Active`))⟩]) ⇓ Γ_f
+```math
+\begin{array}{l}
+\operatorname{FrameBind}(\Gamma ,\ \mathsf{target}_{\mathsf{opt}})\ =\ \Gamma_{f} \ \Leftrightarrow \ r\ = \\
+\ \{\ \operatorname{InnermostActiveRegion}(\Gamma )\quad \mathsf{if}\ \mathsf{target}_{\mathsf{opt}}\ =\ \bot  \\
+\quad \mathsf{target}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{target}_{\mathsf{opt}}\ \ne \ \bot \ \land \ \Gamma ;\ R;\ L\ \vdash \ \operatorname{Identifier}(\mathsf{target}_{\mathsf{opt}})\ :\ T_{r}\ \land \ \operatorname{RegionActiveType}(T_{r})\ \}\ \land \ F\ =\ \operatorname{FreshRegion}(\Gamma )\ \land \ \operatorname{IntroAll}(\Gamma ,\ [\langle F,\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{Region}],\ \texttt{Active}))\rangle ])\ \Downarrow \ \Gamma_{f} 
+\end{array}
 ```
 
-```text
-If `alias_opt = ⊥`, the identifier introduced by `RegionBindName(Γ, alias_opt)` MUST be treated as synthetic. It MUST NOT be introduced by name resolution and MUST NOT be referenced by user code.
+```math
+\mathsf{If}\ \texttt{alias\_opt = bottom},\ \mathsf{the}\ \mathsf{identifier}\ \mathsf{introduced}\ \mathsf{by}\ \texttt{RegionBindName(Gamma, alias\_opt)}\ \mathsf{MUST}\ \mathsf{be}\ \mathsf{treated}\ \mathsf{as}\ \mathsf{synthetic}.\ \mathsf{It}\ \mathsf{MUST}\ \mathsf{NOT}\ \mathsf{be}\ \mathsf{introduced}\ \mathsf{by}\ \mathsf{name}\ \mathsf{resolution}\ \mathsf{and}\ \mathsf{MUST}\ \mathsf{NOT}\ \mathsf{be}\ \mathsf{referenced}\ \mathsf{by}\ \mathsf{user}\ \mathsf{code}.
 ```
 
 `FrameBind` introduces a fresh synthetic region identifier `F` with the same restriction. `F` is used only for provenance assignment.
 
 #### 6.4.2 Provenance Tags and Lifetime Order
 
-```text
-π ::= π_Global | π_Stack(S) | π_Heap | π_Region(r) | ⊥
+```math
+\pi \ \mathbin{::} =\ \pi_{\mathsf{Global}} \ \mid \ \pi_{\mathsf{Stack}} (S)\ \mid \ \pi_{\mathsf{Heap}} \ \mid \ \pi_{\mathsf{Region}} (r)\ \mid \ \bot 
 ```
 
-```text
-RegionNesting(r_inner, r_outer) ⇔ ∃ Γ_1, σ_inner, Γ_2, σ_outer, Γ_3. Γ = Γ_1 ++ [σ_inner] ++ Γ_2 ++ [σ_outer] ++ Γ_3 ∧ r_inner ∈ dom(σ_inner) ∧ r_outer ∈ dom(σ_outer)
+```math
+\operatorname{RegionNesting}(r_{\mathsf{inner}},\ r_{\mathsf{outer}})\ \Leftrightarrow \ \exists \ \Gamma_{1} ,\ \sigma_{\mathsf{inner}} ,\ \Gamma_{2} ,\ \sigma_{\mathsf{outer}} ,\ \Gamma_{3} .\ \Gamma \ =\ \Gamma_{1} \ \mathbin{++} \ [\sigma_{\mathsf{inner}} ]\ \mathbin{++} \ \Gamma_{2} \ \mathbin{++} \ [\sigma_{\mathsf{outer}} ]\ \mathbin{++} \ \Gamma_{3} \ \land \ r_{\mathsf{inner}}\ \in \ \operatorname{dom}(\sigma_{\mathsf{inner}} )\ \land \ r_{\mathsf{outer}}\ \in \ \operatorname{dom}(\sigma_{\mathsf{outer}} )
 ```
 
-```text
-π_1 < π_2 ⇔ (π_1 = π_Region(r_inner) ∧ π_2 = π_Region(r_outer) ∧ RegionNesting(r_inner, r_outer)) ∨ (π_1 = π_Region(r) ∧ π_2 = π_Stack(S)) ∨ (π_1 = π_Stack(S) ∧ π_2 = π_Heap) ∨ (π_1 = π_Heap ∧ π_2 = π_Global) ∨ (π_1 = π_Global ∧ π_2 = ⊥)
+```math
+\pi_{1} \ <\ \pi_{2} \ \Leftrightarrow \ (\pi_{1} \ =\ \pi_{\mathsf{Region}} (r_{\mathsf{inner}})\ \land \ \pi_{2} \ =\ \pi_{\mathsf{Region}} (r_{\mathsf{outer}})\ \land \ \operatorname{RegionNesting}(r_{\mathsf{inner}},\ r_{\mathsf{outer}}))\ \lor \ (\pi_{1} \ =\ \pi_{\mathsf{Region}} (r)\ \land \ \pi_{2} \ =\ \pi_{\mathsf{Stack}} (S))\ \lor \ (\pi_{1} \ =\ \pi_{\mathsf{Stack}} (S)\ \land \ \pi_{2} \ =\ \pi_{\mathsf{Heap}} )\ \lor \ (\pi_{1} \ =\ \pi_{\mathsf{Heap}} \ \land \ \pi_{2} \ =\ \pi_{\mathsf{Global}} )\ \lor \ (\pi_{1} \ =\ \pi_{\mathsf{Global}} \ \land \ \pi_{2} \ =\ \bot )
 ```
 
-```text
-π_1 ≤ π_2 ⇔ π_1 = π_2 ∨ (π_1 < π_2) ∨ ∃ π. (π_1 < π ∧ π ≤ π_2)
+```math
+\pi_{1} \ \le \ \pi_{2} \ \Leftrightarrow \ \pi_{1} \ =\ \pi_{2} \ \lor \ (\pi_{1} \ <\ \pi_{2} )\ \lor \ \exists \ \pi .\ (\pi_{1} \ <\ \pi \ \land \ \pi \ \le \ \pi_{2} )
 ```
 
-```text
-FrameTarget(Γ, ⊥) = r ⇔ InnermostActiveRegion(Γ) = r
-FrameTarget(Γ, r) = r ⇔ Γ; R; L ⊢ Identifier(r) : T_r ∧ RegionActiveType(T_r)
+```math
+\begin{array}{l}
+\operatorname{FrameTarget}(\Gamma ,\ \bot )\ =\ r\ \Leftrightarrow \ \operatorname{InnermostActiveRegion}(\Gamma )\ =\ r \\
+\operatorname{FrameTarget}(\Gamma ,\ r)\ =\ r\ \Leftrightarrow \ \Gamma ;\ R;\ L\ \vdash \ \operatorname{Identifier}(r)\ :\ T_{r}\ \land \ \operatorname{RegionActiveType}(T_{r})
+\end{array}
 ```
 
-```text
-FrameTargetRel(F, r) ⇔ FrameTarget(Γ, F) = r
-FrameTargetRel(F, r) ⇒ π_Region(F) < π_Region(r)
+```math
+\begin{array}{l}
+\operatorname{FrameTargetRel}(F,\ r)\ \Leftrightarrow \ \operatorname{FrameTarget}(\Gamma ,\ F)\ =\ r \\
+\operatorname{FrameTargetRel}(F,\ r)\ \Rightarrow \ \pi_{\mathsf{Region}} (F)\ <\ \pi_{\mathsf{Region}} (r)
+\end{array}
 ```
 
-```text
-JoinProv(π_1, π_2) =
-  { π_1    if π_1 ≤ π_2
-    π_2    if π_2 ≤ π_1
-    ⊥      otherwise }
+```math
+\begin{array}{l}
+\operatorname{JoinProv}(\pi_{1} ,\ \pi_{2} )\ = \\
+\ \{\ \pi_{1} \quad \mathsf{if}\ \pi_{1} \ \le \ \pi_{2}  \\
+\quad \pi_{2} \quad \mathsf{if}\ \pi_{2} \ \le \ \pi_{1}  \\
+\quad \bot \quad \mathsf{otherwise}\ \}
+\end{array}
 ```
 
-```text
-JoinAllProv([]) = ⊥
-JoinAllProv([π]) = π
-JoinAllProv([π_1, π_2] ++ ps) = JoinAllProv([JoinProv(π_1, π_2)] ++ ps)
+```math
+\begin{array}{l}
+\operatorname{JoinAllProv}([])\ =\ \bot  \\
+\operatorname{JoinAllProv}([\pi ])\ =\ \pi  \\
+\operatorname{JoinAllProv}([\pi_{1} ,\ \pi_{2} ]\ \mathbin{++} \ \mathsf{ps})\ =\ \operatorname{JoinAllProv}([\operatorname{JoinProv}(\pi_{1} ,\ \pi_{2} )]\ \mathbin{++} \ \mathsf{ps})
+\end{array}
 ```
 
 #### 6.4.3 Provenance Environment
 
-```text
-Ω = ⟨Σ_π, RS⟩
-Scope_π = ⟨S, M⟩ where M : Ident ⇀ π
-Σ_π ∈ [Scope_π]
-RegionEntry_π = ⟨tag, target⟩
-RS ∈ [RegionEntry_π]
+```math
+\begin{array}{l}
+\Omega \ =\ \langle \Sigma \_\pi ,\ \mathsf{RS}\rangle  \\
+\mathsf{Scope}\_\pi \ =\ \langle S,\ M\rangle \ \mathsf{where}\ M\ :\ \mathsf{Ident}\ \rightharpoonup \ \pi  \\
+\Sigma \_\pi \ \in \ [\mathsf{Scope}\_\pi ] \\
+\mathsf{RegionEntry}\_\pi \ =\ \langle \mathsf{tag},\ \mathsf{target}\rangle  \\
+\mathsf{RS}\ \in \ [\mathsf{RegionEntry}\_\pi ]
+\end{array}
 ```
 
-```text
-ScopeId(⟨S, M⟩) = S
-ScopeMap(⟨S, M⟩) = M
-TopScopeId([⟨S, M⟩] ++ Σ_π) = S
-StackProv(Σ_π) = π_Stack(TopScopeId(Σ_π))
+```math
+\begin{array}{l}
+\operatorname{ScopeId}(\langle S,\ M\rangle )\ =\ S \\
+\operatorname{ScopeMap}(\langle S,\ M\rangle )\ =\ M \\
+\operatorname{TopScopeId}([\langle S,\ M\rangle ]\ \mathbin{++} \ \Sigma \_\pi )\ =\ S \\
+\operatorname{StackProv}(\Sigma \_\pi )\ =\ \pi_{\mathsf{Stack}} (\operatorname{TopScopeId}(\Sigma \_\pi ))
+\end{array}
 ```
 
-```text
-PushScope_π(Σ_π) = [⟨S, ∅⟩] ++ Σ_π    (S fresh)
-PopScope_π([_] ++ Σ_π) = Σ_π
+```math
+\begin{array}{l}
+\mathsf{PushScope}\_\pi (\Sigma \_\pi )\ =\ [\langle S,\ \emptyset \rangle ]\ \mathbin{++} \ \Sigma \_\pi \quad (S\ \mathsf{fresh}) \\
+\mathsf{PopScope}\_\pi ([\_]\ \mathbin{++} \ \Sigma \_\pi )\ =\ \Sigma \_\pi 
+\end{array}
 ```
 
-```text
-Lookup_π([⟨S, M⟩] ++ Σ_π, x) =
-  { M[x]                if x ∈ dom(M)
-    Lookup_π(Σ_π, x)    otherwise }
+```math
+\begin{array}{l}
+\mathsf{Lookup}\_\pi ([\langle S,\ M\rangle ]\ \mathbin{++} \ \Sigma \_\pi ,\ x)\ = \\
+\ \{\ M[x]\quad \mathsf{if}\ x\ \in \ \operatorname{dom}(M) \\
+\quad \mathsf{Lookup}\_\pi (\Sigma \_\pi ,\ x)\quad \mathsf{otherwise}\ \}
+\end{array}
 ```
 
-```text
-Intro_π([⟨S, M⟩] ++ Σ_π, x, π) = [⟨S, M[x ↦ π]⟩] ++ Σ_π
+```math
+\mathsf{Intro}\_\pi ([\langle S,\ M\rangle ]\ \mathbin{++} \ \Sigma \_\pi ,\ x,\ \pi )\ =\ [\langle S,\ M[x\ \mapsto \ \pi ]\rangle ]\ \mathbin{++} \ \Sigma \_\pi 
 ```
 
-```text
-IntroAll_π(Σ_π, [], π) = Σ_π
-IntroAll_π(Σ_π, [x] ++ xs, π) = IntroAll_π(Intro_π(Σ_π, x, π), xs, π)
+```math
+\begin{array}{l}
+\mathsf{IntroAll}\_\pi (\Sigma \_\pi ,\ [],\ \pi )\ =\ \Sigma \_\pi  \\
+\mathsf{IntroAll}\_\pi (\Sigma \_\pi ,\ [x]\ \mathbin{++} \ \mathsf{xs},\ \pi )\ =\ \mathsf{IntroAll}\_\pi (\mathsf{Intro}\_\pi (\Sigma \_\pi ,\ x,\ \pi ),\ \mathsf{xs},\ \pi )
+\end{array}
 ```
 
-```text
-ParamProvMap(params, vecπ) = { x_i ↦ π_i | params = [⟨_, x_i, _⟩], vecπ = [π_i] }
-InitProvEnv(params, vecπ, RS) = ⟨[⟨S, ParamProvMap(params, vecπ)⟩], RS⟩    (S fresh)
+```math
+\begin{array}{l}
+\operatorname{ParamProvMap}(\mathsf{params},\ \mathsf{vec}\pi )\ =\ \{\ x_{i}\ \mapsto \ \pi_{i} \ \mid \ \mathsf{params}\ =\ [\langle \_,\ x_{i},\ \_\rangle ],\ \mathsf{vec}\pi \ =\ [\pi_{i} ]\ \} \\
+\operatorname{InitProvEnv}(\mathsf{params},\ \mathsf{vec}\pi ,\ \mathsf{RS})\ =\ \langle [\langle S,\ \operatorname{ParamProvMap}(\mathsf{params},\ \mathsf{vec}\pi )\rangle ],\ \mathsf{RS}\rangle \quad (S\ \mathsf{fresh})
+\end{array}
 ```
 
-```text
-ResolveEntry_π([], tag) = ⊥
-ResolveEntry_π([⟨tag_i, target_i⟩] ++ RS, tag) =
-  { ⟨tag_i, target_i⟩        if tag_i = tag
-    ResolveEntry_π(RS, tag)  otherwise }
+```math
+\begin{array}{l}
+\mathsf{ResolveEntry}\_\pi ([],\ \mathsf{tag})\ =\ \bot  \\
+\mathsf{ResolveEntry}\_\pi ([\langle \mathsf{tag}_{i},\ \mathsf{target}_{i}\rangle ]\ \mathbin{++} \ \mathsf{RS},\ \mathsf{tag})\ = \\
+\ \{\ \langle \mathsf{tag}_{i},\ \mathsf{target}_{i}\rangle \quad \mathsf{if}\ \mathsf{tag}_{i}\ =\ \mathsf{tag} \\
+\quad \mathsf{ResolveEntry}\_\pi (\mathsf{RS},\ \mathsf{tag})\ \mathsf{otherwise}\ \}
+\end{array}
 ```
 
-```text
-ResolveTarget_π(⟨Σ_π, RS⟩, tag) = target ⇔ ResolveEntry_π(RS, tag) = ⟨tag, target⟩
+```math
+\mathsf{ResolveTarget}\_\pi (\langle \Sigma \_\pi ,\ \mathsf{RS}\rangle ,\ \mathsf{tag})\ =\ \mathsf{target}\ \Leftrightarrow \ \mathsf{ResolveEntry}\_\pi (\mathsf{RS},\ \mathsf{tag})\ =\ \langle \mathsf{tag},\ \mathsf{target}\rangle 
 ```
 
-```text
-IntroRegionAlias_π(⟨Σ_π, RS⟩, tag, x) = ⟨Σ_π, [⟨tag, x⟩] ++ RS⟩
+```math
+\mathsf{IntroRegionAlias}\_\pi (\langle \Sigma \_\pi ,\ \mathsf{RS}\rangle ,\ \mathsf{tag},\ x)\ =\ \langle \Sigma \_\pi ,\ [\langle \mathsf{tag},\ x\rangle ]\ \mathbin{++} \ \mathsf{RS}\rangle 
 ```
 
-```text
-FreshRegionTag(⟨Σ_π, RS⟩) = tag ⇔ tag ∉ { tag_i | ⟨tag_i, _⟩ ∈ RS }
+```math
+\operatorname{FreshRegionTag}(\langle \Sigma \_\pi ,\ \mathsf{RS}\rangle )\ =\ \mathsf{tag}\ \Leftrightarrow \ \mathsf{tag}\ \notin \ \{\ \mathsf{tag}_{i}\ \mid \ \langle \mathsf{tag}_{i},\ \_\rangle \ \in \ \mathsf{RS}\ \}
 ```
 
-```text
-AllocTag([], r) = ⊥
-AllocTag([⟨tag, target⟩] ++ RS, ⊥) = tag
-AllocTag([⟨tag, target⟩] ++ RS, r) =
+```math
+\begin{array}{l}
+\operatorname{AllocTag}([],\ r)\ =\ \bot  \\
+\operatorname{AllocTag}([\langle \mathsf{tag},\ \mathsf{target}\rangle ]\ \mathbin{++} \ \mathsf{RS},\ \bot )\ =\ \mathsf{tag} \\
+\operatorname{AllocTag}([\langle \mathsf{tag},\ \mathsf{target}\rangle ]\ \mathbin{++} \ \mathsf{RS},\ r)\ = \\
+\ \{\ \mathsf{tag}\quad \mathsf{if}\ \mathsf{target}\ =\ r \\
+\quad \operatorname{AllocTag}(\mathsf{RS},\ r)\ \mathsf{otherwise}\ \}
+\end{array}
 ```
 
-  { tag              if target = r
-    AllocTag(RS, r)  otherwise }
-
-```text
-FreshRegionExpr(init) ⇔ init denotes a fresh `Region@Active` value created by region-opening evaluation, including `Region::new_scoped(...)`
+```math
+\operatorname{FreshRegionExpr}(\mathsf{init})\ \Leftrightarrow \ \mathsf{init}\ \mathsf{denotes}\ a\ \mathsf{fresh}\ \texttt{Region@Active}\ \mathsf{value}\ \mathsf{created}\ \mathsf{by}\ \mathsf{region}-\mathsf{opening}\ \mathsf{evaluation},\ \mathsf{including}\ \texttt{Region::new\_scoped(...)}
 ```
 
-```text
-ProvPlaceJudg = {Γ; Ω ⊢ p ⇓ π}
-ProvExprJudg = {Γ; Ω ⊢ e ⇓ π}
-ProvStmtJudg = {Γ; Ω ⊢ s ⇒ Ω' ▷ ⟨Res, Brk, BrkVoid⟩, Γ; Ω ⊢ ss ⇒ Ω' ▷ ⟨Res, Brk, BrkVoid⟩}
-BlockProvJudg = {Γ; Ω ⊢ BlockProv(stmts, tail_opt) ⇓ π}
+```math
+\begin{array}{l}
+\mathsf{ProvPlaceJudg}\ =\ \{\Gamma ;\ \Omega \ \vdash \ p\ \Downarrow \ \pi \} \\
+\mathsf{ProvExprJudg}\ =\ \{\Gamma ;\ \Omega \ \vdash \ e\ \Downarrow \ \pi \} \\
+\mathsf{ProvStmtJudg}\ =\ \{\Gamma ;\ \Omega \ \vdash \ s\ \Rightarrow \ \Omega '\ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle ,\ \Gamma ;\ \Omega \ \vdash \ \mathsf{ss}\ \Rightarrow \ \Omega '\ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \} \\
+\mathsf{BlockProvJudg}\ =\ \{\Gamma ;\ \Omega \ \vdash \ \operatorname{BlockProv}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}})\ \Downarrow \ \pi \}
+\end{array}
 ```
 
-```text
-CaseBodyProv(e, Ω) = π ⇔ Γ; Ω ⊢ e ⇓ π
-CaseBodyProv(b, Ω) = π ⇔ Γ; Ω ⊢ b ⇓ π
-CaseEnv(⟨Σ_π, RS⟩, pat) = ⟨Σ_π', RS⟩ ⇔ Γ ⊢ PatNames(pat) ⇓ N ∧ π_b = BindProv(⟨Σ_π, RS⟩, ⊥) ∧ Σ_π' = IntroAll_π(Σ_π, N, π_b)
-CaseProv(⟨pat, body⟩) = π ⇔ CaseEnv(Ω, pat) = Ω' ∧ CaseBodyProv(body, Ω') = π
-CaseElseProv(⊥, Ω) = []
-CaseElseProv(b, Ω) = [π] ⇔ CaseBodyProv(b, Ω) = π
+```math
+\begin{array}{l}
+\operatorname{CaseBodyProv}(e,\ \Omega )\ =\ \pi \ \Leftrightarrow \ \Gamma ;\ \Omega \ \vdash \ e\ \Downarrow \ \pi  \\
+\operatorname{CaseBodyProv}(b,\ \Omega )\ =\ \pi \ \Leftrightarrow \ \Gamma ;\ \Omega \ \vdash \ b\ \Downarrow \ \pi  \\
+\operatorname{CaseEnv}(\langle \Sigma \_\pi ,\ \mathsf{RS}\rangle ,\ \mathsf{pat})\ =\ \langle \Sigma \_\pi ',\ \mathsf{RS}\rangle \ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{PatNames}(\mathsf{pat})\ \Downarrow \ N\ \land \ \pi_{b} \ =\ \operatorname{BindProv}(\langle \Sigma \_\pi ,\ \mathsf{RS}\rangle ,\ \bot )\ \land \ \Sigma \_\pi '\ =\ \mathsf{IntroAll}\_\pi (\Sigma \_\pi ,\ N,\ \pi_{b} ) \\
+\operatorname{CaseProv}(\langle \mathsf{pat},\ \mathsf{body}\rangle )\ =\ \pi \ \Leftrightarrow \ \operatorname{CaseEnv}(\Omega ,\ \mathsf{pat})\ =\ \Omega '\ \land \ \operatorname{CaseBodyProv}(\mathsf{body},\ \Omega ')\ =\ \pi  \\
+\operatorname{CaseElseProv}(\bot ,\ \Omega )\ =\ [] \\
+\operatorname{CaseElseProv}(b,\ \Omega )\ =\ [\pi ]\ \Leftrightarrow \ \operatorname{CaseBodyProv}(b,\ \Omega )\ =\ \pi 
+\end{array}
 ```
 
 **(P-Region-Alloc-Method)**
 
-```text
-Γ; Ω ⊢ recv ⇓ π_Region(tag)    Γ; Ω ⊢ arg_i ⇓ π_i    for every argument
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ; Ω ⊢ MethodCall(recv, `alloc`, args) ⇓ π_Region(tag)
+```math
+\begin{array}{l}
+\Gamma ;\ \Omega \ \vdash \ \mathsf{recv}\ \Downarrow \ \pi_{\mathsf{Region}} (\mathsf{tag})\quad \Gamma ;\ \Omega \ \vdash \ \mathsf{arg}_{i}\ \Downarrow \ \pi_{i} \quad \mathsf{for}\ \mathsf{every}\ \mathsf{argument} \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ \Omega \ \vdash \ \operatorname{MethodCall}(\mathsf{recv},\ \texttt{alloc},\ \mathsf{args})\ \Downarrow \ \pi_{\mathsf{Region}} (\mathsf{tag})
+\end{array}
 ```
 
 **(P-If-Is)**
 
-```text
-CaseProv(⟨pat, then_block⟩) = π_t    CaseElseProv(else_opt, Ω) = π_else    JoinAllProv([π_t] ++ π_else) = π
-```
-
-─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ; Ω ⊢ IfIsExpr(_, pat, then_block, else_opt) ⇓ π
+```math
+\begin{array}{l}
+\operatorname{CaseProv}(\langle \mathsf{pat},\ \mathsf{then}_{\mathsf{block}}\rangle )\ =\ \pi_{t} \quad \operatorname{CaseElseProv}(\mathsf{else}_{\mathsf{opt}},\ \Omega )\ =\ \pi_{\mathsf{else}} \quad \operatorname{JoinAllProv}([\pi_{t} ]\ \mathbin{++} \ \pi_{\mathsf{else}} )\ =\ \pi  \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ \Omega \ \vdash \ \operatorname{IfIsExpr}(\_,\ \mathsf{pat},\ \mathsf{then}_{\mathsf{block}},\ \mathsf{else}_{\mathsf{opt}})\ \Downarrow \ \pi 
+\end{array}
 ```
 
 **(P-If-Cases)**
 
-```text
-∀ i, CaseProv(case_i) = π_i    CaseElseProv(else_opt, Ω) = π_else    JoinAllProv([π_1, …, π_n] ++ π_else) = π
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ; Ω ⊢ IfCaseExpr(_, cases, else_opt) ⇓ π
+```math
+\begin{array}{l}
+\forall \ i,\ \operatorname{CaseProv}(\mathsf{case}_{i})\ =\ \pi_{i} \quad \operatorname{CaseElseProv}(\mathsf{else}_{\mathsf{opt}},\ \Omega )\ =\ \pi_{\mathsf{else}} \quad \operatorname{JoinAllProv}([\pi_{1} ,\ \ldots ,\ \pi_{n} ]\ \mathbin{++} \ \pi_{\mathsf{else}} )\ =\ \pi  \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ \Omega \ \vdash \ \operatorname{IfCaseExpr}(\_,\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}})\ \Downarrow \ \pi 
+\end{array}
 ```
 
 **Closure Provenance.**
 
-```text
-ClosureCaptureProv(C, Ω) = [π_x | x ∈ CaptureSet(C) ∧ Lookup_π(Σ_π, x) = π_x]
-ClosureTargetProv(C, Ω) =
-  { FrameProv(Γ, Ω)    if IsEscaping(C)
-    StackProv(Σ_π)     otherwise }
-ClosureLocalSharedCaptures(C, Γ) = [x | x ∈ CaptureSet(C) ∧ (∃ S ∈ LocalScopes(Γ). x ∈ dom(S)) ∧ (∃ T. BindOf(Γ, x) = ⟨_, shared T⟩)]
-ClosureEscapeCheck(C, Ω) ⇔
-  (∀ π_x ∈ ClosureCaptureProv(C, Ω). ¬(π_x < ClosureTargetProv(C, Ω))) ∧
-  (¬IsEscaping(C) ∨ ClosureLocalSharedCaptures(C, Γ) = ∅)
+```math
+\begin{array}{l}
+\operatorname{ClosureCaptureProv}(C,\ \Omega )\ =\ [\pi_{x} \ \mid \ x\ \in \ \operatorname{CaptureSet}(C)\ \land \ \mathsf{Lookup}\_\pi (\Sigma \_\pi ,\ x)\ =\ \pi_{x} ] \\
+\operatorname{ClosureTargetProv}(C,\ \Omega )\ = \\
+\ \{\ \operatorname{FrameProv}(\Gamma ,\ \Omega )\quad \mathsf{if}\ \operatorname{IsEscaping}(C) \\
+\quad \operatorname{StackProv}(\Sigma \_\pi )\quad \mathsf{otherwise}\ \} \\
+\operatorname{ClosureLocalSharedCaptures}(C,\ \Gamma )\ =\ [x\ \mid \ x\ \in \ \operatorname{CaptureSet}(C)\ \land \ (\exists \ S\ \in \ \operatorname{LocalScopes}(\Gamma ).\ x\ \in \ \operatorname{dom}(S))\ \land \ (\exists \ T.\ \operatorname{BindOf}(\Gamma ,\ x)\ =\ \langle \_,\ \mathsf{shared}\ T\rangle )] \\
+\operatorname{ClosureEscapeCheck}(C,\ \Omega )\ \Leftrightarrow  \\
+\ (\forall \ \pi_{x} \ \in \ \operatorname{ClosureCaptureProv}(C,\ \Omega ).\ \lnot (\pi_{x} \ <\ \operatorname{ClosureTargetProv}(C,\ \Omega )))\ \land  \\
+\ (\lnot \operatorname{IsEscaping}(C)\ \lor \ \operatorname{ClosureLocalSharedCaptures}(C,\ \Gamma )\ =\ \emptyset )
+\end{array}
 ```
 
 **(P-Closure-NonCapturing)**
 
-```text
-C = ClosureExpr(params, ret_type_opt, body)    CaptureSet(C) = ∅    Γ; Ω ⊢ body ⇓ π_body
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ; Ω ⊢ C ⇓ π_Global
+```math
+\begin{array}{l}
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ =\ \emptyset \quad \Gamma ;\ \Omega \ \vdash \ \mathsf{body}\ \Downarrow \ \pi_{\mathsf{body}}  \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ \Omega \ \vdash \ C\ \Downarrow \ \pi_{\mathsf{Global}} 
+\end{array}
 ```
 
 **(P-Closure-Capturing)**
 
-```text
-C = ClosureExpr(params, ret_type_opt, body)    CaptureSet(C) ≠ ∅    ClosureEscapeCheck(C, Ω)
-ClosureCaptureProv(C, Ω) = [π_1, …, π_n]    JoinAllProv([π_1, …, π_n]) = π_cap    Γ; Ω ⊢ body ⇓ π_body
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ; Ω ⊢ C ⇓ π_cap
+```math
+\begin{array}{l}
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ \ne \ \emptyset \quad \operatorname{ClosureEscapeCheck}(C,\ \Omega ) \\
+\operatorname{ClosureCaptureProv}(C,\ \Omega )\ =\ [\pi_{1} ,\ \ldots ,\ \pi_{n} ]\quad \operatorname{JoinAllProv}([\pi_{1} ,\ \ldots ,\ \pi_{n} ])\ =\ \pi_{\mathsf{cap}} \quad \Gamma ;\ \Omega \ \vdash \ \mathsf{body}\ \Downarrow \ \pi_{\mathsf{body}}  \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ \Omega \ \vdash \ C\ \Downarrow \ \pi_{\mathsf{cap}} 
+\end{array}
 ```
 
 **(P-Closure-Escape-Err)**
 
-```text
-C = ClosureExpr(params, ret_type_opt, body)    CaptureSet(C) ≠ ∅    ¬ClosureEscapeCheck(C, Ω)
-∃ x ∈ CaptureSet(C). x ∈ ClosureLocalSharedCaptures(C, Γ) ∨ (Lookup_π(Σ_π, x) = π_x ∧ π_x < ClosureTargetProv(C, Ω))    c = Code(E-CON-0086)
+```math
+\begin{array}{l}
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ \ne \ \emptyset \quad \lnot \operatorname{ClosureEscapeCheck}(C,\ \Omega ) \\
+\exists \ x\ \in \ \operatorname{CaptureSet}(C).\ x\ \in \ \operatorname{ClosureLocalSharedCaptures}(C,\ \Gamma )\ \lor \ (\mathsf{Lookup}\_\pi (\Sigma \_\pi ,\ x)\ =\ \pi_{x} \ \land \ \pi_{x} \ <\ \operatorname{ClosureTargetProv}(C,\ \Omega ))\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0086) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ \Omega \ \vdash \ C\ \Uparrow \ c
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ; Ω ⊢ C ⇑ c
-```
-
-```text
-FrameProv(Γ, ⟨Σ_π, RS⟩) =
-  { π_Region(r)    if ∃ r. InnermostFrameRegion(⟨Σ_π, RS⟩) = r
-    StackProv(Σ_π) otherwise }
+```math
+\begin{array}{l}
+\operatorname{FrameProv}(\Gamma ,\ \langle \Sigma \_\pi ,\ \mathsf{RS}\rangle )\ = \\
+\ \{\ \pi_{\mathsf{Region}} (r)\quad \mathsf{if}\ \exists \ r.\ \operatorname{InnermostFrameRegion}(\langle \Sigma \_\pi ,\ \mathsf{RS}\rangle )\ =\ r \\
+\quad \operatorname{StackProv}(\Sigma \_\pi )\ \mathsf{otherwise}\ \}
+\end{array}
 ```
 
 **Loop Provenance.**
 
-```text
-BreakProv(body, Ω) = ⟨Brk, BrkVoid⟩ ⇔ body = BlockExpr(stmts, tail_opt) ∧ Ω_0 = ⟨PushScope_π(Σ_π), RS⟩ ∧ Γ; Ω_0 ⊢ stmts ⇒ Ω_1 ▷ ⟨Res, Brk, BrkVoid⟩ ∧ (tail_opt = e ⇒ Γ; Ω_1 ⊢ e ⇓ π_t)
+```math
+\operatorname{BreakProv}(\mathsf{body},\ \Omega )\ =\ \langle \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \ \Leftrightarrow \ \mathsf{body}\ =\ \operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}})\ \land \ \Omega_{0} \ =\ \langle \mathsf{PushScope}\_\pi (\Sigma \_\pi ),\ \mathsf{RS}\rangle \ \land \ \Gamma ;\ \Omega_{0} \ \vdash \ \mathsf{stmts}\ \Rightarrow \ \Omega_{1} \ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \ \land \ (\mathsf{tail}_{\mathsf{opt}}\ =\ e\ \Rightarrow \ \Gamma ;\ \Omega_{1} \ \vdash \ e\ \Downarrow \ \pi_{t} )
 ```
 
-```text
-IterElemProv(iter, Ω) = π ⇔ Γ; Ω ⊢ iter ⇓ π
+```math
+\operatorname{IterElemProv}(\mathsf{iter},\ \Omega )\ =\ \pi \ \Leftrightarrow \ \Gamma ;\ \Omega \ \vdash \ \mathsf{iter}\ \Downarrow \ \pi 
 ```
 
-```text
-LoopProvInf(Brk, BrkVoid) = ⊥ ⇔ Brk = []
-LoopProvInf(Brk, BrkVoid) = π ⇔ Brk = [π_1, …, π_n] ∧ BrkVoid = false ∧ JoinAllProv([π_1, …, π_n]) = π
+```math
+\begin{array}{l}
+\operatorname{LoopProvInf}(\mathsf{Brk},\ \mathsf{BrkVoid})\ =\ \bot \ \Leftrightarrow \ \mathsf{Brk}\ =\ [] \\
+\operatorname{LoopProvInf}(\mathsf{Brk},\ \mathsf{BrkVoid})\ =\ \pi \ \Leftrightarrow \ \mathsf{Brk}\ =\ [\pi_{1} ,\ \ldots ,\ \pi_{n} ]\ \land \ \mathsf{BrkVoid}\ =\ \mathsf{false}\ \land \ \operatorname{JoinAllProv}([\pi_{1} ,\ \ldots ,\ \pi_{n} ])\ =\ \pi 
+\end{array}
 ```
 
-```text
-LoopProvFin(Brk, BrkVoid) = ⊥ ⇔ Brk = []
-LoopProvFin(Brk, BrkVoid) = π ⇔ Brk = [π_1, …, π_n] ∧ BrkVoid = false ∧ JoinAllProv([π_1, …, π_n]) = π
+```math
+\begin{array}{l}
+\operatorname{LoopProvFin}(\mathsf{Brk},\ \mathsf{BrkVoid})\ =\ \bot \ \Leftrightarrow \ \mathsf{Brk}\ =\ [] \\
+\operatorname{LoopProvFin}(\mathsf{Brk},\ \mathsf{BrkVoid})\ =\ \pi \ \Leftrightarrow \ \mathsf{Brk}\ =\ [\pi_{1} ,\ \ldots ,\ \pi_{n} ]\ \land \ \mathsf{BrkVoid}\ =\ \mathsf{false}\ \land \ \operatorname{JoinAllProv}([\pi_{1} ,\ \ldots ,\ \pi_{n} ])\ =\ \pi 
+\end{array}
 ```
 
-```text
-ExtendProv(⟨Σ_π, RS⟩, pat, π) = ⟨Σ_π', RS⟩ ⇔ Γ ⊢ PatNames(pat) ⇓ N ∧ Σ_π' = IntroAll_π(Σ_π, N, π)
+```math
+\operatorname{ExtendProv}(\langle \Sigma \_\pi ,\ \mathsf{RS}\rangle ,\ \mathsf{pat},\ \pi )\ =\ \langle \Sigma \_\pi ',\ \mathsf{RS}\rangle \ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{PatNames}(\mathsf{pat})\ \Downarrow \ N\ \land \ \Sigma \_\pi '\ =\ \mathsf{IntroAll}\_\pi (\Sigma \_\pi ,\ N,\ \pi )
 ```
 
 **(P-Loop-Infinite)**
 
-```text
-BreakProv(body, Ω) = ⟨Brk, BrkVoid⟩    LoopProvInf(Brk, BrkVoid) = π
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ; Ω ⊢ LoopInfinite(inv_opt, body) ⇓ π
+```math
+\begin{array}{l}
+\operatorname{BreakProv}(\mathsf{body},\ \Omega )\ =\ \langle \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \operatorname{LoopProvInf}(\mathsf{Brk},\ \mathsf{BrkVoid})\ =\ \pi  \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ \Omega \ \vdash \ \operatorname{LoopInfinite}(\mathsf{inv}_{\mathsf{opt}},\ \mathsf{body})\ \Downarrow \ \pi 
+\end{array}
 ```
 
 **(P-Loop-Conditional)**
 
-```text
-BreakProv(body, Ω) = ⟨Brk, BrkVoid⟩    LoopProvFin(Brk, BrkVoid) = π
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ; Ω ⊢ LoopConditional(cond, inv_opt, body) ⇓ π
+```math
+\begin{array}{l}
+\operatorname{BreakProv}(\mathsf{body},\ \Omega )\ =\ \langle \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \operatorname{LoopProvFin}(\mathsf{Brk},\ \mathsf{BrkVoid})\ =\ \pi  \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ \Omega \ \vdash \ \operatorname{LoopConditional}(\mathsf{cond},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body})\ \Downarrow \ \pi 
+\end{array}
 ```
 
 **(P-Loop-Iter)**
 
-```text
-IterElemProv(iter, Ω) = π_elem    ExtendProv(Ω, pat, π_elem) = Ω'    BreakProv(body, Ω') = ⟨Brk, BrkVoid⟩    LoopProvFin(Brk, BrkVoid) = π
+```math
+\begin{array}{l}
+\operatorname{IterElemProv}(\mathsf{iter},\ \Omega )\ =\ \pi_{\mathsf{elem}} \quad \operatorname{ExtendProv}(\Omega ,\ \mathsf{pat},\ \pi_{\mathsf{elem}} )\ =\ \Omega '\quad \operatorname{BreakProv}(\mathsf{body},\ \Omega ')\ =\ \langle \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \operatorname{LoopProvFin}(\mathsf{Brk},\ \mathsf{BrkVoid})\ =\ \pi  \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ \Omega \ \vdash \ \operatorname{LoopIter}(\mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{iter},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body})\ \Downarrow \ \pi 
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ; Ω ⊢ LoopIter(pat, ty_opt, iter, inv_opt, body) ⇓ π
-```
-
-```text
-EscapeOk(π_e, π_x) ⇔ ¬(π_e < π_x)
+```math
+\operatorname{EscapeOk}(\pi_{e} ,\ \pi_{x} )\ \Leftrightarrow \ \lnot (\pi_{e} \ <\ \pi_{x} )
 ```
 
 The language introduces no general heap-escape conversion. Heap provenance arises only from operations whose declared signatures explicitly accept a `$HeapAllocator` capability and return a heap-backed value.
 
-```text
-BindProv(⟨Σ_π, RS⟩, π_init) =
-  { StackProv(Σ_π)    if π_init = ⊥
-    π_init            otherwise }
+```math
+\begin{array}{l}
+\operatorname{BindProv}(\langle \Sigma \_\pi ,\ \mathsf{RS}\rangle ,\ \pi_{\mathsf{init}} )\ = \\
+\ \{\ \operatorname{StackProv}(\Sigma \_\pi )\quad \mathsf{if}\ \pi_{\mathsf{init}} \ =\ \bot  \\
+\quad \pi_{\mathsf{init}} \quad \mathsf{otherwise}\ \}
+\end{array}
 ```
 
-```text
-StaticBindProv = π_Global
-AssignProvOk(Ω, p, e) ⇔ Γ; Ω ⊢ p ⇓ π_x ∧ Γ; Ω ⊢ e ⇓ π_e ∧ EscapeOk(π_e, π_x)
+```math
+\begin{array}{l}
+\mathsf{StaticBindProv}\ =\ \pi_{\mathsf{Global}}  \\
+\operatorname{AssignProvOk}(\Omega ,\ p,\ e)\ \Leftrightarrow \ \Gamma ;\ \Omega \ \vdash \ p\ \Downarrow \ \pi_{x} \ \land \ \Gamma ;\ \Omega \ \vdash \ e\ \Downarrow \ \pi_{e} \ \land \ \operatorname{EscapeOk}(\pi_{e} ,\ \pi_{x} ) \\
+\mathsf{ProvenanceEscapeJudg}\ =\ \{\mathsf{EscapeOk},\ \mathsf{AssignProvOk},\ \mathsf{ClosureEscapeCheck}\}
+\end{array}
 ```
 
-ProvenanceEscapeJudg = {EscapeOk, AssignProvOk, ClosureEscapeCheck}
-
-```text
-The provenance system prevents pointers with shorter lifetimes from escaping to storage with longer lifetimes. The escape check `EscapeOk(π_e, π_x)` is consumed by the feature-local rules for assignments, closures, and async creation.
+```math
+\mathsf{The}\ \mathsf{provenance}\ \mathsf{system}\ \mathsf{prevents}\ \mathsf{pointers}\ \mathsf{with}\ \mathsf{shorter}\ \mathsf{lifetimes}\ \mathsf{from}\ \mathsf{escaping}\ \mathsf{to}\ \mathsf{storage}\ \mathsf{with}\ \mathsf{longer}\ \mathsf{lifetimes}.\ \mathsf{The}\ \mathsf{escape}\ \mathsf{check}\ \texttt{EscapeOk(pi\_e, pi\_x)}\ \mathsf{is}\ \mathsf{consumed}\ \mathsf{by}\ \mathsf{the}\ \mathsf{feature}-\mathsf{local}\ \mathsf{rules}\ \mathsf{for}\ \mathsf{assignments},\ \mathsf{closures},\ \mathsf{and}\ \mathsf{async}\ \mathsf{creation}.
 ```
 
 ### 6.5 Dynamic Scope Stack, Bindings, and Region Runtime
 
 #### 6.5.1 Dynamic Scope Stack and Binding Store
 
-```text
-ScopeEntry = ⟨scope_id, cleanup, names, vals, states⟩
-ScopeId(⟨sid, cleanup, names, vals, states⟩) = sid
-ScopeCleanup(⟨sid, cleanup, names, vals, states⟩) = cleanup
-ScopeNames(⟨sid, cleanup, names, vals, states⟩) = names
-ScopeVals(⟨sid, cleanup, names, vals, states⟩) = vals
-ScopeStates(⟨sid, cleanup, names, vals, states⟩) = states
+```math
+\begin{array}{l}
+\mathsf{ScopeEntry}\ =\ \langle \mathsf{scope}_{\mathsf{id}},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle  \\
+\operatorname{ScopeId}(\langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle )\ =\ \mathsf{sid} \\
+\operatorname{ScopeCleanup}(\langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle )\ =\ \mathsf{cleanup} \\
+\operatorname{ScopeNames}(\langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle )\ =\ \mathsf{names} \\
+\operatorname{ScopeVals}(\langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle )\ =\ \mathsf{vals} \\
+\operatorname{ScopeStates}(\langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle )\ =\ \mathsf{states}
+\end{array}
 ```
 
-```text
-ScopeStack(σ) ∈ [ScopeEntry]
-CurrentScope(σ) = scope ⇔ ScopeStack(σ) = scope :: ss
-CurrentScopeId(σ) = ScopeId(CurrentScope(σ))
-ScopeEmpty(sid) = ⟨sid, [], ∅, ∅, ∅⟩
-FreshScopeId(σ) = sid ⇒ ∀ s ∈ ScopeStack(σ). ScopeId(s) ≠ sid
+```math
+\begin{array}{l}
+\operatorname{ScopeStack}(\sigma )\ \in \ [\mathsf{ScopeEntry}] \\
+\operatorname{CurrentScope}(\sigma )\ =\ \mathsf{scope}\ \Leftrightarrow \ \operatorname{ScopeStack}(\sigma )\ =\ \mathsf{scope}\ \mathbin{::} \ \mathsf{ss} \\
+\operatorname{CurrentScopeId}(\sigma )\ =\ \operatorname{ScopeId}(\operatorname{CurrentScope}(\sigma )) \\
+\operatorname{ScopeEmpty}(\mathsf{sid})\ =\ \langle \mathsf{sid},\ [],\ \emptyset ,\ \emptyset ,\ \emptyset \rangle  \\
+\operatorname{FreshScopeId}(\sigma )\ =\ \mathsf{sid}\ \Rightarrow \ \forall \ s\ \in \ \operatorname{ScopeStack}(\sigma ).\ \operatorname{ScopeId}(s)\ \ne \ \mathsf{sid}
+\end{array}
 ```
 
-```text
-UpdateScopeStack(σ, ss) = σ' ⇔ ScopeStack(σ') = ss ∧ AddrTags(σ') = AddrTags(σ) ∧ RegionStack(σ') = RegionStack(σ) ∧ RegionArena(σ') = RegionArena(σ) ∧ PoisonedModules(σ') = PoisonedModules(σ)
+```math
+\operatorname{UpdateScopeStack}(\sigma ,\ \mathsf{ss})\ =\ \sigma '\ \Leftrightarrow \ \operatorname{ScopeStack}(\sigma ')\ =\ \mathsf{ss}\ \land \ \operatorname{AddrTags}(\sigma ')\ =\ \operatorname{AddrTags}(\sigma )\ \land \ \operatorname{RegionStack}(\sigma ')\ =\ \operatorname{RegionStack}(\sigma )\ \land \ \operatorname{RegionArena}(\sigma ')\ =\ \operatorname{RegionArena}(\sigma )\ \land \ \operatorname{PoisonedModules}(\sigma ')\ =\ \operatorname{PoisonedModules}(\sigma )
 ```
 
-```text
-PushScope_σ(σ) ⇓ (σ', scope) ⇔ scope = ScopeEmpty(sid) ∧ FreshScopeId(σ) = sid ∧ UpdateScopeStack(σ, scope :: ScopeStack(σ)) = σ'
-PopScope_σ(σ) ⇓ (σ', scope) ⇔ ScopeStack(σ) = scope :: ss ∧ UpdateScopeStack(σ, ss) = σ'
+```math
+\begin{array}{l}
+\mathsf{PushScope}\_\sigma (\sigma )\ \Downarrow \ (\sigma ',\ \mathsf{scope})\ \Leftrightarrow \ \mathsf{scope}\ =\ \operatorname{ScopeEmpty}(\mathsf{sid})\ \land \ \operatorname{FreshScopeId}(\sigma )\ =\ \mathsf{sid}\ \land \ \operatorname{UpdateScopeStack}(\sigma ,\ \mathsf{scope}\ \mathbin{::} \ \operatorname{ScopeStack}(\sigma ))\ =\ \sigma ' \\
+\mathsf{PopScope}\_\sigma (\sigma )\ \Downarrow \ (\sigma ',\ \mathsf{scope})\ \Leftrightarrow \ \operatorname{ScopeStack}(\sigma )\ =\ \mathsf{scope}\ \mathbin{::} \ \mathsf{ss}\ \land \ \operatorname{UpdateScopeStack}(\sigma ,\ \mathsf{ss})\ =\ \sigma '
+\end{array}
 ```
 
-```text
-AppendCleanup(σ, item) ⇓ σ' ⇔ ScopeStack(σ) = scope :: ss ∧ scope = ⟨sid, cleanup, names, vals, states⟩ ∧ scope' = ⟨sid, cleanup ++ [item], names, vals, states⟩ ∧ UpdateScopeStack(σ, scope' :: ss) = σ'
+```math
+\operatorname{AppendCleanup}(\sigma ,\ \mathsf{item})\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{ScopeStack}(\sigma )\ =\ \mathsf{scope}\ \mathbin{::} \ \mathsf{ss}\ \land \ \mathsf{scope}\ =\ \langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle \ \land \ \mathsf{scope}'\ =\ \langle \mathsf{sid},\ \mathsf{cleanup}\ \mathbin{++} \ [\mathsf{item}],\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle \ \land \ \operatorname{UpdateScopeStack}(\sigma ,\ \mathsf{scope}'\ \mathbin{::} \ \mathsf{ss})\ =\ \sigma '
 ```
 
-CleanupList(scope) = ScopeCleanup(scope)
-
-```text
-ScopeById([], sid) = ⊥
+```math
+\begin{array}{l}
+\operatorname{CleanupList}(\mathsf{scope})\ =\ \operatorname{ScopeCleanup}(\mathsf{scope}) \\
+\operatorname{ScopeById}([],\ \mathsf{sid})\ =\ \bot  \\
+\operatorname{ScopeById}(\mathsf{scope}\ \mathbin{::} \ \mathsf{ss},\ \mathsf{sid})\ = \\
+\ \mathsf{scope}\quad \mathsf{if}\ \operatorname{ScopeId}(\mathsf{scope})\ =\ \mathsf{sid} \\
+\ \operatorname{ScopeById}(\mathsf{ss},\ \mathsf{sid})\quad \mathsf{otherwise}
+\end{array}
 ```
 
-ScopeById(scope :: ss, sid) =
-  scope                 if ScopeId(scope) = sid
-  ScopeById(ss, sid)    otherwise
-
-```text
-ReplaceScopeById([], sid, scope') = ⊥
+```math
+\begin{array}{l}
+\operatorname{ReplaceScopeById}([],\ \mathsf{sid},\ \mathsf{scope}')\ =\ \bot  \\
+\operatorname{ReplaceScopeById}(\mathsf{scope}\ \mathbin{::} \ \mathsf{ss},\ \mathsf{sid},\ \mathsf{scope}')\ = \\
+\ \mathsf{scope}'\ \mathbin{::} \ \mathsf{ss}\quad \mathsf{if}\ \operatorname{ScopeId}(\mathsf{scope})\ =\ \mathsf{sid} \\
+\ \mathsf{scope}\ \mathbin{::} \ \operatorname{ReplaceScopeById}(\mathsf{ss},\ \mathsf{sid},\ \mathsf{scope}')\ \mathsf{otherwise}
+\end{array}
 ```
 
-ReplaceScopeById(scope :: ss, sid, scope') =
-  scope' :: ss                                if ScopeId(scope) = sid
-  scope :: ReplaceScopeById(ss, sid, scope')  otherwise
-
-```text
-SetCleanupList(scope, xs, σ) ⇓ σ' ⇔ sid = ScopeId(scope) ∧ scope' = ⟨sid, xs, ScopeNames(scope), ScopeVals(scope), ScopeStates(scope)⟩ ∧ ReplaceScopeById(ScopeStack(σ), sid, scope') = ss' ∧ UpdateScopeStack(σ, ss') = σ'
+```math
+\operatorname{SetCleanupList}(\mathsf{scope},\ \mathsf{xs},\ \sigma )\ \Downarrow \ \sigma '\ \Leftrightarrow \ \mathsf{sid}\ =\ \operatorname{ScopeId}(\mathsf{scope})\ \land \ \mathsf{scope}'\ =\ \langle \mathsf{sid},\ \mathsf{xs},\ \operatorname{ScopeNames}(\mathsf{scope}),\ \operatorname{ScopeVals}(\mathsf{scope}),\ \operatorname{ScopeStates}(\mathsf{scope})\rangle \ \land \ \operatorname{ReplaceScopeById}(\operatorname{ScopeStack}(\sigma ),\ \mathsf{sid},\ \mathsf{scope}')\ =\ \mathsf{ss}'\ \land \ \operatorname{UpdateScopeStack}(\sigma ,\ \mathsf{ss}')\ =\ \sigma '
 ```
 
-```text
-PoisonedModule(σ, path) ⇔ ∃ m. PathOfModule(m) = path ∧ ReadAddr(σ, AddrOfSym(PoisonFlag(m))) ≠ 0
+```math
+\operatorname{PoisonedModule}(\sigma ,\ \mathsf{path})\ \Leftrightarrow \ \exists \ m.\ \operatorname{PathOfModule}(m)\ =\ \mathsf{path}\ \land \ \operatorname{ReadAddr}(\sigma ,\ \operatorname{AddrOfSym}(\operatorname{PoisonFlag}(m)))\ \ne \ 0
 ```
 
 For hosted-library session execution, §24.4.1 reinterprets the `AddrOfSym(PoisonFlag(m))` occurrence above session-locally for every hosted-state symbol.
 
-```text
-PoisonedModules(σ) = {path | PoisonedModule(σ, path)}
+```math
+\operatorname{PoisonedModules}(\sigma )\ =\ \{\mathsf{path}\ \mid \ \operatorname{PoisonedModule}(\sigma ,\ \mathsf{path})\}
 ```
 
-```text
-Binding = ⟨scope_id, bind_id, name⟩
-BindingValue = Value ∪ {Alias(addr) | addr ∈ Addr}
+```math
+\begin{array}{l}
+\mathsf{Binding}\ =\ \langle \mathsf{scope}_{\mathsf{id}},\ \mathsf{bind}_{\mathsf{id}},\ \mathsf{name}\rangle  \\
+\mathsf{BindingValue}\ =\ \mathsf{Value}\ \cup \ \{\operatorname{Alias}(\mathsf{addr})\ \mid \ \mathsf{addr}\ \in \ \mathsf{Addr}\}
+\end{array}
 ```
 
-```text
-FreshBindId(σ) = b ⇒ ∀ x. ScopeNames(CurrentScope(σ))[x] defined ⇒ b ∉ ScopeNames(CurrentScope(σ))[x]
+```math
+\operatorname{FreshBindId}(\sigma )\ =\ b\ \Rightarrow \ \forall \ x.\ \operatorname{ScopeNames}(\operatorname{CurrentScope}(\sigma ))[x]\ \mathsf{defined}\ \Rightarrow \ b\ \notin \ \operatorname{ScopeNames}(\operatorname{CurrentScope}(\sigma ))[x]
 ```
 
-Last([a]) = a
-Last(a :: as) = Last(as)    (|as| > 0)
-
-```text
-NearestScope([], x) = ⊥
+```math
+\begin{array}{l}
+\operatorname{Last}([a])\ =\ a \\
+\operatorname{Last}(a\ \mathbin{::} \ \mathsf{as})\ =\ \operatorname{Last}(\mathsf{as})\quad (\mid \mathsf{as}\mid \ >\ 0)
+\end{array}
 ```
 
-NearestScope(scope :: ss, x) =
-  scope                  if ScopeNames(scope)[x] defined
-  NearestScope(ss, x)    otherwise
+```math
+\begin{array}{l}
+\operatorname{NearestScope}([],\ x)\ =\ \bot  \\
+\operatorname{NearestScope}(\mathsf{scope}\ \mathbin{::} \ \mathsf{ss},\ x)\ = \\
+\ \mathsf{scope}\quad \mathsf{if}\ \operatorname{ScopeNames}(\mathsf{scope})[x]\ \mathsf{defined} \\
+\ \operatorname{NearestScope}(\mathsf{ss},\ x)\quad \mathsf{otherwise}
+\end{array}
+```
 
-```text
-LookupBind(σ, x) = ⟨ScopeId(scope), b, x⟩ ⇔ NearestScope(ScopeStack(σ), x) = scope ∧ b = Last(ScopeNames(scope)[x])
-BindingValue(σ, ⟨sid, bind_id, x⟩) = v ⇔ ScopeById(ScopeStack(σ), sid) = scope ∧ ScopeVals(scope)[bind_id] = v
-BindState(σ, ⟨sid, bind_id, x⟩) = s ⇔ ScopeById(ScopeStack(σ), sid) = scope ∧ ScopeStates(scope)[bind_id] = s
+```math
+\begin{array}{l}
+\operatorname{LookupBind}(\sigma ,\ x)\ =\ \langle \operatorname{ScopeId}(\mathsf{scope}),\ b,\ x\rangle \ \Leftrightarrow \ \operatorname{NearestScope}(\operatorname{ScopeStack}(\sigma ),\ x)\ =\ \mathsf{scope}\ \land \ b\ =\ \operatorname{Last}(\operatorname{ScopeNames}(\mathsf{scope})[x]) \\
+\operatorname{BindingValue}(\sigma ,\ \langle \mathsf{sid},\ \mathsf{bind}_{\mathsf{id}},\ x\rangle )\ =\ v\ \Leftrightarrow \ \operatorname{ScopeById}(\operatorname{ScopeStack}(\sigma ),\ \mathsf{sid})\ =\ \mathsf{scope}\ \land \ \operatorname{ScopeVals}(\mathsf{scope})[\mathsf{bind}_{\mathsf{id}}]\ =\ v \\
+\operatorname{BindState}(\sigma ,\ \langle \mathsf{sid},\ \mathsf{bind}_{\mathsf{id}},\ x\rangle )\ =\ s\ \Leftrightarrow \ \operatorname{ScopeById}(\operatorname{ScopeStack}(\sigma ),\ \mathsf{sid})\ =\ \mathsf{scope}\ \land \ \operatorname{ScopeStates}(\mathsf{scope})[\mathsf{bind}_{\mathsf{id}}]\ =\ s
+\end{array}
 ```
 
 **(LookupVal-Bind-Value)**
 
-```text
-LookupBind(σ, x) = b    BindingValue(σ, b) = v
-```
-
-───────────────────────────────────────────────
-
-```text
-LookupVal(σ, x) = v
+```math
+\begin{array}{l}
+\operatorname{LookupBind}(\sigma ,\ x)\ =\ b\quad \operatorname{BindingValue}(\sigma ,\ b)\ =\ v \\
+\rule{18em}{0.4pt} \\
+\operatorname{LookupVal}(\sigma ,\ x)\ =\ v
+\end{array}
 ```
 
 **(LookupVal-Bind-Alias)**
 
-```text
-LookupBind(σ, x) = b    BindingValue(σ, b) = Alias(addr)    ReadAddr(σ, addr) = v
-```
-
-───────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-LookupVal(σ, x) = v
+```math
+\begin{array}{l}
+\operatorname{LookupBind}(\sigma ,\ x)\ =\ b\quad \operatorname{BindingValue}(\sigma ,\ b)\ =\ \operatorname{Alias}(\mathsf{addr})\quad \operatorname{ReadAddr}(\sigma ,\ \mathsf{addr})\ =\ v \\
+\rule{18em}{0.4pt} \\
+\operatorname{LookupVal}(\sigma ,\ x)\ =\ v
+\end{array}
 ```
 
 **(LookupVal-Path)**
 
-```text
-LookupBind(σ, x) undefined    Γ ⊢ ResolveValueName(x) ⇓ ent    ent.origin_opt = mp    name = (ent.target_opt if present, else x)    ¬ PoisonedModule(σ, PathOfModule(mp))    LookupValPath(σ, PathOfModule(mp), name) = v
-```
-
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-LookupVal(σ, x) = v
+```math
+\begin{array}{l}
+\operatorname{LookupBind}(\sigma ,\ x)\ \mathsf{undefined}\quad \Gamma \ \vdash \ \operatorname{ResolveValueName}(x)\ \Downarrow \ \mathsf{ent}\quad \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \mathsf{mp}\quad \mathsf{name}\ =\ (\mathsf{ent}.\mathsf{target}_{\mathsf{opt}}\ \mathsf{if}\ \mathsf{present},\ \mathsf{else}\ x)\quad \lnot \ \operatorname{PoisonedModule}(\sigma ,\ \operatorname{PathOfModule}(\mathsf{mp}))\quad \operatorname{LookupValPath}(\sigma ,\ \operatorname{PathOfModule}(\mathsf{mp}),\ \mathsf{name})\ =\ v \\
+\rule{18em}{0.4pt} \\
+\operatorname{LookupVal}(\sigma ,\ x)\ =\ v
+\end{array}
 ```
 
 **(LookupValPath-Builtin)**
 
-```text
-BuiltinValuePath(path, name)    ((path = ["Region"] ∧ name = `new_scoped` ∧ Γ ⊢ BuiltinModalSym(`Region::new_scoped`) ⇓ sym) ∨ (path = ["CancelToken"] ∧ name = `new` ∧ Γ ⊢ BuiltinModalSym(`CancelToken::new`) ⇓ sym))
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-LookupValPath(σ, path, name) = FuncVal(sym)
+```math
+\begin{array}{l}
+\operatorname{BuiltinValuePath}(\mathsf{path},\ \mathsf{name})\quad ((\mathsf{path}\ =\ [\texttt{"Region"}]\ \land \ \mathsf{name}\ =\ \texttt{new\_scoped}\ \land \ \Gamma \ \vdash \ \operatorname{BuiltinModalSym}(\texttt{Region::new\_scoped})\ \Downarrow \ \mathsf{sym})\ \lor \ (\mathsf{path}\ =\ [\texttt{"CancelToken"}]\ \land \ \mathsf{name}\ =\ \texttt{new}\ \land \ \Gamma \ \vdash \ \operatorname{BuiltinModalSym}(\texttt{CancelToken::new})\ \Downarrow \ \mathsf{sym})) \\
+\rule{18em}{0.4pt} \\
+\operatorname{LookupValPath}(\sigma ,\ \mathsf{path},\ \mathsf{name})\ =\ \operatorname{FuncVal}(\mathsf{sym})
+\end{array}
 ```
 
 **(LookupValPath-Static)**
 
-```text
-Γ ⊢ ResolveQualified(path, name, ValueKind) ⇓ ent    ent.origin_opt = mp    path' = PathOfModule(mp)    name' = (ent.target_opt if present, else name)    ¬ PoisonedModule(σ, path')    StaticAddr(path', name') = addr    ReadAddr(σ, addr) = v
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-LookupValPath(σ, path, name) = v
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveQualified}(\mathsf{path},\ \mathsf{name},\ \mathsf{ValueKind})\ \Downarrow \ \mathsf{ent}\quad \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \mathsf{mp}\quad \mathsf{path}'\ =\ \operatorname{PathOfModule}(\mathsf{mp})\quad \mathsf{name}'\ =\ (\mathsf{ent}.\mathsf{target}_{\mathsf{opt}}\ \mathsf{if}\ \mathsf{present},\ \mathsf{else}\ \mathsf{name})\quad \lnot \ \operatorname{PoisonedModule}(\sigma ,\ \mathsf{path}')\quad \operatorname{StaticAddr}(\mathsf{path}',\ \mathsf{name}')\ =\ \mathsf{addr}\quad \operatorname{ReadAddr}(\sigma ,\ \mathsf{addr})\ =\ v \\
+\rule{18em}{0.4pt} \\
+\operatorname{LookupValPath}(\sigma ,\ \mathsf{path},\ \mathsf{name})\ =\ v
+\end{array}
 ```
 
 **(LookupValPath-Proc)**
 
-```text
-Γ ⊢ ResolveQualified(path, name, ValueKind) ⇓ ent    ent.origin_opt = mp    path' = PathOfModule(mp)    name' = (ent.target_opt if present, else name)    ¬ PoisonedModule(σ, path')    DeclOf(path', name') = proc    Γ ⊢ Mangle(proc) ⇓ sym
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-LookupValPath(σ, path, name) = FuncVal(sym)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveQualified}(\mathsf{path},\ \mathsf{name},\ \mathsf{ValueKind})\ \Downarrow \ \mathsf{ent}\quad \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \mathsf{mp}\quad \mathsf{path}'\ =\ \operatorname{PathOfModule}(\mathsf{mp})\quad \mathsf{name}'\ =\ (\mathsf{ent}.\mathsf{target}_{\mathsf{opt}}\ \mathsf{if}\ \mathsf{present},\ \mathsf{else}\ \mathsf{name})\quad \lnot \ \operatorname{PoisonedModule}(\sigma ,\ \mathsf{path}')\quad \operatorname{DeclOf}(\mathsf{path}',\ \mathsf{name}')\ =\ \mathsf{proc}\quad \Gamma \ \vdash \ \operatorname{Mangle}(\mathsf{proc})\ \Downarrow \ \mathsf{sym} \\
+\rule{18em}{0.4pt} \\
+\operatorname{LookupValPath}(\sigma ,\ \mathsf{path},\ \mathsf{name})\ =\ \operatorname{FuncVal}(\mathsf{sym})
+\end{array}
 ```
 
 **(LookupValPath-RecordCtor)**
 
-```text
-Γ ⊢ ResolveQualified(path, name, ValueKind) ⇑    Γ ⊢ ResolveRecordPath(path, name) ⇓ p    SplitLast(p) = (mp, _)    ¬ PoisonedModule(σ, mp)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveQualified}(\mathsf{path},\ \mathsf{name},\ \mathsf{ValueKind})\ \Uparrow \quad \Gamma \ \vdash \ \operatorname{ResolveRecordPath}(\mathsf{path},\ \mathsf{name})\ \Downarrow \ p\quad \operatorname{SplitLast}(p)\ =\ (\mathsf{mp},\ \_)\quad \lnot \ \operatorname{PoisonedModule}(\sigma ,\ \mathsf{mp}) \\
+\rule{18em}{0.4pt} \\
+\operatorname{LookupValPath}(\sigma ,\ \mathsf{path},\ \mathsf{name})\ =\ \operatorname{RecordCtor}(p)
+\end{array}
 ```
 
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-LookupValPath(σ, path, name) = RecordCtor(p)
+```math
+\begin{array}{l}
+\operatorname{ScopeValsUpdate}(\langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle ,\ \mathsf{bind}_{\mathsf{id}},\ v)\ =\ \langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals}[\mathsf{bind}_{\mathsf{id}}\ \mapsto \ v],\ \mathsf{states}\rangle  \\
+\operatorname{ScopeStatesUpdate}(\langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle ,\ \mathsf{bind}_{\mathsf{id}},\ s)\ =\ \langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}[\mathsf{bind}_{\mathsf{id}}\ \mapsto \ s]\rangle 
+\end{array}
 ```
 
-```text
-ScopeValsUpdate(⟨sid, cleanup, names, vals, states⟩, bind_id, v) = ⟨sid, cleanup, names, vals[bind_id ↦ v], states⟩
-ScopeStatesUpdate(⟨sid, cleanup, names, vals, states⟩, bind_id, s) = ⟨sid, cleanup, names, vals, states[bind_id ↦ s]⟩
+```math
+\operatorname{UpdateVal}(\sigma ,\ \langle \mathsf{sid},\ \mathsf{bind}_{\mathsf{id}},\ x\rangle ,\ v)\ \Downarrow \ \sigma '\ \Leftrightarrow \ (\operatorname{BindingValue}(\sigma ,\ \langle \mathsf{sid},\ \mathsf{bind}_{\mathsf{id}},\ x\rangle )\ =\ \operatorname{Alias}(\mathsf{addr})\ \land \ \operatorname{WriteAddr}(\sigma ,\ \mathsf{addr},\ v)\ \Downarrow \ \sigma ')\ \lor \ (\operatorname{BindingValue}(\sigma ,\ \langle \mathsf{sid},\ \mathsf{bind}_{\mathsf{id}},\ x\rangle )\ \ne \ \operatorname{Alias}(\_)\ \land \ \operatorname{ScopeById}(\operatorname{ScopeStack}(\sigma ),\ \mathsf{sid})\ =\ \mathsf{scope}\ \land \ \mathsf{scope}'\ =\ \operatorname{ScopeValsUpdate}(\mathsf{scope},\ \mathsf{bind}_{\mathsf{id}},\ v)\ \land \ \operatorname{ReplaceScopeById}(\operatorname{ScopeStack}(\sigma ),\ \mathsf{sid},\ \mathsf{scope}')\ =\ \mathsf{ss}'\ \land \ \operatorname{UpdateScopeStack}(\sigma ,\ \mathsf{ss}')\ =\ \sigma ')
 ```
 
-```text
-UpdateVal(σ, ⟨sid, bind_id, x⟩, v) ⇓ σ' ⇔ (BindingValue(σ, ⟨sid, bind_id, x⟩) = Alias(addr) ∧ WriteAddr(σ, addr, v) ⇓ σ') ∨ (BindingValue(σ, ⟨sid, bind_id, x⟩) ≠ Alias(_) ∧ ScopeById(ScopeStack(σ), sid) = scope ∧ scope' = ScopeValsUpdate(scope, bind_id, v) ∧ ReplaceScopeById(ScopeStack(σ), sid, scope') = ss' ∧ UpdateScopeStack(σ, ss') = σ')
+```math
+\operatorname{SetState}(\sigma ,\ \langle \mathsf{sid},\ \mathsf{bind}_{\mathsf{id}},\ x\rangle ,\ s)\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{ScopeById}(\operatorname{ScopeStack}(\sigma ),\ \mathsf{sid})\ =\ \mathsf{scope}\ \land \ \mathsf{scope}'\ =\ \operatorname{ScopeStatesUpdate}(\mathsf{scope},\ \mathsf{bind}_{\mathsf{id}},\ s)\ \land \ \operatorname{ReplaceScopeById}(\operatorname{ScopeStack}(\sigma ),\ \mathsf{sid},\ \mathsf{scope}')\ =\ \mathsf{ss}'\ \land \ \operatorname{UpdateScopeStack}(\sigma ,\ \mathsf{ss}')\ =\ \sigma '
 ```
 
-```text
-SetState(σ, ⟨sid, bind_id, x⟩, s) ⇓ σ' ⇔ ScopeById(ScopeStack(σ), sid) = scope ∧ scope' = ScopeStatesUpdate(scope, bind_id, s) ∧ ReplaceScopeById(ScopeStack(σ), sid, scope') = ss' ∧ UpdateScopeStack(σ, ss') = σ'
+```math
+\begin{array}{l}
+\operatorname{TypeOf}(\langle \mathsf{sid},\ \mathsf{bind}_{\mathsf{id}},\ x\rangle )\ =\ \operatorname{TypeOf}(x) \\
+\operatorname{BindInfo}(\langle \mathsf{sid},\ \mathsf{bind}_{\mathsf{id}},\ x\rangle )\ =\ \operatorname{BindInfo}(x)
+\end{array}
 ```
 
-```text
-TypeOf(⟨sid, bind_id, x⟩) = TypeOf(x)
-BindInfo(⟨sid, bind_id, x⟩) = BindInfo(x)
+```math
+\operatorname{BindVal}(\sigma ,\ x,\ v)\ \Downarrow \ (\sigma ',\ b)\ \Leftrightarrow \ \operatorname{ScopeStack}(\sigma )\ =\ \mathsf{scope}\ \mathbin{::} \ \mathsf{ss}\ \land \ \mathsf{scope}\ =\ \langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle \ \land \ \mathsf{bind}_{\mathsf{id}}\ =\ \operatorname{FreshBindId}(\sigma )\ \land \ \mathsf{names}'\ =\ \mathsf{names}[x\ \mapsto \ (\mathsf{names}[x]\ \mathsf{if}\ \mathsf{present}\ \mathsf{else}\ [])\ \mathbin{++} \ [\mathsf{bind}_{\mathsf{id}}]]\ \land \ \mathsf{vals}'\ =\ \mathsf{vals}[\mathsf{bind}_{\mathsf{id}}\ \mapsto \ v]\ \land \ \mathsf{states}'\ =\ \mathsf{states}[\mathsf{bind}_{\mathsf{id}}\ \mapsto \ \texttt{Valid}]\ \land \ \mathsf{scope}'\ =\ \langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names}',\ \mathsf{vals}',\ \mathsf{states}'\rangle \ \land \ \operatorname{UpdateScopeStack}(\sigma ,\ \mathsf{scope}'\ \mathbin{::} \ \mathsf{ss})\ =\ \sigma_{1} \ \land \ b\ =\ \langle \mathsf{sid},\ \mathsf{bind}_{\mathsf{id}},\ x\rangle \ \land \ ((\operatorname{BindInfo}(b).\mathsf{resp}\ =\ \mathsf{resp}\ \land \ \operatorname{AppendCleanup}(\sigma_{1} ,\ \operatorname{DropBinding}(b))\ \Downarrow \ \sigma ')\ \lor \ (\operatorname{BindInfo}(b).\mathsf{resp}\ \ne \ \mathsf{resp}\ \land \ \sigma '\ =\ \sigma_{1} ))
 ```
 
-```text
-BindVal(σ, x, v) ⇓ (σ', b) ⇔ ScopeStack(σ) = scope :: ss ∧ scope = ⟨sid, cleanup, names, vals, states⟩ ∧ bind_id = FreshBindId(σ) ∧ names' = names[x ↦ (names[x] if present else []) ++ [bind_id]] ∧ vals' = vals[bind_id ↦ v] ∧ states' = states[bind_id ↦ `Valid`] ∧ scope' = ⟨sid, cleanup, names', vals', states'⟩ ∧ UpdateScopeStack(σ, scope' :: ss) = σ_1 ∧ b = ⟨sid, bind_id, x⟩ ∧ ((BindInfo(b).resp = resp ∧ AppendCleanup(σ_1, DropBinding(b)) ⇓ σ') ∨ (BindInfo(b).resp ≠ resp ∧ σ' = σ_1))
+```math
+\begin{array}{l}
+\operatorname{BindPatternVal}(p,\ v)\ \Downarrow \ B\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{MatchPattern}(p,\ v)\ \Downarrow \ B \\
+\operatorname{BindOrder}(p,\ B)\ =\ [\langle x,\ B[x]\rangle \ \mid \ x\ \in \ \operatorname{PatNames}(p)]
+\end{array}
 ```
 
-```text
-BindPatternVal(p, v) ⇓ B ⇔ Γ ⊢ MatchPattern(p, v) ⇓ B
-BindOrder(p, B) = [⟨x, B[x]⟩ | x ∈ PatNames(p)]
+```math
+\begin{array}{l}
+\operatorname{BindList}(\sigma ,\ [])\ \Downarrow \ (\sigma ,\ []) \\
+\operatorname{BindList}(\sigma ,\ [\langle x,\ v\rangle ]\ \mathbin{++} \ \mathsf{xs})\ \Downarrow \ (\sigma_{2} ,\ b\ \mathbin{::} \ \mathsf{bs})\ \Leftrightarrow \ \operatorname{BindVal}(\sigma ,\ x,\ v)\ \Downarrow \ (\sigma_{1} ,\ b)\ \land \ \operatorname{BindList}(\sigma_{1} ,\ \mathsf{xs})\ \Downarrow \ (\sigma_{2} ,\ \mathsf{bs})
+\end{array}
 ```
 
-```text
-BindList(σ, []) ⇓ (σ, [])
-BindList(σ, [⟨x, v⟩] ++ xs) ⇓ (σ_2, b :: bs) ⇔ BindVal(σ, x, v) ⇓ (σ_1, b) ∧ BindList(σ_1, xs) ⇓ (σ_2, bs)
-```
-
-```text
-BindPattern(σ, p, v) ⇓ (σ', bs) ⇔ BindPatternVal(p, v) ⇓ B ∧ BindOrder(p, B) = binds ∧ BindList(σ, binds) ⇓ (σ', bs)
+```math
+\operatorname{BindPattern}(\sigma ,\ p,\ v)\ \Downarrow \ (\sigma ',\ \mathsf{bs})\ \Leftrightarrow \ \operatorname{BindPatternVal}(p,\ v)\ \Downarrow \ B\ \land \ \operatorname{BindOrder}(p,\ B)\ =\ \mathsf{binds}\ \land \ \operatorname{BindList}(\sigma ,\ \mathsf{binds})\ \Downarrow \ (\sigma ',\ \mathsf{bs})
 ```
 
 #### 6.5.2 Region Stack and Arenas
 
-```text
-RegionEntry = ⟨tag, target, scope, mark_opt⟩
-RegionTagOf(⟨tag, target, scope, mark_opt⟩) = tag
-RegionTargetOf(⟨tag, target, scope, mark_opt⟩) = target
-RegionScopeOf(⟨tag, target, scope, mark_opt⟩) = scope
-RegionMarkOf(⟨tag, target, scope, mark_opt⟩) = mark_opt
+```math
+\begin{array}{l}
+\mathsf{RegionEntry}\ =\ \langle \mathsf{tag},\ \mathsf{target},\ \mathsf{scope},\ \mathsf{mark}_{\mathsf{opt}}\rangle  \\
+\operatorname{RegionTagOf}(\langle \mathsf{tag},\ \mathsf{target},\ \mathsf{scope},\ \mathsf{mark}_{\mathsf{opt}}\rangle )\ =\ \mathsf{tag} \\
+\operatorname{RegionTargetOf}(\langle \mathsf{tag},\ \mathsf{target},\ \mathsf{scope},\ \mathsf{mark}_{\mathsf{opt}}\rangle )\ =\ \mathsf{target} \\
+\operatorname{RegionScopeOf}(\langle \mathsf{tag},\ \mathsf{target},\ \mathsf{scope},\ \mathsf{mark}_{\mathsf{opt}}\rangle )\ =\ \mathsf{scope} \\
+\operatorname{RegionMarkOf}(\langle \mathsf{tag},\ \mathsf{target},\ \mathsf{scope},\ \mathsf{mark}_{\mathsf{opt}}\rangle )\ =\ \mathsf{mark}_{\mathsf{opt}}
+\end{array}
 ```
 
-RuntimeTag = {RegionTag(tag), ScopeTag(sid)}
-
-```text
-RegionStack(σ) ∈ [RegionEntry]
-AddrTags(σ) : Addr ⇀ RuntimeTag
+```math
+\begin{array}{l}
+\mathsf{RuntimeTag}\ =\ \{\operatorname{RegionTag}(\mathsf{tag}),\ \operatorname{ScopeTag}(\mathsf{sid})\} \\
+\operatorname{RegionStack}(\sigma )\ \in \ [\mathsf{RegionEntry}] \\
+\operatorname{AddrTags}(\sigma )\ :\ \mathsf{Addr}\ \rightharpoonup \ \mathsf{RuntimeTag}
+\end{array}
 ```
 
-```text
-RegionArena(σ) : usize ⇀ [Addr]
-ArenaAllocs(σ, r) = allocs ⇔ RegionArena(σ)(r) = allocs
+```math
+\begin{array}{l}
+\operatorname{RegionArena}(\sigma )\ :\ \mathsf{usize}\ \rightharpoonup \ [\mathsf{Addr}] \\
+\operatorname{ArenaAllocs}(\sigma ,\ r)\ =\ \mathsf{allocs}\ \Leftrightarrow \ \operatorname{RegionArena}(\sigma )(r)\ =\ \mathsf{allocs}
+\end{array}
 ```
 
-```text
-UpdateRegionArena(σ, RA) = σ' ⇔ RegionArena(σ') = RA ∧ ScopeStack(σ') = ScopeStack(σ) ∧ AddrTags(σ') = AddrTags(σ) ∧ RegionStack(σ') = RegionStack(σ) ∧ PoisonedModules(σ') = PoisonedModules(σ)
-ArenaNew(σ, r) ⇓ σ' ⇔ UpdateRegionArena(σ, RegionArena(σ)[r ↦ []]) = σ'
+```math
+\begin{array}{l}
+\operatorname{UpdateRegionArena}(\sigma ,\ \mathsf{RA})\ =\ \sigma '\ \Leftrightarrow \ \operatorname{RegionArena}(\sigma ')\ =\ \mathsf{RA}\ \land \ \operatorname{ScopeStack}(\sigma ')\ =\ \operatorname{ScopeStack}(\sigma )\ \land \ \operatorname{AddrTags}(\sigma ')\ =\ \operatorname{AddrTags}(\sigma )\ \land \ \operatorname{RegionStack}(\sigma ')\ =\ \operatorname{RegionStack}(\sigma )\ \land \ \operatorname{PoisonedModules}(\sigma ')\ =\ \operatorname{PoisonedModules}(\sigma ) \\
+\operatorname{ArenaNew}(\sigma ,\ r)\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{UpdateRegionArena}(\sigma ,\ \operatorname{RegionArena}(\sigma )[r\ \mapsto \ []])\ =\ \sigma '
+\end{array}
 ```
 
-```text
-FreshAddr(σ) = addr ⇒ ReadAddr(σ, addr) undefined ∧ AddrTags(σ)(addr) undefined
-Prefix([a_0, …, a_{n-1}], m) = [a_0, …, a_{m-1}]    (0 ≤ m ≤ n)
+```math
+\begin{array}{l}
+\operatorname{FreshAddr}(\sigma )\ =\ \mathsf{addr}\ \Rightarrow \ \operatorname{ReadAddr}(\sigma ,\ \mathsf{addr})\ \mathsf{undefined}\ \land \ \operatorname{AddrTags}(\sigma )(\mathsf{addr})\ \mathsf{undefined} \\
+\operatorname{Prefix}([a_{0},\ \ldots ,\ a\_\{n-1\}],\ m)\ =\ [a_{0},\ \ldots ,\ a\_\{m-1\}]\quad (0\ \le \ m\ \le \ n)
+\end{array}
 ```
 
-```text
-ArenaAppend(σ, r, addr) ⇓ σ' ⇔ ArenaAllocs(σ, r) = allocs ∧ UpdateRegionArena(σ, RegionArena(σ)[r ↦ allocs ++ [addr]]) = σ'
-ArenaMark(σ, r) = m ⇔ ArenaAllocs(σ, r) = allocs ∧ m = |allocs|
-ArenaResetTo(σ, r, m) ⇓ σ' ⇔ ArenaAllocs(σ, r) = allocs ∧ 0 ≤ m ≤ |allocs| ∧ allocs' = Prefix(allocs, m) ∧ UpdateRegionArena(σ, RegionArena(σ)[r ↦ allocs']) = σ'
-ArenaClear(σ, r) ⇓ σ' ⇔ ArenaResetTo(σ, r, 0) ⇓ σ'
-ArenaRemove(σ, r) ⇓ σ' ⇔ RegionArena(σ') = RegionArena(σ) \ {r} ∧ ScopeStack(σ') = ScopeStack(σ) ∧ AddrTags(σ') = AddrTags(σ) ∧ RegionStack(σ') = RegionStack(σ) ∧ PoisonedModules(σ') = PoisonedModules(σ)
+```math
+\begin{array}{l}
+\operatorname{ArenaAppend}(\sigma ,\ r,\ \mathsf{addr})\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{ArenaAllocs}(\sigma ,\ r)\ =\ \mathsf{allocs}\ \land \ \operatorname{UpdateRegionArena}(\sigma ,\ \operatorname{RegionArena}(\sigma )[r\ \mapsto \ \mathsf{allocs}\ \mathbin{++} \ [\mathsf{addr}]])\ =\ \sigma ' \\
+\operatorname{ArenaMark}(\sigma ,\ r)\ =\ m\ \Leftrightarrow \ \operatorname{ArenaAllocs}(\sigma ,\ r)\ =\ \mathsf{allocs}\ \land \ m\ =\ \mid \mathsf{allocs}\mid  \\
+\operatorname{ArenaResetTo}(\sigma ,\ r,\ m)\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{ArenaAllocs}(\sigma ,\ r)\ =\ \mathsf{allocs}\ \land \ 0\ \le \ m\ \le \ \mid \mathsf{allocs}\mid \ \land \ \mathsf{allocs}'\ =\ \operatorname{Prefix}(\mathsf{allocs},\ m)\ \land \ \operatorname{UpdateRegionArena}(\sigma ,\ \operatorname{RegionArena}(\sigma )[r\ \mapsto \ \mathsf{allocs}'])\ =\ \sigma ' \\
+\operatorname{ArenaClear}(\sigma ,\ r)\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{ArenaResetTo}(\sigma ,\ r,\ 0)\ \Downarrow \ \sigma ' \\
+\operatorname{ArenaRemove}(\sigma ,\ r)\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{RegionArena}(\sigma ')\ =\ \operatorname{RegionArena}(\sigma )\ \setminus \ \{r\}\ \land \ \operatorname{ScopeStack}(\sigma ')\ =\ \operatorname{ScopeStack}(\sigma )\ \land \ \operatorname{AddrTags}(\sigma ')\ =\ \operatorname{AddrTags}(\sigma )\ \land \ \operatorname{RegionStack}(\sigma ')\ =\ \operatorname{RegionStack}(\sigma )\ \land \ \operatorname{PoisonedModules}(\sigma ')\ =\ \operatorname{PoisonedModules}(\sigma )
+\end{array}
 ```
 
-```text
-RegionValue(S, h) = RecordValue(ModalStateRef([`Region`], S), [⟨`handle`, IntVal("usize", h)⟩])
-RegionHandleOf(v) = h ⇔ v = RecordValue(ModalStateRef([`Region`], S), fs) ∧ ⟨`handle`, IntVal("usize", h)⟩ ∈ fs
+```math
+\begin{array}{l}
+\operatorname{RegionValue}(S,\ h)\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}([\texttt{Region}],\ S),\ [\langle \texttt{handle},\ \operatorname{IntVal}(\texttt{"usize"},\ h)\rangle ]) \\
+\operatorname{RegionHandleOf}(v)\ =\ h\ \Leftrightarrow \ v\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}([\texttt{Region}],\ S),\ \mathsf{fs})\ \land \ \langle \texttt{handle},\ \operatorname{IntVal}(\texttt{"usize"},\ h)\rangle \ \in \ \mathsf{fs}
+\end{array}
 ```
 
-```text
-ResolveEntry([], r) = ⊥
+```math
+\begin{array}{l}
+\operatorname{ResolveEntry}([],\ r)\ =\ \bot  \\
+\operatorname{ResolveEntry}(e\ \mathbin{::} \ \mathsf{es},\ r)\ = \\
+\ e\quad \mathsf{if}\ \operatorname{RegionTargetOf}(e)\ =\ r \\
+\ \operatorname{ResolveEntry}(\mathsf{es},\ r)\ \mathsf{otherwise}
+\end{array}
 ```
 
-ResolveEntry(e :: es, r) =
-  e                     if RegionTargetOf(e) = r
-  ResolveEntry(es, r)   otherwise
-
-```text
-ActiveEntry(σ) = e ⇔ RegionStack(σ) = e :: es
-ActiveTarget(σ) = target ⇔ ActiveEntry(σ) = e ∧ RegionTargetOf(e) = target
-ResolveTarget(σ, r) = target ⇔ ResolveEntry(RegionStack(σ), r) = e ∧ RegionTargetOf(e) = target
-ResolveTag(σ, r) = tag ⇔ ResolveEntry(RegionStack(σ), r) = e ∧ RegionTagOf(e) = tag
-FreshTag(σ) = tag ⇒ ∀ e ∈ RegionStack(σ). RegionTagOf(e) ≠ tag
-FreshArena(σ) = r ⇒ ∀ e ∈ RegionStack(σ). RegionTargetOf(e) ≠ r
+```math
+\begin{array}{l}
+\operatorname{ActiveEntry}(\sigma )\ =\ e\ \Leftrightarrow \ \operatorname{RegionStack}(\sigma )\ =\ e\ \mathbin{::} \ \mathsf{es} \\
+\operatorname{ActiveTarget}(\sigma )\ =\ \mathsf{target}\ \Leftrightarrow \ \operatorname{ActiveEntry}(\sigma )\ =\ e\ \land \ \operatorname{RegionTargetOf}(e)\ =\ \mathsf{target} \\
+\operatorname{ResolveTarget}(\sigma ,\ r)\ =\ \mathsf{target}\ \Leftrightarrow \ \operatorname{ResolveEntry}(\operatorname{RegionStack}(\sigma ),\ r)\ =\ e\ \land \ \operatorname{RegionTargetOf}(e)\ =\ \mathsf{target} \\
+\operatorname{ResolveTag}(\sigma ,\ r)\ =\ \mathsf{tag}\ \Leftrightarrow \ \operatorname{ResolveEntry}(\operatorname{RegionStack}(\sigma ),\ r)\ =\ e\ \land \ \operatorname{RegionTagOf}(e)\ =\ \mathsf{tag} \\
+\operatorname{FreshTag}(\sigma )\ =\ \mathsf{tag}\ \Rightarrow \ \forall \ e\ \in \ \operatorname{RegionStack}(\sigma ).\ \operatorname{RegionTagOf}(e)\ \ne \ \mathsf{tag} \\
+\operatorname{FreshArena}(\sigma )\ =\ r\ \Rightarrow \ \forall \ e\ \in \ \operatorname{RegionStack}(\sigma ).\ \operatorname{RegionTargetOf}(e)\ \ne \ r
+\end{array}
 ```
 
-```text
-UpdateRegionStack(σ, rs) = σ' ⇔ RegionStack(σ') = rs ∧ ScopeStack(σ') = ScopeStack(σ) ∧ AddrTags(σ') = AddrTags(σ) ∧ RegionArena(σ') = RegionArena(σ) ∧ PoisonedModules(σ') = PoisonedModules(σ)
+```math
+\operatorname{UpdateRegionStack}(\sigma ,\ \mathsf{rs})\ =\ \sigma '\ \Leftrightarrow \ \operatorname{RegionStack}(\sigma ')\ =\ \mathsf{rs}\ \land \ \operatorname{ScopeStack}(\sigma ')\ =\ \operatorname{ScopeStack}(\sigma )\ \land \ \operatorname{AddrTags}(\sigma ')\ =\ \operatorname{AddrTags}(\sigma )\ \land \ \operatorname{RegionArena}(\sigma ')\ =\ \operatorname{RegionArena}(\sigma )\ \land \ \operatorname{PoisonedModules}(\sigma ')\ =\ \operatorname{PoisonedModules}(\sigma )
 ```
 
-```text
-RegionNew(σ, opts) ⇓ (σ', r, scope) ⇔ PushScope_σ(σ) ⇓ (σ_1, scope) ∧ FreshArena(σ) = r ∧ ArenaNew(σ_1, r) ⇓ σ_2 ∧ UpdateRegionStack(σ_2, ⟨r, r, scope, ⊥⟩ :: RegionStack(σ_2)) = σ'
-RegionOpen(σ, opts) ⇓ (σ', r) ⇔ FreshArena(σ) = r ∧ ArenaNew(σ, r) ⇓ σ_1 ∧ UpdateRegionStack(σ_1, ⟨r, r, CurrentScopeId(σ), ⊥⟩ :: RegionStack(σ_1)) = σ'
-FrameEnter(σ, r) ⇓ (σ', F, scope, mark) ⇔ PushScope_σ(σ) ⇓ (σ_1, scope) ∧ F = FreshTag(σ) ∧ mark = FrameMark(σ_1, r) ∧ UpdateRegionStack(σ_1, ⟨F, r, scope, mark⟩ :: RegionStack(σ_1)) = σ'
+```math
+\begin{array}{l}
+\operatorname{RegionNew}(\sigma ,\ \mathsf{opts})\ \Downarrow \ (\sigma ',\ r,\ \mathsf{scope})\ \Leftrightarrow \ \mathsf{PushScope}\_\sigma (\sigma )\ \Downarrow \ (\sigma_{1} ,\ \mathsf{scope})\ \land \ \operatorname{FreshArena}(\sigma )\ =\ r\ \land \ \operatorname{ArenaNew}(\sigma_{1} ,\ r)\ \Downarrow \ \sigma_{2} \ \land \ \operatorname{UpdateRegionStack}(\sigma_{2} ,\ \langle r,\ r,\ \mathsf{scope},\ \bot \rangle \ \mathbin{::} \ \operatorname{RegionStack}(\sigma_{2} ))\ =\ \sigma ' \\
+\operatorname{RegionOpen}(\sigma ,\ \mathsf{opts})\ \Downarrow \ (\sigma ',\ r)\ \Leftrightarrow \ \operatorname{FreshArena}(\sigma )\ =\ r\ \land \ \operatorname{ArenaNew}(\sigma ,\ r)\ \Downarrow \ \sigma_{1} \ \land \ \operatorname{UpdateRegionStack}(\sigma_{1} ,\ \langle r,\ r,\ \operatorname{CurrentScopeId}(\sigma ),\ \bot \rangle \ \mathbin{::} \ \operatorname{RegionStack}(\sigma_{1} ))\ =\ \sigma ' \\
+\operatorname{FrameEnter}(\sigma ,\ r)\ \Downarrow \ (\sigma ',\ F,\ \mathsf{scope},\ \mathsf{mark})\ \Leftrightarrow \ \mathsf{PushScope}\_\sigma (\sigma )\ \Downarrow \ (\sigma_{1} ,\ \mathsf{scope})\ \land \ F\ =\ \operatorname{FreshTag}(\sigma )\ \land \ \mathsf{mark}\ =\ \operatorname{FrameMark}(\sigma_{1} ,\ r)\ \land \ \operatorname{UpdateRegionStack}(\sigma_{1} ,\ \langle F,\ r,\ \mathsf{scope},\ \mathsf{mark}\rangle \ \mathbin{::} \ \operatorname{RegionStack}(\sigma_{1} ))\ =\ \sigma '
+\end{array}
 ```
 
-```text
-BindRegionAlias(σ, ⊥, r) ⇓ σ
-BindRegionAlias(σ, x, r) ⇓ σ' ⇔ BindVal(σ, x, RegionValue(`@Active`, r)) ⇓ (σ', b)
+```math
+\begin{array}{l}
+\operatorname{BindRegionAlias}(\sigma ,\ \bot ,\ r)\ \Downarrow \ \sigma  \\
+\operatorname{BindRegionAlias}(\sigma ,\ x,\ r)\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{BindVal}(\sigma ,\ x,\ \operatorname{RegionValue}(\texttt{@Active},\ r))\ \Downarrow \ (\sigma ',\ b)
+\end{array}
 ```
 
-```text
-TagAddr(σ, addr, tag) ⇓ σ' ⇔ AddrTags(σ') = AddrTags(σ)[addr ↦ tag] ∧ ScopeStack(σ') = ScopeStack(σ) ∧ RegionStack(σ') = RegionStack(σ) ∧ RegionArena(σ') = RegionArena(σ) ∧ PoisonedModules(σ') = PoisonedModules(σ)
+```math
+\operatorname{TagAddr}(\sigma ,\ \mathsf{addr},\ \mathsf{tag})\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{AddrTags}(\sigma ')\ =\ \operatorname{AddrTags}(\sigma )[\mathsf{addr}\ \mapsto \ \mathsf{tag}]\ \land \ \operatorname{ScopeStack}(\sigma ')\ =\ \operatorname{ScopeStack}(\sigma )\ \land \ \operatorname{RegionStack}(\sigma ')\ =\ \operatorname{RegionStack}(\sigma )\ \land \ \operatorname{RegionArena}(\sigma ')\ =\ \operatorname{RegionArena}(\sigma )\ \land \ \operatorname{PoisonedModules}(\sigma ')\ =\ \operatorname{PoisonedModules}(\sigma )
 ```
 
-```text
-TagAddrFrom(σ, base, addr) ⇓ σ' ⇔ (AddrTag(σ, base) = tag ∧ TagAddr(σ, addr, tag) ⇓ σ') ∨ (AddrTag(σ, base) = ⊥ ∧ σ' = σ)
+```math
+\operatorname{TagAddrFrom}(\sigma ,\ \mathsf{base},\ \mathsf{addr})\ \Downarrow \ \sigma '\ \Leftrightarrow \ (\operatorname{AddrTag}(\sigma ,\ \mathsf{base})\ =\ \mathsf{tag}\ \land \ \operatorname{TagAddr}(\sigma ,\ \mathsf{addr},\ \mathsf{tag})\ \Downarrow \ \sigma ')\ \lor \ (\operatorname{AddrTag}(\sigma ,\ \mathsf{base})\ =\ \bot \ \land \ \sigma '\ =\ \sigma )
 ```
 
-```text
-RegionAlloc(σ, r, v) ⇓ (σ', v') ⇔ ResolveTag(σ, r) = tag ∧ FreshAddr(σ) = addr ∧ WriteAddr(σ, addr, v) ⇓ σ_1 ∧ ArenaAppend(σ_1, r, addr) ⇓ σ_2 ∧ TagAddr(σ_2, addr, RegionTag(tag)) ⇓ σ' ∧ ReadAddr(σ', addr) = v'
+```math
+\operatorname{RegionAlloc}(\sigma ,\ r,\ v)\ \Downarrow \ (\sigma ',\ v')\ \Leftrightarrow \ \operatorname{ResolveTag}(\sigma ,\ r)\ =\ \mathsf{tag}\ \land \ \operatorname{FreshAddr}(\sigma )\ =\ \mathsf{addr}\ \land \ \operatorname{WriteAddr}(\sigma ,\ \mathsf{addr},\ v)\ \Downarrow \ \sigma_{1} \ \land \ \operatorname{ArenaAppend}(\sigma_{1} ,\ r,\ \mathsf{addr})\ \Downarrow \ \sigma_{2} \ \land \ \operatorname{TagAddr}(\sigma_{2} ,\ \mathsf{addr},\ \operatorname{RegionTag}(\mathsf{tag}))\ \Downarrow \ \sigma '\ \land \ \operatorname{ReadAddr}(\sigma ',\ \mathsf{addr})\ =\ v'
 ```
 
-```text
-FreshTags(σ, tags) ⇔ Distinct(tags) ∧ ∀ tag ∈ Set(tags). ∀ e ∈ RegionStack(σ). RegionTagOf(e) ≠ tag
+```math
+\operatorname{FreshTags}(\sigma ,\ \mathsf{tags})\ \Leftrightarrow \ \operatorname{Distinct}(\mathsf{tags})\ \land \ \forall \ \mathsf{tag}\ \in \ \operatorname{Set}(\mathsf{tags}).\ \forall \ e\ \in \ \operatorname{RegionStack}(\sigma ).\ \operatorname{RegionTagOf}(e)\ \ne \ \mathsf{tag}
 ```
 
-```text
-RetagRegions([], r, tags) = [] ⇔ tags = []
+```math
+\begin{array}{l}
+\operatorname{RetagRegions}([],\ r,\ \mathsf{tags})\ =\ []\ \Leftrightarrow \ \mathsf{tags}\ =\ [] \\
+\operatorname{RetagRegions}(e\ \mathbin{::} \ \mathsf{es},\ r,\ \mathsf{tags})\ = \\
+\ e'\ \mathbin{::} \ \operatorname{RetagRegions}(\mathsf{es},\ r,\ \mathsf{tags}')\quad \mathsf{if}\ \operatorname{RegionTargetOf}(e)\ =\ r\ \land \ \mathsf{tags}\ =\ \mathsf{tag}\ \mathbin{::} \ \mathsf{tags}'\ \land \ e'\ =\ \langle \mathsf{tag},\ \operatorname{RegionTargetOf}(e),\ \operatorname{RegionScopeOf}(e),\ \operatorname{RegionMarkOf}(e)\rangle  \\
+\ e\ \mathbin{::} \ \operatorname{RetagRegions}(\mathsf{es},\ r,\ \mathsf{tags})\quad \mathsf{otherwise}
+\end{array}
 ```
 
-RetagRegions(e :: es, r, tags) =
-
-```text
-  e' :: RetagRegions(es, r, tags')    if RegionTargetOf(e) = r ∧ tags = tag :: tags' ∧ e' = ⟨tag, RegionTargetOf(e), RegionScopeOf(e), RegionMarkOf(e)⟩
+```math
+\operatorname{RegionReset}(\sigma ,\ r)\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{ArenaClear}(\sigma ,\ r)\ \Downarrow \ \sigma_{1} \ \land \ \operatorname{FreshTags}(\sigma_{1} ,\ \mathsf{tags})\ \land \ \operatorname{RetagRegions}(\operatorname{RegionStack}(\sigma_{1} ),\ r,\ \mathsf{tags})\ =\ \mathsf{rs}'\ \land \ \operatorname{UpdateRegionStack}(\sigma_{1} ,\ \mathsf{rs}')\ =\ \sigma '
 ```
 
-  e :: RetagRegions(es, r, tags)      otherwise
-
-```text
-RegionReset(σ, r) ⇓ σ' ⇔ ArenaClear(σ, r) ⇓ σ_1 ∧ FreshTags(σ_1, tags) ∧ RetagRegions(RegionStack(σ_1), r, tags) = rs' ∧ UpdateRegionStack(σ_1, rs') = σ'
+```math
+\begin{array}{l}
+\operatorname{PopRegions}([],\ r)\ =\ [] \\
+\operatorname{PopRegions}(e\ \mathbin{::} \ \mathsf{es},\ r)\ = \\
+\ \operatorname{PopRegions}(\mathsf{es},\ r)\quad \mathsf{if}\ \operatorname{RegionTargetOf}(e)\ =\ r \\
+\ e\ \mathbin{::} \ \operatorname{PopRegions}(\mathsf{es},\ r)\quad \mathsf{otherwise}
+\end{array}
 ```
 
-PopRegions([], r) = []
-PopRegions(e :: es, r) =
-  PopRegions(es, r)    if RegionTargetOf(e) = r
-  e :: PopRegions(es, r)    otherwise
-
-```text
-RegionFree(σ, r) ⇓ σ' ⇔ ArenaRemove(σ, r) ⇓ σ_1 ∧ PopRegions(RegionStack(σ_1), r) = rs' ∧ UpdateRegionStack(σ_1, rs') = σ'
+```math
+\operatorname{RegionFree}(\sigma ,\ r)\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{ArenaRemove}(\sigma ,\ r)\ \Downarrow \ \sigma_{1} \ \land \ \operatorname{PopRegions}(\operatorname{RegionStack}(\sigma_{1} ),\ r)\ =\ \mathsf{rs}'\ \land \ \operatorname{UpdateRegionStack}(\sigma_{1} ,\ \mathsf{rs}')\ =\ \sigma '
 ```
 
-```text
-FrameMark(σ, r) = ArenaMark(σ, r)
-PopRegionScope([], scope) = ⊥
-```
-
-PopRegionScope(e :: es, scope) =
-  { es                          if RegionScopeOf(e) = scope
-    PopRegionScope(es, scope)   otherwise }
-
-```text
-ReleaseArena(σ, r) ⇓ σ' ⇔ RegionFree(σ, r) ⇓ σ'
-ResetArena(σ, r, scope, mark) ⇓ σ' ⇔ ArenaResetTo(σ, r, mark) ⇓ σ_1 ∧ PopRegionScope(RegionStack(σ_1), scope) = rs' ∧ UpdateRegionStack(σ_1, rs') = σ'
+```math
+\begin{array}{l}
+\operatorname{FrameMark}(\sigma ,\ r)\ =\ \operatorname{ArenaMark}(\sigma ,\ r) \\
+\operatorname{PopRegionScope}([],\ \mathsf{scope})\ =\ \bot  \\
+\operatorname{PopRegionScope}(e\ \mathbin{::} \ \mathsf{es},\ \mathsf{scope})\ = \\
+\ \{\ \mathsf{es}\quad \mathsf{if}\ \operatorname{RegionScopeOf}(e)\ =\ \mathsf{scope} \\
+\quad \operatorname{PopRegionScope}(\mathsf{es},\ \mathsf{scope})\ \mathsf{otherwise}\ \} \\
+\operatorname{ReleaseArena}(\sigma ,\ r)\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{RegionFree}(\sigma ,\ r)\ \Downarrow \ \sigma ' \\
+\operatorname{ResetArena}(\sigma ,\ r,\ \mathsf{scope},\ \mathsf{mark})\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{ArenaResetTo}(\sigma ,\ r,\ \mathsf{mark})\ \Downarrow \ \sigma_{1} \ \land \ \operatorname{PopRegionScope}(\operatorname{RegionStack}(\sigma_{1} ),\ \mathsf{scope})\ =\ \mathsf{rs}'\ \land \ \operatorname{UpdateRegionStack}(\sigma_{1} ,\ \mathsf{rs}')\ =\ \sigma '
+\end{array}
 ```
 
 Cleanup, unwinding, initialization, deinitialization, and interpreter entry are defined in Chapter 24. This chapter defines only the dynamic scope-stack, binding-store, and region-runtime machinery those sections consume.
@@ -2241,188 +2302,170 @@ Cleanup, unwinding, initialization, deinitialization, and interpreter entry are 
 `RegionRelease` and `FrameReset` MUST execute `CleanupScope` before any `ArenaResetTo` or `ArenaRemove`.
 `ArenaResetTo`, `ArenaClear`, and `ArenaRemove` MUST NOT invoke `Drop`; they only reclaim arena storage.
 
-```text
-RegionProcJudg = {RegionNewScoped(σ, opts) ⇓ (σ', v), RegionAllocProc(σ, v_r, v) ⇓ (σ', v'), RegionResetProc(σ, v_r) ⇓ (σ', v'), RegionFreezeProc(σ, v_r) ⇓ (σ', v'), RegionThawProc(σ, v_r) ⇓ (σ', v'), RegionFreeProc(σ, v_r) ⇓ (σ', v')}
+```math
+\mathsf{RegionProcJudg}\ =\ \{\operatorname{RegionNewScoped}(\sigma ,\ \mathsf{opts})\ \Downarrow \ (\sigma ',\ v),\ \operatorname{RegionAllocProc}(\sigma ,\ v_{r},\ v)\ \Downarrow \ (\sigma ',\ v'),\ \operatorname{RegionResetProc}(\sigma ,\ v_{r})\ \Downarrow \ (\sigma ',\ v'),\ \operatorname{RegionFreezeProc}(\sigma ,\ v_{r})\ \Downarrow \ (\sigma ',\ v'),\ \operatorname{RegionThawProc}(\sigma ,\ v_{r})\ \Downarrow \ (\sigma ',\ v'),\ \operatorname{RegionFreeProc}(\sigma ,\ v_{r})\ \Downarrow \ (\sigma ',\ v')\}
 ```
 
 **(Region-New-Scoped)**
 
-```text
-RegionOpen(σ, opts) ⇓ (σ', r)    v = RegionValue(`@Active`, r)
-```
-
-───────────────────────────────────────────────────────────────────────
-
-```text
-RegionNewScoped(σ, opts) ⇓ (σ', v)
+```math
+\begin{array}{l}
+\operatorname{RegionOpen}(\sigma ,\ \mathsf{opts})\ \Downarrow \ (\sigma ',\ r)\quad v\ =\ \operatorname{RegionValue}(\texttt{@Active},\ r) \\
+\rule{18em}{0.4pt} \\
+\operatorname{RegionNewScoped}(\sigma ,\ \mathsf{opts})\ \Downarrow \ (\sigma ',\ v)
+\end{array}
 ```
 
 **(Region-Alloc-Proc)**
 
-```text
-RegionHandleOf(v_r) = h    ResolveTarget(σ, h) = r_t    RegionAlloc(σ, r_t, v) ⇓ (σ', v')
-```
-
-─────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-RegionAllocProc(σ, v_r, v) ⇓ (σ', v')
+```math
+\begin{array}{l}
+\operatorname{RegionHandleOf}(v_{r})\ =\ h\quad \operatorname{ResolveTarget}(\sigma ,\ h)\ =\ r_{t}\quad \operatorname{RegionAlloc}(\sigma ,\ r_{t},\ v)\ \Downarrow \ (\sigma ',\ v') \\
+\rule{18em}{0.4pt} \\
+\operatorname{RegionAllocProc}(\sigma ,\ v_{r},\ v)\ \Downarrow \ (\sigma ',\ v')
+\end{array}
 ```
 
 **(Region-Reset-Proc)**
 
-```text
-RegionHandleOf(v_r) = h    RegionReset(σ, h) ⇓ σ'    v' = RegionValue(`@Active`, h)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-RegionResetProc(σ, v_r) ⇓ (σ', v')
+```math
+\begin{array}{l}
+\operatorname{RegionHandleOf}(v_{r})\ =\ h\quad \operatorname{RegionReset}(\sigma ,\ h)\ \Downarrow \ \sigma '\quad v'\ =\ \operatorname{RegionValue}(\texttt{@Active},\ h) \\
+\rule{18em}{0.4pt} \\
+\operatorname{RegionResetProc}(\sigma ,\ v_{r})\ \Downarrow \ (\sigma ',\ v')
+\end{array}
 ```
 
 **(Region-Freeze-Proc)**
-RegionHandleOf(v_r) = h    v' = RegionValue(`@Frozen`, h)
-───────────────────────────────────────────────────────────────
 
-```text
-RegionFreezeProc(σ, v_r) ⇓ (σ, v')
+```math
+\begin{array}{l}
+\operatorname{RegionHandleOf}(v_{r})\ =\ h\quad v'\ =\ \operatorname{RegionValue}(\texttt{@Frozen},\ h) \\
+\rule{18em}{0.4pt} \\
+\operatorname{RegionFreezeProc}(\sigma ,\ v_{r})\ \Downarrow \ (\sigma ,\ v')
+\end{array}
 ```
 
 **(Region-Thaw-Proc)**
-RegionHandleOf(v_r) = h    v' = RegionValue(`@Active`, h)
-──────────────────────────────────────────────────────────────
 
-```text
-RegionThawProc(σ, v_r) ⇓ (σ, v')
+```math
+\begin{array}{l}
+\operatorname{RegionHandleOf}(v_{r})\ =\ h\quad v'\ =\ \operatorname{RegionValue}(\texttt{@Active},\ h) \\
+\rule{18em}{0.4pt} \\
+\operatorname{RegionThawProc}(\sigma ,\ v_{r})\ \Downarrow \ (\sigma ,\ v')
+\end{array}
 ```
 
 **(Region-Free-Proc)**
 
-```text
-RegionHandleOf(v_r) = h    RegionFree(σ, h) ⇓ σ'    v' = RegionValue(`@Freed`, h)
+```math
+\begin{array}{l}
+\operatorname{RegionHandleOf}(v_{r})\ =\ h\quad \operatorname{RegionFree}(\sigma ,\ h)\ \Downarrow \ \sigma '\quad v'\ =\ \operatorname{RegionValue}(\texttt{@Freed},\ h) \\
+\rule{18em}{0.4pt} \\
+\operatorname{RegionFreeProc}(\sigma ,\ v_{r})\ \Downarrow \ (\sigma ',\ v')
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-RegionFreeProc(σ, v_r) ⇓ (σ', v')
+```math
+\operatorname{BlockEnter}(\sigma ,\ \mathsf{binds})\ \Downarrow \ (\sigma ',\ \mathsf{scope})\ \Leftrightarrow \ \mathsf{PushScope}\_\sigma (\sigma )\ \Downarrow \ (\sigma_{1} ,\ \mathsf{scope})\ \land \ \exists \ \mathsf{bs}.\ \operatorname{BindList}(\sigma_{1} ,\ \mathsf{binds})\ \Downarrow \ (\sigma ',\ \mathsf{bs})
 ```
 
-```text
-BlockEnter(σ, binds) ⇓ (σ', scope) ⇔ PushScope_σ(σ) ⇓ (σ_1, scope) ∧ ∃ bs. BindList(σ_1, binds) ⇓ (σ', bs)
+```math
+\begin{array}{l}
+\operatorname{BoolVal}(b)\ =\ b\ \Leftrightarrow \ b\ \in \ \{\mathsf{true},\ \mathsf{false}\} \\
+\operatorname{CharVal}(u)\ =\ u\ \Leftrightarrow \ u\ \in \ \mathsf{UnicodeScalar} \\
+\mathsf{UnitVal}\ =\ () \\
+\operatorname{IntVal}(t,\ x)\ \mathsf{defined}\ \Leftrightarrow \ t\ \in \ \mathsf{IntTypes}\ \land \ \operatorname{InRange}(x,\ t) \\
+\operatorname{IntValType}(\operatorname{IntVal}(t,\ x))\ =\ t \\
+\operatorname{IntValValue}(\operatorname{IntVal}(t,\ x))\ =\ x \\
+\operatorname{FloatVal}(t,\ v)\ \mathsf{defined}\ \Leftrightarrow \ t\ \in \ \mathsf{FloatTypes}\ \land \ v\ \in \ \operatorname{FloatValueSet}(t) \\
+\operatorname{FloatValType}(\operatorname{FloatVal}(t,\ v))\ =\ t \\
+\operatorname{FloatValValue}(\operatorname{FloatVal}(t,\ v))\ =\ v \\
+\operatorname{PtrVal}(s,\ \mathsf{addr})\ \mathsf{defined}\ \Leftrightarrow \ s\ \in \ \mathsf{PtrStateSet} \\
+\mathsf{TupleVal}\ =\ \{(v_{1},\ \ldots ,\ v_{n})\ \mid \ n\ \ge \ 0\} \\
+\mathsf{ArrayVal}\ =\ \{[v_{1},\ \ldots ,\ v_{n}]\ \mid \ n\ \ge \ 0\} \\
+\operatorname{FuncVal}(\mathsf{sym})\ \mathsf{defined}\ \Leftrightarrow \ \mathsf{sym}\ \in \ \mathsf{Symbol} \\
+\operatorname{ClosureVal}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}})\ \mathsf{defined}\ \Leftrightarrow \ (\mathsf{env}_{\mathsf{ptr}}\ =\ \mathsf{null}\ \lor \ \mathsf{env}_{\mathsf{ptr}}\ \in \ \mathsf{Addr})\ \land \ \mathsf{code}_{\mathsf{ptr}}\ \in \ \mathsf{Symbol} \\
+\mathsf{RangeVal}\ =\ \{\operatorname{RangeVal}(k,\ \mathsf{lo}_{\mathsf{opt}},\ \mathsf{hi}_{\mathsf{opt}})\ \mid \ k\ \in \ \mathsf{RangeKind}\} \\
+\operatorname{ModalVal}(S,\ v)\ =\ \langle S,\ v\rangle 
+\end{array}
 ```
-
-```text
-BoolVal(b) = b ⇔ b ∈ {true, false}
-CharVal(u) = u ⇔ u ∈ UnicodeScalar
-```
-
-UnitVal = ()
-
-```text
-IntVal(t, x) defined ⇔ t ∈ IntTypes ∧ InRange(x, t)
-```
-
-IntValType(IntVal(t, x)) = t
-IntValValue(IntVal(t, x)) = x
-
-```text
-FloatVal(t, v) defined ⇔ t ∈ FloatTypes ∧ v ∈ FloatValueSet(t)
-```
-
-FloatValType(FloatVal(t, v)) = t
-FloatValValue(FloatVal(t, v)) = v
-
-```text
-PtrVal(s, addr) defined ⇔ s ∈ PtrStateSet
-TupleVal = {(v_1, …, v_n) | n ≥ 0}
-ArrayVal = {[v_1, …, v_n] | n ≥ 0}
-FuncVal(sym) defined ⇔ sym ∈ Symbol
-ClosureVal(env_ptr, code_ptr) defined ⇔ (env_ptr = null ∨ env_ptr ∈ Addr) ∧ code_ptr ∈ Symbol
-RangeVal = {RangeVal(k, lo_opt, hi_opt) | k ∈ RangeKind}
-ModalVal(S, v) = ⟨S, v⟩
-```
-
 RecordValue(tr, fs) defined
 
-```text
-EnumPayloadVal = {⊥, TuplePayload(vec_v), RecordPayload(vec_f)}
-EnumValue(path, payload) defined ⇔ payload ∈ EnumPayloadVal
-SliceValue(v, r) defined ⇔ SliceBounds(r, Len(v)) defined
-Value = {BoolVal(b) | b ∈ {true, false}} ∪ {CharVal(u) | u ∈ UnicodeScalar} ∪ {UnitVal} ∪ {IntVal(t, x) | IntVal(t, x) defined} ∪ {FloatVal(t, v) | FloatVal(t, v) defined} ∪ {PtrVal(s, addr) | PtrVal(s, addr) defined} ∪ {RawPtr(q, addr)} ∪ TupleVal ∪ ArrayVal ∪ {RecordValue(tr, fs)} ∪ {EnumValue(path, payload)} ∪ RangeVal ∪ {SliceValue(v, r) | SliceValue(v, r) defined} ∪ {ModalVal(S, v)} ∪ {Dyn(Cl, RawPtr(`imm`, addr), T)} ∪ `string@Managed` ∪ `string@View` ∪ `bytes@Managed` ∪ `bytes@View` ∪ {FuncVal(sym)} ∪ {ClosureVal(env_ptr, code_ptr)}
+```math
+\begin{array}{l}
+\mathsf{EnumPayloadVal}\ =\ \{\bot ,\ \operatorname{TuplePayload}(\mathsf{vec}_{v}),\ \operatorname{RecordPayload}(\mathsf{vec}_{f})\} \\
+\operatorname{EnumValue}(\mathsf{path},\ \mathsf{payload})\ \mathsf{defined}\ \Leftrightarrow \ \mathsf{payload}\ \in \ \mathsf{EnumPayloadVal} \\
+\operatorname{SliceValue}(v,\ r)\ \mathsf{defined}\ \Leftrightarrow \ \operatorname{SliceBounds}(r,\ \operatorname{Len}(v))\ \mathsf{defined} \\
+\mathsf{Value}\ =\ \{\operatorname{BoolVal}(b)\ \mid \ b\ \in \ \{\mathsf{true},\ \mathsf{false}\}\}\ \cup \ \{\operatorname{CharVal}(u)\ \mid \ u\ \in \ \mathsf{UnicodeScalar}\}\ \cup \ \{\mathsf{UnitVal}\}\ \cup \ \{\operatorname{IntVal}(t,\ x)\ \mid \ \operatorname{IntVal}(t,\ x)\ \mathsf{defined}\}\ \cup \ \{\operatorname{FloatVal}(t,\ v)\ \mid \ \operatorname{FloatVal}(t,\ v)\ \mathsf{defined}\}\ \cup \ \{\operatorname{PtrVal}(s,\ \mathsf{addr})\ \mid \ \operatorname{PtrVal}(s,\ \mathsf{addr})\ \mathsf{defined}\}\ \cup \ \{\operatorname{RawPtr}(q,\ \mathsf{addr})\}\ \cup \ \mathsf{TupleVal}\ \cup \ \mathsf{ArrayVal}\ \cup \ \{\operatorname{RecordValue}(\mathsf{tr},\ \mathsf{fs})\}\ \cup \ \{\operatorname{EnumValue}(\mathsf{path},\ \mathsf{payload})\}\ \cup \ \mathsf{RangeVal}\ \cup \ \{\operatorname{SliceValue}(v,\ r)\ \mid \ \operatorname{SliceValue}(v,\ r)\ \mathsf{defined}\}\ \cup \ \{\operatorname{ModalVal}(S,\ v)\}\ \cup \ \{\operatorname{Dyn}(\mathsf{Cl},\ \operatorname{RawPtr}(\texttt{imm},\ \mathsf{addr}),\ T)\}\ \cup \ \texttt{string@Managed}\ \cup \ \texttt{string@View}\ \cup \ \texttt{bytes@Managed}\ \cup \ \texttt{bytes@View}\ \cup \ \{\operatorname{FuncVal}(\mathsf{sym})\}\ \cup \ \{\operatorname{ClosureVal}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}})\}
+\end{array}
 ```
 
-```text
-TupleValue((v_0, …, v_{n-1}), i) = v_i    (0 ≤ i < n)
-TupleUpdate((v_0, …, v_{n-1}), i, v') = (v_0, …, v_{i-1}, v', v_{i+1}, …, v_{n-1})    (0 ≤ i < n)
-FieldValue(RecordValue(tr, fs), f) = v ⇔ ⟨f, v⟩ ∈ fs
-FieldUpdate(RecordValue(tr, fs), f, v') = RecordValue(tr, fs')    where fs' = [⟨f_i, v_i'⟩ | ⟨f_i, v_i⟩ ∈ fs ∧ v_i' = v' if f_i = f otherwise v_i]
-IndexUpdate([v_0, …, v_{n-1}], i, v_e) = [v_0, …, v_{i-1}, v_e, v_{i+1}, …, v_{n-1}]    (0 ≤ i < n)
+```math
+\begin{array}{l}
+\operatorname{TupleValue}((v_{0},\ \ldots ,\ v\_\{n-1\}),\ i)\ =\ v_{i}\quad (0\ \le \ i\ <\ n) \\
+\operatorname{TupleUpdate}((v_{0},\ \ldots ,\ v\_\{n-1\}),\ i,\ v')\ =\ (v_{0},\ \ldots ,\ v\_\{i-1\},\ v',\ v\_\{i+1\},\ \ldots ,\ v\_\{n-1\})\quad (0\ \le \ i\ <\ n) \\
+\operatorname{FieldValue}(\operatorname{RecordValue}(\mathsf{tr},\ \mathsf{fs}),\ f)\ =\ v\ \Leftrightarrow \ \langle f,\ v\rangle \ \in \ \mathsf{fs} \\
+\operatorname{FieldUpdate}(\operatorname{RecordValue}(\mathsf{tr},\ \mathsf{fs}),\ f,\ v')\ =\ \operatorname{RecordValue}(\mathsf{tr},\ \mathsf{fs}')\quad \mathsf{where}\ \mathsf{fs}'\ =\ [\langle f_{i},\ v_{i}'\rangle \ \mid \ \langle f_{i},\ v_{i}\rangle \ \in \ \mathsf{fs}\ \land \ v_{i}'\ =\ v'\ \mathsf{if}\ f_{i}\ =\ f\ \mathsf{otherwise}\ v_{i}] \\
+\operatorname{IndexUpdate}([v_{0},\ \ldots ,\ v\_\{n-1\}],\ i,\ v_{e})\ =\ [v_{0},\ \ldots ,\ v\_\{i-1\},\ v_{e},\ v\_\{i+1\},\ \ldots ,\ v\_\{n-1\}]\quad (0\ \le \ i\ <\ n) \\
+\operatorname{SliceLen}([v_{0},\ \ldots ,\ v\_\{n-1\}])\ =\ n \\
+\operatorname{SliceLen}(\operatorname{SliceValue}(v,\ r))\ =\ \mathsf{end}\ -\ \mathsf{start}\quad (\operatorname{SliceBounds}(r,\ \operatorname{Len}(v))\ =\ (\mathsf{start},\ \mathsf{end})) \\
+\operatorname{SliceElem}(v,\ i)\ =\ \operatorname{IndexValue}(v,\ i)\quad (\operatorname{IndexValue}(v,\ i)\ \mathsf{defined}) \\
+\operatorname{SliceUpdate}(v,\ \mathsf{start},\ v_{\mathsf{rhs}})\ \Downarrow \ v'\ \Leftrightarrow \ n\ =\ \operatorname{SliceLen}(v_{\mathsf{rhs}})\ \land \ \exists \ v_{0},\ \ldots ,\ v_{n}.\ v_{0}\ =\ v\ \land \ \forall \ i\ \in \ [0,\ n-1].\ v\_\{i+1\}\ =\ \operatorname{IndexUpdate}(v_{i},\ \mathsf{start}\ +\ i,\ \operatorname{SliceElem}(v_{\mathsf{rhs}},\ i))\ \land \ v'\ =\ v_{n}
+\end{array}
 ```
 
-SliceLen([v_0, …, v_{n-1}]) = n
-SliceLen(SliceValue(v, r)) = end - start    (SliceBounds(r, Len(v)) = (start, end))
-SliceElem(v, i) = IndexValue(v, i)    (IndexValue(v, i) defined)
-
-```text
-SliceUpdate(v, start, v_rhs) ⇓ v' ⇔ n = SliceLen(v_rhs) ∧ ∃ v_0, …, v_n. v_0 = v ∧ ∀ i ∈ [0, n-1]. v_{i+1} = IndexUpdate(v_i, start + i, SliceElem(v_rhs, i)) ∧ v' = v_n
+```math
+\mathsf{AddrPrimJudg}\ =\ \{\operatorname{ReadAddr}(\sigma ,\ \mathsf{addr})\ =\ v,\ \operatorname{WriteAddr}(\sigma ,\ \mathsf{addr},\ v)\ \Downarrow \ \sigma ',\ \operatorname{FieldAddr}(T,\ \mathsf{addr},\ f)\ =\ \mathsf{addr}',\ \operatorname{TupleAddr}(T,\ \mathsf{addr},\ i)\ =\ \mathsf{addr}',\ \operatorname{IndexAddr}(T_{b},\ \mathsf{addr},\ i)\ =\ \mathsf{addr}'\}
 ```
 
-```text
-AddrPrimJudg = {ReadAddr(σ, addr) = v, WriteAddr(σ, addr, v) ⇓ σ', FieldAddr(T, addr, f) = addr', TupleAddr(T, addr, i) = addr', IndexAddr(T_b, addr, i) = addr'}
+```math
+\begin{array}{l}
+\operatorname{AddrAdd}(\mathsf{addr},\ n)\ =\ \mathsf{addr}\ +\ n \\
+\operatorname{ElemType}(T_{b})\ =\ T\ \Leftrightarrow \ \operatorname{StripPerm}(T_{b})\ =\ \operatorname{TypeArray}(T,\ \_)\ \lor \ \operatorname{StripPerm}(T_{b})\ =\ \operatorname{TypeSlice}(T) \\
+\operatorname{FieldAddr}(T,\ \mathsf{addr},\ f)\ =\ \operatorname{AddrAdd}(\mathsf{addr},\ \operatorname{FieldOffset}(\operatorname{Fields}(R),\ f))\quad \mathsf{when}\ \operatorname{StripPerm}(T)\ =\ \operatorname{TypePath}(p)\ \land \ \operatorname{RecordDecl}(p)\ =\ R \\
+\operatorname{TupleAddr}(T,\ \mathsf{addr},\ i)\ =\ \operatorname{AddrAdd}(\mathsf{addr},\ \operatorname{FieldOffset}(\operatorname{TupleFields}([T_{1},\ \ldots ,\ T_{n}]),\ i))\quad \mathsf{when}\ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}]) \\
+\operatorname{IndexLen}(\sigma ,\ \mathsf{addr})\ =\ \operatorname{Len}(v)\quad (\operatorname{ReadAddr}(\sigma ,\ \mathsf{addr})\ =\ v\ \land \ \operatorname{Len}(v)\ \mathsf{defined}) \\
+\operatorname{IndexAddr}(T_{b},\ \mathsf{addr},\ i)\ =\ \operatorname{AddrAdd}(\mathsf{addr},\ i\ \times \ \operatorname{sizeof}(\operatorname{ElemType}(T_{b})))\quad (\operatorname{ElemType}(T_{b})\ \mathsf{defined}) \\
+\operatorname{IndexAddr}(T_{b},\ \mathsf{addr},\ v_{i})\ =\ \mathsf{addr}'\ \Leftrightarrow \ \operatorname{IndexNum}(v_{i})\ =\ i\ \land \ \operatorname{IndexAddr}(T_{b},\ \mathsf{addr},\ i)\ =\ \mathsf{addr}' \\
+\operatorname{SliceLenFromAddr}(\sigma ,\ \mathsf{addr})\ =\ n\ \Leftrightarrow \ \operatorname{ReadAddr}(\sigma ,\ \mathsf{addr})\ =\ v\ \land \ \operatorname{SliceLen}(v)\ =\ n
+\end{array}
 ```
 
-AddrAdd(addr, n) = addr + n
-
-```text
-ElemType(T_b) = T ⇔ StripPerm(T_b) = TypeArray(T, _) ∨ StripPerm(T_b) = TypeSlice(T)
-FieldAddr(T, addr, f) = AddrAdd(addr, FieldOffset(Fields(R), f))    when StripPerm(T) = TypePath(p) ∧ RecordDecl(p) = R
+```math
+\begin{array}{l}
+\mathsf{PtrStateSet}\ =\ \{\texttt{Valid},\ \texttt{Null},\ \texttt{Expired}\} \\
+\mathsf{RawQual}\ =\ \{\texttt{imm},\ \texttt{mut}\} \\
+\operatorname{PtrAddr}(\mathsf{Ptr}@\operatorname{Valid}(\mathsf{addr}))\ =\ \mathsf{addr} \\
+\operatorname{PtrAddr}(\mathsf{Ptr}@\operatorname{Null}(\mathsf{addr}))\ =\ \mathsf{addr} \\
+\operatorname{PtrAddr}(\mathsf{Ptr}@\operatorname{Expired}(\mathsf{addr}))\ =\ \mathsf{addr} \\
+\operatorname{PtrAddr}(\operatorname{RawPtr}(q,\ \mathsf{addr}))\ =\ \mathsf{addr}
+\end{array}
 ```
 
-TupleAddr(T, addr, i) = AddrAdd(addr, FieldOffset(TupleFields([T_1, …, T_n]), i))    when StripPerm(T) = TypeTuple([T_1, …, T_n])
-
-```text
-IndexLen(σ, addr) = Len(v)    (ReadAddr(σ, addr) = v ∧ Len(v) defined)
+```math
+\begin{array}{l}
+\operatorname{BindAddr}(\langle \mathsf{sid},\ \mathsf{bind}_{\mathsf{id}},\ x\rangle )\ \in \ \mathsf{Addr} \\
+\operatorname{AddrOfBind}(b)\ = \\
+\ \{\ \mathsf{addr}\quad \mathsf{if}\ \operatorname{BindingValue}(\sigma ,\ b)\ =\ \operatorname{Alias}(\mathsf{addr}) \\
+\quad \operatorname{BindAddr}(b)\ \mathsf{if}\ \operatorname{BindingValue}(\sigma ,\ b)\ \ne \ \operatorname{Alias}(\_)\ \} \\
+\operatorname{AddrOfBind}(x)\ =\ \mathsf{addr}\ \Leftrightarrow \ \exists \ b.\ \operatorname{LookupBind}(\sigma ,\ x)\ =\ b\ \land \ \operatorname{AddrOfBind}(b)\ =\ \mathsf{addr}
+\end{array}
 ```
 
-IndexAddr(T_b, addr, i) = AddrAdd(addr, i × sizeof(ElemType(T_b)))    (ElemType(T_b) defined)
-
-```text
-IndexAddr(T_b, addr, v_i) = addr' ⇔ IndexNum(v_i) = i ∧ IndexAddr(T_b, addr, i) = addr'
-SliceLenFromAddr(σ, addr) = n ⇔ ReadAddr(σ, addr) = v ∧ SliceLen(v) = n
-```
-
-PtrStateSet = {`Valid`, `Null`, `Expired`}
-RawQual = {`imm`, `mut`}
-PtrAddr(Ptr@Valid(addr)) = addr
-PtrAddr(Ptr@Null(addr)) = addr
-PtrAddr(Ptr@Expired(addr)) = addr
-PtrAddr(RawPtr(q, addr)) = addr
-
-```text
-BindAddr(⟨sid, bind_id, x⟩) ∈ Addr
-```
-
-AddrOfBind(b) =
-
-```text
-  { addr         if BindingValue(σ, b) = Alias(addr)
-    BindAddr(b)  if BindingValue(σ, b) ≠ Alias(_) }
-AddrOfBind(x) = addr ⇔ ∃ b. LookupBind(σ, x) = b ∧ AddrOfBind(b) = addr
-```
-
-```text
-AddrTag(σ, addr) =
-  { ScopeTag(sid)    if addr = BindAddr(⟨sid, bind_id, x⟩)
-    RegionTag(tag)   if AddrTags(σ)(addr) = RegionTag(tag)
-    ⊥                otherwise }
-TagActive(σ, RegionTag(tag)) ⇔ ∃ e ∈ RegionStack(σ). RegionTagOf(e) = tag
-TagActive(σ, ScopeTag(sid)) ⇔ ∃ e ∈ ScopeStack(σ). ScopeId(e) = sid
-DynAddrState(σ, addr) =
-  { `Valid`    if AddrTag(σ, addr) = ⊥
-    `Valid`    if AddrTag(σ, addr) = tag ≠ ⊥ ∧ TagActive(σ, tag)
-    `Expired`  if AddrTag(σ, addr) = tag ≠ ⊥ ∧ ¬ TagActive(σ, tag) }
+```math
+\begin{array}{l}
+\operatorname{AddrTag}(\sigma ,\ \mathsf{addr})\ = \\
+\ \{\ \operatorname{ScopeTag}(\mathsf{sid})\quad \mathsf{if}\ \mathsf{addr}\ =\ \operatorname{BindAddr}(\langle \mathsf{sid},\ \mathsf{bind}_{\mathsf{id}},\ x\rangle ) \\
+\quad \operatorname{RegionTag}(\mathsf{tag})\ \mathsf{if}\ \operatorname{AddrTags}(\sigma )(\mathsf{addr})\ =\ \operatorname{RegionTag}(\mathsf{tag}) \\
+\quad \bot \quad \mathsf{otherwise}\ \} \\
+\operatorname{TagActive}(\sigma ,\ \operatorname{RegionTag}(\mathsf{tag}))\ \Leftrightarrow \ \exists \ e\ \in \ \operatorname{RegionStack}(\sigma ).\ \operatorname{RegionTagOf}(e)\ =\ \mathsf{tag} \\
+\operatorname{TagActive}(\sigma ,\ \operatorname{ScopeTag}(\mathsf{sid}))\ \Leftrightarrow \ \exists \ e\ \in \ \operatorname{ScopeStack}(\sigma ).\ \operatorname{ScopeId}(e)\ =\ \mathsf{sid} \\
+\operatorname{DynAddrState}(\sigma ,\ \mathsf{addr})\ = \\
+\ \{\ \texttt{Valid}\quad \mathsf{if}\ \operatorname{AddrTag}(\sigma ,\ \mathsf{addr})\ =\ \bot  \\
+\quad \texttt{Valid}\quad \mathsf{if}\ \operatorname{AddrTag}(\sigma ,\ \mathsf{addr})\ =\ \mathsf{tag}\ \ne \ \bot \ \land \ \operatorname{TagActive}(\sigma ,\ \mathsf{tag}) \\
+\quad \texttt{Expired}\ \mathsf{if}\ \operatorname{AddrTag}(\sigma ,\ \mathsf{addr})\ =\ \mathsf{tag}\ \ne \ \bot \ \land \ \lnot \ \operatorname{TagActive}(\sigma ,\ \mathsf{tag})\ \}
+\end{array}
 ```
 
 ### 6.6 Runtime State and Memory Diagnostics

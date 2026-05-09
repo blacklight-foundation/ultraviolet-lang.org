@@ -3,7 +3,7 @@ title: "Procedures and Contracts"
 description: "15. Procedures and Contracts of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T17:39:45.389Z"
+generatedAt: "2026-05-09T18:13:03.158Z"
 generated: true
 ---
 
@@ -31,550 +31,523 @@ param           ::= "move"? identifier ":" type
 
 **(Parse-Procedure)**
 
-```text
-Γ ⊢ ParseAttrListOpt(P) ⇓ (P_0, attrs_opt)    Γ ⊢ ParseVis(P_0) ⇓ (P_1, vis)    IsKw(Tok(P_1), `procedure`)    Γ ⊢ ParseIdent(Advance(P_1)) ⇓ (P_2, name)    Γ ⊢ ParseGenericParamsOpt(P_2) ⇓ (P_3, gen_params_opt)    Γ ⊢ ParseSignature(P_3) ⇓ (P_4, params, ret_opt)    Γ ⊢ ParsePredicateClauseOpt(P_4) ⇓ (P_5, predicate_clause_opt)    Γ ⊢ ParseContractClauseOpt(P_5) ⇓ (P_6, contract_opt)    Γ ⊢ ParseBlock(P_6) ⇓ (P_7, body)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseItem(P) ⇓ (P_7, ⟨ProcedureDecl, attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, params, ret_opt, contract_opt, body, SpanBetween(P, P_7), []⟩)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P_{0},\ \mathsf{attrs}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseVis}(P_{0})\ \Downarrow \ (P_{1},\ \mathsf{vis})\quad \operatorname{IsKw}(\operatorname{Tok}(P_{1}),\ \texttt{procedure})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{name})\quad \Gamma \ \vdash \ \operatorname{ParseGenericParamsOpt}(P_{2})\ \Downarrow \ (P_{3},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseSignature}(P_{3})\ \Downarrow \ (P_{4},\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParsePredicateClauseOpt}(P_{4})\ \Downarrow \ (P_{5},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseContractClauseOpt}(P_{5})\ \Downarrow \ (P_{6},\ \mathsf{contract}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(P_{6})\ \Downarrow \ (P_{7},\ \mathsf{body}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseItem}(P)\ \Downarrow \ (P_{7},\ \langle \mathsf{ProcedureDecl},\ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body},\ \operatorname{SpanBetween}(P,\ P_{7}),\ []\rangle )
+\end{array}
 ```
 
 **(Parse-Signature)**
 
-```text
-IsPunc(Tok(P), "(")    Γ ⊢ ParseParamList(Advance(P)) ⇓ (P_1, params)    IsPunc(Tok(P_1), ")")    Γ ⊢ ParseReturnOpt(Advance(P_1)) ⇓ (P_2, ret_opt)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseSignature(P) ⇓ (P_2, params, ret_opt)
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseParamList}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{params})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"})\quad \Gamma \ \vdash \ \operatorname{ParseReturnOpt}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{ret}_{\mathsf{opt}}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseSignature}(P)\ \Downarrow \ (P_{2},\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}})
+\end{array}
 ```
 
 **(Parse-ParamList-Empty)**
 IsPunc(Tok(P), ")")
-────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseParamList(P) ⇓ (P, [])
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseParamList}(P)\ \Downarrow \ (P,\ [])
+\end{array}
 ```
 
 **(Parse-ParamList-Cons)**
 
-```text
-Γ ⊢ ParseParam(P) ⇓ (P_1, param)    Γ ⊢ ParseParamTail(P_1, [param]) ⇓ (P_2, params)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseParamList(P) ⇓ (P_2, params)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseParam}(P)\ \Downarrow \ (P_{1},\ \mathsf{param})\quad \Gamma \ \vdash \ \operatorname{ParseParamTail}(P_{1},\ [\mathsf{param}])\ \Downarrow \ (P_{2},\ \mathsf{params}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseParamList}(P)\ \Downarrow \ (P_{2},\ \mathsf{params})
+\end{array}
 ```
 
 **(Parse-Param)**
 
-```text
-Γ ⊢ ParseParamModeOpt(P) ⇓ (P_1, mode)    Γ ⊢ ParseIdent(P_1) ⇓ (P_2, name)    IsPunc(Tok(P_2), ":")    Γ ⊢ ParseType(Advance(P_2)) ⇓ (P_3, ty)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseParam(P) ⇓ (P_3, ⟨mode, name, ty⟩)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseParamModeOpt}(P)\ \Downarrow \ (P_{1},\ \mathsf{mode})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{name})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseType}(\operatorname{Advance}(P_{2}))\ \Downarrow \ (P_{3},\ \mathsf{ty}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseParam}(P)\ \Downarrow \ (P_{3},\ \langle \mathsf{mode},\ \mathsf{name},\ \mathsf{ty}\rangle )
+\end{array}
 ```
 
 **(Parse-ParamMode-None)**
 
-```text
-¬ IsKw(Tok(P), `move`)
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseParamModeOpt(P) ⇓ (P, ⊥)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{move}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseParamModeOpt}(P)\ \Downarrow \ (P,\ \bot )
+\end{array}
 ```
 
 **(Parse-ParamMode-Move)**
 IsKw(Tok(P), `move`)
-─────────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseParamModeOpt(P) ⇓ (Advance(P), `move`)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseParamModeOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \texttt{move})
+\end{array}
 ```
 
 **(Parse-ParamTail-End)**
 IsPunc(Tok(P), ")")
-────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseParamTail(P, xs) ⇓ (P, xs)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseParamTail}(P,\ \mathsf{xs})\ \Downarrow \ (P,\ \mathsf{xs})
+\end{array}
 ```
 
 **(Parse-ParamTail-TrailingComma)**
-IsPunc(Tok(P), ",")    IsPunc(Tok(Advance(P)), ")")    TrailingCommaAllowed(P_0, P, {Punctuator(")")})
-────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseParamTail(P, xs) ⇓ (Advance(P), xs)
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{")"})\quad \operatorname{TrailingCommaAllowed}(P_{0},\ P,\ \{\operatorname{Punctuator}(\texttt{")"})\}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseParamTail}(P,\ \mathsf{xs})\ \Downarrow \ (\operatorname{Advance}(P),\ \mathsf{xs})
+\end{array}
 ```
 
 **(Parse-ParamTail-Comma)**
 
-```text
-IsPunc(Tok(P), ",")    Γ ⊢ ParseParam(Advance(P)) ⇓ (P_1, p)    Γ ⊢ ParseParamTail(P_1, xs ++ [p]) ⇓ (P_2, ys)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseParamTail(P, xs) ⇓ (P_2, ys)
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \Gamma \ \vdash \ \operatorname{ParseParam}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ p)\quad \Gamma \ \vdash \ \operatorname{ParseParamTail}(P_{1},\ \mathsf{xs}\ \mathbin{++} \ [p])\ \Downarrow \ (P_{2},\ \mathsf{ys}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseParamTail}(P,\ \mathsf{xs})\ \Downarrow \ (P_{2},\ \mathsf{ys})
+\end{array}
 ```
 
 **(Parse-ReturnOpt-None)**
 
-```text
-¬ IsOp(Tok(P), "->")
-```
-
-─────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseReturnOpt(P) ⇓ (P, ⊥)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"->"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseReturnOpt}(P)\ \Downarrow \ (P,\ \bot )
+\end{array}
 ```
 
 **(Parse-ReturnOpt-Arrow)**
 
-```text
-IsOp(Tok(P), "->")    Γ ⊢ ParseType(Advance(P)) ⇓ (P_1, ty)
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseReturnOpt(P) ⇓ (P_1, ty)
+```math
+\begin{array}{l}
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"->"})\quad \Gamma \ \vdash \ \operatorname{ParseType}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{ty}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseReturnOpt}(P)\ \Downarrow \ (P_{1},\ \mathsf{ty})
+\end{array}
 ```
 
 #### 15.1.3 AST Representation / Form
 
-```text
-ProcedureDecl = ⟨attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, params, return_type_opt, contract_opt, body, span, doc⟩
-Param = ⟨mode, name, type⟩
+```math
+\begin{array}{l}
+\mathsf{ProcedureDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{params},\ \mathsf{return}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}\rangle  \\
+\mathsf{Param}\ =\ \langle \mathsf{mode},\ \mathsf{name},\ \mathsf{type}\rangle 
+\end{array}
 ```
 
-```text
-ParamNames(params) = [x | ⟨_, x, _⟩ ∈ params]
-ParamBinds(params) = [⟨x, T⟩ | ⟨_, x, T⟩ ∈ params]
+```math
+\begin{array}{l}
+\operatorname{ParamNames}(\mathsf{params})\ =\ [x\ \mid \ \langle \_,\ x,\ \_\rangle \ \in \ \mathsf{params}] \\
+\operatorname{ParamBinds}(\mathsf{params})\ =\ [\langle x,\ T\rangle \ \mid \ \langle \_,\ x,\ T\rangle \ \in \ \mathsf{params}]
+\end{array}
 ```
 
-ProcReturn(ret_opt) =
-
-```text
-  { TypePrim("()")   if ret_opt = ⊥
+```math
+\begin{array}{l}
+\operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\ = \\
+\ \{\ \operatorname{TypePrim}(\texttt{"()"})\ \mathsf{if}\ \mathsf{ret}_{\mathsf{opt}}\ =\ \bot  \\
+\quad \mathsf{ret}_{\mathsf{opt}}\quad \mathsf{otherwise}\ \}
+\end{array}
 ```
 
-    ret_opt          otherwise }
-
-BodyReturnType(R) =
-
-```text
-  { Result    if AsyncSig(R) = ⟨Out, In, Result, E⟩
+```math
+\begin{array}{l}
+\operatorname{BodyReturnType}(R)\ = \\
+\ \{\ \mathsf{Result}\quad \mathsf{if}\ \operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle  \\
+\quad R\quad \mathsf{otherwise}\ \}
+\end{array}
 ```
 
-    R         otherwise }
-
-```text
-ExplicitReturn(BlockExpr(stmts, tail_opt)) ⇔ tail_opt = ⊥ ∧ stmts ≠ [] ∧ LastStmt(stmts) = ReturnStmt(_)
+```math
+\operatorname{ExplicitReturn}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}))\ \Leftrightarrow \ \mathsf{tail}_{\mathsf{opt}}\ =\ \bot \ \land \ \mathsf{stmts}\ \ne \ []\ \land \ \operatorname{LastStmt}(\mathsf{stmts})\ =\ \operatorname{ReturnStmt}(\_)
 ```
 
 #### 15.1.4 Static Semantics
 
-```text
-ReturnAnnOk(ret_opt) ⇔ ret_opt ≠ ⊥
+```math
+\operatorname{ReturnAnnOk}(\mathsf{ret}_{\mathsf{opt}})\ \Leftrightarrow \ \mathsf{ret}_{\mathsf{opt}}\ \ne \ \bot 
 ```
 
 **(WF-ProcedureDecl)**
 
-```text
-item = ProcedureDecl(_, vis, _, gen_params_opt, predicate_clause_opt, params, ret_opt, _, body, _, _)    params_gen = TypeParamsOpt(gen_params_opt)    params_gen = [P_1, …, P_n]    Γ ⊢ ⟨P_1; …; P_n⟩ wf    Γ_g = BindTypeParams(Γ, params_gen)    Γ_g; params_gen ⊢ predicate_clause_opt wf    Distinct(ParamNames(params))    ReturnAnnOk(ret_opt)    R = ProcReturn(ret_opt)    R_b = BodyReturnType(R)    ∀ ⟨_, x_i, T_i⟩ ∈ params, Γ_g ⊢ T_i wf    Γ_0 = PushScope(Γ_g)    IntroAll(Γ_0, ParamBinds(params)) ⇓ Γ_1    Γ_1; R; ⊥ ⊢ body : T_b    Γ_g ⊢ T_b <: R_b    (R_b ≠ TypePrim("()") ⇒ ExplicitReturn(body))
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-DeclJudg = {Γ ⊢ ProcedureDecl : ok, Γ ⊢ ExternProcDecl : ok, Γ ⊢ ExternBlock : ok, Γ ⊢ StaticDecl : ok, Γ ⊢ RecordDecl : ok, Γ ⊢ EnumDecl : ok, Γ ⊢ ModalDecl : ok, Γ ⊢ ClassDecl : ok}
+```math
+\begin{array}{l}
+\mathsf{item}\ =\ \operatorname{ProcedureDecl}(\_,\ \mathsf{vis},\ \_,\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \mathsf{body},\ \_,\ \_)\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \mathsf{params}_{\mathsf{gen}}\ =\ [P_{1},\ \ldots ,\ P_{n}]\quad \Gamma \ \vdash \ \langle P_{1};\ \ldots ;\ P_{n}\rangle \ \mathsf{wf}\quad \Gamma_{g} \ =\ \operatorname{BindTypeParams}(\Gamma ,\ \mathsf{params}_{\mathsf{gen}})\quad \Gamma_{g} ;\ \mathsf{params}_{\mathsf{gen}}\ \vdash \ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}}\ \mathsf{wf}\quad \operatorname{Distinct}(\operatorname{ParamNames}(\mathsf{params}))\quad \operatorname{ReturnAnnOk}(\mathsf{ret}_{\mathsf{opt}})\quad R\ =\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\quad R_{b}\ =\ \operatorname{BodyReturnType}(R)\quad \forall \ \langle \_,\ x_{i},\ T_{i}\rangle \ \in \ \mathsf{params},\ \Gamma_{g} \ \vdash \ T_{i}\ \mathsf{wf}\quad \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma_{g} )\quad \operatorname{IntroAll}(\Gamma_{0} ,\ \operatorname{ParamBinds}(\mathsf{params}))\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} ;\ R;\ \bot \ \vdash \ \mathsf{body}\ :\ T_{b}\quad \Gamma_{g} \ \vdash \ T_{b}\ \mathrel{<:} \ R_{b}\quad (R_{b}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})\ \Rightarrow \ \operatorname{ExplicitReturn}(\mathsf{body})) \\
+\rule{18em}{0.4pt} \\
+\mathsf{DeclJudg}\ =\ \{\Gamma \ \vdash \ \mathsf{ProcedureDecl}\ :\ \mathsf{ok},\ \Gamma \ \vdash \ \mathsf{ExternProcDecl}\ :\ \mathsf{ok},\ \Gamma \ \vdash \ \mathsf{ExternBlock}\ :\ \mathsf{ok},\ \Gamma \ \vdash \ \mathsf{StaticDecl}\ :\ \mathsf{ok},\ \Gamma \ \vdash \ \mathsf{RecordDecl}\ :\ \mathsf{ok},\ \Gamma \ \vdash \ \mathsf{EnumDecl}\ :\ \mathsf{ok},\ \Gamma \ \vdash \ \mathsf{ModalDecl}\ :\ \mathsf{ok},\ \Gamma \ \vdash \ \mathsf{ClassDecl}\ :\ \mathsf{ok}\}
+\end{array}
 ```
 
 **DeclTyping.**
 
-```text
-DeclTyping(Ms) ⇓ ok ⇔ ∀ M ∈ Ms. Γ ⊢ DeclTypingMod(M) ⇓ ok
-DeclTypingMod(M) ⇓ ok ⇔ ∀ it ∈ M.items. Γ ⊢ DeclTypingItem(M.path, it) ⇓ ok
+```math
+\begin{array}{l}
+\operatorname{DeclTyping}(\mathsf{Ms})\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \forall \ M\ \in \ \mathsf{Ms}.\ \Gamma \ \vdash \ \operatorname{DeclTypingMod}(M)\ \Downarrow \ \mathsf{ok} \\
+\operatorname{DeclTypingMod}(M)\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \forall \ \mathsf{it}\ \in \ M.\mathsf{items}.\ \Gamma \ \vdash \ \operatorname{DeclTypingItem}(M.\mathsf{path},\ \mathsf{it})\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
-```text
-ProvBindCheck(params, body) ⇓ ok ⇔ body = BlockExpr(stmts, tail_opt) ∧ ∃ vec{π}. |vec{π}| = |params| ∧ Γ; InitProvEnv(params, vec{π}, []) ⊢ BlockProv(stmts, tail_opt) ⇓ π
+```math
+\operatorname{ProvBindCheck}(\mathsf{params},\ \mathsf{body})\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \mathsf{body}\ =\ \operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}})\ \land \ \exists \ \mathsf{vec}\{\pi \}.\ \mid \mathsf{vec}\{\pi \}\mid \ =\ \mid \mathsf{params}\mid \ \land \ \Gamma ;\ \operatorname{InitProvEnv}(\mathsf{params},\ \mathsf{vec}\{\pi \},\ [])\ \vdash \ \operatorname{BlockProv}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}})\ \Downarrow \ \pi 
 ```
 
-```text
-DeclTypingItem(m, ImportDecl(_)) ⇓ ok
-DeclTypingItem(m, UsingDecl(_)) ⇓ ok
-DeclTypingItem(m, ExternBlock(_, _, _, items, _, _)) ⇓ ok ⇔ Γ ⊢ ExternBlock : ok ∧ ∀ it ∈ items. Γ ⊢ it : ok
-DeclTypingItem(m, StaticDecl(_, _, _, _, _, _)) ⇓ ok ⇔ Γ ⊢ StaticDecl : ok
-DeclTypingItem(m, TypeAliasDecl(_, name, _, _, _, _, _, _)) ⇓ ok ⇔ Γ ⊢ FullPath(m, name) : TypeAliasOk
-DeclTypingItem(m, ProcedureDecl(_, _, _, _, _, params, _, _, body, _, _) = item) ⇓ ok ⇔ Γ ⊢ ProcedureDecl : ok ∧ ProcBindCheck(m, item) ⇓ ok ∧ ProvBindCheck(params, body) ⇓ ok
-DeclTypingItem(m, R) ⇓ ok ⇔ R = RecordDecl(_, _, _, _, _, _, _, _, _, _) ∧ Γ ⊢ R record : ok ∧ ∀ md ∈ Methods(R). MethodBindCheck(m, TypePath(RecordPath(R)), md) ⇓ ok ∧ ProvBindCheck(MethodParamsDecl(TypePath(RecordPath(R)), md), md.body) ⇓ ok
-DeclTypingItem(m, E) ⇓ ok ⇔ E = EnumDecl(_, _, _, _, _, _, _, _, _, _) ∧ Γ ⊢ E enum : ok
-DeclTypingItem(m, M) ⇓ ok ⇔ M = ModalDecl(_, _, _, _, _, _, _, _, _, _) ∧ Γ ⊢ M modal : ok ∧ ∀ S ∈ States(M), ∀ md ∈ Methods(M, S). StateMethodBindCheck(m, M, S, md) ⇓ ok ∧ ProvBindCheck(StateMethodParams(M, S, md), md.body) ⇓ ok ∧ ∀ tr ∈ Transitions(M, S). TransitionBindCheck(m, M, S, tr) ⇓ ok ∧ ProvBindCheck(TransitionParams(M, S, tr), tr.body) ⇓ ok
-DeclTypingItem(m, Cl) ⇓ ok ⇔ Cl = ClassDecl(_, _, _, _, _, _, _, _, _, _) ∧ Γ ⊢ Cl : ok ∧ ∀ md ∈ ClassMethods(Cl). (md.body_opt = ⊥ ∨ (ClassMethodBindCheck(m, Cl, md) ⇓ ok ∧ ProvBindCheck(ClassMethodParams(Cl, md), md.body_opt) ⇓ ok))
+```math
+\begin{array}{l}
+\operatorname{DeclTypingItem}(m,\ \operatorname{ImportDecl}(\_))\ \Downarrow \ \mathsf{ok} \\
+\operatorname{DeclTypingItem}(m,\ \operatorname{UsingDecl}(\_))\ \Downarrow \ \mathsf{ok} \\
+\operatorname{DeclTypingItem}(m,\ \operatorname{ExternBlock}(\_,\ \_,\ \_,\ \mathsf{items},\ \_,\ \_))\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \Gamma \ \vdash \ \mathsf{ExternBlock}\ :\ \mathsf{ok}\ \land \ \forall \ \mathsf{it}\ \in \ \mathsf{items}.\ \Gamma \ \vdash \ \mathsf{it}\ :\ \mathsf{ok} \\
+\operatorname{DeclTypingItem}(m,\ \operatorname{StaticDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_))\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \Gamma \ \vdash \ \mathsf{StaticDecl}\ :\ \mathsf{ok} \\
+\operatorname{DeclTypingItem}(m,\ \operatorname{TypeAliasDecl}(\_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_))\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{FullPath}(m,\ \mathsf{name})\ :\ \mathsf{TypeAliasOk} \\
+\operatorname{DeclTypingItem}(m,\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{params},\ \_,\ \_,\ \mathsf{body},\ \_,\ \_)\ =\ \mathsf{item})\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \Gamma \ \vdash \ \mathsf{ProcedureDecl}\ :\ \mathsf{ok}\ \land \ \operatorname{ProcBindCheck}(m,\ \mathsf{item})\ \Downarrow \ \mathsf{ok}\ \land \ \operatorname{ProvBindCheck}(\mathsf{params},\ \mathsf{body})\ \Downarrow \ \mathsf{ok} \\
+\operatorname{DeclTypingItem}(m,\ R)\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ R\ =\ \operatorname{RecordDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \land \ \Gamma \ \vdash \ R\ \mathsf{record}\ :\ \mathsf{ok}\ \land \ \forall \ \mathsf{md}\ \in \ \operatorname{Methods}(R).\ \operatorname{MethodBindCheck}(m,\ \operatorname{TypePath}(\operatorname{RecordPath}(R)),\ \mathsf{md})\ \Downarrow \ \mathsf{ok}\ \land \ \operatorname{ProvBindCheck}(\operatorname{MethodParamsDecl}(\operatorname{TypePath}(\operatorname{RecordPath}(R)),\ \mathsf{md}),\ \mathsf{md}.\mathsf{body})\ \Downarrow \ \mathsf{ok} \\
+\operatorname{DeclTypingItem}(m,\ E)\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ E\ =\ \operatorname{EnumDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \land \ \Gamma \ \vdash \ E\ \mathsf{enum}\ :\ \mathsf{ok} \\
+\operatorname{DeclTypingItem}(m,\ M)\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ M\ =\ \operatorname{ModalDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \land \ \Gamma \ \vdash \ M\ \mathsf{modal}\ :\ \mathsf{ok}\ \land \ \forall \ S\ \in \ \operatorname{States}(M),\ \forall \ \mathsf{md}\ \in \ \operatorname{Methods}(M,\ S).\ \operatorname{StateMethodBindCheck}(m,\ M,\ S,\ \mathsf{md})\ \Downarrow \ \mathsf{ok}\ \land \ \operatorname{ProvBindCheck}(\operatorname{StateMethodParams}(M,\ S,\ \mathsf{md}),\ \mathsf{md}.\mathsf{body})\ \Downarrow \ \mathsf{ok}\ \land \ \forall \ \mathsf{tr}\ \in \ \operatorname{Transitions}(M,\ S).\ \operatorname{TransitionBindCheck}(m,\ M,\ S,\ \mathsf{tr})\ \Downarrow \ \mathsf{ok}\ \land \ \operatorname{ProvBindCheck}(\operatorname{TransitionParams}(M,\ S,\ \mathsf{tr}),\ \mathsf{tr}.\mathsf{body})\ \Downarrow \ \mathsf{ok} \\
+\operatorname{DeclTypingItem}(m,\ \mathsf{Cl})\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \mathsf{Cl}\ =\ \operatorname{ClassDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \land \ \Gamma \ \vdash \ \mathsf{Cl}\ :\ \mathsf{ok}\ \land \ \forall \ \mathsf{md}\ \in \ \operatorname{ClassMethods}(\mathsf{Cl}).\ (\mathsf{md}.\mathsf{body}_{\mathsf{opt}}\ =\ \bot \ \lor \ (\operatorname{ClassMethodBindCheck}(m,\ \mathsf{Cl},\ \mathsf{md})\ \Downarrow \ \mathsf{ok}\ \land \ \operatorname{ProvBindCheck}(\operatorname{ClassMethodParams}(\mathsf{Cl},\ \mathsf{md}),\ \mathsf{md}.\mathsf{body}_{\mathsf{opt}})\ \Downarrow \ \mathsf{ok}))
+\end{array}
 ```
 
-```text
-Γ ⊢ ProcedureDecl : ok
+```math
+\Gamma \ \vdash \ \mathsf{ProcedureDecl}\ :\ \mathsf{ok}
 ```
 
 **(WF-ProcedureDecl-MissingReturnType)**
 
-```text
-item = ProcedureDecl(_, _, _, _, _, _, ret_opt, _, _, _, _)    ¬ ReturnAnnOk(ret_opt)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ item ⇑
+```math
+\begin{array}{l}
+\mathsf{item}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \_,\ \_,\ \_)\quad \lnot \ \operatorname{ReturnAnnOk}(\mathsf{ret}_{\mathsf{opt}}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{item}\ \Uparrow 
+\end{array}
 ```
 
 **(WF-ProcBody-ExplicitReturn-Err)**
 
-```text
-item = ProcedureDecl(_, _, _, _, _, _, ret_opt, _, body, _, _)    R = ProcReturn(ret_opt)    R_b = BodyReturnType(R)    R_b ≠ TypePrim("()")    ¬ ExplicitReturn(body)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ item ⇑
+```math
+\begin{array}{l}
+\mathsf{item}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \mathsf{body},\ \_,\ \_)\quad R\ =\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\quad R_{b}\ =\ \operatorname{BodyReturnType}(R)\quad R_{b}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})\quad \lnot \ \operatorname{ExplicitReturn}(\mathsf{body}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \mathsf{item}\ \Uparrow 
+\end{array}
 ```
 
 If the declaration carries `[[export]]` or `[[host_export]]`, the foreign-callable signature obligations from §23.3 also apply.
 
 **Program Entry Point.**
 
-```text
-MainDecls(P) = [ d | m ∈ P.modules, d ∈ ASTModule(P, m).items, d = ProcedureDecl(_, vis, name, _, _, params, ret_opt, _, body, span, doc), name = `main` ]
-```
-
-TypeParams(ProcedureDecl(_, _, _, gen_params_opt, _, _, _, _, _, _, _)) = TypeParamsOpt(gen_params_opt)
-
-```text
-MainGeneric(d) ⇔ TypeParams(d) ≠ []
-MainArgType(d) = ty ⇔ d = ProcedureDecl(_, _, `main`, _, _, [⟨_, _, ty⟩], _, _, _, _, _)
-MainSigOk(d) ⇔ d = ProcedureDecl(_, vis, `main`, _, _, params, ret_opt, _, _, _, _) ∧ vis = `public` ∧ params = [⟨mode, name, ty⟩] ∧ mode ∈ {⊥, `move`} ∧ ContextBundleType(StripPerm(ty)) ∧ ret_opt = TypePrim("i32")
+```math
+\begin{array}{l}
+\operatorname{MainDecls}(P)\ =\ [\ d\ \mid \ m\ \in \ P.\mathsf{modules},\ d\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items},\ d\ =\ \operatorname{ProcedureDecl}(\_,\ \mathsf{vis},\ \mathsf{name},\ \_,\ \_,\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}),\ \mathsf{name}\ =\ \texttt{main}\ ] \\
+\operatorname{TypeParams}(\operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_))\ =\ \operatorname{TypeParamsOpt}(\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}}) \\
+\operatorname{MainGeneric}(d)\ \Leftrightarrow \ \operatorname{TypeParams}(d)\ \ne \ [] \\
+\operatorname{MainArgType}(d)\ =\ \mathsf{ty}\ \Leftrightarrow \ d\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \texttt{main},\ \_,\ \_,\ [\langle \_,\ \_,\ \mathsf{ty}\rangle ],\ \_,\ \_,\ \_,\ \_,\ \_) \\
+\operatorname{MainSigOk}(d)\ \Leftrightarrow \ d\ =\ \operatorname{ProcedureDecl}(\_,\ \mathsf{vis},\ \texttt{main},\ \_,\ \_,\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \_,\ \_,\ \_)\ \land \ \mathsf{vis}\ =\ \texttt{public}\ \land \ \mathsf{params}\ =\ [\langle \mathsf{mode},\ \mathsf{name},\ \mathsf{ty}\rangle ]\ \land \ \mathsf{mode}\ \in \ \{\bot ,\ \texttt{move}\}\ \land \ \operatorname{ContextBundleType}(\operatorname{StripPerm}(\mathsf{ty}))\ \land \ \mathsf{ret}_{\mathsf{opt}}\ =\ \operatorname{TypePrim}(\texttt{"i32"})
+\end{array}
 ```
 
 MainCheck : Project ⇀ ok
 
 **(Main-Ok)**
 
-```text
-Executable(P)    MainDecls(P) = [d]    ¬ MainGeneric(d)    MainSigOk(d)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ MainCheck(P) ⇓ ok
+```math
+\begin{array}{l}
+\operatorname{Executable}(P)\quad \operatorname{MainDecls}(P)\ =\ [d]\quad \lnot \ \operatorname{MainGeneric}(d)\quad \operatorname{MainSigOk}(d) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{MainCheck}(P)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(Main-Bypass-NonExecutable)**
 
-```text
-¬ Executable(P)
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ MainCheck(P) ⇓ ok
+```math
+\begin{array}{l}
+\lnot \ \operatorname{Executable}(P) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{MainCheck}(P)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(Main-Multiple)**
-Executable(P)    |MainDecls(P)| > 1    c = Code(Main-Multiple)
-────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ MainCheck(P) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{Executable}(P)\quad \mid \operatorname{MainDecls}(P)\mid \ >\ 1\quad c\ =\ \operatorname{Code}(\mathsf{Main}-\mathsf{Multiple}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{MainCheck}(P)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Main-Generic-Err)**
-Executable(P)    MainDecls(P) = [d]    MainGeneric(d)    c = Code(Main-Generic-Err)
-────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ MainCheck(P) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{Executable}(P)\quad \operatorname{MainDecls}(P)\ =\ [d]\quad \operatorname{MainGeneric}(d)\quad c\ =\ \operatorname{Code}(\mathsf{Main}-\mathsf{Generic}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{MainCheck}(P)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Main-Signature-Err)**
 
-```text
-Executable(P)    MainDecls(P) = [d]    ¬ MainSigOk(d)    c = Code(Main-Signature-Err)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ MainCheck(P) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{Executable}(P)\quad \operatorname{MainDecls}(P)\ =\ [d]\quad \lnot \ \operatorname{MainSigOk}(d)\quad c\ =\ \operatorname{Code}(\mathsf{Main}-\mathsf{Signature}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{MainCheck}(P)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Main-Missing)**
-Executable(P)    MainDecls(P) = []    c = Code(Main-Missing)
-────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ MainCheck(P) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{Executable}(P)\quad \operatorname{MainDecls}(P)\ =\ []\quad c\ =\ \operatorname{Code}(\mathsf{Main}-\mathsf{Missing}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{MainCheck}(P)\ \Uparrow \ c
+\end{array}
 ```
 
-MainDiagRefs = {"8.2"}
+```math
+\mathsf{MainDiagRefs}\ =\ \{\texttt{"8.2"}\}
+```
 
 #### 15.1.5 Dynamic Semantics
 
-```text
-FuncVal(sym) defined ⇔ sym ∈ Symbol
+```math
+\operatorname{FuncVal}(\mathsf{sym})\ \mathsf{defined}\ \Leftrightarrow \ \mathsf{sym}\ \in \ \mathsf{Symbol}
 ```
 
-```text
-BindParams([⟨mode_1, x_1, T_1⟩, …, ⟨mode_n, x_n, T_n⟩], [v_1, …, v_n]) = [⟨x_1, v_1⟩, …, ⟨x_n, v_n⟩]
-ArgPassJudg = {Γ ⊢ EvalArgsSigma(params, args, σ) ⇓ (out, σ'), Γ ⊢ EvalRecvSigma(base, mode, σ) ⇓ (out, σ')}
+```math
+\begin{array}{l}
+\operatorname{BindParams}([\langle \mathsf{mode}_{1},\ x_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle \mathsf{mode}_{n},\ x_{n},\ T_{n}\rangle ],\ [v_{1},\ \ldots ,\ v_{n}])\ =\ [\langle x_{1},\ v_{1}\rangle ,\ \ldots ,\ \langle x_{n},\ v_{n}\rangle ] \\
+\mathsf{ArgPassJudg}\ =\ \{\Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{params},\ \mathsf{args},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma '),\ \Gamma \ \vdash \ \operatorname{EvalRecvSigma}(\mathsf{base},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\} \\
+\mathsf{ArgVal}\ =\ \{v,\ \operatorname{Alias}(\mathsf{addr})\}
+\end{array}
 ```
 
-ArgVal = {v, Alias(addr)}
-
-```text
-CallJudg = {Γ ⊢ EvalArgsSigma(params, args, σ) ⇓ (out, σ'), Γ ⊢ EvalRecvSigma(base, mode, σ) ⇓ (out, σ'), Γ ⊢ ApplyRegionProc(name, vec_v, σ) ⇓ (out, σ'), Γ ⊢ ApplyCancelProc(name, vec_v, σ) ⇓ (out, σ'), Γ ⊢ ApplyProcSigma(proc, vec_v, σ) ⇓ (out, σ'), Γ ⊢ ApplyRecordCtorSigma(p, σ) ⇓ (out, σ'), Γ ⊢ ApplyMethodSigma(base, name, v_self, v_arg, vec_v, σ) ⇓ (out, σ')}
+```math
+\mathsf{CallJudg}\ =\ \{\Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{params},\ \mathsf{args},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma '),\ \Gamma \ \vdash \ \operatorname{EvalRecvSigma}(\mathsf{base},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma '),\ \Gamma \ \vdash \ \operatorname{ApplyRegionProc}(\mathsf{name},\ \mathsf{vec}_{v},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma '),\ \Gamma \ \vdash \ \operatorname{ApplyCancelProc}(\mathsf{name},\ \mathsf{vec}_{v},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma '),\ \Gamma \ \vdash \ \operatorname{ApplyProcSigma}(\mathsf{proc},\ \mathsf{vec}_{v},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma '),\ \Gamma \ \vdash \ \operatorname{ApplyRecordCtorSigma}(p,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma '),\ \Gamma \ \vdash \ \operatorname{ApplyMethodSigma}(\mathsf{base},\ \mathsf{name},\ v_{\mathsf{self}},\ v_{\mathsf{arg}},\ \mathsf{vec}_{v},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\}
 ```
 
-```text
-CallTarget(FuncVal(sym)) = proc ⇔ Γ ⊢ Mangle(proc) ⇓ sym ∧ (proc = ProcedureDecl(_, _, _, _, _, _, _, _, _, _, _) ∨ proc = ExternProcDecl(_, _, _, _, _, _, _, _, _, _, _))
+```math
+\begin{array}{l}
+\operatorname{CallTarget}(\operatorname{FuncVal}(\mathsf{sym}))\ =\ \mathsf{proc}\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{Mangle}(\mathsf{proc})\ \Downarrow \ \mathsf{sym}\ \land \ (\mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \lor \ \mathsf{proc}\ =\ \operatorname{ExternProcDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)) \\
+\operatorname{CallTarget}(\operatorname{RecordCtor}(p))\ =\ \operatorname{RecordCtor}(p) \\
+\operatorname{MethodTarget}(\operatorname{RecordValue}(\operatorname{TypePath}(p),\ \mathsf{fs}),\ \mathsf{name})\ =\ m\ \Leftrightarrow \ \operatorname{LookupMethod}(\operatorname{TypePath}(p),\ \mathsf{name})\ =\ m \\
+\operatorname{MethodTarget}(v_{\mathsf{self}},\ \mathsf{name})\ =\ m\ \land \ m.\mathsf{body}\ =\ \bot \ \land \ \lnot \ \exists \ \mathsf{vec}_{v},\ \mathsf{out}.\ \Gamma \ \vdash \ \operatorname{PrimCall}(\operatorname{MethodOwner}(m),\ \operatorname{MethodName}(m),\ v_{\mathsf{self}},\ \mathsf{vec}_{v})\ \Downarrow \ \mathsf{out}\ \Rightarrow \ \operatorname{IllFormed}(\operatorname{MethodTarget}(v_{\mathsf{self}},\ \mathsf{name}))
+\end{array}
 ```
 
-CallTarget(RecordCtor(p)) = RecordCtor(p)
-
-```text
-MethodTarget(RecordValue(TypePath(p), fs), name) = m ⇔ LookupMethod(TypePath(p), name) = m
-MethodTarget(v_self, name) = m ∧ m.body = ⊥ ∧ ¬ ∃ vec_v, out. Γ ⊢ PrimCall(MethodOwner(m), MethodName(m), v_self, vec_v) ⇓ out ⇒ IllFormed(MethodTarget(v_self, name))
+```math
+\begin{array}{l}
+\operatorname{RegionProcParams}(\mathsf{name})\ =\ \mathsf{params}\ \Leftrightarrow \ \operatorname{RegionProcSig}(\texttt{Region::}\mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\
+\operatorname{CancelProcParams}(\mathsf{name})\ =\ \mathsf{params}\ \Leftrightarrow \ \operatorname{CancelTokenProcSig}(\texttt{CancelToken::}\mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle 
+\end{array}
 ```
 
-```text
-RegionProcParams(name) = params ⇔ RegionProcSig(`Region::`name) = ⟨params, ret⟩
-CancelProcParams(name) = params ⇔ CancelTokenProcSig(`CancelToken::`name) = ⟨params, ret⟩
+```math
+\operatorname{SynthParams}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ])\ =\ [\langle m_{1},\ \bot ,\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ \bot ,\ T_{n}\rangle ]
 ```
 
-```text
-SynthParams([⟨m_1, T_1⟩, …, ⟨m_n, T_n⟩]) = [⟨m_1, ⊥, T_1⟩, …, ⟨m_n, ⊥, T_n⟩]
+```math
+\begin{array}{l}
+\operatorname{CalleeProc}(\operatorname{Identifier}(x))\ =\ \mathsf{proc}\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{ResolveValueName}(x)\ \Downarrow \ \mathsf{ent}\ \land \ \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \mathsf{mp}\ \land \ \mathsf{name}\ =\ (\mathsf{ent}.\mathsf{target}_{\mathsf{opt}}\ \mathsf{if}\ \mathsf{present},\ \mathsf{else}\ x)\ \land \ \operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name})\ =\ \mathsf{proc}\ \land \ (\mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \lor \ \mathsf{proc}\ =\ \operatorname{ExternProcDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)) \\
+\operatorname{CalleeProc}(\operatorname{Path}(\mathsf{path},\ \mathsf{name}))\ =\ \mathsf{proc}\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{ResolveQualified}(\mathsf{path},\ \mathsf{name},\ \mathsf{ValueKind})\ \Downarrow \ \mathsf{ent}\ \land \ \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \mathsf{mp}\ \land \ \mathsf{name}'\ =\ (\mathsf{ent}.\mathsf{target}_{\mathsf{opt}}\ \mathsf{if}\ \mathsf{present},\ \mathsf{else}\ \mathsf{name})\ \land \ \operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name}')\ =\ \mathsf{proc}\ \land \ (\mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \lor \ \mathsf{proc}\ =\ \operatorname{ExternProcDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_))
+\end{array}
 ```
 
-```text
-CalleeProc(Identifier(x)) = proc ⇔ Γ ⊢ ResolveValueName(x) ⇓ ent ∧ ent.origin_opt = mp ∧ name = (ent.target_opt if present, else x) ∧ DeclOf(mp, name) = proc ∧ (proc = ProcedureDecl(_, _, _, _, _, _, _, _, _, _, _) ∨ proc = ExternProcDecl(_, _, _, _, _, _, _, _, _, _, _))
-CalleeProc(Path(path, name)) = proc ⇔ Γ ⊢ ResolveQualified(path, name, ValueKind) ⇓ ent ∧ ent.origin_opt = mp ∧ name' = (ent.target_opt if present, else name) ∧ DeclOf(mp, name') = proc ∧ (proc = ProcedureDecl(_, _, _, _, _, _, _, _, _, _, _) ∨ proc = ExternProcDecl(_, _, _, _, _, _, _, _, _, _, _))
+```math
+\begin{array}{l}
+\operatorname{Params}(\operatorname{Call}(\mathsf{callee},\ \mathsf{args}))\ = \\
+\ \{\ \mathsf{proc}.\mathsf{params}\quad \mathsf{if}\ \operatorname{CalleeProc}(\mathsf{callee})\ =\ \mathsf{proc} \\
+\quad \operatorname{SynthParams}(\mathsf{params})\quad \mathsf{if}\ \operatorname{ExprType}(\mathsf{callee})\ =\ \operatorname{TypeFunc}(\mathsf{params},\ \_) \\
+\quad \bot \quad \mathsf{otherwise}\ \}
+\end{array}
 ```
 
-Params(Call(callee, args)) =
-  { proc.params            if CalleeProc(callee) = proc
-    SynthParams(params)    if ExprType(callee) = TypeFunc(params, _)
-
-```text
-    ⊥                      otherwise }
-```
-
-ReturnOut(Val(v)) = Val(v)
-ReturnOut(Ctrl(Return(v))) = Val(v)
-ReturnOut(Ctrl(Panic)) = Ctrl(Panic)
-ReturnOut(Ctrl(Abort)) = Ctrl(Abort)
-
-```text
-ReturnOut(Ctrl(Break(v_opt))) = ⊥
-ReturnOut(Ctrl(Continue)) = ⊥
-ReturnOut(out) = ⊥ ⇒ IllFormed(ReturnOut(out))
+```math
+\begin{array}{l}
+\operatorname{ReturnOut}(\operatorname{Val}(v))\ =\ \operatorname{Val}(v) \\
+\operatorname{ReturnOut}(\operatorname{Ctrl}(\operatorname{Return}(v)))\ =\ \operatorname{Val}(v) \\
+\operatorname{ReturnOut}(\operatorname{Ctrl}(\mathsf{Panic}))\ =\ \operatorname{Ctrl}(\mathsf{Panic}) \\
+\operatorname{ReturnOut}(\operatorname{Ctrl}(\mathsf{Abort}))\ =\ \operatorname{Ctrl}(\mathsf{Abort}) \\
+\operatorname{ReturnOut}(\operatorname{Ctrl}(\operatorname{Break}(v_{\mathsf{opt}})))\ =\ \bot  \\
+\operatorname{ReturnOut}(\operatorname{Ctrl}(\mathsf{Continue}))\ =\ \bot  \\
+\operatorname{ReturnOut}(\mathsf{out})\ =\ \bot \ \Rightarrow \ \operatorname{IllFormed}(\operatorname{ReturnOut}(\mathsf{out}))
+\end{array}
 ```
 
 **(EvalArgsSigma-Empty)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ EvalArgsSigma([], [], σ) ⇓ (Val([]), σ)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalArgsSigma}([],\ [],\ \sigma )\ \Downarrow \ (\operatorname{Val}([]),\ \sigma )
+\end{array}
 ```
 
 **(EvalArgsSigma-Cons-Move)**
 
-```text
-Γ ⊢ EvalSigma(MovedArg(moved, e), σ) ⇓ (Val(v), σ_1)    Γ ⊢ EvalArgsSigma(ps, as, σ_1) ⇓ (Val(vec_v), σ_2)
-```
-
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalArgsSigma([⟨`move`, x, T_p⟩] ++ ps, [⟨moved, e, _⟩] ++ as, σ) ⇓ (Val([v] ++ vec_v), σ_2)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{MovedArg}(\mathsf{moved},\ e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{ps},\ \mathsf{as},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalArgsSigma}([\langle \texttt{move},\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as},\ \sigma )\ \Downarrow \ (\operatorname{Val}([v]\ \mathbin{++} \ \mathsf{vec}_{v}),\ \sigma_{2} )
+\end{array}
 ```
 
 **(EvalArgsSigma-Cons-Ref)**
 
-```text
-Γ ⊢ AddrOfSigma(RefArgExpr(e), σ) ⇓ (Val(addr), σ_1)    Γ ⊢ EvalArgsSigma(ps, as, σ_1) ⇓ (Val(vec_v), σ_2)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalArgsSigma([⟨⊥, x, T_p⟩] ++ ps, [⟨moved, e, _⟩] ++ as, σ) ⇓ (Val([Alias(addr)] ++ vec_v), σ_2)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{AddrOfSigma}(\operatorname{RefArgExpr}(e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{addr}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{ps},\ \mathsf{as},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalArgsSigma}([\langle \bot ,\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as},\ \sigma )\ \Downarrow \ (\operatorname{Val}([\operatorname{Alias}(\mathsf{addr})]\ \mathbin{++} \ \mathsf{vec}_{v}),\ \sigma_{2} )
+\end{array}
 ```
 
 **(EvalArgsSigma-Ctrl-Move)**
 
-```text
-Γ ⊢ EvalSigma(MovedArg(moved, e), σ) ⇓ (Ctrl(κ), σ_1)
-```
-
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalArgsSigma([⟨`move`, x, T_p⟩] ++ ps, [⟨moved, e, _⟩] ++ as, σ) ⇓ (Ctrl(κ), σ_1)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{MovedArg}(\mathsf{moved},\ e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalArgsSigma}([\langle \texttt{move},\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
+\end{array}
 ```
 
 **(EvalArgsSigma-Ctrl-Ref)**
 
-```text
-Γ ⊢ AddrOfSigma(RefArgExpr(e), σ) ⇓ (Ctrl(κ), σ_1)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalArgsSigma([⟨⊥, x, T_p⟩] ++ ps, [⟨moved, e, _⟩] ++ as, σ) ⇓ (Ctrl(κ), σ_1)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{AddrOfSigma}(\operatorname{RefArgExpr}(e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalArgsSigma}([\langle \bot ,\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
+\end{array}
 ```
 
 **(ApplyRegionProc-NewScoped)**
 
-```text
-name = `new_scoped`    vec_v = [opts]    RegionNewScoped(σ, opts) ⇓ (σ', v)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ApplyRegionProc(name, vec_v, σ) ⇓ (Val(v), σ')
+```math
+\begin{array}{l}
+\mathsf{name}\ =\ \texttt{new\_scoped}\quad \mathsf{vec}_{v}\ =\ [\mathsf{opts}]\quad \operatorname{RegionNewScoped}(\sigma ,\ \mathsf{opts})\ \Downarrow \ (\sigma ',\ v) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ApplyRegionProc}(\mathsf{name},\ \mathsf{vec}_{v},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma ')
+\end{array}
 ```
 
 **(ApplyRegionProc-Alloc)**
 
-```text
-name = `alloc`    vec_v = [v_r, v]    RegionAllocProc(σ, v_r, v) ⇓ (σ', v')
-```
-
-───────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ApplyRegionProc(name, vec_v, σ) ⇓ (Val(v'), σ')
+```math
+\begin{array}{l}
+\mathsf{name}\ =\ \texttt{alloc}\quad \mathsf{vec}_{v}\ =\ [v_{r},\ v]\quad \operatorname{RegionAllocProc}(\sigma ,\ v_{r},\ v)\ \Downarrow \ (\sigma ',\ v') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ApplyRegionProc}(\mathsf{name},\ \mathsf{vec}_{v},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v'),\ \sigma ')
+\end{array}
 ```
 
 **(ApplyRegionProc-Reset)**
 
-```text
-name = `reset_unchecked`    vec_v = [v_r]    RegionResetProc(σ, v_r) ⇓ (σ', v')
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ApplyRegionProc(name, vec_v, σ) ⇓ (Val(v'), σ')
+```math
+\begin{array}{l}
+\mathsf{name}\ =\ \texttt{reset\_unchecked}\quad \mathsf{vec}_{v}\ =\ [v_{r}]\quad \operatorname{RegionResetProc}(\sigma ,\ v_{r})\ \Downarrow \ (\sigma ',\ v') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ApplyRegionProc}(\mathsf{name},\ \mathsf{vec}_{v},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v'),\ \sigma ')
+\end{array}
 ```
 
 **(ApplyRegionProc-Freeze)**
 
-```text
-name = `freeze`    vec_v = [v_r]    RegionFreezeProc(σ, v_r) ⇓ (σ', v')
-```
-
-───────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ApplyRegionProc(name, vec_v, σ) ⇓ (Val(v'), σ')
+```math
+\begin{array}{l}
+\mathsf{name}\ =\ \texttt{freeze}\quad \mathsf{vec}_{v}\ =\ [v_{r}]\quad \operatorname{RegionFreezeProc}(\sigma ,\ v_{r})\ \Downarrow \ (\sigma ',\ v') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ApplyRegionProc}(\mathsf{name},\ \mathsf{vec}_{v},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v'),\ \sigma ')
+\end{array}
 ```
 
 **(ApplyRegionProc-Thaw)**
 
-```text
-name = `thaw`    vec_v = [v_r]    RegionThawProc(σ, v_r) ⇓ (σ', v')
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ApplyRegionProc(name, vec_v, σ) ⇓ (Val(v'), σ')
+```math
+\begin{array}{l}
+\mathsf{name}\ =\ \texttt{thaw}\quad \mathsf{vec}_{v}\ =\ [v_{r}]\quad \operatorname{RegionThawProc}(\sigma ,\ v_{r})\ \Downarrow \ (\sigma ',\ v') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ApplyRegionProc}(\mathsf{name},\ \mathsf{vec}_{v},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v'),\ \sigma ')
+\end{array}
 ```
 
 **(ApplyRegionProc-Free)**
 
-```text
-name = `free_unchecked`    vec_v = [v_r]    RegionFreeProc(σ, v_r) ⇓ (σ', v')
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ApplyRegionProc(name, vec_v, σ) ⇓ (Val(v'), σ')
+```math
+\begin{array}{l}
+\mathsf{name}\ =\ \texttt{free\_unchecked}\quad \mathsf{vec}_{v}\ =\ [v_{r}]\quad \operatorname{RegionFreeProc}(\sigma ,\ v_{r})\ \Downarrow \ (\sigma ',\ v') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ApplyRegionProc}(\mathsf{name},\ \mathsf{vec}_{v},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v'),\ \sigma ')
+\end{array}
 ```
 
 **(ApplyCancelProc-New)**
 
-```text
-name = `new`    vec_v = []    CancelNew() ⇓ v
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ApplyCancelProc(name, vec_v, σ) ⇓ (Val(v), σ)
+```math
+\begin{array}{l}
+\mathsf{name}\ =\ \texttt{new}\quad \mathsf{vec}_{v}\ =\ []\quad \operatorname{CancelNew}()\ \Downarrow \ v \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ApplyCancelProc}(\mathsf{name},\ \mathsf{vec}_{v},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma )
+\end{array}
 ```
 
 **(ApplyProcSigma)**
 
-```text
-BindParams(proc.params, vec_v) = binds    BlockEnter(σ, binds) ⇓ (σ_1, scope)    Γ ⊢ EvalBlockBodySigma(proc.body, σ_1) ⇓ (out, σ_2)    BlockExit(σ_2, scope, out) ⇓ (out', σ_3)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ApplyProcSigma(proc, vec_v, σ) ⇓ (ReturnOut(out'), σ_3)
+```math
+\begin{array}{l}
+\operatorname{BindParams}(\mathsf{proc}.\mathsf{params},\ \mathsf{vec}_{v})\ =\ \mathsf{binds}\quad \operatorname{BlockEnter}(\sigma ,\ \mathsf{binds})\ \Downarrow \ (\sigma_{1} ,\ \mathsf{scope})\quad \Gamma \ \vdash \ \operatorname{EvalBlockBodySigma}(\mathsf{proc}.\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )\quad \operatorname{BlockExit}(\sigma_{2} ,\ \mathsf{scope},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma_{3} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ApplyProcSigma}(\mathsf{proc},\ \mathsf{vec}_{v},\ \sigma )\ \Downarrow \ (\operatorname{ReturnOut}(\mathsf{out}'),\ \sigma_{3} )
+\end{array}
 ```
 
 **(EvalSigma-Call-Proc)**
 
-```text
-Γ ⊢ EvalSigma(callee, σ) ⇓ (Val(v_c), σ_1)    proc = CallTarget(v_c)    Γ ⊢ EvalArgsSigma(proc.params, args, σ_1) ⇓ (Val(vec_v), σ_2)    Γ ⊢ ApplyProcSigma(proc, vec_v, σ_2) ⇓ (out, σ_3)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalSigma(Call(callee, args), σ) ⇓ (out, σ_3)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{callee},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{c}),\ \sigma_{1} )\quad \mathsf{proc}\ =\ \operatorname{CallTarget}(v_{c})\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{proc}.\mathsf{params},\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ApplyProcSigma}(\mathsf{proc},\ \mathsf{vec}_{v},\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Call}(\mathsf{callee},\ \mathsf{args}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} )
+\end{array}
 ```
 
 #### 15.1.6 Lowering
 
 **(CG-Item-Procedure)**
 
-```text
-item = ProcedureDecl(attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, params, ret_opt, contract_opt, body, span, doc)    R = ProcReturn(ret_opt)    Γ ⊢ LowerBlock(body) ⇓ ⟨IR, v⟩    Γ ⊢ Mangle(item) ⇓ sym    params' = CodegenParams(params)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ CodegenItem(item) ⇓ [ProcIR(sym, params', R, IR)]
+```math
+\begin{array}{l}
+\mathsf{item}\ =\ \operatorname{ProcedureDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc})\quad R\ =\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{Mangle}(\mathsf{item})\ \Downarrow \ \mathsf{sym}\quad \mathsf{params}'\ =\ \operatorname{CodegenParams}(\mathsf{params}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{CodegenItem}(\mathsf{item})\ \Downarrow \ [\operatorname{ProcIR}(\mathsf{sym},\ \mathsf{params}',\ R,\ \mathsf{IR})]
+\end{array}
 ```
 
 Program-entry handling for `main` is owned by §24.4.
@@ -599,426 +572,416 @@ Class methods and state-specific methods reuse the same receiver and parameter f
 
 **(Parse-MethodDefAfterVis)**
 
-```text
-Γ ⊢ ParseOverrideOpt(P) ⇓ (P_0, ov)    IsKw(Tok(P_0), `procedure`)    Γ ⊢ ParseIdent(Advance(P_0)) ⇓ (P_1, name)    Γ ⊢ ParseGenericParamsOpt(P_1) ⇓ (P_2, gen_params_opt)    Γ ⊢ ParseMethodSignature(P_2) ⇓ (P_3, receiver, params, ret_opt)    Γ ⊢ ParseContractClauseOpt(P_3) ⇓ (P_4, contract_opt)    Γ ⊢ ParseBlock(P_4) ⇓ (P_5, body)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseMethodDefAfterVis(P, vis, attrs_opt) ⇓ (P_5, ⟨MethodDecl, attrs_opt, vis, ov, name, gen_params_opt, receiver, params, ret_opt, contract_opt, body, SpanBetween(P, P_5), []⟩)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseOverrideOpt}(P)\ \Downarrow \ (P_{0},\ \mathsf{ov})\quad \operatorname{IsKw}(\operatorname{Tok}(P_{0}),\ \texttt{procedure})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P_{0}))\ \Downarrow \ (P_{1},\ \mathsf{name})\quad \Gamma \ \vdash \ \operatorname{ParseGenericParamsOpt}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseMethodSignature}(P_{2})\ \Downarrow \ (P_{3},\ \mathsf{receiver},\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseContractClauseOpt}(P_{3})\ \Downarrow \ (P_{4},\ \mathsf{contract}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(P_{4})\ \Downarrow \ (P_{5},\ \mathsf{body}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseMethodDefAfterVis}(P,\ \mathsf{vis},\ \mathsf{attrs}_{\mathsf{opt}})\ \Downarrow \ (P_{5},\ \langle \mathsf{MethodDecl},\ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{ov},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{receiver},\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body},\ \operatorname{SpanBetween}(P,\ P_{5}),\ []\rangle )
+\end{array}
 ```
 
 **(Parse-Override-Yes)**
 IsKw(Tok(P), `override`)
-────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseOverrideOpt(P) ⇓ (Advance(P), true)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseOverrideOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \mathsf{true})
+\end{array}
 ```
 
 **(Parse-Override-No)**
 
-```text
-¬ IsKw(Tok(P), `override`)
-```
-
-──────────────────────────────────────────
-
-```text
-Γ ⊢ ParseOverrideOpt(P) ⇓ (P, false)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{override}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseOverrideOpt}(P)\ \Downarrow \ (P,\ \mathsf{false})
+\end{array}
 ```
 
 **(Parse-MethodSignature)**
 
-```text
-IsPunc(Tok(P), "(")    Γ ⊢ ParseReceiver(Advance(P)) ⇓ (P_1, r)    Γ ⊢ ParseMethodParams(P_1) ⇓ (P_2, params)    IsPunc(Tok(P_2), ")")    Γ ⊢ ParseReturnOpt(Advance(P_2)) ⇓ (P_3, ret_opt)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseMethodSignature(P) ⇓ (P_3, r, params, ret_opt)
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseReceiver}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ r)\quad \Gamma \ \vdash \ \operatorname{ParseMethodParams}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{params})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{")"})\quad \Gamma \ \vdash \ \operatorname{ParseReturnOpt}(\operatorname{Advance}(P_{2}))\ \Downarrow \ (P_{3},\ \mathsf{ret}_{\mathsf{opt}}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseMethodSignature}(P)\ \Downarrow \ (P_{3},\ r,\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}})
+\end{array}
 ```
 
 **(Parse-StateMethodSignature-Receiver)**
 
-```text
-IsPunc(Tok(P), "(")    Γ ⊢ ParseReceiver(Advance(P)) ⇓ (P_1, r)    Γ ⊢ ParseMethodParams(P_1) ⇓ (P_2, params)    IsPunc(Tok(P_2), ")")    Γ ⊢ ParseReturnOpt(Advance(P_2)) ⇓ (P_3, ret_opt)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseStateMethodSignature(P) ⇓ (P_3, r, params, ret_opt)
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseReceiver}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ r)\quad \Gamma \ \vdash \ \operatorname{ParseMethodParams}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{params})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{")"})\quad \Gamma \ \vdash \ \operatorname{ParseReturnOpt}(\operatorname{Advance}(P_{2}))\ \Downarrow \ (P_{3},\ \mathsf{ret}_{\mathsf{opt}}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseStateMethodSignature}(P)\ \Downarrow \ (P_{3},\ r,\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}})
+\end{array}
 ```
 
 **(Parse-MethodParams-None)**
 IsPunc(Tok(P), ")")
-────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseMethodParams(P) ⇓ (P, [])
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseMethodParams}(P)\ \Downarrow \ (P,\ [])
+\end{array}
 ```
 
 **(Parse-MethodParams-Comma)**
 
-```text
-IsPunc(Tok(P), ",")    Γ ⊢ ParseParamList(Advance(P)) ⇓ (P_1, params)
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseMethodParams(P) ⇓ (P_1, params)
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \Gamma \ \vdash \ \operatorname{ParseParamList}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{params}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseMethodParams}(P)\ \Downarrow \ (P_{1},\ \mathsf{params})
+\end{array}
 ```
 
 **(Parse-Receiver-Short-Const)**
 IsOp(Tok(P), "~")
-──────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseReceiver(P) ⇓ (Advance(P), ReceiverShorthand(`const`))
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseReceiver}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \operatorname{ReceiverShorthand}(\texttt{const}))
+\end{array}
 ```
 
 **(Parse-Receiver-Short-Unique)**
 IsOp(Tok(P), "~!")
-──────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseReceiver(P) ⇓ (Advance(P), ReceiverShorthand(`unique`))
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseReceiver}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \operatorname{ReceiverShorthand}(\texttt{unique}))
+\end{array}
 ```
 
 **(Parse-Receiver-Short-Shared)**
 IsOp(Tok(P), "~%")
-──────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseReceiver(P) ⇓ (Advance(P), ReceiverShorthand(`shared`))
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseReceiver}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \operatorname{ReceiverShorthand}(\texttt{shared}))
+\end{array}
 ```
 
 **(Parse-Receiver-Explicit)**
 
-```text
-Γ ⊢ ParseParamModeOpt(P) ⇓ (P_1, mode)    IsIdent(Tok(P_1))    Lexeme(Tok(P_1)) = `self`    IsPunc(Tok(Advance(P_1)), ":")    Γ ⊢ ParseType(Advance(Advance(P_1))) ⇓ (P_2, ty)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseReceiver(P) ⇓ (P_2, ReceiverExplicit(mode, ty))
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseParamModeOpt}(P)\ \Downarrow \ (P_{1},\ \mathsf{mode})\quad \operatorname{IsIdent}(\operatorname{Tok}(P_{1}))\quad \operatorname{Lexeme}(\operatorname{Tok}(P_{1}))\ =\ \texttt{self}\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P_{1})),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseType}(\operatorname{Advance}(\operatorname{Advance}(P_{1})))\ \Downarrow \ (P_{2},\ \mathsf{ty}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseReceiver}(P)\ \Downarrow \ (P_{2},\ \operatorname{ReceiverExplicit}(\mathsf{mode},\ \mathsf{ty}))
+\end{array}
 ```
 
 #### 15.2.3 AST Representation / Form
 
-```text
-MethodDecl = ⟨attrs_opt, vis, override, name, gen_params_opt, receiver, params, return_type_opt, contract_opt, body, span, doc_opt⟩
-Receiver ∈ {ReceiverShorthand(perm), ReceiverExplicit(mode_opt, type)}
-perm ∈ {`const`, `unique`, `shared`}
-mode_opt ∈ {`move`, ⊥}
+```math
+\begin{array}{l}
+\mathsf{MethodDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{override},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{receiver},\ \mathsf{params},\ \mathsf{return}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle  \\
+\mathsf{Receiver}\ \in \ \{\operatorname{ReceiverShorthand}(\mathsf{perm}),\ \operatorname{ReceiverExplicit}(\mathsf{mode}_{\mathsf{opt}},\ \mathsf{type})\} \\
+\mathsf{perm}\ \in \ \{\texttt{const},\ \texttt{unique},\ \texttt{shared}\} \\
+\mathsf{mode}_{\mathsf{opt}}\ \in \ \{\texttt{move},\ \bot \}
+\end{array}
 ```
 
-```text
-Fields(R) = [ f | f ∈ R.members ∧ f is FieldDecl ]
-Methods(R) = [ m | m ∈ R.members ∧ m is MethodDecl ]
+```math
+\begin{array}{l}
+\operatorname{Fields}(R)\ =\ [\ f\ \mid \ f\ \in \ R.\mathsf{members}\ \land \ f\ \mathsf{is}\ \mathsf{FieldDecl}\ ] \\
+\operatorname{Methods}(R)\ =\ [\ m\ \mid \ m\ \in \ R.\mathsf{members}\ \land \ m\ \mathsf{is}\ \mathsf{MethodDecl}\ ] \\
+\mathsf{Self}_{R}\ =\ \operatorname{TypePath}(\operatorname{RecordPath}(R))
+\end{array}
 ```
 
-Self_R = TypePath(RecordPath(R))
-
-```text
-SelfType(R, ty) ⇔ ty = Self_R ∨ ∃ p. ty = TypePerm(p, Self_R)
+```math
+\operatorname{SelfType}(R,\ \mathsf{ty})\ \Leftrightarrow \ \mathsf{ty}\ =\ \mathsf{Self}_{R}\ \lor \ \exists \ p.\ \mathsf{ty}\ =\ \operatorname{TypePerm}(p,\ \mathsf{Self}_{R})
 ```
 
-RecvType(T, ReceiverShorthand(`const`)) = TypePerm(`const`, T)
-RecvType(T, ReceiverShorthand(`unique`)) = TypePerm(`unique`, T)
-RecvType(T, ReceiverShorthand(`shared`)) = TypePerm(`shared`, T)
-RecvType(T, ReceiverExplicit(mode_opt, ty)) = SubstSelf(T, ty)
-
-```text
-RecvMode(ReceiverShorthand(_)) = ⊥
+```math
+\begin{array}{l}
+\operatorname{RecvType}(T,\ \operatorname{ReceiverShorthand}(\texttt{const}))\ =\ \operatorname{TypePerm}(\texttt{const},\ T) \\
+\operatorname{RecvType}(T,\ \operatorname{ReceiverShorthand}(\texttt{unique}))\ =\ \operatorname{TypePerm}(\texttt{unique},\ T) \\
+\operatorname{RecvType}(T,\ \operatorname{ReceiverShorthand}(\texttt{shared}))\ =\ \operatorname{TypePerm}(\texttt{shared},\ T) \\
+\operatorname{RecvType}(T,\ \operatorname{ReceiverExplicit}(\mathsf{mode}_{\mathsf{opt}},\ \mathsf{ty}))\ =\ \operatorname{SubstSelf}(T,\ \mathsf{ty})
+\end{array}
 ```
 
-RecvMode(ReceiverExplicit(mode_opt, _)) = mode_opt
-
-PermOf(TypePerm(p, _)) = p
-PermOf(ty) = `const`    otherwise
-RecvPerm(T, r) = PermOf(RecvType(T, r))
-
-```text
-ParamSig_T(T, params) = [⟨mode, SubstSelf(T, ty)⟩ | ⟨mode, name, ty⟩ ∈ params]
-ParamBinds_T(T, params) = [⟨x_1, SubstSelf(T, T_1)⟩, …, ⟨x_n, SubstSelf(T, T_n)⟩]
+```math
+\begin{array}{l}
+\operatorname{RecvMode}(\operatorname{ReceiverShorthand}(\_))\ =\ \bot  \\
+\operatorname{RecvMode}(\operatorname{ReceiverExplicit}(\mathsf{mode}_{\mathsf{opt}},\ \_))\ =\ \mathsf{mode}_{\mathsf{opt}}
+\end{array}
 ```
 
-ReturnType_T(T, m) = SubstSelf(T, ReturnType(m))
+```math
+\begin{array}{l}
+\operatorname{PermOf}(\operatorname{TypePerm}(p,\ \_))\ =\ p \\
+\operatorname{PermOf}(\mathsf{ty})\ =\ \texttt{const}\quad \mathsf{otherwise} \\
+\operatorname{RecvPerm}(T,\ r)\ =\ \operatorname{PermOf}(\operatorname{RecvType}(T,\ r))
+\end{array}
+```
 
-```text
-Sig_T(T, m) = ⟨RecvType(T, m.receiver), ParamSig_T(T, m.params), SubstSelf(T, ReturnType(m))⟩
-MethodParamsDecl(T, m) = [⟨RecvMode(m.receiver), `self`, RecvType(T, m.receiver)⟩] ++ m.params
+```math
+\begin{array}{l}
+\operatorname{ParamSig_T}(T,\ \mathsf{params})\ =\ [\langle \mathsf{mode},\ \operatorname{SubstSelf}(T,\ \mathsf{ty})\rangle \ \mid \ \langle \mathsf{mode},\ \mathsf{name},\ \mathsf{ty}\rangle \ \in \ \mathsf{params}] \\
+\operatorname{ParamBinds_T}(T,\ \mathsf{params})\ =\ [\langle x_{1},\ \operatorname{SubstSelf}(T,\ T_{1})\rangle ,\ \ldots ,\ \langle x_{n},\ \operatorname{SubstSelf}(T,\ T_{n})\rangle ] \\
+\operatorname{ReturnType_T}(T,\ m)\ =\ \operatorname{SubstSelf}(T,\ \operatorname{ReturnType}(m)) \\
+\operatorname{Sig_T}(T,\ m)\ =\ \langle \operatorname{RecvType}(T,\ m.\mathsf{receiver}),\ \operatorname{ParamSig_T}(T,\ m.\mathsf{params}),\ \operatorname{SubstSelf}(T,\ \operatorname{ReturnType}(m))\rangle  \\
+\operatorname{MethodParamsDecl}(T,\ m)\ =\ [\langle \operatorname{RecvMode}(m.\mathsf{receiver}),\ \texttt{self},\ \operatorname{RecvType}(T,\ m.\mathsf{receiver})\rangle ]\ \mathbin{++} \ m.\mathsf{params}
+\end{array}
 ```
 
 #### 15.2.4 Static Semantics
 
 **(Recv-Explicit)**
 SelfType(R, ty)
-────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ReceiverExplicit(mode_opt, ty) : Recv(R, PermOf(ty), mode_opt)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ReceiverExplicit}(\mathsf{mode}_{\mathsf{opt}},\ \mathsf{ty})\ :\ \operatorname{Recv}(R,\ \operatorname{PermOf}(\mathsf{ty}),\ \mathsf{mode}_{\mathsf{opt}})
+\end{array}
 ```
 
 **(Record-Method-RecvSelf-Err)**
 
-```text
-¬ SelfType(R, ty)
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ReceiverExplicit(mode_opt, ty) ⇑
+```math
+\begin{array}{l}
+\lnot \ \operatorname{SelfType}(R,\ \mathsf{ty}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ReceiverExplicit}(\mathsf{mode}_{\mathsf{opt}},\ \mathsf{ty})\ \Uparrow 
+\end{array}
 ```
 
 **(Recv-Const)**
-────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ReceiverShorthand(`const`) : Recv(R, `const`, ⊥)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ReceiverShorthand}(\texttt{const})\ :\ \operatorname{Recv}(R,\ \texttt{const},\ \bot )
+\end{array}
 ```
 
 **(Recv-Unique)**
-────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ReceiverShorthand(`unique`) : Recv(R, `unique`, ⊥)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ReceiverShorthand}(\texttt{unique})\ :\ \operatorname{Recv}(R,\ \texttt{unique},\ \bot )
+\end{array}
 ```
 
 **(Recv-Shared)**
-────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ReceiverShorthand(`shared`) : Recv(R, `shared`, ⊥)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ReceiverShorthand}(\texttt{shared})\ :\ \operatorname{Recv}(R,\ \texttt{shared},\ \bot )
+\end{array}
 ```
 
 **(WF-Record-Method)**
 
-```text
-params_gen = TypeParamsOpt(gen_params_opt)    params_gen = [P_1, …, P_n]    Γ ⊢ ⟨P_1; …; P_n⟩ wf    Γ_m = BindTypeParams(Γ, params_gen)    Γ_m ⊢ r : Recv(R, P, mode)    self ∉ ParamNames(params)    Distinct(ParamNames(params))    ∀ ⟨_, _, T_i⟩ ∈ params, Γ_m ⊢ T_i wf    (return_type_opt = ⊥ ∨ Γ_m ⊢ return_type_opt wf)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ⟨MethodDecl, _, _, _, name, gen_params_opt, r, params, return_type_opt, _, body, _, _⟩ : MethodOK(R, P, mode)
+```math
+\begin{array}{l}
+\mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \mathsf{params}_{\mathsf{gen}}\ =\ [P_{1},\ \ldots ,\ P_{n}]\quad \Gamma \ \vdash \ \langle P_{1};\ \ldots ;\ P_{n}\rangle \ \mathsf{wf}\quad \Gamma_{m} \ =\ \operatorname{BindTypeParams}(\Gamma ,\ \mathsf{params}_{\mathsf{gen}})\quad \Gamma_{m} \ \vdash \ r\ :\ \operatorname{Recv}(R,\ P,\ \mathsf{mode})\quad \mathsf{self}\ \notin \ \operatorname{ParamNames}(\mathsf{params})\quad \operatorname{Distinct}(\operatorname{ParamNames}(\mathsf{params}))\quad \forall \ \langle \_,\ \_,\ T_{i}\rangle \ \in \ \mathsf{params},\ \Gamma_{m} \ \vdash \ T_{i}\ \mathsf{wf}\quad (\mathsf{return}_{\mathsf{type}\_\mathsf{opt}}\ =\ \bot \ \lor \ \Gamma_{m} \ \vdash \ \mathsf{return}_{\mathsf{type}\_\mathsf{opt}}\ \mathsf{wf}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \langle \mathsf{MethodDecl},\ \_,\ \_,\ \_,\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ r,\ \mathsf{params},\ \mathsf{return}_{\mathsf{type}\_\mathsf{opt}},\ \_,\ \mathsf{body},\ \_,\ \_\rangle \ :\ \operatorname{MethodOK}(R,\ P,\ \mathsf{mode})
+\end{array}
 ```
 
 **(T-Record-Method-Body)**
 
-```text
-Γ ⊢ m : MethodOK(R, P, mode)    T_self = RecvType(Self_R, m.receiver)    R_m = ReturnType_T(Self_R, m)    R_b = BodyReturnType(R_m)    Γ_0 = PushScope(Γ)    IntroAll(Γ_0, [⟨`self`, T_self⟩] ++ ParamBinds_T(Self_R, m.params)) ⇓ Γ_1    Γ_1; R_m; ⊥ ⊢ m.body : T_b    Γ ⊢ T_b <: R_b    (R_b ≠ TypePrim("()") ⇒ ExplicitReturn(m.body))
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ m : MethodBodyOK(R)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ m\ :\ \operatorname{MethodOK}(R,\ P,\ \mathsf{mode})\quad T_{\mathsf{self}}\ =\ \operatorname{RecvType}(\mathsf{Self}_{R},\ m.\mathsf{receiver})\quad R_{m}\ =\ \operatorname{ReturnType_T}(\mathsf{Self}_{R},\ m)\quad R_{b}\ =\ \operatorname{BodyReturnType}(R_{m})\quad \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \operatorname{IntroAll}(\Gamma_{0} ,\ [\langle \texttt{self},\ T_{\mathsf{self}}\rangle ]\ \mathbin{++} \ \operatorname{ParamBinds_T}(\mathsf{Self}_{R},\ m.\mathsf{params}))\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} ;\ R_{m};\ \bot \ \vdash \ m.\mathsf{body}\ :\ T_{b}\quad \Gamma \ \vdash \ T_{b}\ \mathrel{<:} \ R_{b}\quad (R_{b}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})\ \Rightarrow \ \operatorname{ExplicitReturn}(m.\mathsf{body})) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ m\ :\ \operatorname{MethodBodyOK}(R)
+\end{array}
 ```
 
 **(WF-Record-Methods)**
 
-```text
-Distinct(MethodNames(R))    ∀ m ∈ Methods(R), Γ ⊢ m : MethodOK(R, _, _)    Γ ⊢ m : MethodBodyOK(R)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Methods(R) : ok
+```math
+\begin{array}{l}
+\operatorname{Distinct}(\operatorname{MethodNames}(R))\quad \forall \ m\ \in \ \operatorname{Methods}(R),\ \Gamma \ \vdash \ m\ :\ \operatorname{MethodOK}(R,\ \_,\ \_)\quad \Gamma \ \vdash \ m\ :\ \operatorname{MethodBodyOK}(R) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Methods}(R)\ :\ \mathsf{ok}
+\end{array}
 ```
 
 **(Record-Method-Dup)**
 
-```text
-¬ Distinct(MethodNames(R))
+```math
+\begin{array}{l}
+\lnot \ \operatorname{Distinct}(\operatorname{MethodNames}(R)) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Methods}(R)\ \Uparrow 
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Methods(R) ⇑
+```math
+\mathsf{ArgsOkJudg}\ =\ \{\Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk}(\mathsf{params},\ \mathsf{args})\}
 ```
 
-```text
-ArgsOkJudg = {Γ; R; L ⊢ ArgsOk(params, args)}
-```
-
-```text
-RecvBaseType(base, mode) = P T ⇔ (mode = ⊥ ∧ Γ; R; L ⊢ RefArgExpr(base) :place P T) ∨ (mode = `move` ∧ Γ; R; L ⊢ base : P T)
+```math
+\operatorname{RecvBaseType}(\mathsf{base},\ \mathsf{mode})\ =\ P\ T\ \Leftrightarrow \ (\mathsf{mode}\ =\ \bot \ \land \ \Gamma ;\ R;\ L\ \vdash \ \operatorname{RefArgExpr}(\mathsf{base})\ :\mathsf{place}\ P\ T)\ \lor \ (\mathsf{mode}\ =\ \texttt{move}\ \land \ \Gamma ;\ R;\ L\ \vdash \ \mathsf{base}\ :\ P\ T)
 ```
 
 **(Args-Empty)**
-──────────────────────────────────────────────
 
-```text
-Γ; R; L ⊢ ArgsOk([], [])
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk}([],\ [])
+\end{array}
 ```
 
 **(Args-Cons)**
 
-```text
-Γ; R; L ⊢ MovedArg(moved, e) ⇐ T_p ⊣ ∅    moved = true    Γ; R; L ⊢ ArgsOk(ps, as)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ; R; L ⊢ ArgsOk([⟨`move`, x, T_p⟩] ++ ps, [⟨moved, e, _⟩] ++ as)
+```math
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{MovedArg}(\mathsf{moved},\ e)\ \Leftarrow \ T_{p}\ \dashv \ \emptyset \quad \mathsf{moved}\ =\ \mathsf{true}\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk}(\mathsf{ps},\ \mathsf{as}) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk}([\langle \texttt{move},\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})
+\end{array}
 ```
 
 **(Args-Cons-Ref)**
 
-```text
-Γ; R; L ⊢ RefArgExpr(e) ⇐_place T_p    AddrOfOk(RefArgExpr(e))    moved = false    Γ; R; L ⊢ ArgsOk(ps, as)
+```math
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{RefArgExpr}(e)\ \Leftarrow_{\mathsf{place}} \ T_{p}\quad \operatorname{AddrOfOk}(\operatorname{RefArgExpr}(e))\quad \mathsf{moved}\ =\ \mathsf{false}\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk}(\mathsf{ps},\ \mathsf{as}) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk}([\langle \bot ,\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ; R; L ⊢ ArgsOk([⟨⊥, x, T_p⟩] ++ ps, [⟨moved, e, _⟩] ++ as)
-```
-
-```text
-RecvArgOk(base, mode) ⇔ (mode = ⊥ ∧ AddrOfOk(RefArgExpr(base))) ∨ (mode = `move` ∧ ∃ p. base = MoveExpr(p))
+```math
+\operatorname{RecvArgOk}(\mathsf{base},\ \mathsf{mode})\ \Leftrightarrow \ (\mathsf{mode}\ =\ \bot \ \land \ \operatorname{AddrOfOk}(\operatorname{RefArgExpr}(\mathsf{base})))\ \lor \ (\mathsf{mode}\ =\ \texttt{move}\ \land \ \exists \ p.\ \mathsf{base}\ =\ \operatorname{MoveExpr}(p))
 ```
 
 **(T-Record-MethodCall)**
 
-```text
-RecvBaseType(base, RecvMode(m.receiver)) = P_caller R_rec    LookupMethod(R_rec, name) = m    RecvPerm(R_rec, m.receiver) = P_method    PermAdmits(P_caller, P_method)    RecvArgOk(base, RecvMode(m.receiver))    Γ; R; L ⊢ ArgsOk(m.params, args)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ; R; L ⊢ MethodCall(base, name, args) : ReturnType(m)
+```math
+\begin{array}{l}
+\operatorname{RecvBaseType}(\mathsf{base},\ \operatorname{RecvMode}(m.\mathsf{receiver}))\ =\ P_{\mathsf{caller}}\ R_{\mathsf{rec}}\quad \operatorname{LookupMethod}(R_{\mathsf{rec}},\ \mathsf{name})\ =\ m\quad \operatorname{RecvPerm}(R_{\mathsf{rec}},\ m.\mathsf{receiver})\ =\ P_{\mathsf{method}}\quad \operatorname{PermAdmits}(P_{\mathsf{caller}},\ P_{\mathsf{method}})\quad \operatorname{RecvArgOk}(\mathsf{base},\ \operatorname{RecvMode}(m.\mathsf{receiver}))\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk}(m.\mathsf{params},\ \mathsf{args}) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{MethodCall}(\mathsf{base},\ \mathsf{name},\ \mathsf{args})\ :\ \operatorname{ReturnType}(m)
+\end{array}
 ```
 
 Class and state-method owners (§14.3 and §13.3) add receiver restrictions specific to `Self` and modal-state receivers, but reuse these common receiver and argument-passing forms.
 
 #### 15.2.5 Dynamic Semantics
 
-```text
-RecvArgMode(base) = `move` ⇔ ∃ p. base = MoveExpr(p)
-RecvArgMode(base) = ⊥ ⇔ ¬ ∃ p. base = MoveExpr(p)
-MethodOf(base, name) = md ⇔ StripPerm(ExprType(base)) = TypeModalState(modal_ref, S) ∧ ModalDeclOf(modal_ref) = M ∧ LookupStateMethod(M, S, name) = md
-MethodOf(base, name) = tr ⇔ StripPerm(ExprType(base)) = TypeModalState(modal_ref, S) ∧ ModalDeclOf(modal_ref) = M ∧ LookupTransition(M, S, name) = tr
-MethodOf(base, name) = m ⇔ LookupMethod(StripPerm(ExprType(base)), name) = m
-RecvBase(base, name) = T ⇔ MethodOf(base, name) = m ∧ T = StripPerm(ExprType(base))
+```math
+\begin{array}{l}
+\operatorname{RecvArgMode}(\mathsf{base})\ =\ \texttt{move}\ \Leftrightarrow \ \exists \ p.\ \mathsf{base}\ =\ \operatorname{MoveExpr}(p) \\
+\operatorname{RecvArgMode}(\mathsf{base})\ =\ \bot \ \Leftrightarrow \ \lnot \ \exists \ p.\ \mathsf{base}\ =\ \operatorname{MoveExpr}(p) \\
+\operatorname{MethodOf}(\mathsf{base},\ \mathsf{name})\ =\ \mathsf{md}\ \Leftrightarrow \ \operatorname{StripPerm}(\operatorname{ExprType}(\mathsf{base}))\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)\ \land \ \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\ \land \ \operatorname{LookupStateMethod}(M,\ S,\ \mathsf{name})\ =\ \mathsf{md} \\
+\operatorname{MethodOf}(\mathsf{base},\ \mathsf{name})\ =\ \mathsf{tr}\ \Leftrightarrow \ \operatorname{StripPerm}(\operatorname{ExprType}(\mathsf{base}))\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)\ \land \ \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\ \land \ \operatorname{LookupTransition}(M,\ S,\ \mathsf{name})\ =\ \mathsf{tr} \\
+\operatorname{MethodOf}(\mathsf{base},\ \mathsf{name})\ =\ m\ \Leftrightarrow \ \operatorname{LookupMethod}(\operatorname{StripPerm}(\operatorname{ExprType}(\mathsf{base})),\ \mathsf{name})\ =\ m \\
+\operatorname{RecvBase}(\mathsf{base},\ \mathsf{name})\ =\ T\ \Leftrightarrow \ \operatorname{MethodOf}(\mathsf{base},\ \mathsf{name})\ =\ m\ \land \ T\ =\ \operatorname{StripPerm}(\operatorname{ExprType}(\mathsf{base}))
+\end{array}
 ```
 
-```text
-RecvParams(base, name) = StateMethodParams(M, S, md) ⇔ StripPerm(ExprType(base)) = TypeModalState(modal_ref, S) ∧ ModalDeclOf(modal_ref) = M ∧ LookupStateMethod(M, S, name) = md
-RecvParams(base, name) = TransitionParams(M, S, tr) ⇔ StripPerm(ExprType(base)) = TypeModalState(modal_ref, S) ∧ ModalDeclOf(modal_ref) = M ∧ LookupTransition(M, S, name) = tr
-RecvParams(base, name) = [⟨RecvMode(m.receiver), `self`, RecvType(T, m.receiver)⟩] ++ m.params ⇔ LookupMethod(StripPerm(ExprType(base)), name) = m ∧ T = StripPerm(ExprType(base))
+```math
+\begin{array}{l}
+\operatorname{RecvParams}(\mathsf{base},\ \mathsf{name})\ =\ \operatorname{StateMethodParams}(M,\ S,\ \mathsf{md})\ \Leftrightarrow \ \operatorname{StripPerm}(\operatorname{ExprType}(\mathsf{base}))\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)\ \land \ \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\ \land \ \operatorname{LookupStateMethod}(M,\ S,\ \mathsf{name})\ =\ \mathsf{md} \\
+\operatorname{RecvParams}(\mathsf{base},\ \mathsf{name})\ =\ \operatorname{TransitionParams}(M,\ S,\ \mathsf{tr})\ \Leftrightarrow \ \operatorname{StripPerm}(\operatorname{ExprType}(\mathsf{base}))\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)\ \land \ \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\ \land \ \operatorname{LookupTransition}(M,\ S,\ \mathsf{name})\ =\ \mathsf{tr} \\
+\operatorname{RecvParams}(\mathsf{base},\ \mathsf{name})\ =\ [\langle \operatorname{RecvMode}(m.\mathsf{receiver}),\ \texttt{self},\ \operatorname{RecvType}(T,\ m.\mathsf{receiver})\rangle ]\ \mathbin{++} \ m.\mathsf{params}\ \Leftrightarrow \ \operatorname{LookupMethod}(\operatorname{StripPerm}(\operatorname{ExprType}(\mathsf{base})),\ \mathsf{name})\ =\ m\ \land \ T\ =\ \operatorname{StripPerm}(\operatorname{ExprType}(\mathsf{base}))
+\end{array}
 ```
 
 **(EvalRecvSigma-Move)**
 
-```text
-mode = `move`    Γ ⊢ EvalSigma(base, σ) ⇓ (Val(v_self), σ_1)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalRecvSigma(base, mode, σ) ⇓ (Val(⟨v_self, v_self⟩), σ_1)
+```math
+\begin{array}{l}
+\mathsf{mode}\ =\ \texttt{move}\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{base},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{\mathsf{self}}),\ \sigma_{1} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalRecvSigma}(\mathsf{base},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\langle v_{\mathsf{self}},\ v_{\mathsf{self}}\rangle ),\ \sigma_{1} )
+\end{array}
 ```
 
 **(EvalRecvSigma-Ref-Dyn)**
 
-```text
-mode = ⊥    Γ ⊢ AddrOfSigma(RefArgExpr(base), σ) ⇓ (Val(addr), σ_1)    ReadAddr(σ_1, addr) = Dyn(Cl, RawPtr(`imm`, addr_d), T)    DynAddrState(σ_1, addr_d) = `Valid`
-```
-
-─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalRecvSigma(base, mode, σ) ⇓ (Val(⟨Dyn(Cl, RawPtr(`imm`, addr_d), T), Alias(addr_d)⟩), σ_1)
+```math
+\begin{array}{l}
+\mathsf{mode}\ =\ \bot \quad \Gamma \ \vdash \ \operatorname{AddrOfSigma}(\operatorname{RefArgExpr}(\mathsf{base}),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{addr}),\ \sigma_{1} )\quad \operatorname{ReadAddr}(\sigma_{1} ,\ \mathsf{addr})\ =\ \operatorname{Dyn}(\mathsf{Cl},\ \operatorname{RawPtr}(\texttt{imm},\ \mathsf{addr}_{d}),\ T)\quad \operatorname{DynAddrState}(\sigma_{1} ,\ \mathsf{addr}_{d})\ =\ \texttt{Valid} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalRecvSigma}(\mathsf{base},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\langle \operatorname{Dyn}(\mathsf{Cl},\ \operatorname{RawPtr}(\texttt{imm},\ \mathsf{addr}_{d}),\ T),\ \operatorname{Alias}(\mathsf{addr}_{d})\rangle ),\ \sigma_{1} )
+\end{array}
 ```
 
 **(EvalRecvSigma-Ref-Dyn-Expired)**
 
-```text
-mode = ⊥    Γ ⊢ AddrOfSigma(RefArgExpr(base), σ) ⇓ (Val(addr), σ_1)    ReadAddr(σ_1, addr) = Dyn(Cl, RawPtr(`imm`, addr_d), T)    DynAddrState(σ_1, addr_d) = `Expired`
-```
-
-─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalRecvSigma(base, mode, σ) ⇓ (Ctrl(Panic), σ_1)
+```math
+\begin{array}{l}
+\mathsf{mode}\ =\ \bot \quad \Gamma \ \vdash \ \operatorname{AddrOfSigma}(\operatorname{RefArgExpr}(\mathsf{base}),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{addr}),\ \sigma_{1} )\quad \operatorname{ReadAddr}(\sigma_{1} ,\ \mathsf{addr})\ =\ \operatorname{Dyn}(\mathsf{Cl},\ \operatorname{RawPtr}(\texttt{imm},\ \mathsf{addr}_{d}),\ T)\quad \operatorname{DynAddrState}(\sigma_{1} ,\ \mathsf{addr}_{d})\ =\ \texttt{Expired} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalRecvSigma}(\mathsf{base},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma_{1} )
+\end{array}
 ```
 
 **(EvalRecvSigma-Ref)**
 
-```text
-mode = ⊥    Γ ⊢ AddrOfSigma(RefArgExpr(base), σ) ⇓ (Val(addr), σ_1)    ReadAddr(σ_1, addr) = v_self    ¬ (∃ Cl, addr_d, T. v_self = Dyn(Cl, RawPtr(`imm`, addr_d), T))
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalRecvSigma(base, mode, σ) ⇓ (Val(⟨v_self, Alias(addr)⟩), σ_1)
+```math
+\begin{array}{l}
+\mathsf{mode}\ =\ \bot \quad \Gamma \ \vdash \ \operatorname{AddrOfSigma}(\operatorname{RefArgExpr}(\mathsf{base}),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{addr}),\ \sigma_{1} )\quad \operatorname{ReadAddr}(\sigma_{1} ,\ \mathsf{addr})\ =\ v_{\mathsf{self}}\quad \lnot \ (\exists \ \mathsf{Cl},\ \mathsf{addr}_{d},\ T.\ v_{\mathsf{self}}\ =\ \operatorname{Dyn}(\mathsf{Cl},\ \operatorname{RawPtr}(\texttt{imm},\ \mathsf{addr}_{d}),\ T)) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalRecvSigma}(\mathsf{base},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\langle v_{\mathsf{self}},\ \operatorname{Alias}(\mathsf{addr})\rangle ),\ \sigma_{1} )
+\end{array}
 ```
 
 **(EvalRecvSigma-Ctrl-Move)**
 
-```text
-mode = `move`    Γ ⊢ EvalSigma(base, σ) ⇓ (Ctrl(κ), σ_1)
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalRecvSigma(base, mode, σ) ⇓ (Ctrl(κ), σ_1)
+```math
+\begin{array}{l}
+\mathsf{mode}\ =\ \texttt{move}\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{base},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalRecvSigma}(\mathsf{base},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
+\end{array}
 ```
 
 **(EvalRecvSigma-Ctrl-Ref)**
 
-```text
-mode = ⊥    Γ ⊢ AddrOfSigma(RefArgExpr(base), σ) ⇓ (Ctrl(κ), σ_1)
+```math
+\begin{array}{l}
+\mathsf{mode}\ =\ \bot \quad \Gamma \ \vdash \ \operatorname{AddrOfSigma}(\operatorname{RefArgExpr}(\mathsf{base}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalRecvSigma}(\mathsf{base},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalRecvSigma(base, mode, σ) ⇓ (Ctrl(κ), σ_1)
-```
-
-```text
-BindParams(m, v_self, vecv) = {`self` ↦ v_self} ∪ { x_i ↦ v_i | m.params = [⟨_, x_i, _⟩], vecv = [v_i] }
+```math
+\operatorname{BindParams}(m,\ v_{\mathsf{self}},\ \mathsf{vecv})\ =\ \{\texttt{self}\ \mapsto \ v_{\mathsf{self}}\}\ \cup \ \{\ x_{i}\ \mapsto \ v_{i}\ \mid \ m.\mathsf{params}\ =\ [\langle \_,\ x_{i},\ \_\rangle ],\ \mathsf{vecv}\ =\ [v_{i}]\ \}
 ```
 
 **(ApplyMethodSigma-Prim)**
 
-```text
-m = MethodTarget(v_self, name)    MethodOwner(m) = owner    MethodName(m) = name    Γ ⊢ PrimCall(owner, name, v_self, vec_v) ⇓ out
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ApplyMethodSigma(base, name, v_self, v_arg, vec_v, σ) ⇓ (out, σ)
+```math
+\begin{array}{l}
+m\ =\ \operatorname{MethodTarget}(v_{\mathsf{self}},\ \mathsf{name})\quad \operatorname{MethodOwner}(m)\ =\ \mathsf{owner}\quad \operatorname{MethodName}(m)\ =\ \mathsf{name}\quad \Gamma \ \vdash \ \operatorname{PrimCall}(\mathsf{owner},\ \mathsf{name},\ v_{\mathsf{self}},\ \mathsf{vec}_{v})\ \Downarrow \ \mathsf{out} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ApplyMethodSigma}(\mathsf{base},\ \mathsf{name},\ v_{\mathsf{self}},\ v_{\mathsf{arg}},\ \mathsf{vec}_{v},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma )
+\end{array}
 ```
 
 **(ApplyMethodSigma)**
 
-```text
-m = MethodTarget(v_self, name)    ¬IsTransition(m)    BindParams(RecvParams(base, name), [v_arg] ++ vec_v) = binds    BlockEnter(σ, binds) ⇓ (σ_1, scope)    Γ ⊢ EvalBlockBodySigma(m.body, σ_1) ⇓ (out, σ_2)    BlockExit(σ_2, scope, out) ⇓ (out', σ_3)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ApplyMethodSigma(base, name, v_self, v_arg, vec_v, σ) ⇓ (ReturnOut(out'), σ_3)
+```math
+\begin{array}{l}
+m\ =\ \operatorname{MethodTarget}(v_{\mathsf{self}},\ \mathsf{name})\quad \lnot \operatorname{IsTransition}(m)\quad \operatorname{BindParams}(\operatorname{RecvParams}(\mathsf{base},\ \mathsf{name}),\ [v_{\mathsf{arg}}]\ \mathbin{++} \ \mathsf{vec}_{v})\ =\ \mathsf{binds}\quad \operatorname{BlockEnter}(\sigma ,\ \mathsf{binds})\ \Downarrow \ (\sigma_{1} ,\ \mathsf{scope})\quad \Gamma \ \vdash \ \operatorname{EvalBlockBodySigma}(m.\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )\quad \operatorname{BlockExit}(\sigma_{2} ,\ \mathsf{scope},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma_{3} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ApplyMethodSigma}(\mathsf{base},\ \mathsf{name},\ v_{\mathsf{self}},\ v_{\mathsf{arg}},\ \mathsf{vec}_{v},\ \sigma )\ \Downarrow \ (\operatorname{ReturnOut}(\mathsf{out}'),\ \sigma_{3} )
+\end{array}
 ```
 
 #### 15.2.6 Lowering
@@ -1026,27 +989,33 @@ m = MethodTarget(v_self, name)    ¬IsTransition(m)    BindParams(RecvParams(bas
 Methods lower as procedures whose first lowered parameter is the receiver.
 
 **(Mangle-Record-Method)**
-item = MethodDecl(attrs_opt, vis, override, name, gen_params_opt, receiver, params, ret_opt, contract_opt, body, span, doc_opt)
-──────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ Mangle(item) ⇓ ScopedSym(item)
+```math
+\begin{array}{l}
+\mathsf{item}\ =\ \operatorname{MethodDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{override},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{receiver},\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Mangle}(\mathsf{item})\ \Downarrow \ \operatorname{ScopedSym}(\mathsf{item})
+\end{array}
 ```
 
 **(Mangle-Class-Method)**
-item = ClassMethodDecl(attrs_opt, vis, name, gen_params_opt, receiver, params, ret_opt, contract_opt, body_opt, span, doc_opt)
-──────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ Mangle(item) ⇓ ScopedSym(item)
+```math
+\begin{array}{l}
+\mathsf{item}\ =\ \operatorname{ClassMethodDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{receiver},\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Mangle}(\mathsf{item})\ \Downarrow \ \operatorname{ScopedSym}(\mathsf{item})
+\end{array}
 ```
 
 **(Mangle-State-Method)**
-item = StateMethodDecl(attrs_opt, vis, name, gen_params_opt, recv, params, ret_opt, contract_opt, body, span, doc_opt)
-──────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ Mangle(item) ⇓ ScopedSym(item)
+```math
+\begin{array}{l}
+\mathsf{item}\ =\ \operatorname{StateMethodDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Mangle}(\mathsf{item})\ \Downarrow \ \operatorname{ScopedSym}(\mathsf{item})
+\end{array}
 ```
 
 #### 15.2.7 Diagnostics
@@ -1065,37 +1034,35 @@ Overload resolution is not a parser concern in this chapter.
 
 #### 15.3.3 AST Representation / Form
 
-```text
-ClassDefaults(T, name) = { m | ∃ Cl ∈ Implements(T). m ∈ ClassMethodTable(Cl) ∧ m.name = name ∧ m.body ≠ ⊥ }
-LookupMethod(T, name) = m ⇔ MethodByName(T, name) = m
-LookupMethod(T, name) = m ⇔ MethodByName(T, name) = ⊥ ∧ |ClassDefaults(T, name)| = 1 ∧ m ∈ ClassDefaults(T, name)
-LookupMethod(T, name) = ⊥ ⇔ MethodByName(T, name) = ⊥ ∧ (|ClassDefaults(T, name)| = 0 ∨ |ClassDefaults(T, name)| > 1)
+```math
+\begin{array}{l}
+\operatorname{ClassDefaults}(T,\ \mathsf{name})\ =\ \{\ m\ \mid \ \exists \ \mathsf{Cl}\ \in \ \operatorname{Implements}(T).\ m\ \in \ \operatorname{ClassMethodTable}(\mathsf{Cl})\ \land \ m.\mathsf{name}\ =\ \mathsf{name}\ \land \ m.\mathsf{body}\ \ne \ \bot \ \} \\
+\operatorname{LookupMethod}(T,\ \mathsf{name})\ =\ m\ \Leftrightarrow \ \operatorname{MethodByName}(T,\ \mathsf{name})\ =\ m \\
+\operatorname{LookupMethod}(T,\ \mathsf{name})\ =\ m\ \Leftrightarrow \ \operatorname{MethodByName}(T,\ \mathsf{name})\ =\ \bot \ \land \ \mid \operatorname{ClassDefaults}(T,\ \mathsf{name})\mid \ =\ 1\ \land \ m\ \in \ \operatorname{ClassDefaults}(T,\ \mathsf{name}) \\
+\operatorname{LookupMethod}(T,\ \mathsf{name})\ =\ \bot \ \Leftrightarrow \ \operatorname{MethodByName}(T,\ \mathsf{name})\ =\ \bot \ \land \ (\mid \operatorname{ClassDefaults}(T,\ \mathsf{name})\mid \ =\ 0\ \lor \ \mid \operatorname{ClassDefaults}(T,\ \mathsf{name})\mid \ >\ 1)
+\end{array}
 ```
 
 #### 15.3.4 Static Semantics
 
 **(LookupMethod-NotFound)**
 
-```text
-Γ; R; L ⊢ base : T_b    MethodByName(StripPerm(T_b), name) = ⊥    ClassDefaults(StripPerm(T_b), name) = ∅
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ; R; L ⊢ MethodCall(base, name, args) ⇑
+```math
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{base}\ :\ T_{b}\quad \operatorname{MethodByName}(\operatorname{StripPerm}(T_{b}),\ \mathsf{name})\ =\ \bot \quad \operatorname{ClassDefaults}(\operatorname{StripPerm}(T_{b}),\ \mathsf{name})\ =\ \emptyset  \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{MethodCall}(\mathsf{base},\ \mathsf{name},\ \mathsf{args})\ \Uparrow 
+\end{array}
 ```
 
 **(LookupMethod-Ambig)**
 
-```text
-Γ; R; L ⊢ base : T_b    MethodByName(StripPerm(T_b), name) = ⊥    |ClassDefaults(StripPerm(T_b), name)| > 1
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ; R; L ⊢ MethodCall(base, name, args) ⇑
+```math
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{base}\ :\ T_{b}\quad \operatorname{MethodByName}(\operatorname{StripPerm}(T_{b}),\ \mathsf{name})\ =\ \bot \quad \mid \operatorname{ClassDefaults}(\operatorname{StripPerm}(T_{b}),\ \mathsf{name})\mid \ >\ 1 \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{MethodCall}(\mathsf{base},\ \mathsf{name},\ \mathsf{args})\ \Uparrow 
+\end{array}
 ```
 
 Free-procedure overload resolution is complete before ordinary `Call` typing.
@@ -1115,7 +1082,9 @@ Two visible overloads with the same name MUST NOT have identical parameter-mode/
 
 #### 15.3.5 Dynamic Semantics
 
-When `LookupMethod(T, name) = m`, execution uses that unique method body. No runtime overload search is performed.
+```math
+\mathsf{When}\ \texttt{LookupMethod(T, name) = m},\ \mathsf{execution}\ \mathsf{uses}\ \mathsf{that}\ \mathsf{unique}\ \mathsf{method}\ \mathsf{body}.\ \mathsf{No}\ \mathsf{runtime}\ \mathsf{overload}\ \mathsf{search}\ \mathsf{is}\ \mathsf{performed}.
+```
 
 #### 15.3.6 Lowering
 
@@ -1150,361 +1119,313 @@ postcondition_expr ::= predicate_expr
 
 **(Parse-ContractClauseOpt-None)**
 
-```text
-¬ IsOp(Tok(P), "|:") ∨ ForeignContractStart(P)
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseContractClauseOpt(P) ⇓ (P, ⊥)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"|:"})\ \lor \ \operatorname{ForeignContractStart}(P) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseContractClauseOpt}(P)\ \Downarrow \ (P,\ \bot )
+\end{array}
 ```
 
 **(Parse-ContractClauseOpt-Yes)**
 
-```text
-IsOp(Tok(P), "|:")    Γ ⊢ ParseContractBody(Advance(P)) ⇓ (P_1, clause)
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseContractClauseOpt(P) ⇓ (P_1, clause)
+```math
+\begin{array}{l}
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"|:"})\quad \Gamma \ \vdash \ \operatorname{ParseContractBody}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{clause}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseContractClauseOpt}(P)\ \Downarrow \ (P_{1},\ \mathsf{clause})
+\end{array}
 ```
 
 **(Parse-ContractBody-PostOnly)**
 
-```text
-IsOp(Tok(P), "=>")    Γ ⊢ ParsePredicateExpr(Advance(P)) ⇓ (P_1, post)
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseContractBody(P) ⇓ (P_1, ⟨⊥, post⟩)
+```math
+\begin{array}{l}
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"=>"})\quad \Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{post}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseContractBody}(P)\ \Downarrow \ (P_{1},\ \langle \bot ,\ \mathsf{post}\rangle )
+\end{array}
 ```
 
 **(Parse-ContractBody-PrePost)**
 
-```text
-Γ ⊢ ParsePredicateExpr(P) ⇓ (P_1, pre)    IsOp(Tok(P_1), "=>")    Γ ⊢ ParsePredicateExpr(Advance(P_1)) ⇓ (P_2, post)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseContractBody(P) ⇓ (P_2, ⟨pre, post⟩)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(P)\ \Downarrow \ (P_{1},\ \mathsf{pre})\quad \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"=>"})\quad \Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{post}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseContractBody}(P)\ \Downarrow \ (P_{2},\ \langle \mathsf{pre},\ \mathsf{post}\rangle )
+\end{array}
 ```
 
 **(Parse-ContractBody-PreOnly)**
 
-```text
-Γ ⊢ ParsePredicateExpr(P) ⇓ (P_1, pre)    ¬ IsOp(Tok(P_1), "=>")
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseContractBody(P) ⇓ (P_1, ⟨pre, ⊥⟩)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(P)\ \Downarrow \ (P_{1},\ \mathsf{pre})\quad \lnot \ \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"=>"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseContractBody}(P)\ \Downarrow \ (P_{1},\ \langle \mathsf{pre},\ \bot \rangle )
+\end{array}
 ```
 
 #### 15.4.3 AST Representation / Form
 
-```text
-ContractClause = ⟨pre, post⟩
-contract_opt ∈ {⊥} ∪ ContractClause
+```math
+\begin{array}{l}
+\mathsf{ContractClause}\ =\ \langle \mathsf{pre},\ \mathsf{post}\rangle  \\
+\mathsf{contract}_{\mathsf{opt}}\ \in \ \{\bot \}\ \cup \ \mathsf{ContractClause}
+\end{array}
 ```
 
 #### 15.4.4 Static Semantics
 
 **(WF-Contract)**
 
-```text
-Γ_pre ⊢ P_pre : `bool`    pure(P_pre)
-Γ_post ⊢ P_post : `bool`    pure(P_post)
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ `|:` P_pre ⇒ P_post : WF
+```math
+\begin{array}{l}
+\Gamma_{\mathsf{pre}} \ \vdash \ P_{\mathsf{pre}}\ :\ \texttt{bool}\quad \operatorname{pure}(P_{\mathsf{pre}}) \\
+\Gamma_{\mathsf{post}} \ \vdash \ P_{\mathsf{post}}\ :\ \texttt{bool}\quad \operatorname{pure}(P_{\mathsf{post}}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \texttt{|:}\ P_{\mathsf{pre}}\ \Rightarrow \ P_{\mathsf{post}}\ :\ \mathsf{WF}
+\end{array}
 ```
 
 The purity judgment for contract expressions is:
 
 **(Pure-Literal)**
 
-```text
-v ∈ Literals
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ LiteralExpr(v) pure
+```math
+\begin{array}{l}
+v\ \in \ \mathsf{Literals} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LiteralExpr}(v)\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-Ident)**
 
-```text
-Γ(x) = (T, _)
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Ident(x) pure
+```math
+\begin{array}{l}
+\Gamma (x)\ =\ (T,\ \_) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Ident}(x)\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-Field)**
 
-```text
-Γ ⊢ e pure
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ FieldAccess(e, f) pure
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ e\ \mathsf{pure} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{FieldAccess}(e,\ f)\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-Tuple-Access)**
 
-```text
-Γ ⊢ e pure
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TupleAccess(e, i) pure
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ e\ \mathsf{pure} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TupleAccess}(e,\ i)\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-Index)**
 
-```text
-Γ ⊢ e_1 pure    Γ ⊢ e_2 pure
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ IndexAccess(e_1, e_2) pure
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ e_{1}\ \mathsf{pure}\quad \Gamma \ \vdash \ e_{2}\ \mathsf{pure} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-Unary)**
 
-```text
-Γ ⊢ e pure    op ∈ {`!`, `-`, `*`}
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ UnaryExpr(op, e) pure
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ e\ \mathsf{pure}\quad \mathsf{op}\ \in \ \{\texttt{!},\ \texttt{-},\ \texttt{*}\} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{UnaryExpr}(\mathsf{op},\ e)\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-Binary)**
 
-```text
-Γ ⊢ e_1 pure    Γ ⊢ e_2 pure    op ∈ PureOps
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ e_{1}\ \mathsf{pure}\quad \Gamma \ \vdash \ e_{2}\ \mathsf{pure}\quad \mathsf{op}\ \in \ \mathsf{PureOps} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{BinaryExpr}(\mathsf{op},\ e_{1},\ e_{2})\ \mathsf{pure}
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ BinaryExpr(op, e_1, e_2) pure
+```math
+\mathsf{PureOps}\ =\ \{\texttt{+},\ \texttt{-},\ \texttt{*},\ \texttt{/},\ \texttt{\%},\ \texttt{**},\ \texttt{==},\ \texttt{!=},\ \texttt{<},\ \texttt{<=},\ \texttt{>},\ \texttt{>=},\ \texttt{\&\&},\ \texttt{||},\ \texttt{\&},\ \texttt{|},\ \texttt{\^{}},\ \texttt{<<},\ \texttt{>>},\ \texttt{..},\ \texttt{..=}\}
 ```
-
-PureOps = {`+`, `-`, `*`, `/`, `%`, `**`, `==`, `!=`, `<`, `<=`, `>`, `>=`, `&&`, `||`, `&`, `|`, `^`, `<<`, `>>`, `..`, `..=`}
 
 **(Pure-Cast)**
 
-```text
-Γ ⊢ e pure
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ CastExpr(e, T) pure
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ e\ \mathsf{pure} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{CastExpr}(e,\ T)\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-If)**
 
-```text
-Γ ⊢ e_cond pure    Γ ⊢ e_then pure    Γ ⊢ e_else pure
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ IfExpr(e_cond, e_then, e_else) pure
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ e_{\mathsf{cond}}\ \mathsf{pure}\quad \Gamma \ \vdash \ e_{\mathsf{then}}\ \mathsf{pure}\quad \Gamma \ \vdash \ e_{\mathsf{else}}\ \mathsf{pure} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{IfExpr}(e_{\mathsf{cond}},\ e_{\mathsf{then}},\ e_{\mathsf{else}})\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-If-Is)**
 
-```text
-Γ ⊢ e pure    Γ, PatternBindings(pat) ⊢ b_t pure    Γ ⊢ b_f pure
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ IfIsExpr(e, pat, b_t, b_f) pure
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ e\ \mathsf{pure}\quad \Gamma ,\ \operatorname{PatternBindings}(\mathsf{pat})\ \vdash \ b_{t}\ \mathsf{pure}\quad \Gamma \ \vdash \ b_{f}\ \mathsf{pure} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{IfIsExpr}(e,\ \mathsf{pat},\ b_{t},\ b_{f})\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-If-Is-No-Else)**
 
-```text
-Γ ⊢ e pure    Γ, PatternBindings(pat) ⊢ b_t pure
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ IfIsExpr(e, pat, b_t, ⊥) pure
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ e\ \mathsf{pure}\quad \Gamma ,\ \operatorname{PatternBindings}(\mathsf{pat})\ \vdash \ b_{t}\ \mathsf{pure} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{IfIsExpr}(e,\ \mathsf{pat},\ b_{t},\ \bot )\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-If-Case)**
 
-```text
-Γ ⊢ e pure    ∀ case ∈ cases. Γ, PatternBindings(case.pat) ⊢ case.body pure    Γ ⊢ b_f pure
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ IfCaseExpr(e, cases, b_f) pure
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ e\ \mathsf{pure}\quad \forall \ \mathsf{case}\ \in \ \mathsf{cases}.\ \Gamma ,\ \operatorname{PatternBindings}(\mathsf{case}.\mathsf{pat})\ \vdash \ \mathsf{case}.\mathsf{body}\ \mathsf{pure}\quad \Gamma \ \vdash \ b_{f}\ \mathsf{pure} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{IfCaseExpr}(e,\ \mathsf{cases},\ b_{f})\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-If-Case-No-Else)**
 
-```text
-Γ ⊢ e pure    ∀ case ∈ cases. Γ, PatternBindings(case.pat) ⊢ case.body pure
-```
-
-────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ IfCaseExpr(e, cases, ⊥) pure
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ e\ \mathsf{pure}\quad \forall \ \mathsf{case}\ \in \ \mathsf{cases}.\ \Gamma ,\ \operatorname{PatternBindings}(\mathsf{case}.\mathsf{pat})\ \vdash \ \mathsf{case}.\mathsf{body}\ \mathsf{pure} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{IfCaseExpr}(e,\ \mathsf{cases},\ \bot )\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-Block)**
 
-```text
-∀ s ∈ stmts. Γ ⊢ s pure_stmt    Γ ⊢ e pure
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ BlockExpr(stmts, e) pure
+```math
+\begin{array}{l}
+\forall \ s\ \in \ \mathsf{stmts}.\ \Gamma \ \vdash \ s\ \mathsf{pure}_{\mathsf{stmt}}\quad \Gamma \ \vdash \ e\ \mathsf{pure} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{BlockExpr}(\mathsf{stmts},\ e)\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-Tuple)**
 
-```text
-∀ i. Γ ⊢ e_i pure
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TupleExpr([e_1, …, e_n]) pure
+```math
+\begin{array}{l}
+\forall \ i.\ \Gamma \ \vdash \ e_{i}\ \mathsf{pure} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TupleExpr}([e_{1},\ \ldots ,\ e_{n}])\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-Array)**
 
-```text
-∀ i. Γ ⊢ e_i pure
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ArrayExpr([e_1, …, e_n]) pure
+```math
+\begin{array}{l}
+\forall \ i.\ \Gamma \ \vdash \ e_{i}\ \mathsf{pure} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ArrayExpr}([e_{1},\ \ldots ,\ e_{n}])\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-Record)**
 
-```text
-∀ (f, e) ∈ fields. Γ ⊢ e pure
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ RecordExpr(T, fields) pure
+```math
+\begin{array}{l}
+\forall \ (f,\ e)\ \in \ \mathsf{fields}.\ \Gamma \ \vdash \ e\ \mathsf{pure} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{RecordExpr}(T,\ \mathsf{fields})\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-Call-Builtin)**
 
-```text
-Γ ⊢ e_1 pure    …    Γ ⊢ e_n pure    BuiltinPure(f)
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ CallExpr(f, [e_1, …, e_n]) pure
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ e_{1}\ \mathsf{pure}\quad \ldots \quad \Gamma \ \vdash \ e_{n}\ \mathsf{pure}\quad \operatorname{BuiltinPure}(f) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{CallExpr}(f,\ [e_{1},\ \ldots ,\ e_{n}])\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-Call-Procedure)**
 
-```text
-Γ ⊢ e_1 pure    …    Γ ⊢ e_n pure    ProcDecl(f) = P    ¬HasCapabilityParams(P)    IsPureProc(P)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ CallExpr(f, [e_1, …, e_n]) pure
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ e_{1}\ \mathsf{pure}\quad \ldots \quad \Gamma \ \vdash \ e_{n}\ \mathsf{pure}\quad \operatorname{ProcDecl}(f)\ =\ P\quad \lnot \operatorname{HasCapabilityParams}(P)\quad \operatorname{IsPureProc}(P) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{CallExpr}(f,\ [e_{1},\ \ldots ,\ e_{n}])\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-Method-Const)**
 
-```text
-Γ ⊢ e pure    Γ ⊢ e_1 pure    …    Γ ⊢ e_n pure    ReceiverPerm(m) = `const`    ¬HasCapabilityParams(m)    IsPureProc(m)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ MethodCallExpr(e, m, [e_1, …, e_n]) pure
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ e\ \mathsf{pure}\quad \Gamma \ \vdash \ e_{1}\ \mathsf{pure}\quad \ldots \quad \Gamma \ \vdash \ e_{n}\ \mathsf{pure}\quad \operatorname{ReceiverPerm}(m)\ =\ \texttt{const}\quad \lnot \operatorname{HasCapabilityParams}(m)\quad \operatorname{IsPureProc}(m) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{MethodCallExpr}(e,\ m,\ [e_{1},\ \ldots ,\ e_{n}])\ \mathsf{pure}
+\end{array}
 ```
 
 **(Pure-Comptime)**
 
-```text
-ComptimeProc(f)    Γ ⊢ e_1 pure    …    Γ ⊢ e_n pure
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ CallExpr(f, [e_1, …, e_n]) pure
+```math
+\begin{array}{l}
+\operatorname{ComptimeProc}(f)\quad \Gamma \ \vdash \ e_{1}\ \mathsf{pure}\quad \ldots \quad \Gamma \ \vdash \ e_{n}\ \mathsf{pure} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{CallExpr}(f,\ [e_{1},\ \ldots ,\ e_{n}])\ \mathsf{pure}
+\end{array}
 ```
 
 **Helper Predicates**
 
-```text
-HasCapabilityParams(P) ⇔ ∃ param ∈ Params(P). IsCapabilityType(ParamType(param))
-IsCapabilityType(T) ⇔ CapInType(T) ≠ ∅
-ContainsCapability(T) ⇔ CapInType(T) ≠ ∅
-BuiltinPure(f) ⇔ f ∈ {sizeof, alignof, type_name, …}
-IsPureProc(P) ⇔ ∀ stmt ∈ Body(P). Γ ⊢ stmt pure_stmt ∧ ¬WritesGlobalState(P)
-ComptimeProc(f) ⇔ HasAttribute(ProcDecl(f), `comptime`)
+```math
+\begin{array}{l}
+\operatorname{HasCapabilityParams}(P)\ \Leftrightarrow \ \exists \ \mathsf{param}\ \in \ \operatorname{Params}(P).\ \operatorname{IsCapabilityType}(\operatorname{ParamType}(\mathsf{param})) \\
+\operatorname{IsCapabilityType}(T)\ \Leftrightarrow \ \operatorname{CapInType}(T)\ \ne \ \emptyset  \\
+\operatorname{ContainsCapability}(T)\ \Leftrightarrow \ \operatorname{CapInType}(T)\ \ne \ \emptyset  \\
+\operatorname{BuiltinPure}(f)\ \Leftrightarrow \ f\ \in \ \{\mathsf{sizeof},\ \mathsf{alignof},\ \mathsf{type}_{\mathsf{name}},\ \ldots \} \\
+\operatorname{IsPureProc}(P)\ \Leftrightarrow \ \forall \ \mathsf{stmt}\ \in \ \operatorname{Body}(P).\ \Gamma \ \vdash \ \mathsf{stmt}\ \mathsf{pure}_{\mathsf{stmt}}\ \land \ \lnot \operatorname{WritesGlobalState}(P) \\
+\operatorname{ComptimeProc}(f)\ \Leftrightarrow \ \operatorname{HasAttribute}(\operatorname{ProcDecl}(f),\ \texttt{comptime})
+\end{array}
 ```
 
 The following forms are never pure: assignment expressions, mutable method calls, allocation expressions, spawn/dispatch/parallel expressions, yield/wait expressions, procedure calls with capability parameters, and unsafe blocks.
 
-```text
-**Precondition Evaluation Context (Γ_pre)** includes the receiver binding (if present) and all procedure parameters at entry state. It excludes `@result`, `@entry`, module-scope bindings, enclosing locals, and body-local bindings.
+```math
+**\mathsf{Precondition}\ \mathsf{Evaluation}\ \mathsf{Context}\ (\Gamma_{\mathsf{pre}} )**\ \mathsf{includes}\ \mathsf{the}\ \mathsf{receiver}\ \mathsf{binding}\ (\mathsf{if}\ \mathsf{present})\ \mathsf{and}\ \mathsf{all}\ \mathsf{procedure}\ \mathsf{parameters}\ \mathsf{at}\ \mathsf{entry}\ \mathsf{state}.\ \mathsf{It}\ \mathsf{excludes}\ \texttt{@result},\ \texttt{@entry},\ \mathsf{module}-\mathsf{scope}\ \mathsf{bindings},\ \mathsf{enclosing}\ \mathsf{locals},\ \mathsf{and}\ \mathsf{body}-\mathsf{local}\ \mathsf{bindings}.
 ```
 
-```text
-**Postcondition Evaluation Context (Γ_post)** includes the receiver, all procedure parameters, `@result`, and `@entry`. Mutable parameters and mutable receivers denote post-state values on the right of `=>`, while `@entry(...)` denotes entry-state values.
+```math
+**\mathsf{Postcondition}\ \mathsf{Evaluation}\ \mathsf{Context}\ (\Gamma_{\mathsf{post}} )**\ \mathsf{includes}\ \mathsf{the}\ \mathsf{receiver},\ \mathsf{all}\ \mathsf{procedure}\ \mathsf{parameters},\ \texttt{@result},\ \mathsf{and}\ \texttt{@entry}.\ \mathsf{Mutable}\ \mathsf{parameters}\ \mathsf{and}\ \mathsf{mutable}\ \mathsf{receivers}\ \mathsf{denote}\ \mathsf{post}-\mathsf{state}\ \mathsf{values}\ \mathsf{on}\ \mathsf{the}\ \mathsf{right}\ \mathsf{of}\ \texttt{=>},\ \mathsf{while}\ \texttt{@entry(...)}\ \mathsf{denotes}\ \mathsf{entry}-\mathsf{state}\ \mathsf{values}.
 ```
 
 #### 15.4.5 Dynamic Semantics
@@ -1523,7 +1444,9 @@ Diagnostics are defined for malformed contract clauses and for contract predicat
 
 #### 15.5.1 Syntax
 
-The precondition is the expression to the left of `=>` in a contract clause, or the entire contract expression when `=>` is absent.
+```math
+\mathsf{The}\ \mathsf{precondition}\ \mathsf{is}\ \mathsf{the}\ \mathsf{expression}\ \mathsf{to}\ \mathsf{the}\ \mathsf{left}\ \mathsf{of}\ \texttt{=>}\ \mathsf{in}\ a\ \mathsf{contract}\ \mathsf{clause},\ \mathsf{or}\ \mathsf{the}\ \mathsf{entire}\ \mathsf{contract}\ \mathsf{expression}\ \mathsf{when}\ \texttt{=>}\ \mathsf{is}\ \mathsf{absent}.
+```
 
 #### 15.5.2 Parsing
 
@@ -1531,10 +1454,12 @@ Preconditions are parsed as part of `ParseContractBody` in §15.4.2.
 
 #### 15.5.3 AST Representation / Form
 
-```text
-PreconditionOf(contract_opt) = `true`             if contract_opt = ⊥
-PreconditionOf(⟨pre, post⟩) = `true`              if pre = ⊥
-PreconditionOf(⟨pre, post⟩) = pre                 if pre ≠ ⊥
+```math
+\begin{array}{l}
+\operatorname{PreconditionOf}(\mathsf{contract}_{\mathsf{opt}})\ =\ \texttt{true}\quad \mathsf{if}\ \mathsf{contract}_{\mathsf{opt}}\ =\ \bot  \\
+\operatorname{PreconditionOf}(\langle \mathsf{pre},\ \mathsf{post}\rangle )\ =\ \texttt{true}\quad \mathsf{if}\ \mathsf{pre}\ =\ \bot  \\
+\operatorname{PreconditionOf}(\langle \mathsf{pre},\ \mathsf{post}\rangle )\ =\ \mathsf{pre}\quad \mathsf{if}\ \mathsf{pre}\ \ne \ \bot 
+\end{array}
 ```
 
 #### 15.5.4 Static Semantics
@@ -1546,14 +1471,12 @@ substitution into the callee precondition.
 
 **(Pre-Satisfied)**
 
-```text
-Γ ⊢ f : (T_1, …, T_n) → R    precondition(f) = P_pre    StaticProofAt(S_call, Γ_S, P_pre)
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ f(a_1, …, a_n) @ S : valid
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ f\ :\ (T_{1},\ \ldots ,\ T_{n})\ \to \ R\quad \operatorname{precondition}(f)\ =\ P_{\mathsf{pre}}\quad \operatorname{StaticProofAt}(S_{\mathsf{call}},\ \Gamma_{S} ,\ P_{\mathsf{pre}}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{f}(a_{1},\ \ldots ,\ a_{n})\ @\ S\ :\ \mathsf{valid}
+\end{array}
 ```
 
 Elision rules:
@@ -1591,33 +1514,37 @@ contract_intrinsic ::= "@result" | "@entry" "(" expression ")"
 #### 15.6.2 Parsing
 
 **(Parse-Contract-Result)**
-IsOp(Tok(P), "@")    IsIdent(Tok(Advance(P)))    Lexeme(Tok(Advance(P))) = `result`
-──────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ParsePrimary(P) ⇓ (Advance(Advance(P)), ContractResult)
+```math
+\begin{array}{l}
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"@"})\quad \operatorname{IsIdent}(\operatorname{Tok}(\operatorname{Advance}(P)))\quad \operatorname{Lexeme}(\operatorname{Tok}(\operatorname{Advance}(P)))\ =\ \texttt{result} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(\operatorname{Advance}(P)),\ \mathsf{ContractResult})
+\end{array}
 ```
 
 **(Parse-Contract-Entry)**
 
-```text
-IsOp(Tok(P), "@")    IsIdent(Tok(Advance(P)))    Lexeme(Tok(Advance(P))) = `entry`    IsPunc(Tok(Advance(Advance(P))), "(")    Γ ⊢ ParseExpr(Advance(Advance(Advance(P)))) ⇓ (P_1, e)    IsPunc(Tok(P_1), ")")
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParsePrimary(P) ⇓ (Advance(P_1), ContractEntry(e))
+```math
+\begin{array}{l}
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"@"})\quad \operatorname{IsIdent}(\operatorname{Tok}(\operatorname{Advance}(P)))\quad \operatorname{Lexeme}(\operatorname{Tok}(\operatorname{Advance}(P)))\ =\ \texttt{entry}\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P))))\ \Downarrow \ (P_{1},\ e)\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{ContractEntry}(e))
+\end{array}
 ```
 
 #### 15.6.3 AST Representation / Form
 
-Expr = … | ContractResult | ContractEntry(expr) | …
+```math
+\mathsf{Expr}\ =\ \ldots \ \mid \ \mathsf{ContractResult}\ \mid \ \operatorname{ContractEntry}(\mathsf{expr})\ \mid \ \ldots 
+```
 
-```text
-PostconditionOf(contract_opt) = `true`           if contract_opt = ⊥
-PostconditionOf(⟨pre, post⟩) = `true`            if post = ⊥
-PostconditionOf(⟨pre, post⟩) = post              if post ≠ ⊥
+```math
+\begin{array}{l}
+\operatorname{PostconditionOf}(\mathsf{contract}_{\mathsf{opt}})\ =\ \texttt{true}\quad \mathsf{if}\ \mathsf{contract}_{\mathsf{opt}}\ =\ \bot  \\
+\operatorname{PostconditionOf}(\langle \mathsf{pre},\ \mathsf{post}\rangle )\ =\ \texttt{true}\quad \mathsf{if}\ \mathsf{post}\ =\ \bot  \\
+\operatorname{PostconditionOf}(\langle \mathsf{pre},\ \mathsf{post}\rangle )\ =\ \mathsf{post}\quad \mathsf{if}\ \mathsf{post}\ \ne \ \bot 
+\end{array}
 ```
 
 #### 15.6.4 Static Semantics
@@ -1628,12 +1555,13 @@ binding `@result` to the returned value and uses that proof context.
 
 **(Post-Valid)**
 
-```text
-postcondition(f) = P_post    ∀ r ∈ ReturnPoints(f). Γ_r ⊢ P_post : satisfied
+```math
+\begin{array}{l}
+\operatorname{postcondition}(f)\ =\ P_{\mathsf{post}}\quad \forall \ r\ \in \ \operatorname{ReturnPoints}(f).\ \Gamma_{r} \ \vdash \ P_{\mathsf{post}}\ :\ \mathsf{satisfied} \\
+\rule{18em}{0.4pt} \\
+f\ :\ \mathsf{postcondition}-\mathsf{valid}
+\end{array}
 ```
-
-───────────────────────────────────────────────────────────────────────────
-f : postcondition-valid
 
 Elision rules:
 
@@ -1651,64 +1579,78 @@ Properties of `@result`:
 3. For unit-returning procedures, `@result` has type `()`.
 
 **(Result-Union-Type)**
-ReturnType(f) = T_1 | T_2 | ... | T_n
-─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ_post ⊢ @result : T_1 | T_2 | ... | T_n
+```math
+\begin{array}{l}
+\operatorname{ReturnType}(f)\ =\ T_{1}\ \mid \ T_{2}\ \mid \ \ldots \ \mid \ T_{n} \\
+\rule{18em}{0.4pt} \\
+\Gamma_{\mathsf{post}} \ \vdash \ @\mathsf{result}\ :\ T_{1}\ \mid \ T_{2}\ \mid \ \ldots \ \mid \ T_{n}
+\end{array}
 ```
 
 **(Result-Is-Predicate)**
 
-```text
-Γ_post ⊢ @result : T_union    T_variant ∈ Variants(T_union)
-```
-
-─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ_post ⊢ (@result is T_variant) : bool
+```math
+\begin{array}{l}
+\Gamma_{\mathsf{post}} \ \vdash \ @\mathsf{result}\ :\ T_{\mathsf{union}}\quad T_{\mathsf{variant}}\ \in \ \operatorname{Variants}(T_{\mathsf{union}}) \\
+\rule{18em}{0.4pt} \\
+\Gamma_{\mathsf{post}} \ \vdash \ (@\mathsf{result}\ \mathsf{is}\ T_{\mathsf{variant}})\ :\ \mathsf{bool}
+\end{array}
 ```
 
 **(Result-Narrowing)**
 
-```text
-(@result is T_variant) = true    Γ_post ⊢ @result : T_union
-```
-
-─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ_post ⊢ @result as T_variant : T_variant
+```math
+\begin{array}{l}
+(@\mathsf{result}\ \mathsf{is}\ T_{\mathsf{variant}})\ =\ \mathsf{true}\quad \Gamma_{\mathsf{post}} \ \vdash \ @\mathsf{result}\ :\ T_{\mathsf{union}} \\
+\rule{18em}{0.4pt} \\
+\Gamma_{\mathsf{post}} \ \vdash \ @\mathsf{result}\ \mathsf{as}\ T_{\mathsf{variant}}\ :\ T_{\mathsf{variant}}
+\end{array}
 ```
 
 **(Propagate-Postcondition)**
-e? propagates error e_err at program point p    ReturnType(f) = T_success | T_error
-─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-Postconditions are evaluated for the propagation return at p with @result bound to e_err
+
+```math
+\begin{array}{l}
+e?\ \mathsf{propagates}\ \mathsf{error}\ e_{\mathsf{err}}\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\quad \operatorname{ReturnType}(f)\ =\ T_{\mathsf{success}}\ \mid \ T_{\mathsf{error}} \\
+\rule{18em}{0.4pt} \\
+\mathsf{Postconditions}\ \mathsf{are}\ \mathsf{evaluated}\ \mathsf{for}\ \mathsf{the}\ \mathsf{propagation}\ \mathsf{return}\ \mathsf{at}\ p\ \mathsf{with}\ @\mathsf{result}\ \mathsf{bound}\ \mathsf{to}\ e_{\mathsf{err}}
+\end{array}
+```
 
 **(Result-Modal)**
-ReturnType(f) = M@S
-─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ_post ⊢ @result : M@S
+```math
+\begin{array}{l}
+\operatorname{ReturnType}(f)\ =\ M@S \\
+\rule{18em}{0.4pt} \\
+\Gamma_{\mathsf{post}} \ \vdash \ @\mathsf{result}\ :\ M@S
+\end{array}
 ```
 
 **(Result-Generic)**
-ReturnType(f) = T    T is a type parameter
-─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ_post ⊢ @result : T
+```math
+\begin{array}{l}
+\operatorname{ReturnType}(f)\ =\ T\quad T\ \mathsf{is}\ a\ \mathsf{type}\ \mathsf{parameter} \\
+\rule{18em}{0.4pt} \\
+\Gamma_{\mathsf{post}} \ \vdash \ @\mathsf{result}\ :\ T
+\end{array}
 ```
 
 **(Result-Generic-Constraint)**
 @result op e in postcondition    op requires class C    T is return type parameter
-─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-T <: C required in procedure signature
 
-`@entry(expr)` constraints:
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+T\ \mathrel{<:} \ C\ \mathsf{required}\ \mathsf{in}\ \mathsf{procedure}\ \mathsf{signature}
+\end{array}
+```
+
+```math
+\texttt{@entry(expr)}\ \mathsf{constraints}:
+```
 
 1. It is available only in postcondition expressions.
 2. `expr` MUST be pure.
@@ -1717,21 +1659,21 @@ T <: C required in procedure signature
 
 **(Entry-Type)**
 
-```text
-Γ_post ⊢ e : T    BitcopyType(T)
-```
-
-────────────────────────────────────────────────────────
-
-```text
-Γ_post ⊢ @entry(e) : T
+```math
+\begin{array}{l}
+\Gamma_{\mathsf{post}} \ \vdash \ e\ :\ T\quad \operatorname{BitcopyType}(T) \\
+\rule{18em}{0.4pt} \\
+\Gamma_{\mathsf{post}} \ \vdash \ @\operatorname{entry}(e)\ :\ T
+\end{array}
 ```
 
 #### 15.6.5 Dynamic Semantics
 
 At each return point `r` with returned value `v_r`, postconditions are evaluated with `@result` bound to `v_r`.
 
-When `@entry(expr)` appears in a postcondition:
+```math
+\mathsf{When}\ \texttt{@entry(expr)}\ \mathsf{appears}\ \mathsf{in}\ a\ \mathsf{postcondition}:
+```
 
 1. `expr` is evaluated immediately after parameter binding and successful precondition checking.
 2. The result is captured by bitwise copy.
@@ -1748,18 +1690,18 @@ Entry-capture timing:
 
 **(EntryCapturePhase)**
 
-```text
-entries = CollectEntryExprs(postcondition(f))    ∀ e_i ∈ entries. Γ_pre ⊢ EvalSigma(e_i, σ_entry) ⇓ (Val(v_i), σ_entry)
-captures = { e_i ↦ Capture(v_i, T_i) | e_i ∈ entries }
+```math
+\begin{array}{l}
+\mathsf{entries}\ =\ \operatorname{CollectEntryExprs}(\operatorname{postcondition}(f))\quad \forall \ e_{i}\ \in \ \mathsf{entries}.\ \Gamma_{\mathsf{pre}} \ \vdash \ \operatorname{EvalSigma}(e_{i},\ \sigma_{\mathsf{entry}} )\ \Downarrow \ (\operatorname{Val}(v_{i}),\ \sigma_{\mathsf{entry}} ) \\
+\mathsf{captures}\ =\ \{\ e_{i}\ \mapsto \ \operatorname{Capture}(v_{i},\ T_{i})\ \mid \ e_{i}\ \in \ \mathsf{entries}\ \} \\
+\rule{18em}{0.4pt} \\
+\operatorname{EntryCapturePhase}(f,\ \sigma_{\mathsf{entry}} )\ =\ (\mathsf{captures},\ \sigma_{\mathsf{entry}} )
+\end{array}
 ```
 
-─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-EntryCapturePhase(f, σ_entry) = (captures, σ_entry)
+```math
+\operatorname{Capture}(v,\ T)\ =\ v\quad \mathsf{if}\ \operatorname{BitcopyType}(T)
 ```
-
-Capture(v, T) = v    if BitcopyType(T)
 
 #### 15.6.6 Lowering
 
@@ -1782,44 +1724,42 @@ loop_invariant ::= "|:" "{" predicate_expr "}"
 
 **(Parse-InvariantOpt-None)**
 
-```text
-¬ (IsOp(Tok(P), "|:") ∧ IsPunc(Tok(Advance(P)), "{"))
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseInvariantOpt(P) ⇓ (P, ⊥)
+```math
+\begin{array}{l}
+\lnot \ (\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"|:"})\ \land \ \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"\{"})) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseInvariantOpt}(P)\ \Downarrow \ (P,\ \bot )
+\end{array}
 ```
 
 **(Parse-InvariantOpt-Yes)**
 
-```text
-IsOp(Tok(P), "|:")    IsPunc(Tok(Advance(P)), "{")    Γ ⊢ ParsePredicateExpr(Advance(Advance(P))) ⇓ (P_1, pred)    IsPunc(Tok(P_1), "}")
+```math
+\begin{array}{l}
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"|:"})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ \mathsf{pred})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\}"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseInvariantOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \mathsf{pred})
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseInvariantOpt(P) ⇓ (Advance(P_1), pred)
-```
-
-```text
-ParseLoopInvariantOpt(P) ⇓ (P_1, inv_opt) ⇔ Γ ⊢ ParseInvariantOpt(P) ⇓ (P_1, inv_opt)
+```math
+\operatorname{ParseLoopInvariantOpt}(P)\ \Downarrow \ (P_{1},\ \mathsf{inv}_{\mathsf{opt}})\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{ParseInvariantOpt}(P)\ \Downarrow \ (P_{1},\ \mathsf{inv}_{\mathsf{opt}})
 ```
 
 #### 15.7.3 AST Representation / Form
 
 Invariant = Expr
 
-```text
-invariant_opt ∈ {⊥} ∪ Invariant
+```math
+\mathsf{invariant}_{\mathsf{opt}}\ \in \ \{\bot \}\ \cup \ \mathsf{Invariant}
 ```
 
-```text
-RecordDecl = ⟨attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, implements, members, invariant_opt, span, doc⟩
-EnumDecl = ⟨attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, implements, variants, invariant_opt, span, doc⟩
-ModalDecl = ⟨attrs_opt, vis, name, gen_params_opt, predicate_clause_opt, implements, states, invariant_opt, span, doc⟩
+```math
+\begin{array}{l}
+\mathsf{RecordDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{implements},\ \mathsf{members},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}\rangle  \\
+\mathsf{EnumDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{implements},\ \mathsf{variants},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}\rangle  \\
+\mathsf{ModalDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{implements},\ \mathsf{states},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}\rangle 
+\end{array}
 ```
 
 Loop forms preserve `inv_opt` in their AST representation.
@@ -1876,69 +1816,81 @@ Verification logic is not parser-owned.
 
 #### 15.8.3 AST Representation / Form
 
-ContractKind = {Pre, Post, TypeInv, LoopInv, ForeignPre, ForeignPost}
-
-VerificationFact = F(P, L, S)
-
-```text
-CheckState = {CheckStart(P, k, s, ρ, σ), CheckDone(σ), CheckPanic(σ)}
+```math
+\mathsf{ContractKind}\ =\ \{\mathsf{Pre},\ \mathsf{Post},\ \mathsf{TypeInv},\ \mathsf{LoopInv},\ \mathsf{ForeignPre},\ \mathsf{ForeignPost}\}
 ```
 
-ContractCheck(P, k, s, ρ) = `if` !P[ρ] { `panic`(ContractViolation(k, P, s)) }
+```math
+\mathsf{VerificationFact}\ =\ \operatorname{F}(P,\ L,\ S)
+```
+
+```math
+\mathsf{CheckState}\ =\ \{\operatorname{CheckStart}(P,\ k,\ s,\ \rho ,\ \sigma ),\ \operatorname{CheckDone}(\sigma ),\ \operatorname{CheckPanic}(\sigma )\}
+```
+
+```math
+\operatorname{ContractCheck}(P,\ k,\ s,\ \rho )\ =\ \texttt{if}\ !P[\rho ]\ \{\ \texttt{panic}(\operatorname{ContractViolation}(k,\ P,\ s))\ \}
+```
 
 #### 15.8.4 Static Semantics
 
-```text
-DynamicScope(s) ⇔ (∃ d. DynamicDecl(d) ∧ s ⊆ d.span) ∨ (∃ e. DynamicExpr(e) ∧ s ⊆ ExprSpan(e))
-InDynamicContext ⇔ DynamicScope(s) where `s` is the span of the syntactic form currently being verified or type-checked.
+```math
+\begin{array}{l}
+\operatorname{DynamicScope}(s)\ \Leftrightarrow \ (\exists \ d.\ \operatorname{DynamicDecl}(d)\ \land \ s\ \subseteq \ d.\mathsf{span})\ \lor \ (\exists \ e.\ \operatorname{DynamicExpr}(e)\ \land \ s\ \subseteq \ \operatorname{ExprSpan}(e)) \\
+\mathsf{InDynamicContext}\ \Leftrightarrow \ \operatorname{DynamicScope}(s)\ \mathsf{where}\ \texttt{s}\ \mathsf{is}\ \mathsf{the}\ \mathsf{span}\ \mathsf{of}\ \mathsf{the}\ \mathsf{syntactic}\ \mathsf{form}\ \mathsf{currently}\ \mathsf{being}\ \mathsf{verified}\ \mathsf{or}\ \mathsf{type}-\mathsf{checked}.
+\end{array}
 ```
 
-ComputeDynamicContext(s, ancestors) =
-  let enclosing_dynamic = FindInnermostDynamic(s, ancestors)
-  match enclosing_dynamic {
-
-```text
-    ⊥       → false
-    Some(_) → true
+```math
+\begin{array}{l}
+\operatorname{ComputeDynamicContext}(s,\ \mathsf{ancestors})\ = \\
+\ \mathsf{let}\ \mathsf{enclosing}_{\mathsf{dynamic}}\ =\ \operatorname{FindInnermostDynamic}(s,\ \mathsf{ancestors}) \\
+\ \mathsf{match}\ \mathsf{enclosing}_{\mathsf{dynamic}}\ \{ \\
+\quad \bot \quad \to \ \mathsf{false} \\
+\quad \operatorname{Some}(\_)\ \to \ \mathsf{true} \\
+\ \}
+\end{array}
 ```
-
-  }
 
 **(Contract-Static-OK)**
 
-```text
-StaticProofAt(S, Γ_S, P)
+```math
+\begin{array}{l}
+\operatorname{StaticProofAt}(S,\ \Gamma_{S} ,\ P) \\
+\rule{18em}{0.4pt} \\
+P\ :\ \mathsf{verified}
+\end{array}
 ```
-
-──────────────────────────────────────────────
-P : verified
 
 **(Contract-Static-Fail)**
 
-```text
-¬ StaticProofAt(S, Γ_S, P)    ¬ InDynamicContext
+```math
+\begin{array}{l}
+\lnot \ \operatorname{StaticProofAt}(S,\ \Gamma_{S} ,\ P)\quad \lnot \ \mathsf{InDynamicContext} \\
+\rule{18em}{0.4pt} \\
+\mathsf{program}\ \mathsf{is}\ \mathsf{ill}-\mathsf{formed}
+\end{array}
 ```
-
-──────────────────────────────────────────────
-program is ill-formed
 
 **(Contract-Dynamic-Elide)**
 
-```text
-StaticProofAt(S, Γ_S, P)
+```math
+\begin{array}{l}
+\operatorname{StaticProofAt}(S,\ \Gamma_{S} ,\ P) \\
+\rule{18em}{0.4pt} \\
+P\ :\ \mathsf{verified}
+\end{array}
 ```
-
-──────────────────────────────────────────────
-P : verified
 
 **(Contract-Dynamic-Check)**
 
-```text
-¬ StaticProofAt(S, Γ_S, P)    InDynamicContext
+```math
+\begin{array}{l}
+\lnot \ \operatorname{StaticProofAt}(S,\ \Gamma_{S} ,\ P)\quad \mathsf{InDynamicContext} \\
+\rule{18em}{0.4pt} \\
+\mathsf{emit}\ \mathsf{runtime}\ \mathsf{check}\ \operatorname{ContractCheck}(P,\ k,\ s,\ \rho )
+\end{array}
 ```
-
-────────────────────────────────────────────────────
-emit runtime check ContractCheck(P, k, s, ρ)
 
 Mandatory proof techniques:
 
@@ -1952,18 +1904,20 @@ Mandatory proof techniques:
 For this section, `Gamma_S` denotes the active proof context at program point
 `S`, written `ProofContextAt(S)`.
 
-```text
-Let `FlowFactsAt(S) = { P | F(P, L) ∈ Facts ∧ L dom S }`.
+```math
+\mathsf{Let}\ \texttt{FlowFactsAt(S) = \{ P | F(P, L) in Facts and L dom S \}}.
 ```
 
 Let `ContractFactsAt(S)` be the set of conjuncts imported from the enclosing
 procedure contract precondition that remain in scope at `S`.
 
-```text
-Let `ProofContextAt(S) = FlowFactsAt(S) ∪ ContractFactsAt(S)`.
+```math
+\mathsf{Let}\ \texttt{ProofContextAt(S) = FlowFactsAt(S) union ContractFactsAt(S)}.
 ```
 
-`Decidable(P)` is the smallest set closed under:
+```math
+\texttt{Decidable(P)}\ \mathsf{is}\ \mathsf{the}\ \mathsf{smallest}\ \mathsf{set}\ \mathsf{closed}\ \mathsf{under}:
+```
 
 1. `true`, `false`
 2. Comparisons of linear integer expressions over literals and variables
@@ -1973,94 +1927,94 @@ Let `ProofContextAt(S) = FlowFactsAt(S) ∪ ContractFactsAt(S)`.
 Entailment:
 
 **(Ent-True)**
-P ≡ `true`
-──────────────────────────────
 
-```text
-ProofContextAt(S) ⊢ P
+```math
+\begin{array}{l}
+P\ \equiv \ \texttt{true} \\
+\rule{18em}{0.4pt} \\
+\operatorname{ProofContextAt}(S)\ \vdash \ P
+\end{array}
 ```
 
 **(Ent-Fact)**
 
-```text
-P ∈ ProofContextAt(S)
-```
-
-──────────────────────────────
-
-```text
-ProofContextAt(S) ⊢ P
+```math
+\begin{array}{l}
+P\ \in \ \operatorname{ProofContextAt}(S) \\
+\rule{18em}{0.4pt} \\
+\operatorname{ProofContextAt}(S)\ \vdash \ P
+\end{array}
 ```
 
 **(Ent-And)**
 
-```text
-ProofContextAt(S) ⊢ P    ProofContextAt(S) ⊢ Q
-```
-
-────────────────────────────────────────
-
-```text
-ProofContextAt(S) ⊢ P ∧ Q
+```math
+\begin{array}{l}
+\operatorname{ProofContextAt}(S)\ \vdash \ P\quad \operatorname{ProofContextAt}(S)\ \vdash \ Q \\
+\rule{18em}{0.4pt} \\
+\operatorname{ProofContextAt}(S)\ \vdash \ P\ \land \ Q
+\end{array}
 ```
 
 **(Ent-Or-L)**
 
-```text
-ProofContextAt(S) ⊢ P
-```
-
-────────────────────────
-
-```text
-ProofContextAt(S) ⊢ P ∨ Q
+```math
+\begin{array}{l}
+\operatorname{ProofContextAt}(S)\ \vdash \ P \\
+\rule{18em}{0.4pt} \\
+\operatorname{ProofContextAt}(S)\ \vdash \ P\ \lor \ Q
+\end{array}
 ```
 
 **(Ent-Or-R)**
 
-```text
-ProofContextAt(S) ⊢ Q
-```
-
-────────────────────────
-
-```text
-ProofContextAt(S) ⊢ P ∨ Q
+```math
+\begin{array}{l}
+\operatorname{ProofContextAt}(S)\ \vdash \ Q \\
+\rule{18em}{0.4pt} \\
+\operatorname{ProofContextAt}(S)\ \vdash \ P\ \lor \ Q
+\end{array}
 ```
 
 **(Ent-Linear)**
 LinearEntails(ProofContextAt(S), P)
-─────────────────────────────
 
-```text
-ProofContextAt(S) ⊢ P
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\operatorname{ProofContextAt}(S)\ \vdash \ P
+\end{array}
 ```
 
 **Linear Integer Entailment**
 
-```text
-Let `LinExpr` be expressions of the form `∑_i a_i x_i + c` where `a_i, c ∈ ℤ` and each `x_i` is an integer-typed variable.
+```math
+\mathsf{Let}\ \texttt{LinExpr}\ \mathsf{be}\ \mathsf{expressions}\ \mathsf{of}\ \mathsf{the}\ \mathsf{form}\ \texttt{sum\_i a\_i x\_i + c}\ \mathsf{where}\ \texttt{a\_i, c in Z}\ \mathsf{and}\ \mathsf{each}\ \texttt{x\_i}\ \mathsf{is}\ \mathsf{an}\ \mathsf{integer}-\mathsf{typed}\ \mathsf{variable}.
 ```
 
-Let `LinPred` be predicates comparing two `LinExpr` with `==`, `!=`, `<`, `<=`, `>`, or `>=`.
+```math
+\mathsf{Let}\ \texttt{LinPred}\ \mathsf{be}\ \mathsf{predicates}\ \mathsf{comparing}\ \mathsf{two}\ \texttt{LinExpr}\ \mathsf{with}\ \texttt{==},\ \texttt{!=},\ \texttt{<},\ \texttt{<=},\ \texttt{>},\ \mathsf{or}\ \texttt{>=}.
+```
 
-```text
-Define `LinFactsAt(S) = { P ∈ ProofContextAt(S) | P ∈ LinPred }`.
+```math
+\mathsf{Define}\ \texttt{LinFactsAt(S) = \{ P in ProofContextAt(S) | P in LinPred \}}.
 ```
 
 Then:
 
-```text
-LinearEntails(ProofContextAt(S), P) ⇔ P ∈ LinPred ∧ ⋀ LinFactsAt(S) ⊨_ℤ P
+```math
+\operatorname{LinearEntails}(\operatorname{ProofContextAt}(S),\ P)\ \Leftrightarrow \ P\ \in \ \mathsf{LinPred}\ \land \ \bigwedge \ \operatorname{LinFactsAt}(S)\ \models \_\mathbb{Z} \ P
 ```
 
 Implementations MAY use any sound decision procedure; they MUST be complete for `LinPred` entailment.
 
-```text
-StaticProofAt(S, ProofContextAt(S), P) ⇔ Decidable(P) ∧ ProofContextAt(S) ⊢ P
+```math
+\operatorname{StaticProofAt}(S,\ \operatorname{ProofContextAt}(S),\ P)\ \Leftrightarrow \ \operatorname{Decidable}(P)\ \land \ \operatorname{ProofContextAt}(S)\ \vdash \ P
 ```
 
-Define `NegFact(P)` on simple decidable predicates by:
+```math
+\mathsf{Define}\ \texttt{NegFact(P)}\ \mathsf{on}\ \mathsf{simple}\ \mathsf{decidable}\ \mathsf{predicates}\ \mathsf{by}:
+```
 
 1. `NegFact(!P) = P`
 2. `NegFact(a < b) = (a >= b)`
@@ -2079,12 +2033,13 @@ Verification facts:
 
 **(Fact-Dominate)**
 
-```text
-F(P, L) ∈ Facts    L dom S    L ≠ S
+```math
+\begin{array}{l}
+\operatorname{F}(P,\ L)\ \in \ \mathsf{Facts}\quad L\ \mathsf{dom}\ S\quad L\ \ne \ S \\
+\rule{18em}{0.4pt} \\
+P\ \mathsf{satisfied}\ \mathsf{at}\ S
+\end{array}
 ```
-
-────────────────────────────────────
-P satisfied at S
 
 Fact generation:
 
@@ -2098,7 +2053,9 @@ Fact generation:
 5. A runtime check for `P` generates `F(P, _)` after the check.
 6. A verified loop invariant generates `F(Inv, _)` after the loop.
 
-Type narrowing under an active fact `F(P, L)` refines `typeof(x)` to `typeof(x) |: {P}`.
+```math
+\mathsf{Type}\ \mathsf{narrowing}\ \mathsf{under}\ \mathsf{an}\ \mathsf{active}\ \mathsf{fact}\ \texttt{F(P, L)}\ \mathsf{refines}\ \texttt{typeof(x)}\ \mathsf{to}\ \texttt{typeof(x) |: \{P\}}.
+```
 
 #### 15.8.5 Dynamic Semantics
 
@@ -2110,62 +2067,52 @@ Contract environments:
 
 **(Check-True)**
 
-```text
-Γ ⊢ EvalSigma(P[ρ], σ) ⇓ (Val(true), σ')
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨CheckStart(P, k, s, ρ, σ)⟩ → ⟨CheckDone(σ')⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(P[\rho ],\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma ') \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{CheckStart}(P,\ k,\ s,\ \rho ,\ \sigma )\rangle \ \to \ \langle \operatorname{CheckDone}(\sigma ')\rangle 
+\end{array}
 ```
 
 **(Check-False)**
 
-```text
-Γ ⊢ EvalSigma(P[ρ], σ) ⇓ (Val(false), σ')
-```
-
-───────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨CheckStart(P, k, s, ρ, σ)⟩ → ⟨CheckPanic(σ')⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(P[\rho ],\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{false}),\ \sigma ') \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{CheckStart}(P,\ k,\ s,\ \rho ,\ \sigma )\rangle \ \to \ \langle \operatorname{CheckPanic}(\sigma ')\rangle 
+\end{array}
 ```
 
 **(Check-Panic)**
 
-```text
-Γ ⊢ EvalSigma(P[ρ], σ) ⇓ (Ctrl(Panic), σ')
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨CheckStart(P, k, s, ρ, σ)⟩ → ⟨CheckPanic(σ')⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(P[\rho ],\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma ') \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{CheckStart}(P,\ k,\ s,\ \rho ,\ \sigma )\rangle \ \to \ \langle \operatorname{CheckPanic}(\sigma ')\rangle 
+\end{array}
 ```
 
 **(Check-Ok)**
 
-```text
-⟨CheckStart(P, k, s, ρ, σ)⟩ →* ⟨CheckDone(σ')⟩
-```
-
-───────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ContractCheck(P, k, s, ρ, σ) ⇓ σ'
+```math
+\begin{array}{l}
+\langle \operatorname{CheckStart}(P,\ k,\ s,\ \rho ,\ \sigma )\rangle \ \to *\ \langle \operatorname{CheckDone}(\sigma ')\rangle  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ContractCheck}(P,\ k,\ s,\ \rho ,\ \sigma )\ \Downarrow \ \sigma '
+\end{array}
 ```
 
 **(Check-Fail)**
 
-```text
-⟨CheckStart(P, k, s, ρ, σ)⟩ →* ⟨CheckPanic(σ')⟩
-```
-
-───────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ContractCheck(P, k, s, ρ, σ) ⇑ panic
+```math
+\begin{array}{l}
+\langle \operatorname{CheckStart}(P,\ k,\ s,\ \rho ,\ \sigma )\rangle \ \to *\ \langle \operatorname{CheckPanic}(\sigma ')\rangle  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ContractCheck}(P,\ k,\ s,\ \rho ,\ \sigma )\ \Uparrow \ \mathsf{panic}
+\end{array}
 ```
 
 Successful dynamic checks inject the corresponding verification fact after the inserted check.
@@ -2176,75 +2123,83 @@ Runtime check insertion points:
 
 **(Insert-Precondition-Check)**
 
-```text
-f has contract |: P    InDynamicContext(f)    ¬ StaticProof(Γ_entry, P)
+```math
+\begin{array}{l}
+f\ \mathsf{has}\ \mathsf{contract}\ \mid :\ P\quad \operatorname{InDynamicContext}(f)\quad \lnot \ \operatorname{StaticProof}(\Gamma_{\mathsf{entry}} ,\ P) \\
+\rule{18em}{0.4pt} \\
+\mathsf{At}\ \mathsf{entry}\ \mathsf{to}\ f,\ \mathsf{insert}:\ \operatorname{ContractCheck}(P,\ \mathsf{Pre},\ \operatorname{span}(\mathsf{contract}),\ \rho_{\mathsf{emptyset}} )
+\end{array}
 ```
-
-────────────────────────────────────────────────────────────────────────────────────────
-At entry to f, insert: ContractCheck(P, Pre, span(contract), ρ_emptyset)
 
 **(Insert-Postcondition-Check)**
 
-```text
-f has contract |: P_pre => P_post    InDynamicContext(f)    ¬ StaticProof(Γ_exit, P_post)
+```math
+\begin{array}{l}
+f\ \mathsf{has}\ \mathsf{contract}\ \mid :\ P_{\mathsf{pre}}\ \Rightarrow \ P_{\mathsf{post}}\quad \operatorname{InDynamicContext}(f)\quad \lnot \ \operatorname{StaticProof}(\Gamma_{\mathsf{exit}} ,\ P_{\mathsf{post}}) \\
+\rule{18em}{0.4pt} \\
+\mathsf{Before}\ \mathsf{each}\ \mathsf{return}\ \mathsf{from}\ f\ \mathsf{with}\ \mathsf{value}\ v,\ \mathsf{insert}:\ \operatorname{ContractCheck}(P_{\mathsf{post}},\ \mathsf{Post},\ \operatorname{span}(\mathsf{contract}),\ \rho_{\mathsf{post}} )
+\end{array}
 ```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-Before each return from f with value v, insert: ContractCheck(P_post, Post, span(contract), ρ_post)
 
 **(Insert-TypeInv-Construction-Check)**
 
-```text
-T has invariant |: {P}    InDynamicContext(construction_site)    ¬ StaticProof(Γ, P[v/self])
+```math
+\begin{array}{l}
+T\ \mathsf{has}\ \mathsf{invariant}\ \mid :\ \{P\}\quad \operatorname{InDynamicContext}(\mathsf{construction}_{\mathsf{site}})\quad \lnot \ \operatorname{StaticProof}(\Gamma ,\ P[v/\mathsf{self}]) \\
+\rule{18em}{0.4pt} \\
+\mathsf{After}\ \mathsf{constructing}\ \mathsf{value}\ v\ \mathsf{of}\ \mathsf{type}\ T,\ \mathsf{insert}:\ \operatorname{ContractCheck}(P[v/\mathsf{self}],\ \mathsf{TypeInv},\ \operatorname{span}(\mathsf{invariant}),\ \rho_{\mathsf{emptyset}} )
+\end{array}
 ```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────
-After constructing value v of type T, insert: ContractCheck(P[v/self], TypeInv, span(invariant), ρ_emptyset)
 
 **(Insert-TypeInv-PreCall-Check)**
 
-```text
-T has invariant |: {P}    m is public method with receiver ~    InDynamicContext(call_site)    ¬ StaticProof(Γ, P[self/self])
+```math
+\begin{array}{l}
+T\ \mathsf{has}\ \mathsf{invariant}\ \mid :\ \{P\}\quad m\ \mathsf{is}\ \mathsf{public}\ \mathsf{method}\ \mathsf{with}\ \mathsf{receiver}\ \sim{}\quad \operatorname{InDynamicContext}(\mathsf{call}_{\mathsf{site}})\quad \lnot \ \operatorname{StaticProof}(\Gamma ,\ P[\mathsf{self}/\mathsf{self}]) \\
+\rule{18em}{0.4pt} \\
+\mathsf{Before}\ \mathsf{call}\ \mathsf{to}\ \mathsf{self}\sim{}>\operatorname{m}(\ldots ),\ \mathsf{insert}:\ \operatorname{ContractCheck}(P,\ \mathsf{TypeInv},\ \operatorname{span}(\mathsf{invariant}),\ \rho_{\mathsf{emptyset}} )
+\end{array}
 ```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-Before call to self~>m(...), insert: ContractCheck(P, TypeInv, span(invariant), ρ_emptyset)
 
 **(Insert-TypeInv-PostCall-Check)**
 
-```text
-T has invariant |: {P}    m is method with receiver ~!    InDynamicContext(call_site)    ¬ StaticProof(Γ, P[self/self])
+```math
+\begin{array}{l}
+T\ \mathsf{has}\ \mathsf{invariant}\ \mid :\ \{P\}\quad m\ \mathsf{is}\ \mathsf{method}\ \mathsf{with}\ \mathsf{receiver}\ \sim{}!\quad \operatorname{InDynamicContext}(\mathsf{call}_{\mathsf{site}})\quad \lnot \ \operatorname{StaticProof}(\Gamma ,\ P[\mathsf{self}/\mathsf{self}]) \\
+\rule{18em}{0.4pt} \\
+\mathsf{After}\ \mathsf{return}\ \mathsf{from}\ \mathsf{self}\sim{}>\operatorname{m}(\ldots ),\ \mathsf{insert}:\ \operatorname{ContractCheck}(P,\ \mathsf{TypeInv},\ \operatorname{span}(\mathsf{invariant}),\ \rho_{\mathsf{emptyset}} )
+\end{array}
 ```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-After return from self~>m(...), insert: ContractCheck(P, TypeInv, span(invariant), ρ_emptyset)
 
 **(Insert-LoopInv-Init-Check)**
 
-```text
-loop ... |: {I}    InDynamicContext(loop_site)    ¬ StaticProof(Γ_loop_entry, I)
+```math
+\begin{array}{l}
+\mathsf{loop}\ \ldots \ \mid :\ \{I\}\quad \operatorname{InDynamicContext}(\mathsf{loop}_{\mathsf{site}})\quad \lnot \ \operatorname{StaticProof}(\Gamma_{\mathsf{loop}} \_\mathsf{entry},\ I) \\
+\rule{18em}{0.4pt} \\
+\mathsf{Before}\ \mathsf{first}\ \mathsf{iteration},\ \mathsf{insert}:\ \operatorname{ContractCheck}(I,\ \mathsf{LoopInv},\ \operatorname{span}(\mathsf{invariant}),\ \rho_{\mathsf{emptyset}} )
+\end{array}
 ```
-
-────────────────────────────────────────────────────────────────────────────────────────────
-Before first iteration, insert: ContractCheck(I, LoopInv, span(invariant), ρ_emptyset)
 
 **(Insert-LoopInv-Maintenance-Check)**
 
-```text
-loop ... |: {I}    InDynamicContext(loop_site)    ¬ StaticProof(Γ_loop_body_exit, I)
+```math
+\begin{array}{l}
+\mathsf{loop}\ \ldots \ \mid :\ \{I\}\quad \operatorname{InDynamicContext}(\mathsf{loop}_{\mathsf{site}})\quad \lnot \ \operatorname{StaticProof}(\Gamma_{\mathsf{loop}} \_\mathsf{body}_{\mathsf{exit}},\ I) \\
+\rule{18em}{0.4pt} \\
+\mathsf{At}\ \mathsf{end}\ \mathsf{of}\ \mathsf{each}\ \mathsf{iteration},\ \mathsf{insert}:\ \operatorname{ContractCheck}(I,\ \mathsf{LoopInv},\ \operatorname{span}(\mathsf{invariant}),\ \rho_{\mathsf{emptyset}} )
+\end{array}
 ```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────
-At end of each iteration, insert: ContractCheck(I, LoopInv, span(invariant), ρ_emptyset)
 
 **(Insert-Refinement-Check)**
 
-```text
-e : T |: {P}    InDynamicContext(e)    ¬ StaticProof(Γ, P[e/self])
+```math
+\begin{array}{l}
+e\ :\ T\ \mid :\ \{P\}\quad \operatorname{InDynamicContext}(e)\quad \lnot \ \operatorname{StaticProof}(\Gamma ,\ P[e/\mathsf{self}]) \\
+\rule{18em}{0.4pt} \\
+\mathsf{After}\ \mathsf{evaluating}\ e,\ \mathsf{insert}:\ \operatorname{ContractCheck}(P[e/\mathsf{self}],\ \mathsf{TypeInv},\ \operatorname{span}(\mathsf{refinement}),\ \rho_{\mathsf{emptyset}} )
+\end{array}
 ```
-
-────────────────────────────────────────────────────────────────────────────────────────────
-After evaluating e, insert: ContractCheck(P[e/self], TypeInv, span(refinement), ρ_emptyset)
 
 #### 15.8.7 Diagnostics
 

@@ -3,7 +3,7 @@ title: "Permissions and Binding State"
 description: "10. Permissions and Binding State of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T17:39:45.389Z"
+generatedAt: "2026-05-09T18:13:03.158Z"
 generated: true
 ---
 
@@ -23,7 +23,9 @@ permission         ::= "const" | "unique" | "shared"
 receiver_shorthand ::= "~" | "~!" | "~%"
 ```
 
-Permission qualifiers appear in `type ::= permission? non_permission_type refinement_clause?`. Receiver shorthand forms map to receiver permissions as defined by the parser and AST rules in Chapter 5.
+```math
+\mathsf{Permission}\ \mathsf{qualifiers}\ \mathsf{appear}\ \mathsf{in}\ \texttt{type ::= permission? non\_permission\_type refinement\_clause?}.\ \mathsf{Receiver}\ \mathsf{shorthand}\ \mathsf{forms}\ \mathsf{map}\ \mathsf{to}\ \mathsf{receiver}\ \mathsf{permissions}\ \mathsf{as}\ \mathsf{defined}\ \mathsf{by}\ \mathsf{the}\ \mathsf{parser}\ \mathsf{and}\ \mathsf{AST}\ \mathsf{rules}\ \mathsf{in}\ \mathsf{Chapter}\ 5.
+```
 
 #### 10.1.2 Parsing
 
@@ -39,8 +41,8 @@ Permission syntax lowers into the following AST forms:
 - `TypePerm(perm, base)`
 - `ReceiverShorthand(perm)`
 
-```text
-A permission-qualified type is represented as `TypePerm(P, T)` where `P ∈ Perm` and `T` is the unqualified base type.
+```math
+A\ \mathsf{permission}-\mathsf{qualified}\ \mathsf{type}\ \mathsf{is}\ \mathsf{represented}\ \mathsf{as}\ \texttt{TypePerm(P, T)}\ \mathsf{where}\ \texttt{P in Perm}\ \mathsf{and}\ \texttt{T}\ \mathsf{is}\ \mathsf{the}\ \mathsf{unqualified}\ \mathsf{base}\ \mathsf{type}.
 ```
 
 #### 10.1.4 Static Semantics
@@ -87,20 +89,20 @@ Permission qualifiers do not alter value layout:
 
 **(Layout-Perm)**
 
-```text
-Γ ⊢ layout(TypePerm(p, T)) ⇓ L
+```math
+\Gamma \ \vdash \ \operatorname{layout}(\operatorname{TypePerm}(p,\ T))\ \Downarrow \ L
 ```
 
 **(SizeOf-Perm)**
 
-```text
-Γ ⊢ sizeof(TypePerm(p, T)) = n
+```math
+\Gamma \ \vdash \ \operatorname{sizeof}(\operatorname{TypePerm}(p,\ T))\ =\ n
 ```
 
 **(AlignOf-Perm)**
 
-```text
-Γ ⊢ alignof(TypePerm(p, T)) = a
+```math
+\Gamma \ \vdash \ \operatorname{alignof}(\operatorname{TypePerm}(p,\ T))\ =\ a
 ```
 
 ABI and LLVM lowering for permission-qualified types are defined by the shared lowering and ABI framework in Chapter 24.
@@ -127,14 +129,14 @@ This section introduces no additional AST forms beyond permission-qualified type
 
 **Aliasing.** Two paths alias when they refer to overlapping storage locations:
 
-```text
-aliases(p_1, p_2) ⇔ storage(p_1) ∩ storage(p_2) ≠ ∅
+```math
+\operatorname{aliases}(p_{1},\ p_{2})\ \Leftrightarrow \ \operatorname{storage}(p_{1})\ \cap \ \operatorname{storage}(p_{2})\ \ne \ \emptyset 
 ```
 
 **Exclusivity Invariant.**
 
-```text
-∀ p_1, p_2 ∈ Paths. (perm(p_1) = `unique` ∧ overlaps(p_1, p_2)) ⇒ p_1 = p_2
+```math
+\forall \ p_{1},\ p_{2}\ \in \ \mathsf{Paths}.\ (\operatorname{perm}(p_{1})\ =\ \texttt{unique}\ \land \ \operatorname{overlaps}(p_{1},\ p_{2}))\ \Rightarrow \ p_{1}\ =\ p_{2}
 ```
 
 **Coexistence Matrix**
@@ -182,13 +184,23 @@ A binding `b` with `unique` permission exists in one of two states:
 
 **(Inactive-Enter)**
 b : `unique` T    b is Active    non-consuming admissible use of b begins
-──────────────────────────────────────────────────────────────────────────────
-b becomes Inactive
+
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+b\ \mathsf{becomes}\ \mathsf{Inactive}
+\end{array}
+```
 
 **(Inactive-Exit)**
 b is Inactive    all live non-consuming admissible uses of b end
-──────────────────────────────────────────────────────────────────────────────
-b becomes Active with `unique` permission preserved
+
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+b\ \mathsf{becomes}\ \mathsf{Active}\ \mathsf{with}\ \texttt{unique}\ \mathsf{permission}\ \mathsf{preserved}
+\end{array}
+```
 
 #### 10.3.5 Dynamic Semantics
 
@@ -227,9 +239,13 @@ Permission admissibility is defined over existing permission-qualified types and
 
 **Permission Admissibility.** This section defines which caller permissions satisfy a required receiver or non-consuming parameter permission. It does not define type subtyping or coercion.
 
-PermAdmitsJudg = {PermAdmits}
+```math
+\mathsf{PermAdmitsJudg}\ =\ \{\mathsf{PermAdmits}\}
+```
 
-`PermAdmits(P_caller, P_req)` holds exactly for:
+```math
+\texttt{PermAdmits(P\_caller, P\_req)}\ \mathsf{holds}\ \mathsf{exactly}\ \mathsf{for}:
+```
 - `PermAdmits(const, const)`
 - `PermAdmits(shared, const)`
 - `PermAdmits(shared, shared)`

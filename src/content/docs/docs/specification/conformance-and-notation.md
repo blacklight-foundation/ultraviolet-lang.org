@@ -3,7 +3,7 @@ title: "Conformance and Notation"
 description: "1. Conformance and Notation of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T17:39:45.389Z"
+generatedAt: "2026-05-09T18:13:03.158Z"
 generated: true
 ---
 
@@ -18,317 +18,330 @@ generated: true
 
 **Conforming.**
 
-```text
-Conforming(P) ⇔ WF(P)
+```math
+\operatorname{Conforming}(P)\ \Leftrightarrow \ \operatorname{WF}(P)
 ```
 
 **WF.**
 
-```text
-WF(P) ⇔ ∃ Γ. Project(Γ) = P ∧ ∀ j ∈ ReqJudgments(P). Γ ⊢ j ⇓ ok
+```math
+\operatorname{WF}(P)\ \Leftrightarrow \ \exists \ \Gamma .\ \operatorname{Project}(\Gamma )\ =\ P\ \land \ \forall \ j\ \in \ \operatorname{ReqJudgments}(P).\ \Gamma \ \vdash \ j\ \Downarrow \ \mathsf{ok}
 ```
 
 **ReqJudgments.**
-ReqJudgments(P) = [Phase1Order(P), Phase2Order(P), Phase3Order(P), Phase4Order(P)]
+
+```math
+\operatorname{ReqJudgments}(P)\ =\ [\operatorname{Phase1Order}(P),\ \operatorname{Phase2Order}(P),\ \operatorname{Phase3Order}(P),\ \operatorname{Phase4Order}(P)]
+```
 
 **Phase1Order.**
 
-```text
-Γ ⊢ Phase1Order(P) ⇓ ok ⇔ ∃ Ms. Γ ⊢ ParseModules(P) ⇓ Ms
+```math
+\Gamma \ \vdash \ \operatorname{Phase1Order}(P)\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \exists \ \mathsf{Ms}.\ \Gamma \ \vdash \ \operatorname{ParseModules}(P)\ \Downarrow \ \mathsf{Ms}
 ```
 
 **Phase2Order.**
 
-```text
-Γ ⊢ Phase2Order(P) ⇓ ok ⇔ ∃ Ms, Ms_ct. Γ ⊢ ParseModules(P) ⇓ Ms ∧ Γ ⊢ ExecuteComptime(P, Ms) ⇓ Ms_ct
+```math
+\Gamma \ \vdash \ \operatorname{Phase2Order}(P)\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \exists \ \mathsf{Ms},\ \mathsf{Ms}_{\mathsf{ct}}.\ \Gamma \ \vdash \ \operatorname{ParseModules}(P)\ \Downarrow \ \mathsf{Ms}\ \land \ \Gamma \ \vdash \ \operatorname{ExecuteComptime}(P,\ \mathsf{Ms})\ \Downarrow \ \mathsf{Ms}_{\mathsf{ct}}
 ```
 
-```text
-Phase3Checks(P, Ms_ct, Ms_res) = [Γ_ct ⊢ ResolveModules(P_ct) ⇓ Ms_res, Γ_res ⊢ DeclTyping(Ms_res) ⇓ ok, Γ_res ⊢ MainCheck(P_res) ⇓ ok]
-```
-
- where
-  P_ct = ProjectView(P, Ms_ct)
-
-```text
-  Γ_ct = Γ[project ↦ P_ct]
-```
-
-  P_res = ProjectView(P, Ms_res)
-
-```text
-  Γ_res = Γ[project ↦ P_res]
-Phase3Order(P) ⇔ ∃ Ms, Ms_ct, Ms_res. Γ ⊢ ParseModules(P) ⇓ Ms ∧ Γ ⊢ ExecuteComptime(P, Ms) ⇓ Ms_ct ∧ FirstFail(Phase3Checks(P, Ms_ct, Ms_res)) = ⊥
+```math
+\begin{array}{l}
+\operatorname{Phase3Checks}(P,\ \mathsf{Ms}_{\mathsf{ct}},\ \mathsf{Ms}_{\mathsf{res}})\ =\ [\Gamma_{\mathsf{ct}} \ \vdash \ \operatorname{ResolveModules}(P_{\mathsf{ct}})\ \Downarrow \ \mathsf{Ms}_{\mathsf{res}},\ \Gamma_{\mathsf{res}} \ \vdash \ \operatorname{DeclTyping}(\mathsf{Ms}_{\mathsf{res}})\ \Downarrow \ \mathsf{ok},\ \Gamma_{\mathsf{res}} \ \vdash \ \operatorname{MainCheck}(P_{\mathsf{res}})\ \Downarrow \ \mathsf{ok}] \\
+\ \mathsf{where} \\
+\ P_{\mathsf{ct}}\ =\ \operatorname{ProjectView}(P,\ \mathsf{Ms}_{\mathsf{ct}}) \\
+\ \Gamma_{\mathsf{ct}} \ =\ \Gamma [\mathsf{project}\ \mapsto \ P_{\mathsf{ct}}] \\
+\ P_{\mathsf{res}}\ =\ \operatorname{ProjectView}(P,\ \mathsf{Ms}_{\mathsf{res}}) \\
+\ \Gamma_{\mathsf{res}} \ =\ \Gamma [\mathsf{project}\ \mapsto \ P_{\mathsf{res}}] \\
+\operatorname{Phase3Order}(P)\ \Leftrightarrow \ \exists \ \mathsf{Ms},\ \mathsf{Ms}_{\mathsf{ct}},\ \mathsf{Ms}_{\mathsf{res}}.\ \Gamma \ \vdash \ \operatorname{ParseModules}(P)\ \Downarrow \ \mathsf{Ms}\ \land \ \Gamma \ \vdash \ \operatorname{ExecuteComptime}(P,\ \mathsf{Ms})\ \Downarrow \ \mathsf{Ms}_{\mathsf{ct}}\ \land \ \operatorname{FirstFail}(\operatorname{Phase3Checks}(P,\ \mathsf{Ms}_{\mathsf{ct}},\ \mathsf{Ms}_{\mathsf{res}}))\ =\ \bot 
+\end{array}
 ```
 
 **Phase4Order.**
 
-```text
-Γ ⊢ Phase4Order(P) ⇓ ok ⇔ ∃ Ms, Ms_ct, Ms_res, Objs, IRs, Artifact. Γ ⊢ ParseModules(P) ⇓ Ms ∧ Γ ⊢ ExecuteComptime(P, Ms) ⇓ Ms_ct ∧ FirstFail(Phase3Checks(P, Ms_ct, Ms_res)) = ⊥ ∧ P_res = ProjectView(P, Ms_res) ∧ Γ_res = Γ[project ↦ P_res] ∧ Γ_res ⊢ OutputPipeline(P_res) ⇓ (Objs, IRs, Artifact)
+```math
+\Gamma \ \vdash \ \operatorname{Phase4Order}(P)\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \exists \ \mathsf{Ms},\ \mathsf{Ms}_{\mathsf{ct}},\ \mathsf{Ms}_{\mathsf{res}},\ \mathsf{Objs},\ \mathsf{IRs},\ \mathsf{Artifact}.\ \Gamma \ \vdash \ \operatorname{ParseModules}(P)\ \Downarrow \ \mathsf{Ms}\ \land \ \Gamma \ \vdash \ \operatorname{ExecuteComptime}(P,\ \mathsf{Ms})\ \Downarrow \ \mathsf{Ms}_{\mathsf{ct}}\ \land \ \operatorname{FirstFail}(\operatorname{Phase3Checks}(P,\ \mathsf{Ms}_{\mathsf{ct}},\ \mathsf{Ms}_{\mathsf{res}}))\ =\ \bot \ \land \ P_{\mathsf{res}}\ =\ \operatorname{ProjectView}(P,\ \mathsf{Ms}_{\mathsf{res}})\ \land \ \Gamma_{\mathsf{res}} \ =\ \Gamma [\mathsf{project}\ \mapsto \ P_{\mathsf{res}}]\ \land \ \Gamma_{\mathsf{res}} \ \vdash \ \operatorname{OutputPipeline}(P_{\mathsf{res}})\ \Downarrow \ (\mathsf{Objs},\ \mathsf{IRs},\ \mathsf{Artifact})
 ```
 
 **Constructs.**
 
-```text
-TypeNodes(P, m) = { t | t ∈ Type ∧ Subnode(ASTModule(P, m), t) }
-StmtNodes(P, m) = { s | s ∈ Stmt ∧ Subnode(ASTModule(P, m), s) }
+```math
+\begin{array}{l}
+\operatorname{TypeNodes}(P,\ m)\ =\ \{\ t\ \mid \ t\ \in \ \mathsf{Type}\ \land \ \operatorname{Subnode}(\operatorname{ASTModule}(P,\ m),\ t)\ \} \\
+\operatorname{StmtNodes}(P,\ m)\ =\ \{\ s\ \mid \ s\ \in \ \mathsf{Stmt}\ \land \ \operatorname{Subnode}(\operatorname{ASTModule}(P,\ m),\ s)\ \}
+\end{array}
 ```
 
-ItemKind(UsingDecl(_, _, _, _, _)) = `using_decl`
-ItemKind(ProcedureDecl(_, _, _, _, _, _, _, _, _, _, _)) = `procedure`
-ItemKind(RecordDecl(_, _, _, _, _, _, _, _, _, _)) = `record`
-ItemKind(EnumDecl(_, _, _, _, _, _, _, _, _, _)) = `enum`
-ItemKind(ModalDecl(_, _, _, _, _, _, _, _, _, _)) = `modal`
-ItemKind(ClassDecl(_, _, _, _, _, _, _, _, _, _)) = `class`
-ItemKind(TypeAliasDecl(_, _, _, _, _, _, _, _)) = `type_alias`
-ItemKind(StaticDecl(_, _, _, _, _, _)) = `static_decl`
-
-```text
-ItemKind(_) = ⊥
+```math
+\begin{array}{l}
+\operatorname{ItemKind}(\operatorname{UsingDecl}(\_,\ \_,\ \_,\ \_,\ \_))\ =\ \texttt{using\_decl} \\
+\operatorname{ItemKind}(\operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_))\ =\ \texttt{procedure} \\
+\operatorname{ItemKind}(\operatorname{RecordDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_))\ =\ \texttt{record} \\
+\operatorname{ItemKind}(\operatorname{EnumDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_))\ =\ \texttt{enum} \\
+\operatorname{ItemKind}(\operatorname{ModalDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_))\ =\ \texttt{modal} \\
+\operatorname{ItemKind}(\operatorname{ClassDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_))\ =\ \texttt{class} \\
+\operatorname{ItemKind}(\operatorname{TypeAliasDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_))\ =\ \texttt{type\_alias} \\
+\operatorname{ItemKind}(\operatorname{StaticDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_))\ =\ \texttt{static\_decl} \\
+\operatorname{ItemKind}(\_)\ =\ \bot 
+\end{array}
 ```
 
-```text
-TopDeclConstructs(P) = { ItemKind(it) | m ∈ P.modules ∧ it ∈ ASTModule(P, m).items ∧ ItemKind(it) ≠ ⊥ }
+```math
+\operatorname{TopDeclConstructs}(P)\ =\ \{\ \operatorname{ItemKind}(\mathsf{it})\ \mid \ m\ \in \ P.\mathsf{modules}\ \land \ \mathsf{it}\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\ \land \ \operatorname{ItemKind}(\mathsf{it})\ \ne \ \bot \ \}
 ```
 
-TypeCtor(TypePerm(_, base)) = TypeCtor(base)
-TypeCtor(TypePrim(name)) = {name}
-
-```text
-TypeCtor(TypeTuple(elems)) = {`tuple`} ∪ ⋃_{t ∈ elems} TypeCtor(t)
-TypeCtor(TypeArray(elem, _)) = {`array`} ∪ TypeCtor(elem)
-TypeCtor(TypeSlice(elem)) = {`slice`} ∪ TypeCtor(elem)
-TypeCtor(TypeUnion(members)) = {`union`} ∪ ⋃_{t ∈ members} TypeCtor(t)
-TypeCtor(TypeFunc(params, ret)) = {`function`} ∪ ⋃_{⟨_, t⟩ ∈ params} TypeCtor(t) ∪ TypeCtor(ret)
+```math
+\begin{array}{l}
+\operatorname{TypeCtor}(\operatorname{TypePerm}(\_,\ \mathsf{base}))\ =\ \operatorname{TypeCtor}(\mathsf{base}) \\
+\operatorname{TypeCtor}(\operatorname{TypePrim}(\mathsf{name}))\ =\ \{\mathsf{name}\} \\
+\operatorname{TypeCtor}(\operatorname{TypeTuple}(\mathsf{elems}))\ =\ \{\texttt{tuple}\}\ \cup \ \bigcup \_\{t\ \in \ \mathsf{elems}\}\ \operatorname{TypeCtor}(t) \\
+\operatorname{TypeCtor}(\operatorname{TypeArray}(\mathsf{elem},\ \_))\ =\ \{\texttt{array}\}\ \cup \ \operatorname{TypeCtor}(\mathsf{elem}) \\
+\operatorname{TypeCtor}(\operatorname{TypeSlice}(\mathsf{elem}))\ =\ \{\texttt{slice}\}\ \cup \ \operatorname{TypeCtor}(\mathsf{elem}) \\
+\operatorname{TypeCtor}(\operatorname{TypeUnion}(\mathsf{members}))\ =\ \{\texttt{union}\}\ \cup \ \bigcup \_\{t\ \in \ \mathsf{members}\}\ \operatorname{TypeCtor}(t) \\
+\operatorname{TypeCtor}(\operatorname{TypeFunc}(\mathsf{params},\ \mathsf{ret}))\ =\ \{\texttt{function}\}\ \cup \ \bigcup \_\{\langle \_,\ t\rangle \ \in \ \mathsf{params}\}\ \operatorname{TypeCtor}(t)\ \cup \ \operatorname{TypeCtor}(\mathsf{ret}) \\
+\operatorname{TypeCtor}(\operatorname{TypeApply}(\mathsf{path},\ \_))\ =\ \operatorname{TypeCtor}(\operatorname{TypePath}(\mathsf{path})) \\
+\operatorname{TypeCtor}(\operatorname{TypePtr}(\mathsf{elem},\ \_))\ =\ \{\texttt{ptr}\}\ \cup \ \operatorname{TypeCtor}(\mathsf{elem}) \\
+\operatorname{TypeCtor}(\operatorname{TypeRawPtr}(\_,\ \mathsf{elem}))\ =\ \{\texttt{rawptr}\}\ \cup \ \operatorname{TypeCtor}(\mathsf{elem}) \\
+\operatorname{TypeCtor}(\operatorname{TypeString}(\_))\ =\ \{\texttt{string}\} \\
+\operatorname{TypeCtor}(\operatorname{TypeBytes}(\_))\ =\ \{\texttt{bytes}\} \\
+\operatorname{TypeCtor}(\operatorname{TypeDynamic}(\_))\ =\ \{\texttt{dyn\_class}\} \\
+\operatorname{TypeCtor}(\operatorname{TypeOpaque}(\_))\ =\ \{\texttt{opaque}\} \\
+\operatorname{TypeCtor}(\operatorname{TypeRefine}(\mathsf{base},\ \_))\ =\ \{\texttt{refinement}\}\ \cup \ \operatorname{TypeCtor}(\mathsf{base}) \\
+\operatorname{TypeCtor}(\operatorname{TypeModalState}(\_,\ \_))\ =\ \{\texttt{modal}\} \\
+\operatorname{TypeCtor}(\operatorname{TypeRange}(\mathsf{base}))\ =\ \{\texttt{range}\}\ \cup \ \operatorname{TypeCtor}(\mathsf{base}) \\
+\operatorname{TypeCtor}(\operatorname{TypeRangeInclusive}(\mathsf{base}))\ =\ \{\texttt{range\_inclusive}\}\ \cup \ \operatorname{TypeCtor}(\mathsf{base}) \\
+\operatorname{TypeCtor}(\operatorname{TypeRangeFrom}(\mathsf{base}))\ =\ \{\texttt{range\_from}\}\ \cup \ \operatorname{TypeCtor}(\mathsf{base}) \\
+\operatorname{TypeCtor}(\operatorname{TypeRangeTo}(\mathsf{base}))\ =\ \{\texttt{range\_to}\}\ \cup \ \operatorname{TypeCtor}(\mathsf{base}) \\
+\operatorname{TypeCtor}(\operatorname{TypeRangeToInclusive}(\mathsf{base}))\ =\ \{\texttt{range\_to\_inclusive}\}\ \cup \ \operatorname{TypeCtor}(\mathsf{base}) \\
+\operatorname{TypeCtor}(\mathsf{TypeRangeFull})\ =\ \{\texttt{range\_full}\} \\
+\operatorname{TypeCtor}(\operatorname{TypeClosure}(\mathsf{params},\ \mathsf{ret},\ \_))\ =\ \{\texttt{closure}\}\ \cup \ \bigcup \_\{\langle \_,\ t\rangle \ \in \ \mathsf{params}\}\ \operatorname{TypeCtor}(t)\ \cup \ \operatorname{TypeCtor}(\mathsf{ret}) \\
+\operatorname{TypeCtor}(\operatorname{TypePath}([\texttt{"Region"}]))\ =\ \{\texttt{region}\} \\
+\operatorname{TypeCtor}(\operatorname{TypePath}([\texttt{"RegionOptions"}]))\ =\ \{\texttt{region\_options}\} \\
+\operatorname{TypeCtor}(\operatorname{TypePath}(p))\ =\ \{\texttt{record}\}\ \mathsf{if}\ \operatorname{RecordDecl}(p)\ \mathsf{defined} \\
+\operatorname{TypeCtor}(\operatorname{TypePath}(p))\ =\ \{\texttt{enum}\}\ \mathsf{if}\ \operatorname{EnumDecl}(p)\ \mathsf{defined} \\
+\operatorname{TypeCtor}(\_)\ =\ \emptyset 
+\end{array}
 ```
 
-TypeCtor(TypeApply(path, _)) = TypeCtor(TypePath(path))
-
-```text
-TypeCtor(TypePtr(elem, _)) = {`ptr`} ∪ TypeCtor(elem)
-TypeCtor(TypeRawPtr(_, elem)) = {`rawptr`} ∪ TypeCtor(elem)
+```math
+\operatorname{TypeConstructs}(P)\ =\ \bigcup \_\{m\ \in \ P.\mathsf{modules}\}\ \bigcup \_\{t\ \in \ \operatorname{TypeNodes}(P,\ m)\}\ \operatorname{TypeCtor}(t)
 ```
 
-TypeCtor(TypeString(_)) = {`string`}
-TypeCtor(TypeBytes(_)) = {`bytes`}
-TypeCtor(TypeDynamic(_)) = {`dyn_class`}
-TypeCtor(TypeOpaque(_)) = {`opaque`}
-
-```text
-TypeCtor(TypeRefine(base, _)) = {`refinement`} ∪ TypeCtor(base)
+```math
+\begin{array}{l}
+\operatorname{PermOfType}(\operatorname{TypePerm}(p,\ \_))\ =\ \{p\} \\
+\operatorname{PermOfType}(\_)\ =\ \emptyset  \\
+\operatorname{RecvPerms}(\mathsf{members})\ =\ \{\ p\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{ov},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{MethodDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{ov},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc})\ \in \ \mathsf{members}\ \land \ \mathsf{recv}\ =\ \operatorname{ReceiverShorthand}(p)\ \} \\
+\operatorname{ClassRecvPerms}(\mathsf{items})\ =\ \{\ p\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{ClassMethodDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc})\ \in \ \mathsf{items}\ \land \ \mathsf{recv}\ =\ \operatorname{ReceiverShorthand}(p)\ \} \\
+\operatorname{StateRecvPerms}(\mathsf{states})\ =\ \{\ p\ \mid \ \exists \ S,\ \mathsf{members},\ \mathsf{span},\ \mathsf{doc},\ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body}.\ \operatorname{StateBlock}(S,\ \mathsf{members},\ \mathsf{span},\ \mathsf{doc})\ \in \ \mathsf{states}\ \land \ \operatorname{StateMethodDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \_,\ \_)\ \in \ \mathsf{members}\ \land \ \mathsf{recv}\ =\ \operatorname{ReceiverShorthand}(p)\ \} \\
+\operatorname{PermConstructs}(P)\ =\ \bigcup \_\{m\ \in \ P.\mathsf{modules}\}\ \bigcup \_\{t\ \in \ \operatorname{TypeNodes}(P,\ m)\}\ \operatorname{PermOfType}(t)\ \cup \ \bigcup \_\{m\ \in \ P.\mathsf{modules}\}\ \bigcup \_\{\operatorname{RecordDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{members},\ \_,\ \_,\ \_)\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\}\ \operatorname{RecvPerms}(\mathsf{members})\ \cup \ \bigcup \_\{m\ \in \ P.\mathsf{modules}\}\ \bigcup \_\{\operatorname{ModalDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{states},\ \_,\ \_,\ \_)\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\}\ \operatorname{StateRecvPerms}(\mathsf{states})\ \cup \ \bigcup \_\{m\ \in \ P.\mathsf{modules}\}\ \bigcup \_\{\operatorname{ClassDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{items},\ \_,\ \_)\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items}\}\ \operatorname{ClassRecvPerms}(\mathsf{items})
+\end{array}
 ```
 
-TypeCtor(TypeModalState(_, _)) = {`modal`}
-
-```text
-TypeCtor(TypeRange(base)) = {`range`} ∪ TypeCtor(base)
-TypeCtor(TypeRangeInclusive(base)) = {`range_inclusive`} ∪ TypeCtor(base)
-TypeCtor(TypeRangeFrom(base)) = {`range_from`} ∪ TypeCtor(base)
-TypeCtor(TypeRangeTo(base)) = {`range_to`} ∪ TypeCtor(base)
-TypeCtor(TypeRangeToInclusive(base)) = {`range_to_inclusive`} ∪ TypeCtor(base)
+```math
+\begin{array}{l}
+\operatorname{ExprKind}(\operatorname{Literal}(\_))\ =\ \texttt{literal} \\
+\operatorname{ExprKind}(\operatorname{Identifier}(\_))\ =\ \texttt{identifier} \\
+\operatorname{ExprKind}(\operatorname{FieldAccess}(\_,\ \_))\ =\ \texttt{field\_access} \\
+\operatorname{ExprKind}(\operatorname{TupleAccess}(\_,\ \_))\ =\ \texttt{tuple\_index} \\
+\operatorname{ExprKind}(\operatorname{IndexAccess}(\_,\ \_))\ =\ \texttt{index} \\
+\operatorname{ExprKind}(\operatorname{IfExpr}(\_,\ \_,\ \_))\ =\ \texttt{if} \\
+\operatorname{ExprKind}(\operatorname{IfIsExpr}(\_,\ \_,\ \_,\ \_))\ =\ \texttt{if} \\
+\operatorname{ExprKind}(\operatorname{IfCaseExpr}(\_,\ \_,\ \_))\ =\ \texttt{if} \\
+\operatorname{ExprKind}(\operatorname{LoopInfinite}(\_,\ \_))\ =\ \texttt{loop} \\
+\operatorname{ExprKind}(\operatorname{LoopConditional}(\_,\ \_,\ \_))\ =\ \texttt{loop} \\
+\operatorname{ExprKind}(\operatorname{LoopIter}(\_,\ \_,\ \_,\ \_,\ \_))\ =\ \texttt{loop} \\
+\operatorname{ExprKind}(\operatorname{MoveExpr}(\_))\ =\ \texttt{move} \\
+\operatorname{ExprKind}(\operatorname{Unary}(\texttt{"widen"},\ \_))\ =\ \texttt{widen} \\
+\operatorname{ExprKind}(\operatorname{TransmuteExpr}(\_,\ \_,\ \_))\ =\ \texttt{transmute} \\
+\operatorname{ExprKind}(\operatorname{UnsafeBlockExpr}(\_))\ =\ \texttt{unsafe} \\
+\operatorname{ExprKind}(\operatorname{AllocExpr}(\_,\ \_))\ =\ \texttt{region\_alloc} \\
+\operatorname{ExprKind}(\operatorname{MethodCall}(\_,\ \_,\ \_))\ =\ \texttt{method\_call} \\
+\operatorname{ExprKind}(\operatorname{Propagate}(\_))\ =\ \texttt{union\_propagate} \\
+\operatorname{ExprKind}(\operatorname{ParallelExpr}(\_,\ \_,\ \_))\ =\ \texttt{parallel} \\
+\operatorname{ExprKind}(\operatorname{SpawnExpr}(\_,\ \_))\ =\ \texttt{spawn} \\
+\operatorname{ExprKind}(\operatorname{DispatchExpr}(\_,\ \_,\ \_,\ \_,\ \_))\ =\ \texttt{dispatch} \\
+\operatorname{ExprKind}(\operatorname{WaitExpr}(\_))\ =\ \texttt{wait} \\
+\operatorname{ExprKind}(\operatorname{YieldExpr}(\_,\ \_))\ =\ \texttt{yield} \\
+\operatorname{ExprKind}(\operatorname{YieldFromExpr}(\_,\ \_))\ =\ \texttt{yield} \\
+\operatorname{ExprKind}(\operatorname{SyncExpr}(\_))\ =\ \texttt{sync} \\
+\operatorname{ExprKind}(\operatorname{RaceExpr}(\_))\ =\ \texttt{race} \\
+\operatorname{ExprKind}(\operatorname{AllExpr}(\_))\ =\ \texttt{all} \\
+\operatorname{ExprKind}(\_)\ =\ \bot 
+\end{array}
 ```
 
-TypeCtor(TypeRangeFull) = {`range_full`}
-
-```text
-TypeCtor(TypeClosure(params, ret, _)) = {`closure`} ∪ ⋃_{⟨_, t⟩ ∈ params} TypeCtor(t) ∪ TypeCtor(ret)
+```math
+\begin{array}{l}
+\operatorname{StmtKind}(\operatorname{LetStmt}(\_))\ =\ \texttt{let} \\
+\operatorname{StmtKind}(\operatorname{VarStmt}(\_))\ =\ \texttt{var} \\
+\operatorname{StmtKind}(\operatorname{UsingLocalStmt}(\_,\ \_,\ \_))\ =\ \texttt{using} \\
+\operatorname{StmtKind}(\operatorname{AssignStmt}(\_,\ \_))\ =\ \texttt{assign} \\
+\operatorname{StmtKind}(\operatorname{CompoundAssignStmt}(\_,\ \_,\ \_))\ =\ \texttt{compound\_assign} \\
+\operatorname{StmtKind}(\operatorname{DeferStmt}(\_))\ =\ \texttt{defer} \\
+\operatorname{StmtKind}(\operatorname{RegionStmt}(\_,\ \_,\ \_))\ =\ \texttt{region} \\
+\operatorname{StmtKind}(\operatorname{FrameStmt}(\_,\ \_))\ =\ \texttt{frame} \\
+\operatorname{StmtKind}(\operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \_,\ \_,\ \_))\ =\ \texttt{key\_block} \\
+\operatorname{StmtKind}(\operatorname{ReturnStmt}(\_))\ =\ \texttt{return} \\
+\operatorname{StmtKind}(\operatorname{BreakStmt}(\_))\ =\ \texttt{break} \\
+\operatorname{StmtKind}(\mathsf{ContinueStmt})\ =\ \texttt{continue} \\
+\operatorname{StmtKind}(\operatorname{UnsafeBlockStmt}(\_))\ =\ \texttt{unsafe} \\
+\operatorname{StmtKind}(\_)\ =\ \bot 
+\end{array}
 ```
 
-TypeCtor(TypePath(["Region"])) = {`region`}
-TypeCtor(TypePath(["RegionOptions"])) = {`region_options`}
-TypeCtor(TypePath(p)) = {`record`} if RecordDecl(p) defined
-TypeCtor(TypePath(p)) = {`enum`} if EnumDecl(p) defined
-TypeCtor(_) = ∅
-
-```text
-TypeConstructs(P) = ⋃_{m ∈ P.modules} ⋃_{t ∈ TypeNodes(P, m)} TypeCtor(t)
+```math
+\operatorname{ExprStmtConstructs}(P)\ =\ \{\ \operatorname{ExprKind}(e)\ \mid \ m\ \in \ P.\mathsf{modules}\ \land \ e\ \in \ \operatorname{ExprNodes}(P,\ m)\ \land \ \operatorname{ExprKind}(e)\ \ne \ \bot \ \}\ \cup \ \{\ \operatorname{StmtKind}(s)\ \mid \ m\ \in \ P.\mathsf{modules}\ \land \ s\ \in \ \operatorname{StmtNodes}(P,\ m)\ \land \ \operatorname{StmtKind}(s)\ \ne \ \bot \ \}
 ```
 
-PermOfType(TypePerm(p, _)) = {p}
-PermOfType(_) = ∅
-
-```text
-RecvPerms(members) = { p | ∃ attrs, vis, ov, name, gen_params, recv, params, ret, contract, body, span, doc. MethodDecl(attrs, vis, ov, name, gen_params, recv, params, ret, contract, body, span, doc) ∈ members ∧ recv = ReceiverShorthand(p) }
-ClassRecvPerms(items) = { p | ∃ attrs, vis, name, gen_params, recv, params, ret, contract, body, span, doc. ClassMethodDecl(attrs, vis, name, gen_params, recv, params, ret, contract, body, span, doc) ∈ items ∧ recv = ReceiverShorthand(p) }
-StateRecvPerms(states) = { p | ∃ S, members, span, doc, attrs, vis, name, gen_params, recv, params, ret, contract, body. StateBlock(S, members, span, doc) ∈ states ∧ StateMethodDecl(attrs, vis, name, gen_params, recv, params, ret, contract, body, _, _) ∈ members ∧ recv = ReceiverShorthand(p) }
-PermConstructs(P) = ⋃_{m ∈ P.modules} ⋃_{t ∈ TypeNodes(P, m)} PermOfType(t) ∪ ⋃_{m ∈ P.modules} ⋃_{RecordDecl(_, _, _, _, _, _, members, _, _, _) ∈ ASTModule(P, m).items} RecvPerms(members) ∪ ⋃_{m ∈ P.modules} ⋃_{ModalDecl(_, _, _, _, _, _, states, _, _, _) ∈ ASTModule(P, m).items} StateRecvPerms(states) ∪ ⋃_{m ∈ P.modules} ⋃_{ClassDecl(_, _, _, _, _, _, _, items, _, _) ∈ ASTModule(P, m).items} ClassRecvPerms(items)
+```math
+\operatorname{CapConstructs}(P)\ =\ \{\ c\ \mid \ c\ \in \ \{\texttt{Context},\ \texttt{FileSystem},\ \texttt{Network},\ \texttt{HeapAllocator},\ \texttt{ExecutionDomain},\ \texttt{Reactor}\}\ \land \ \exists \ m,\ t.\ m\ \in \ P.\mathsf{modules}\ \land \ t\ \in \ \operatorname{TypeNodes}(P,\ m)\ \land \ t\ =\ \operatorname{TypePath}([c])\ \}
 ```
 
-ExprKind(Literal(_)) = `literal`
-ExprKind(Identifier(_)) = `identifier`
-ExprKind(FieldAccess(_, _)) = `field_access`
-ExprKind(TupleAccess(_, _)) = `tuple_index`
-ExprKind(IndexAccess(_, _)) = `index`
-ExprKind(IfExpr(_, _, _)) = `if`
-ExprKind(IfIsExpr(_, _, _, _)) = `if`
-ExprKind(IfCaseExpr(_, _, _)) = `if`
-ExprKind(LoopInfinite(_, _)) = `loop`
-ExprKind(LoopConditional(_, _, _)) = `loop`
-ExprKind(LoopIter(_, _, _, _, _)) = `loop`
-ExprKind(MoveExpr(_)) = `move`
-ExprKind(Unary(`"widen"`, _)) = `widen`
-ExprKind(TransmuteExpr(_, _, _)) = `transmute`
-ExprKind(UnsafeBlockExpr(_)) = `unsafe`
-ExprKind(AllocExpr(_, _)) = `region_alloc`
-ExprKind(MethodCall(_, _, _)) = `method_call`
-ExprKind(Propagate(_)) = `union_propagate`
-ExprKind(ParallelExpr(_, _, _)) = `parallel`
-ExprKind(SpawnExpr(_, _)) = `spawn`
-ExprKind(DispatchExpr(_, _, _, _, _)) = `dispatch`
-ExprKind(WaitExpr(_)) = `wait`
-ExprKind(YieldExpr(_, _)) = `yield`
-ExprKind(YieldFromExpr(_, _)) = `yield`
-ExprKind(SyncExpr(_)) = `sync`
-ExprKind(RaceExpr(_)) = `race`
-ExprKind(AllExpr(_)) = `all`
-
-```text
-ExprKind(_) = ⊥
-```
-
-StmtKind(LetStmt(_)) = `let`
-StmtKind(VarStmt(_)) = `var`
-StmtKind(UsingLocalStmt(_, _, _)) = `using`
-StmtKind(AssignStmt(_, _)) = `assign`
-StmtKind(CompoundAssignStmt(_, _, _)) = `compound_assign`
-StmtKind(DeferStmt(_)) = `defer`
-StmtKind(RegionStmt(_, _, _)) = `region`
-StmtKind(FrameStmt(_, _)) = `frame`
-StmtKind(KeyBlockStmt(_, _, _, _, _, _)) = `key_block`
-StmtKind(ReturnStmt(_)) = `return`
-StmtKind(BreakStmt(_)) = `break`
-StmtKind(ContinueStmt) = `continue`
-StmtKind(UnsafeBlockStmt(_)) = `unsafe`
-
-```text
-StmtKind(_) = ⊥
-```
-
-```text
-ExprStmtConstructs(P) = { ExprKind(e) | m ∈ P.modules ∧ e ∈ ExprNodes(P, m) ∧ ExprKind(e) ≠ ⊥ } ∪ { StmtKind(s) | m ∈ P.modules ∧ s ∈ StmtNodes(P, m) ∧ StmtKind(s) ≠ ⊥ }
-```
-
-```text
-CapConstructs(P) = { c | c ∈ {`Context`, `FileSystem`, `Network`, `HeapAllocator`, `ExecutionDomain`, `Reactor`} ∧ ∃ m, t. m ∈ P.modules ∧ t ∈ TypeNodes(P, m) ∧ t = TypePath([c]) }
-```
-
-```text
-Constructs(P) = TopDeclConstructs(P) ∪ TypeConstructs(P) ∪ PermConstructs(P) ∪ ExprStmtConstructs(P) ∪ CapConstructs(P)
+```math
+\operatorname{Constructs}(P)\ =\ \operatorname{TopDeclConstructs}(P)\ \cup \ \operatorname{TypeConstructs}(P)\ \cup \ \operatorname{PermConstructs}(P)\ \cup \ \operatorname{ExprStmtConstructs}(P)\ \cup \ \operatorname{CapConstructs}(P)
 ```
 
 **(Reject-IllFormed)**
 
-```text
-¬ Conforming(P)
-```
-
-─────────────────
-
-```text
-Γ ⊢ Reject(P)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{Conforming}(P) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Reject}(P)
+\end{array}
 ```
 
 **TranslationPhases.**
-TranslationPhases = [Phase1, Phase2, Phase3, Phase4]
+
+```math
+\mathsf{TranslationPhases}\ =\ [\mathsf{Phase1},\ \mathsf{Phase2},\ \mathsf{Phase3},\ \mathsf{Phase4}]
+```
 
 ### 1.2 Behavior Types
 
 **IllFormed.**
 
-```text
-StaticJudgSet = WFModulePathJudg ∪ LinkJudg ∪ ParseJudgment ∪ ResolvePathJudg ∪ ResolveExprListJudg ∪ ResolveEnumPayloadJudg ∪ ResolveCalleeJudg ∪ ResolveIfCaseJudg ∪ ResolveStmtSeqJudg ∪ TypeEqJudg ∪ ConstLenJudg ∪ SubtypingJudg ∪ PermAdmitsJudg ∪ ArgsOkTJudg ∪ TypeInfJudg ∪ StmtJudg ∪ PatJudg ∪ ExprJudg ∪ CaseJudg ∪ DeclJudg ∪ BJudgment ∪ ArgPassJudg ∪ ProvPlaceJudg ∪ ProvExprJudg ∪ ProvStmtJudg ∪ BlockProvJudg ∪ ArgsOkJudg ∪ TypeWFJudg ∪ StringBytesJudg ∪ BitcopyDropJudg ∪ BitcopyJudg ∪ CloneJudg ∪ DropJudg ∪ FfiSafeJudg ∪ TypeRefsJudg ∪ ValueRefsJudg ∪ CodegenJudg ∪ LayoutJudg ∪ EncodeConstJudg ∪ ValidValueJudg ∪ RecordLayoutJudg ∪ UnionLayoutJudg ∪ TupleLayoutJudg ∪ RangeLayoutJudg ∪ EnumLayoutJudg ∪ ModalLayoutJudg ∪ DynLayoutJudg ∪ ABITyJudg ∪ ABIParamJudg ∪ ABIRetJudg ∪ ABICallJudg ∪ LowerCallJudg ∪ MangleJudg ∪ LinkageJudg ∪ EvalOrderJudg ∪ LowerExprJudg ∪ LowerStmtJudg ∪ PatternLowerJudg ∪ LowerBindJudg ∪ GlobalsJudg ∪ ConstInitJudg ∪ CleanupJudg ∪ RuntimeIfcJudg ∪ DynDispatchJudg ∪ ChecksJudg ∪ LLVMAttrJudg ∪ RuntimeDeclJudg ∪ LLVMTyJudg ∪ LLVMEmitJudg ∪ LowerIRJudg ∪ BindStorageJudg ∪ LLVMCallJudg ∪ VTableJudg ∪ LiteralEmitJudg ∪ BuiltinSymJudg ∪ DropHookJudg ∪ EntryJudg ∪ PoisonJudg
-StaticRuleSet = { r | Conclusion(r) ∈ StaticJudgSet }
-Conclusion(r) = J    (r is written (π_1 … π_k) / J)
-Premises(r) = [π_1, …, π_k]    (r is written (π_1 … π_k) / _)
-Subject(Γ ⊢ j) = j_0 where j_0 is the leftmost term to the right of ⊢
-EnvOf(Γ ⊢ j) = Γ
-θ ranges over substitutions of metavariables in r
-Applies(r, x) ⇔ ∃ θ. Subject(Conclusion(r)[θ]) = x
-PremisesHold(r, x) ⇔ ∃ θ. Subject(Conclusion(r)[θ]) = x ∧ Γ_r = EnvOf(Conclusion(r)[θ]) ∧ ∀ π ∈ Premises(r)[θ]. π ≠ ⊥ ∧ (π is a judgment ⇒ Γ_r ⊢ π)
-IllFormed(x) ⇔ ∃ r ∈ StaticRuleSet. Applies(r, x) ∧ ¬ PremisesHold(r, x)
+```math
+\begin{array}{l}
+\mathsf{StaticJudgSet}\ =\ \mathsf{WFModulePathJudg}\ \cup \ \mathsf{LinkJudg}\ \cup \ \mathsf{ParseJudgment}\ \cup \ \mathsf{ResolvePathJudg}\ \cup \ \mathsf{ResolveExprListJudg}\ \cup \ \mathsf{ResolveEnumPayloadJudg}\ \cup \ \mathsf{ResolveCalleeJudg}\ \cup \ \mathsf{ResolveIfCaseJudg}\ \cup \ \mathsf{ResolveStmtSeqJudg}\ \cup \ \mathsf{TypeEqJudg}\ \cup \ \mathsf{ConstLenJudg}\ \cup \ \mathsf{SubtypingJudg}\ \cup \ \mathsf{PermAdmitsJudg}\ \cup \ \mathsf{ArgsOkTJudg}\ \cup \ \mathsf{TypeInfJudg}\ \cup \ \mathsf{StmtJudg}\ \cup \ \mathsf{PatJudg}\ \cup \ \mathsf{ExprJudg}\ \cup \ \mathsf{CaseJudg}\ \cup \ \mathsf{DeclJudg}\ \cup \ \mathsf{BJudgment}\ \cup \ \mathsf{ArgPassJudg}\ \cup \ \mathsf{ProvPlaceJudg}\ \cup \ \mathsf{ProvExprJudg}\ \cup \ \mathsf{ProvStmtJudg}\ \cup \ \mathsf{BlockProvJudg}\ \cup \ \mathsf{ArgsOkJudg}\ \cup \ \mathsf{TypeWFJudg}\ \cup \ \mathsf{StringBytesJudg}\ \cup \ \mathsf{BitcopyDropJudg}\ \cup \ \mathsf{BitcopyJudg}\ \cup \ \mathsf{CloneJudg}\ \cup \ \mathsf{DropJudg}\ \cup \ \mathsf{FfiSafeJudg}\ \cup \ \mathsf{TypeRefsJudg}\ \cup \ \mathsf{ValueRefsJudg}\ \cup \ \mathsf{CodegenJudg}\ \cup \ \mathsf{LayoutJudg}\ \cup \ \mathsf{EncodeConstJudg}\ \cup \ \mathsf{ValidValueJudg}\ \cup \ \mathsf{RecordLayoutJudg}\ \cup \ \mathsf{UnionLayoutJudg}\ \cup \ \mathsf{TupleLayoutJudg}\ \cup \ \mathsf{RangeLayoutJudg}\ \cup \ \mathsf{EnumLayoutJudg}\ \cup \ \mathsf{ModalLayoutJudg}\ \cup \ \mathsf{DynLayoutJudg}\ \cup \ \mathsf{ABITyJudg}\ \cup \ \mathsf{ABIParamJudg}\ \cup \ \mathsf{ABIRetJudg}\ \cup \ \mathsf{ABICallJudg}\ \cup \ \mathsf{LowerCallJudg}\ \cup \ \mathsf{MangleJudg}\ \cup \ \mathsf{LinkageJudg}\ \cup \ \mathsf{EvalOrderJudg}\ \cup \ \mathsf{LowerExprJudg}\ \cup \ \mathsf{LowerStmtJudg}\ \cup \ \mathsf{PatternLowerJudg}\ \cup \ \mathsf{LowerBindJudg}\ \cup \ \mathsf{GlobalsJudg}\ \cup \ \mathsf{ConstInitJudg}\ \cup \ \mathsf{CleanupJudg}\ \cup \ \mathsf{RuntimeIfcJudg}\ \cup \ \mathsf{DynDispatchJudg}\ \cup \ \mathsf{ChecksJudg}\ \cup \ \mathsf{LLVMAttrJudg}\ \cup \ \mathsf{RuntimeDeclJudg}\ \cup \ \mathsf{LLVMTyJudg}\ \cup \ \mathsf{LLVMEmitJudg}\ \cup \ \mathsf{LowerIRJudg}\ \cup \ \mathsf{BindStorageJudg}\ \cup \ \mathsf{LLVMCallJudg}\ \cup \ \mathsf{VTableJudg}\ \cup \ \mathsf{LiteralEmitJudg}\ \cup \ \mathsf{BuiltinSymJudg}\ \cup \ \mathsf{DropHookJudg}\ \cup \ \mathsf{EntryJudg}\ \cup \ \mathsf{PoisonJudg} \\
+\mathsf{StaticRuleSet}\ =\ \{\ r\ \mid \ \operatorname{Conclusion}(r)\ \in \ \mathsf{StaticJudgSet}\ \} \\
+\operatorname{Conclusion}(r)\ =\ J\quad (r\ \mathsf{is}\ \mathsf{written}\ (\pi_{1} \ \ldots \ \pi_{k} )\ /\ J) \\
+\operatorname{Premises}(r)\ =\ [\pi_{1} ,\ \ldots ,\ \pi_{k} ]\quad (r\ \mathsf{is}\ \mathsf{written}\ (\pi_{1} \ \ldots \ \pi_{k} )\ /\ \_) \\
+\operatorname{Subject}(\Gamma \ \vdash \ j)\ =\ j_{0}\ \mathsf{where}\ j_{0}\ \mathsf{is}\ \mathsf{the}\ \mathsf{leftmost}\ \mathsf{term}\ \mathsf{to}\ \mathsf{the}\ \mathsf{right}\ \mathsf{of}\ \vdash  \\
+\operatorname{EnvOf}(\Gamma \ \vdash \ j)\ =\ \Gamma  \\
+\theta \ \mathsf{ranges}\ \mathsf{over}\ \mathsf{substitutions}\ \mathsf{of}\ \mathsf{metavariables}\ \mathsf{in}\ r \\
+\operatorname{Applies}(r,\ x)\ \Leftrightarrow \ \exists \ \theta .\ \operatorname{Subject}(\operatorname{Conclusion}(r)[\theta ])\ =\ x \\
+\operatorname{PremisesHold}(r,\ x)\ \Leftrightarrow \ \exists \ \theta .\ \operatorname{Subject}(\operatorname{Conclusion}(r)[\theta ])\ =\ x\ \land \ \Gamma_{r} \ =\ \operatorname{EnvOf}(\operatorname{Conclusion}(r)[\theta ])\ \land \ \forall \ \pi \ \in \ \operatorname{Premises}(r)[\theta ].\ \pi \ \ne \ \bot \ \land \ (\pi \ \mathsf{is}\ a\ \mathsf{judgment}\ \Rightarrow \ \Gamma_{r} \ \vdash \ \pi ) \\
+\operatorname{IllFormed}(x)\ \Leftrightarrow \ \exists \ r\ \in \ \mathsf{StaticRuleSet}.\ \operatorname{Applies}(r,\ x)\ \land \ \lnot \ \operatorname{PremisesHold}(r,\ x)
+\end{array}
 ```
 
 **Undefinedness Policy.**
 
-```text
-StaticUndefined(J) ⇔ ∃ r. Conclusion(r) = J ∧ ∃ π ∈ Premises(r). π = ⊥
+```math
+\operatorname{StaticUndefined}(J)\ \Leftrightarrow \ \exists \ r.\ \operatorname{Conclusion}(r)\ =\ J\ \land \ \exists \ \pi \ \in \ \operatorname{Premises}(r).\ \pi \ =\ \bot 
 ```
 
-```text
-RuleId(r) = id ⇔ r is labeled (id)
-DiagIdOf(J) = id ⇔ ∃ r. Conclusion(r) = J ∧ RuleId(r) = id
-DiagIdOf(J) = ⊥ ⇔ ¬ ∃ r. Conclusion(r) = J ∧ RuleId(r) defined
-SectionId(r) ∈ String
-RulesIn(Σ) = { r | SectionId(r) ∈ Σ }
+```math
+\begin{array}{l}
+\operatorname{RuleId}(r)\ =\ \mathsf{id}\ \Leftrightarrow \ r\ \mathsf{is}\ \mathsf{labeled}\ (\mathsf{id}) \\
+\operatorname{DiagIdOf}(J)\ =\ \mathsf{id}\ \Leftrightarrow \ \exists \ r.\ \operatorname{Conclusion}(r)\ =\ J\ \land \ \operatorname{RuleId}(r)\ =\ \mathsf{id} \\
+\operatorname{DiagIdOf}(J)\ =\ \bot \ \Leftrightarrow \ \lnot \ \exists \ r.\ \operatorname{Conclusion}(r)\ =\ J\ \land \ \operatorname{RuleId}(r)\ \mathsf{defined} \\
+\operatorname{SectionId}(r)\ \in \ \mathsf{String} \\
+\operatorname{RulesIn}(\Sigma )\ =\ \{\ r\ \mid \ \operatorname{SectionId}(r)\ \in \ \Sigma \ \}
+\end{array}
 ```
 
 **(Static-Undefined)**
-StaticUndefined(J)    Code(DiagIdOf(J)) = c
-───────────────────────────────────────
 
-```text
-Γ ⊢ J ⇑ c
+```math
+\begin{array}{l}
+\operatorname{StaticUndefined}(J)\quad \operatorname{Code}(\operatorname{DiagIdOf}(J))\ =\ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ J\ \Uparrow \ c
+\end{array}
 ```
 
 **(Static-Undefined-NoCode)**
 
-```text
-StaticUndefined(J)    Code(DiagIdOf(J)) = ⊥
-```
-
-────────────────────────────────────────
-
-```text
-Γ ⊢ J ⇑
+```math
+\begin{array}{l}
+\operatorname{StaticUndefined}(J)\quad \operatorname{Code}(\operatorname{DiagIdOf}(J))\ =\ \bot  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ J\ \Uparrow 
+\end{array}
 ```
 
 **OutsideConformance.**
 If OutsideConformance holds, this specification imposes no requirements on observable behavior, diagnostics, or termination. Implementations MAY exhibit any behavior.
 
 **Static vs. Runtime Checks.**
-CheckKind = {PatternExhaustiveness, TypeCompatibility, PermissionViolations, ProvenanceEscape, ArrayBounds, SafePointerValidity, IntegerOverflow, SliceBounds, IntDivisionByZero}
 
-StaticCheck = {PatternExhaustiveness, TypeCompatibility, PermissionViolations, ProvenanceEscape, ArrayBounds, SafePointerValidity}
-RuntimeCheck = {IntegerOverflow, SliceBounds, IntDivisionByZero}
+```math
+\mathsf{CheckKind}\ =\ \{\mathsf{PatternExhaustiveness},\ \mathsf{TypeCompatibility},\ \mathsf{PermissionViolations},\ \mathsf{ProvenanceEscape},\ \mathsf{ArrayBounds},\ \mathsf{SafePointerValidity},\ \mathsf{IntegerOverflow},\ \mathsf{SliceBounds},\ \mathsf{IntDivisionByZero}\}
+```
 
-RuntimeBehavior(IntegerOverflow) = Panic
-RuntimeBehavior(SliceBounds) = Panic
-RuntimeBehavior(IntDivisionByZero) = Panic
+```math
+\begin{array}{l}
+\mathsf{StaticCheck}\ =\ \{\mathsf{PatternExhaustiveness},\ \mathsf{TypeCompatibility},\ \mathsf{PermissionViolations},\ \mathsf{ProvenanceEscape},\ \mathsf{ArrayBounds},\ \mathsf{SafePointerValidity}\} \\
+\mathsf{RuntimeCheck}\ =\ \{\mathsf{IntegerOverflow},\ \mathsf{SliceBounds},\ \mathsf{IntDivisionByZero}\}
+\end{array}
+```
 
-```text
-ResourceExhaustion ⇒ OutsideConformance
+```math
+\begin{array}{l}
+\operatorname{RuntimeBehavior}(\mathsf{IntegerOverflow})\ =\ \mathsf{Panic} \\
+\operatorname{RuntimeBehavior}(\mathsf{SliceBounds})\ =\ \mathsf{Panic} \\
+\operatorname{RuntimeBehavior}(\mathsf{IntDivisionByZero})\ =\ \mathsf{Panic}
+\end{array}
+```
+
+```math
+\mathsf{ResourceExhaustion}\ \Rightarrow \ \mathsf{OutsideConformance}
 ```
 
 **Error Recovery.**
 LexRecovery = SkipToNextTokenStart
-ParseRecovery = SyncSet({`;`, `}`, `EOF`})
+
+```math
+\mathsf{ParseRecovery}\ =\ \operatorname{SyncSet}(\{\texttt{;},\ \texttt{\}},\ \texttt{EOF}\})
+```
 TypeRecovery = ContinueDecls
 
-```text
-MaxErrorCount ∈ ℕ ∪ {∞}
+```math
+\mathsf{MaxErrorCount}\ \in \ \mathbb{N} \ \cup \ \{\infty \}
 ```
-
 SuggestedMaxErrorCount = 100
 
-```text
-AbortOnErrorCount(n) ⇔ n ≥ MaxErrorCount
+```math
+\operatorname{AbortOnErrorCount}(n)\ \Leftrightarrow \ n\ \ge \ \mathsf{MaxErrorCount}
 ```
 
 ### 1.3 Document Conventions
 
 **NormativeKeywords.**
-NormativeKeywords = {`MUST`, `MUST NOT`, `SHOULD`, `SHOULD NOT`, `MAY`}
+
+```math
+\mathsf{NormativeKeywords}\ =\ \{\texttt{MUST},\ \texttt{MUST NOT},\ \texttt{SHOULD},\ \texttt{SHOULD NOT},\ \texttt{MAY}\}
+```
 
 **RFC 2119 Interpretation.**
 The keywords in NormativeKeywords MUST be interpreted as described in RFC 2119.
 
 **DiagnosticCodeFormat.**
-DiagPrefix = {E, W, I, P}
-DiagCategory = [A-Z]^3
-DiagDigits = [0-9]^4
-DiagCode = DiagPrefix ++ "-" ++ DiagCategory ++ "-" ++ DiagDigits
-Bucket(Digits) = Digits[0..1]
-Seq(Digits) = Digits[2..3]
+
+```math
+\begin{array}{l}
+\mathsf{DiagPrefix}\ =\ \{E,\ W,\ I,\ P\} \\
+\mathsf{DiagCategory}\ =\ [A-Z]^3 \\
+\mathsf{DiagDigits}\ =\ [0-9]^4 \\
+\mathsf{DiagCode}\ =\ \mathsf{DiagPrefix}\ \mathbin{++} \ \texttt{"-"}\ \mathbin{++} \ \mathsf{DiagCategory}\ \mathbin{++} \ \texttt{"-"}\ \mathbin{++} \ \mathsf{DiagDigits} \\
+\operatorname{Bucket}(\mathsf{Digits})\ =\ \mathsf{Digits}[0..1] \\
+\operatorname{Seq}(\mathsf{Digits})\ =\ \mathsf{Digits}[2..3]
+\end{array}
+```
 
 ### 1.4 Normative References
 
@@ -356,14 +369,16 @@ A conforming implementation MUST implement the features of the referenced standa
 
 ### 1.5 Compile-Time Execution and Phase Ordering
 
-TranslationPhases = [Phase1, Phase2, Phase3, Phase4]
+```math
+\mathsf{TranslationPhases}\ =\ [\mathsf{Phase1},\ \mathsf{Phase2},\ \mathsf{Phase3},\ \mathsf{Phase4}]
+```
 Phase1 = ParseAndAggregate
 Phase2 = ExecuteComptime
 Phase3 = ResolveAndTypecheck
 Phase4 = LowerAndEmit
 
-```text
-Γ ⊢ ExecuteComptime(P, Ms) ⇓ Ms_ct ⇔ Γ ⊢ ComptimePass(P, Ms) ⇓ Ms_ct
+```math
+\Gamma \ \vdash \ \operatorname{ExecuteComptime}(P,\ \mathsf{Ms})\ \Downarrow \ \mathsf{Ms}_{\mathsf{ct}}\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{ComptimePass}(P,\ \mathsf{Ms})\ \Downarrow \ \mathsf{Ms}_{\mathsf{ct}}
 ```
 
 1. Phase 1 MUST parse and aggregate all modules before Phase 2 begins.
@@ -376,12 +391,12 @@ The syntax and semantics of compile-time forms are defined by Chapter 22.
 
 ### 1.6 Target and ABI Assumptions
 
-TargetProfile = {`x86_64-sysv`, `x86_64-win64`, `aarch64-aapcs64`}
-
-```text
-SelectedTargetProfile ∈ TargetProfile
+```math
+\begin{array}{l}
+\mathsf{TargetProfile}\ =\ \{\texttt{x86\_64-sysv},\ \texttt{x86\_64-win64},\ \texttt{aarch64-aapcs64}\} \\
+\mathsf{SelectedTargetProfile}\ \in \ \mathsf{TargetProfile}
+\end{array}
 ```
-
 The selected target profile is resolved once per compilation invocation.
 Resolution order is:
 1. the explicit CLI target-profile override, if provided;
@@ -389,15 +404,23 @@ Resolution order is:
 3. otherwise the compilation invocation is ill-formed.
 A conforming implementation MUST NOT silently infer `SelectedTargetProfile` from the host platform.
 
-TargetArch(`x86_64-sysv`) = `x86_64`
-TargetArch(`x86_64-win64`) = `x86_64`
-TargetArch(`aarch64-aapcs64`) = `aarch64`
+```math
+\begin{array}{l}
+\operatorname{TargetArch}(\texttt{x86\_64-sysv})\ =\ \texttt{x86\_64} \\
+\operatorname{TargetArch}(\texttt{x86\_64-win64})\ =\ \texttt{x86\_64} \\
+\operatorname{TargetArch}(\texttt{aarch64-aapcs64})\ =\ \texttt{aarch64}
+\end{array}
+```
 
 Endianness = Little
 PtrSizeBytes = PtrSize
 
-Target(`x86_64-sysv`) = "x86_64-unknown-linux-gnu"
-Target(`x86_64-win64`) = "x86_64-pc-windows-msvc"
-Target(`aarch64-aapcs64`) = "aarch64-unknown-linux-gnu"
+```math
+\begin{array}{l}
+\operatorname{Target}(\texttt{x86\_64-sysv})\ =\ \texttt{"x86\_64-unknown-linux-gnu"} \\
+\operatorname{Target}(\texttt{x86\_64-win64})\ =\ \texttt{"x86\_64-pc-windows-msvc"} \\
+\operatorname{Target}(\texttt{aarch64-aapcs64})\ =\ \texttt{"aarch64-unknown-linux-gnu"}
+\end{array}
+```
 
 Layout and ABI requirements are defined only by their canonical owner sections in this document, especially Chapters 12, 13, 14.6, and 23.2. The source-draft bundle name `LayoutSpec` is not a separate normative relation in this reorganization.

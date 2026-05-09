@@ -3,7 +3,7 @@ title: "Name Resolution and Visibility"
 description: "7. Name Resolution and Visibility of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T17:39:45.389Z"
+generatedAt: "2026-05-09T18:13:03.158Z"
 generated: true
 ---
 
@@ -16,138 +16,162 @@ generated: true
 
 ### 7.1 Scope Context and Identifiers
 
-IdKeyRef = {"4.2.8"}
-
-```text
-ScopeKey(S) ⇔ dom(S) ⊆ {IdKey(x) | x ∈ Identifier}
+```math
+\begin{array}{l}
+\mathsf{IdKeyRef}\ =\ \{\texttt{"4.2.8"}\} \\
+\operatorname{ScopeKey}(S)\ \Leftrightarrow \ \operatorname{dom}(S)\ \subseteq \ \{\operatorname{IdKey}(x)\ \mid \ x\ \in \ \mathsf{Identifier}\}
+\end{array}
 ```
 
-```text
-Σ = ⟨Σ.Mods, Σ.Types, Σ.Classes⟩
-Σ.Mods ∈ [ASTModule]
-Σ.Types : Path ⇀ TypeDecl
-Σ.Classes : Path ⇀ ClassDecl
+```math
+\begin{array}{l}
+\Sigma \ =\ \langle \Sigma .\mathsf{Mods},\ \Sigma .\mathsf{Types},\ \Sigma .\mathsf{Classes}\rangle  \\
+\Sigma .\mathsf{Mods}\ \in \ [\mathsf{ASTModule}] \\
+\Sigma .\mathsf{Types}\ :\ \mathsf{Path}\ \rightharpoonup \ \mathsf{TypeDecl} \\
+\Sigma .\mathsf{Classes}\ :\ \mathsf{Path}\ \rightharpoonup \ \mathsf{ClassDecl}
+\end{array}
 ```
 
-```text
-Γ = ⟨P, Σ, m, S⟩
-Project(Γ) = P
-ResCtx(Γ) = ⟨Σ, m⟩
-CurrentModule(Γ) = m
-Scopes(Γ) = S
+```math
+\begin{array}{l}
+\Gamma \ =\ \langle P,\ \Sigma ,\ m,\ S\rangle  \\
+\operatorname{Project}(\Gamma )\ =\ P \\
+\operatorname{ResCtx}(\Gamma )\ =\ \langle \Sigma ,\ m\rangle  \\
+\operatorname{CurrentModule}(\Gamma )\ =\ m \\
+\operatorname{Scopes}(\Gamma )\ =\ S
+\end{array}
 ```
 
-EntityKind = {Value, Type, Class, ModuleAlias}
-EntitySource = {Decl, Using, RegionAlias}
-
-```text
-Entity = ⟨kind, origin_opt, target_opt, source⟩
-origin_opt ∈ ModulePath ∪ {⊥}
-target_opt ∈ Identifier ∪ {⊥}
+```math
+\begin{array}{l}
+\mathsf{EntityKind}\ =\ \{\mathsf{Value},\ \mathsf{Type},\ \mathsf{Class},\ \mathsf{ModuleAlias}\} \\
+\mathsf{EntitySource}\ =\ \{\mathsf{Decl},\ \mathsf{Using},\ \mathsf{RegionAlias}\} \\
+\mathsf{Entity}\ =\ \langle \mathsf{kind},\ \mathsf{origin}_{\mathsf{opt}},\ \mathsf{target}_{\mathsf{opt}},\ \mathsf{source}\rangle  \\
+\mathsf{origin}_{\mathsf{opt}}\ \in \ \mathsf{ModulePath}\ \cup \ \{\bot \} \\
+\mathsf{target}_{\mathsf{opt}}\ \in \ \mathsf{Identifier}\ \cup \ \{\bot \}
+\end{array}
 ```
 
 S : IdKey ⇀ Entity
 
-```text
-Scopes(Γ) = [S_1, …, S_k, S_proc, S_module, S_universe]    (k ≥ 0)
-LocalScopes(Γ) = [S_1, …, S_k]
-ProcScope(Γ) = S_proc
-ModuleScope(Γ) = S_module
-UniverseScope(Γ) = S_universe
+```math
+\begin{array}{l}
+\operatorname{Scopes}(\Gamma )\ =\ [S_{1},\ \ldots ,\ S_{k},\ S_{\mathsf{proc}},\ S_{\mathsf{module}},\ S_{\mathsf{universe}}]\quad (k\ \ge \ 0) \\
+\operatorname{LocalScopes}(\Gamma )\ =\ [S_{1},\ \ldots ,\ S_{k}] \\
+\operatorname{ProcScope}(\Gamma )\ =\ S_{\mathsf{proc}} \\
+\operatorname{ModuleScope}(\Gamma )\ =\ S_{\mathsf{module}} \\
+\operatorname{UniverseScope}(\Gamma )\ =\ S_{\mathsf{universe}}
+\end{array}
 ```
 
-```text
-UniverseBindings = { IdKey(x) ↦ ⟨Type, ⊥, ⊥, Decl⟩ | x ∈ UniverseProtected } ∪ { IdKey(`ultraviolet`) ↦ ⟨ModuleAlias, `ultraviolet`, ⊥, Decl⟩ }
+```math
+\begin{array}{l}
+\mathsf{UniverseBindings}\ =\ \{\ \operatorname{IdKey}(x)\ \mapsto \ \langle \mathsf{Type},\ \bot ,\ \bot ,\ \mathsf{Decl}\rangle \ \mid \ x\ \in \ \mathsf{UniverseProtected}\ \}\ \cup \ \{\ \operatorname{IdKey}(\texttt{ultraviolet})\ \mapsto \ \langle \mathsf{ModuleAlias},\ \texttt{ultraviolet},\ \bot ,\ \mathsf{Decl}\rangle \ \} \\
+S_{\mathsf{universe}}\ =\ \mathsf{UniverseBindings}
+\end{array}
 ```
 
-S_universe = UniverseBindings
-
-```text
-BytePrefix(p, s) ⇔ ∃ r. s = p ++ r
-Prefix(s, p) ⇔ BytePrefix(p, s)
+```math
+\begin{array}{l}
+\operatorname{BytePrefix}(p,\ s)\ \Leftrightarrow \ \exists \ r.\ s\ =\ p\ \mathbin{++} \ r \\
+\operatorname{Prefix}(s,\ p)\ \Leftrightarrow \ \operatorname{BytePrefix}(p,\ s)
+\end{array}
 ```
 
-```text
-ReservedGen(x) ⇔ Prefix(IdKey(x), IdKey(`gen_`))
-ReservedUltraviolet(x) ⇔ IdEq(x, `ultraviolet`)
-ReservedId(x) ⇔ ReservedGen(x) ∨ ReservedUltraviolet(x)
-ReservedModulePath(path) ⇔ (|path| ≥ 1 ∧ IdEq(path[0], `ultraviolet`)) ∨ (∃ i. ReservedGen(path[i]))
+```math
+\begin{array}{l}
+\operatorname{ReservedGen}(x)\ \Leftrightarrow \ \operatorname{Prefix}(\operatorname{IdKey}(x),\ \operatorname{IdKey}(\texttt{gen\_})) \\
+\operatorname{ReservedUltraviolet}(x)\ \Leftrightarrow \ \operatorname{IdEq}(x,\ \texttt{ultraviolet}) \\
+\operatorname{ReservedId}(x)\ \Leftrightarrow \ \operatorname{ReservedGen}(x)\ \lor \ \operatorname{ReservedUltraviolet}(x) \\
+\operatorname{ReservedModulePath}(\mathsf{path})\ \Leftrightarrow \ (\mid \mathsf{path}\mid \ \ge \ 1\ \land \ \operatorname{IdEq}(\mathsf{path}[0],\ \texttt{ultraviolet}))\ \lor \ (\exists \ i.\ \operatorname{ReservedGen}(\mathsf{path}[i]))
+\end{array}
 ```
 
-<!-- Source: "The `ultraviolet::...` namespace prefix is reserved for specification-defined features. User programs and vendor extensions MUST NOT use this namespace." -->
+```math
+<!--\ \mathsf{Source}:\ \texttt{"The `ultraviolet::...` namespace prefix is reserved for specification-defined features. User programs and vendor extensions MUST NOT use this namespace."}\ -\to 
+```
 
-PrimTypeNames = {`i8`, `i16`, `i32`, `i64`, `i128`, `u8`, `u16`, `u32`, `u64`, `u128`, `f16`, `f32`, `f64`, `bool`, `char`, `usize`, `isize`}
-SpecialTypeNames = {`Self`, `Drop`, `Bitcopy`, `Clone`, `Eq`, `Hash`, `Hasher`, `Iterator`, `Step`, `FfiSafe`, `string`, `bytes`, `Modal`, `Region`, `RegionOptions`, `CancelToken`, `Context`, `System`, `Network`, `ExecutionDomain`, `CpuSet`, `Priority`, `Reactor`}
-AsyncTypeNames = {`Async`, `Future`, `Sequence`, `Stream`, `Pipe`, `Exchange`, `Tracked`}
+```math
+\begin{array}{l}
+\mathsf{PrimTypeNames}\ =\ \{\texttt{i8},\ \texttt{i16},\ \texttt{i32},\ \texttt{i64},\ \texttt{i128},\ \texttt{u8},\ \texttt{u16},\ \texttt{u32},\ \texttt{u64},\ \texttt{u128},\ \texttt{f16},\ \texttt{f32},\ \texttt{f64},\ \texttt{bool},\ \texttt{char},\ \texttt{usize},\ \texttt{isize}\} \\
+\mathsf{SpecialTypeNames}\ =\ \{\texttt{Self},\ \texttt{Drop},\ \texttt{Bitcopy},\ \texttt{Clone},\ \texttt{Eq},\ \texttt{Hash},\ \texttt{Hasher},\ \texttt{Iterator},\ \texttt{Step},\ \texttt{FfiSafe},\ \texttt{string},\ \texttt{bytes},\ \texttt{Modal},\ \texttt{Region},\ \texttt{RegionOptions},\ \texttt{CancelToken},\ \texttt{Context},\ \texttt{System},\ \texttt{Network},\ \texttt{ExecutionDomain},\ \texttt{CpuSet},\ \texttt{Priority},\ \texttt{Reactor}\} \\
+\mathsf{AsyncTypeNames}\ =\ \{\texttt{Async},\ \texttt{Future},\ \texttt{Sequence},\ \texttt{Stream},\ \texttt{Pipe},\ \texttt{Exchange},\ \texttt{Tracked}\}
+\end{array}
+```
 
 `Drop`, `Bitcopy`, `Clone`, and `FfiSafe` are reserved predicate names and are included in `SpecialTypeNames`. Reuse of these names at any scope is an error via `(Intro-Outer-Err)` (§7.2), since `UniverseBindings` is the outermost scope and contains these names.
 
-```text
-PrimTypeKeys = {IdKey(x) | x ∈ PrimTypeNames}
-SpecialTypeKeys = {IdKey(x) | x ∈ SpecialTypeNames}
-AsyncTypeKeys = {IdKey(x) | x ∈ AsyncTypeNames}
+```math
+\begin{array}{l}
+\mathsf{PrimTypeKeys}\ =\ \{\operatorname{IdKey}(x)\ \mid \ x\ \in \ \mathsf{PrimTypeNames}\} \\
+\mathsf{SpecialTypeKeys}\ =\ \{\operatorname{IdKey}(x)\ \mid \ x\ \in \ \mathsf{SpecialTypeNames}\} \\
+\mathsf{AsyncTypeKeys}\ =\ \{\operatorname{IdKey}(x)\ \mid \ x\ \in \ \mathsf{AsyncTypeNames}\}
+\end{array}
 ```
 
-```text
-KeywordKey(n) ⇔ ∃ s. n = IdKey(s) ∧ Keyword(s)
+```math
+\operatorname{KeywordKey}(n)\ \Leftrightarrow \ \exists \ s.\ n\ =\ \operatorname{IdKey}(s)\ \land \ \operatorname{Keyword}(s)
 ```
 
 ### 7.2 Name Introduction and Module Validation
 
-dom(S) = keys(S)
-
-```text
-Scopes(Γ) = [S_cur] ++ Γ_out
-InScope(S, x) ⇔ IdKey(x) ∈ dom(S)
-InOuter(Γ, x) ⇔ ∃ S ∈ Γ_out. InScope(S, x)
+```math
+\begin{array}{l}
+\operatorname{dom}(S)\ =\ \operatorname{keys}(S) \\
+\operatorname{Scopes}(\Gamma )\ =\ [S_{\mathsf{cur}}]\ \mathbin{++} \ \Gamma_{\mathsf{out}}  \\
+\operatorname{InScope}(S,\ x)\ \Leftrightarrow \ \operatorname{IdKey}(x)\ \in \ \operatorname{dom}(S) \\
+\operatorname{InOuter}(\Gamma ,\ x)\ \Leftrightarrow \ \exists \ S\ \in \ \Gamma_{\mathsf{out}} .\ \operatorname{InScope}(S,\ x)
+\end{array}
 ```
 
 **(Intro-Ok)**
 
-```text
-¬ InScope(S_cur, x)    ¬ InOuter(Γ, x)    ¬ ReservedId(x)    Scopes(Γ') = [S_cur[IdKey(x) ↦ ent]] ++ Γ_out    Project(Γ') = Project(Γ)    ResCtx(Γ') = ResCtx(Γ)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Intro(x, ent) ⇓ Γ'
+```math
+\begin{array}{l}
+\lnot \ \operatorname{InScope}(S_{\mathsf{cur}},\ x)\quad \lnot \ \operatorname{InOuter}(\Gamma ,\ x)\quad \lnot \ \operatorname{ReservedId}(x)\quad \operatorname{Scopes}(\Gamma ')\ =\ [S_{\mathsf{cur}}[\operatorname{IdKey}(x)\ \mapsto \ \mathsf{ent}]]\ \mathbin{++} \ \Gamma_{\mathsf{out}} \quad \operatorname{Project}(\Gamma ')\ =\ \operatorname{Project}(\Gamma )\quad \operatorname{ResCtx}(\Gamma ')\ =\ \operatorname{ResCtx}(\Gamma ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Intro}(x,\ \mathsf{ent})\ \Downarrow \ \Gamma '
+\end{array}
 ```
 
 **(Intro-Dup)**
-InScope(S_cur, x)    c = Code(Intro-Dup)
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ Intro(x, ent) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{InScope}(S_{\mathsf{cur}},\ x)\quad c\ =\ \operatorname{Code}(\mathsf{Intro}-\mathsf{Dup}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Intro}(x,\ \mathsf{ent})\ \Uparrow \ c
+\end{array}
 ```
 
 **(Intro-Outer-Err)**
 
-```text
-¬ InScope(S_cur, x)    InOuter(Γ, x)    c = Code(Intro-Outer-Err)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Intro(x, ent) ⇑ c
+```math
+\begin{array}{l}
+\lnot \ \operatorname{InScope}(S_{\mathsf{cur}},\ x)\quad \operatorname{InOuter}(\Gamma ,\ x)\quad c\ =\ \operatorname{Code}(\mathsf{Intro}-\mathsf{Outer}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Intro}(x,\ \mathsf{ent})\ \Uparrow \ c
+\end{array}
 ```
 
 **(Intro-Reserved-Gen-Err)**
-ReservedGen(x)    c = Code(Intro-Reserved-Gen-Err)
-──────────────────────────────────────────────────────
 
-```text
-Γ ⊢ Intro(x, ent) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{ReservedGen}(x)\quad c\ =\ \operatorname{Code}(\mathsf{Intro}-\mathsf{Reserved}-\mathsf{Gen}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Intro}(x,\ \mathsf{ent})\ \Uparrow \ c
+\end{array}
 ```
 
 **(Intro-Reserved-Ultraviolet-Err)**
-ReservedUltraviolet(x)    c = Code(Intro-Reserved-Ultraviolet-Err)
-──────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ Intro(x, ent) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{ReservedUltraviolet}(x)\quad c\ =\ \operatorname{Code}(\mathsf{Intro}-\mathsf{Reserved}-\mathsf{Ultraviolet}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Intro}(x,\ \mathsf{ent})\ \Uparrow \ c
+\end{array}
 ```
 
 When multiple `Intro` rules are simultaneously applicable, a conforming implementation MUST apply the first matching clause in the ordered priority list above.
@@ -160,672 +184,656 @@ When multiple `Intro` rules are simultaneously applicable, a conforming implemen
 
 **(Using-Alias-Ok)**
 
-```text
-Γ ⊢ Lookup(source_name) ⇓ ent    ¬ InScope(S_cur, alias_name)    ¬ InOuter(Γ, alias_name)    ¬ ReservedId(alias_name)    Scopes(Γ') = [S_cur[IdKey(alias_name) ↦ ent]] ++ Γ_out    Project(Γ') = Project(Γ)    ResCtx(Γ') = ResCtx(Γ)
-```
-
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ UsingAlias(source_name, alias_name) ⇓ Γ'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{Lookup}(\mathsf{source}_{\mathsf{name}})\ \Downarrow \ \mathsf{ent}\quad \lnot \ \operatorname{InScope}(S_{\mathsf{cur}},\ \mathsf{alias}_{\mathsf{name}})\quad \lnot \ \operatorname{InOuter}(\Gamma ,\ \mathsf{alias}_{\mathsf{name}})\quad \lnot \ \operatorname{ReservedId}(\mathsf{alias}_{\mathsf{name}})\quad \operatorname{Scopes}(\Gamma ')\ =\ [S_{\mathsf{cur}}[\operatorname{IdKey}(\mathsf{alias}_{\mathsf{name}})\ \mapsto \ \mathsf{ent}]]\ \mathbin{++} \ \Gamma_{\mathsf{out}} \quad \operatorname{Project}(\Gamma ')\ =\ \operatorname{Project}(\Gamma )\quad \operatorname{ResCtx}(\Gamma ')\ =\ \operatorname{ResCtx}(\Gamma ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{UsingAlias}(\mathsf{source}_{\mathsf{name}},\ \mathsf{alias}_{\mathsf{name}})\ \Downarrow \ \Gamma '
+\end{array}
 ```
 
 **(Using-Alias-Unresolved)**
 
-```text
-Γ ⊢ Lookup(source_name) ↑    c = Code(Using-Alias-Unresolved)
-```
-
-─────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ UsingAlias(source_name, alias_name) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{Lookup}(\mathsf{source}_{\mathsf{name}})\ \uparrow \quad c\ =\ \operatorname{Code}(\mathsf{Using}-\mathsf{Alias}-\mathsf{Unresolved}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{UsingAlias}(\mathsf{source}_{\mathsf{name}},\ \mathsf{alias}_{\mathsf{name}})\ \Uparrow \ c
+\end{array}
 ```
 
 **(Using-Alias-Dup)**
 
-```text
-Γ ⊢ Lookup(source_name) ⇓ ent    (InScope(S_cur, alias_name) ∨ InOuter(Γ, alias_name))    c = Code(Using-Alias-Dup)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ UsingAlias(source_name, alias_name) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{Lookup}(\mathsf{source}_{\mathsf{name}})\ \Downarrow \ \mathsf{ent}\quad (\operatorname{InScope}(S_{\mathsf{cur}},\ \mathsf{alias}_{\mathsf{name}})\ \lor \ \operatorname{InOuter}(\Gamma ,\ \mathsf{alias}_{\mathsf{name}}))\quad c\ =\ \operatorname{Code}(\mathsf{Using}-\mathsf{Alias}-\mathsf{Dup}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{UsingAlias}(\mathsf{source}_{\mathsf{name}},\ \mathsf{alias}_{\mathsf{name}})\ \Uparrow \ c
+\end{array}
 ```
 
 **(Using-Alias-Reserved)**
-ReservedId(alias_name)    c = Code(Using-Alias-Reserved)
-──────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ UsingAlias(source_name, alias_name) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{ReservedId}(\mathsf{alias}_{\mathsf{name}})\quad c\ =\ \operatorname{Code}(\mathsf{Using}-\mathsf{Alias}-\mathsf{Reserved}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{UsingAlias}(\mathsf{source}_{\mathsf{name}},\ \mathsf{alias}_{\mathsf{name}})\ \Uparrow \ c
+\end{array}
 ```
 
 When multiple `UsingAlias` rules are simultaneously applicable, a conforming implementation MUST apply the first matching clause in the ordered priority list above.
 
-Names(N) = dom(N)
+```math
+\operatorname{Names}(N)\ =\ \operatorname{dom}(N)
+```
 
 **(Validate-Module-Ok)**
 
-```text
-∀ n ∈ Names(N). ¬ KeywordKey(n)
-```
-
-────────────────────────────────────────────
-
-```text
-Γ ⊢ ValidateModuleNames(N) ⇓ ok
+```math
+\begin{array}{l}
+\forall \ n\ \in \ \operatorname{Names}(N).\ \lnot \ \operatorname{KeywordKey}(n) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ValidateModuleNames}(N)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(Validate-Module-Keyword-Err)**
 
-```text
-∃ n ∈ Names(N). KeywordKey(n)    c = Code(Validate-Module-Keyword-Err)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ValidateModuleNames(N) ⇑ c
+```math
+\begin{array}{l}
+\exists \ n\ \in \ \operatorname{Names}(N).\ \operatorname{KeywordKey}(n)\quad c\ =\ \operatorname{Code}(\mathsf{Validate}-\mathsf{Module}-\mathsf{Keyword}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ValidateModuleNames}(N)\ \Uparrow \ c
+\end{array}
 ```
 
 Reuse of a universe-scope name (primitive, special, or async type) at module scope is not a `ValidateModuleNames` concern — it is handled by `(Intro-Outer-Err)` when the module's bindings are introduced, because `UniverseBindings` is always in the outer scope chain at module scope.
 
 ### 7.3 Lookup and Qualified Resolution
 
-```text
-Scopes(Γ) = [S_1, …, S_n]
-i = min{j | IdKey(x) ∈ dom(S_j)}
+```math
+\begin{array}{l}
+\operatorname{Scopes}(\Gamma )\ =\ [S_{1},\ \ldots ,\ S_{n}] \\
+i\ =\ \mathsf{min}\{j\ \mid \ \operatorname{IdKey}(x)\ \in \ \operatorname{dom}(S_{j})\}
+\end{array}
 ```
 
 **(Lookup-Unqualified)**
 i defined
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ Lookup(x) ⇓ S_i[IdKey(x)]
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Lookup}(x)\ \Downarrow \ S_{i}[\operatorname{IdKey}(x)]
+\end{array}
 ```
 
 **(Lookup-Unqualified-None)**
 i undefined
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ Lookup(x) ↑
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Lookup}(x)\ \uparrow 
+\end{array}
 ```
 
-```text
-ValueKind(ent) ⇔ ent.kind = Value
-TypeKind(ent) ⇔ ent.kind = Type
-ClassKind(ent) ⇔ ent.kind = Class
-ModuleKind(ent) ⇔ ent.kind = ModuleAlias
-RegionAlias(ent) ⇔ ent.source = RegionAlias
+```math
+\begin{array}{l}
+\operatorname{ValueKind}(\mathsf{ent})\ \Leftrightarrow \ \mathsf{ent}.\mathsf{kind}\ =\ \mathsf{Value} \\
+\operatorname{TypeKind}(\mathsf{ent})\ \Leftrightarrow \ \mathsf{ent}.\mathsf{kind}\ =\ \mathsf{Type} \\
+\operatorname{ClassKind}(\mathsf{ent})\ \Leftrightarrow \ \mathsf{ent}.\mathsf{kind}\ =\ \mathsf{Class} \\
+\operatorname{ModuleKind}(\mathsf{ent})\ \Leftrightarrow \ \mathsf{ent}.\mathsf{kind}\ =\ \mathsf{ModuleAlias} \\
+\operatorname{RegionAlias}(\mathsf{ent})\ \Leftrightarrow \ \mathsf{ent}.\mathsf{source}\ =\ \mathsf{RegionAlias}
+\end{array}
 ```
 
-```text
-RegionAliasName(Γ, x) ⇔ Γ ⊢ ResolveValueName(x) ⇓ ent ∧ RegionAlias(ent)
+```math
+\operatorname{RegionAliasName}(\Gamma ,\ x)\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{ResolveValueName}(x)\ \Downarrow \ \mathsf{ent}\ \land \ \operatorname{RegionAlias}(\mathsf{ent})
 ```
 
 **(Resolve-Value-Name)**
 
-```text
-Γ ⊢ Lookup(x) ⇓ ent    ValueKind(ent)
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveValueName(x) ⇓ ent
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{Lookup}(x)\ \Downarrow \ \mathsf{ent}\quad \operatorname{ValueKind}(\mathsf{ent}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveValueName}(x)\ \Downarrow \ \mathsf{ent}
+\end{array}
 ```
 
 **(Resolve-Type-Name)**
 
-```text
-Γ ⊢ Lookup(x) ⇓ ent    TypeKind(ent)
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveTypeName(x) ⇓ ent
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{Lookup}(x)\ \Downarrow \ \mathsf{ent}\quad \operatorname{TypeKind}(\mathsf{ent}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveTypeName}(x)\ \Downarrow \ \mathsf{ent}
+\end{array}
 ```
 
 **(Resolve-Class-Name)**
 
-```text
-Γ ⊢ Lookup(x) ⇓ ent    ClassKind(ent)
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveClassName(x) ⇓ ent
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{Lookup}(x)\ \Downarrow \ \mathsf{ent}\quad \operatorname{ClassKind}(\mathsf{ent}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveClassName}(x)\ \Downarrow \ \mathsf{ent}
+\end{array}
 ```
 
 **(Resolve-Module-Name)**
 
-```text
-Γ ⊢ Lookup(x) ⇓ ent    ModuleKind(ent)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{Lookup}(x)\ \Downarrow \ \mathsf{ent}\quad \operatorname{ModuleKind}(\mathsf{ent}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveModuleName}(x)\ \Downarrow \ \mathsf{ent}
+\end{array}
 ```
 
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveModuleName(x) ⇓ ent
-```
-
-```text
-P = Project(Γ)
-m = CurrentModule(Γ)
+```math
+\begin{array}{l}
+P\ =\ \operatorname{Project}(\Gamma ) \\
+m\ =\ \operatorname{CurrentModule}(\Gamma )
+\end{array}
 ```
 
 VisibleModulePaths(m), VisibleModuleNames(m), AliasMap(m), ImportOk(m, path), ResolveImportPath(path), ResolveUsingPath(path), ImportNames(u), and UsingNames(u) are defined in §11.5.4. This chapter consumes those judgments but does not redefine them.
 
-ModulePaths = VisibleModulePaths(m)
-ModuleNames = VisibleModuleNames(m)
-Alias = AliasMap(m)
+```math
+\begin{array}{l}
+\mathsf{ModulePaths}\ =\ \operatorname{VisibleModulePaths}(m) \\
+\mathsf{ModuleNames}\ =\ \operatorname{VisibleModuleNames}(m) \\
+\mathsf{Alias}\ =\ \operatorname{AliasMap}(m)
+\end{array}
+```
 
 `ResolveModulePath` is defined canonically by §11.5.4 and consumed here by `ResolveQualified`.
 
 **(Resolve-Qualified)**
 
-```text
-Γ ⊢ ResolveModulePath(path, Alias, ModuleNames) ⇓ mp    NameMap(P, mp)[IdKey(name)] = ent    Γ ⊢ CanAccess(m, DeclOf(mp, name)) ⇓ ok    K(ent)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveModulePath}(\mathsf{path},\ \mathsf{Alias},\ \mathsf{ModuleNames})\ \Downarrow \ \mathsf{mp}\quad \operatorname{NameMap}(P,\ \mathsf{mp})[\operatorname{IdKey}(\mathsf{name})]\ =\ \mathsf{ent}\quad \Gamma \ \vdash \ \operatorname{CanAccess}(m,\ \operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name}))\ \Downarrow \ \mathsf{ok}\quad \operatorname{K}(\mathsf{ent}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveQualified}(\mathsf{path},\ \mathsf{name},\ K)\ \Downarrow \ \mathsf{ent}
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveQualified(path, name, K) ⇓ ent
-```
-
-```text
-K ∈ {ValueKind, TypeKind, ClassKind, ModuleKind}
+```math
+K\ \in \ \{\mathsf{ValueKind},\ \mathsf{TypeKind},\ \mathsf{ClassKind},\ \mathsf{ModuleKind}\}
 ```
 
 ### 7.4 Visibility and Accessibility
 
-```text
-DeclOf(mp, name) = it ⇔ ModuleOf(it) = mp ∧ it ≠ ExternBlock(_, _, _, _, _, _) ∧ IdKey(name) ∈ dom(ItemBindings(it, mp))
-DeclOf(mp, name) = proc ⇔ ExternBlockOf(proc) = blk ∧ ModuleOf(blk) = mp ∧ ProcName(proc) = name
+```math
+\begin{array}{l}
+\operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name})\ =\ \mathsf{it}\ \Leftrightarrow \ \operatorname{ModuleOf}(\mathsf{it})\ =\ \mathsf{mp}\ \land \ \mathsf{it}\ \ne \ \operatorname{ExternBlock}(\_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \land \ \operatorname{IdKey}(\mathsf{name})\ \in \ \operatorname{dom}(\operatorname{ItemBindings}(\mathsf{it},\ \mathsf{mp})) \\
+\operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name})\ =\ \mathsf{proc}\ \Leftrightarrow \ \operatorname{ExternBlockOf}(\mathsf{proc})\ =\ \mathsf{blk}\ \land \ \operatorname{ModuleOf}(\mathsf{blk})\ =\ \mathsf{mp}\ \land \ \operatorname{ProcName}(\mathsf{proc})\ =\ \mathsf{name}
+\end{array}
 ```
 
-```text
-ModuleOf(it) = p ⇔ it ∈ ASTModule(P, p).items
-```
-
-ModuleOf(proc) = ModuleOf(ExternBlockOf(proc))
-
-```text
-ExternBlockOf(proc) = blk ⇔ ∃ p. blk ∈ ASTModule(P, p).items ∧ proc ∈ blk.items
-ProcName(proc) = name ⇔ proc = ExternProcDecl(_, _, name, _, _, _, _, _, _, _, _)
-```
-
-Vis(it) = it.vis
-
-```text
-SameAssembly(m_1, m_2) ⇔ AsmOfModule(m_1) = AsmOfModule(m_2)
+```math
+\begin{array}{l}
+\operatorname{ModuleOf}(\mathsf{it})\ =\ p\ \Leftrightarrow \ \mathsf{it}\ \in \ \operatorname{ASTModule}(P,\ p).\mathsf{items} \\
+\operatorname{ModuleOf}(\mathsf{proc})\ =\ \operatorname{ModuleOf}(\operatorname{ExternBlockOf}(\mathsf{proc})) \\
+\operatorname{ExternBlockOf}(\mathsf{proc})\ =\ \mathsf{blk}\ \Leftrightarrow \ \exists \ p.\ \mathsf{blk}\ \in \ \operatorname{ASTModule}(P,\ p).\mathsf{items}\ \land \ \mathsf{proc}\ \in \ \mathsf{blk}.\mathsf{items} \\
+\operatorname{ProcName}(\mathsf{proc})\ =\ \mathsf{name}\ \Leftrightarrow \ \mathsf{proc}\ =\ \operatorname{ExternProcDecl}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_) \\
+\operatorname{Vis}(\mathsf{it})\ =\ \mathsf{it}.\mathsf{vis} \\
+\operatorname{SameAssembly}(m_{1},\ m_{2})\ \Leftrightarrow \ \operatorname{AsmOfModule}(m_{1})\ =\ \operatorname{AsmOfModule}(m_{2})
+\end{array}
 ```
 
 **(Access-Public)**
-Vis(it) = `public`
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ CanAccess(m, it) ⇓ ok
+```math
+\begin{array}{l}
+\operatorname{Vis}(\mathsf{it})\ =\ \texttt{public} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{CanAccess}(m,\ \mathsf{it})\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(Access-Internal)**
-Vis(it) = `internal`    SameAssembly(ModuleOf(it), m)
-────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ CanAccess(m, it) ⇓ ok
+```math
+\begin{array}{l}
+\operatorname{Vis}(\mathsf{it})\ =\ \texttt{internal}\quad \operatorname{SameAssembly}(\operatorname{ModuleOf}(\mathsf{it}),\ m) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{CanAccess}(m,\ \mathsf{it})\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(Access-Private)**
-Vis(it) = `private`    ModuleOf(it) = m
-──────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ CanAccess(m, it) ⇓ ok
+```math
+\begin{array}{l}
+\operatorname{Vis}(\mathsf{it})\ =\ \texttt{private}\quad \operatorname{ModuleOf}(\mathsf{it})\ =\ m \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{CanAccess}(m,\ \mathsf{it})\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(Access-Internal-Err)**
 
-```text
-Vis(it) = `internal`    ¬ SameAssembly(ModuleOf(it), m)    c = Code(Access-Err)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ CanAccess(m, it) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{Vis}(\mathsf{it})\ =\ \texttt{internal}\quad \lnot \ \operatorname{SameAssembly}(\operatorname{ModuleOf}(\mathsf{it}),\ m)\quad c\ =\ \operatorname{Code}(\mathsf{Access}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{CanAccess}(m,\ \mathsf{it})\ \Uparrow \ c
+\end{array}
 ```
 
 **(Access-Err)**
 
-```text
-Vis(it) = `private`    ModuleOf(it) ≠ m    c = Code(Access-Err)
+```math
+\begin{array}{l}
+\operatorname{Vis}(\mathsf{it})\ =\ \texttt{private}\quad \operatorname{ModuleOf}(\mathsf{it})\ \ne \ m\quad c\ =\ \operatorname{Code}(\mathsf{Access}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{CanAccess}(m,\ \mathsf{it})\ \Uparrow \ c
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ CanAccess(m, it) ⇑ c
-```
-
-```text
-TopLevelDecl(it) ⇔ it ∈ ASTModule(P, ModuleOf(it)).items
+```math
+\operatorname{TopLevelDecl}(\mathsf{it})\ \Leftrightarrow \ \mathsf{it}\ \in \ \operatorname{ASTModule}(P,\ \operatorname{ModuleOf}(\mathsf{it})).\mathsf{items}
 ```
 
 **(TopLevelVis-Ok)**
 TopLevelDecl(it)
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ TopLevelVis(it) ⇓ ok
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TopLevelVis}(\mathsf{it})\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 ### 7.5 Top-Level Name Collection
 
-```text
-∀ items'. Permutation(items', items) ∧ Γ ⊢ CollectNames(items, p, ∅) ⇓ N ⇒ Γ ⊢ CollectNames(items', p, ∅) ⇓ N
+```math
+\forall \ \mathsf{items}'.\ \operatorname{Permutation}(\mathsf{items}',\ \mathsf{items})\ \land \ \Gamma \ \vdash \ \operatorname{CollectNames}(\mathsf{items},\ p,\ \emptyset )\ \Downarrow \ N\ \Rightarrow \ \Gamma \ \vdash \ \operatorname{CollectNames}(\mathsf{items}',\ p,\ \emptyset )\ \Downarrow \ N
 ```
 
-BindKind = {Value, Type, Class, ModuleAlias}
-BindSource = {Decl, Using, Import}
-
-```text
-NameInfo = ⟨kind, origin, target_opt, source⟩
+```math
+\begin{array}{l}
+\mathsf{BindKind}\ =\ \{\mathsf{Value},\ \mathsf{Type},\ \mathsf{Class},\ \mathsf{ModuleAlias}\} \\
+\mathsf{BindSource}\ =\ \{\mathsf{Decl},\ \mathsf{Using},\ \mathsf{Import}\} \\
+\mathsf{NameInfo}\ =\ \langle \mathsf{kind},\ \mathsf{origin},\ \mathsf{target}_{\mathsf{opt}},\ \mathsf{source}\rangle 
+\end{array}
 ```
 
-```text
-NameMap(P, mp) = N ⇔ ModuleMap(P, mp) = M ∧ Γ ⊢ CollectNames(M) ⇓ N
-AliasMap(m) = { n ↦ origin | NameMap(P, m)[n].kind = ModuleAlias }
-UsingMap(m) = { n ↦ ⟨k, origin, target_opt⟩ | NameMap(P, m)[n].source = Using ∧ NameMap(P, m)[n].kind = k ∧ k ∈ {Value, Type, Class} }
-UsingValueMap(m) = { n ↦ origin | NameMap(P, m)[n].source = Using ∧ NameMap(P, m)[n].kind = Value }
-UsingTypeMap(m) = { n ↦ origin | NameMap(P, m)[n].source = Using ∧ NameMap(P, m)[n].kind ∈ {Type, Class} }
-TypeMap(m) = { n ↦ origin | NameMap(P, m)[n].kind = Type }
-ClassMap(m) = { n ↦ origin | NameMap(P, m)[n].kind = Class }
+```math
+\begin{array}{l}
+\operatorname{NameMap}(P,\ \mathsf{mp})\ =\ N\ \Leftrightarrow \ \operatorname{ModuleMap}(P,\ \mathsf{mp})\ =\ M\ \land \ \Gamma \ \vdash \ \operatorname{CollectNames}(M)\ \Downarrow \ N \\
+\operatorname{AliasMap}(m)\ =\ \{\ n\ \mapsto \ \mathsf{origin}\ \mid \ \operatorname{NameMap}(P,\ m)[n].\mathsf{kind}\ =\ \mathsf{ModuleAlias}\ \} \\
+\operatorname{UsingMap}(m)\ =\ \{\ n\ \mapsto \ \langle k,\ \mathsf{origin},\ \mathsf{target}_{\mathsf{opt}}\rangle \ \mid \ \operatorname{NameMap}(P,\ m)[n].\mathsf{source}\ =\ \mathsf{Using}\ \land \ \operatorname{NameMap}(P,\ m)[n].\mathsf{kind}\ =\ k\ \land \ k\ \in \ \{\mathsf{Value},\ \mathsf{Type},\ \mathsf{Class}\}\ \} \\
+\operatorname{UsingValueMap}(m)\ =\ \{\ n\ \mapsto \ \mathsf{origin}\ \mid \ \operatorname{NameMap}(P,\ m)[n].\mathsf{source}\ =\ \mathsf{Using}\ \land \ \operatorname{NameMap}(P,\ m)[n].\mathsf{kind}\ =\ \mathsf{Value}\ \} \\
+\operatorname{UsingTypeMap}(m)\ =\ \{\ n\ \mapsto \ \mathsf{origin}\ \mid \ \operatorname{NameMap}(P,\ m)[n].\mathsf{source}\ =\ \mathsf{Using}\ \land \ \operatorname{NameMap}(P,\ m)[n].\mathsf{kind}\ \in \ \{\mathsf{Type},\ \mathsf{Class}\}\ \} \\
+\operatorname{TypeMap}(m)\ =\ \{\ n\ \mapsto \ \mathsf{origin}\ \mid \ \operatorname{NameMap}(P,\ m)[n].\mathsf{kind}\ =\ \mathsf{Type}\ \} \\
+\operatorname{ClassMap}(m)\ =\ \{\ n\ \mapsto \ \mathsf{origin}\ \mid \ \operatorname{NameMap}(P,\ m)[n].\mathsf{kind}\ =\ \mathsf{Class}\ \}
+\end{array}
 ```
 
-```text
-Γ ⊢ PatNames(IdentifierPattern(x)) ⇓ [x]
-Γ ⊢ PatNames(WildcardPattern) ⇓ []
-Γ ⊢ PatNames(LiteralPattern(lit)) ⇓ []
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{PatNames}(\operatorname{IdentifierPattern}(x))\ \Downarrow \ [x] \\
+\Gamma \ \vdash \ \operatorname{PatNames}(\mathsf{WildcardPattern})\ \Downarrow \ [] \\
+\Gamma \ \vdash \ \operatorname{PatNames}(\operatorname{LiteralPattern}(\mathsf{lit}))\ \Downarrow \ []
+\end{array}
 ```
 
-```text
-∀ i, Γ ⊢ PatNames(p_i) ⇓ N_i
+```math
+\begin{array}{l}
+\forall \ i,\ \Gamma \ \vdash \ \operatorname{PatNames}(p_{i})\ \Downarrow \ N_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PatNames}(\operatorname{TuplePattern}([p_{1},\ \ldots ,\ p_{n}]))\ \Downarrow \ N_{1}\ \mathbin{++} \ \cdot \cdot \cdot \ \mathbin{++} \ N_{n}
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PatNames(TuplePattern([p_1, …, p_n])) ⇓ N_1 ++ ··· ++ N_n
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{PatNames}(p)\ \Downarrow \ N \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PatNames}(\langle \mathsf{name},\ \mathsf{pattern}_{\mathsf{opt}}\ =\ p,\ \mathsf{span}\rangle )\ \Downarrow \ N
+\end{array}
 ```
 
-```text
-Γ ⊢ PatNames(p) ⇓ N
+```math
+\Gamma \ \vdash \ \operatorname{PatNames}(\langle \mathsf{name},\ \mathsf{pattern}_{\mathsf{opt}}\ =\ \bot ,\ \mathsf{span}\rangle )\ \Downarrow \ [\mathsf{name}]
 ```
 
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PatNames(⟨name, pattern_opt = p, span⟩) ⇓ N
+```math
+\begin{array}{l}
+\forall \ i,\ \Gamma \ \vdash \ \operatorname{PatNames}(f_{i})\ \Downarrow \ N_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PatNames}(\operatorname{RecordPattern}(\_,\ [f_{1},\ \ldots ,\ f_{n}]))\ \Downarrow \ N_{1}\ \mathbin{++} \ \cdot \cdot \cdot \ \mathbin{++} \ N_{n}
+\end{array}
 ```
 
-```text
-Γ ⊢ PatNames(⟨name, pattern_opt = ⊥, span⟩) ⇓ [name]
+```math
+\Gamma \ \vdash \ \operatorname{PatNames}(\operatorname{EnumPattern}(\_,\ \_,\ \bot ))\ \Downarrow \ []
 ```
 
-```text
-∀ i, Γ ⊢ PatNames(f_i) ⇓ N_i
+```math
+\begin{array}{l}
+\forall \ i,\ \Gamma \ \vdash \ \operatorname{PatNames}(p_{i})\ \Downarrow \ N_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PatNames}(\operatorname{EnumPattern}(\_,\ \_,\ \operatorname{TuplePayloadPattern}([p_{1},\ \ldots ,\ p_{n}])))\ \Downarrow \ N_{1}\ \mathbin{++} \ \cdot \cdot \cdot \ \mathbin{++} \ N_{n}
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PatNames(RecordPattern(_, [f_1, …, f_n])) ⇓ N_1 ++ ··· ++ N_n
+```math
+\begin{array}{l}
+\forall \ i,\ \Gamma \ \vdash \ \operatorname{PatNames}(f_{i})\ \Downarrow \ N_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PatNames}(\operatorname{EnumPattern}(\_,\ \_,\ \operatorname{RecordPayloadPattern}([f_{1},\ \ldots ,\ f_{n}])))\ \Downarrow \ N_{1}\ \mathbin{++} \ \cdot \cdot \cdot \ \mathbin{++} \ N_{n}
+\end{array}
 ```
 
-```text
-Γ ⊢ PatNames(EnumPattern(_, _, ⊥)) ⇓ []
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{PatNames}(p_{l})\ \Downarrow \ N_{l}\quad \Gamma \ \vdash \ \operatorname{PatNames}(p_{h})\ \Downarrow \ N_{h} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{PatNames}(\operatorname{RangePattern}(\_,\ p_{l},\ p_{h}))\ \Downarrow \ N_{l}\ \mathbin{++} \ N_{h}
+\end{array}
 ```
 
-```text
-∀ i, Γ ⊢ PatNames(p_i) ⇓ N_i
+```math
+\begin{array}{l}
+\mathsf{AllModuleNames}\ =\ \{\ \operatorname{StringOfPath}(p)\ \mid \ p\ \in \ \operatorname{AllModulePaths}(P)\ \} \\
+\operatorname{VisibleModuleNames}(m)\ =\ \{\ \operatorname{StringOfPath}(p)\ \mid \ p\ \in \ \operatorname{VisibleModulePaths}(m)\ \} \\
+\operatorname{Last}([c_{1},\ \ldots ,\ c_{n}])\ =\ c_{n}\quad \mathsf{if}\ n\ \ge \ 1 \\
+\operatorname{IsModulePath}(\mathsf{path})\ \Leftrightarrow \ \operatorname{StringOfPath}(\mathsf{path})\ \in \ \mathsf{AllModuleNames} \\
+\operatorname{SplitLast}(\mathsf{path})\ =\ (\mathsf{mp},\ \mathsf{name})\ \Leftrightarrow \ \mathsf{path}\ =\ \mathsf{mp}\ \mathbin{++} \ [\mathsf{name}]\ \land \ \mid \mathsf{path}\mid \ \ge \ 2 \\
+\operatorname{ModuleByPath}(P,\ p)\ =\ m\ \Leftrightarrow \ \operatorname{ASTModule}(P,\ p)\ =\ m
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PatNames(EnumPattern(_, _, TuplePayloadPattern([p_1, …, p_n]))) ⇓ N_1 ++ ··· ++ N_n
+```math
+\operatorname{ItemNames}(\mathsf{mp})\ =\ \{\ n\ \mid \ \operatorname{NameMap}(P,\ \mathsf{mp})[n].\mathsf{kind}\ \in \ \{\mathsf{Value},\ \mathsf{Type},\ \mathsf{Class}\}\ \}
 ```
 
-```text
-∀ i, Γ ⊢ PatNames(f_i) ⇓ N_i
+```math
+\begin{array}{l}
+\operatorname{UsingSpecName}(\langle \mathsf{name},\ \mathsf{alias}_{\mathsf{opt}}\rangle )\ = \\
+\ \mathsf{alias}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{alias}_{\mathsf{opt}}\ \ne \ \bot  \\
+\ \mathsf{name}\quad \mathsf{otherwise}
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PatNames(EnumPattern(_, _, RecordPayloadPattern([f_1, …, f_n]))) ⇓ N_1 ++ ··· ++ N_n
+```math
+\operatorname{UsingSpecNames}([s_{1},\ \ldots ,\ s_{n}])\ =\ [\operatorname{UsingSpecName}(s_{1}),\ \ldots ,\ \operatorname{UsingSpecName}(s_{n})]
 ```
 
-```text
-Γ ⊢ PatNames(p_l) ⇓ N_l    Γ ⊢ PatNames(p_h) ⇓ N_h
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ PatNames(RangePattern(_, p_l, p_h)) ⇓ N_l ++ N_h
-```
-
-```text
-AllModuleNames = { StringOfPath(p) | p ∈ AllModulePaths(P) }
-VisibleModuleNames(m) = { StringOfPath(p) | p ∈ VisibleModulePaths(m) }
-Last([c_1, …, c_n]) = c_n    if n ≥ 1
-IsModulePath(path) ⇔ StringOfPath(path) ∈ AllModuleNames
-SplitLast(path) = (mp, name) ⇔ path = mp ++ [name] ∧ |path| ≥ 2
-ModuleByPath(P, p) = m ⇔ ASTModule(P, p) = m
-```
-
-```text
-ItemNames(mp) = { n | NameMap(P, mp)[n].kind ∈ {Value, Type, Class} }
-```
-
-```text
-UsingSpecName(⟨name, alias_opt⟩) =
-  alias_opt    if alias_opt ≠ ⊥
-```
-
-  name         otherwise
-
-UsingSpecNames([s_1, …, s_n]) = [UsingSpecName(s_1), …, UsingSpecName(s_n)]
-
-```text
-Γ ⊢ DeclNames([], p) ⇓ ∅
+```math
+\Gamma \ \vdash \ \operatorname{DeclNames}([],\ p)\ \Downarrow \ \emptyset 
 ```
 
 **(DeclNames-Using)**
 
-```text
-Γ ⊢ DeclNames(rest, p) ⇓ D
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ DeclNames(⟨UsingDecl, _, _, _, _⟩ :: rest, p) ⇓ D
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{DeclNames}(\mathsf{rest},\ p)\ \Downarrow \ D \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{DeclNames}(\langle \mathsf{UsingDecl},\ \_,\ \_,\ \_,\ \_\rangle \ \mathbin{::} \ \mathsf{rest},\ p)\ \Downarrow \ D
+\end{array}
 ```
 
 **(DeclNames-Item)**
 
-```text
-it ≠ ⟨UsingDecl, _, _, _, _⟩    Γ ⊢ ItemBindings(it, p) ⇓ B    Γ ⊢ DeclNames(rest, p) ⇓ D
+```math
+\begin{array}{l}
+\mathsf{it}\ \ne \ \langle \mathsf{UsingDecl},\ \_,\ \_,\ \_,\ \_\rangle \quad \Gamma \ \vdash \ \operatorname{ItemBindings}(\mathsf{it},\ p)\ \Downarrow \ B\quad \Gamma \ \vdash \ \operatorname{DeclNames}(\mathsf{rest},\ p)\ \Downarrow \ D \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{DeclNames}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest},\ p)\ \Downarrow \ \operatorname{Names}(B)\ \cup \ D
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ DeclNames(it :: rest, p) ⇓ Names(B) ∪ D
+```math
+\operatorname{DeclNames}(m)\ =\ \operatorname{DeclNames}(m.\mathsf{items},\ m.\mathsf{path})
 ```
-
-DeclNames(m) = DeclNames(m.items, m.path)
 
 `ResolveImportPath`, `ResolveUsingPath`, `ImportNames`, `UsingNames`, and `ImportOk` remain the canonical judgments of §11.5.4.
 
 **(Bind-Procedure)**
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ItemBindings(⟨ProcedureDecl, _, name, _, _, _, _, _⟩, p) ⇓ [(name, ⟨Value, p, ⊥, Decl⟩)]
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\langle \mathsf{ProcedureDecl},\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_\rangle ,\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Value},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
+\end{array}
 ```
 
 **(Bind-ExternBlock)**
 
-```text
-B = [(name_i, ⟨Value, p, ⊥, Decl⟩) | ExternProcDecl(_, _, name_i, _, _, _, _, _, _, _, _) ∈ items]
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ItemBindings(⟨ExternBlock, _, _, _, items, _, _⟩, p) ⇓ B
+```math
+\begin{array}{l}
+B\ =\ [(\mathsf{name}_{i},\ \langle \mathsf{Value},\ p,\ \bot ,\ \mathsf{Decl}\rangle )\ \mid \ \operatorname{ExternProcDecl}(\_,\ \_,\ \mathsf{name}_{i},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \in \ \mathsf{items}] \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\langle \mathsf{ExternBlock},\ \_,\ \_,\ \_,\ \mathsf{items},\ \_,\ \_\rangle ,\ p)\ \Downarrow \ B
+\end{array}
 ```
 
 **(Bind-Record)**
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ItemBindings(⟨RecordDecl, _, name, _, _, _, _⟩, p) ⇓ [(name, ⟨Type, p, ⊥, Decl⟩)]
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\langle \mathsf{RecordDecl},\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_\rangle ,\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Type},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
+\end{array}
 ```
 
 **(Bind-Enum)**
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ItemBindings(⟨EnumDecl, _, name, _, _, _, _⟩, p) ⇓ [(name, ⟨Type, p, ⊥, Decl⟩)]
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\langle \mathsf{EnumDecl},\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_\rangle ,\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Type},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
+\end{array}
 ```
 
 **(Bind-Class)**
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ItemBindings(⟨ClassDecl, _, name, _, _, _, _⟩, p) ⇓ [(name, ⟨Class, p, ⊥, Decl⟩)]
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\langle \mathsf{ClassDecl},\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_\rangle ,\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Class},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
+\end{array}
 ```
 
 **(Bind-TypeAlias)**
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ItemBindings(⟨TypeAliasDecl, _, name, _, _, _⟩, p) ⇓ [(name, ⟨Type, p, ⊥, Decl⟩)]
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\langle \mathsf{TypeAliasDecl},\ \_,\ \mathsf{name},\ \_,\ \_,\ \_\rangle ,\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Type},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
+\end{array}
 ```
 
 **(Bind-Static)**
 
-```text
-Γ ⊢ PatNames(pat) ⇓ N
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ItemBindings(⟨StaticDecl, _, _, ⟨pat, _, _, _, _⟩, _, _⟩, p) ⇓ [(n, ⟨Value, p, ⊥, Decl⟩) | n ∈ N]
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{PatNames}(\mathsf{pat})\ \Downarrow \ N \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\langle \mathsf{StaticDecl},\ \_,\ \_,\ \langle \mathsf{pat},\ \_,\ \_,\ \_,\ \_\rangle ,\ \_,\ \_\rangle ,\ p)\ \Downarrow \ [(n,\ \langle \mathsf{Value},\ p,\ \bot ,\ \mathsf{Decl}\rangle )\ \mid \ n\ \in \ N]
+\end{array}
 ```
 
 **(Bind-Import)**
 
-```text
-Γ ⊢ ImportNames(u) ⇓ B
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ItemBindings(u, p) ⇓ B
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ImportNames}(u)\ \Downarrow \ B \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemBindings}(u,\ p)\ \Downarrow \ B
+\end{array}
 ```
 
 **(Bind-Import-Err)**
 
-```text
-Γ ⊢ ImportNames(u) ⇑ c
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ItemBindings(u, p) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ImportNames}(u)\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemBindings}(u,\ p)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Bind-Using)**
 
-```text
-Γ ⊢ UsingNames(u) ⇓ B
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ItemBindings(u, p) ⇓ B
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{UsingNames}(u)\ \Downarrow \ B \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemBindings}(u,\ p)\ \Downarrow \ B
+\end{array}
 ```
 
 **(Bind-Using-Err)**
 
-```text
-Γ ⊢ UsingNames(u) ⇑ c
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ItemBindings(u, p) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{UsingNames}(u)\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemBindings}(u,\ p)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Bind-ErrorItem)**
-──────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ItemBindings(ErrorItem(_), p) ⇓ []
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\operatorname{ErrorItem}(\_),\ p)\ \Downarrow \ []
+\end{array}
 ```
 
 **(Collect-Ok)**
 
-```text
-Γ ⊢ CollectNames(items, p, ∅) ⇓ N
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ CollectNames(M) ⇓ N
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{CollectNames}(\mathsf{items},\ p,\ \emptyset )\ \Downarrow \ N \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{CollectNames}(M)\ \Downarrow \ N
+\end{array}
 ```
 
 **(Collect-Scan)**
 
-```text
-Γ ⊢ ItemBindings(it, p) ⇓ B    DisjointNames(B, N)    NoDup(B)    Γ ⊢ CollectNames(rest, p, N ∪ B) ⇓ N'
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ CollectNames(it :: rest, p, N) ⇓ N'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\mathsf{it},\ p)\ \Downarrow \ B\quad \operatorname{DisjointNames}(B,\ N)\quad \operatorname{NoDup}(B)\quad \Gamma \ \vdash \ \operatorname{CollectNames}(\mathsf{rest},\ p,\ N\ \cup \ B)\ \Downarrow \ N' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{CollectNames}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest},\ p,\ N)\ \Downarrow \ N'
+\end{array}
 ```
 
 **(Collect-Using-Import-Dup)**
 
-```text
-Γ ⊢ ItemBindings(it, p) ⇓ B    (¬ DisjointNames(B, N) ∨ ¬ NoDup(B))    UsingImportConflict(B, N)    c = Code(Import-Using-Name-Conflict)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ CollectNames(it :: rest, p, N) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\mathsf{it},\ p)\ \Downarrow \ B\quad (\lnot \ \operatorname{DisjointNames}(B,\ N)\ \lor \ \lnot \ \operatorname{NoDup}(B))\quad \operatorname{UsingImportConflict}(B,\ N)\quad c\ =\ \operatorname{Code}(\mathsf{Import}-\mathsf{Using}-\mathsf{Name}-\mathsf{Conflict}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{CollectNames}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest},\ p,\ N)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Collect-Dup)**
 
-```text
-Γ ⊢ ItemBindings(it, p) ⇓ B    (¬ DisjointNames(B, N) ∨ ¬ NoDup(B))    ¬ UsingImportConflict(B, N)    c = Code(Collect-Dup)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ CollectNames(it :: rest, p, N) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\mathsf{it},\ p)\ \Downarrow \ B\quad (\lnot \ \operatorname{DisjointNames}(B,\ N)\ \lor \ \lnot \ \operatorname{NoDup}(B))\quad \lnot \ \operatorname{UsingImportConflict}(B,\ N)\quad c\ =\ \operatorname{Code}(\mathsf{Collect}-\mathsf{Dup}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{CollectNames}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest},\ p,\ N)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Collect-Err)**
 
-```text
-Γ ⊢ ItemBindings(it, p) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\mathsf{it},\ p)\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{CollectNames}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest},\ p,\ N)\ \Uparrow \ c
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ CollectNames(it :: rest, p, N) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{Names}(B)\ =\ \{\ n\ \mid \ (n,\ \_)\ \in \ B\ \} \\
+\operatorname{NoDup}(B)\ \Leftrightarrow \ \operatorname{Distinct}(\operatorname{Names}(B)) \\
+\operatorname{DisjointNames}(B,\ N)\ \Leftrightarrow \ \operatorname{Names}(B)\ \cap \ \operatorname{dom}(N)\ =\ \emptyset  \\
+N\ \cup \ B\ =\ \{\ (n,\ v)\ \mid \ (n,\ v)\ \in \ N\ \lor \ (n,\ v)\ \in \ B\ \} \\
+\operatorname{NameInfoOf}(B,\ n)\ =\ \mathsf{info}\ \Leftrightarrow \ (n,\ \mathsf{info})\ \in \ B \\
+\operatorname{NameSource}(B,\ n)\ =\ \mathsf{src}\ \Leftrightarrow \ \operatorname{NameInfoOf}(B,\ n)\ =\ \mathsf{info}\ \land \ \mathsf{info}.\mathsf{source}\ =\ \mathsf{src} \\
+\operatorname{NameSource}(N,\ n)\ =\ \mathsf{src}\ \Leftrightarrow \ n\ \in \ \operatorname{dom}(N)\ \land \ N[n].\mathsf{source}\ =\ \mathsf{src} \\
+\operatorname{UsingImportConflict}(B,\ N)\ \Leftrightarrow \ \exists \ n.\ n\ \in \ \operatorname{Names}(B)\ \cap \ \operatorname{dom}(N)\ \land \ (\operatorname{NameSource}(B,\ n)\ \in \ \{\mathsf{Using},\ \mathsf{Import}\}\ \lor \ \operatorname{NameSource}(N,\ n)\ \in \ \{\mathsf{Using},\ \mathsf{Import}\})
+\end{array}
 ```
 
-```text
-Names(B) = { n | (n, _) ∈ B }
-NoDup(B) ⇔ Distinct(Names(B))
-DisjointNames(B, N) ⇔ Names(B) ∩ dom(N) = ∅
-N ∪ B = { (n, v) | (n, v) ∈ N ∨ (n, v) ∈ B }
-NameInfoOf(B, n) = info ⇔ (n, info) ∈ B
-NameSource(B, n) = src ⇔ NameInfoOf(B, n) = info ∧ info.source = src
-NameSource(N, n) = src ⇔ n ∈ dom(N) ∧ N[n].source = src
-UsingImportConflict(B, N) ⇔ ∃ n. n ∈ Names(B) ∩ dom(N) ∧ (NameSource(B, n) ∈ {Using, Import} ∨ NameSource(N, n) ∈ {Using, Import})
+```math
+\mathsf{NamesState}\ =\ \{\operatorname{NamesStart}(M),\ \operatorname{NamesScan}(\mathsf{items},\ p,\ N),\ \operatorname{NamesDone}(N),\ \operatorname{Error}(\mathsf{code})\}
 ```
-
-NamesState = {NamesStart(M), NamesScan(items, p, N), NamesDone(N), Error(code)}
 
 **(Names-Start)**
-────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-⟨NamesStart(M)⟩ → ⟨NamesScan(M.items, M.path, ∅)⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\langle \operatorname{NamesStart}(M)\rangle \ \to \ \langle \operatorname{NamesScan}(M.\mathsf{items},\ M.\mathsf{path},\ \emptyset )\rangle 
+\end{array}
 ```
 
 **(Names-Step)**
 
-```text
-Γ ⊢ ItemBindings(it, p) ⇓ B    DisjointNames(B, N)    NoDup(B)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨NamesScan(it :: rest, p, N)⟩ → ⟨NamesScan(rest, p, N ∪ B)⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\mathsf{it},\ p)\ \Downarrow \ B\quad \operatorname{DisjointNames}(B,\ N)\quad \operatorname{NoDup}(B) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{NamesScan}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest},\ p,\ N)\rangle \ \to \ \langle \operatorname{NamesScan}(\mathsf{rest},\ p,\ N\ \cup \ B)\rangle 
+\end{array}
 ```
 
 **(Names-Step-Using-Import-Dup)**
 
-```text
-Γ ⊢ ItemBindings(it, p) ⇓ B    (¬ DisjointNames(B, N) ∨ ¬ NoDup(B))    UsingImportConflict(B, N)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨NamesScan(it :: rest, p, N)⟩ → ⟨Error(Code(Import-Using-Name-Conflict))⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\mathsf{it},\ p)\ \Downarrow \ B\quad (\lnot \ \operatorname{DisjointNames}(B,\ N)\ \lor \ \lnot \ \operatorname{NoDup}(B))\quad \operatorname{UsingImportConflict}(B,\ N) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{NamesScan}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest},\ p,\ N)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Import}-\mathsf{Using}-\mathsf{Name}-\mathsf{Conflict}))\rangle 
+\end{array}
 ```
 
 **(Names-Step-Dup)**
 
-```text
-Γ ⊢ ItemBindings(it, p) ⇓ B    (¬ DisjointNames(B, N) ∨ ¬ NoDup(B))    ¬ UsingImportConflict(B, N)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨NamesScan(it :: rest, p, N)⟩ → ⟨Error(Code(Names-Step-Dup))⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\mathsf{it},\ p)\ \Downarrow \ B\quad (\lnot \ \operatorname{DisjointNames}(B,\ N)\ \lor \ \lnot \ \operatorname{NoDup}(B))\quad \lnot \ \operatorname{UsingImportConflict}(B,\ N) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{NamesScan}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest},\ p,\ N)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Names}-\mathsf{Step}-\mathsf{Dup}))\rangle 
+\end{array}
 ```
 
 **(Names-Step-Err)**
 
-```text
-Γ ⊢ ItemBindings(it, p) ⇑ c
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-⟨NamesScan(it :: rest, p, N)⟩ → ⟨Error(c)⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\mathsf{it},\ p)\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{NamesScan}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest},\ p,\ N)\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\end{array}
 ```
 
 **(Names-Done)**
-──────────────────────────────────────────────────────────────
 
-```text
-⟨NamesScan([], p, N)⟩ → ⟨NamesDone(N)⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\langle \operatorname{NamesScan}([],\ p,\ N)\rangle \ \to \ \langle \operatorname{NamesDone}(N)\rangle 
+\end{array}
 ```
 
 ### 7.6 Qualified Disambiguation
@@ -833,1569 +841,1465 @@ NamesState = {NamesStart(M), NamesScan(items, p, N), NamesDone(N), Error(code)}
 ResolveQualifiedForm : Expr ⇀ Expr
 ResolveArgs : [Arg] ⇀ [Arg]
 ResolveFieldInits : [FieldInit] ⇀ [FieldInit]
-ResolveRecordPath : Path × Identifier ⇀ Path
-ResolveEnumUnit : Path × Identifier ⇀ Path
-ResolveEnumTuple : Path × Identifier ⇀ Path
-ResolveEnumRecord : Path × Identifier ⇀ Path
-ResolvePathJudg = {ResolveRecordPath, ResolveEnumUnit, ResolveEnumTuple, ResolveEnumRecord}
+
+```math
+\begin{array}{l}
+\mathsf{ResolveRecordPath}\ :\ \mathsf{Path}\ \times \ \mathsf{Identifier}\ \rightharpoonup \ \mathsf{Path} \\
+\mathsf{ResolveEnumUnit}\ :\ \mathsf{Path}\ \times \ \mathsf{Identifier}\ \rightharpoonup \ \mathsf{Path} \\
+\mathsf{ResolveEnumTuple}\ :\ \mathsf{Path}\ \times \ \mathsf{Identifier}\ \rightharpoonup \ \mathsf{Path} \\
+\mathsf{ResolveEnumRecord}\ :\ \mathsf{Path}\ \times \ \mathsf{Identifier}\ \rightharpoonup \ \mathsf{Path} \\
+\mathsf{ResolvePathJudg}\ =\ \{\mathsf{ResolveRecordPath},\ \mathsf{ResolveEnumUnit},\ \mathsf{ResolveEnumTuple},\ \mathsf{ResolveEnumRecord}\}
+\end{array}
+```
 
 **(ResolveArgs-Empty)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveArgs([]) ⇓ []
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveArgs}([])\ \Downarrow \ []
+\end{array}
 ```
 
 **(ResolveArgs-Cons)**
 
-```text
-Γ ⊢ ResolveExpr(e) ⇓ e'    Γ ⊢ ResolveArgs(rest) ⇓ rest'
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveArgs([⟨moved, e, span⟩] ++ rest) ⇓ [⟨moved, e', span⟩] ++ rest'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e'\quad \Gamma \ \vdash \ \operatorname{ResolveArgs}(\mathsf{rest})\ \Downarrow \ \mathsf{rest}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveArgs}([\langle \mathsf{moved},\ e,\ \mathsf{span}\rangle ]\ \mathbin{++} \ \mathsf{rest})\ \Downarrow \ [\langle \mathsf{moved},\ e',\ \mathsf{span}\rangle ]\ \mathbin{++} \ \mathsf{rest}'
+\end{array}
 ```
 
 **(ResolveFieldInits-Empty)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveFieldInits([]) ⇓ []
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveFieldInits}([])\ \Downarrow \ []
+\end{array}
 ```
 
 **(ResolveFieldInits-Cons)**
 
-```text
-Γ ⊢ ResolveExpr(e) ⇓ e'    Γ ⊢ ResolveFieldInits(rest) ⇓ rest'
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveFieldInits([⟨f, e⟩] ++ rest) ⇓ [⟨f, e'⟩] ++ rest'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e'\quad \Gamma \ \vdash \ \operatorname{ResolveFieldInits}(\mathsf{rest})\ \Downarrow \ \mathsf{rest}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveFieldInits}([\langle f,\ e\rangle ]\ \mathbin{++} \ \mathsf{rest})\ \Downarrow \ [\langle f,\ e'\rangle ]\ \mathbin{++} \ \mathsf{rest}'
+\end{array}
 ```
 
 **(Resolve-RecordPath)**
 
-```text
-Γ ⊢ ResolveTypePath(path ++ [name]) ⇓ p    RecordDecl(p) = R
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveRecordPath(path, name) ⇓ p
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{path}\ \mathbin{++} \ [\mathsf{name}])\ \Downarrow \ p\quad \operatorname{RecordDecl}(p)\ =\ R \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveRecordPath}(\mathsf{path},\ \mathsf{name})\ \Downarrow \ p
+\end{array}
 ```
 
 **(Resolve-EnumUnit)**
 
-```text
-Γ ⊢ ResolveTypePath(path) ⇓ p    EnumDecl(p) = E    VariantPayload(E, name) = ⊥
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveEnumUnit(path, name) ⇓ p
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{path})\ \Downarrow \ p\quad \operatorname{EnumDecl}(p)\ =\ E\quad \operatorname{VariantPayload}(E,\ \mathsf{name})\ =\ \bot  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveEnumUnit}(\mathsf{path},\ \mathsf{name})\ \Downarrow \ p
+\end{array}
 ```
 
 **(Resolve-EnumTuple)**
 
-```text
-Γ ⊢ ResolveTypePath(path) ⇓ p    EnumDecl(p) = E    VariantPayload(E, name) = TuplePayload(_)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveEnumTuple(path, name) ⇓ p
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{path})\ \Downarrow \ p\quad \operatorname{EnumDecl}(p)\ =\ E\quad \operatorname{VariantPayload}(E,\ \mathsf{name})\ =\ \operatorname{TuplePayload}(\_) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveEnumTuple}(\mathsf{path},\ \mathsf{name})\ \Downarrow \ p
+\end{array}
 ```
 
 **(Resolve-EnumRecord)**
 
-```text
-Γ ⊢ ResolveTypePath(path) ⇓ p    EnumDecl(p) = E    VariantPayload(E, name) = RecordPayload(_)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{path})\ \Downarrow \ p\quad \operatorname{EnumDecl}(p)\ =\ E\quad \operatorname{VariantPayload}(E,\ \mathsf{name})\ =\ \operatorname{RecordPayload}(\_) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveEnumRecord}(\mathsf{path},\ \mathsf{name})\ \Downarrow \ p
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveEnumRecord(path, name) ⇓ p
-```
-
-```text
-BuiltinValuePath(path, name) ⇔ BuiltinModalStaticSig(path, name) defined
+```math
+\operatorname{BuiltinValuePath}(\mathsf{path},\ \mathsf{name})\ \Leftrightarrow \ \operatorname{BuiltinModalStaticSig}(\mathsf{path},\ \mathsf{name})\ \mathsf{defined}
 ```
 
 **(ResolveQual-Name-Builtin)**
 BuiltinValuePath(path, name)
-──────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveQualifiedForm(QualifiedName(path, name)) ⇓ Path(path, name)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveQualifiedForm}(\operatorname{QualifiedName}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \operatorname{Path}(\mathsf{path},\ \mathsf{name})
+\end{array}
 ```
 
 **(ResolveQual-Name-Value)**
 
-```text
-Γ ⊢ ResolveQualified(path, name, ValueKind) ⇓ ent    ent.origin_opt = mp    name' = (ent.target_opt if present, else name)    PathOfModule(mp) = path'
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveQualifiedForm(QualifiedName(path, name)) ⇓ Path(path', name')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveQualified}(\mathsf{path},\ \mathsf{name},\ \mathsf{ValueKind})\ \Downarrow \ \mathsf{ent}\quad \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \mathsf{mp}\quad \mathsf{name}'\ =\ (\mathsf{ent}.\mathsf{target}_{\mathsf{opt}}\ \mathsf{if}\ \mathsf{present},\ \mathsf{else}\ \mathsf{name})\quad \operatorname{PathOfModule}(\mathsf{mp})\ =\ \mathsf{path}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveQualifiedForm}(\operatorname{QualifiedName}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \operatorname{Path}(\mathsf{path}',\ \mathsf{name}')
+\end{array}
 ```
 
 **(ResolveQual-Name-Record)**
 
-```text
-Γ ⊢ ResolveRecordPath(path, name) ⇓ p    SplitLast(p) = (mp, name')
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveQualifiedForm(QualifiedName(path, name)) ⇓ Path(mp, name')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveRecordPath}(\mathsf{path},\ \mathsf{name})\ \Downarrow \ p\quad \operatorname{SplitLast}(p)\ =\ (\mathsf{mp},\ \mathsf{name}') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveQualifiedForm}(\operatorname{QualifiedName}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \operatorname{Path}(\mathsf{mp},\ \mathsf{name}')
+\end{array}
 ```
 
 **(ResolveQual-Name-Enum)**
 
-```text
-Γ ⊢ ResolveQualified(path, name, ValueKind) ↑    Γ ⊢ ResolveRecordPath(path, name) ↑    Γ ⊢ ResolveEnumUnit(path, name) ⇓ p
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveQualifiedForm(QualifiedName(path, name)) ⇓ EnumLiteral(FullPath(p, name), ⊥)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveQualified}(\mathsf{path},\ \mathsf{name},\ \mathsf{ValueKind})\ \uparrow \quad \Gamma \ \vdash \ \operatorname{ResolveRecordPath}(\mathsf{path},\ \mathsf{name})\ \uparrow \quad \Gamma \ \vdash \ \operatorname{ResolveEnumUnit}(\mathsf{path},\ \mathsf{name})\ \Downarrow \ p \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveQualifiedForm}(\operatorname{QualifiedName}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \operatorname{EnumLiteral}(\operatorname{FullPath}(p,\ \mathsf{name}),\ \bot )
+\end{array}
 ```
 
 **(ResolveQual-Name-Err)**
 
-```text
-Γ ⊢ ResolveQualified(path, name, ValueKind) ↑    Γ ⊢ ResolveRecordPath(path, name) ↑    Γ ⊢ ResolveEnumUnit(path, name) ↑    c = Code(ResolveExpr-Ident-Err)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveQualifiedForm(QualifiedName(path, name)) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveQualified}(\mathsf{path},\ \mathsf{name},\ \mathsf{ValueKind})\ \uparrow \quad \Gamma \ \vdash \ \operatorname{ResolveRecordPath}(\mathsf{path},\ \mathsf{name})\ \uparrow \quad \Gamma \ \vdash \ \operatorname{ResolveEnumUnit}(\mathsf{path},\ \mathsf{name})\ \uparrow \quad c\ =\ \operatorname{Code}(\mathsf{ResolveExpr}-\mathsf{Ident}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveQualifiedForm}(\operatorname{QualifiedName}(\mathsf{path},\ \mathsf{name}))\ \Uparrow \ c
+\end{array}
 ```
 
 ### 7.7 Shared Resolution Helpers and Resolution Pass
 
-```text
-P = Project(Γ)
-m = CurrentModule(Γ)
+```math
+\begin{array}{l}
+P\ =\ \operatorname{Project}(\Gamma ) \\
+m\ =\ \operatorname{CurrentModule}(\Gamma ) \\
+M\ =\ \operatorname{ASTModule}(P,\ m) \\
+\mathsf{ResolveInputs}\ =\ \langle M,\ \mathsf{ModulePaths},\ \{\ \operatorname{NameMap}(P,\ p)\ \mid \ p\ \in \ \mathsf{ModulePaths}\ \}\rangle  \\
+\mathsf{ResolveOutputs}\ =\ \langle M'\rangle  \\
+\mathsf{PathOfModuleRef}\ =\ \{\texttt{"3.4.1"}\}
+\end{array}
 ```
 
-M = ASTModule(P, m)
-
-```text
-ResolveInputs = ⟨M, ModulePaths, { NameMap(P, p) | p ∈ ModulePaths }⟩
-ResolveOutputs = ⟨M'⟩
+```math
+\begin{array}{l}
+\operatorname{TypeParamBindings}(\mathsf{params})\ =\ \{\ \operatorname{IdKey}(p.\mathsf{name})\ \mapsto \ \langle \mathsf{Type},\ \bot ,\ \bot ,\ \mathsf{Decl}\rangle \ \mid \ p\ \in \ \mathsf{params}\ \} \\
+\operatorname{TypeParamBindings}(\bot )\ =\ \{\}
+\end{array}
 ```
 
-PathOfModuleRef = {"3.4.1"}
-
-```text
-TypeParamBindings(params) = { IdKey(p.name) ↦ ⟨Type, ⊥, ⊥, Decl⟩ | p ∈ params }
-TypeParamBindings(⊥) = {}
-```
-
-```text
-Γ ⊢ ResolveGenericParamsOpt(⊥) ⇓ ⊥
-Γ ⊢ ResolvePredicateClauseOpt(⊥) ⇓ ⊥
-Γ ⊢ ResolveContractClauseOpt(⊥) ⇓ ⊥
-Γ ⊢ ResolveInvariantOpt(⊥) ⇓ ⊥
-Γ ⊢ ResolveTypeOpt(⊥) ⇓ ⊥
-Γ ⊢ ResolveExprOpt(⊥) ⇓ ⊥
-ResolveExprOpt(⊥) = ⊥
-ResolveExprOpt(e) = e' ⇔ Γ ⊢ ResolveExpr(e) ⇓ e'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveGenericParamsOpt}(\bot )\ \Downarrow \ \bot  \\
+\Gamma \ \vdash \ \operatorname{ResolvePredicateClauseOpt}(\bot )\ \Downarrow \ \bot  \\
+\Gamma \ \vdash \ \operatorname{ResolveContractClauseOpt}(\bot )\ \Downarrow \ \bot  \\
+\Gamma \ \vdash \ \operatorname{ResolveInvariantOpt}(\bot )\ \Downarrow \ \bot  \\
+\Gamma \ \vdash \ \operatorname{ResolveTypeOpt}(\bot )\ \Downarrow \ \bot  \\
+\Gamma \ \vdash \ \operatorname{ResolveExprOpt}(\bot )\ \Downarrow \ \bot  \\
+\operatorname{ResolveExprOpt}(\bot )\ =\ \bot  \\
+\operatorname{ResolveExprOpt}(e)\ =\ e'\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e'
+\end{array}
 ```
 
 **(ResolveGenericParamsOpt-Yes)**
 
-```text
-Γ ⊢ ResolveTypeParamList(params) ⇓ params'
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveGenericParamsOpt(params) ⇓ params'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveTypeParamList}(\mathsf{params})\ \Downarrow \ \mathsf{params}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveGenericParamsOpt}(\mathsf{params})\ \Downarrow \ \mathsf{params}'
+\end{array}
 ```
 
 **(ResolveTypeParam)**
 
-```text
-Γ ⊢ ResolveClassPathList(bounds) ⇓ bounds'    Γ ⊢ ResolveTypeOpt(default_opt) ⇓ default_opt'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveClassPathList}(\mathsf{bounds})\ \Downarrow \ \mathsf{bounds}'\quad \Gamma \ \vdash \ \operatorname{ResolveTypeOpt}(\mathsf{default}_{\mathsf{opt}})\ \Downarrow \ \mathsf{default}_{\mathsf{opt}}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveTypeParam}(\langle \mathsf{name},\ \mathsf{bounds},\ \mathsf{default}_{\mathsf{opt}},\ \mathsf{variance}\rangle )\ \Downarrow \ \langle \mathsf{name},\ \mathsf{bounds}',\ \mathsf{default}_{\mathsf{opt}}',\ \mathsf{variance}\rangle 
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveTypeParam(⟨name, bounds, default_opt, variance⟩) ⇓ ⟨name, bounds', default_opt', variance⟩
-```
-
-```text
-Γ ⊢ ResolveTypeParamList([]) ⇓ []
+```math
+\Gamma \ \vdash \ \operatorname{ResolveTypeParamList}([])\ \Downarrow \ []
 ```
 
 **(ResolveTypeParamList-Cons)**
 
-```text
-Γ ⊢ ResolveTypeParam(p) ⇓ p'    Γ ⊢ ResolveTypeParamList(ps) ⇓ ps'
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveTypeParamList(p :: ps) ⇓ p' :: ps'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveTypeParam}(p)\ \Downarrow \ p'\quad \Gamma \ \vdash \ \operatorname{ResolveTypeParamList}(\mathsf{ps})\ \Downarrow \ \mathsf{ps}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveTypeParamList}(p\ \mathbin{::} \ \mathsf{ps})\ \Downarrow \ p'\ \mathbin{::} \ \mathsf{ps}'
+\end{array}
 ```
 
 **(ResolvePredicateClauseOpt-Yes)**
 
-```text
-Γ ⊢ ResolvePredicateReqList(preds) ⇓ preds'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolvePredicateReqList}(\mathsf{preds})\ \Downarrow \ \mathsf{preds}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolvePredicateClauseOpt}(\mathsf{preds})\ \Downarrow \ \mathsf{preds}'
+\end{array}
 ```
 
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolvePredicateClauseOpt(preds) ⇓ preds'
-```
-
-```text
-Γ ⊢ ResolvePredicateReqList([]) ⇓ []
+```math
+\Gamma \ \vdash \ \operatorname{ResolvePredicateReqList}([])\ \Downarrow \ []
 ```
 
 **(ResolvePredicateReq-Predicate)**
 
-```text
-Γ ⊢ ResolveType(ty) ⇓ ty'
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolvePredicateReq(PredicateReq(pred, ty)) ⇓ PredicateReq(pred, ty')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveType}(\mathsf{ty})\ \Downarrow \ \mathsf{ty}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolvePredicateReq}(\operatorname{PredicateReq}(\mathsf{pred},\ \mathsf{ty}))\ \Downarrow \ \operatorname{PredicateReq}(\mathsf{pred},\ \mathsf{ty}')
+\end{array}
 ```
 
 **(ResolvePredicateReqList-Cons)**
 
-```text
-Γ ⊢ ResolvePredicateReq(p) ⇓ p'    Γ ⊢ ResolvePredicateReqList(ps) ⇓ ps'
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolvePredicateReqList(p :: ps) ⇓ p' :: ps'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolvePredicateReq}(p)\ \Downarrow \ p'\quad \Gamma \ \vdash \ \operatorname{ResolvePredicateReqList}(\mathsf{ps})\ \Downarrow \ \mathsf{ps}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolvePredicateReqList}(p\ \mathbin{::} \ \mathsf{ps})\ \Downarrow \ p'\ \mathbin{::} \ \mathsf{ps}'
+\end{array}
 ```
 
 **(ResolveContractClauseOpt-Yes)**
 
-```text
-Γ ⊢ ResolveExprOpt(pre) ⇓ pre'    Γ ⊢ ResolveExprOpt(post) ⇓ post'
-```
-
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveContractClauseOpt(ContractClause(pre, post)) ⇓ ContractClause(pre', post')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExprOpt}(\mathsf{pre})\ \Downarrow \ \mathsf{pre}'\quad \Gamma \ \vdash \ \operatorname{ResolveExprOpt}(\mathsf{post})\ \Downarrow \ \mathsf{post}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveContractClauseOpt}(\operatorname{ContractClause}(\mathsf{pre},\ \mathsf{post}))\ \Downarrow \ \operatorname{ContractClause}(\mathsf{pre}',\ \mathsf{post}')
+\end{array}
 ```
 
 **(ResolveInvariantOpt-Yes)**
 
-```text
-Γ ⊢ ResolveExpr(inv) ⇓ inv'
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveInvariantOpt(inv) ⇓ inv'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\mathsf{inv})\ \Downarrow \ \mathsf{inv}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveInvariantOpt}(\mathsf{inv})\ \Downarrow \ \mathsf{inv}'
+\end{array}
 ```
 
 **(ResolveTypePath-Ident)**
 |path| = 1    Γ ⊢ ResolveTypeName(path[0]) ⇓ ent    ent.origin_opt = p    name = (ent.target_opt if present, else path[0])
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveTypePath(path) ⇓ FullPath(PathOfModule(p), name)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{path})\ \Downarrow \ \operatorname{FullPath}(\operatorname{PathOfModule}(p),\ \mathsf{name})
+\end{array}
 ```
 
 **(ResolveTypePath-Ident-Local)**
 |path| = 1    Γ ⊢ ResolveTypeName(path[0]) ⇓ ent    ent.origin_opt = ⊥    name = (ent.target_opt if present, else path[0])
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveTypePath(path) ⇓ [name]
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{path})\ \Downarrow \ [\mathsf{name}]
+\end{array}
 ```
 
 **(ResolveTypePath-Qual)**
 |path| ≥ 2    path = p ++ [name]    Γ ⊢ ResolveQualified(p, name, TypeKind) ⇓ ent    ent.origin_opt = mp    name' = (ent.target_opt if present, else name)
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveTypePath(path) ⇓ FullPath(PathOfModule(mp), name')
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{path})\ \Downarrow \ \operatorname{FullPath}(\operatorname{PathOfModule}(\mathsf{mp}),\ \mathsf{name}')
+\end{array}
 ```
 
-```text
-LocalTypePath(path) ⇔ |path| = 1 ∧ Γ ⊢ ResolveTypeName(path[0]) ⇓ ent ∧ ent.origin_opt = ⊥
+```math
+\operatorname{LocalTypePath}(\mathsf{path})\ \Leftrightarrow \ \mid \mathsf{path}\mid \ =\ 1\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTypeName}(\mathsf{path}[0])\ \Downarrow \ \mathsf{ent}\ \land \ \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \bot 
 ```
 
 **(ResolveClassPath-Ident)**
 |path| = 1    Γ ⊢ ResolveClassName(path[0]) ⇓ ent    ent.origin_opt = p    name = (ent.target_opt if present, else path[0])
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveClassPath(path) ⇓ FullPath(PathOfModule(p), name)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveClassPath}(\mathsf{path})\ \Downarrow \ \operatorname{FullPath}(\operatorname{PathOfModule}(p),\ \mathsf{name})
+\end{array}
 ```
 
 **(ResolveClassPath-Qual)**
 |path| ≥ 2    path = p ++ [name]    Γ ⊢ ResolveQualified(p, name, ClassKind) ⇓ ent    ent.origin_opt = mp    name' = (ent.target_opt if present, else name)
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveClassPath(path) ⇓ FullPath(PathOfModule(mp), name')
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveClassPath}(\mathsf{path})\ \Downarrow \ \operatorname{FullPath}(\operatorname{PathOfModule}(\mathsf{mp}),\ \mathsf{name}')
+\end{array}
 ```
 
 **(ResolveType-Path)**
 
-```text
-Γ ⊢ ResolveTypePath(path) ⇓ path'
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveType(TypePath(path)) ⇓ TypePath(path')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{path})\ \Downarrow \ \mathsf{path}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveType}(\operatorname{TypePath}(\mathsf{path}))\ \Downarrow \ \operatorname{TypePath}(\mathsf{path}')
+\end{array}
 ```
 
 **(ResolveType-Dynamic)**
 
-```text
-Γ ⊢ ResolveClassPath(path) ⇓ path'
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveType(TypeDynamic(path)) ⇓ TypeDynamic(path')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveClassPath}(\mathsf{path})\ \Downarrow \ \mathsf{path}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveType}(\operatorname{TypeDynamic}(\mathsf{path}))\ \Downarrow \ \operatorname{TypeDynamic}(\mathsf{path}')
+\end{array}
 ```
 
 **(ResolveType-Apply)**
 
-```text
-Γ ⊢ ResolveTypePath(path) ⇓ path'    Γ ⊢ ResolveTypeList(args) ⇓ args'
-```
-
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveType(TypeApply(path, args)) ⇓ TypeApply(path', args')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{path})\ \Downarrow \ \mathsf{path}'\quad \Gamma \ \vdash \ \operatorname{ResolveTypeList}(\mathsf{args})\ \Downarrow \ \mathsf{args}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveType}(\operatorname{TypeApply}(\mathsf{path},\ \mathsf{args}))\ \Downarrow \ \operatorname{TypeApply}(\mathsf{path}',\ \mathsf{args}')
+\end{array}
 ```
 
 **(ResolveType-ModalState)**
 
-```text
-Γ ⊢ ResolveModalRef(modal_ref) ⇓ modal_ref'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveModalRef}(\mathsf{modal}_{\mathsf{ref}})\ \Downarrow \ \mathsf{modal}_{\mathsf{ref}}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveType}(\operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ \mathsf{state}))\ \Downarrow \ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}}',\ \mathsf{state})
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveType(TypeModalState(modal_ref, state)) ⇓ TypeModalState(modal_ref', state)
-```
-
-```text
-ResolveModalRef(modal_ref) ⇓ modal_ref' ⇔
- (modal_ref = TypePath(path) ∧ Γ ⊢ ResolveTypePath(path) ⇓ path' ∧ modal_ref' = TypePath(path')) ∨
- (modal_ref = TypeApply(path, args) ∧ Γ ⊢ ResolveTypePath(path) ⇓ path' ∧ Γ ⊢ ResolveTypeList(args) ⇓ args' ∧ modal_ref' = TypeApply(path', args'))
+```math
+\begin{array}{l}
+\operatorname{ResolveModalRef}(\mathsf{modal}_{\mathsf{ref}})\ \Downarrow \ \mathsf{modal}_{\mathsf{ref}}'\ \Leftrightarrow  \\
+\ (\mathsf{modal}_{\mathsf{ref}}\ =\ \operatorname{TypePath}(\mathsf{path})\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{path})\ \Downarrow \ \mathsf{path}'\ \land \ \mathsf{modal}_{\mathsf{ref}}'\ =\ \operatorname{TypePath}(\mathsf{path}'))\ \lor  \\
+\ (\mathsf{modal}_{\mathsf{ref}}\ =\ \operatorname{TypeApply}(\mathsf{path},\ \mathsf{args})\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{path})\ \Downarrow \ \mathsf{path}'\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTypeList}(\mathsf{args})\ \Downarrow \ \mathsf{args}'\ \land \ \mathsf{modal}_{\mathsf{ref}}'\ =\ \operatorname{TypeApply}(\mathsf{path}',\ \mathsf{args}'))
+\end{array}
 ```
 
 **(ResolveType-Hom)**
 
-```text
-∀ i, Γ ⊢ ResolveType(t_i) ⇓ t_i'
+```math
+\begin{array}{l}
+\forall \ i,\ \Gamma \ \vdash \ \operatorname{ResolveType}(t_{i})\ \Downarrow \ t_{i}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveType}(\operatorname{C}(t_{1},\ \ldots ,\ t_{n}))\ \Downarrow \ \operatorname{C}(t_{1}',\ \ldots ,\ t_{n}')
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveType(C(t_1, …, t_n)) ⇓ C(t_1', …, t_n')
-```
-
-```text
-Γ ⊢ ResolveTypeList([]) ⇓ []
+```math
+\Gamma \ \vdash \ \operatorname{ResolveTypeList}([])\ \Downarrow \ []
 ```
 
 **(ResolveTypeList-Cons)**
 
-```text
-Γ ⊢ ResolveType(t) ⇓ t'    Γ ⊢ ResolveTypeList(ts) ⇓ ts'
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveTypeList(t :: ts) ⇓ t' :: ts'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveType}(t)\ \Downarrow \ t'\quad \Gamma \ \vdash \ \operatorname{ResolveTypeList}(\mathsf{ts})\ \Downarrow \ \mathsf{ts}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveTypeList}(t\ \mathbin{::} \ \mathsf{ts})\ \Downarrow \ t'\ \mathbin{::} \ \mathsf{ts}'
+\end{array}
 ```
 
 **(ResolveParam)**
 
-```text
-Γ ⊢ ResolveType(p.type) ⇓ ty'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveType}(p.\mathsf{type})\ \Downarrow \ \mathsf{ty}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveParam}(p)\ \Downarrow \ p[\mathsf{type}\ =\ \mathsf{ty}']
+\end{array}
 ```
 
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveParam(p) ⇓ p[type = ty']
-```
-
-```text
-Γ ⊢ ResolveParams([]) ⇓ []
+```math
+\Gamma \ \vdash \ \operatorname{ResolveParams}([])\ \Downarrow \ []
 ```
 
 **(ResolveParams-Cons)**
 
-```text
-Γ ⊢ ResolveParam(p) ⇓ p'    Γ ⊢ ResolveParams(ps) ⇓ ps'
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveParams(p :: ps) ⇓ p' :: ps'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveParam}(p)\ \Downarrow \ p'\quad \Gamma \ \vdash \ \operatorname{ResolveParams}(\mathsf{ps})\ \Downarrow \ \mathsf{ps}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveParams}(p\ \mathbin{::} \ \mathsf{ps})\ \Downarrow \ p'\ \mathbin{::} \ \mathsf{ps}'
+\end{array}
 ```
 
 ResolvePattern : Pattern ⇀ Pattern
 
-```text
-Γ ⊢ ResolvePattern(WildcardPattern) ⇓ WildcardPattern
-Γ ⊢ ResolvePattern(IdentifierPattern(x)) ⇓ IdentifierPattern(x)
-Γ ⊢ ResolvePattern(LiteralPattern(lit)) ⇓ LiteralPattern(lit)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolvePattern}(\mathsf{WildcardPattern})\ \Downarrow \ \mathsf{WildcardPattern} \\
+\Gamma \ \vdash \ \operatorname{ResolvePattern}(\operatorname{IdentifierPattern}(x))\ \Downarrow \ \operatorname{IdentifierPattern}(x) \\
+\Gamma \ \vdash \ \operatorname{ResolvePattern}(\operatorname{LiteralPattern}(\mathsf{lit}))\ \Downarrow \ \operatorname{LiteralPattern}(\mathsf{lit})
+\end{array}
 ```
 
 **(ResolvePat-Tuple)**
 
-```text
-Γ ⊢ ResolvePatternList(ps) ⇓ ps'
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolvePattern(TuplePattern(ps)) ⇓ TuplePattern(ps')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolvePatternList}(\mathsf{ps})\ \Downarrow \ \mathsf{ps}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolvePattern}(\operatorname{TuplePattern}(\mathsf{ps}))\ \Downarrow \ \operatorname{TuplePattern}(\mathsf{ps}')
+\end{array}
 ```
 
 **(ResolvePat-Record)**
 
-```text
-Γ ⊢ ResolveTypePath(tp) ⇓ tp'    Γ ⊢ ResolveFieldPatternList(fs) ⇓ fs'
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolvePattern(RecordPattern(tp, fs)) ⇓ RecordPattern(tp', fs')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{tp})\ \Downarrow \ \mathsf{tp}'\quad \Gamma \ \vdash \ \operatorname{ResolveFieldPatternList}(\mathsf{fs})\ \Downarrow \ \mathsf{fs}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolvePattern}(\operatorname{RecordPattern}(\mathsf{tp},\ \mathsf{fs}))\ \Downarrow \ \operatorname{RecordPattern}(\mathsf{tp}',\ \mathsf{fs}')
+\end{array}
 ```
 
 **(ResolvePat-Enum)**
 
-```text
-Γ ⊢ ResolveTypePath(tp) ⇓ tp'    Γ ⊢ ResolveEnumPayloadPattern(payload_opt) ⇓ payload_opt'
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolvePattern(EnumPattern(tp, name, payload_opt)) ⇓ EnumPattern(tp', name, payload_opt')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{tp})\ \Downarrow \ \mathsf{tp}'\quad \Gamma \ \vdash \ \operatorname{ResolveEnumPayloadPattern}(\mathsf{payload}_{\mathsf{opt}})\ \Downarrow \ \mathsf{payload}_{\mathsf{opt}}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolvePattern}(\operatorname{EnumPattern}(\mathsf{tp},\ \mathsf{name},\ \mathsf{payload}_{\mathsf{opt}}))\ \Downarrow \ \operatorname{EnumPattern}(\mathsf{tp}',\ \mathsf{name},\ \mathsf{payload}_{\mathsf{opt}}')
+\end{array}
 ```
 
 **(ResolvePat-Modal)**
 
-```text
-Γ ⊢ ResolveFieldPatternListOpt(fields_opt) ⇓ fields_opt'
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolvePattern(ModalPattern(state, fields_opt)) ⇓ ModalPattern(state, fields_opt')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveFieldPatternListOpt}(\mathsf{fields}_{\mathsf{opt}})\ \Downarrow \ \mathsf{fields}_{\mathsf{opt}}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolvePattern}(\operatorname{ModalPattern}(\mathsf{state},\ \mathsf{fields}_{\mathsf{opt}}))\ \Downarrow \ \operatorname{ModalPattern}(\mathsf{state},\ \mathsf{fields}_{\mathsf{opt}}')
+\end{array}
 ```
 
 **(ResolvePat-Range)**
 
-```text
-Γ ⊢ ResolvePattern(p_l) ⇓ p_l'    Γ ⊢ ResolvePattern(p_h) ⇓ p_h'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolvePattern}(p_{l})\ \Downarrow \ p_{l}'\quad \Gamma \ \vdash \ \operatorname{ResolvePattern}(p_{h})\ \Downarrow \ p_{h}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolvePattern}(\operatorname{RangePattern}(\mathsf{kind},\ p_{l},\ p_{h}))\ \Downarrow \ \operatorname{RangePattern}(\mathsf{kind},\ p_{l}',\ p_{h}')
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolvePattern(RangePattern(kind, p_l, p_h)) ⇓ RangePattern(kind, p_l', p_h')
-```
-
-```text
-Γ ⊢ ResolvePatternList([]) ⇓ []
-Γ ⊢ ResolveFieldPatternList([]) ⇓ []
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolvePatternList}([])\ \Downarrow \ [] \\
+\Gamma \ \vdash \ \operatorname{ResolveFieldPatternList}([])\ \Downarrow \ []
+\end{array}
 ```
 
 **(ResolvePatternList-Cons)**
 
-```text
-Γ ⊢ ResolvePattern(p) ⇓ p'    Γ ⊢ ResolvePatternList(ps) ⇓ ps'
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolvePatternList(p :: ps) ⇓ p' :: ps'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolvePattern}(p)\ \Downarrow \ p'\quad \Gamma \ \vdash \ \operatorname{ResolvePatternList}(\mathsf{ps})\ \Downarrow \ \mathsf{ps}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolvePatternList}(p\ \mathbin{::} \ \mathsf{ps})\ \Downarrow \ p'\ \mathbin{::} \ \mathsf{ps}'
+\end{array}
 ```
 
 **(ResolveFieldPattern-Implicit)**
-──────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveFieldPattern(⟨name, ⊥, span⟩) ⇓ ⟨name, ⊥, span⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveFieldPattern}(\langle \mathsf{name},\ \bot ,\ \mathsf{span}\rangle )\ \Downarrow \ \langle \mathsf{name},\ \bot ,\ \mathsf{span}\rangle 
+\end{array}
 ```
 
 **(ResolveFieldPattern-Explicit)**
 
-```text
-Γ ⊢ ResolvePattern(p) ⇓ p'
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveFieldPattern(⟨name, p, span⟩) ⇓ ⟨name, p', span⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolvePattern}(p)\ \Downarrow \ p' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveFieldPattern}(\langle \mathsf{name},\ p,\ \mathsf{span}\rangle )\ \Downarrow \ \langle \mathsf{name},\ p',\ \mathsf{span}\rangle 
+\end{array}
 ```
 
 **(ResolveFieldPatternList-Cons)**
 
-```text
-Γ ⊢ ResolveFieldPattern(f) ⇓ f'    Γ ⊢ ResolveFieldPatternList(fs) ⇓ fs'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveFieldPattern}(f)\ \Downarrow \ f'\quad \Gamma \ \vdash \ \operatorname{ResolveFieldPatternList}(\mathsf{fs})\ \Downarrow \ \mathsf{fs}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveFieldPatternList}(f\ \mathbin{::} \ \mathsf{fs})\ \Downarrow \ f'\ \mathbin{::} \ \mathsf{fs}'
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveFieldPatternList(f :: fs) ⇓ f' :: fs'
-```
-
-```text
-Γ ⊢ ResolveEnumPayloadPattern(⊥) ⇓ ⊥
+```math
+\Gamma \ \vdash \ \operatorname{ResolveEnumPayloadPattern}(\bot )\ \Downarrow \ \bot 
 ```
 
 **(ResolveEnumPayloadPattern-Tuple)**
 
-```text
-Γ ⊢ ResolvePatternList(ps) ⇓ ps'
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveEnumPayloadPattern(TuplePayloadPattern(ps)) ⇓ TuplePayloadPattern(ps')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolvePatternList}(\mathsf{ps})\ \Downarrow \ \mathsf{ps}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveEnumPayloadPattern}(\operatorname{TuplePayloadPattern}(\mathsf{ps}))\ \Downarrow \ \operatorname{TuplePayloadPattern}(\mathsf{ps}')
+\end{array}
 ```
 
 **(ResolveEnumPayloadPattern-Record)**
 
-```text
-Γ ⊢ ResolveFieldPatternList(fs) ⇓ fs'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveFieldPatternList}(\mathsf{fs})\ \Downarrow \ \mathsf{fs}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveEnumPayloadPattern}(\operatorname{RecordPayloadPattern}(\mathsf{fs}))\ \Downarrow \ \operatorname{RecordPayloadPattern}(\mathsf{fs}')
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveEnumPayloadPattern(RecordPayloadPattern(fs)) ⇓ RecordPayloadPattern(fs')
-```
-
-```text
-Γ ⊢ ResolveFieldPatternListOpt(⊥) ⇓ ⊥
+```math
+\Gamma \ \vdash \ \operatorname{ResolveFieldPatternListOpt}(\bot )\ \Downarrow \ \bot 
 ```
 
 **(ResolveFieldPatternListOpt-Some)**
 
-```text
-Γ ⊢ ResolveFieldPatternList(fs) ⇓ fs'
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveFieldPatternListOpt(fs) ⇓ fs'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveFieldPatternList}(\mathsf{fs})\ \Downarrow \ \mathsf{fs}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveFieldPatternListOpt}(\mathsf{fs})\ \Downarrow \ \mathsf{fs}'
+\end{array}
 ```
 
 **(ResolveExpr-Ident)**
 
-```text
-Γ ⊢ ResolveValueName(x) ⇓ ent
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(Identifier(x)) ⇓ Identifier(x)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveValueName}(x)\ \Downarrow \ \mathsf{ent} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{Identifier}(x))\ \Downarrow \ \operatorname{Identifier}(x)
+\end{array}
 ```
 
 **(ResolveExpr-Ident-Err)**
 
-```text
-Γ ⊢ ResolveValueName(x) ⇑    c = Code(ResolveExpr-Ident-Err)
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(Identifier(x)) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveValueName}(x)\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{ResolveExpr}-\mathsf{Ident}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{Identifier}(x))\ \Uparrow \ c
+\end{array}
 ```
 
 **(ResolveExpr-Qualified)**
 
-```text
-Γ ⊢ ResolveQualifiedForm(e) ⇓ e'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveQualifiedForm}(e)\ \Downarrow \ e' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e'
+\end{array}
 ```
 
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(e) ⇓ e'
+```math
+\begin{array}{l}
+\mathsf{ResolveArgsRef}\ =\ \{\texttt{"5.1.6"}\} \\
+\mathsf{ResolveFieldInitsRef}\ =\ \{\texttt{"5.1.6"}\}
+\end{array}
 ```
 
-ResolveArgsRef = {"5.1.6"}
-ResolveFieldInitsRef = {"5.1.6"}
-
-```text
-Γ ⊢ ResolveExprList([]) ⇓ []
+```math
+\Gamma \ \vdash \ \operatorname{ResolveExprList}([])\ \Downarrow \ []
 ```
 
 **(ResolveExprList-Cons)**
 
-```text
-Γ ⊢ ResolveExpr(e) ⇓ e'    Γ ⊢ ResolveExprList(es) ⇓ es'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e'\quad \Gamma \ \vdash \ \operatorname{ResolveExprList}(\mathsf{es})\ \Downarrow \ \mathsf{es}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExprList}(e\ \mathbin{::} \ \mathsf{es})\ \Downarrow \ e'\ \mathbin{::} \ \mathsf{es}'
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExprList(e :: es) ⇓ e' :: es'
+```math
+\mathsf{ResolveExprListJudg}\ =\ \{\mathsf{ResolveExprList}\}
 ```
 
-ResolveExprListJudg = {ResolveExprList}
-
-ResolveEnumPayloadJudg = {ResolveEnumPayload}
+```math
+\mathsf{ResolveEnumPayloadJudg}\ =\ \{\mathsf{ResolveEnumPayload}\}
+```
 
 **(ResolveEnumPayload-None)**
-────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveEnumPayload(⊥) ⇓ ⊥
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveEnumPayload}(\bot )\ \Downarrow \ \bot 
+\end{array}
 ```
 
 **(ResolveEnumPayload-Tuple)**
 
-```text
-Γ ⊢ ResolveExprList(es) ⇓ es'
-```
-
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveEnumPayload(Paren(es)) ⇓ Paren(es')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExprList}(\mathsf{es})\ \Downarrow \ \mathsf{es}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveEnumPayload}(\operatorname{Paren}(\mathsf{es}))\ \Downarrow \ \operatorname{Paren}(\mathsf{es}')
+\end{array}
 ```
 
 **(ResolveEnumPayload-Record)**
 
-```text
-Γ ⊢ ResolveFieldInits(fields) ⇓ fields'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveFieldInits}(\mathsf{fields})\ \Downarrow \ \mathsf{fields}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveEnumPayload}(\operatorname{Brace}(\mathsf{fields}))\ \Downarrow \ \operatorname{Brace}(\mathsf{fields}')
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveEnumPayload(Brace(fields)) ⇓ Brace(fields')
+```math
+\mathsf{ResolveKeyPathJudg}\ =\ \{\mathsf{ResolveKeyPathExpr},\ \mathsf{ResolveKeyPathList},\ \mathsf{ResolveKeySeg},\ \mathsf{ResolveKeySegs}\}
 ```
-
-ResolveKeyPathJudg = {ResolveKeyPathExpr, ResolveKeyPathList, ResolveKeySeg, ResolveKeySegs}
 
 **(ResolveKeySeg-Field)**
-seg = Field(marked, name)
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveKeySeg(seg) ⇓ seg
+```math
+\begin{array}{l}
+\mathsf{seg}\ =\ \operatorname{Field}(\mathsf{marked},\ \mathsf{name}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveKeySeg}(\mathsf{seg})\ \Downarrow \ \mathsf{seg}
+\end{array}
 ```
 
 **(ResolveKeySeg-Index)**
 
-```text
-seg = Index(marked, e)    Γ ⊢ ResolveExpr(e) ⇓ e'
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveKeySeg(seg) ⇓ Index(marked, e')
+```math
+\begin{array}{l}
+\mathsf{seg}\ =\ \operatorname{Index}(\mathsf{marked},\ e)\quad \Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveKeySeg}(\mathsf{seg})\ \Downarrow \ \operatorname{Index}(\mathsf{marked},\ e')
+\end{array}
 ```
 
 **(ResolveKeySegs-Empty)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveKeySegs([]) ⇓ []
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveKeySegs}([])\ \Downarrow \ []
+\end{array}
 ```
 
 **(ResolveKeySegs-Cons)**
 
-```text
-Γ ⊢ ResolveKeySeg(s) ⇓ s'    Γ ⊢ ResolveKeySegs(ss) ⇓ ss'
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveKeySegs(s :: ss) ⇓ s' :: ss'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveKeySeg}(s)\ \Downarrow \ s'\quad \Gamma \ \vdash \ \operatorname{ResolveKeySegs}(\mathsf{ss})\ \Downarrow \ \mathsf{ss}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveKeySegs}(s\ \mathbin{::} \ \mathsf{ss})\ \Downarrow \ s'\ \mathbin{::} \ \mathsf{ss}'
+\end{array}
 ```
 
 **(ResolveKeyPathExpr)**
 
-```text
-Γ ⊢ ResolveValueName(root) ⇓ ent    Γ ⊢ ResolveKeySegs(segs) ⇓ segs'
-```
-
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveKeyPathExpr(⟨root, segs⟩) ⇓ ⟨root, segs'⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveValueName}(\mathsf{root})\ \Downarrow \ \mathsf{ent}\quad \Gamma \ \vdash \ \operatorname{ResolveKeySegs}(\mathsf{segs})\ \Downarrow \ \mathsf{segs}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveKeyPathExpr}(\langle \mathsf{root},\ \mathsf{segs}\rangle )\ \Downarrow \ \langle \mathsf{root},\ \mathsf{segs}'\rangle 
+\end{array}
 ```
 
 **(ResolveKeyPathExpr-Err)**
 
-```text
-Γ ⊢ ResolveValueName(root) ⇑    c = Code(ResolveExpr-Ident-Err)
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveKeyPathExpr(⟨root, segs⟩) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveValueName}(\mathsf{root})\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{ResolveExpr}-\mathsf{Ident}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveKeyPathExpr}(\langle \mathsf{root},\ \mathsf{segs}\rangle )\ \Uparrow \ c
+\end{array}
 ```
 
 **(ResolveKeyPathList-Empty)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveKeyPathList([]) ⇓ []
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveKeyPathList}([])\ \Downarrow \ []
+\end{array}
 ```
 
 **(ResolveKeyPathList-Cons)**
 
-```text
-Γ ⊢ ResolveKeyPathExpr(kp) ⇓ kp'    Γ ⊢ ResolveKeyPathList(kps) ⇓ kps'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveKeyPathExpr}(\mathsf{kp})\ \Downarrow \ \mathsf{kp}'\quad \Gamma \ \vdash \ \operatorname{ResolveKeyPathList}(\mathsf{kps})\ \Downarrow \ \mathsf{kps}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveKeyPathList}(\mathsf{kp}\ \mathbin{::} \ \mathsf{kps})\ \Downarrow \ \mathsf{kp}'\ \mathbin{::} \ \mathsf{kps}'
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveKeyPathList(kp :: kps) ⇓ kp' :: kps'
+```math
+\mathsf{ResolveParallelOptJudg}\ =\ \{\mathsf{ResolveParallelOpt},\ \mathsf{ResolveParallelOpts}\}
 ```
-
-ResolveParallelOptJudg = {ResolveParallelOpt, ResolveParallelOpts}
 
 **(ResolveParallelOpt-Cancel)**
 
-```text
-Γ ⊢ ResolveExpr(e) ⇓ e'
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveParallelOpt(Cancel(e)) ⇓ Cancel(e')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveParallelOpt}(\operatorname{Cancel}(e))\ \Downarrow \ \operatorname{Cancel}(e')
+\end{array}
 ```
 
 **(ResolveParallelOpt-Name)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveParallelOpt(Name(s)) ⇓ Name(s)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveParallelOpt}(\operatorname{Name}(s))\ \Downarrow \ \operatorname{Name}(s)
+\end{array}
 ```
 
 **(ResolveParallelOpts-Empty)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveParallelOpts([]) ⇓ []
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveParallelOpts}([])\ \Downarrow \ []
+\end{array}
 ```
 
 **(ResolveParallelOpts-Cons)**
 
-```text
-Γ ⊢ ResolveParallelOpt(o) ⇓ o'    Γ ⊢ ResolveParallelOpts(os) ⇓ os'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveParallelOpt}(o)\ \Downarrow \ o'\quad \Gamma \ \vdash \ \operatorname{ResolveParallelOpts}(\mathsf{os})\ \Downarrow \ \mathsf{os}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveParallelOpts}(o\ \mathbin{::} \ \mathsf{os})\ \Downarrow \ o'\ \mathbin{::} \ \mathsf{os}'
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveParallelOpts(o :: os) ⇓ o' :: os'
+```math
+\mathsf{ResolveSpawnOptJudg}\ =\ \{\mathsf{ResolveSpawnOpt},\ \mathsf{ResolveSpawnOpts}\}
 ```
-
-ResolveSpawnOptJudg = {ResolveSpawnOpt, ResolveSpawnOpts}
 
 **(ResolveSpawnOpt-Name)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveSpawnOpt(Name(s)) ⇓ Name(s)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveSpawnOpt}(\operatorname{Name}(s))\ \Downarrow \ \operatorname{Name}(s)
+\end{array}
 ```
 
 **(ResolveSpawnOpt-Affinity)**
 
-```text
-Γ ⊢ ResolveExpr(e) ⇓ e'
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveSpawnOpt(Affinity(e)) ⇓ Affinity(e')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveSpawnOpt}(\operatorname{Affinity}(e))\ \Downarrow \ \operatorname{Affinity}(e')
+\end{array}
 ```
 
 **(ResolveSpawnOpt-Priority)**
 
-```text
-Γ ⊢ ResolveExpr(e) ⇓ e'
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveSpawnOpt(Priority(e)) ⇓ Priority(e')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveSpawnOpt}(\operatorname{Priority}(e))\ \Downarrow \ \operatorname{Priority}(e')
+\end{array}
 ```
 
 **(ResolveSpawnOpts-Empty)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveSpawnOpts([]) ⇓ []
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveSpawnOpts}([])\ \Downarrow \ []
+\end{array}
 ```
 
 **(ResolveSpawnOpts-Cons)**
 
-```text
-Γ ⊢ ResolveSpawnOpt(o) ⇓ o'    Γ ⊢ ResolveSpawnOpts(os) ⇓ os'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveSpawnOpt}(o)\ \Downarrow \ o'\quad \Gamma \ \vdash \ \operatorname{ResolveSpawnOpts}(\mathsf{os})\ \Downarrow \ \mathsf{os}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveSpawnOpts}(o\ \mathbin{::} \ \mathsf{os})\ \Downarrow \ o'\ \mathbin{::} \ \mathsf{os}'
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveSpawnOpts(o :: os) ⇓ o' :: os'
+```math
+\mathsf{ResolveDispatchOptJudg}\ =\ \{\mathsf{ResolveDispatchOpt},\ \mathsf{ResolveDispatchOpts}\}
 ```
-
-ResolveDispatchOptJudg = {ResolveDispatchOpt, ResolveDispatchOpts}
 
 **(ResolveDispatchOpt-Reduce)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveDispatchOpt(Reduce(op)) ⇓ Reduce(op)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveDispatchOpt}(\operatorname{Reduce}(\mathsf{op}))\ \Downarrow \ \operatorname{Reduce}(\mathsf{op})
+\end{array}
 ```
 
 **(ResolveDispatchOpt-Ordered)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveDispatchOpt(Ordered) ⇓ Ordered
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveDispatchOpt}(\mathsf{Ordered})\ \Downarrow \ \mathsf{Ordered}
+\end{array}
 ```
 
 **(ResolveDispatchOpt-Chunk)**
 
-```text
-Γ ⊢ ResolveExpr(e) ⇓ e'
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveDispatchOpt(Chunk(e)) ⇓ Chunk(e')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveDispatchOpt}(\operatorname{Chunk}(e))\ \Downarrow \ \operatorname{Chunk}(e')
+\end{array}
 ```
 
 **(ResolveDispatchOpts-Empty)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveDispatchOpts([]) ⇓ []
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveDispatchOpts}([])\ \Downarrow \ []
+\end{array}
 ```
 
 **(ResolveDispatchOpts-Cons)**
 
-```text
-Γ ⊢ ResolveDispatchOpt(o) ⇓ o'    Γ ⊢ ResolveDispatchOpts(os) ⇓ os'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveDispatchOpt}(o)\ \Downarrow \ o'\quad \Gamma \ \vdash \ \operatorname{ResolveDispatchOpts}(\mathsf{os})\ \Downarrow \ \mathsf{os}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveDispatchOpts}(o\ \mathbin{::} \ \mathsf{os})\ \Downarrow \ o'\ \mathbin{::} \ \mathsf{os}'
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveDispatchOpts(o :: os) ⇓ o' :: os'
+```math
+\mathsf{ResolveRaceJudg}\ =\ \{\mathsf{ResolveRaceArm},\ \mathsf{ResolveRaceArms},\ \mathsf{ResolveRaceHandler}\}
 ```
-
-ResolveRaceJudg = {ResolveRaceArm, ResolveRaceArms, ResolveRaceHandler}
 
 **(ResolveRaceHandler-Return)**
 
-```text
-Γ ⊢ ResolveExpr(e) ⇓ e'
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveRaceHandler(RaceReturn(e)) ⇓ RaceReturn(e')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveRaceHandler}(\operatorname{RaceReturn}(e))\ \Downarrow \ \operatorname{RaceReturn}(e')
+\end{array}
 ```
 
 **(ResolveRaceHandler-Yield)**
 
-```text
-Γ ⊢ ResolveExpr(e) ⇓ e'
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveRaceHandler(RaceYield(e)) ⇓ RaceYield(e')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveRaceHandler}(\operatorname{RaceYield}(e))\ \Downarrow \ \operatorname{RaceYield}(e')
+\end{array}
 ```
 
 **(ResolveRaceArm)**
 
-```text
-Γ ⊢ ResolveExpr(e) ⇓ e'    Γ_0 = PushScope(Γ)    Γ_0 ⊢ ResolvePattern(pat) ⇓ pat'    Γ_0 ⊢ BindPattern(pat') ⇓ Γ_1    Γ_1 ⊢ ResolveRaceHandler(handler) ⇓ handler'
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveRaceArm(⟨e, pat, handler⟩) ⇓ ⟨e', pat', handler'⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e'\quad \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} \ \vdash \ \operatorname{ResolvePattern}(\mathsf{pat})\ \Downarrow \ \mathsf{pat}'\quad \Gamma_{0} \ \vdash \ \operatorname{BindPattern}(\mathsf{pat}')\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} \ \vdash \ \operatorname{ResolveRaceHandler}(\mathsf{handler})\ \Downarrow \ \mathsf{handler}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveRaceArm}(\langle e,\ \mathsf{pat},\ \mathsf{handler}\rangle )\ \Downarrow \ \langle e',\ \mathsf{pat}',\ \mathsf{handler}'\rangle 
+\end{array}
 ```
 
 **(ResolveRaceArms-Empty)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveRaceArms([]) ⇓ []
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveRaceArms}([])\ \Downarrow \ []
+\end{array}
 ```
 
 **(ResolveRaceArms-Cons)**
 
-```text
-Γ ⊢ ResolveRaceArm(a) ⇓ a'    Γ ⊢ ResolveRaceArms(as) ⇓ as'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveRaceArm}(a)\ \Downarrow \ a'\quad \Gamma \ \vdash \ \operatorname{ResolveRaceArms}(\mathsf{as})\ \Downarrow \ \mathsf{as}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveRaceArms}(a\ \mathbin{::} \ \mathsf{as})\ \Downarrow \ a'\ \mathbin{::} \ \mathsf{as}'
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveRaceArms(a :: as) ⇓ a' :: as'
+```math
+\mathsf{ResolveAllExprListJudg}\ =\ \{\mathsf{ResolveAllExprList}\}
 ```
-
-ResolveAllExprListJudg = {ResolveAllExprList}
 
 **(ResolveAllExprList-Empty)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveAllExprList([]) ⇓ []
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveAllExprList}([])\ \Downarrow \ []
+\end{array}
 ```
 
 **(ResolveAllExprList-Cons)**
 
-```text
-Γ ⊢ ResolveExpr(e) ⇓ e'    Γ ⊢ ResolveAllExprList(es) ⇓ es'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e'\quad \Gamma \ \vdash \ \operatorname{ResolveAllExprList}(\mathsf{es})\ \Downarrow \ \mathsf{es}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveAllExprList}(e\ \mathbin{::} \ \mathsf{es})\ \Downarrow \ e'\ \mathbin{::} \ \mathsf{es}'
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveAllExprList(e :: es) ⇓ e' :: es'
+```math
+\mathsf{ResolveCalleeJudg}\ =\ \{\mathsf{ResolveCallee}\}
 ```
-
-ResolveCalleeJudg = {ResolveCallee}
 
 **(ResolveCallee-Ident-Value)**
 
-```text
-Γ ⊢ ResolveValueName(x) ⇓ ent
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveCallee(Identifier(x), args) ⇓ Identifier(x)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveValueName}(x)\ \Downarrow \ \mathsf{ent} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveCallee}(\operatorname{Identifier}(x),\ \mathsf{args})\ \Downarrow \ \operatorname{Identifier}(x)
+\end{array}
 ```
 
 **(ResolveCallee-Ident-Record)**
 
-```text
-Γ ⊢ ResolveValueName(x) ⇑    args = []    Γ ⊢ ResolveTypeName(x) ⇓ ent    ent.origin_opt = p    name = (ent.target_opt if present, else x)    RecordDecl(FullPath(PathOfModule(p), name)) = R
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveCallee(Identifier(x), args) ⇓ Identifier(x)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveValueName}(x)\ \Uparrow \quad \mathsf{args}\ =\ []\quad \Gamma \ \vdash \ \operatorname{ResolveTypeName}(x)\ \Downarrow \ \mathsf{ent}\quad \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ p\quad \mathsf{name}\ =\ (\mathsf{ent}.\mathsf{target}_{\mathsf{opt}}\ \mathsf{if}\ \mathsf{present},\ \mathsf{else}\ x)\quad \operatorname{RecordDecl}(\operatorname{FullPath}(\operatorname{PathOfModule}(p),\ \mathsf{name}))\ =\ R \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveCallee}(\operatorname{Identifier}(x),\ \mathsf{args})\ \Downarrow \ \operatorname{Identifier}(x)
+\end{array}
 ```
 
 **(ResolveCallee-Path-Value)**
 
-```text
-Γ ⊢ ResolveQualified(path, name, ValueKind) ⇓ ent
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveCallee(Path(path, name), args) ⇓ Path(path, name)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveQualified}(\mathsf{path},\ \mathsf{name},\ \mathsf{ValueKind})\ \Downarrow \ \mathsf{ent} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveCallee}(\operatorname{Path}(\mathsf{path},\ \mathsf{name}),\ \mathsf{args})\ \Downarrow \ \operatorname{Path}(\mathsf{path},\ \mathsf{name})
+\end{array}
 ```
 
 **(ResolveCallee-Path-Builtin)**
 BuiltinValuePath(path, name)
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveCallee(Path(path, name), args) ⇓ Path(path, name)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveCallee}(\operatorname{Path}(\mathsf{path},\ \mathsf{name}),\ \mathsf{args})\ \Downarrow \ \operatorname{Path}(\mathsf{path},\ \mathsf{name})
+\end{array}
 ```
 
 **(ResolveCallee-Path-Record)**
 
-```text
-Γ ⊢ ResolveRecordPath(path, name) ⇓ p    args = []
-```
-
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveCallee(Path(path, name), args) ⇓ Path(path, name)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveRecordPath}(\mathsf{path},\ \mathsf{name})\ \Downarrow \ p\quad \mathsf{args}\ =\ [] \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveCallee}(\operatorname{Path}(\mathsf{path},\ \mathsf{name}),\ \mathsf{args})\ \Downarrow \ \operatorname{Path}(\mathsf{path},\ \mathsf{name})
+\end{array}
 ```
 
 **(ResolveCallee-Other)**
 
-```text
-Γ ⊢ ResolveExpr(callee) ⇓ callee'
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveCallee(callee, args) ⇓ callee'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\mathsf{callee})\ \Downarrow \ \mathsf{callee}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveCallee}(\mathsf{callee},\ \mathsf{args})\ \Downarrow \ \mathsf{callee}'
+\end{array}
 ```
 
 **(ResolveExpr-Call)**
 
-```text
-Γ ⊢ ResolveArgs(args) ⇓ args'    Γ ⊢ ResolveCallee(callee, args') ⇓ callee'
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(Call(callee, args)) ⇓ Call(callee', args')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveArgs}(\mathsf{args})\ \Downarrow \ \mathsf{args}'\quad \Gamma \ \vdash \ \operatorname{ResolveCallee}(\mathsf{callee},\ \mathsf{args}')\ \Downarrow \ \mathsf{callee}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{Call}(\mathsf{callee},\ \mathsf{args}))\ \Downarrow \ \operatorname{Call}(\mathsf{callee}',\ \mathsf{args}')
+\end{array}
 ```
 
 **(ResolveExpr-Call-TypeArgs)**
 
-```text
-Γ ⊢ ResolveTypeList(type_args) ⇓ type_args'    Γ ⊢ ResolveArgs(args) ⇓ args'    Γ ⊢ ResolveCallee(callee, args') ⇓ callee'
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(CallTypeArgs(callee, type_args, args)) ⇓ CallTypeArgs(callee', type_args', args')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveTypeList}(\mathsf{type}_{\mathsf{args}})\ \Downarrow \ \mathsf{type}_{\mathsf{args}}'\quad \Gamma \ \vdash \ \operatorname{ResolveArgs}(\mathsf{args})\ \Downarrow \ \mathsf{args}'\quad \Gamma \ \vdash \ \operatorname{ResolveCallee}(\mathsf{callee},\ \mathsf{args}')\ \Downarrow \ \mathsf{callee}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{CallTypeArgs}(\mathsf{callee},\ \mathsf{type}_{\mathsf{args}},\ \mathsf{args}))\ \Downarrow \ \operatorname{CallTypeArgs}(\mathsf{callee}',\ \mathsf{type}_{\mathsf{args}}',\ \mathsf{args}')
+\end{array}
 ```
 
 **(ResolveExpr-RecordExpr)**
 
-```text
-Γ ⊢ ResolveTypeRef(tr) ⇓ tr'    Γ ⊢ ResolveFieldInits(fields) ⇓ fields'
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(RecordExpr(tr, fields)) ⇓ RecordExpr(tr', fields')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveTypeRef}(\mathsf{tr})\ \Downarrow \ \mathsf{tr}'\quad \Gamma \ \vdash \ \operatorname{ResolveFieldInits}(\mathsf{fields})\ \Downarrow \ \mathsf{fields}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{RecordExpr}(\mathsf{tr},\ \mathsf{fields}))\ \Downarrow \ \operatorname{RecordExpr}(\mathsf{tr}',\ \mathsf{fields}')
+\end{array}
 ```
 
 **(ResolveExpr-EnumLiteral)**
 
-```text
-Γ ⊢ ResolveEnumPayload(payload_opt) ⇓ payload_opt'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveEnumPayload}(\mathsf{payload}_{\mathsf{opt}})\ \Downarrow \ \mathsf{payload}_{\mathsf{opt}}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{EnumLiteral}(\mathsf{path},\ \mathsf{payload}_{\mathsf{opt}}))\ \Downarrow \ \operatorname{EnumLiteral}(\mathsf{path},\ \mathsf{payload}_{\mathsf{opt}}')
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(EnumLiteral(path, payload_opt)) ⇓ EnumLiteral(path, payload_opt')
+```math
+\mathsf{ResolveIfCaseJudg}\ =\ \{\mathsf{ResolveIfCase},\ \mathsf{ResolveIfCases},\ \mathsf{ResolveElseBlockOpt}\}
 ```
-
-ResolveIfCaseJudg = {ResolveIfCase, ResolveIfCases, ResolveElseBlockOpt}
 
 **(ResolveIfCase)**
 
-```text
-Γ_0 = PushScope(Γ)    Γ_0 ⊢ ResolvePattern(p) ⇓ p'    Γ_0 ⊢ BindPattern(p') ⇓ Γ_1    Γ_1 ⊢ ResolveExpr(b) ⇓ b'
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveIfCase(⟨p, b⟩) ⇓ ⟨p', b'⟩
+```math
+\begin{array}{l}
+\Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} \ \vdash \ \operatorname{ResolvePattern}(p)\ \Downarrow \ p'\quad \Gamma_{0} \ \vdash \ \operatorname{BindPattern}(p')\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} \ \vdash \ \operatorname{ResolveExpr}(b)\ \Downarrow \ b' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveIfCase}(\langle p,\ b\rangle )\ \Downarrow \ \langle p',\ b'\rangle 
+\end{array}
 ```
 
 **(ResolveIfCases-Empty)**
-────────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveIfCases([]) ⇓ []
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveIfCases}([])\ \Downarrow \ []
+\end{array}
 ```
 
 **(ResolveIfCases-Cons)**
 
-```text
-Γ ⊢ ResolveIfCase(a) ⇓ a'    Γ ⊢ ResolveIfCases(as) ⇓ as'
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveIfCases(a :: as) ⇓ a' :: as'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveIfCase}(a)\ \Downarrow \ a'\quad \Gamma \ \vdash \ \operatorname{ResolveIfCases}(\mathsf{as})\ \Downarrow \ \mathsf{as}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveIfCases}(a\ \mathbin{::} \ \mathsf{as})\ \Downarrow \ a'\ \mathbin{::} \ \mathsf{as}'
+\end{array}
 ```
 
 **(ResolveElseBlockOpt-None)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveElseBlockOpt(⊥) ⇓ ⊥
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveElseBlockOpt}(\bot )\ \Downarrow \ \bot 
+\end{array}
 ```
 
 **(ResolveElseBlockOpt-Some)**
 
-```text
-Γ ⊢ ResolveExpr(b) ⇓ b'
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveElseBlockOpt(b) ⇓ b'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(b)\ \Downarrow \ b' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveElseBlockOpt}(b)\ \Downarrow \ b'
+\end{array}
 ```
 
 **(ResolveExpr-IfIs)**
 
-```text
-Γ ⊢ ResolveExpr(scrutinee) ⇓ scrutinee'    Γ ⊢ ResolvePattern(pat) ⇓ pat'    Γ_0 = PushScope(Γ)    Γ_0 ⊢ BindPattern(pat') ⇓ Γ_1    Γ_1 ⊢ ResolveExpr(then_block) ⇓ then_block'    Γ ⊢ ResolveElseBlockOpt(else_opt) ⇓ else_opt'
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(IfIsExpr(scrutinee, pat, then_block, else_opt)) ⇓ IfIsExpr(scrutinee', pat', then_block', else_opt')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\mathsf{scrutinee})\ \Downarrow \ \mathsf{scrutinee}'\quad \Gamma \ \vdash \ \operatorname{ResolvePattern}(\mathsf{pat})\ \Downarrow \ \mathsf{pat}'\quad \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} \ \vdash \ \operatorname{BindPattern}(\mathsf{pat}')\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} \ \vdash \ \operatorname{ResolveExpr}(\mathsf{then}_{\mathsf{block}})\ \Downarrow \ \mathsf{then}_{\mathsf{block}}'\quad \Gamma \ \vdash \ \operatorname{ResolveElseBlockOpt}(\mathsf{else}_{\mathsf{opt}})\ \Downarrow \ \mathsf{else}_{\mathsf{opt}}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{IfIsExpr}(\mathsf{scrutinee},\ \mathsf{pat},\ \mathsf{then}_{\mathsf{block}},\ \mathsf{else}_{\mathsf{opt}}))\ \Downarrow \ \operatorname{IfIsExpr}(\mathsf{scrutinee}',\ \mathsf{pat}',\ \mathsf{then}_{\mathsf{block}}',\ \mathsf{else}_{\mathsf{opt}}')
+\end{array}
 ```
 
 **(ResolveExpr-IfCase)**
 
-```text
-Γ ⊢ ResolveExpr(scrutinee) ⇓ scrutinee'    Γ ⊢ ResolveIfCases(cases) ⇓ cases'    Γ ⊢ ResolveElseBlockOpt(else_opt) ⇓ else_opt'
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(IfCaseExpr(scrutinee, cases, else_opt)) ⇓ IfCaseExpr(scrutinee', cases', else_opt')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\mathsf{scrutinee})\ \Downarrow \ \mathsf{scrutinee}'\quad \Gamma \ \vdash \ \operatorname{ResolveIfCases}(\mathsf{cases})\ \Downarrow \ \mathsf{cases}'\quad \Gamma \ \vdash \ \operatorname{ResolveElseBlockOpt}(\mathsf{else}_{\mathsf{opt}})\ \Downarrow \ \mathsf{else}_{\mathsf{opt}}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{IfCaseExpr}(\mathsf{scrutinee},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}}))\ \Downarrow \ \operatorname{IfCaseExpr}(\mathsf{scrutinee}',\ \mathsf{cases}',\ \mathsf{else}_{\mathsf{opt}}')
+\end{array}
 ```
 
 **(ResolveExpr-LoopInfinite)**
 
-```text
-Γ ⊢ ResolveInvariantOpt(inv_opt) ⇓ inv_opt'    Γ ⊢ ResolveExpr(body) ⇓ body'
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(LoopInfinite(inv_opt, body)) ⇓ LoopInfinite(inv_opt', body')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveInvariantOpt}(\mathsf{inv}_{\mathsf{opt}})\ \Downarrow \ \mathsf{inv}_{\mathsf{opt}}'\quad \Gamma \ \vdash \ \operatorname{ResolveExpr}(\mathsf{body})\ \Downarrow \ \mathsf{body}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{LoopInfinite}(\mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}))\ \Downarrow \ \operatorname{LoopInfinite}(\mathsf{inv}_{\mathsf{opt}}',\ \mathsf{body}')
+\end{array}
 ```
 
 **(ResolveExpr-LoopConditional)**
 
-```text
-Γ ⊢ ResolveExpr(cond) ⇓ cond'    Γ ⊢ ResolveInvariantOpt(inv_opt) ⇓ inv_opt'    Γ ⊢ ResolveExpr(body) ⇓ body'
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(LoopConditional(cond, inv_opt, body)) ⇓ LoopConditional(cond', inv_opt', body')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\mathsf{cond})\ \Downarrow \ \mathsf{cond}'\quad \Gamma \ \vdash \ \operatorname{ResolveInvariantOpt}(\mathsf{inv}_{\mathsf{opt}})\ \Downarrow \ \mathsf{inv}_{\mathsf{opt}}'\quad \Gamma \ \vdash \ \operatorname{ResolveExpr}(\mathsf{body})\ \Downarrow \ \mathsf{body}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{LoopConditional}(\mathsf{cond},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}))\ \Downarrow \ \operatorname{LoopConditional}(\mathsf{cond}',\ \mathsf{inv}_{\mathsf{opt}}',\ \mathsf{body}')
+\end{array}
 ```
 
 **(ResolveExpr-LoopIter)**
 
-```text
-Γ ⊢ ResolvePattern(pat) ⇓ pat'    Γ ⊢ ResolveTypeOpt(ty_opt) ⇓ ty_opt'    Γ ⊢ ResolveExpr(iter) ⇓ iter'    Γ ⊢ ResolveInvariantOpt(inv_opt) ⇓ inv_opt'    Γ_0 = PushScope(Γ)    Γ_0 ⊢ BindPattern(pat') ⇓ Γ_1    Γ_1 ⊢ ResolveExpr(body) ⇓ body'
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(LoopIter(pat, ty_opt, iter, inv_opt, body)) ⇓ LoopIter(pat', ty_opt', iter', inv_opt', body')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolvePattern}(\mathsf{pat})\ \Downarrow \ \mathsf{pat}'\quad \Gamma \ \vdash \ \operatorname{ResolveTypeOpt}(\mathsf{ty}_{\mathsf{opt}})\ \Downarrow \ \mathsf{ty}_{\mathsf{opt}}'\quad \Gamma \ \vdash \ \operatorname{ResolveExpr}(\mathsf{iter})\ \Downarrow \ \mathsf{iter}'\quad \Gamma \ \vdash \ \operatorname{ResolveInvariantOpt}(\mathsf{inv}_{\mathsf{opt}})\ \Downarrow \ \mathsf{inv}_{\mathsf{opt}}'\quad \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} \ \vdash \ \operatorname{BindPattern}(\mathsf{pat}')\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} \ \vdash \ \operatorname{ResolveExpr}(\mathsf{body})\ \Downarrow \ \mathsf{body}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{LoopIter}(\mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{iter},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}))\ \Downarrow \ \operatorname{LoopIter}(\mathsf{pat}',\ \mathsf{ty}_{\mathsf{opt}}',\ \mathsf{iter}',\ \mathsf{inv}_{\mathsf{opt}}',\ \mathsf{body}')
+\end{array}
 ```
 
 **(ResolveExpr-Parallel)**
 
-```text
-Γ ⊢ ResolveExpr(domain) ⇓ domain'    Γ ⊢ ResolveParallelOpts(opts) ⇓ opts'    Γ ⊢ ResolveExpr(body) ⇓ body'
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(ParallelExpr(domain, opts, body)) ⇓ ParallelExpr(domain', opts', body')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\mathsf{domain})\ \Downarrow \ \mathsf{domain}'\quad \Gamma \ \vdash \ \operatorname{ResolveParallelOpts}(\mathsf{opts})\ \Downarrow \ \mathsf{opts}'\quad \Gamma \ \vdash \ \operatorname{ResolveExpr}(\mathsf{body})\ \Downarrow \ \mathsf{body}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{ParallelExpr}(\mathsf{domain},\ \mathsf{opts},\ \mathsf{body}))\ \Downarrow \ \operatorname{ParallelExpr}(\mathsf{domain}',\ \mathsf{opts}',\ \mathsf{body}')
+\end{array}
 ```
 
 **(ResolveExpr-Spawn)**
 
-```text
-Γ ⊢ ResolveSpawnOpts(opts) ⇓ opts'    Γ ⊢ ResolveExpr(body) ⇓ body'
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(SpawnExpr(opts, body)) ⇓ SpawnExpr(opts', body')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveSpawnOpts}(\mathsf{opts})\ \Downarrow \ \mathsf{opts}'\quad \Gamma \ \vdash \ \operatorname{ResolveExpr}(\mathsf{body})\ \Downarrow \ \mathsf{body}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{SpawnExpr}(\mathsf{opts},\ \mathsf{body}))\ \Downarrow \ \operatorname{SpawnExpr}(\mathsf{opts}',\ \mathsf{body}')
+\end{array}
 ```
 
 **(ResolveExpr-Wait)**
 
-```text
-Γ ⊢ ResolveExpr(handle) ⇓ handle'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\mathsf{handle})\ \Downarrow \ \mathsf{handle}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{WaitExpr}(\mathsf{handle}))\ \Downarrow \ \operatorname{WaitExpr}(\mathsf{handle}')
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(WaitExpr(handle)) ⇓ WaitExpr(handle')
+```math
+\mathsf{ResolveKeyClauseJudg}\ =\ \{\mathsf{ResolveKeyClauseOpt}\}
 ```
-
-ResolveKeyClauseJudg = {ResolveKeyClauseOpt}
 
 **(ResolveKeyClauseOpt-None)**
 
-```text
-key_clause_opt = ⊥
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveKeyClauseOpt(key_clause_opt) ⇓ ⊥
+```math
+\begin{array}{l}
+\mathsf{key}_{\mathsf{clause}\_\mathsf{opt}}\ =\ \bot  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveKeyClauseOpt}(\mathsf{key}_{\mathsf{clause}\_\mathsf{opt}})\ \Downarrow \ \bot 
+\end{array}
 ```
 
 **(ResolveKeyClauseOpt-Yes)**
 
-```text
-key_clause_opt = ⟨path, mode⟩    Γ ⊢ ResolveKeyPathExpr(path) ⇓ path'
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveKeyClauseOpt(key_clause_opt) ⇓ ⟨path', mode⟩
+```math
+\begin{array}{l}
+\mathsf{key}_{\mathsf{clause}\_\mathsf{opt}}\ =\ \langle \mathsf{path},\ \mathsf{mode}\rangle \quad \Gamma \ \vdash \ \operatorname{ResolveKeyPathExpr}(\mathsf{path})\ \Downarrow \ \mathsf{path}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveKeyClauseOpt}(\mathsf{key}_{\mathsf{clause}\_\mathsf{opt}})\ \Downarrow \ \langle \mathsf{path}',\ \mathsf{mode}\rangle 
+\end{array}
 ```
 
 **(ResolveExpr-Dispatch)**
 
-```text
-Γ ⊢ ResolvePattern(pat) ⇓ pat'    Γ ⊢ ResolveExpr(range) ⇓ range'    Γ ⊢ ResolveKeyClauseOpt(key_clause_opt) ⇓ key_clause_opt'    Γ ⊢ ResolveDispatchOpts(opts) ⇓ opts'    Γ_0 = PushScope(Γ)    Γ_0 ⊢ BindPattern(pat') ⇓ Γ_1    Γ_1 ⊢ ResolveExpr(body) ⇓ body'
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(DispatchExpr(pat, range, key_clause_opt, opts, body)) ⇓ DispatchExpr(pat', range', key_clause_opt', opts', body')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolvePattern}(\mathsf{pat})\ \Downarrow \ \mathsf{pat}'\quad \Gamma \ \vdash \ \operatorname{ResolveExpr}(\mathsf{range})\ \Downarrow \ \mathsf{range}'\quad \Gamma \ \vdash \ \operatorname{ResolveKeyClauseOpt}(\mathsf{key}_{\mathsf{clause}\_\mathsf{opt}})\ \Downarrow \ \mathsf{key}_{\mathsf{clause}\_\mathsf{opt}}'\quad \Gamma \ \vdash \ \operatorname{ResolveDispatchOpts}(\mathsf{opts})\ \Downarrow \ \mathsf{opts}'\quad \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} \ \vdash \ \operatorname{BindPattern}(\mathsf{pat}')\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} \ \vdash \ \operatorname{ResolveExpr}(\mathsf{body})\ \Downarrow \ \mathsf{body}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{DispatchExpr}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{opts},\ \mathsf{body}))\ \Downarrow \ \operatorname{DispatchExpr}(\mathsf{pat}',\ \mathsf{range}',\ \mathsf{key}_{\mathsf{clause}\_\mathsf{opt}}',\ \mathsf{opts}',\ \mathsf{body}')
+\end{array}
 ```
 
 **(ResolveExpr-Yield)**
 
-```text
-Γ ⊢ ResolveExpr(e) ⇓ e'
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(YieldExpr(release_opt, e)) ⇓ YieldExpr(release_opt, e')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e))\ \Downarrow \ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e')
+\end{array}
 ```
 
 **(ResolveExpr-YieldFrom)**
 
-```text
-Γ ⊢ ResolveExpr(e) ⇓ e'
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(YieldFromExpr(release_opt, e)) ⇓ YieldFromExpr(release_opt, e')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e))\ \Downarrow \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e')
+\end{array}
 ```
 
 **(ResolveExpr-Sync)**
 
-```text
-Γ ⊢ ResolveExpr(e) ⇓ e'
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(SyncExpr(e)) ⇓ SyncExpr(e')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{SyncExpr}(e))\ \Downarrow \ \operatorname{SyncExpr}(e')
+\end{array}
 ```
 
 **(ResolveExpr-Race)**
 
-```text
-Γ ⊢ ResolveRaceArms(arms) ⇓ arms'
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(RaceExpr(arms)) ⇓ RaceExpr(arms')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveRaceArms}(\mathsf{arms})\ \Downarrow \ \mathsf{arms}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{RaceExpr}(\mathsf{arms}))\ \Downarrow \ \operatorname{RaceExpr}(\mathsf{arms}')
+\end{array}
 ```
 
 **(ResolveExpr-All)**
 
-```text
-Γ ⊢ ResolveAllExprList(es) ⇓ es'
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(AllExpr(es)) ⇓ AllExpr(es')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveAllExprList}(\mathsf{es})\ \Downarrow \ \mathsf{es}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{AllExpr}(\mathsf{es}))\ \Downarrow \ \operatorname{AllExpr}(\mathsf{es}')
+\end{array}
 ```
 
 **(ResolveExpr-Alloc-Explicit-ByAlias)**
 
-```text
-Γ ⊢ ResolveValueName(r) ⇓ ent    RegionAlias(ent)    Γ ⊢ ResolveExpr(e) ⇓ e'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveValueName}(r)\ \Downarrow \ \mathsf{ent}\quad \operatorname{RegionAlias}(\mathsf{ent})\quad \Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{Binary}(\texttt{"\^{}"},\ \operatorname{Identifier}(r),\ e))\ \Downarrow \ \operatorname{AllocExpr}(r,\ e')
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(Binary("^", Identifier(r), e)) ⇓ AllocExpr(r, e')
+```math
+\mathsf{ResolveExprRules}\ =\ \{\mathsf{ResolveExpr}-\mathsf{Ident},\ \mathsf{ResolveExpr}-\mathsf{Qualified},\ \mathsf{ResolveExpr}-\mathsf{Call},\ \mathsf{ResolveExpr}-\mathsf{Call}-\mathsf{TypeArgs},\ \mathsf{ResolveExpr}-\mathsf{RecordExpr},\ \mathsf{ResolveExpr}-\mathsf{EnumLiteral},\ \mathsf{ResolveExpr}-\mathsf{IfCase},\ \mathsf{ResolveExpr}-\mathsf{LoopIter},\ \mathsf{ResolveExpr}-\mathsf{Parallel},\ \mathsf{ResolveExpr}-\mathsf{Spawn},\ \mathsf{ResolveExpr}-\mathsf{Wait},\ \mathsf{ResolveExpr}-\mathsf{Dispatch},\ \mathsf{ResolveExpr}-\mathsf{Yield},\ \mathsf{ResolveExpr}-\mathsf{YieldFrom},\ \mathsf{ResolveExpr}-\mathsf{Sync},\ \mathsf{ResolveExpr}-\mathsf{Race},\ \mathsf{ResolveExpr}-\mathsf{All},\ \mathsf{ResolveExpr}-\mathsf{Alloc}-\mathsf{Explicit}-\mathsf{ByAlias},\ \mathsf{ResolveExpr}-\mathsf{Hom},\ \mathsf{ResolveExpr}-\mathsf{Alloc}-\mathsf{Implicit},\ \mathsf{ResolveExpr}-\mathsf{Alloc}-\mathsf{Explicit},\ \mathsf{ResolveExpr}-\mathsf{Block}\}
 ```
 
-ResolveExprRules = {ResolveExpr-Ident, ResolveExpr-Qualified, ResolveExpr-Call, ResolveExpr-Call-TypeArgs, ResolveExpr-RecordExpr, ResolveExpr-EnumLiteral, ResolveExpr-IfCase, ResolveExpr-LoopIter, ResolveExpr-Parallel, ResolveExpr-Spawn, ResolveExpr-Wait, ResolveExpr-Dispatch, ResolveExpr-Yield, ResolveExpr-YieldFrom, ResolveExpr-Sync, ResolveExpr-Race, ResolveExpr-All, ResolveExpr-Alloc-Explicit-ByAlias, ResolveExpr-Hom, ResolveExpr-Alloc-Implicit, ResolveExpr-Alloc-Explicit, ResolveExpr-Block}
-
-```text
-NoSpecificResolveExpr(e) ⇔ ¬ ∃ r ∈ ResolveExprRules \ {ResolveExpr-Hom}. PremisesHold(r, e)
+```math
+\operatorname{NoSpecificResolveExpr}(e)\ \Leftrightarrow \ \lnot \ \exists \ r\ \in \ \mathsf{ResolveExprRules}\ \setminus \ \{\mathsf{ResolveExpr}-\mathsf{Hom}\}.\ \operatorname{PremisesHold}(r,\ e)
 ```
 
 **(ResolveExpr-Hom)**
 
-```text
-NoSpecificResolveExpr(C(e_1, …, e_n))    ∀ i, Γ ⊢ ResolveExpr(e_i) ⇓ e_i'
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(C(e_1, …, e_n)) ⇓ C(e_1', …, e_n')
+```math
+\begin{array}{l}
+\operatorname{NoSpecificResolveExpr}(\operatorname{C}(e_{1},\ \ldots ,\ e_{n}))\quad \forall \ i,\ \Gamma \ \vdash \ \operatorname{ResolveExpr}(e_{i})\ \Downarrow \ e_{i}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{C}(e_{1},\ \ldots ,\ e_{n}))\ \Downarrow \ \operatorname{C}(e_{1}',\ \ldots ,\ e_{n}')
+\end{array}
 ```
 
 **(ResolveExpr-Alloc-Implicit)**
 
-```text
-Γ ⊢ ResolveExpr(e) ⇓ e'
-```
-
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(AllocExpr(⊥, e)) ⇓ AllocExpr(⊥, e')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{AllocExpr}(\bot ,\ e))\ \Downarrow \ \operatorname{AllocExpr}(\bot ,\ e')
+\end{array}
 ```
 
 **(ResolveExpr-Alloc-Explicit)**
 
-```text
-Γ ⊢ ResolveValueName(r) ⇓ ent    Γ ⊢ ResolveExpr(e) ⇓ e'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveValueName}(r)\ \Downarrow \ \mathsf{ent}\quad \Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{AllocExpr}(r,\ e))\ \Downarrow \ \operatorname{AllocExpr}(r,\ e')
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(AllocExpr(r, e)) ⇓ AllocExpr(r, e')
+```math
+\mathsf{ResolveStmtSeqJudg}\ =\ \{\mathsf{ResolveStmtSeq}\}
 ```
-
-ResolveStmtSeqJudg = {ResolveStmtSeq}
 
 **(ResolveStmtSeq-Empty)**
-────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ResolveStmtSeq([]) ⇓ (Γ, [])
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveStmtSeq}([])\ \Downarrow \ (\Gamma ,\ [])
+\end{array}
 ```
 
 **(ResolveStmtSeq-Cons)**
 
-```text
-Γ ⊢ ResolveStmt(s) ⇓ (Γ_1, s')    Γ_1 ⊢ ResolveStmtSeq(ss) ⇓ (Γ_2, ss')
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveStmtSeq(s :: ss) ⇓ (Γ_2, s' :: ss')
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveStmt}(s)\ \Downarrow \ (\Gamma_{1} ,\ s')\quad \Gamma_{1} \ \vdash \ \operatorname{ResolveStmtSeq}(\mathsf{ss})\ \Downarrow \ (\Gamma_{2} ,\ \mathsf{ss}') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveStmtSeq}(s\ \mathbin{::} \ \mathsf{ss})\ \Downarrow \ (\Gamma_{2} ,\ s'\ \mathbin{::} \ \mathsf{ss}')
+\end{array}
 ```
 
 **(ResolveExpr-Block)**
 
-```text
-Γ_0 = PushScope(Γ)    Γ_0 ⊢ ResolveStmtSeq(stmts) ⇓ (Γ_1, stmts')    (tail_opt = ⊥ ⇒ tail_opt' = ⊥)    (tail_opt = e ⇒ Γ_1 ⊢ ResolveExpr(e) ⇓ e' ∧ tail_opt' = e')
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveExpr(BlockExpr(stmts, tail_opt)) ⇓ BlockExpr(stmts', tail_opt')
+```math
+\begin{array}{l}
+\Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} \ \vdash \ \operatorname{ResolveStmtSeq}(\mathsf{stmts})\ \Downarrow \ (\Gamma_{1} ,\ \mathsf{stmts}')\quad (\mathsf{tail}_{\mathsf{opt}}\ =\ \bot \ \Rightarrow \ \mathsf{tail}_{\mathsf{opt}}'\ =\ \bot )\quad (\mathsf{tail}_{\mathsf{opt}}\ =\ e\ \Rightarrow \ \Gamma_{1} \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e'\ \land \ \mathsf{tail}_{\mathsf{opt}}'\ =\ e') \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}))\ \Downarrow \ \operatorname{BlockExpr}(\mathsf{stmts}',\ \mathsf{tail}_{\mathsf{opt}}')
+\end{array}
 ```
 
 **(Validate-ModulePath-Ok)**
 
-```text
-¬ ReservedModulePath(PathOfModule(p))
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ValidateModulePath(p) ⇓ ok
+```math
+\begin{array}{l}
+\lnot \ \operatorname{ReservedModulePath}(\operatorname{PathOfModule}(p)) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ValidateModulePath}(p)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(Validate-ModulePath-Reserved-Err)**
-ReservedModulePath(PathOfModule(p))    c = Code(Validate-ModulePath-Reserved-Err)
-────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ValidateModulePath(p) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{ReservedModulePath}(\operatorname{PathOfModule}(p))\quad c\ =\ \operatorname{Code}(\mathsf{Validate}-\mathsf{ModulePath}-\mathsf{Reserved}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ValidateModulePath}(p)\ \Uparrow \ c
+\end{array}
 ```
 
 `ResolveItem` is a feature-owned judgment. Chapters 11 through 22 define the feature-specific `ResolveItem` clauses; this chapter defines the shared driver and helper relations they consume.
 
 **(ResolveModule-Ok)**
 
-```text
-Γ ⊢ CollectNames(M) ⇓ N    Γ ⊢ ValidateModulePath(M.path) ⇓ ok    Γ ⊢ ValidateModuleNames(N) ⇓ ok    S_module = N    Γ_N = [S_module, S_universe]    Γ_N ⊢ ResolveItems(M.items) ⇓ items'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{CollectNames}(M)\ \Downarrow \ N\quad \Gamma \ \vdash \ \operatorname{ValidateModulePath}(M.\mathsf{path})\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{ValidateModuleNames}(N)\ \Downarrow \ \mathsf{ok}\quad S_{\mathsf{module}}\ =\ N\quad \Gamma_{N} \ =\ [S_{\mathsf{module}},\ S_{\mathsf{universe}}]\quad \Gamma_{N} \ \vdash \ \operatorname{ResolveItems}(M.\mathsf{items})\ \Downarrow \ \mathsf{items}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveModule}(M)\ \Downarrow \ \langle M.\mathsf{path},\ \mathsf{items}',\ M.\mathsf{module}_{\mathsf{doc}}\rangle 
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveModule(M) ⇓ ⟨M.path, items', M.module_doc⟩
-```
-
-```text
-Γ ⊢ ResolveItems([]) ⇓ []
+```math
+\Gamma \ \vdash \ \operatorname{ResolveItems}([])\ \Downarrow \ []
 ```
 
 **(ResolveItems-Cons)**
 
-```text
-Γ ⊢ TopLevelVis(it) ⇓ ok    Γ ⊢ ResolveItem(it) ⇓ it'    Γ ⊢ ResolveItems(rest) ⇓ rest'
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{TopLevelVis}(\mathsf{it})\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{ResolveItem}(\mathsf{it})\ \Downarrow \ \mathsf{it}'\quad \Gamma \ \vdash \ \operatorname{ResolveItems}(\mathsf{rest})\ \Downarrow \ \mathsf{rest}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveItems}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest})\ \Downarrow \ \mathsf{it}'\ \mathbin{::} \ \mathsf{rest}'
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveItems(it :: rest) ⇓ it' :: rest'
+```math
+\mathsf{ResState}\ =\ \{\operatorname{ResStart}(M),\ \operatorname{ResNames}(M,\ N),\ \operatorname{ResItems}(M,\ N),\ \operatorname{ResDone}(M'),\ \operatorname{Error}(\mathsf{code})\}
 ```
-
-ResState = {ResStart(M), ResNames(M, N), ResItems(M, N), ResDone(M'), Error(code)}
 
 **(Res-Start)**
-──────────────────────────────────────────────
 
-```text
-⟨ResStart(M)⟩ → ⟨ResNames(M, _)⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\langle \operatorname{ResStart}(M)\rangle \ \to \ \langle \operatorname{ResNames}(M,\ \_)\rangle 
+\end{array}
 ```
 
 **(Res-Names)**
 
-```text
-Γ ⊢ CollectNames(M) ⇓ N
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-⟨ResNames(M, _)⟩ → ⟨ResItems(M, N)⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{CollectNames}(M)\ \Downarrow \ N \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{ResNames}(M,\ \_)\rangle \ \to \ \langle \operatorname{ResItems}(M,\ N)\rangle 
+\end{array}
 ```
 
 **(Res-Items)**
 
-```text
-Γ ⊢ ResolveModule(M) ⇓ M'
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-⟨ResItems(M, N)⟩ → ⟨ResDone(M')⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveModule}(M)\ \Downarrow \ M' \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{ResItems}(M,\ N)\rangle \ \to \ \langle \operatorname{ResDone}(M')\rangle 
+\end{array}
 ```
 
 **ResolveModules (Big-Step).**
 
 **(ResolveModules-Ok)**
 
-```text
-Γ ⊢ ParseModules(P) ⇓ [M_1, …, M_k]    ∀ i, Γ ⊢ ResolveModule(M_i) ⇓ M_i'
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveModules(P) ⇓ [M_1', …, M_k']
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseModules}(P)\ \Downarrow \ [M_{1},\ \ldots ,\ M_{k}]\quad \forall \ i,\ \Gamma \ \vdash \ \operatorname{ResolveModule}(M_{i})\ \Downarrow \ M_{i}' \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveModules}(P)\ \Downarrow \ [M_{1}',\ \ldots ,\ M_{k}']
+\end{array}
 ```
 
 **(ResolveModules-Err-Parse)**
 
-```text
-Γ ⊢ ParseModules(P) ⇑ c
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveModules(P) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseModules}(P)\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveModules}(P)\ \Uparrow \ c
+\end{array}
 ```
 
 **(ResolveModules-Err-Resolve)**
 
-```text
-Γ ⊢ ParseModules(P) ⇓ [M_1, …, M_k]    ∃ i. Γ ⊢ ResolveModule(M_i) ⇑ c
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ResolveModules(P) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseModules}(P)\ \Downarrow \ [M_{1},\ \ldots ,\ M_{k}]\quad \exists \ i.\ \Gamma \ \vdash \ \operatorname{ResolveModule}(M_{i})\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveModules}(P)\ \Uparrow \ c
+\end{array}
 ```
 
 ### 7.8 Name Resolution and Reserved Name Diagnostics

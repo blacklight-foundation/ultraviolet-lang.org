@@ -53,7 +53,7 @@ for (const chapter of CHAPTERS) {
   if (content.includes('\\linewidth')) {
     errors.push(`${path} contains unsupported \\linewidth.`);
   }
-  if (content.includes('\\rule{')) {
+  if (stripMathBlocks(content).includes('\\rule{')) {
     errors.push(`${path} contains literal LaTeX rule markup outside a rendered math block.`);
   }
 
@@ -148,11 +148,19 @@ function extractGeneratedAt(content) {
   return match[1];
 }
 
+function stripMathBlocks(content) {
+  return content.replace(/```math\n[\s\S]*?\n```/g, '');
+}
+
 function checkMathBlocks(path, content) {
   const blockPattern = /```math\n([\s\S]*?)\n```/g;
   for (const match of content.matchAll(blockPattern)) {
     try {
-      katex.renderToString(match[1], { throwOnError: true, displayMode: true });
+      katex.renderToString(match[1], {
+        throwOnError: true,
+        displayMode: true,
+        strict: 'error',
+      });
     } catch (error) {
       errors.push(`${path} has invalid math block: ${error.message}`);
     }

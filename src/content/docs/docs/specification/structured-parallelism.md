@@ -3,7 +3,7 @@ title: "Structured Parallelism"
 description: "20. Structured Parallelism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T17:39:45.389Z"
+generatedAt: "2026-05-09T18:13:03.158Z"
 generated: true
 ---
 
@@ -51,93 +51,106 @@ Parallel-block parsing is defined by the following source rules:
 
 #### 20.1.3 AST Representation / Form
 
-ParallelOpt = {Cancel(expr), Name(str), Workgroup(dim3), Workgroups(dim3)}
+```math
+\mathsf{ParallelOpt}\ =\ \{\operatorname{Cancel}(\mathsf{expr}),\ \operatorname{Name}(\mathsf{str}),\ \operatorname{Workgroup}(\mathsf{dim3}),\ \operatorname{Workgroups}(\mathsf{dim3})\}
+```
 
-ParallelOpts = [ParallelOpt]
+```math
+\mathsf{ParallelOpts}\ =\ [\mathsf{ParallelOpt}]
+```
 
-Expr = … | ParallelExpr(domain, opts, body) | …
+```math
+\mathsf{Expr}\ =\ \ldots \ \mid \ \operatorname{ParallelExpr}(\mathsf{domain},\ \mathsf{opts},\ \mathsf{body})\ \mid \ \ldots 
+```
 
-ResolveParallelOptJudg = {ResolveParallelOpt, ResolveParallelOpts}
+```math
+\mathsf{ResolveParallelOptJudg}\ =\ \{\mathsf{ResolveParallelOpt},\ \mathsf{ResolveParallelOpts}\}
+```
 
 ResolveParallelOpt is homomorphic on the option forms:
 
 - If Γ ⊢ ResolveExpr(e) ⇓ e' then Γ ⊢ ResolveParallelOpt(Workgroup(e)) ⇓ Workgroup(e').
 - If Γ ⊢ ResolveExpr(e) ⇓ e' then Γ ⊢ ResolveParallelOpt(Workgroups(e)) ⇓ Workgroups(e').
 
-ParallelOptExprs([]) = []
+```math
+\operatorname{ParallelOptExprs}([])\ =\ []
+```
 
-ParallelOptExprs(Cancel(e) :: os) = [e] ++ ParallelOptExprs(os)
+```math
+\operatorname{ParallelOptExprs}(\operatorname{Cancel}(e)\ \mathbin{::} \ \mathsf{os})\ =\ [e]\ \mathbin{++} \ \operatorname{ParallelOptExprs}(\mathsf{os})
+```
 
-ParallelOptExprs(Name(_) :: os) = ParallelOptExprs(os)
+```math
+\operatorname{ParallelOptExprs}(\operatorname{Name}(\_)\ \mathbin{::} \ \mathsf{os})\ =\ \operatorname{ParallelOptExprs}(\mathsf{os})
+```
 
-ParallelOptExprs(Workgroup(e) :: os) = [e] ++ ParallelOptExprs(os)
+```math
+\operatorname{ParallelOptExprs}(\operatorname{Workgroup}(e)\ \mathbin{::} \ \mathsf{os})\ =\ [e]\ \mathbin{++} \ \operatorname{ParallelOptExprs}(\mathsf{os})
+```
 
-ParallelOptExprs(Workgroups(e) :: os) = [e] ++ ParallelOptExprs(os)
+```math
+\operatorname{ParallelOptExprs}(\operatorname{Workgroups}(e)\ \mathbin{::} \ \mathsf{os})\ =\ [e]\ \mathbin{++} \ \operatorname{ParallelOptExprs}(\mathsf{os})
+```
 
 #### 20.1.4 Static Semantics
 
-```text
-BlockOptOk(Name(_)) ⇔ true
+```math
+\operatorname{BlockOptOk}(\operatorname{Name}(\_))\ \Leftrightarrow \ \mathsf{true}
 ```
 
-```text
-BlockOptOk(Cancel(e)) ⇔ G ⊢ e : TypePath(["CancelToken"])
+```math
+\operatorname{BlockOptOk}(\operatorname{Cancel}(e))\ \Leftrightarrow \ G\ \vdash \ e\ :\ \operatorname{TypePath}([\texttt{"CancelToken"}])
 ```
 
-```text
-G ⊢ Dim3Const((e_1, e_2, e_3)) ⇓ (x, y, z) ⇔
-  G ⊢ e_1 : TypePrim("usize") ∧ G ⊢ ConstLen(e_1) ⇓ x ∧ x > 0 ∧
-  G ⊢ e_2 : TypePrim("usize") ∧ G ⊢ ConstLen(e_2) ⇓ y ∧ y > 0 ∧
-  G ⊢ e_3 : TypePrim("usize") ∧ G ⊢ ConstLen(e_3) ⇓ z ∧ z > 0
+```math
+\begin{array}{l}
+G\ \vdash \ \operatorname{Dim3Const}((e_{1},\ e_{2},\ e_{3}))\ \Downarrow \ (x,\ y,\ z)\ \Leftrightarrow  \\
+\ G\ \vdash \ e_{1}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\ \land \ G\ \vdash \ \operatorname{ConstLen}(e_{1})\ \Downarrow \ x\ \land \ x\ >\ 0\ \land  \\
+\ G\ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\ \land \ G\ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ y\ \land \ y\ >\ 0\ \land  \\
+\ G\ \vdash \ e_{3}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\ \land \ G\ \vdash \ \operatorname{ConstLen}(e_{3})\ \Downarrow \ z\ \land \ z\ >\ 0
+\end{array}
 ```
 
 **(Dim3Const-Err)**
 
-```text
-¬∃ dims. G ⊢ Dim3Const(e) ⇓ dims    c = Code(Dim3Const-Err)
+```math
+\begin{array}{l}
+\lnot \exists \ \mathsf{dims}.\ G\ \vdash \ \operatorname{Dim3Const}(e)\ \Downarrow \ \mathsf{dims}\quad c\ =\ \operatorname{Code}(\mathsf{Dim3Const}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\mathsf{Reject}
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────
-Reject
-
-```text
-BlockOptOk(Workgroup(e)) ⇔ ∃ dims. G ⊢ Dim3Const(e) ⇓ dims
+```math
+\operatorname{BlockOptOk}(\operatorname{Workgroup}(e))\ \Leftrightarrow \ \exists \ \mathsf{dims}.\ G\ \vdash \ \operatorname{Dim3Const}(e)\ \Downarrow \ \mathsf{dims}
 ```
 
-```text
-BlockOptOk(Workgroups(e)) ⇔ ∃ dims. G ⊢ Dim3Const(e) ⇓ dims
+```math
+\operatorname{BlockOptOk}(\operatorname{Workgroups}(e))\ \Leftrightarrow \ \exists \ \mathsf{dims}.\ G\ \vdash \ \operatorname{Dim3Const}(e)\ \Downarrow \ \mathsf{dims}
 ```
 
-```text
-BlockOptsOk(opts) ⇔ ∀ opt ∈ opts. BlockOptOk(opt)
-DomainCtor(MethodCall(ctx, name, args)) ⇔ name ∈ {`cpu`, `gpu`, `inline`}
-DomainCtor(_) ⇔ false
-```
-
-DomainCtorOk(MethodCall(ctx, `cpu`, []))
-
-```text
-DomainCtorOk(MethodCall(ctx, `cpu`, [mask])) ⇔ G ⊢ mask : TypePath(["CpuSet"])
-DomainCtorOk(MethodCall(ctx, `cpu`, [mask, prio])) ⇔ G ⊢ mask : TypePath(["CpuSet"]) ∧ G ⊢ prio : TypePath(["Priority"])
-```
-
-DomainCtorOk(MethodCall(ctx, `gpu`, []))
-DomainCtorOk(MethodCall(ctx, `inline`, []))
-
-```text
-DomainCtorOk(D) ⇔ ¬DomainCtor(D)
+```math
+\begin{array}{l}
+\operatorname{BlockOptsOk}(\mathsf{opts})\ \Leftrightarrow \ \forall \ \mathsf{opt}\ \in \ \mathsf{opts}.\ \operatorname{BlockOptOk}(\mathsf{opt}) \\
+\operatorname{DomainCtor}(\operatorname{MethodCall}(\mathsf{ctx},\ \mathsf{name},\ \mathsf{args}))\ \Leftrightarrow \ \mathsf{name}\ \in \ \{\texttt{cpu},\ \texttt{gpu},\ \texttt{inline}\} \\
+\operatorname{DomainCtor}(\_)\ \Leftrightarrow \ \mathsf{false} \\
+\operatorname{DomainCtorOk}(\operatorname{MethodCall}(\mathsf{ctx},\ \texttt{cpu},\ [])) \\
+\operatorname{DomainCtorOk}(\operatorname{MethodCall}(\mathsf{ctx},\ \texttt{cpu},\ [\mathsf{mask}]))\ \Leftrightarrow \ G\ \vdash \ \mathsf{mask}\ :\ \operatorname{TypePath}([\texttt{"CpuSet"}]) \\
+\operatorname{DomainCtorOk}(\operatorname{MethodCall}(\mathsf{ctx},\ \texttt{cpu},\ [\mathsf{mask},\ \mathsf{prio}]))\ \Leftrightarrow \ G\ \vdash \ \mathsf{mask}\ :\ \operatorname{TypePath}([\texttt{"CpuSet"}])\ \land \ G\ \vdash \ \mathsf{prio}\ :\ \operatorname{TypePath}([\texttt{"Priority"}]) \\
+\operatorname{DomainCtorOk}(\operatorname{MethodCall}(\mathsf{ctx},\ \texttt{gpu},\ [])) \\
+\operatorname{DomainCtorOk}(\operatorname{MethodCall}(\mathsf{ctx},\ \texttt{inline},\ [])) \\
+\operatorname{DomainCtorOk}(D)\ \Leftrightarrow \ \lnot \operatorname{DomainCtor}(D)
+\end{array}
 ```
 
 **(T-Parallel)**
 
-```text
-Γ ⊢ D : `$ExecutionDomain`    DomainCtorOk(D)    BlockOptsOk(opts)    Γ_P = Γ[parallel_context ↦ D]    Γ_P ⊢ B : T
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ `parallel` D opts {B} : T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ D\ :\ \texttt{\$ExecutionDomain}\quad \operatorname{DomainCtorOk}(D)\quad \operatorname{BlockOptsOk}(\mathsf{opts})\quad \Gamma_{P} \ =\ \Gamma [\mathsf{parallel}_{\mathsf{context}}\ \mapsto \ D]\quad \Gamma_{P} \ \vdash \ B\ :\ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \texttt{parallel}\ D\ \mathsf{opts}\ \{B\}\ :\ T
+\end{array}
 ```
 
 A parallel block is well-formed only if:
@@ -148,129 +161,123 @@ A parallel block is well-formed only if:
 
 **(Parallel-Domain-Param-Err)**
 
-```text
-DomainCtor(D)    ¬DomainCtorOk(D)    c = Code(Parallel-Domain-Param-Err)
+```math
+\begin{array}{l}
+\operatorname{DomainCtor}(D)\quad \lnot \operatorname{DomainCtorOk}(D)\quad c\ =\ \operatorname{Code}(\mathsf{Parallel}-\mathsf{Domain}-\mathsf{Param}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \texttt{parallel}\ D\ \mathsf{opts}\ \{B\}\ \Uparrow \ c
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ `parallel` D opts {B} ⇑ c
-```
-
-```text
-The same rejection form applies when some option `Cancel(e)` is present and Γ ⊢ e : TypePath(["CancelToken"]) does not hold.
+```math
+\mathsf{The}\ \mathsf{same}\ \mathsf{rejection}\ \mathsf{form}\ \mathsf{applies}\ \mathsf{when}\ \mathsf{some}\ \mathsf{option}\ \texttt{Cancel(e)}\ \mathsf{is}\ \mathsf{present}\ \mathsf{and}\ \Gamma \ \vdash \ e\ :\ \operatorname{TypePath}([\texttt{"CancelToken"}])\ \mathsf{does}\ \mathsf{not}\ \mathsf{hold}.
 ```
 
 #### 20.1.5 Dynamic Semantics
 
-```text
-ParallelState = {Domain : Value, Handles : List⟨Value⟩, CancelToken : CancelToken@Active | ⊥}
+```math
+\mathsf{ParallelState}\ =\ \{\mathsf{Domain}\ :\ \mathsf{Value},\ \mathsf{Handles}\ :\ \mathsf{List}\langle \mathsf{Value}\rangle ,\ \mathsf{CancelToken}\ :\ \mathsf{CancelToken}@\mathsf{Active}\ \mid \ \bot \}
 ```
 
-```text
-ParallelInit(d, opts) ⇓ pstate ⇔ pstate = {Domain: d, Handles: [], CancelToken: CancelOpt(opts)}
+```math
+\operatorname{ParallelInit}(d,\ \mathsf{opts})\ \Downarrow \ \mathsf{pstate}\ \Leftrightarrow \ \mathsf{pstate}\ =\ \{\mathsf{Domain}:\ d,\ \mathsf{Handles}:\ [],\ \mathsf{CancelToken}:\ \operatorname{CancelOpt}(\mathsf{opts})\}
 ```
 
-```text
-CancelOpt(opts) = token ⇔ Cancel(token) ∈ opts
+```math
+\operatorname{CancelOpt}(\mathsf{opts})\ =\ \mathsf{token}\ \Leftrightarrow \ \operatorname{Cancel}(\mathsf{token})\ \in \ \mathsf{opts}
 ```
 
-```text
-CancelOpt(opts) = ⊥ ⇔ ∀ opt ∈ opts. opt ≠ Cancel(_)
+```math
+\operatorname{CancelOpt}(\mathsf{opts})\ =\ \bot \ \Leftrightarrow \ \forall \ \mathsf{opt}\ \in \ \mathsf{opts}.\ \mathsf{opt}\ \ne \ \operatorname{Cancel}(\_)
 ```
 
-DEFAULT_GPU_WORKGROUP = (64, 1, 1)
-
-DEFAULT_GPU_WORKGROUPS = (1, 1, 1)
-
-```text
-WorkgroupOpt(opts) = dims ⇔ Workgroup(dims) ∈ opts
+```math
+\mathsf{DEFAULT}_{\mathsf{GPU}\_\mathsf{WORKGROUP}}\ =\ (64,\ 1,\ 1)
 ```
 
-```text
-WorkgroupOpt(opts) = ⊥ ⇔ ∀ opt ∈ opts. opt ≠ Workgroup(_)
+```math
+\mathsf{DEFAULT}_{\mathsf{GPU}\_\mathsf{WORKGROUPS}}\ =\ (1,\ 1,\ 1)
 ```
 
-```text
-WorkgroupsOpt(opts) = dims ⇔ Workgroups(dims) ∈ opts
+```math
+\operatorname{WorkgroupOpt}(\mathsf{opts})\ =\ \mathsf{dims}\ \Leftrightarrow \ \operatorname{Workgroup}(\mathsf{dims})\ \in \ \mathsf{opts}
 ```
 
-```text
-WorkgroupsOpt(opts) = ⊥ ⇔ ∀ opt ∈ opts. opt ≠ Workgroups(_)
+```math
+\operatorname{WorkgroupOpt}(\mathsf{opts})\ =\ \bot \ \Leftrightarrow \ \forall \ \mathsf{opt}\ \in \ \mathsf{opts}.\ \mathsf{opt}\ \ne \ \operatorname{Workgroup}(\_)
 ```
 
-```text
-ComputeTopologyParallel(opts) = topo ⇔
-  wg = if WorkgroupOpt(opts) ≠ ⊥ then WorkgroupOpt(opts) else DEFAULT_GPU_WORKGROUP ∧
-  ng = if WorkgroupsOpt(opts) ≠ ⊥ then WorkgroupsOpt(opts) else DEFAULT_GPU_WORKGROUPS ∧
-  topo = ⟨
+```math
+\operatorname{WorkgroupsOpt}(\mathsf{opts})\ =\ \mathsf{dims}\ \Leftrightarrow \ \operatorname{Workgroups}(\mathsf{dims})\ \in \ \mathsf{opts}
 ```
 
-    WorkgroupSize := wg,
-    NumWorkgroups := ng,
-    GlobalSize := (wg.0 × ng.0, wg.1 × ng.1, wg.2 × ng.2)
-
-```text
-  ⟩
+```math
+\operatorname{WorkgroupsOpt}(\mathsf{opts})\ =\ \bot \ \Leftrightarrow \ \forall \ \mathsf{opt}\ \in \ \mathsf{opts}.\ \mathsf{opt}\ \ne \ \operatorname{Workgroups}(\_)
 ```
 
-```text
-AwaitSpawned(pstate, σ) ⇓ (panic_opt, σ') ⇔ every handle in `pstate.Handles` reaches `Ready` or `Failed` between `σ` and `σ'`, and `panic_opt` is the failed completion associated with the least completion-sequence number among handles in `pstate.Handles` whose terminal state is `Failed`, or `⊥` if none fail.
+```math
+\begin{array}{l}
+\operatorname{ComputeTopologyParallel}(\mathsf{opts})\ =\ \mathsf{topo}\ \Leftrightarrow  \\
+\ \mathsf{wg}\ =\ \mathsf{if}\ \operatorname{WorkgroupOpt}(\mathsf{opts})\ \ne \ \bot \ \mathsf{then}\ \operatorname{WorkgroupOpt}(\mathsf{opts})\ \mathsf{else}\ \mathsf{DEFAULT}_{\mathsf{GPU}\_\mathsf{WORKGROUP}}\ \land  \\
+\ \mathsf{ng}\ =\ \mathsf{if}\ \operatorname{WorkgroupsOpt}(\mathsf{opts})\ \ne \ \bot \ \mathsf{then}\ \operatorname{WorkgroupsOpt}(\mathsf{opts})\ \mathsf{else}\ \mathsf{DEFAULT}_{\mathsf{GPU}\_\mathsf{WORKGROUPS}}\ \land  \\
+\ \mathsf{topo}\ =\ \langle  \\
+\quad \mathsf{WorkgroupSize}\ :=\ \mathsf{wg}, \\
+\quad \mathsf{NumWorkgroups}\ :=\ \mathsf{ng}, \\
+\quad \mathsf{GlobalSize}\ :=\ (\mathsf{wg}.0\ \times \ \mathsf{ng}.0,\ \mathsf{wg}.1\ \times \ \mathsf{ng}.1,\ \mathsf{wg}.2\ \times \ \mathsf{ng}.2) \\
+\ \rangle 
+\end{array}
+```
+
+```math
+\operatorname{AwaitSpawned}(\mathsf{pstate},\ \sigma )\ \Downarrow \ (\mathsf{panic}_{\mathsf{opt}},\ \sigma ')\ \Leftrightarrow \ \mathsf{every}\ \mathsf{handle}\ \mathsf{in}\ \texttt{pstate.Handles}\ \mathsf{reaches}\ \texttt{Ready}\ \mathsf{or}\ \texttt{Failed}\ \mathsf{between}\ \texttt{sigma}\ \mathsf{and}\ \texttt{sigma'},\ \mathsf{and}\ \texttt{panic\_opt}\ \mathsf{is}\ \mathsf{the}\ \mathsf{failed}\ \mathsf{completion}\ \mathsf{associated}\ \mathsf{with}\ \mathsf{the}\ \mathsf{least}\ \mathsf{completion}-\mathsf{sequence}\ \mathsf{number}\ \mathsf{among}\ \mathsf{handles}\ \mathsf{in}\ \texttt{pstate.Handles}\ \mathsf{whose}\ \mathsf{terminal}\ \mathsf{state}\ \mathsf{is}\ \texttt{Failed},\ \mathsf{or}\ \texttt{bottom}\ \mathsf{if}\ \mathsf{none}\ \mathsf{fail}.
 ```
 
 **(EvalSigma-Parallel)**
 
-```text
-Γ ⊢ EvalSigma(D, σ) ⇓ (Val(d), σ_1)    ParallelInit(d, opts) ⇓ pstate_0    topology = if IsGpuDomain(d) then ComputeTopologyParallel(opts) else ⊥    Γ ⊢ EvalSigma(B, σ_1[parallel_context ↦ pstate_0]) ⇓ (Val(v_body), σ_2)    LookupVal(σ_2, parallel_context) = pstate_n    AwaitSpawned(pstate_n, σ_2) ⇓ (⊥, σ_3)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalSigma(ParallelExpr(D, opts, B), σ) ⇓ (Val(v_body), σ_3)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(D,\ \sigma )\ \Downarrow \ (\operatorname{Val}(d),\ \sigma_{1} )\quad \operatorname{ParallelInit}(d,\ \mathsf{opts})\ \Downarrow \ \mathsf{pstate}_{0}\quad \mathsf{topology}\ =\ \mathsf{if}\ \operatorname{IsGpuDomain}(d)\ \mathsf{then}\ \operatorname{ComputeTopologyParallel}(\mathsf{opts})\ \mathsf{else}\ \bot \quad \Gamma \ \vdash \ \operatorname{EvalSigma}(B,\ \sigma_{1} [\mathsf{parallel}_{\mathsf{context}}\ \mapsto \ \mathsf{pstate}_{0}])\ \Downarrow \ (\operatorname{Val}(v_{\mathsf{body}}),\ \sigma_{2} )\quad \operatorname{LookupVal}(\sigma_{2} ,\ \mathsf{parallel}_{\mathsf{context}})\ =\ \mathsf{pstate}_{n}\quad \operatorname{AwaitSpawned}(\mathsf{pstate}_{n},\ \sigma_{2} )\ \Downarrow \ (\bot ,\ \sigma_{3} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{ParallelExpr}(D,\ \mathsf{opts},\ B),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{\mathsf{body}}),\ \sigma_{3} )
+\end{array}
 ```
 
 **(EvalSigma-Parallel-Body-Ctrl)**
 
-```text
-Γ ⊢ EvalSigma(D, σ) ⇓ (Val(d), σ_1)    ParallelInit(d, opts) ⇓ pstate_0    Γ ⊢ EvalSigma(B, σ_1[parallel_context ↦ pstate_0]) ⇓ (Ctrl(κ), σ_2)    LookupVal(σ_2, parallel_context) = pstate_n    AwaitSpawned(pstate_n, σ_2) ⇓ (⊥, σ_3)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalSigma(ParallelExpr(D, opts, B), σ) ⇓ (Ctrl(κ), σ_3)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(D,\ \sigma )\ \Downarrow \ (\operatorname{Val}(d),\ \sigma_{1} )\quad \operatorname{ParallelInit}(d,\ \mathsf{opts})\ \Downarrow \ \mathsf{pstate}_{0}\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(B,\ \sigma_{1} [\mathsf{parallel}_{\mathsf{context}}\ \mapsto \ \mathsf{pstate}_{0}])\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} )\quad \operatorname{LookupVal}(\sigma_{2} ,\ \mathsf{parallel}_{\mathsf{context}})\ =\ \mathsf{pstate}_{n}\quad \operatorname{AwaitSpawned}(\mathsf{pstate}_{n},\ \sigma_{2} )\ \Downarrow \ (\bot ,\ \sigma_{3} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{ParallelExpr}(D,\ \mathsf{opts},\ B),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{3} )
+\end{array}
 ```
 
 **(EvalSigma-Parallel-Domain-Ctrl)**
 
-```text
-Γ ⊢ EvalSigma(D, σ) ⇓ (Ctrl(κ), σ_1)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalSigma(ParallelExpr(D, opts, B), σ) ⇓ (Ctrl(κ), σ_1)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(D,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{ParallelExpr}(D,\ \mathsf{opts},\ B),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
+\end{array}
 ```
 
 Panic propagation after fork-join is defined by §20.7.5.
 
 #### 20.1.6 Lowering
 
-ParallelLowerJudg = {LowerParallelBody}
+```math
+\mathsf{ParallelLowerJudg}\ =\ \{\mathsf{LowerParallelBody}\}
+```
 
 **(Lower-Expr-Parallel)**
 
-```text
-Γ ⊢ LowerExpr(D) ⇓ ⟨IR_d, v_d⟩    Γ ⊢ LowerBlock(B) ⇓ ⟨IR_b, v_b⟩
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ LowerExpr(ParallelExpr(D, opts, B)) ⇓ ⟨SeqIR(IR_d, ParallelBegin(v_d, opts), IR_b, ParallelJoin), v_b⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerExpr}(D)\ \Downarrow \ \langle \mathsf{IR}_{d},\ v_{d}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(B)\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{ParallelExpr}(D,\ \mathsf{opts},\ B))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{d},\ \operatorname{ParallelBegin}(v_{d},\ \mathsf{opts}),\ \mathsf{IR}_{b},\ \mathsf{ParallelJoin}),\ v_{b}\rangle 
+\end{array}
 ```
 
 #### 20.1.7 Diagnostics
@@ -301,126 +308,138 @@ This section introduces no additional parser productions beyond ordinary type, c
 
 #### 20.2.3 AST Representation / Form
 
-GpuDomainJudg = {IsGpuDomain, GpuContext, GpuSafeType, GpuCaptureOk}
-
-```text
-IsGpuDomain(D) ⇔ DomainKind(D) = `GPU`
+```math
+\mathsf{GpuDomainJudg}\ =\ \{\mathsf{IsGpuDomain},\ \mathsf{GpuContext},\ \mathsf{GpuSafeType},\ \mathsf{GpuCaptureOk}\}
 ```
 
-```text
-GpuContext(G) ⇔ G[parallel_context] = D ∧ IsGpuDomain(D)
+```math
+\operatorname{IsGpuDomain}(D)\ \Leftrightarrow \ \operatorname{DomainKind}(D)\ =\ \texttt{GPU}
 ```
 
-GpuSafeJudg = {GpuSafeType}
-
-GpuAddressSpace = {Global, Shared, Private}
-
-```text
-GpuMemory = ⟨GlobalMem, SharedMem, PrivateMem⟩
+```math
+\operatorname{GpuContext}(G)\ \Leftrightarrow \ G[\mathsf{parallel}_{\mathsf{context}}]\ =\ D\ \land \ \operatorname{IsGpuDomain}(D)
 ```
 
+```math
+\mathsf{GpuSafeJudg}\ =\ \{\mathsf{GpuSafeType}\}
+```
+
+```math
+\mathsf{GpuAddressSpace}\ =\ \{\mathsf{Global},\ \mathsf{Shared},\ \mathsf{Private}\}
+```
+
+```math
+\mathsf{GpuMemory}\ =\ \langle \mathsf{GlobalMem},\ \mathsf{SharedMem},\ \mathsf{PrivateMem}\rangle 
+```
 GlobalMem : Addr ⇀ Value
-SharedMem : WorkgroupId × Addr ⇀ Value
-PrivateMem : WorkItemId × Addr ⇀ Value
+
+```math
+\begin{array}{l}
+\mathsf{SharedMem}\ :\ \mathsf{WorkgroupId}\ \times \ \mathsf{Addr}\ \rightharpoonup \ \mathsf{Value} \\
+\mathsf{PrivateMem}\ :\ \mathsf{WorkItemId}\ \times \ \mathsf{Addr}\ \rightharpoonup \ \mathsf{Value}
+\end{array}
+```
 
 **GpuPtr Type.** `GpuPtr<T, S>` represents a pointer to GPU memory in address space `S`.
 
-```text
-TypeGpuPtr(T, S) where S ∈ GpuAddressSpace
+```math
+\begin{array}{l}
+\operatorname{TypeGpuPtr}(T,\ S)\ \mathsf{where}\ S\ \in \ \mathsf{GpuAddressSpace} \\
+\operatorname{GpuPtrAddrSpace}(\operatorname{TypeGpuPtr}(T,\ S))\ =\ S
+\end{array}
 ```
 
-GpuPtrAddrSpace(TypeGpuPtr(T, S)) = S
-
-```text
-ComputeTopologyDispatch(bounds, opts) = topo ⇔
-  wg = if WorkgroupOpt(opts) ≠ ⊥ then WorkgroupOpt(opts) else DEFAULT_GPU_WORKGROUP ∧
-  volume = wg.0 × wg.1 × wg.2 ∧
-  groups = CeilDiv(|bounds|, volume) ∧
-  topo = ⟨
-```
-
-    WorkgroupSize := wg,
-    NumWorkgroups := (groups, 1, 1),
-    GlobalSize := (wg.0 × groups, wg.1, wg.2)
-
-```text
-  ⟩
+```math
+\begin{array}{l}
+\operatorname{ComputeTopologyDispatch}(\mathsf{bounds},\ \mathsf{opts})\ =\ \mathsf{topo}\ \Leftrightarrow  \\
+\ \mathsf{wg}\ =\ \mathsf{if}\ \operatorname{WorkgroupOpt}(\mathsf{opts})\ \ne \ \bot \ \mathsf{then}\ \operatorname{WorkgroupOpt}(\mathsf{opts})\ \mathsf{else}\ \mathsf{DEFAULT}_{\mathsf{GPU}\_\mathsf{WORKGROUP}}\ \land  \\
+\ \mathsf{volume}\ =\ \mathsf{wg}.0\ \times \ \mathsf{wg}.1\ \times \ \mathsf{wg}.2\ \land  \\
+\ \mathsf{groups}\ =\ \operatorname{CeilDiv}(\mid \mathsf{bounds}\mid ,\ \mathsf{volume})\ \land  \\
+\ \mathsf{topo}\ =\ \langle  \\
+\quad \mathsf{WorkgroupSize}\ :=\ \mathsf{wg}, \\
+\quad \mathsf{NumWorkgroups}\ :=\ (\mathsf{groups},\ 1,\ 1), \\
+\quad \mathsf{GlobalSize}\ :=\ (\mathsf{wg}.0\ \times \ \mathsf{groups},\ \mathsf{wg}.1,\ \mathsf{wg}.2) \\
+\ \rangle 
+\end{array}
 ```
 
 **GPU Execution Topology.** Work-items are organized into a 3-dimensional hierarchy of workgroups.
 
-```text
-GpuTopology = ⟨GlobalSize, WorkgroupSize, NumWorkgroups⟩
+```math
+\mathsf{GpuTopology}\ =\ \langle \mathsf{GlobalSize},\ \mathsf{WorkgroupSize},\ \mathsf{NumWorkgroups}\rangle 
 ```
-
 GlobalSize : (usize, usize, usize)
 WorkgroupSize : (usize, usize, usize)
 NumWorkgroups : (usize, usize, usize)
 
-WorkItemId = (usize, usize, usize)
-WorkgroupId = (usize, usize, usize)
-GlobalId(local_id, workgroup_id, workgroup_size) =
-  (local_id.0 + workgroup_id.0 × workgroup_size.0,
-   local_id.1 + workgroup_id.1 × workgroup_size.1,
-   local_id.2 + workgroup_id.2 × workgroup_size.2)
-
-GpuIntrinsicTable = {
-
-```text
-  ⟨`gpu_global_id`, [], TypeTuple([TypePrim("usize"), TypePrim("usize"), TypePrim("usize")])⟩,
-  ⟨`gpu_local_id`, [], TypeTuple([TypePrim("usize"), TypePrim("usize"), TypePrim("usize")])⟩,
-  ⟨`gpu_workgroup_id`, [], TypeTuple([TypePrim("usize"), TypePrim("usize"), TypePrim("usize")])⟩,
-  ⟨`gpu_workgroup_size`, [], TypeTuple([TypePrim("usize"), TypePrim("usize"), TypePrim("usize")])⟩,
-  ⟨`gpu_global_size`, [], TypeTuple([TypePrim("usize"), TypePrim("usize"), TypePrim("usize")])⟩,
-  ⟨`gpu_num_workgroups`, [], TypeTuple([TypePrim("usize"), TypePrim("usize"), TypePrim("usize")])⟩,
-  ⟨`gpu_linear_id`, [], TypePrim("usize")⟩,
-  ⟨`gpu_barrier`, [], TypePrim("()")⟩,
-  ⟨`gpu_memory_barrier`, [], TypePrim("()")⟩,
-  ⟨`gpu_workgroup_barrier`, [], TypePrim("()")⟩
+```math
+\begin{array}{l}
+\mathsf{WorkItemId}\ =\ (\mathsf{usize},\ \mathsf{usize},\ \mathsf{usize}) \\
+\mathsf{WorkgroupId}\ =\ (\mathsf{usize},\ \mathsf{usize},\ \mathsf{usize}) \\
+\operatorname{GlobalId}(\mathsf{local}_{\mathsf{id}},\ \mathsf{workgroup}_{\mathsf{id}},\ \mathsf{workgroup}_{\mathsf{size}})\ = \\
+\ (\mathsf{local}_{\mathsf{id}}.0\ +\ \mathsf{workgroup}_{\mathsf{id}}.0\ \times \ \mathsf{workgroup}_{\mathsf{size}}.0, \\
+\ \mathsf{local}_{\mathsf{id}}.1\ +\ \mathsf{workgroup}_{\mathsf{id}}.1\ \times \ \mathsf{workgroup}_{\mathsf{size}}.1, \\
+\ \mathsf{local}_{\mathsf{id}}.2\ +\ \mathsf{workgroup}_{\mathsf{id}}.2\ \times \ \mathsf{workgroup}_{\mathsf{size}}.2)
+\end{array}
 ```
 
+```math
+\begin{array}{l}
+\mathsf{GpuIntrinsicTable}\ =\ \{ \\
+\ \langle \texttt{gpu\_global\_id},\ [],\ \operatorname{TypeTuple}([\operatorname{TypePrim}(\texttt{"usize"}),\ \operatorname{TypePrim}(\texttt{"usize"}),\ \operatorname{TypePrim}(\texttt{"usize"})])\rangle , \\
+\ \langle \texttt{gpu\_local\_id},\ [],\ \operatorname{TypeTuple}([\operatorname{TypePrim}(\texttt{"usize"}),\ \operatorname{TypePrim}(\texttt{"usize"}),\ \operatorname{TypePrim}(\texttt{"usize"})])\rangle , \\
+\ \langle \texttt{gpu\_workgroup\_id},\ [],\ \operatorname{TypeTuple}([\operatorname{TypePrim}(\texttt{"usize"}),\ \operatorname{TypePrim}(\texttt{"usize"}),\ \operatorname{TypePrim}(\texttt{"usize"})])\rangle , \\
+\ \langle \texttt{gpu\_workgroup\_size},\ [],\ \operatorname{TypeTuple}([\operatorname{TypePrim}(\texttt{"usize"}),\ \operatorname{TypePrim}(\texttt{"usize"}),\ \operatorname{TypePrim}(\texttt{"usize"})])\rangle , \\
+\ \langle \texttt{gpu\_global\_size},\ [],\ \operatorname{TypeTuple}([\operatorname{TypePrim}(\texttt{"usize"}),\ \operatorname{TypePrim}(\texttt{"usize"}),\ \operatorname{TypePrim}(\texttt{"usize"})])\rangle , \\
+\ \langle \texttt{gpu\_num\_workgroups},\ [],\ \operatorname{TypeTuple}([\operatorname{TypePrim}(\texttt{"usize"}),\ \operatorname{TypePrim}(\texttt{"usize"}),\ \operatorname{TypePrim}(\texttt{"usize"})])\rangle , \\
+\ \langle \texttt{gpu\_linear\_id},\ [],\ \operatorname{TypePrim}(\texttt{"usize"})\rangle , \\
+\ \langle \texttt{gpu\_barrier},\ [],\ \operatorname{TypePrim}(\texttt{"()"})\rangle , \\
+\ \langle \texttt{gpu\_memory\_barrier},\ [],\ \operatorname{TypePrim}(\texttt{"()"})\rangle , \\
+\ \langle \texttt{gpu\_workgroup\_barrier},\ [],\ \operatorname{TypePrim}(\texttt{"()"})\rangle 
+\end{array}
+```
 }
 
-```text
-GpuIntrinsicNames = {name | ⟨name, _, _⟩ ∈ GpuIntrinsicTable}
+```math
+\mathsf{GpuIntrinsicNames}\ =\ \{\mathsf{name}\ \mid \ \langle \mathsf{name},\ \_,\ \_\rangle \ \in \ \mathsf{GpuIntrinsicTable}\}
 ```
 
-```text
-GpuState = ⟨Topology, GlobalMem, WorkgroupStates⟩
+```math
+\mathsf{GpuState}\ =\ \langle \mathsf{Topology},\ \mathsf{GlobalMem},\ \mathsf{WorkgroupStates}\rangle 
 ```
 
-```text
-WorkgroupState = ⟨SharedMem, WorkItems, BarrierCount⟩
+```math
+\mathsf{WorkgroupState}\ =\ \langle \mathsf{SharedMem},\ \mathsf{WorkItems},\ \mathsf{BarrierCount}\rangle 
 ```
 
-```text
-GpuWorkItem = ⟨id, local_id, workgroup_id, expr, captures, status, private_mem⟩
+```math
+\mathsf{GpuWorkItem}\ =\ \langle \mathsf{id},\ \mathsf{local}_{\mathsf{id}},\ \mathsf{workgroup}_{\mathsf{id}},\ \mathsf{expr},\ \mathsf{captures},\ \mathsf{status},\ \mathsf{private}_{\mathsf{mem}}\rangle 
 ```
 
-GpuWorkItemStatus = {Pending, Running, AtBarrier, Done}
-
-```text
-AtBarrier(wi) ⇔ wi.status = AtBarrier
+```math
+\begin{array}{l}
+\mathsf{GpuWorkItemStatus}\ =\ \{\mathsf{Pending},\ \mathsf{Running},\ \mathsf{AtBarrier},\ \mathsf{Done}\} \\
+\operatorname{AtBarrier}(\mathsf{wi})\ \Leftrightarrow \ \mathsf{wi}.\mathsf{status}\ =\ \mathsf{AtBarrier} \\
+\operatorname{LinearId}(\mathsf{id}_{\mathsf{3d}},\ \mathsf{size})\ =\ \mathsf{id}_{\mathsf{3d}}.0\ +\ \mathsf{id}_{\mathsf{3d}}.1\ \times \ \mathsf{size}.0\ +\ \mathsf{id}_{\mathsf{3d}}.2\ \times \ \mathsf{size}.0\ \times \ \mathsf{size}.1 \\
+\operatorname{LocalIdFromLinear}(\mathsf{linear},\ \mathsf{workgroup}_{\mathsf{size}})\ =\ ( \\
+\ \mathsf{linear}\ \%\ \mathsf{workgroup}_{\mathsf{size}}.0, \\
+\ (\mathsf{linear}\ /\ \mathsf{workgroup}_{\mathsf{size}}.0)\ \%\ \mathsf{workgroup}_{\mathsf{size}}.1, \\
+\ \mathsf{linear}\ /\ (\mathsf{workgroup}_{\mathsf{size}}.0\ \times \ \mathsf{workgroup}_{\mathsf{size}}.1)
+\end{array}
 ```
-
-LinearId(id_3d, size) = id_3d.0 + id_3d.1 × size.0 + id_3d.2 × size.0 × size.1
-LocalIdFromLinear(linear, workgroup_size) = (
-  linear % workgroup_size.0,
-  (linear / workgroup_size.0) % workgroup_size.1,
-  linear / (workgroup_size.0 × workgroup_size.1)
 )
 
-ExecutionDomainMethods = [
-
-```text
-  ClassMethodDecl(⊥, `public`, "name", ⊥, ReceiverShorthand(`const`), [], TypeString(⊥), ⊥, ⊥, ⊥, ⊥),
-  ClassMethodDecl(⊥, `public`, "max_concurrency", ⊥, ReceiverShorthand(`const`), [], TypePrim("usize"), ⊥, ⊥, ⊥, ⊥)
+```math
+\begin{array}{l}
+\mathsf{ExecutionDomainMethods}\ =\ [ \\
+\ \operatorname{ClassMethodDecl}(\bot ,\ \texttt{public},\ \texttt{"name"},\ \bot ,\ \operatorname{ReceiverShorthand}(\texttt{const}),\ [],\ \operatorname{TypeString}(\bot ),\ \bot ,\ \bot ,\ \bot ,\ \bot ), \\
+\ \operatorname{ClassMethodDecl}(\bot ,\ \texttt{public},\ \texttt{"max\_concurrency"},\ \bot ,\ \operatorname{ReceiverShorthand}(\texttt{const}),\ [],\ \operatorname{TypePrim}(\texttt{"usize"}),\ \bot ,\ \bot ,\ \bot ,\ \bot )
+\end{array}
 ```
-
 ]
 
-```text
-ExecutionDomainDecl = ClassDecl(⊥, `public`, false, `ExecutionDomain`, ⊥, ⊥, [], ExecutionDomainMethods, ⊥, ⊥)
+```math
+\mathsf{ExecutionDomainDecl}\ =\ \operatorname{ClassDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{ExecutionDomain},\ \bot ,\ \bot ,\ [],\ \mathsf{ExecutionDomainMethods},\ \bot ,\ \bot )
 ```
 
 #### 20.2.4 Static Semantics
@@ -441,217 +460,202 @@ ExecutionDomainDecl = ClassDecl(⊥, `public`, false, `ExecutionDomain`, ⊥, �
 
 `Priority` is an enum with variants `Low`, `Normal`, and `High`.
 
-```text
-`GpuSafeType(T)` holds iff `¬ProhibitedGpuType(T)` and `GpuSafeComponents(T)`.
-GpuSafeType(T) ⇔ ¬ProhibitedGpuType(T) ∧ GpuSafeComponents(T)
+```math
+\begin{array}{l}
+\texttt{GpuSafeType(T)}\ \mathsf{holds}\ \mathsf{iff}\ \texttt{notProhibitedGpuType(T)}\ \mathsf{and}\ \texttt{GpuSafeComponents(T)}. \\
+\operatorname{GpuSafeType}(T)\ \Leftrightarrow \ \lnot \operatorname{ProhibitedGpuType}(T)\ \land \ \operatorname{GpuSafeComponents}(T)
+\end{array}
 ```
 
-GpuSafePrimTypes = {`i8`, `i16`, `i32`, `i64`, `u8`, `u16`, `u32`, `u64`, `isize`, `usize`, `f16`, `f32`, `f64`, `bool`, `()`}
-
-```text
-ProhibitedGpuType(T) ⇔
-  T = TypeDynamic(_) ∨
-  T = TypePath(["Context"]) ∨
-  T = TypePath(["System"]) ∨
-  IsCapabilityType(T) ∨
-  T = TypeString(`@Managed`) ∨
-  T = TypeBytes(`@Managed`) ∨
-  T = TypePtr(_, `@Valid`) ∨
-  T = TypeModalState(_, _) ∨
+```math
+\mathsf{GpuSafePrimTypes}\ =\ \{\texttt{i8},\ \texttt{i16},\ \texttt{i32},\ \texttt{i64},\ \texttt{u8},\ \texttt{u16},\ \texttt{u32},\ \texttt{u64},\ \texttt{isize},\ \texttt{usize},\ \texttt{f16},\ \texttt{f32},\ \texttt{f64},\ \texttt{bool},\ \texttt{()}\}
 ```
 
-  ModalRefType(T)
-
-```text
-GpuSafeComponents(T) ⇔ BitcopyType(T) ∧ (CompoundType(T) ⇒ ∀ elem ∈ Elements(T). GpuSafeType(elem))
+```math
+\begin{array}{l}
+\operatorname{ProhibitedGpuType}(T)\ \Leftrightarrow  \\
+\ T\ =\ \operatorname{TypeDynamic}(\_)\ \lor  \\
+\ T\ =\ \operatorname{TypePath}([\texttt{"Context"}])\ \lor  \\
+\ T\ =\ \operatorname{TypePath}([\texttt{"System"}])\ \lor  \\
+\ \operatorname{IsCapabilityType}(T)\ \lor  \\
+\ T\ =\ \operatorname{TypeString}(\texttt{@Managed})\ \lor  \\
+\ T\ =\ \operatorname{TypeBytes}(\texttt{@Managed})\ \lor  \\
+\ T\ =\ \operatorname{TypePtr}(\_,\ \texttt{@Valid})\ \lor  \\
+\ T\ =\ \operatorname{TypeModalState}(\_,\ \_)\ \lor  \\
+\ \operatorname{ModalRefType}(T)
+\end{array}
 ```
 
-```text
-HasGpuSafeReq(W, x) ⇔ ∃ wp ∈ PredicateReqs(W). wp = PredicateReq(`GpuSafe`, TypePath([x]))
+```math
+\operatorname{GpuSafeComponents}(T)\ \Leftrightarrow \ \operatorname{BitcopyType}(T)\ \land \ (\operatorname{CompoundType}(T)\ \Rightarrow \ \forall \ \mathsf{elem}\ \in \ \operatorname{Elements}(T).\ \operatorname{GpuSafeType}(\mathsf{elem}))
 ```
 
-```text
-GpuSafePredicateClauseOk(params, W) ⇔ ∀ p ∈ params. (p.name ∈ TypeParamsUsed ⇒ HasGpuSafeReq(W, p.name))
+```math
+\operatorname{HasGpuSafeReq}(W,\ x)\ \Leftrightarrow \ \exists \ \mathsf{wp}\ \in \ \operatorname{PredicateReqs}(W).\ \mathsf{wp}\ =\ \operatorname{PredicateReq}(\texttt{GpuSafe},\ \operatorname{TypePath}([x]))
+```
+
+```math
+\operatorname{GpuSafePredicateClauseOk}(\mathsf{params},\ W)\ \Leftrightarrow \ \forall \ p\ \in \ \mathsf{params}.\ (p.\mathsf{name}\ \in \ \mathsf{TypeParamsUsed}\ \Rightarrow \ \operatorname{HasGpuSafeReq}(W,\ p.\mathsf{name}))
 ```
 
 **(GpuSafe-Prim)**
 
-```text
-T = TypePrim(t)    t ∈ GpuSafePrimTypes
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ GpuSafeType(T) ⇓ ok
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{GpuSafePrimTypes} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{GpuSafeType}(T)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(GpuSafe-RawPtr)**
 
-```text
-T = TypeRawPtr(_, U)    Γ ⊢ GpuSafeType(U) ⇓ ok
-```
-
-──────────────────────────────────────────────────
-
-```text
-Γ ⊢ GpuSafeType(T) ⇓ ok
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRawPtr}(\_,\ U)\quad \Gamma \ \vdash \ \operatorname{GpuSafeType}(U)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{GpuSafeType}(T)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(GpuSafe-Array)**
 
-```text
-T = TypeArray(U, n)    Γ ⊢ GpuSafeType(U) ⇓ ok
-```
-
-────────────────────────────────────────────────
-
-```text
-Γ ⊢ GpuSafeType(T) ⇓ ok
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeArray}(U,\ n)\quad \Gamma \ \vdash \ \operatorname{GpuSafeType}(U)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{GpuSafeType}(T)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(GpuSafe-Tuple)**
 
-```text
-T = TypeTuple([T_1, …, T_n])    ∀ i. Γ ⊢ GpuSafeType(T_i) ⇓ ok
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ GpuSafeType(T) ⇓ ok
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\quad \forall \ i.\ \Gamma \ \vdash \ \operatorname{GpuSafeType}(T_{i})\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{GpuSafeType}(T)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(GpuSafe-Perm)**
 
-```text
-T = TypePerm(_, U)    Γ ⊢ GpuSafeType(U) ⇓ ok
-```
-
-──────────────────────────────────────────────────
-
-```text
-Γ ⊢ GpuSafeType(T) ⇓ ok
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypePerm}(\_,\ U)\quad \Gamma \ \vdash \ \operatorname{GpuSafeType}(U)\ \Downarrow \ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{GpuSafeType}(T)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(GpuSafe-Record)**
 
-```text
-T = TypePath(p)    RecordDecl(p) = R    ∀ f : T_f ∈ Fields(R). Γ ⊢ GpuSafeType(T_f) ⇓ ok    BitcopyType(T)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ GpuSafeType(T) ⇓ ok
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \forall \ f\ :\ T_{f}\ \in \ \operatorname{Fields}(R).\ \Gamma \ \vdash \ \operatorname{GpuSafeType}(T_{f})\ \Downarrow \ \mathsf{ok}\quad \operatorname{BitcopyType}(T) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{GpuSafeType}(T)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(GpuSafe-Enum)**
 
-```text
-T = TypePath(p)    EnumDecl(p) = E    ∀ v ∈ Variants(E). ∀ T_f ∈ PayloadTypes(v). Γ ⊢ GpuSafeType(T_f) ⇓ ok    BitcopyType(T)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ GpuSafeType(T) ⇓ ok
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{EnumDecl}(p)\ =\ E\quad \forall \ v\ \in \ \operatorname{Variants}(E).\ \forall \ T_{f}\ \in \ \operatorname{PayloadTypes}(v).\ \Gamma \ \vdash \ \operatorname{GpuSafeType}(T_{f})\ \Downarrow \ \mathsf{ok}\quad \operatorname{BitcopyType}(T) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{GpuSafeType}(T)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(GpuSafe-StringView)**
-T = TypeString(`@View`)
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ GpuSafeType(T) ⇓ ok
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeString}(\texttt{@View}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{GpuSafeType}(T)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(GpuSafe-BytesView)**
-T = TypeBytes(`@View`)
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ GpuSafeType(T) ⇓ ok
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeBytes}(\texttt{@View}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{GpuSafeType}(T)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(GpuSafeType-Err)**
-ProhibitedGpuType(T)    c = Code(E-TYP-2640)
-────────────────────────────────────────────────────
 
-```text
-Γ ⊢ GpuSafeType(T) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{ProhibitedGpuType}(T)\quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-2640) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{GpuSafeType}(T)\ \Uparrow \ c
+\end{array}
 ```
 
 **(GpuSafe-Record-Field-Err)**
 
-```text
-T = TypePath(p)    RecordDecl(p) = R    ∃ f : T_f ∈ Fields(R). Γ ⊢ GpuSafeType(T_f) ⇑    c = Code(E-TYP-2640)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ GpuSafeType(T) ⇑ c
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \exists \ f\ :\ T_{f}\ \in \ \operatorname{Fields}(R).\ \Gamma \ \vdash \ \operatorname{GpuSafeType}(T_{f})\ \Uparrow \quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-2640) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{GpuSafeType}(T)\ \Uparrow \ c
+\end{array}
 ```
 
 **(GpuSafe-Generic-Unbounded-Err)**
 
-```text
-T = TypePath(p)    (RecordDecl(p) = R ∨ EnumDecl(p) = E)    params_gen = TypeParamsOpt(_.gen_params_opt)    params_gen ≠ []    ¬ GpuSafePredicateClauseOk(params_gen, _.predicate_clause_opt)    c = Code(E-TYP-2642)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ GpuSafeType(T) ⇑ c
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypePath}(p)\quad (\operatorname{RecordDecl}(p)\ =\ R\ \lor \ \operatorname{EnumDecl}(p)\ =\ E)\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(\_.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \mathsf{params}_{\mathsf{gen}}\ \ne \ []\quad \lnot \ \operatorname{GpuSafePredicateClauseOk}(\mathsf{params}_{\mathsf{gen}},\ \_.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}})\quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-2642) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{GpuSafeType}(T)\ \Uparrow \ c
+\end{array}
 ```
 
 **(T-GpuIntrinsic)**
 
-```text
-GpuContext(Γ)    ⟨name, [], ret⟩ ∈ GpuIntrinsicTable
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Call(PathExpr([name]), []) : ret
+```math
+\begin{array}{l}
+\operatorname{GpuContext}(\Gamma )\quad \langle \mathsf{name},\ [],\ \mathsf{ret}\rangle \ \in \ \mathsf{GpuIntrinsicTable} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Call}(\operatorname{PathExpr}([\mathsf{name}]),\ [])\ :\ \mathsf{ret}
+\end{array}
 ```
 
 **(Barrier-Outside-Err)**
 
-```text
-¬GpuContext(Γ)    name ∈ {`gpu_barrier`, `gpu_memory_barrier`, `gpu_workgroup_barrier`}    c = Code(Barrier-Outside-Err)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Call(PathExpr([name]), []) ⇑ c
+```math
+\begin{array}{l}
+\lnot \operatorname{GpuContext}(\Gamma )\quad \mathsf{name}\ \in \ \{\texttt{gpu\_barrier},\ \texttt{gpu\_memory\_barrier},\ \texttt{gpu\_workgroup\_barrier}\}\quad c\ =\ \operatorname{Code}(\mathsf{Barrier}-\mathsf{Outside}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Call}(\operatorname{PathExpr}([\mathsf{name}]),\ [])\ \Uparrow \ c
+\end{array}
 ```
 
 **(GpuIntrinsic-Outside-Err)**
 
-```text
-¬GpuContext(Γ)    name ∈ GpuIntrinsicNames \ {`gpu_barrier`, `gpu_memory_barrier`, `gpu_workgroup_barrier`}    c = Code(E-CON-0154)
-```
-
-──────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Call(PathExpr([name]), []) ⇑ c
+```math
+\begin{array}{l}
+\lnot \operatorname{GpuContext}(\Gamma )\quad \mathsf{name}\ \in \ \mathsf{GpuIntrinsicNames}\ \setminus \ \{\texttt{gpu\_barrier},\ \texttt{gpu\_memory\_barrier},\ \texttt{gpu\_workgroup\_barrier}\}\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0154) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Call}(\operatorname{PathExpr}([\mathsf{name}]),\ [])\ \Uparrow \ c
+\end{array}
 ```
 
 **(GpuPtr-AddrSpace-Err)**
 
-```text
-Γ; R; L ⊢ e : TypeGpuPtr(T, S_1)    ExpectedType(e) = TypeGpuPtr(T, S_2)    S_1 ≠ S_2    c = Code(GpuPtr-AddrSpace-Err)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ; R; L ⊢ e ⇑ c
+```math
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ e\ :\ \operatorname{TypeGpuPtr}(T,\ S_{1})\quad \operatorname{ExpectedType}(e)\ =\ \operatorname{TypeGpuPtr}(T,\ S_{2})\quad S_{1}\ \ne \ S_{2}\quad c\ =\ \operatorname{Code}(\mathsf{GpuPtr}-\mathsf{AddrSpace}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ \Uparrow \ c
+\end{array}
 ```
 
 `ExecutionDomain` is a dispatchable class used for heterogeneous domain handling.
@@ -669,90 +673,87 @@ Inline-domain semantics:
 3. No actual parallelism occurs.
 4. Capture and permission rules remain enforced.
 
-```text
-GpuMemVisible(addr, S, wg, wi) ⇔
-  (S = Global) ∨
-  (S = Shared ∧ WorkgroupOf(wi) = wg) ∨
-  (S = Private ∧ wi = CurrentWorkItem)
+```math
+\begin{array}{l}
+\operatorname{GpuMemVisible}(\mathsf{addr},\ S,\ \mathsf{wg},\ \mathsf{wi})\ \Leftrightarrow  \\
+\ (S\ =\ \mathsf{Global})\ \lor  \\
+\ (S\ =\ \mathsf{Shared}\ \land \ \operatorname{WorkgroupOf}(\mathsf{wi})\ =\ \mathsf{wg})\ \lor  \\
+\ (S\ =\ \mathsf{Private}\ \land \ \mathsf{wi}\ =\ \mathsf{CurrentWorkItem})
+\end{array}
 ```
 
 **(GpuPtr-Deref-Visible)**
-G[gpu_workitem] = wi    G[gpu_workgroup] = wg    GpuMemVisible(addr, S, wg, wi)
-────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-G ⊢ Deref(GpuPtr(addr, S)) ⇓ ok
+```math
+\begin{array}{l}
+G[\mathsf{gpu}_{\mathsf{workitem}}]\ =\ \mathsf{wi}\quad G[\mathsf{gpu}_{\mathsf{workgroup}}]\ =\ \mathsf{wg}\quad \operatorname{GpuMemVisible}(\mathsf{addr},\ S,\ \mathsf{wg},\ \mathsf{wi}) \\
+\rule{18em}{0.4pt} \\
+G\ \vdash \ \operatorname{Deref}(\operatorname{GpuPtr}(\mathsf{addr},\ S))\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(GpuPtr-Deref-Err)**
 
-```text
-G[gpu_workitem] = wi    G[gpu_workgroup] = wg    ¬GpuMemVisible(addr, S, wg, wi)    c = Code(E-CON-0150)
+```math
+\begin{array}{l}
+G[\mathsf{gpu}_{\mathsf{workitem}}]\ =\ \mathsf{wi}\quad G[\mathsf{gpu}_{\mathsf{workgroup}}]\ =\ \mathsf{wg}\quad \lnot \operatorname{GpuMemVisible}(\mathsf{addr},\ S,\ \mathsf{wg},\ \mathsf{wi})\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0150) \\
+\rule{18em}{0.4pt} \\
+G\ \vdash \ \operatorname{Deref}(\operatorname{GpuPtr}(\mathsf{addr},\ S))\ \Uparrow \ c
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-G ⊢ Deref(GpuPtr(addr, S)) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{TopologyValid}(\mathsf{topo})\ \Leftrightarrow  \\
+\ \mathsf{topo}.\mathsf{WorkgroupSize}.0\ \times \ \mathsf{topo}.\mathsf{WorkgroupSize}.1\ \times \ \mathsf{topo}.\mathsf{WorkgroupSize}.2\ =\ \mathsf{MAX}_{\mathsf{WORKGROUP}\_\mathsf{SIZE}}\ \land  \\
+\ \mathsf{topo}.\mathsf{GlobalSize}.0\ =\ \mathsf{topo}.\mathsf{WorkgroupSize}.0\ \times \ \mathsf{topo}.\mathsf{NumWorkgroups}.0\ \land  \\
+\ \mathsf{topo}.\mathsf{GlobalSize}.1\ =\ \mathsf{topo}.\mathsf{WorkgroupSize}.1\ \times \ \mathsf{topo}.\mathsf{NumWorkgroups}.1\ \land  \\
+\ \mathsf{topo}.\mathsf{GlobalSize}.2\ =\ \mathsf{topo}.\mathsf{WorkgroupSize}.2\ \times \ \mathsf{topo}.\mathsf{NumWorkgroups}.2
+\end{array}
 ```
 
-```text
-TopologyValid(topo) ⇔
-  topo.WorkgroupSize.0 × topo.WorkgroupSize.1 × topo.WorkgroupSize.2 = MAX_WORKGROUP_SIZE ∧
-  topo.GlobalSize.0 = topo.WorkgroupSize.0 × topo.NumWorkgroups.0 ∧
-  topo.GlobalSize.1 = topo.WorkgroupSize.1 × topo.NumWorkgroups.1 ∧
+```math
+\mathsf{MAX}_{\mathsf{WORKGROUP}\_\mathsf{SIZE}}\ =\ 1024
 ```
-
-  topo.GlobalSize.2 = topo.WorkgroupSize.2 × topo.NumWorkgroups.2
-
-MAX_WORKGROUP_SIZE = 1024
 
 **(EvalSigma-GPU-Parallel)**
 
-```text
-Γ ⊢ EvalSigma(D, σ) ⇓ (Val(v_domain), σ_1)    IsGpuDomain(v_domain)    Γ ⊢ GpuInit(v_domain, opts) ⇓ gpu_state    Γ ⊢ EvalGpuBody(B, σ_1, gpu_state) ⇓ (work_items, σ_2)    Γ ⊢ GpuExecute(work_items, gpu_state) ⇓ (results, σ_3)    Γ ⊢ GpuJoin(results) ⇓ (out, σ_4)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalSigma(ParallelExpr(D, opts, B), σ) ⇓ (out, σ_4)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(D,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{\mathsf{domain}}),\ \sigma_{1} )\quad \operatorname{IsGpuDomain}(v_{\mathsf{domain}})\quad \Gamma \ \vdash \ \operatorname{GpuInit}(v_{\mathsf{domain}},\ \mathsf{opts})\ \Downarrow \ \mathsf{gpu}_{\mathsf{state}}\quad \Gamma \ \vdash \ \operatorname{EvalGpuBody}(B,\ \sigma_{1} ,\ \mathsf{gpu}_{\mathsf{state}})\ \Downarrow \ (\mathsf{work}_{\mathsf{items}},\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{GpuExecute}(\mathsf{work}_{\mathsf{items}},\ \mathsf{gpu}_{\mathsf{state}})\ \Downarrow \ (\mathsf{results},\ \sigma_{3} )\quad \Gamma \ \vdash \ \operatorname{GpuJoin}(\mathsf{results})\ \Downarrow \ (\mathsf{out},\ \sigma_{4} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{ParallelExpr}(D,\ \mathsf{opts},\ B),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{4} )
+\end{array}
 ```
 
 **(EvalSigma-GPU-Dispatch)**
 
-```text
-GpuContext(Γ)    Γ ⊢ EvalSigma(range, σ) ⇓ (Val(r), σ_1)    bounds = RangeBounds(r)    topology = ComputeTopology(bounds, opts)    work_items = [GpuWorkItem(i, LocalIdFromLinear(i, topology.WorkgroupSize), WorkgroupIdFromLinear(i, topology), B[i/var], CaptureEnv(Γ, B), Pending, ∅) | i ∈ bounds]
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalGpuDispatch(DispatchExpr(var, range, ⊥, opts, B), σ) ⇓ (work_items, σ_1)
+```math
+\begin{array}{l}
+\operatorname{GpuContext}(\Gamma )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{range},\ \sigma )\ \Downarrow \ (\operatorname{Val}(r),\ \sigma_{1} )\quad \mathsf{bounds}\ =\ \operatorname{RangeBounds}(r)\quad \mathsf{topology}\ =\ \operatorname{ComputeTopology}(\mathsf{bounds},\ \mathsf{opts})\quad \mathsf{work}_{\mathsf{items}}\ =\ [\operatorname{GpuWorkItem}(i,\ \operatorname{LocalIdFromLinear}(i,\ \mathsf{topology}.\mathsf{WorkgroupSize}),\ \operatorname{WorkgroupIdFromLinear}(i,\ \mathsf{topology}),\ B[i/\mathsf{var}],\ \operatorname{CaptureEnv}(\Gamma ,\ B),\ \mathsf{Pending},\ \emptyset )\ \mid \ i\ \in \ \mathsf{bounds}] \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalGpuDispatch}(\operatorname{DispatchExpr}(\mathsf{var},\ \mathsf{range},\ \bot ,\ \mathsf{opts},\ B),\ \sigma )\ \Downarrow \ (\mathsf{work}_{\mathsf{items}},\ \sigma_{1} )
+\end{array}
 ```
 
 **(GpuExecute-Step)**
 
-```text
-∀ wg ∈ Workgroups(gpu_state). ∀ wi ∈ WorkItems(wg). wi.status = Running    ∀ wi. Γ ⊢ EvalGpuWorkItem(wi.expr, wi.captures, wi.private_mem) ⇓ (out_i, pm_i)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ GpuExecute(work_items, gpu_state) ⇓ (GpuWorkItemResults(work_items), gpu_state')
+```math
+\begin{array}{l}
+\forall \ \mathsf{wg}\ \in \ \operatorname{Workgroups}(\mathsf{gpu}_{\mathsf{state}}).\ \forall \ \mathsf{wi}\ \in \ \operatorname{WorkItems}(\mathsf{wg}).\ \mathsf{wi}.\mathsf{status}\ =\ \mathsf{Running}\quad \forall \ \mathsf{wi}.\ \Gamma \ \vdash \ \operatorname{EvalGpuWorkItem}(\mathsf{wi}.\mathsf{expr},\ \mathsf{wi}.\mathsf{captures},\ \mathsf{wi}.\mathsf{private}_{\mathsf{mem}})\ \Downarrow \ (\mathsf{out}_{i},\ \mathsf{pm}_{i}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{GpuExecute}(\mathsf{work}_{\mathsf{items}},\ \mathsf{gpu}_{\mathsf{state}})\ \Downarrow \ (\operatorname{GpuWorkItemResults}(\mathsf{work}_{\mathsf{items}}),\ \mathsf{gpu}_{\mathsf{state}}')
+\end{array}
 ```
 
 **(GpuBarrier-Sync)**
 
-```text
-∀ wi ∈ WorkItems(wg). wi.status = AtBarrier
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ GpuWorkgroupSync(wg) ⇓ ResumeAll(wg)
+```math
+\begin{array}{l}
+\forall \ \mathsf{wi}\ \in \ \operatorname{WorkItems}(\mathsf{wg}).\ \mathsf{wi}.\mathsf{status}\ =\ \mathsf{AtBarrier} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{GpuWorkgroupSync}(\mathsf{wg})\ \Downarrow \ \operatorname{ResumeAll}(\mathsf{wg})
+\end{array}
 ```
 
 GpuBarrierWait(wg) blocks execution until all work-items in workgroup wg reach the barrier.
@@ -761,86 +762,90 @@ GpuBarrierWait(wg) blocks execution until all work-items in workgroup wg reach t
 
 **(EvalSigma-GpuBarrier)**
 
-```text
-GpuContext(Γ)    Γ[gpu_workgroup] = wg
-```
-
-────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalSigma(Call(PathExpr([`gpu_barrier`]), []), σ) ⇓ (Val(()), σ[wi.status := AtBarrier])
+```math
+\begin{array}{l}
+\operatorname{GpuContext}(\Gamma )\quad \Gamma [\mathsf{gpu}_{\mathsf{workgroup}}]\ =\ \mathsf{wg} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Call}(\operatorname{PathExpr}([\texttt{gpu\_barrier}]),\ []),\ \sigma )\ \Downarrow \ (\operatorname{Val}(()),\ \sigma [\mathsf{wi}.\mathsf{status}\ :=\ \mathsf{AtBarrier}])
+\end{array}
 ```
 
 **(Barrier-Divergence-Err)**
 
-```text
-GpuContext(Γ)    ∃ wi_1, wi_2 ∈ WorkItems(wg). ControlFlowDiverges(wi_1, wi_2, barrier_point)
+```math
+\begin{array}{l}
+\operatorname{GpuContext}(\Gamma )\quad \exists \ \mathsf{wi}_{1},\ \mathsf{wi}_{2}\ \in \ \operatorname{WorkItems}(\mathsf{wg}).\ \operatorname{ControlFlowDiverges}(\mathsf{wi}_{1},\ \mathsf{wi}_{2},\ \mathsf{barrier}_{\mathsf{point}}) \\
+\rule{18em}{0.4pt} \\
+\mathsf{Reject}
+\end{array}
 ```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-Reject
 
 **(KeyBlock-GPU-Err)**
 
-```text
-GpuContext(Γ)
+```math
+\begin{array}{l}
+\operatorname{GpuContext}(\Gamma ) \\
+\rule{18em}{0.4pt} \\
+\mathsf{Reject}
+\end{array}
 ```
-
-────────────────────────────────────────────
-Reject
 
 **(WorkgroupSize-Err)**
 
-```text
-topology = ComputeTopology(bounds, opts)    ¬TopologyValid(topology)    c = Code(WorkgroupSize-Err)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalGpuDispatch(DispatchExpr(var, range, ⊥, opts, B), σ) ⇑ c
+```math
+\begin{array}{l}
+\mathsf{topology}\ =\ \operatorname{ComputeTopology}(\mathsf{bounds},\ \mathsf{opts})\quad \lnot \operatorname{TopologyValid}(\mathsf{topology})\quad c\ =\ \operatorname{Code}(\mathsf{WorkgroupSize}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalGpuDispatch}(\operatorname{DispatchExpr}(\mathsf{var},\ \mathsf{range},\ \bot ,\ \mathsf{opts},\ B),\ \sigma )\ \Uparrow \ c
+\end{array}
 ```
 
 #### 20.2.6 Lowering
 
 **(Lower-Domain-CPU)**
-──────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ LowerExpr(MethodCall(ctx, `cpu`, args)) ⇓ ⟨CpuDomainIR(args), CpuDomainVal(args)⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MethodCall}(\mathsf{ctx},\ \texttt{cpu},\ \mathsf{args}))\ \Downarrow \ \langle \operatorname{CpuDomainIR}(\mathsf{args}),\ \operatorname{CpuDomainVal}(\mathsf{args})\rangle 
+\end{array}
 ```
 
 **(Lower-Domain-GPU)**
-──────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ LowerExpr(MethodCall(ctx, `gpu`, [])) ⇓ ⟨GpuDomainIR, GpuDomainVal⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MethodCall}(\mathsf{ctx},\ \texttt{gpu},\ []))\ \Downarrow \ \langle \mathsf{GpuDomainIR},\ \mathsf{GpuDomainVal}\rangle 
+\end{array}
 ```
 
 **(Lower-Domain-Inline)**
-──────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ LowerExpr(MethodCall(ctx, `inline`, [])) ⇓ ⟨InlineDomainIR, InlineDomainVal⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MethodCall}(\mathsf{ctx},\ \texttt{inline},\ []))\ \Downarrow \ \langle \mathsf{InlineDomainIR},\ \mathsf{InlineDomainVal}\rangle 
+\end{array}
 ```
 
 **(Lower-Expr-Parallel-GPU)**
 
-```text
-Γ ⊢ LowerExpr(D) ⇓ ⟨IR_d, v_d⟩    IsGpuDomain(v_d)    Γ ⊢ LowerBlock(B) ⇓ ⟨IR_b, v_b⟩
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ LowerExpr(ParallelExpr(D, opts, B)) ⇓ ⟨SeqIR(IR_d, KernelLaunchIR(v_d, opts), GpuDispatchIR(IR_b), ParallelJoin), v_b⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerExpr}(D)\ \Downarrow \ \langle \mathsf{IR}_{d},\ v_{d}\rangle \quad \operatorname{IsGpuDomain}(v_{d})\quad \Gamma \ \vdash \ \operatorname{LowerBlock}(B)\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{ParallelExpr}(D,\ \mathsf{opts},\ B))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{d},\ \operatorname{KernelLaunchIR}(v_{d},\ \mathsf{opts}),\ \operatorname{GpuDispatchIR}(\mathsf{IR}_{b}),\ \mathsf{ParallelJoin}),\ v_{b}\rangle 
+\end{array}
 ```
 
 **(Lower-Expr-GpuBarrier)**
-──────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ LowerExpr(Call(PathExpr([`gpu_barrier`]), [])) ⇓ ⟨GpuBarrierIR(`full`), UnitVal⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Call}(\operatorname{PathExpr}([\texttt{gpu\_barrier}]),\ []))\ \Downarrow \ \langle \operatorname{GpuBarrierIR}(\texttt{full}),\ \mathsf{UnitVal}\rangle 
+\end{array}
 ```
 
 #### 20.2.7 Diagnostics
@@ -881,12 +886,12 @@ This section consumes the following capture classifications from §16.9.4:
 - `SharedCaptures(C)`
 - `UniqueCaptures(C)`
 
-```text
-GpuCaptureJudg = {GpuCaptureOk(Γ, x, T)}
+```math
+\mathsf{GpuCaptureJudg}\ =\ \{\operatorname{GpuCaptureOk}(\Gamma ,\ x,\ T)\}
 ```
 
-```text
-HasHeapProvenance(Γ, x) ⇔ Γ[x].provenance = π_Heap ∨ (Γ[x].provenance = π_Derived(y) ∧ HasHeapProvenance(Γ, y))
+```math
+\operatorname{HasHeapProvenance}(\Gamma ,\ x)\ \Leftrightarrow \ \Gamma [x].\mathsf{provenance}\ =\ \pi_{\mathsf{Heap}} \ \lor \ (\Gamma [x].\mathsf{provenance}\ =\ \pi_{\mathsf{Derived}} (y)\ \land \ \operatorname{HasHeapProvenance}(\Gamma ,\ y))
 ```
 
 #### 20.3.4 Static Semantics
@@ -899,127 +904,122 @@ Bindings with `unique` permission MUST NOT be captured by closures used in `spaw
 
 **(Parallel-Closure-Capture-Const)**
 
-```text
-C = ClosureExpr(params, ret_type_opt, body)    Context(C) ⊆ {SpawnBody, DispatchBody}    x ∈ ConstCaptures(C)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParallelClosureCapture(C, x) ⇓ ok
+```math
+\begin{array}{l}
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{Context}(C)\ \subseteq \ \{\mathsf{SpawnBody},\ \mathsf{DispatchBody}\}\quad x\ \in \ \operatorname{ConstCaptures}(C) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParallelClosureCapture}(C,\ x)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(Parallel-Closure-Capture-Shared)**
 
-```text
-C = ClosureExpr(params, ret_type_opt, body)    Context(C) ⊆ {SpawnBody, DispatchBody}    x ∈ SharedCaptures(C)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParallelClosureCapture(C, x) ⇓ ok
+```math
+\begin{array}{l}
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{Context}(C)\ \subseteq \ \{\mathsf{SpawnBody},\ \mathsf{DispatchBody}\}\quad x\ \in \ \operatorname{SharedCaptures}(C) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParallelClosureCapture}(C,\ x)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(Parallel-Closure-Capture-Unique-Err)**
 
-```text
-C = ClosureExpr(params, ret_type_opt, body)    Context(C) ⊆ {SpawnBody, DispatchBody}    x ∈ UniqueCaptures(C)
+```math
+\begin{array}{l}
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{Context}(C)\ \subseteq \ \{\mathsf{SpawnBody},\ \mathsf{DispatchBody}\}\quad x\ \in \ \operatorname{UniqueCaptures}(C) \\
+\rule{18em}{0.4pt} \\
+\mathsf{Reject}
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-Reject
-
-```text
-OuterParallelBinding(Γ, x) ⇔ x is bound in an enclosing `parallel` body outside the current child task body
-FirstChildMove(Γ, x) ⇔ x is the unique outer binding selected by the enclosing parallel capture analysis for one child task
+```math
+\begin{array}{l}
+\operatorname{OuterParallelBinding}(\Gamma ,\ x)\ \Leftrightarrow \ x\ \mathsf{is}\ \mathsf{bound}\ \mathsf{in}\ \mathsf{an}\ \mathsf{enclosing}\ \texttt{parallel}\ \mathsf{body}\ \mathsf{outside}\ \mathsf{the}\ \mathsf{current}\ \mathsf{child}\ \mathsf{task}\ \mathsf{body} \\
+\operatorname{FirstChildMove}(\Gamma ,\ x)\ \Leftrightarrow \ x\ \mathsf{is}\ \mathsf{the}\ \mathsf{unique}\ \mathsf{outer}\ \mathsf{binding}\ \mathsf{selected}\ \mathsf{by}\ \mathsf{the}\ \mathsf{enclosing}\ \mathsf{parallel}\ \mathsf{capture}\ \mathsf{analysis}\ \mathsf{for}\ \mathsf{one}\ \mathsf{child}\ \mathsf{task}
+\end{array}
 ```
 
 **(Parallel-Closure-Capture-Unique-Move-Ok)**
 
-```text
-C = ClosureExpr(params, ret_type_opt, body)    Context(C) ⊆ {SpawnBody, DispatchBody}    x ∈ UniqueCaptures(C)    ExplicitMove(x)    OuterParallelBinding(Γ, x)    FirstChildMove(Γ, x)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParallelClosureCapture(C, x) ⇓ ok
+```math
+\begin{array}{l}
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{Context}(C)\ \subseteq \ \{\mathsf{SpawnBody},\ \mathsf{DispatchBody}\}\quad x\ \in \ \operatorname{UniqueCaptures}(C)\quad \operatorname{ExplicitMove}(x)\quad \operatorname{OuterParallelBinding}(\Gamma ,\ x)\quad \operatorname{FirstChildMove}(\Gamma ,\ x) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParallelClosureCapture}(C,\ x)\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(Parallel-Closure-Capture-OuterMove-Err)**
 
-```text
-C = ClosureExpr(params, ret_type_opt, body)    Context(C) ⊆ {SpawnBody, DispatchBody}    x ∈ UniqueCaptures(C)    ExplicitMove(x)    OuterParallelBinding(Γ, x)    ¬ FirstChildMove(Γ, x)    c = Code(Parallel-Closure-Capture-OuterMove-Err)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParallelClosureCapture(C, x) ⇑ c
+```math
+\begin{array}{l}
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{Context}(C)\ \subseteq \ \{\mathsf{SpawnBody},\ \mathsf{DispatchBody}\}\quad x\ \in \ \operatorname{UniqueCaptures}(C)\quad \operatorname{ExplicitMove}(x)\quad \operatorname{OuterParallelBinding}(\Gamma ,\ x)\quad \lnot \ \operatorname{FirstChildMove}(\Gamma ,\ x)\quad c\ =\ \operatorname{Code}(\mathsf{Parallel}-\mathsf{Closure}-\mathsf{Capture}-\mathsf{OuterMove}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParallelClosureCapture}(C,\ x)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Parallel-Escaping-Closure-Spawn-Err)**
 
-```text
-C = ClosureExpr(params, ret_type_opt, body)    IsEscaping(C)    SpawnExpr(_, _) ∈ body
+```math
+\begin{array}{l}
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{IsEscaping}(C)\quad \operatorname{SpawnExpr}(\_,\ \_)\ \in \ \mathsf{body} \\
+\rule{18em}{0.4pt} \\
+\mathsf{Reject}
+\end{array}
 ```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-Reject
 
 All closures in parallel contexts are classified as local closures for Chapter 19 key analysis. A `spawn` expression is forbidden in the body of an escaping closure.
 
 **(GpuCaptureOk-Const)**
 
-```text
-GpuContext(Γ)    Γ[x] = ⟨`const`, T, _, _⟩    GpuSafeType(T)    ¬HasHeapProvenance(Γ, x)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-GpuCaptureOk(Γ, x, T)
+```math
+\begin{array}{l}
+\operatorname{GpuContext}(\Gamma )\quad \Gamma [x]\ =\ \langle \texttt{const},\ T,\ \_,\ \_\rangle \quad \operatorname{GpuSafeType}(T)\quad \lnot \operatorname{HasHeapProvenance}(\Gamma ,\ x) \\
+\rule{18em}{0.4pt} \\
+\operatorname{GpuCaptureOk}(\Gamma ,\ x,\ T)
+\end{array}
 ```
 
 **(GpuCaptureOk-Unique-Move)**
 
-```text
-GpuContext(Γ)    Γ[x] = ⟨`unique`, T, _, _⟩    GpuSafeType(T)    ¬HasHeapProvenance(Γ, x)    ExplicitMove(x)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-GpuCaptureOk(Γ, x, T)
+```math
+\begin{array}{l}
+\operatorname{GpuContext}(\Gamma )\quad \Gamma [x]\ =\ \langle \texttt{unique},\ T,\ \_,\ \_\rangle \quad \operatorname{GpuSafeType}(T)\quad \lnot \operatorname{HasHeapProvenance}(\Gamma ,\ x)\quad \operatorname{ExplicitMove}(x) \\
+\rule{18em}{0.4pt} \\
+\operatorname{GpuCaptureOk}(\Gamma ,\ x,\ T)
+\end{array}
 ```
 
 **(GpuCapture-Shared-Err)**
 
-```text
-GpuContext(Γ)    Γ[x] = ⟨`shared`, T, _, _⟩
+```math
+\begin{array}{l}
+\operatorname{GpuContext}(\Gamma )\quad \Gamma [x]\ =\ \langle \texttt{shared},\ T,\ \_,\ \_\rangle  \\
+\rule{18em}{0.4pt} \\
+\mathsf{Reject}
+\end{array}
 ```
-
-────────────────────────────────────────────────────────────────────────
-Reject
 
 **(GpuCapture-HeapProv-Err)**
 
-```text
-GpuContext(Γ)    HasHeapProvenance(Γ, x)
+```math
+\begin{array}{l}
+\operatorname{GpuContext}(\Gamma )\quad \operatorname{HasHeapProvenance}(\Gamma ,\ x) \\
+\rule{18em}{0.4pt} \\
+\mathsf{Reject}
+\end{array}
 ```
-
-────────────────────────────────────────────────────────────────────
-Reject
 
 **(GpuCapture-NonGpuSafe-Err)**
 
-```text
-GpuContext(Γ)    Γ[x] = ⟨_, T, _, _⟩    ¬GpuSafeType(T)
+```math
+\begin{array}{l}
+\operatorname{GpuContext}(\Gamma )\quad \Gamma [x]\ =\ \langle \_,\ T,\ \_,\ \_\rangle \quad \lnot \operatorname{GpuSafeType}(T) \\
+\rule{18em}{0.4pt} \\
+\mathsf{Reject}
+\end{array}
 ```
-
-──────────────────────────────────────────────────────────────────────────────────────
-Reject
 
 Moved-binding validity checks remain defined by the generic closure-capture rules in §16.9.4.
 
@@ -1076,68 +1076,86 @@ Spawn parsing is defined by the following source rules:
 
 #### 20.4.3 AST Representation / Form
 
-SpawnOpt = {Name(str), Affinity(expr), Priority(expr)}
+```math
+\mathsf{SpawnOpt}\ =\ \{\operatorname{Name}(\mathsf{str}),\ \operatorname{Affinity}(\mathsf{expr}),\ \operatorname{Priority}(\mathsf{expr})\}
+```
 
-SpawnOpts = [SpawnOpt]
+```math
+\mathsf{SpawnOpts}\ =\ [\mathsf{SpawnOpt}]
+```
 
-Expr = … | SpawnExpr(opts, body) | …
+```math
+\mathsf{Expr}\ =\ \ldots \ \mid \ \operatorname{SpawnExpr}(\mathsf{opts},\ \mathsf{body})\ \mid \ \ldots 
+```
 
-ResolveSpawnOptJudg = {ResolveSpawnOpt, ResolveSpawnOpts}
+```math
+\mathsf{ResolveSpawnOptJudg}\ =\ \{\mathsf{ResolveSpawnOpt},\ \mathsf{ResolveSpawnOpts}\}
+```
 
-SpawnOptExprs([]) = []
+```math
+\operatorname{SpawnOptExprs}([])\ =\ []
+```
 
-SpawnOptExprs(Name(_) :: os) = SpawnOptExprs(os)
+```math
+\operatorname{SpawnOptExprs}(\operatorname{Name}(\_)\ \mathbin{::} \ \mathsf{os})\ =\ \operatorname{SpawnOptExprs}(\mathsf{os})
+```
 
-SpawnOptExprs(Affinity(e) :: os) = [e] ++ SpawnOptExprs(os)
+```math
+\operatorname{SpawnOptExprs}(\operatorname{Affinity}(e)\ \mathbin{::} \ \mathsf{os})\ =\ [e]\ \mathbin{++} \ \operatorname{SpawnOptExprs}(\mathsf{os})
+```
 
-SpawnOptExprs(Priority(e) :: os) = [e] ++ SpawnOptExprs(os)
+```math
+\operatorname{SpawnOptExprs}(\operatorname{Priority}(e)\ \mathbin{::} \ \mathsf{os})\ =\ [e]\ \mathbin{++} \ \operatorname{SpawnOptExprs}(\mathsf{os})
+```
 
-States(`Spawned`) = { `@Pending`, `@Ready` }
+```math
+\operatorname{States}(\texttt{Spawned})\ =\ \{\ \texttt{@Pending},\ \texttt{@Ready}\ \}
+```
 
 See §13.1.4 for the built-in `Spawned<T>` modal declaration, state set, payload, and type registration.
 
 #### 20.4.4 Static Semantics
 
-```text
-SpawnOptOk(Name(_)) ⇔ true
+```math
+\operatorname{SpawnOptOk}(\operatorname{Name}(\_))\ \Leftrightarrow \ \mathsf{true}
 ```
 
-```text
-SpawnOptOk(Affinity(e)) ⇔ Γ ⊢ e : TypePath(["CpuSet"])
+```math
+\operatorname{SpawnOptOk}(\operatorname{Affinity}(e))\ \Leftrightarrow \ \Gamma \ \vdash \ e\ :\ \operatorname{TypePath}([\texttt{"CpuSet"}])
 ```
 
-```text
-SpawnOptOk(Priority(e)) ⇔ Γ ⊢ e : TypePath(["Priority"])
+```math
+\operatorname{SpawnOptOk}(\operatorname{Priority}(e))\ \Leftrightarrow \ \Gamma \ \vdash \ e\ :\ \operatorname{TypePath}([\texttt{"Priority"}])
 ```
 
-```text
-SpawnOptsOk(opts) ⇔ ∀ opt ∈ opts. SpawnOptOk(opt)
+```math
+\operatorname{SpawnOptsOk}(\mathsf{opts})\ \Leftrightarrow \ \forall \ \mathsf{opt}\ \in \ \mathsf{opts}.\ \operatorname{SpawnOptOk}(\mathsf{opt})
 ```
 
 An enclosing `parallel_context` is required. The enclosing-context diagnostic is owned by §20.1.7.
 
 **(T-Spawn)**
 
-```text
-Γ[parallel_context] = D    SpawnOptsOk(opts)    Γ_capture ⊢ e : T
-```
-
-────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ `spawn` opts {e} : Spawned⟨T⟩
+```math
+\begin{array}{l}
+\Gamma [\mathsf{parallel}_{\mathsf{context}}]\ =\ D\quad \operatorname{SpawnOptsOk}(\mathsf{opts})\quad \Gamma_{\mathsf{capture}} \ \vdash \ e\ :\ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \texttt{spawn}\ \mathsf{opts}\ \{e\}\ :\ \mathsf{Spawned}\langle T\rangle 
+\end{array}
 ```
 
 #### 20.4.5 Dynamic Semantics
 
-SpawnHandle = {id : ℕ, state : Pending | Ready(Value) | Failed(Panic)}
-
-```text
-CapturedEnv(e, σ) = { x ↦ LookupVal(σ, x) | x ∈ FreeVars(e) }
+```math
+\mathsf{SpawnHandle}\ =\ \{\mathsf{id}\ :\ \mathbb{N} ,\ \mathsf{state}\ :\ \mathsf{Pending}\ \mid \ \operatorname{Ready}(\mathsf{Value})\ \mid \ \operatorname{Failed}(\mathsf{Panic})\}
 ```
 
-```text
-EnqueueWork(pstate, w, opts) ⇓ pstate' ⇔ pstate' = pstate[Handles := pstate.Handles ++ [SpawnedVal(@Pending, w.id)]] and work item `w` is submitted to `pstate.Domain` subject to `opts`
+```math
+\operatorname{CapturedEnv}(e,\ \sigma )\ =\ \{\ x\ \mapsto \ \operatorname{LookupVal}(\sigma ,\ x)\ \mid \ x\ \in \ \operatorname{FreeVars}(e)\ \}
+```
+
+```math
+\operatorname{EnqueueWork}(\mathsf{pstate},\ w,\ \mathsf{opts})\ \Downarrow \ \mathsf{pstate}'\ \Leftrightarrow \ \mathsf{pstate}'\ =\ \mathsf{pstate}[\mathsf{Handles}\ :=\ \mathsf{pstate}.\mathsf{Handles}\ \mathbin{++} \ [\operatorname{SpawnedVal}(@\mathsf{Pending},\ w.\mathsf{id})]]\ \mathsf{and}\ \mathsf{work}\ \mathsf{item}\ \texttt{w}\ \mathsf{is}\ \mathsf{submitted}\ \mathsf{to}\ \texttt{pstate.Domain}\ \mathsf{subject}\ \mathsf{to}\ \texttt{opts}
 ```
 
 Evaluation of `spawn [opts] { e }`:
@@ -1151,14 +1169,12 @@ Evaluation of `spawn [opts] { e }`:
 
 **(EvalSigma-Spawn)**
 
-```text
-Γ[parallel_context] = pstate    caps = CapturedEnv(e, σ)    w = {id: NextWorkId(pstate), expr: e, captures: caps, status: Pending}    EnqueueWork(pstate, w, opts) ⇓ pstate'    handle = SpawnedVal(@Pending, w.id)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalSigma(SpawnExpr(opts, e), σ) ⇓ (Val(handle), σ[parallel_context ↦ pstate'])
+```math
+\begin{array}{l}
+\Gamma [\mathsf{parallel}_{\mathsf{context}}]\ =\ \mathsf{pstate}\quad \mathsf{caps}\ =\ \operatorname{CapturedEnv}(e,\ \sigma )\quad w\ =\ \{\mathsf{id}:\ \operatorname{NextWorkId}(\mathsf{pstate}),\ \mathsf{expr}:\ e,\ \mathsf{captures}:\ \mathsf{caps},\ \mathsf{status}:\ \mathsf{Pending}\}\quad \operatorname{EnqueueWork}(\mathsf{pstate},\ w,\ \mathsf{opts})\ \Downarrow \ \mathsf{pstate}'\quad \mathsf{handle}\ =\ \operatorname{SpawnedVal}(@\mathsf{Pending},\ w.\mathsf{id}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{SpawnExpr}(\mathsf{opts},\ e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{handle}),\ \sigma [\mathsf{parallel}_{\mathsf{context}}\ \mapsto \ \mathsf{pstate}'])
+\end{array}
 ```
 
 Result retrieval for `Spawned<T>` handles is defined by §21.2.
@@ -1167,14 +1183,12 @@ Result retrieval for `Spawned<T>` handles is defined by §21.2.
 
 **(Lower-Expr-Spawn)**
 
-```text
-Γ ⊢ LowerBlock(e) ⇓ ⟨IR_b, v_b⟩    caps = CaptureSet(e)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ LowerExpr(SpawnExpr(opts, e)) ⇓ ⟨SeqIR(TaskCreate(caps, opts, IR_b), TaskEnqueue), SpawnHandleVal⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerBlock}(e)\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \quad \mathsf{caps}\ =\ \operatorname{CaptureSet}(e) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{SpawnExpr}(\mathsf{opts},\ e))\ \Downarrow \ \langle \operatorname{SeqIR}(\operatorname{TaskCreate}(\mathsf{caps},\ \mathsf{opts},\ \mathsf{IR}_{b}),\ \mathsf{TaskEnqueue}),\ \mathsf{SpawnHandleVal}\rangle 
+\end{array}
 ```
 
 #### 20.4.7 Diagnostics
@@ -1224,45 +1238,65 @@ The fixed identifiers `min`, `max`, `and`, and `or` are tokenized as identifiers
 
 #### 20.5.3 AST Representation / Form
 
-```text
-ReduceOp = {`+`, `*`, `min`, `max`, `and`, `or`} ∪ Identifier
+```math
+\mathsf{ReduceOp}\ =\ \{\texttt{+},\ \texttt{*},\ \texttt{min},\ \texttt{max},\ \texttt{and},\ \texttt{or}\}\ \cup \ \mathsf{Identifier}
 ```
 
-```text
-DispatchOpt = {Reduce(op), Ordered, Chunk(expr), Workgroup(dim3)}    op ∈ ReduceOp
+```math
+\mathsf{DispatchOpt}\ =\ \{\operatorname{Reduce}(\mathsf{op}),\ \mathsf{Ordered},\ \operatorname{Chunk}(\mathsf{expr}),\ \operatorname{Workgroup}(\mathsf{dim3})\}\quad \mathsf{op}\ \in \ \mathsf{ReduceOp}
 ```
 
-DispatchOpts = [DispatchOpt]
-
-```text
-KeyClause = ⟨path, mode⟩
+```math
+\mathsf{DispatchOpts}\ =\ [\mathsf{DispatchOpt}]
 ```
 
-```text
-KeyClauseOpt = {⊥} ∪ KeyClause
+```math
+\mathsf{KeyClause}\ =\ \langle \mathsf{path},\ \mathsf{mode}\rangle 
 ```
 
-Expr = … | DispatchExpr(pat, range, key_clause_opt, opts, body) | …
-
-ResolveKeyClauseJudg = {ResolveKeyClauseOpt}
-
-ResolveDispatchOptJudg = {ResolveDispatchOpt, ResolveDispatchOpts}
-
-DispatchOptExprs([]) = []
-
-DispatchOptExprs(Reduce(_) :: os) = DispatchOptExprs(os)
-
-DispatchOptExprs(Ordered :: os) = DispatchOptExprs(os)
-
-DispatchOptExprs(Chunk(e) :: os) = [e] ++ DispatchOptExprs(os)
-
-DispatchOptExprs(Workgroup(e) :: os) = [e] ++ DispatchOptExprs(os)
-
-```text
-DispatchAccess = ⟨schema, mode⟩    mode ∈ {Read, Write}
+```math
+\mathsf{KeyClauseOpt}\ =\ \{\bot \}\ \cup \ \mathsf{KeyClause}
 ```
 
-DispatchAccessSet = [DispatchAccess]
+```math
+\mathsf{Expr}\ =\ \ldots \ \mid \ \operatorname{DispatchExpr}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{opts},\ \mathsf{body})\ \mid \ \ldots 
+```
+
+```math
+\mathsf{ResolveKeyClauseJudg}\ =\ \{\mathsf{ResolveKeyClauseOpt}\}
+```
+
+```math
+\mathsf{ResolveDispatchOptJudg}\ =\ \{\mathsf{ResolveDispatchOpt},\ \mathsf{ResolveDispatchOpts}\}
+```
+
+```math
+\operatorname{DispatchOptExprs}([])\ =\ []
+```
+
+```math
+\operatorname{DispatchOptExprs}(\operatorname{Reduce}(\_)\ \mathbin{::} \ \mathsf{os})\ =\ \operatorname{DispatchOptExprs}(\mathsf{os})
+```
+
+```math
+\operatorname{DispatchOptExprs}(\mathsf{Ordered}\ \mathbin{::} \ \mathsf{os})\ =\ \operatorname{DispatchOptExprs}(\mathsf{os})
+```
+
+```math
+\operatorname{DispatchOptExprs}(\operatorname{Chunk}(e)\ \mathbin{::} \ \mathsf{os})\ =\ [e]\ \mathbin{++} \ \operatorname{DispatchOptExprs}(\mathsf{os})
+```
+
+```math
+\operatorname{DispatchOptExprs}(\operatorname{Workgroup}(e)\ \mathbin{::} \ \mathsf{os})\ =\ [e]\ \mathbin{++} \ \operatorname{DispatchOptExprs}(\mathsf{os})
+```
+
+```math
+\mathsf{DispatchAccess}\ =\ \langle \mathsf{schema},\ \mathsf{mode}\rangle \quad \mathsf{mode}\ \in \ \{\mathsf{Read},\ \mathsf{Write}\}
+```
+
+```math
+\mathsf{DispatchAccessSet}\ =\ [\mathsf{DispatchAccess}]
+```
 
 #### 20.5.4 Static Semantics
 
@@ -1270,187 +1304,188 @@ An enclosing `parallel_context` is required. The enclosing-context diagnostics a
 
 **(T-Dispatch)**
 
-```text
-Γ ⊢ range : Range<I>    Γ, i : I ⊢ B : T
-```
-
-──────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ `dispatch` i `in range` {B} : ()
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \mathsf{range}\ :\ \mathsf{Range}<I>\quad \Gamma ,\ i\ :\ I\ \vdash \ B\ :\ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \texttt{dispatch}\ i\ \texttt{in range}\ \{B\}\ :\ ()
+\end{array}
 ```
 
 **(T-Dispatch-Reduce)**
 
-```text
-Γ ⊢ range : Range<I>    Γ, i : I ⊢ B : T    Γ ⊢ op : (T, T) -> T
-```
-
-─────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ `dispatch` i `in range [reduce: op]` {B} : T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \mathsf{range}\ :\ \mathsf{Range}<I>\quad \Gamma ,\ i\ :\ I\ \vdash \ B\ :\ T\quad \Gamma \ \vdash \ \mathsf{op}\ :\ (T,\ T)\ \to \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \texttt{dispatch}\ i\ \texttt{in range [reduce: op]}\ \{B\}\ :\ T
+\end{array}
 ```
 
 **(T-GPU-Dispatch)**
 
-```text
-GpuContext(Γ)    Γ ⊢ range : Range<I>    Γ, i : I ⊢ B : T    topology = ComputeTopologyDispatch(RangeBounds(range), opts)    TopologyValid(topology)    ∀ x ∈ FreeVars(B). GpuCaptureOk(Γ, x, Γ[x].type)
-```
-
-────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ DispatchExpr(i, range, ⊥, opts, B) : ()
+```math
+\begin{array}{l}
+\operatorname{GpuContext}(\Gamma )\quad \Gamma \ \vdash \ \mathsf{range}\ :\ \mathsf{Range}<I>\quad \Gamma ,\ i\ :\ I\ \vdash \ B\ :\ T\quad \mathsf{topology}\ =\ \operatorname{ComputeTopologyDispatch}(\operatorname{RangeBounds}(\mathsf{range}),\ \mathsf{opts})\quad \operatorname{TopologyValid}(\mathsf{topology})\quad \forall \ x\ \in \ \operatorname{FreeVars}(B).\ \operatorname{GpuCaptureOk}(\Gamma ,\ x,\ \Gamma [x].\mathsf{type}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{DispatchExpr}(i,\ \mathsf{range},\ \bot ,\ \mathsf{opts},\ B)\ :\ ()
+\end{array}
 ```
 
 **(T-GPU-Dispatch-Reduce)**
 
-```text
-GpuContext(Γ)    Γ ⊢ range : Range<I>    Γ, i : I ⊢ B : T    Γ ⊢ op : (T, T) -> T    GpuSafeType(T)    topology = ComputeTopologyDispatch(RangeBounds(range), opts)    TopologyValid(topology)    ∀ x ∈ FreeVars(B). GpuCaptureOk(Γ, x, Γ[x].type)
+```math
+\begin{array}{l}
+\operatorname{GpuContext}(\Gamma )\quad \Gamma \ \vdash \ \mathsf{range}\ :\ \mathsf{Range}<I>\quad \Gamma ,\ i\ :\ I\ \vdash \ B\ :\ T\quad \Gamma \ \vdash \ \mathsf{op}\ :\ (T,\ T)\ \to \ T\quad \operatorname{GpuSafeType}(T)\quad \mathsf{topology}\ =\ \operatorname{ComputeTopologyDispatch}(\operatorname{RangeBounds}(\mathsf{range}),\ \mathsf{opts})\quad \operatorname{TopologyValid}(\mathsf{topology})\quad \forall \ x\ \in \ \operatorname{FreeVars}(B).\ \operatorname{GpuCaptureOk}(\Gamma ,\ x,\ \Gamma [x].\mathsf{type}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{DispatchExpr}(i,\ \mathsf{range},\ \operatorname{Reduce}(\mathsf{op}),\ \mathsf{opts},\ B)\ :\ T
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ DispatchExpr(i, range, Reduce(op), opts, B) : T
+```math
+\operatorname{DispatchPatternVars}(\mathsf{pat})\ =\ \operatorname{PatNames}(\mathsf{pat})
 ```
 
-DispatchPatternVars(pat) = PatNames(pat)
-
-```text
-PathRootVar(expr) = x ⇔ KeyPath(expr) is rooted at binding `x`
+```math
+\operatorname{PathRootVar}(\mathsf{expr})\ =\ x\ \Leftrightarrow \ \operatorname{KeyPath}(\mathsf{expr})\ \mathsf{is}\ \mathsf{rooted}\ \mathsf{at}\ \mathsf{binding}\ \texttt{x}
 ```
 
-```text
-DispatchInvariant(expr, pat) ⇔ FreeVars(expr) \ {PathRootVar(expr)} ⊆ DispatchPatternVars(pat) ∪ { x | x ∈ dom(Γ) ∧ Γ[x] = TypePerm(`const`, _) }
+```math
+\operatorname{DispatchInvariant}(\mathsf{expr},\ \mathsf{pat})\ \Leftrightarrow \ \operatorname{FreeVars}(\mathsf{expr})\ \setminus \ \{\operatorname{PathRootVar}(\mathsf{expr})\}\ \subseteq \ \operatorname{DispatchPatternVars}(\mathsf{pat})\ \cup \ \{\ x\ \mid \ x\ \in \ \operatorname{dom}(\Gamma )\ \land \ \Gamma [x]\ =\ \operatorname{TypePerm}(\texttt{const},\ \_)\ \}
 ```
 
-```text
-InsideKeyBlock(B, e) ⇔ ∃ K. K is a key block in `B` and `e` is a proper subexpression of `K.body`
+```math
+\operatorname{InsideKeyBlock}(B,\ e)\ \Leftrightarrow \ \exists \ K.\ K\ \mathsf{is}\ a\ \mathsf{key}\ \mathsf{block}\ \mathsf{in}\ \texttt{B}\ \mathsf{and}\ \texttt{e}\ \mathsf{is}\ a\ \mathsf{proper}\ \mathsf{subexpression}\ \mathsf{of}\ \texttt{K.body}
 ```
 
-```text
-ImplicitDispatchUse(B, e) ⇔
-  e ∈ Subexpressions(B) ∧
-  ¬InsideKeyBlock(B, e) ∧
-  (∃ T. Γ ⊢ e : TypePerm(`shared`, T) ∨ Γ ⊢ e :place TypePerm(`shared`, T)) ∧
-  KeyPath(e) is defined ∧
+```math
+\begin{array}{l}
+\operatorname{ImplicitDispatchUse}(B,\ e)\ \Leftrightarrow  \\
+\ e\ \in \ \operatorname{Subexpressions}(B)\ \land  \\
+\ \lnot \operatorname{InsideKeyBlock}(B,\ e)\ \land  \\
+\ (\exists \ T.\ \Gamma \ \vdash \ e\ :\ \operatorname{TypePerm}(\texttt{shared},\ T)\ \lor \ \Gamma \ \vdash \ e\ :\mathsf{place}\ \operatorname{TypePerm}(\texttt{shared},\ T))\ \land  \\
+\ \operatorname{KeyPath}(e)\ \mathsf{is}\ \mathsf{defined}\ \land  \\
+\ \operatorname{RequiredMode}(e)\ \mathsf{is}\ \mathsf{defined}
+\end{array}
 ```
 
-  RequiredMode(e) is defined
-
-```text
-SchemaOf(pat, e) = S ⇔ S is `KeyPath(e)` with occurrences of bindings in `DispatchPatternVars(pat)` left symbolic and all other subexpressions preserved
+```math
+\operatorname{SchemaOf}(\mathsf{pat},\ e)\ =\ S\ \Leftrightarrow \ S\ \mathsf{is}\ \texttt{KeyPath(e)}\ \mathsf{with}\ \mathsf{occurrences}\ \mathsf{of}\ \mathsf{bindings}\ \mathsf{in}\ \texttt{DispatchPatternVars(pat)}\ \mathsf{left}\ \mathsf{symbolic}\ \mathsf{and}\ \mathsf{all}\ \mathsf{other}\ \mathsf{subexpressions}\ \mathsf{preserved}
 ```
 
-JoinDispatchMode(Read, Read) = Read
-
-JoinDispatchMode(_, _) = Write
-
-MergeDispatchAccesses(raw) = merged where `merged` contains one entry per distinct schema and the mode for each schema is the join of all modes attached to that schema in `raw`
-
-```text
-InferDispatchAccesses(pat, B) = merged ⇔
-  raw = [⟨SchemaOf(pat, e), RequiredMode(e)⟩ | e ∈ Subexpressions(B) ∧ ImplicitDispatchUse(B, e) ∧ DispatchInvariant(KeyPath(e), pat)] ∧
+```math
+\operatorname{JoinDispatchMode}(\mathsf{Read},\ \mathsf{Read})\ =\ \mathsf{Read}
 ```
 
-  MergeDispatchAccesses(raw) = merged
+```math
+\operatorname{JoinDispatchMode}(\_,\ \_)\ =\ \mathsf{Write}
+```
 
-```text
-ChunkExpr(opts) = e ⇔ Chunk(e) ∈ opts
-ChunkExpr(opts) = ⊥ ⇔ ∀ o ∈ opts. o ≠ Chunk(_)
-AssociativeReduce(`+`) ⇔ true
-AssociativeReduce(`*`) ⇔ true
-AssociativeReduce(`min`) ⇔ true
-AssociativeReduce(`max`) ⇔ true
-AssociativeReduce(`and`) ⇔ true
-AssociativeReduce(`or`) ⇔ true
-AssociativeReduce(_) ⇔ false
-DispatchStaticIndexExpr(pat, e) ⇔
-  e is a compile-time constant expression ∨
-  (e = x ∧ x ∈ DispatchPatternVars(pat)) ∨
-  (e = e_0.f ∧ DispatchStaticIndexExpr(pat, e_0)) ∨
-  (e = e_0.n ∧ DispatchStaticIndexExpr(pat, e_0)) ∨
-  (e = e_0[e_1] ∧ DispatchStaticIndexExpr(pat, e_0) ∧ DispatchStaticIndexExpr(pat, e_1)) ∨
-  (e = op e_0 ∧ DispatchStaticIndexExpr(pat, e_0)) ∨
-  (e = e_0 op e_1 ∧ DispatchStaticIndexExpr(pat, e_0) ∧ DispatchStaticIndexExpr(pat, e_1)) ∨
-  (e = cast(e_0, _) ∧ DispatchStaticIndexExpr(pat, e_0))
-DynamicKeyPattern(pat, spec) ⇔ ∃ ⟨S, _⟩ ∈ spec. S contains an index expression e ∧ ¬ DispatchStaticIndexExpr(pat, e)
+```math
+\operatorname{MergeDispatchAccesses}(\mathsf{raw})\ =\ \mathsf{merged}\ \mathsf{where}\ \texttt{merged}\ \mathsf{contains}\ \mathsf{one}\ \mathsf{entry}\ \mathsf{per}\ \mathsf{distinct}\ \mathsf{schema}\ \mathsf{and}\ \mathsf{the}\ \mathsf{mode}\ \mathsf{for}\ \mathsf{each}\ \mathsf{schema}\ \mathsf{is}\ \mathsf{the}\ \mathsf{join}\ \mathsf{of}\ \mathsf{all}\ \mathsf{modes}\ \mathsf{attached}\ \mathsf{to}\ \mathsf{that}\ \mathsf{schema}\ \mathsf{in}\ \texttt{raw}
+```
+
+```math
+\begin{array}{l}
+\operatorname{InferDispatchAccesses}(\mathsf{pat},\ B)\ =\ \mathsf{merged}\ \Leftrightarrow  \\
+\ \mathsf{raw}\ =\ [\langle \operatorname{SchemaOf}(\mathsf{pat},\ e),\ \operatorname{RequiredMode}(e)\rangle \ \mid \ e\ \in \ \operatorname{Subexpressions}(B)\ \land \ \operatorname{ImplicitDispatchUse}(B,\ e)\ \land \ \operatorname{DispatchInvariant}(\operatorname{KeyPath}(e),\ \mathsf{pat})]\ \land  \\
+\ \operatorname{MergeDispatchAccesses}(\mathsf{raw})\ =\ \mathsf{merged}
+\end{array}
+```
+
+```math
+\begin{array}{l}
+\operatorname{ChunkExpr}(\mathsf{opts})\ =\ e\ \Leftrightarrow \ \operatorname{Chunk}(e)\ \in \ \mathsf{opts} \\
+\operatorname{ChunkExpr}(\mathsf{opts})\ =\ \bot \ \Leftrightarrow \ \forall \ o\ \in \ \mathsf{opts}.\ o\ \ne \ \operatorname{Chunk}(\_) \\
+\operatorname{AssociativeReduce}(\texttt{+})\ \Leftrightarrow \ \mathsf{true} \\
+\operatorname{AssociativeReduce}(\texttt{*})\ \Leftrightarrow \ \mathsf{true} \\
+\operatorname{AssociativeReduce}(\texttt{min})\ \Leftrightarrow \ \mathsf{true} \\
+\operatorname{AssociativeReduce}(\texttt{max})\ \Leftrightarrow \ \mathsf{true} \\
+\operatorname{AssociativeReduce}(\texttt{and})\ \Leftrightarrow \ \mathsf{true} \\
+\operatorname{AssociativeReduce}(\texttt{or})\ \Leftrightarrow \ \mathsf{true} \\
+\operatorname{AssociativeReduce}(\_)\ \Leftrightarrow \ \mathsf{false} \\
+\operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e)\ \Leftrightarrow  \\
+\ e\ \mathsf{is}\ a\ \mathsf{compile}-\mathsf{time}\ \mathsf{constant}\ \mathsf{expression}\ \lor  \\
+\ (e\ =\ x\ \land \ x\ \in \ \operatorname{DispatchPatternVars}(\mathsf{pat}))\ \lor  \\
+\ (e\ =\ e_{0}.f\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{0}))\ \lor  \\
+\ (e\ =\ e_{0}.n\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{0}))\ \lor  \\
+\ (e\ =\ e_{0}[e_{1}]\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{0})\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{1}))\ \lor  \\
+\ (e\ =\ \mathsf{op}\ e_{0}\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{0}))\ \lor  \\
+\ (e\ =\ e_{0}\ \mathsf{op}\ e_{1}\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{0})\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{1}))\ \lor  \\
+\ (e\ =\ \operatorname{cast}(e_{0},\ \_)\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{0})) \\
+\operatorname{DynamicKeyPattern}(\mathsf{pat},\ \mathsf{spec})\ \Leftrightarrow \ \exists \ \langle S,\ \_\rangle \ \in \ \mathsf{spec}.\ S\ \mathsf{contains}\ \mathsf{an}\ \mathsf{index}\ \mathsf{expression}\ e\ \land \ \lnot \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e)
+\end{array}
 ```
 
 **(Dispatch-Infer-Err)**
 
-```text
-e ∈ Subexpressions(B)    ImplicitDispatchUse(B, e)    ¬ DispatchInvariant(KeyPath(e), pat)
+```math
+\begin{array}{l}
+e\ \in \ \operatorname{Subexpressions}(B)\quad \operatorname{ImplicitDispatchUse}(B,\ e)\quad \lnot \ \operatorname{DispatchInvariant}(\operatorname{KeyPath}(e),\ \mathsf{pat}) \\
+\rule{18em}{0.4pt} \\
+\mathsf{Reject}
+\end{array}
 ```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-Reject
 
 **(Dispatch-Outside-Err)**
 
-```text
-Γ[parallel_context] = ⊥    c = Code(Dispatch-Outside-Err)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ DispatchExpr(pat, range, key_clause_opt, opts, body) ⇑ c
+```math
+\begin{array}{l}
+\Gamma [\mathsf{parallel}_{\mathsf{context}}]\ =\ \bot \quad c\ =\ \operatorname{Code}(\mathsf{Dispatch}-\mathsf{Outside}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{DispatchExpr}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{opts},\ \mathsf{body})\ \Uparrow \ c
+\end{array}
 ```
 
 **(Dispatch-Chunk-Type-Err)**
 
-```text
-Chunk(e) ∈ opts    Γ; R; L ⊢ e : T    T ≠ TypePrim("usize")
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ DispatchExpr(pat, range, key_clause_opt, opts, body) ⇑
+```math
+\begin{array}{l}
+\operatorname{Chunk}(e)\ \in \ \mathsf{opts}\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T\quad T\ \ne \ \operatorname{TypePrim}(\texttt{"usize"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{DispatchExpr}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{opts},\ \mathsf{body})\ \Uparrow 
+\end{array}
 ```
 
 **(Dispatch-Dependency-Err)**
 
-```text
-InferDispatchAccesses(pat, B) = spec    ∃ ⟨S_a, M_a⟩, ⟨S_b, M_b⟩ ∈ spec. ¬ ProvablyDisjointPath(S_a, S_b) ∧ ¬ KeyModeCompatible(M_a, M_b)    c = Code(Dispatch-Dependency-Err)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ DispatchExpr(pat, range, key_clause_opt, opts, body) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{InferDispatchAccesses}(\mathsf{pat},\ B)\ =\ \mathsf{spec}\quad \exists \ \langle S_{a},\ M_{a}\rangle ,\ \langle S_{b},\ M_{b}\rangle \ \in \ \mathsf{spec}.\ \lnot \ \operatorname{ProvablyDisjointPath}(S_{a},\ S_{b})\ \land \ \lnot \ \operatorname{KeyModeCompatible}(M_{a},\ M_{b})\quad c\ =\ \operatorname{Code}(\mathsf{Dispatch}-\mathsf{Dependency}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{DispatchExpr}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{opts},\ \mathsf{body})\ \Uparrow \ c
+\end{array}
 ```
 
 **(Dispatch-Reduce-Assoc-Err)**
 
-```text
-Reduce(op) ∈ opts    Ordered ∉ opts    ¬ AssociativeReduce(op)    c = Code(Dispatch-Reduce-Assoc-Err)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ DispatchExpr(pat, range, key_clause_opt, opts, body) ⇑ c
+```math
+\begin{array}{l}
+\operatorname{Reduce}(\mathsf{op})\ \in \ \mathsf{opts}\quad \mathsf{Ordered}\ \notin \ \mathsf{opts}\quad \lnot \ \operatorname{AssociativeReduce}(\mathsf{op})\quad c\ =\ \operatorname{Code}(\mathsf{Dispatch}-\mathsf{Reduce}-\mathsf{Assoc}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{DispatchExpr}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{opts},\ \mathsf{body})\ \Uparrow \ c
+\end{array}
 ```
 
 **(Dispatch-DynamicKey-Warn)**
-DispatchPartitionSpec(pat, key_clause_opt, B) = spec    DynamicKeyPattern(pat, spec)    w = Code(Dispatch-DynamicKey-Warn)
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ WarnDispatch(DispatchExpr(pat, range, key_clause_opt, opts, body)) ⇓ w
+```math
+\begin{array}{l}
+\operatorname{DispatchPartitionSpec}(\mathsf{pat},\ \mathsf{key}_{\mathsf{clause}\_\mathsf{opt}},\ B)\ =\ \mathsf{spec}\quad \operatorname{DynamicKeyPattern}(\mathsf{pat},\ \mathsf{spec})\quad w\ =\ \operatorname{Code}(\mathsf{Dispatch}-\mathsf{DynamicKey}-\mathsf{Warn}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{WarnDispatch}(\operatorname{DispatchExpr}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{opts},\ \mathsf{body}))\ \Downarrow \ w
+\end{array}
 ```
 
 When no explicit `key` clause is present, the implementation MUST infer a dispatch partition summary using `InferDispatchAccesses`.
 
 `dispatch` v `in` r { … a[v] … }
-────────────────────────────────────────────────────────────
 
-```text
-∀ v_1, v_2 ∈ r, v_1 ≠ v_2 ⇒ ProvablyDisjoint(a[v_1], a[v_2])
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\forall \ v_{1},\ v_{2}\ \in \ r,\ v_{1}\ \ne \ v_{2}\ \Rightarrow \ \operatorname{ProvablyDisjoint}(a[v_{1}],\ a[v_{2}])
+\end{array}
 ```
 
 Reduction operators MUST be associative unless `[ordered]` is present.
@@ -1459,167 +1494,171 @@ Reduction operators MUST be associative unless `[ordered]` is present.
 
 #### 20.5.5 Dynamic Semantics
 
-```text
-DispatchPartitionSpec(pat, key_clause, B) = [⟨SchemaOf(pat, key_e), ModeOf(key_clause)⟩] ⇔ key_clause = `key` key_e mode
+```math
+\operatorname{DispatchPartitionSpec}(\mathsf{pat},\ \mathsf{key}_{\mathsf{clause}},\ B)\ =\ [\langle \operatorname{SchemaOf}(\mathsf{pat},\ \mathsf{key}_{e}),\ \operatorname{ModeOf}(\mathsf{key}_{\mathsf{clause}})\rangle ]\ \Leftrightarrow \ \mathsf{key}_{\mathsf{clause}}\ =\ \texttt{key}\ \mathsf{key}_{e}\ \mathsf{mode}
 ```
 
-```text
-DispatchPartitionSpec(pat, ⊥, B) = ks ⇔ InferDispatchAccesses(pat, B) = ks
+```math
+\operatorname{DispatchPartitionSpec}(\mathsf{pat},\ \bot ,\ B)\ =\ \mathsf{ks}\ \Leftrightarrow \ \operatorname{InferDispatchAccesses}(\mathsf{pat},\ B)\ =\ \mathsf{ks}
 ```
 
-```text
-InstantiateSchema(S, v) = P ⇔ `P` is obtained by substituting `v` for the dispatch-pattern bindings in `S`
+```math
+\operatorname{InstantiateSchema}(S,\ v)\ =\ P\ \Leftrightarrow \ \texttt{P}\ \mathsf{is}\ \mathsf{obtained}\ \mathsf{by}\ \mathsf{substituting}\ \texttt{v}\ \mathsf{for}\ \mathsf{the}\ \mathsf{dispatch}-\mathsf{pattern}\ \mathsf{bindings}\ \mathsf{in}\ \texttt{S}
 ```
 
 IdxNorm(e) is `e` with harmless parentheses and expression attributes removed
 
-```text
-e₁ ≡_idx e₂ ⇔ IdxNorm(e₁) and IdxNorm(e₂) are syntactically identical
+```math
+e_{1}\ \equiv_{\mathsf{idx}} \ e_{2}\ \Leftrightarrow \ \operatorname{IdxNorm}(e_{1})\ \mathsf{and}\ \operatorname{IdxNorm}(e_{2})\ \mathsf{are}\ \mathsf{syntactically}\ \mathsf{identical}
 ```
 
-```text
-AffineDispatchIndex(e) = ⟨x, k⟩ ⇔
-  (e = x ∧ k = 0) ∨
-  (e = x + n ∧ n is a compile-time constant integer expression with value k) ∨
-  (e = x - n ∧ n is a compile-time constant integer expression with value n₀ ∧ k = -n₀) ∨
-  (e = n + x ∧ n is a compile-time constant integer expression with value k)
+```math
+\begin{array}{l}
+\operatorname{AffineDispatchIndex}(e)\ =\ \langle x,\ k\rangle \ \Leftrightarrow  \\
+\ (e\ =\ x\ \land \ k\ =\ 0)\ \lor  \\
+\ (e\ =\ x\ +\ n\ \land \ n\ \mathsf{is}\ a\ \mathsf{compile}-\mathsf{time}\ \mathsf{constant}\ \mathsf{integer}\ \mathsf{expression}\ \mathsf{with}\ \mathsf{value}\ k)\ \lor  \\
+\ (e\ =\ x\ -\ n\ \land \ n\ \mathsf{is}\ a\ \mathsf{compile}-\mathsf{time}\ \mathsf{constant}\ \mathsf{integer}\ \mathsf{expression}\ \mathsf{with}\ \mathsf{value}\ n_{0}\ \land \ k\ =\ -n_{0})\ \lor  \\
+\ (e\ =\ n\ +\ x\ \land \ n\ \mathsf{is}\ a\ \mathsf{compile}-\mathsf{time}\ \mathsf{constant}\ \mathsf{integer}\ \mathsf{expression}\ \mathsf{with}\ \mathsf{value}\ k)
+\end{array}
 ```
 
-```text
-ProvablyDisjoint(e₁, e₂) ⇔
-  (e₁ and e₂ are distinct integer literals) ∨
-  (AffineDispatchIndex(e₁) = ⟨x, k₁⟩ ∧ AffineDispatchIndex(e₂) = ⟨x, k₂⟩ ∧ k₁ ≠ k₂)
+```math
+\begin{array}{l}
+\operatorname{ProvablyDisjoint}(e_{1},\ e_{2})\ \Leftrightarrow  \\
+\ (e_{1}\ \mathsf{and}\ e_{2}\ \mathsf{are}\ \mathsf{distinct}\ \mathsf{integer}\ \mathsf{literals})\ \lor  \\
+\ (\operatorname{AffineDispatchIndex}(e_{1})\ =\ \langle x,\ k_{1}\rangle \ \land \ \operatorname{AffineDispatchIndex}(e_{2})\ =\ \langle x,\ k_{2}\rangle \ \land \ k_{1}\ \ne \ k_{2})
+\end{array}
 ```
 
-```text
-ProvablyDisjointPath(P, Q) ⇔ ∃ k. PrefixEqThrough(P, Q, k-1) ∧ SegmentProvablyDisjoint(P[k], Q[k])
-PrefixEqThrough(P, Q, 0) ⇔ true
-PrefixEqThrough(P, Q, k) ⇔ ∀ r ∈ 1..k. SegEqForDispatch(P[r], Q[r])
+```math
+\begin{array}{l}
+\operatorname{ProvablyDisjointPath}(P,\ Q)\ \Leftrightarrow \ \exists \ k.\ \operatorname{PrefixEqThrough}(P,\ Q,\ k-1)\ \land \ \operatorname{SegmentProvablyDisjoint}(P[k],\ Q[k]) \\
+\operatorname{PrefixEqThrough}(P,\ Q,\ 0)\ \Leftrightarrow \ \mathsf{true} \\
+\operatorname{PrefixEqThrough}(P,\ Q,\ k)\ \Leftrightarrow \ \forall \ r\ \in \ 1..k.\ \operatorname{SegEqForDispatch}(P[r],\ Q[r])
+\end{array}
 ```
 
-```text
-SegEqForDispatch(Root(x), Root(y)) ⇔ x = y
+```math
+\operatorname{SegEqForDispatch}(\operatorname{Root}(x),\ \operatorname{Root}(y))\ \Leftrightarrow \ x\ =\ y
 ```
 
-```text
-SegEqForDispatch(Field(_, f), Field(_, g)) ⇔ f = g
+```math
+\operatorname{SegEqForDispatch}(\operatorname{Field}(\_,\ f),\ \operatorname{Field}(\_,\ g))\ \Leftrightarrow \ f\ =\ g
 ```
 
-```text
-SegEqForDispatch(Index(_, e_1), Index(_, e_2)) ⇔ e_1 ≡_idx e_2
+```math
+\operatorname{SegEqForDispatch}(\operatorname{Index}(\_,\ e_{1}),\ \operatorname{Index}(\_,\ e_{2}))\ \Leftrightarrow \ e_{1}\ \equiv_{\mathsf{idx}} \ e_{2}
 ```
 
-```text
-SegmentProvablyDisjoint(Root(x), Root(y)) ⇔ x ≠ y
+```math
+\operatorname{SegmentProvablyDisjoint}(\operatorname{Root}(x),\ \operatorname{Root}(y))\ \Leftrightarrow \ x\ \ne \ y
 ```
 
-```text
-SegmentProvablyDisjoint(Field(_, f), Field(_, g)) ⇔ f ≠ g
+```math
+\operatorname{SegmentProvablyDisjoint}(\operatorname{Field}(\_,\ f),\ \operatorname{Field}(\_,\ g))\ \Leftrightarrow \ f\ \ne \ g
 ```
 
-```text
-SegmentProvablyDisjoint(Index(_, e_1), Index(_, e_2)) ⇔ ProvablyDisjoint(e_1, e_2)
+```math
+\operatorname{SegmentProvablyDisjoint}(\operatorname{Index}(\_,\ e_{1}),\ \operatorname{Index}(\_,\ e_{2}))\ \Leftrightarrow \ \operatorname{ProvablyDisjoint}(e_{1},\ e_{2})
 ```
 
-```text
-PartitionByKey(range, key_spec) = [Group_1, …, Group_k] ⇔
-  IterBounds(range) = (start, end) ∧
-  indices = [start, start+1, …, end-1] ∧
-  Conflict(i, j) ⇔ i ≠ j ∧ (∃ ⟨S_a, M_a⟩ ∈ key_spec, ⟨S_b, M_b⟩ ∈ key_spec. P_i = InstantiateSchema(S_a, i) ∧ P_j = InstantiateSchema(S_b, j) ∧ ¬ ProvablyDisjointPath(P_i, P_j) ∧ ¬ KeyModeCompatible(M_a, M_b)) ∧
-  ConnectedComponents(indices, Conflict) = [Group_1, …, Group_k] ∧
+```math
+\begin{array}{l}
+\operatorname{PartitionByKey}(\mathsf{range},\ \mathsf{key}_{\mathsf{spec}})\ =\ [\mathsf{Group}_{1},\ \ldots ,\ \mathsf{Group}_{k}]\ \Leftrightarrow  \\
+\ \operatorname{IterBounds}(\mathsf{range})\ =\ (\mathsf{start},\ \mathsf{end})\ \land  \\
+\ \mathsf{indices}\ =\ [\mathsf{start},\ \mathsf{start}+1,\ \ldots ,\ \mathsf{end}-1]\ \land  \\
+\ \operatorname{Conflict}(i,\ j)\ \Leftrightarrow \ i\ \ne \ j\ \land \ (\exists \ \langle S_{a},\ M_{a}\rangle \ \in \ \mathsf{key}_{\mathsf{spec}},\ \langle S_{b},\ M_{b}\rangle \ \in \ \mathsf{key}_{\mathsf{spec}}.\ P_{i}\ =\ \operatorname{InstantiateSchema}(S_{a},\ i)\ \land \ P_{j}\ =\ \operatorname{InstantiateSchema}(S_{b},\ j)\ \land \ \lnot \ \operatorname{ProvablyDisjointPath}(P_{i},\ P_{j})\ \land \ \lnot \ \operatorname{KeyModeCompatible}(M_{a},\ M_{b}))\ \land  \\
+\ \operatorname{ConnectedComponents}(\mathsf{indices},\ \mathsf{Conflict})\ =\ [\mathsf{Group}_{1},\ \ldots ,\ \mathsf{Group}_{k}]\ \land  \\
+\ \operatorname{OrderedByLeastMember}([\mathsf{Group}_{1},\ \ldots ,\ \mathsf{Group}_{k}])
+\end{array}
 ```
 
-  OrderedByLeastMember([Group_1, …, Group_k])
-
-```text
-DispatchPartition(pat, range, key_clause, B) = [Group_1, …, Group_k] ⇔ DispatchPartitionSpec(pat, key_clause, B) = key_spec ∧ PartitionByKey(range, key_spec) = [Group_1, …, Group_k]
-TotalIterations([Group_1, …, Group_k]) = Σ_{i=1..k} |Group_i|
+```math
+\begin{array}{l}
+\operatorname{DispatchPartition}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{clause}},\ B)\ =\ [\mathsf{Group}_{1},\ \ldots ,\ \mathsf{Group}_{k}]\ \Leftrightarrow \ \operatorname{DispatchPartitionSpec}(\mathsf{pat},\ \mathsf{key}_{\mathsf{clause}},\ B)\ =\ \mathsf{key}_{\mathsf{spec}}\ \land \ \operatorname{PartitionByKey}(\mathsf{range},\ \mathsf{key}_{\mathsf{spec}})\ =\ [\mathsf{Group}_{1},\ \ldots ,\ \mathsf{Group}_{k}] \\
+\operatorname{TotalIterations}([\mathsf{Group}_{1},\ \ldots ,\ \mathsf{Group}_{k}])\ =\ \Sigma \_\{i=1..k\}\ \mid \mathsf{Group}_{i}\mid 
+\end{array}
 ```
 
-```text
-ReduceOpOf(attrs) = op ⇔ Reduce(op) ∈ attrs
+```math
+\operatorname{ReduceOpOf}(\mathsf{attrs})\ =\ \mathsf{op}\ \Leftrightarrow \ \operatorname{Reduce}(\mathsf{op})\ \in \ \mathsf{attrs}
 ```
 
-```text
-ReduceOpOf(attrs) = ⊥ ⇔ ∀ a ∈ attrs. a ≠ Reduce(_)
+```math
+\operatorname{ReduceOpOf}(\mathsf{attrs})\ =\ \bot \ \Leftrightarrow \ \forall \ a\ \in \ \mathsf{attrs}.\ a\ \ne \ \operatorname{Reduce}(\_)
 ```
 
-```text
-ChunkSizeOf(attrs, σ) ⇓ (n, σ') ⇔ ChunkExpr(attrs) = ⊥ ∧ n = 1 ∧ σ' = σ
-ChunkSizeOf(attrs, σ) ⇓ (n, σ_1) ⇔ ChunkExpr(attrs) = e ∧ Γ ⊢ EvalSigma(e, σ) ⇓ (Val(IntVal("usize", n)), σ_1) ∧ n > 0
+```math
+\begin{array}{l}
+\operatorname{ChunkSizeOf}(\mathsf{attrs},\ \sigma )\ \Downarrow \ (n,\ \sigma ')\ \Leftrightarrow \ \operatorname{ChunkExpr}(\mathsf{attrs})\ =\ \bot \ \land \ n\ =\ 1\ \land \ \sigma '\ =\ \sigma  \\
+\operatorname{ChunkSizeOf}(\mathsf{attrs},\ \sigma )\ \Downarrow \ (n,\ \sigma_{1} )\ \Leftrightarrow \ \operatorname{ChunkExpr}(\mathsf{attrs})\ =\ e\ \land \ \Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{IntVal}(\texttt{"usize"},\ n)),\ \sigma_{1} )\ \land \ n\ >\ 0
+\end{array}
 ```
 
-ContiguousChunks([], n) = []
-ContiguousChunks([i_1, …, i_k], n) = [[i_1, …, i_m]] ++ ContiguousChunks([i_{m+1}, …, i_k], n) where m = min(n, k)
-
-```text
-ChunkGroups(groups, n) = concat([ContiguousChunks(G, n) | G ∈ groups])
+```math
+\begin{array}{l}
+\operatorname{ContiguousChunks}([],\ n)\ =\ [] \\
+\operatorname{ContiguousChunks}([i_{1},\ \ldots ,\ i_{k}],\ n)\ =\ [[i_{1},\ \ldots ,\ i_{m}]]\ \mathbin{++} \ \operatorname{ContiguousChunks}([i\_\{m+1\},\ \ldots ,\ i_{k}],\ n)\ \mathsf{where}\ m\ =\ \operatorname{min}(n,\ k) \\
+\operatorname{ChunkGroups}(\mathsf{groups},\ n)\ =\ \operatorname{concat}([\operatorname{ContiguousChunks}(G,\ n)\ \mid \ G\ \in \ \mathsf{groups}])
+\end{array}
 ```
 
 **(EvalSigma-Dispatch)**
 
-```text
-Γ ⊢ EvalSigma(range, σ) ⇓ (Val(r), σ_1)    ChunkSizeOf(attrs, σ_1) ⇓ (n, σ_2)    DispatchPartition(pat, r, key_opt, B) = groups_0    groups = ChunkGroups(groups_0, n)    ReduceOpOf(attrs) = reduce_opt    Γ ⊢ DispatchRun(pat, B, groups, reduce_opt, σ_2) ⇓ (out, σ_3)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalSigma(DispatchExpr(pat, range, key_opt, attrs, B), σ) ⇓ (out, σ_3)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{range},\ \sigma )\ \Downarrow \ (\operatorname{Val}(r),\ \sigma_{1} )\quad \operatorname{ChunkSizeOf}(\mathsf{attrs},\ \sigma_{1} )\ \Downarrow \ (n,\ \sigma_{2} )\quad \operatorname{DispatchPartition}(\mathsf{pat},\ r,\ \mathsf{key}_{\mathsf{opt}},\ B)\ =\ \mathsf{groups}_{0}\quad \mathsf{groups}\ =\ \operatorname{ChunkGroups}(\mathsf{groups}_{0},\ n)\quad \operatorname{ReduceOpOf}(\mathsf{attrs})\ =\ \mathsf{reduce}_{\mathsf{opt}}\quad \Gamma \ \vdash \ \operatorname{DispatchRun}(\mathsf{pat},\ B,\ \mathsf{groups},\ \mathsf{reduce}_{\mathsf{opt}},\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{DispatchExpr}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{opt}},\ \mathsf{attrs},\ B),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} )
+\end{array}
 ```
 
 **(EvalSigma-Dispatch-Range-Ctrl)**
 
-```text
-Γ ⊢ EvalSigma(range, σ) ⇓ (Ctrl(κ), σ_1)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalSigma(DispatchExpr(pat, range, key_opt, attrs, B), σ) ⇓ (Ctrl(κ), σ_1)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{range},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{DispatchExpr}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{opt}},\ \mathsf{attrs},\ B),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
+\end{array}
 ```
 
 **(EvalSigma-Dispatch-Chunk-Ctrl)**
 
-```text
-Γ ⊢ EvalSigma(range, σ) ⇓ (Val(r), σ_1)    ChunkExpr(attrs) = e    Γ ⊢ EvalSigma(e, σ_1) ⇓ (Ctrl(κ), σ_2)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{range},\ \sigma )\ \Downarrow \ (\operatorname{Val}(r),\ \sigma_{1} )\quad \operatorname{ChunkExpr}(\mathsf{attrs})\ =\ e\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{DispatchExpr}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{opt}},\ \mathsf{attrs},\ B),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} )
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalSigma(DispatchExpr(pat, range, key_opt, attrs, B), σ) ⇓ (Ctrl(κ), σ_2)
+```math
+\operatorname{DispatchRun}(\mathsf{pat},\ B,\ \mathsf{groups},\ \bot ,\ \sigma )\ \Downarrow \ (\operatorname{Val}(()),\ \sigma ')\ \Leftrightarrow \ \mathsf{all}\ \mathsf{groups}\ \mathsf{execute}\ \mathsf{to}\ \mathsf{completion}\ \mathsf{without}\ \mathsf{panic}\ \mathsf{and}\ \mathsf{every}\ \mathsf{iteration}\ \mathsf{result}\ \mathsf{is}\ \mathsf{discarded}
 ```
 
-```text
-DispatchRun(pat, B, groups, ⊥, σ) ⇓ (Val(()), σ') ⇔ all groups execute to completion without panic and every iteration result is discarded
+```math
+\operatorname{DispatchRun}(\mathsf{pat},\ B,\ \mathsf{groups},\ \mathsf{op},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma ')\ \Leftrightarrow \ \mathsf{all}\ \mathsf{groups}\ \mathsf{execute}\ \mathsf{to}\ \mathsf{completion}\ \mathsf{without}\ \mathsf{panic}\ \mathsf{and}\ \texttt{v}\ \mathsf{is}\ \mathsf{the}\ \mathsf{deterministic}\ \mathsf{reduction}\ \mathsf{of}\ \mathsf{all}\ \mathsf{iteration}\ \mathsf{results}\ \mathsf{under}\ \texttt{op}
 ```
 
-```text
-DispatchRun(pat, B, groups, op, σ) ⇓ (Val(v), σ') ⇔ all groups execute to completion without panic and `v` is the deterministic reduction of all iteration results under `op`
+```math
+\operatorname{DispatchRun}(\mathsf{pat},\ B,\ \mathsf{groups},\ \mathsf{reduce}_{\mathsf{opt}},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma ')\ \Leftrightarrow \ \mathsf{some}\ \mathsf{iteration}\ \mathsf{panics}\ \mathsf{and}\ \mathsf{all}\ \mathsf{started}\ \mathsf{iterations}\ \mathsf{settle}\ \mathsf{before}\ \mathsf{panic}\ \mathsf{propagation}
 ```
 
-```text
-DispatchRun(pat, B, groups, reduce_opt, σ) ⇓ (Ctrl(Panic), σ') ⇔ some iteration panics and all started iterations settle before panic propagation
-```
-
-```text
-DispatchRun(pat, B, groups, op, σ) ⇓ (Ctrl(Panic), σ) ⇔ op ≠ ⊥ ∧ TotalIterations(groups) = 0
+```math
+\operatorname{DispatchRun}(\mathsf{pat},\ B,\ \mathsf{groups},\ \mathsf{op},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma )\ \Leftrightarrow \ \mathsf{op}\ \ne \ \bot \ \land \ \operatorname{TotalIterations}(\mathsf{groups})\ =\ 0
 ```
 
 #### 20.5.6 Lowering
 
 **(Lower-Expr-Dispatch)**
 
-```text
-Γ ⊢ LowerExpr(range) ⇓ ⟨IR_r, v_r⟩    key_spec = DispatchPartitionSpec(pat, key_opt, body)    Γ ⊢ LowerBlock(body) ⇓ ⟨IR_b, v_b⟩
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ LowerExpr(DispatchExpr(pat, range, key_opt, attrs, body)) ⇓ ⟨SeqIR(IR_r, DispatchPartition(key_spec, attrs), DispatchReduce(attrs, IR_b), ParallelJoin), DispatchResultVal⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{range})\ \Downarrow \ \langle \mathsf{IR}_{r},\ v_{r}\rangle \quad \mathsf{key}_{\mathsf{spec}}\ =\ \operatorname{DispatchPartitionSpec}(\mathsf{pat},\ \mathsf{key}_{\mathsf{opt}},\ \mathsf{body})\quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{DispatchExpr}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{opt}},\ \mathsf{attrs},\ \mathsf{body}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{r},\ \operatorname{DispatchPartition}(\mathsf{key}_{\mathsf{spec}},\ \mathsf{attrs}),\ \operatorname{DispatchReduce}(\mathsf{attrs},\ \mathsf{IR}_{b}),\ \mathsf{ParallelJoin}),\ \mathsf{DispatchResultVal}\rangle 
+\end{array}
 ```
 
 #### 20.5.7 Diagnostics
@@ -1644,128 +1683,144 @@ This section introduces no additional parsing rules.
 
 #### 20.6.3 AST Representation / Form
 
-States(`CancelToken`) = { `@Active` }
-
-```text
-Payload(`CancelToken`, `@Active`) = [⟨`id`, TypePrim("usize")⟩]
+```math
+\operatorname{States}(\texttt{CancelToken})\ =\ \{\ \texttt{@Active}\ \}
 ```
 
-```text
-CancelJudg = {CancelNew() ⇓ v, CancelChild(v) ⇓ v', CancelIsCancelled(v) ⇓ b, CancelDoCancel(v) ⇓ ok, CancelWaitCancelled(v) ⇓ a}
+```math
+\operatorname{Payload}(\texttt{CancelToken},\ \texttt{@Active})\ =\ [\langle \texttt{id},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle ]
 ```
 
-```text
-CancelJudg_χ = {CancelNew(χ) ⇓ (v, χ'), CancelChild(v, χ) ⇓ (v', χ'), CancelIsCancelled(v, χ) ⇓ b, CancelDoCancel(v, χ) ⇓ χ', CancelWaitCancelled(v, χ) ⇓ a}
+```math
+\mathsf{CancelJudg}\ =\ \{\operatorname{CancelNew}()\ \Downarrow \ v,\ \operatorname{CancelChild}(v)\ \Downarrow \ v',\ \operatorname{CancelIsCancelled}(v)\ \Downarrow \ b,\ \operatorname{CancelDoCancel}(v)\ \Downarrow \ \mathsf{ok},\ \operatorname{CancelWaitCancelled}(v)\ \Downarrow \ a\}
 ```
 
-CancelStatus = {Active, Cancelled}
-
-```text
-CancelState = ⟨parent, status⟩
+```math
+\mathsf{CancelJudg}\_\chi \ =\ \{\operatorname{CancelNew}(\chi )\ \Downarrow \ (v,\ \chi '),\ \operatorname{CancelChild}(v,\ \chi )\ \Downarrow \ (v',\ \chi '),\ \operatorname{CancelIsCancelled}(v,\ \chi )\ \Downarrow \ b,\ \operatorname{CancelDoCancel}(v,\ \chi )\ \Downarrow \ \chi ',\ \operatorname{CancelWaitCancelled}(v,\ \chi )\ \Downarrow \ a\}
 ```
 
-CancelMap = ℕ ⇀ CancelState
+```math
+\mathsf{CancelStatus}\ =\ \{\mathsf{Active},\ \mathsf{Cancelled}\}
+```
+
+```math
+\mathsf{CancelState}\ =\ \langle \mathsf{parent},\ \mathsf{status}\rangle 
+```
+
+```math
+\mathsf{CancelMap}\ =\ \mathbb{N} \ \rightharpoonup \ \mathsf{CancelState}
+```
 
 #### 20.6.4 Static Semantics
 
 `CancelToken` is a built-in modal type.
 
-`CancelToken::new` returns `CancelToken@Active`.
+```math
+\texttt{CancelToken::new}\ \mathsf{returns}\ \texttt{CancelToken@Active}.
+```
 
-`CancelToken@Active::child()` returns a descendant `CancelToken@Active`.
+```math
+\texttt{CancelToken@Active::child()}\ \mathsf{returns}\ a\ \mathsf{descendant}\ \texttt{CancelToken@Active}.
+```
 
-`CancelToken@Active::cancel()` returns `()`.
+```math
+\texttt{CancelToken@Active::cancel()}\ \mathsf{returns}\ \texttt{()}.
+```
 
-`CancelToken@Active::is_cancelled()` returns `bool`.
+```math
+\texttt{CancelToken@Active::is\_cancelled()}\ \mathsf{returns}\ \texttt{bool}.
+```
 
-`CancelToken@Active::wait_cancelled()` returns an `Async` value whose eventual completion indicates cancellation.
+```math
+\texttt{CancelToken@Active::wait\_cancelled()}\ \mathsf{returns}\ \mathsf{an}\ \texttt{Async}\ \mathsf{value}\ \mathsf{whose}\ \mathsf{eventual}\ \mathsf{completion}\ \mathsf{indicates}\ \mathsf{cancellation}.
+```
 
 #### 20.6.5 Dynamic Semantics
 
 When a cancel token is attached to a parallel block via the `cancel` option, the token is implicitly available within all enclosed `spawn` and `dispatch` bodies.
 
-```text
-CancelStatusOf(χ, id) = s ⇔ χ[id] = ⟨_, s⟩
+```math
+\operatorname{CancelStatusOf}(\chi ,\ \mathsf{id})\ =\ s\ \Leftrightarrow \ \chi [\mathsf{id}]\ =\ \langle \_,\ s\rangle 
 ```
 
-```text
-CancelParentOf(χ, id) = p ⇔ χ[id] = ⟨p, _⟩
+```math
+\operatorname{CancelParentOf}(\chi ,\ \mathsf{id})\ =\ p\ \Leftrightarrow \ \chi [\mathsf{id}]\ =\ \langle p,\ \_\rangle 
 ```
 
-```text
-Descendant(χ, a, b) ⇔ (a = b) ∨ (∃ p. CancelParentOf(χ, b) = p ∧ Descendant(χ, a, p))
+```math
+\operatorname{Descendant}(\chi ,\ a,\ b)\ \Leftrightarrow \ (a\ =\ b)\ \lor \ (\exists \ p.\ \operatorname{CancelParentOf}(\chi ,\ b)\ =\ p\ \land \ \operatorname{Descendant}(\chi ,\ a,\ p))
 ```
 
-```text
-FreshCancelId(χ) = n ⇔ n ∉ dom(χ) ∧ ∀ m < n. m ∈ dom(χ)
+```math
+\operatorname{FreshCancelId}(\chi )\ =\ n\ \Leftrightarrow \ n\ \notin \ \operatorname{dom}(\chi )\ \land \ \forall \ m\ <\ n.\ m\ \in \ \operatorname{dom}(\chi )
 ```
 
-```text
-CancelVal(n) = RecordValue(ModalStateRef(["CancelToken"], `@Active`), [⟨`id`, IntVal("usize", n)⟩])
+```math
+\operatorname{CancelVal}(n)\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}([\texttt{"CancelToken"}],\ \texttt{@Active}),\ [\langle \texttt{id},\ \operatorname{IntVal}(\texttt{"usize"},\ n)\rangle ])
 ```
 
-```text
-CancelId(v) = n ⇔ v = RecordValue(ModalStateRef(["CancelToken"], `@Active`), fs) ∧ FieldValue(v, `id`) = IntVal("usize", n)
+```math
+\operatorname{CancelId}(v)\ =\ n\ \Leftrightarrow \ v\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}([\texttt{"CancelToken"}],\ \texttt{@Active}),\ \mathsf{fs})\ \land \ \operatorname{FieldValue}(v,\ \texttt{id})\ =\ \operatorname{IntVal}(\texttt{"usize"},\ n)
 ```
 
 **(Cancel-New)**
 
-```text
-FreshCancelId(χ) = n    χ' = χ[n ↦ ⟨⊥, Active⟩]
-```
-
-──────────────────────────────────────────────
-
-```text
-CancelNew(χ) ⇓ (CancelVal(n), χ')
+```math
+\begin{array}{l}
+\operatorname{FreshCancelId}(\chi )\ =\ n\quad \chi '\ =\ \chi [n\ \mapsto \ \langle \bot ,\ \mathsf{Active}\rangle ] \\
+\rule{18em}{0.4pt} \\
+\operatorname{CancelNew}(\chi )\ \Downarrow \ (\operatorname{CancelVal}(n),\ \chi ')
+\end{array}
 ```
 
 **(Cancel-Child)**
 
-```text
-CancelId(v) = p    FreshCancelId(χ) = n    χ' = χ[n ↦ ⟨p, Active⟩]
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-CancelChild(v, χ) ⇓ (CancelVal(n), χ')
+```math
+\begin{array}{l}
+\operatorname{CancelId}(v)\ =\ p\quad \operatorname{FreshCancelId}(\chi )\ =\ n\quad \chi '\ =\ \chi [n\ \mapsto \ \langle p,\ \mathsf{Active}\rangle ] \\
+\rule{18em}{0.4pt} \\
+\operatorname{CancelChild}(v,\ \chi )\ \Downarrow \ (\operatorname{CancelVal}(n),\ \chi ')
+\end{array}
 ```
 
 **(Cancel-IsCancelled)**
-CancelId(v) = n    CancelStatusOf(χ, n) = s    b = (s = Cancelled)
-──────────────────────────────────────────────────────────────────────────────
 
-```text
-CancelIsCancelled(v, χ) ⇓ b
+```math
+\begin{array}{l}
+\operatorname{CancelId}(v)\ =\ n\quad \operatorname{CancelStatusOf}(\chi ,\ n)\ =\ s\quad b\ =\ (s\ =\ \mathsf{Cancelled}) \\
+\rule{18em}{0.4pt} \\
+\operatorname{CancelIsCancelled}(v,\ \chi )\ \Downarrow \ b
+\end{array}
 ```
 
 **(Cancel-DoCancel)**
 
-```text
-CancelId(v) = n    χ' = χ[ k ↦ ⟨CancelParentOf(χ, k), Cancelled⟩ | k ∈ dom(χ) ∧ Descendant(χ, n, k) ]
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-CancelDoCancel(v, χ) ⇓ χ'
+```math
+\begin{array}{l}
+\operatorname{CancelId}(v)\ =\ n\quad \chi '\ =\ \chi [\ k\ \mapsto \ \langle \operatorname{CancelParentOf}(\chi ,\ k),\ \mathsf{Cancelled}\rangle \ \mid \ k\ \in \ \operatorname{dom}(\chi )\ \land \ \operatorname{Descendant}(\chi ,\ n,\ k)\ ] \\
+\rule{18em}{0.4pt} \\
+\operatorname{CancelDoCancel}(v,\ \chi )\ \Downarrow \ \chi '
+\end{array}
 ```
 
 **(Cancel-WaitCancelled-Completed)**
-CancelId(v) = n    CancelStatusOf(χ, n) = Cancelled
-──────────────────────────────────────────────────────────────────────────────
 
-```text
-CancelWaitCancelled(v, χ) ⇓ RecordValue(ModalStateRef(["Async"], `@Completed`), [⟨`value`, UnitVal⟩])
+```math
+\begin{array}{l}
+\operatorname{CancelId}(v)\ =\ n\quad \operatorname{CancelStatusOf}(\chi ,\ n)\ =\ \mathsf{Cancelled} \\
+\rule{18em}{0.4pt} \\
+\operatorname{CancelWaitCancelled}(v,\ \chi )\ \Downarrow \ \operatorname{RecordValue}(\operatorname{ModalStateRef}([\texttt{"Async"}],\ \texttt{@Completed}),\ [\langle \texttt{value},\ \mathsf{UnitVal}\rangle ])
+\end{array}
 ```
 
 **(Cancel-WaitCancelled-Suspended)**
-CancelId(v) = n    CancelStatusOf(χ, n) = Active
-──────────────────────────────────────────────────────────────────────────────
 
-```text
-CancelWaitCancelled(v, χ) ⇓ RecordValue(ModalStateRef(["Async"], `@Suspended`), [⟨`output`, UnitVal⟩])
+```math
+\begin{array}{l}
+\operatorname{CancelId}(v)\ =\ n\quad \operatorname{CancelStatusOf}(\chi ,\ n)\ =\ \mathsf{Active} \\
+\rule{18em}{0.4pt} \\
+\operatorname{CancelWaitCancelled}(v,\ \chi )\ \Downarrow \ \operatorname{RecordValue}(\operatorname{ModalStateRef}([\texttt{"Async"}],\ \texttt{@Suspended}),\ [\langle \texttt{output},\ \mathsf{UnitVal}\rangle ])
+\end{array}
 ```
 
 Cancellation is cooperative:
@@ -1779,32 +1834,44 @@ Cancellation is cooperative:
 
 #### 20.6.6 Lowering
 
-CancelIR = {CancelCreateIR, CancelRequestIR, CancelCheckIR, CancelWaitIR, CancelSuppressIR}
+```math
+\mathsf{CancelIR}\ =\ \{\mathsf{CancelCreateIR},\ \mathsf{CancelRequestIR},\ \mathsf{CancelCheckIR},\ \mathsf{CancelWaitIR},\ \mathsf{CancelSuppressIR}\}
+```
 
 **(Lower-Cancel-New)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ LowerExpr(Call(PathExpr([`CancelToken`, `new`]), [])) ⇓ ⟨CancelCreateIR, CancelTokenVal⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Call}(\operatorname{PathExpr}([\texttt{CancelToken},\ \texttt{new}]),\ []))\ \Downarrow \ \langle \mathsf{CancelCreateIR},\ \mathsf{CancelTokenVal}\rangle 
+\end{array}
 ```
 
 **(Lower-Cancel-Request)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ LowerExpr(MethodCall(tok, `cancel`, [])) ⇓ ⟨CancelRequestIR(tok), UnitVal⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MethodCall}(\mathsf{tok},\ \texttt{cancel},\ []))\ \Downarrow \ \langle \operatorname{CancelRequestIR}(\mathsf{tok}),\ \mathsf{UnitVal}\rangle 
+\end{array}
 ```
 
 **(Lower-Cancel-Wait)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ LowerExpr(MethodCall(tok, `wait_cancelled`, [])) ⇓ ⟨CancelWaitIR(tok), AsyncVal⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MethodCall}(\mathsf{tok},\ \texttt{wait\_cancelled},\ []))\ \Downarrow \ \langle \operatorname{CancelWaitIR}(\mathsf{tok}),\ \mathsf{AsyncVal}\rangle 
+\end{array}
 ```
 
-For this rule, explicit cancellation check points are the built-in `CancelToken@Active::is_cancelled()` and `CancelToken@Active::wait_cancelled()` surfaces.
+```math
+\mathsf{For}\ \mathsf{this}\ \mathsf{rule},\ \mathsf{explicit}\ \mathsf{cancellation}\ \mathsf{check}\ \mathsf{points}\ \mathsf{are}\ \mathsf{the}\ \mathsf{built}-\mathsf{in}\ \texttt{CancelToken@Active::is\_cancelled()}\ \mathsf{and}\ \texttt{CancelToken@Active::wait\_cancelled()}\ \mathsf{surfaces}.
+```
 
-Spawn and dispatch lowerings MUST lower `CancelToken@Active::is_cancelled()` through `CancelCheckIR`, lower `CancelToken@Active::wait_cancelled()` through `CancelWaitIR`, and preserve the `CancelSuppressIR` semantics for dequeued-but-unstarted work that is cancelled before execution begins.
+```math
+\mathsf{Spawn}\ \mathsf{and}\ \mathsf{dispatch}\ \mathsf{lowerings}\ \mathsf{MUST}\ \mathsf{lower}\ \texttt{CancelToken@Active::is\_cancelled()}\ \mathsf{through}\ \texttt{CancelCheckIR},\ \mathsf{lower}\ \texttt{CancelToken@Active::wait\_cancelled()}\ \mathsf{through}\ \texttt{CancelWaitIR},\ \mathsf{and}\ \mathsf{preserve}\ \mathsf{the}\ \texttt{CancelSuppressIR}\ \mathsf{semantics}\ \mathsf{for}\ \mathsf{dequeued}-\mathsf{but}-\mathsf{unstarted}\ \mathsf{work}\ \mathsf{that}\ \mathsf{is}\ \mathsf{cancelled}\ \mathsf{before}\ \mathsf{execution}\ \mathsf{begins}.
+```
 
 #### 20.6.7 Diagnostics
 
@@ -1822,8 +1889,8 @@ This section introduces no additional parsing rules.
 
 #### 20.7.3 AST Representation / Form
 
-```text
-Parallel panic propagation consumes failure states produced by `SpawnHandle` settlement and by `DispatchRun(... ) ⇓ (Ctrl(Panic), σ')`.
+```math
+\mathsf{Parallel}\ \mathsf{panic}\ \mathsf{propagation}\ \mathsf{consumes}\ \mathsf{failure}\ \mathsf{states}\ \mathsf{produced}\ \mathsf{by}\ \texttt{SpawnHandle}\ \mathsf{settlement}\ \mathsf{and}\ \mathsf{by}\ \texttt{DispatchRun(... ) => (Ctrl(Panic), sigma')}.
 ```
 
 #### 20.7.4 Static Semantics
@@ -1840,27 +1907,30 @@ When a work item panics within a parallel block:
 
 **(EvalSigma-Parallel-Spawn-Panic)**
 
-```text
-Γ ⊢ EvalSigma(D, σ) ⇓ (Val(d), σ_1)    ParallelInit(d, opts) ⇓ pstate_0    Γ ⊢ EvalSigma(B, σ_1[parallel_context ↦ pstate_0]) ⇓ (out_body, σ_2)    LookupVal(σ_2, parallel_context) = pstate_n    AwaitSpawned(pstate_n, σ_2) ⇓ (panic_opt, σ_3)    panic_opt ≠ ⊥
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalSigma(ParallelExpr(D, opts, B), σ) ⇓ (Ctrl(Panic), σ_3)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(D,\ \sigma )\ \Downarrow \ (\operatorname{Val}(d),\ \sigma_{1} )\quad \operatorname{ParallelInit}(d,\ \mathsf{opts})\ \Downarrow \ \mathsf{pstate}_{0}\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(B,\ \sigma_{1} [\mathsf{parallel}_{\mathsf{context}}\ \mapsto \ \mathsf{pstate}_{0}])\ \Downarrow \ (\mathsf{out}_{\mathsf{body}},\ \sigma_{2} )\quad \operatorname{LookupVal}(\sigma_{2} ,\ \mathsf{parallel}_{\mathsf{context}})\ =\ \mathsf{pstate}_{n}\quad \operatorname{AwaitSpawned}(\mathsf{pstate}_{n},\ \sigma_{2} )\ \Downarrow \ (\mathsf{panic}_{\mathsf{opt}},\ \sigma_{3} )\quad \mathsf{panic}_{\mathsf{opt}}\ \ne \ \bot  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{ParallelExpr}(D,\ \mathsf{opts},\ B),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma_{3} )
+\end{array}
 ```
 
 If a cancel token is attached to the parallel block, the runtime MUST request cancellation on the first captured panic, exactly once. If no cancel token is attached, panic alone MUST NOT request cancellation.
 
-```text
-FirstCompletedFailure(pstate, σ) = panic_opt ⇔ panic_opt is the failure whose `CompletionSeq` is least among failed handles in `pstate.Handles`.
+```math
+\operatorname{FirstCompletedFailure}(\mathsf{pstate},\ \sigma )\ =\ \mathsf{panic}_{\mathsf{opt}}\ \Leftrightarrow \ \mathsf{panic}_{\mathsf{opt}}\ \mathsf{is}\ \mathsf{the}\ \mathsf{failure}\ \mathsf{whose}\ \texttt{CompletionSeq}\ \mathsf{is}\ \mathsf{least}\ \mathsf{among}\ \mathsf{failed}\ \mathsf{handles}\ \mathsf{in}\ \texttt{pstate.Handles}.
 ```
 
 #### 20.7.6 Lowering
 
 **(Lower-Parallel-Join-Panic)**
-──────────────────────────────────────────────
-ParallelJoin lowers to a join operation that waits for all started work, requests cancellation exactly once on the first observed failure when a cancel token is attached, and re-emits the panic with least `CompletionSeq`.
+
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\mathsf{ParallelJoin}\ \mathsf{lowers}\ \mathsf{to}\ a\ \mathsf{join}\ \mathsf{operation}\ \mathsf{that}\ \mathsf{waits}\ \mathsf{for}\ \mathsf{all}\ \mathsf{started}\ \mathsf{work},\ \mathsf{requests}\ \mathsf{cancellation}\ \mathsf{exactly}\ \mathsf{once}\ \mathsf{on}\ \mathsf{the}\ \mathsf{first}\ \mathsf{observed}\ \mathsf{failure}\ \mathsf{when}\ a\ \mathsf{cancel}\ \mathsf{token}\ \mathsf{is}\ \mathsf{attached},\ \mathsf{and}\ \mathsf{re}-\mathsf{emits}\ \mathsf{the}\ \mathsf{panic}\ \mathsf{with}\ \mathsf{least}\ \texttt{CompletionSeq}.
+\end{array}
+```
 
 #### 20.7.7 Diagnostics
 
@@ -1904,8 +1974,12 @@ Work items MAY capture `ctx.heap` and invoke allocation methods.
 
 Work items executing within a `region` block MAY allocate from that region using `^`.
 
-TaskId(w) = n assigns each created work item a stable creation identifier.
-CompletionSeq(w) = n assigns each settled work item a global monotonically increasing completion identifier.
+```math
+\begin{array}{l}
+\operatorname{TaskId}(w)\ =\ n\ \mathsf{assigns}\ \mathsf{each}\ \mathsf{created}\ \mathsf{work}\ \mathsf{item}\ a\ \mathsf{stable}\ \mathsf{creation}\ \mathsf{identifier}. \\
+\operatorname{CompletionSeq}(w)\ =\ n\ \mathsf{assigns}\ \mathsf{each}\ \mathsf{settled}\ \mathsf{work}\ \mathsf{item}\ a\ \mathsf{global}\ \mathsf{monotonically}\ \mathsf{increasing}\ \mathsf{completion}\ \mathsf{identifier}.
+\end{array}
+```
 
 Within each CPU domain queue, ready work items are dequeued in ascending `TaskId`.
 
@@ -1921,12 +1995,13 @@ Ordered dispatch buffers side effects within each group and commits them in asce
 
 **(Lower-Deterministic-Dispatch)**
 
-```text
-Ordered ∈ opts
+```math
+\begin{array}{l}
+\mathsf{Ordered}\ \in \ \mathsf{opts} \\
+\rule{18em}{0.4pt} \\
+\mathsf{Dispatch}\ \mathsf{lowering}\ \mathsf{MUST}\ \mathsf{emit}\ \mathsf{OrderedDispatchBufferIR}\ \mathsf{before}\ \mathsf{the}\ \mathsf{group}\ \mathsf{body}\ \mathsf{and}\ \mathsf{OrderedDispatchCommitIR}\ \mathsf{after}\ \mathsf{the}\ \mathsf{group}\ \mathsf{body},\ \mathsf{committing}\ \mathsf{buffered}\ \mathsf{side}\ \mathsf{effects}\ \mathsf{in}\ \mathsf{ascending}\ \mathsf{iteration}\ \mathsf{order}.
+\end{array}
 ```
-
-──────────────────────────────────────────────
-Dispatch lowering MUST emit OrderedDispatchBufferIR before the group body and OrderedDispatchCommitIR after the group body, committing buffered side effects in ascending iteration order.
 
 **(Lower-Nested-Parallel)**
 Nested CPU parallel lowering reuses the enclosing pool handle. Nested GPU-in-GPU lowering is ill-formed and therefore emits no IR.

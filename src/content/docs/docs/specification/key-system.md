@@ -3,7 +3,7 @@ title: "Key System"
 description: "19. Key System of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T17:39:45.389Z"
+generatedAt: "2026-05-09T18:13:03.158Z"
 generated: true
 ---
 
@@ -44,16 +44,22 @@ Key-path parsing is defined by the following source rules:
 
 #### 19.1.3 AST Representation / Form
 
-KeySeg = {Field(marked, name), Index(marked, expr)}
-
-```text
-KeyPathExpr = ⟨root, segs⟩
+```math
+\mathsf{KeySeg}\ =\ \{\operatorname{Field}(\mathsf{marked},\ \mathsf{name}),\ \operatorname{Index}(\mathsf{marked},\ \mathsf{expr})\}
 ```
 
-ResolveKeyPathJudg = {
-  ResolveKeySeg,
-  ResolveKeySegs,
-  ResolveKeyPathExpr
+```math
+\mathsf{KeyPathExpr}\ =\ \langle \mathsf{root},\ \mathsf{segs}\rangle 
+```
+
+```math
+\begin{array}{l}
+\mathsf{ResolveKeyPathJudg}\ =\ \{ \\
+\ \mathsf{ResolveKeySeg}, \\
+\ \mathsf{ResolveKeySegs}, \\
+\ \mathsf{ResolveKeyPathExpr}
+\end{array}
+```
 }
 
 #### 19.1.4 Static Semantics
@@ -66,20 +72,23 @@ Key analysis is performed iff the path root has `shared` permission. Paths roote
 
 **Path Root Extraction**
 
-Define `Root(e)` for place expressions recursively:
-
-Root(e) =
- x                 if e = x
- Root(e')          if e = e'.f
- Root(e')          if e = e'[i]
- Root(e')          if e = e' ~> m(...)
-
-```text
- ⊥_boundary        if e = (*e')
+```math
+\mathsf{Define}\ \texttt{Root(e)}\ \mathsf{for}\ \mathsf{place}\ \mathsf{expressions}\ \mathsf{recursively}:
 ```
 
-```text
-where `⊥_boundary` denotes a key boundary introduced by pointer dereference.
+```math
+\begin{array}{l}
+\operatorname{Root}(e)\ = \\
+\ x\quad \mathsf{if}\ e\ =\ x \\
+\ \operatorname{Root}(e')\quad \mathsf{if}\ e\ =\ e'.f \\
+\ \operatorname{Root}(e')\quad \mathsf{if}\ e\ =\ e'[i] \\
+\ \operatorname{Root}(e')\quad \mathsf{if}\ e\ =\ e'\ \sim{}>\ \operatorname{m}(\ldots ) \\
+\ \bot_{\mathsf{boundary}} \quad \mathsf{if}\ e\ =\ (*e')
+\end{array}
+```
+
+```math
+\mathsf{where}\ \texttt{bottom\_boundary}\ \mathsf{denotes}\ a\ \mathsf{key}\ \mathsf{boundary}\ \mathsf{introduced}\ \mathsf{by}\ \mathsf{pointer}\ \mathsf{dereference}.
 ```
 
 **Object Identity**
@@ -112,14 +121,12 @@ Let `DynMethods(Cl)` denote the set of procedures callable by vtable dispatch on
 
 **(K-Witness-Shared-WF)**
 
-```text
-∀ m ∈ DynMethods(Cl). m.receiver = `~`
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ `shared` $Cl wf
+```math
+\begin{array}{l}
+\forall \ m\ \in \ \operatorname{DynMethods}(\mathsf{Cl}).\ m.\mathsf{receiver}\ =\ \texttt{\~{}} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \texttt{shared}\ \$\mathsf{Cl}\ \mathsf{wf}
+\end{array}
 ```
 
 If any method requires `shared` (`~%`) or `unique` (`~!`) receiver permission, `shared $Cl` is ill-formed.
@@ -128,46 +135,52 @@ If any method requires `shared` (`~%`) or `unique` (`~!`) receiver permission, `
 
 Runtime key roots derived from `id(r)` MUST satisfy the uniqueness, stability, and opacity constraints of §19.1.4.
 
-For a call `e~>m(args)` where `e : shared $Cl`, the key mode is `Read` and the key path is the root of `e`:
+```math
+\mathsf{For}\ a\ \mathsf{call}\ \texttt{e\~{}>m(args)}\ \mathsf{where}\ \texttt{e : shared \$Cl},\ \mathsf{the}\ \mathsf{key}\ \mathsf{mode}\ \mathsf{is}\ \texttt{Read}\ \mathsf{and}\ \mathsf{the}\ \mathsf{key}\ \mathsf{path}\ \mathsf{is}\ \mathsf{the}\ \mathsf{root}\ \mathsf{of}\ \texttt{e}:
+```
 
-KeyPath(e~>m(...)) = Root(e)
+```math
+\operatorname{KeyPath}(e\sim{}>\operatorname{m}(\ldots ))\ =\ \operatorname{Root}(e)
+```
 
 #### 19.1.6 Lowering
 
-KeyLowerJudg = {LowerKeyPath, LowerKeyAccess}
+```math
+\mathsf{KeyLowerJudg}\ =\ \{\mathsf{LowerKeyPath},\ \mathsf{LowerKeyAccess}\}
+```
 
-KeyIR = {AcquireKey(path, mode, scope), ReleaseKey(path, scope), CheckConflict(path, mode), FenceIR(order)}
+```math
+\mathsf{KeyIR}\ =\ \{\operatorname{AcquireKey}(\mathsf{path},\ \mathsf{mode},\ \mathsf{scope}),\ \operatorname{ReleaseKey}(\mathsf{path},\ \mathsf{scope}),\ \operatorname{CheckConflict}(\mathsf{path},\ \mathsf{mode}),\ \operatorname{FenceIR}(\mathsf{order})\}
+```
 
 **(Lower-KeyPath)**
-KeyPath(e) = P
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ LowerKeyPath(e) ⇓ P
+```math
+\begin{array}{l}
+\operatorname{KeyPath}(e)\ =\ P \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerKeyPath}(e)\ \Downarrow \ P
+\end{array}
 ```
 
 **(Lower-KeyAccess-Uncovered)**
 
-```text
-Γ ⊢ LowerKeyPath(e) ⇓ P    M = RequiredMode(e)    ¬ Covered(P, M, Γ_keys)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ LowerKeyAccess(e) ⇓ SeqIR(CheckConflict(P, M), AcquireKey(P, M, CurrentScope))
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerKeyPath}(e)\ \Downarrow \ P\quad M\ =\ \operatorname{RequiredMode}(e)\quad \lnot \ \operatorname{Covered}(P,\ M,\ \Gamma_{\mathsf{keys}} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerKeyAccess}(e)\ \Downarrow \ \operatorname{SeqIR}(\operatorname{CheckConflict}(P,\ M),\ \operatorname{AcquireKey}(P,\ M,\ \mathsf{CurrentScope}))
+\end{array}
 ```
 
 **(Lower-KeyAccess-Covered)**
 
-```text
-Γ ⊢ LowerKeyPath(e) ⇓ P    M = RequiredMode(e)    Covered(P, M, Γ_keys)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ LowerKeyAccess(e) ⇓ ε
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerKeyPath}(e)\ \Downarrow \ P\quad M\ =\ \operatorname{RequiredMode}(e)\quad \operatorname{Covered}(P,\ M,\ \Gamma_{\mathsf{keys}} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerKeyAccess}(e)\ \Downarrow \ \varepsilon 
+\end{array}
 ```
 
 #### 19.1.7 Diagnostics
@@ -220,32 +233,40 @@ Key-block parsing is defined by the following source rules:
 
 #### 19.2.3 AST Representation / Form
 
-KeyMode = {Read, Write}
-
-```text
-KeyModeOpt ∈ {⊥} ∪ KeyMode
+```math
+\mathsf{KeyMode}\ =\ \{\mathsf{Read},\ \mathsf{Write}\}
 ```
 
-KeyBlockMod = {Dynamic, Speculative, Release, Ordered}
-
-KeyBlockMods = [KeyBlockMod]
-
-KeyPathList = [KeyPathExpr]
-
-```text
-KeyBlockStmt = ⟨attrs_opt, paths, mods, mode_opt, body, span⟩
+```math
+\mathsf{KeyModeOpt}\ \in \ \{\bot \}\ \cup \ \mathsf{KeyMode}
 ```
 
-```text
-Key = ⟨Path, Mode, Scope⟩
+```math
+\mathsf{KeyBlockMod}\ =\ \{\mathsf{Dynamic},\ \mathsf{Speculative},\ \mathsf{Release},\ \mathsf{Ordered}\}
 ```
 
-```text
-Γ_keys : ProgramPoint → ℘(Key)
+```math
+\mathsf{KeyBlockMods}\ =\ [\mathsf{KeyBlockMod}]
 ```
 
-```text
-Held(P, M, S, Γ_keys, p) ⇔ (P, M, S) ∈ Γ_keys(p)
+```math
+\mathsf{KeyPathList}\ =\ [\mathsf{KeyPathExpr}]
+```
+
+```math
+\mathsf{KeyBlockStmt}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}\rangle 
+```
+
+```math
+\mathsf{Key}\ =\ \langle \mathsf{Path},\ \mathsf{Mode},\ \mathsf{Scope}\rangle 
+```
+
+```math
+\Gamma_{\mathsf{keys}} \ :\ \mathsf{ProgramPoint}\ \to \ \wp (\mathsf{Key})
+```
+
+```math
+\operatorname{Held}(P,\ M,\ S,\ \Gamma_{\mathsf{keys}} ,\ p)\ \Leftrightarrow \ (P,\ M,\ S)\ \in \ \Gamma_{\mathsf{keys}} (p)
 ```
 
 #### 19.2.4 Static Semantics
@@ -262,31 +283,34 @@ Mode ordering:
 
 Read < Write
 
-```text
-ModeSufficient(M_held, M_required) ⇔ M_required ≤ M_held
-BlockMode(KeyBlockStmt(_, _, _, ⊥, _, _)) = Read
+```math
+\begin{array}{l}
+\operatorname{ModeSufficient}(M_{\mathsf{held}},\ M_{\mathsf{required}})\ \Leftrightarrow \ M_{\mathsf{required}}\ \le \ M_{\mathsf{held}} \\
+\operatorname{BlockMode}(\operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \bot ,\ \_,\ \_))\ =\ \mathsf{Read} \\
+\operatorname{BlockMode}(\operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \mathsf{Read},\ \_,\ \_))\ =\ \mathsf{Read} \\
+\operatorname{BlockMode}(\operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \mathsf{Write},\ \_,\ \_))\ =\ \mathsf{Write}
+\end{array}
 ```
-
-BlockMode(KeyBlockStmt(_, _, _, Read, _, _)) = Read
-BlockMode(KeyBlockStmt(_, _, _, Write, _, _)) = Write
 
 **(K-Mode-Read)**
 
-```text
-Γ ⊢ e : `shared` T    ReadContext(e)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ e\ :\ \texttt{shared}\ T\quad \operatorname{ReadContext}(e) \\
+\rule{18em}{0.4pt} \\
+\operatorname{RequiredMode}(e)\ =\ \mathsf{Read}
+\end{array}
 ```
-
-────────────────────────────────────
-RequiredMode(e) = Read
 
 **(K-Mode-Write)**
 
-```text
-Γ ⊢ e : `shared` T    WriteContext(e)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ e\ :\ \texttt{shared}\ T\quad \operatorname{WriteContext}(e) \\
+\rule{18em}{0.4pt} \\
+\operatorname{RequiredMode}(e)\ =\ \mathsf{Write}
+\end{array}
 ```
-
-─────────────────────────────────────
-RequiredMode(e) = Write
 
 If an expression appears in multiple contexts, the more restrictive context applies.
 
@@ -313,38 +337,38 @@ Write contexts:
 
 **Key State Context**
 
-```text
-Acquire(P, M, S, Γ_keys) = Γ_keys ∪ {(P, M, S)}
+```math
+\operatorname{Acquire}(P,\ M,\ S,\ \Gamma_{\mathsf{keys}} )\ =\ \Gamma_{\mathsf{keys}} \ \cup \ \{(P,\ M,\ S)\}
 ```
 
-```text
-Release(P, Γ_keys) = Γ_keys \ {(P, M, S) : (P, M, S) ∈ Γ_keys}
+```math
+\operatorname{Release}(P,\ \Gamma_{\mathsf{keys}} )\ =\ \Gamma_{\mathsf{keys}} \ \setminus \ \{(P,\ M,\ S)\ :\ (P,\ M,\ S)\ \in \ \Gamma_{\mathsf{keys}} \}
 ```
 
-```text
-ReleaseScope(S, Γ_keys) = Γ_keys \ {(P, M, S') : S' = S}
+```math
+\operatorname{ReleaseScope}(S,\ \Gamma_{\mathsf{keys}} )\ =\ \Gamma_{\mathsf{keys}} \ \setminus \ \{(P,\ M,\ S')\ :\ S'\ =\ S\}
 ```
 
-```text
-ModeTransition(P, M_new, Γ_keys) = (Γ_keys \ {(P, M_old, S)}) ∪ {(P, M_new, S)}
+```math
+\operatorname{ModeTransition}(P,\ M_{\mathsf{new}},\ \Gamma_{\mathsf{keys}} )\ =\ (\Gamma_{\mathsf{keys}} \ \setminus \ \{(P,\ M_{\mathsf{old}},\ S)\})\ \cup \ \{(P,\ M_{\mathsf{new}},\ S)\}
 ```
 
-```text
-PanicRelease(S, Γ_keys) = Γ_keys \ {(P, M, S') : S' ≤_nest S}
+```math
+\operatorname{PanicRelease}(S,\ \Gamma_{\mathsf{keys}} )\ =\ \Gamma_{\mathsf{keys}} \ \setminus \ \{(P,\ M,\ S')\ :\ S'\ \le_{\mathsf{nest}} \ S\}
 ```
 
 **Implicit Acquisition**
 
-```text
-Covered(Q, M_Q, Γ_keys) ⇔ ∃ (P, M_P, S) ∈ Γ_keys : Prefix(P, Q) ∧ ModeSufficient(M_P, M_Q)
+```math
+\operatorname{Covered}(Q,\ M_{Q},\ \Gamma_{\mathsf{keys}} )\ \Leftrightarrow \ \exists \ (P,\ M_{P},\ S)\ \in \ \Gamma_{\mathsf{keys}} \ :\ \operatorname{Prefix}(P,\ Q)\ \land \ \operatorname{ModeSufficient}(M_{P},\ M_{Q})
 ```
 
 **Valid Key Context**
 
 For an ordinary `shared` access `e`, a valid key context exists iff `KeyPath(e)` and `RequiredMode(e)` are both defined and no Chapter 19 scope/escape rule forbids the access.
 
-```text
-If `Covered(KeyPath(e), RequiredMode(e), Γ_keys)` holds, the access reuses the existing key context.
+```math
+\mathsf{If}\ \texttt{Covered(KeyPath(e), RequiredMode(e), Gamma\_keys)}\ \mathsf{holds},\ \mathsf{the}\ \mathsf{access}\ \mathsf{reuses}\ \mathsf{the}\ \mathsf{existing}\ \mathsf{key}\ \mathsf{context}.
 ```
 
 Otherwise the ordinary access establishes an implicit acquisition as defined by **(Lower-KeyAccess-Uncovered)** in §19.1.6.
@@ -353,26 +377,22 @@ Being outside an explicit `#` block does not by itself make an ordinary `shared`
 
 **(K-Acquire-New)**
 
-```text
-Γ ⊢ P : `shared` T    M = RequiredMode(P)    ¬ Covered(P, M, Γ_keys)    S = CurrentScope
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ'_keys = Γ_keys ∪ {(P, M, S)}
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ P\ :\ \texttt{shared}\ T\quad M\ =\ \operatorname{RequiredMode}(P)\quad \lnot \ \operatorname{Covered}(P,\ M,\ \Gamma_{\mathsf{keys}} )\quad S\ =\ \mathsf{CurrentScope} \\
+\rule{18em}{0.4pt} \\
+\Gamma '\_\mathsf{keys}\ =\ \Gamma_{\mathsf{keys}} \ \cup \ \{(P,\ M,\ S)\}
+\end{array}
 ```
 
 **(K-Acquire-Covered)**
 
-```text
-Γ ⊢ P : `shared` T    M = RequiredMode(P)    Covered(P, M, Γ_keys)
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ'_keys = Γ_keys
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ P\ :\ \texttt{shared}\ T\quad M\ =\ \operatorname{RequiredMode}(P)\quad \operatorname{Covered}(P,\ M,\ \Gamma_{\mathsf{keys}} ) \\
+\rule{18em}{0.4pt} \\
+\Gamma '\_\mathsf{keys}\ =\ \Gamma_{\mathsf{keys}} 
+\end{array}
 ```
 
 Subexpressions are evaluated left-to-right, depth-first. Key acquisition follows evaluation order.
@@ -381,24 +401,23 @@ Subexpressions are evaluated left-to-right, depth-first. Key acquisition follows
 
 **(K-Block-Acquire)**
 
-```text
-Γ ⊢ P_1, …, P_m : `shared` T_i    M = BlockMode(B)    (Q_1, …, Q_m) = CanonicalSort(P_1, …, P_m)    S = NewScope
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ'_keys = Γ_keys ∪ {(Q_i, M, S) : i ∈ 1..m}
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ P_{1},\ \ldots ,\ P_{m}\ :\ \texttt{shared}\ T_{i}\quad M\ =\ \operatorname{BlockMode}(B)\quad (Q_{1},\ \ldots ,\ Q_{m})\ =\ \operatorname{CanonicalSort}(P_{1},\ \ldots ,\ P_{m})\quad S\ =\ \mathsf{NewScope} \\
+\rule{18em}{0.4pt} \\
+\Gamma '\_\mathsf{keys}\ =\ \Gamma_{\mathsf{keys}} \ \cup \ \{(Q_{i},\ M,\ S)\ :\ i\ \in \ 1..m\}
+\end{array}
 ```
 
 **(K-Read-Block-No-Write)**
 
-```text
-BlockMode(B) = Read    P ∈ KeyedPaths(B)    WriteOf(P) ∈ Body(B)
+```math
+\begin{array}{l}
+\operatorname{BlockMode}(B)\ =\ \mathsf{Read}\quad P\ \in \ \operatorname{KeyedPaths}(B)\quad \operatorname{WriteOf}(P)\ \in \ \operatorname{Body}(B) \\
+\rule{18em}{0.4pt} \\
+\mathsf{Reject}
+\end{array}
 ```
-
-──────────────────────────────────────────────────────────────────────────────
-Reject
 
 **Key Coarsening**
 
@@ -406,14 +425,12 @@ The `#` marker in a path expression sets the acquisition granularity. The key is
 
 **(K-Coarsen-Inline)**
 
-```text
-P = p_1 … p_(k-1).#p_k … p_n    Γ ⊢ P : `shared` T    M = RequiredMode(P)
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-AcquireKey(p_1 … p_k, M, Γ_keys)
+```math
+\begin{array}{l}
+P\ =\ p_{1}\ \ldots \ p\_(k-1).\#p_{k}\ \ldots \ p_{n}\quad \Gamma \ \vdash \ P\ :\ \texttt{shared}\ T\quad M\ =\ \operatorname{RequiredMode}(P) \\
+\rule{18em}{0.4pt} \\
+\operatorname{AcquireKey}(p_{1}\ \ldots \ p_{k},\ M,\ \Gamma_{\mathsf{keys}} )
+\end{array}
 ```
 
 A field declaration marked with `#` establishes a permanent key boundary. Key paths truncate at that field boundary.
@@ -426,18 +443,21 @@ Let `SharedCaptures(C)` be the set of captured bindings with `shared` permission
 
 For a local closure, key analysis treats the closure body as executing in the defining scope:
 
-KeyPath(C, x.p) = KeyPath(x.p)
+```math
+\operatorname{KeyPath}(C,\ x.p)\ =\ \operatorname{KeyPath}(x.p)
+```
 
 For an escaping closure, key paths are rooted at runtime identities of captured references:
 
 **(K-Closure-Escape-Keys)**
 
-```text
-C : |vec_T| → R [`shared`: deps]    Access(x.p, M) ∈ C.body
+```math
+\begin{array}{l}
+C\ :\ \mid \mathsf{vec}_{T}\mid \ \to \ R\ [\texttt{shared}:\ \mathsf{deps}]\quad \operatorname{Access}(x.p,\ M)\ \in \ C.\mathsf{body} \\
+\rule{18em}{0.4pt} \\
+\operatorname{KeyPath}(C,\ x.p)\ =\ \operatorname{id}(C.x).p
+\end{array}
 ```
-
-─────────────────────────────────────────────────────────────────────────────
-KeyPath(C, x.p) = id(C.x).p
 
 An escaping closure MUST NOT outlive any captured local `shared` binding.
 
@@ -451,101 +471,99 @@ An implementation MAY conservatively coarsen `id(C.x).p` to a stable closure-cap
 
 `CanonicalOrder`, `CanonicalSort`, and conflict relations are defined in §19.3.5.
 
-KeyBlockJudg = {AcquireKeysSigma, ReleaseKeysSigma}
-
-```text
-AcquireKeysSigma(paths, mode_opt, σ) ⇓ (σ', keys) ⇔
-  mode = ModeOf(mode_opt) ∧
-  keys = CanonicalOrder([KeyPath(p) | p ∈ paths]) ∧
-  ∀ k ∈ keys. AcquireLock(σ, k, mode) ∧
-  σ' = σ[held_keys := σ.held_keys ∪ keys]
+```math
+\mathsf{KeyBlockJudg}\ =\ \{\mathsf{AcquireKeysSigma},\ \mathsf{ReleaseKeysSigma}\}
 ```
 
-```text
-ReleaseKeysSigma(keys, σ) ⇓ σ' ⇔
-  rev = Reverse(keys) ∧
-  ∀ k ∈ rev. ReleaseLock(σ, k) ∧
-  σ' = σ[held_keys := σ.held_keys ∖ keys]
+```math
+\begin{array}{l}
+\operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode}_{\mathsf{opt}},\ \sigma )\ \Downarrow \ (\sigma ',\ \mathsf{keys})\ \Leftrightarrow  \\
+\ \mathsf{mode}\ =\ \operatorname{ModeOf}(\mathsf{mode}_{\mathsf{opt}})\ \land  \\
+\ \mathsf{keys}\ =\ \operatorname{CanonicalOrder}([\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}])\ \land  \\
+\ \forall \ k\ \in \ \mathsf{keys}.\ \operatorname{AcquireLock}(\sigma ,\ k,\ \mathsf{mode})\ \land  \\
+\ \sigma '\ =\ \sigma [\mathsf{held}_{\mathsf{keys}}\ :=\ \sigma .\mathsf{held}_{\mathsf{keys}}\ \cup \ \mathsf{keys}]
+\end{array}
 ```
 
-```text
-ModeOf(⊥) = Read
+```math
+\begin{array}{l}
+\operatorname{ReleaseKeysSigma}(\mathsf{keys},\ \sigma )\ \Downarrow \ \sigma '\ \Leftrightarrow  \\
+\ \mathsf{rev}\ =\ \operatorname{Reverse}(\mathsf{keys})\ \land  \\
+\ \forall \ k\ \in \ \mathsf{rev}.\ \operatorname{ReleaseLock}(\sigma ,\ k)\ \land  \\
+\ \sigma '\ =\ \sigma [\mathsf{held}_{\mathsf{keys}}\ :=\ \sigma .\mathsf{held}_{\mathsf{keys}}\ \setminus \ \mathsf{keys}]
+\end{array}
 ```
 
-ModeOf(Read) = Read
+```math
+\operatorname{ModeOf}(\bot )\ =\ \mathsf{Read}
+```
 
-ModeOf(Write) = Write
+```math
+\operatorname{ModeOf}(\mathsf{Read})\ =\ \mathsf{Read}
+```
+
+```math
+\operatorname{ModeOf}(\mathsf{Write})\ =\ \mathsf{Write}
+```
 
 **(ExecSigma-KeyBlock)**
 
-```text
-Speculative ∉ mods    Release ∉ mods    Γ ⊢ AcquireKeysSigma(paths, mode_opt, σ) ⇓ (σ_1, keys)    Γ ⊢ EvalBlockSigma(body, σ_1) ⇓ (out, σ_2)    Γ ⊢ ReleaseKeysSigma(keys, σ_2) ⇓ σ_3
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ExecSigma(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span), σ) ⇓ (StmtOutOf(out), σ_3)
+```math
+\begin{array}{l}
+\mathsf{Speculative}\ \notin \ \mathsf{mods}\quad \mathsf{Release}\ \notin \ \mathsf{mods}\quad \Gamma \ \vdash \ \operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode}_{\mathsf{opt}},\ \sigma )\ \Downarrow \ (\sigma_{1} ,\ \mathsf{keys})\quad \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{keys},\ \sigma_{2} )\ \Downarrow \ \sigma_{3}  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\ \Downarrow \ (\operatorname{StmtOutOf}(\mathsf{out}),\ \sigma_{3} )
+\end{array}
 ```
 
 **(ExecSigma-KeyBlock-Ctrl)**
 
-```text
-Speculative ∉ mods    Release ∉ mods    Γ ⊢ AcquireKeysSigma(paths, mode_opt, σ) ⇓ (σ_1, keys)    Γ ⊢ EvalBlockSigma(body, σ_1) ⇓ (Ctrl(κ), σ_2)    Γ ⊢ ReleaseKeysSigma(keys, σ_2) ⇓ σ_3
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ExecSigma(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span), σ) ⇓ (Ctrl(κ), σ_3)
+```math
+\begin{array}{l}
+\mathsf{Speculative}\ \notin \ \mathsf{mods}\quad \mathsf{Release}\ \notin \ \mathsf{mods}\quad \Gamma \ \vdash \ \operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode}_{\mathsf{opt}},\ \sigma )\ \Downarrow \ (\sigma_{1} ,\ \mathsf{keys})\quad \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{keys},\ \sigma_{2} )\ \Downarrow \ \sigma_{3}  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{3} )
+\end{array}
 ```
 
 **(Step-Exec-KeyBlock-Enter)**
 
-```text
-Speculative ∉ mods    Γ ⊢ AcquireKeysSigma(paths, mode_opt, σ) ⇓ (σ_1, keys)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨Exec(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span), σ)⟩ → ⟨KeyBody(keys, body, σ_1)⟩
+```math
+\begin{array}{l}
+\mathsf{Speculative}\ \notin \ \mathsf{mods}\quad \Gamma \ \vdash \ \operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode}_{\mathsf{opt}},\ \sigma )\ \Downarrow \ (\sigma_{1} ,\ \mathsf{keys}) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{Exec}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\rangle \ \to \ \langle \operatorname{KeyBody}(\mathsf{keys},\ \mathsf{body},\ \sigma_{1} )\rangle 
+\end{array}
 ```
 
 **(Step-Exec-KeyBlock-Body)**
 
-```text
-Γ ⊢ EvalBlockSigma(body, σ) ⇓ (out, σ_1)
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-⟨KeyBody(keys, body, σ)⟩ → ⟨KeyExit(keys, out, σ_1)⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{1} ) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{KeyBody}(\mathsf{keys},\ \mathsf{body},\ \sigma )\rangle \ \to \ \langle \operatorname{KeyExit}(\mathsf{keys},\ \mathsf{out},\ \sigma_{1} )\rangle 
+\end{array}
 ```
 
 **(Step-Exec-KeyBlock-Exit-Ok)**
 
-```text
-Γ ⊢ ReleaseKeysSigma(keys, σ) ⇓ σ'    StmtOutOf(out) = ok
-```
-
-──────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨KeyExit(keys, out, σ)⟩ → ⟨ExecDone(σ')⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{keys},\ \sigma )\ \Downarrow \ \sigma '\quad \operatorname{StmtOutOf}(\mathsf{out})\ =\ \mathsf{ok} \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{KeyExit}(\mathsf{keys},\ \mathsf{out},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle 
+\end{array}
 ```
 
 **(Step-Exec-KeyBlock-Exit-Ctrl)**
 
-```text
-Γ ⊢ ReleaseKeysSigma(keys, σ) ⇓ σ'    StmtOutOf(out) = Ctrl(κ)
-```
-
-───────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨KeyExit(keys, out, σ)⟩ → ⟨ExecCtrl(κ, σ')⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{keys},\ \sigma )\ \Downarrow \ \sigma '\quad \operatorname{StmtOutOf}(\mathsf{out})\ =\ \operatorname{Ctrl}(\kappa ) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{KeyExit}(\mathsf{keys},\ \mathsf{out},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma ')\rangle 
+\end{array}
 ```
 
 Keys are released when their defining scope exits, regardless of whether the exit is normal completion, `return`, `break`, `continue`, panic propagation, or task cancellation. Scope-exit key release occurs before drop actions for bindings in the same scope.
@@ -568,27 +586,25 @@ For an escaping closure invocation:
 
 #### 19.2.6 Lowering
 
-```text
-LowerKeyPaths([]) ⇓ []
+```math
+\operatorname{LowerKeyPaths}([])\ \Downarrow \ []
 ```
 
-```text
-LowerKeyPaths([p] ++ ps) ⇓ [P] ++ Ps ⇔ Γ ⊢ LowerKeyPath(p) ⇓ P ∧ Γ ⊢ LowerKeyPaths(ps) ⇓ Ps
+```math
+\operatorname{LowerKeyPaths}([p]\ \mathbin{++} \ \mathsf{ps})\ \Downarrow \ [P]\ \mathbin{++} \ \mathsf{Ps}\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{LowerKeyPath}(p)\ \Downarrow \ P\ \land \ \Gamma \ \vdash \ \operatorname{LowerKeyPaths}(\mathsf{ps})\ \Downarrow \ \mathsf{Ps}
 ```
 
 **(Lower-Stmt-KeyBlock)**
 
-```text
-Speculative ∉ mods    Release ∉ mods    Γ ⊢ LowerKeyPaths(paths) ⇓ Ps    mode = ModeOf(mode_opt)    sorted = CanonicalSort(Ps)    S = CurrentScope
-IR_enter = SeqIRList([SeqIR(CheckConflict(P_i, mode), AcquireKey(P_i, mode, S)) | P_i ∈ sorted])
-Γ ⊢ LowerBlock(body) ⇓ ⟨IR_b, v_b⟩
-IR_exit = SeqIRList([ReleaseKey(P_i, S) | P_i ∈ Reverse(sorted)])
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ LowerStmt(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span)) ⇓ SeqIR(IR_enter, IR_b, IR_exit)
+```math
+\begin{array}{l}
+\mathsf{Speculative}\ \notin \ \mathsf{mods}\quad \mathsf{Release}\ \notin \ \mathsf{mods}\quad \Gamma \ \vdash \ \operatorname{LowerKeyPaths}(\mathsf{paths})\ \Downarrow \ \mathsf{Ps}\quad \mathsf{mode}\ =\ \operatorname{ModeOf}(\mathsf{mode}_{\mathsf{opt}})\quad \mathsf{sorted}\ =\ \operatorname{CanonicalSort}(\mathsf{Ps})\quad S\ =\ \mathsf{CurrentScope} \\
+\mathsf{IR}_{\mathsf{enter}}\ =\ \operatorname{SeqIRList}([\operatorname{SeqIR}(\operatorname{CheckConflict}(P_{i},\ \mathsf{mode}),\ \operatorname{AcquireKey}(P_{i},\ \mathsf{mode},\ S))\ \mid \ P_{i}\ \in \ \mathsf{sorted}]) \\
+\Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\
+\mathsf{IR}_{\mathsf{exit}}\ =\ \operatorname{SeqIRList}([\operatorname{ReleaseKey}(P_{i},\ S)\ \mid \ P_{i}\ \in \ \operatorname{Reverse}(\mathsf{sorted})]) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{\mathsf{enter}},\ \mathsf{IR}_{b},\ \mathsf{IR}_{\mathsf{exit}})
+\end{array}
 ```
 
 #### 19.2.7 Diagnostics
@@ -632,72 +648,97 @@ This section introduces no additional parsing rules.
 
 #### 19.3.3 AST Representation / Form
 
-```text
-Prefix(p_1 … p_m, q_1 … q_n) ⇔ m ≤ n ∧ ∀ i ∈ 1..m, p_i ≡_seg q_i
+```math
+\operatorname{Prefix}(p_{1}\ \ldots \ p_{m},\ q_{1}\ \ldots \ q_{n})\ \Leftrightarrow \ m\ \le \ n\ \land \ \forall \ i\ \in \ 1..m,\ p_{i}\ \equiv_{\mathsf{seg}} \ q_{i}
 ```
 
-```text
-Disjoint(P, Q) ⇔ ¬ Prefix(P, Q) ∧ ¬ Prefix(Q, P)
+```math
+\operatorname{Disjoint}(P,\ Q)\ \Leftrightarrow \ \lnot \ \operatorname{Prefix}(P,\ Q)\ \land \ \lnot \ \operatorname{Prefix}(Q,\ P)
 ```
 
-```text
-KeyPathLess(p_1, p_2) ⇔
-  segments_1 = PathSegments(p_1) ∧
-  segments_2 = PathSegments(p_2) ∧
+```math
+\begin{array}{l}
+\operatorname{KeyPathLess}(p_{1},\ p_{2})\ \Leftrightarrow  \\
+\ \mathsf{segments}_{1}\ =\ \operatorname{PathSegments}(p_{1})\ \land  \\
+\ \mathsf{segments}_{2}\ =\ \operatorname{PathSegments}(p_{2})\ \land  \\
+\ \operatorname{LexLess}(\mathsf{segments}_{1},\ \mathsf{segments}_{2},\ \mathsf{SegmentLess})
+\end{array}
 ```
 
-  LexLess(segments_1, segments_2, SegmentLess)
-
-```text
-SegmentLess(s_1, s_2) ⇔
-  (IsIdent(s_1) ∧ IsIdent(s_2) ∧ Utf8LexLess(Name(s_1), Name(s_2))) ∨
-  (IsIndex(s_1) ∧ IsIndex(s_2) ∧ IndexValue(s_1) < IndexValue(s_2)) ∨
-  (IsIdent(s_1) ∧ IsIndex(s_2))
+```math
+\begin{array}{l}
+\operatorname{SegmentLess}(s_{1},\ s_{2})\ \Leftrightarrow  \\
+\ (\operatorname{IsIdent}(s_{1})\ \land \ \operatorname{IsIdent}(s_{2})\ \land \ \operatorname{Utf8LexLess}(\operatorname{Name}(s_{1}),\ \operatorname{Name}(s_{2})))\ \lor  \\
+\ (\operatorname{IsIndex}(s_{1})\ \land \ \operatorname{IsIndex}(s_{2})\ \land \ \operatorname{IndexValue}(s_{1})\ <\ \operatorname{IndexValue}(s_{2}))\ \lor  \\
+\ (\operatorname{IsIdent}(s_{1})\ \land \ \operatorname{IsIndex}(s_{2}))
+\end{array}
 ```
 
-LexLess([], [], _) = false
-
-LexLess([], _::_, _) = true
-
-LexLess(_::_, [], _) = false
-
-```text
-LexLess(a::as, b::bs, cmp) = cmp(a, b) ∨ (a = b ∧ LexLess(as, bs, cmp))
+```math
+\operatorname{LexLess}([],\ [],\ \_)\ =\ \mathsf{false}
 ```
 
-CanonicalOrder(paths) = Sort(paths, KeyPathLess)
+```math
+\operatorname{LexLess}([],\ \_\mathbin{::} \_,\ \_)\ =\ \mathsf{true}
+```
 
-CanonicalSort(paths) = Sort(paths, KeyPathLess)
+```math
+\operatorname{LexLess}(\_\mathbin{::} \_,\ [],\ \_)\ =\ \mathsf{false}
+```
+
+```math
+\operatorname{LexLess}(a\mathbin{::} \mathsf{as},\ b\mathbin{::} \mathsf{bs},\ \mathsf{cmp})\ =\ \operatorname{cmp}(a,\ b)\ \lor \ (a\ =\ b\ \land \ \operatorname{LexLess}(\mathsf{as},\ \mathsf{bs},\ \mathsf{cmp}))
+```
+
+```math
+\operatorname{CanonicalOrder}(\mathsf{paths})\ =\ \operatorname{Sort}(\mathsf{paths},\ \mathsf{KeyPathLess})
+```
+
+```math
+\operatorname{CanonicalSort}(\mathsf{paths})\ =\ \operatorname{Sort}(\mathsf{paths},\ \mathsf{KeyPathLess})
+```
 
 **Key Compatibility**
 
-Two keys K_1 = (P_1, M_1, S_1) and K_2 = (P_2, M_2, S_2) are compatible if and only if:
-
-```text
-Compatible(K_1, K_2) ⇔ Disjoint(P_1, P_2) ∨ (M_1 = Read ∧ M_2 = Read)
+```math
+\mathsf{Two}\ \mathsf{keys}\ K_{1}\ =\ (P_{1},\ M_{1},\ S_{1})\ \mathsf{and}\ K_{2}\ =\ (P_{2},\ M_{2},\ S_{2})\ \mathsf{are}\ \mathsf{compatible}\ \mathsf{if}\ \mathsf{and}\ \mathsf{only}\ \mathsf{if}:
 ```
 
-KeyModeCompatible(Read, Read) = true
-
-KeyModeCompatible(Read, Write) = false
-
-KeyModeCompatible(Write, Read) = false
-
-KeyModeCompatible(Write, Write) = false
-
-```text
-KeysOverlap(p_1, p_2) ⇔ Prefix(p_1, p_2) ∨ Prefix(p_2, p_1) ∨ p_1 = p_2
+```math
+\operatorname{Compatible}(K_{1},\ K_{2})\ \Leftrightarrow \ \operatorname{Disjoint}(P_{1},\ P_{2})\ \lor \ (M_{1}\ =\ \mathsf{Read}\ \land \ M_{2}\ =\ \mathsf{Read})
 ```
 
-```text
-KeyConflict(⟨p_1, m_1, _⟩, ⟨p_2, m_2, _⟩) ⇔ KeysOverlap(p_1, p_2) ∧ ¬KeyModeCompatible(m_1, m_2)
+```math
+\operatorname{KeyModeCompatible}(\mathsf{Read},\ \mathsf{Read})\ =\ \mathsf{true}
+```
+
+```math
+\operatorname{KeyModeCompatible}(\mathsf{Read},\ \mathsf{Write})\ =\ \mathsf{false}
+```
+
+```math
+\operatorname{KeyModeCompatible}(\mathsf{Write},\ \mathsf{Read})\ =\ \mathsf{false}
+```
+
+```math
+\operatorname{KeyModeCompatible}(\mathsf{Write},\ \mathsf{Write})\ =\ \mathsf{false}
+```
+
+```math
+\operatorname{KeysOverlap}(p_{1},\ p_{2})\ \Leftrightarrow \ \operatorname{Prefix}(p_{1},\ p_{2})\ \lor \ \operatorname{Prefix}(p_{2},\ p_{1})\ \lor \ p_{1}\ =\ p_{2}
+```
+
+```math
+\operatorname{KeyConflict}(\langle p_{1},\ m_{1},\ \_\rangle ,\ \langle p_{2},\ m_{2},\ \_\rangle )\ \Leftrightarrow \ \operatorname{KeysOverlap}(p_{1},\ p_{2})\ \land \ \lnot \operatorname{KeyModeCompatible}(m_{1},\ m_{2})
 ```
 
 #### 19.3.4 Static Semantics
 
 **Path Prefix and Disjointness**
 
-`p_i ≡_seg q_i` iff `name(p_i) = name(q_i)` and `IndexEquiv(p_i, q_i)`.
+```math
+\texttt{p\_i ==\_seg q\_i}\ \mathsf{iff}\ \texttt{name(p\_i) = name(q\_i)}\ \mathsf{and}\ \texttt{IndexEquiv(p\_i, q\_i)}.
+```
 
 Two index expressions `e_1` and `e_2` are provably equivalent iff one of the following holds:
 
@@ -713,17 +754,23 @@ An implementation MAY conservatively recognize any sound subset of them. Failure
 
 **(K-Disjoint-Safe)**
 Disjoint(P, Q)
-──────────────────────────────────────────────────
-ConcurrentAccess(P, Q) is statically safe
+
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\operatorname{ConcurrentAccess}(P,\ Q)\ \mathsf{is}\ \mathsf{statically}\ \mathsf{safe}
+\end{array}
+```
 
 **(K-Prefix-Coverage)**
 
-```text
-Prefix(P, Q)    Held(P, M, Γ_keys)
+```math
+\begin{array}{l}
+\operatorname{Prefix}(P,\ Q)\quad \operatorname{Held}(P,\ M,\ \Gamma_{\mathsf{keys}} ) \\
+\rule{18em}{0.4pt} \\
+\operatorname{Covers}((P,\ M),\ Q)
+\end{array}
 ```
-
-──────────────────────────────────
-Covers((P, M), Q)
 
 **Static Conflict Analysis for Dynamic Indices**
 
@@ -743,25 +790,26 @@ An implementation MAY conservatively recognize any sound subset of them. Failure
 
 **(K-Dynamic-Index-Conflict)**
 
-```text
-P_1 = a[e_1]    P_2 = a[e_2]    SameStatement(P_1, P_2)    (Dynamic(e_1) ∨ Dynamic(e_2))    ¬ ProvablyDisjoint(e_1, e_2)
+```math
+\begin{array}{l}
+P_{1}\ =\ a[e_{1}]\quad P_{2}\ =\ a[e_{2}]\quad \operatorname{SameStatement}(P_{1},\ P_{2})\quad (\operatorname{Dynamic}(e_{1})\ \lor \ \operatorname{Dynamic}(e_{2}))\quad \lnot \ \operatorname{ProvablyDisjoint}(e_{1},\ e_{2}) \\
+\rule{18em}{0.4pt} \\
+\mathsf{Reject}
+\end{array}
 ```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-Reject
 
 **Read-Then-Write Prohibition**
 
-```text
-ReadThenWrite(P, S) ⇔ ∃ e_r, e_w ∈ Subexpressions(S) : ReadsPath(e_r, P) ∧ WritesPath(e_w, P)
+```math
+\operatorname{ReadThenWrite}(P,\ S)\ \Leftrightarrow \ \exists \ e_{r},\ e_{w}\ \in \ \operatorname{Subexpressions}(S)\ :\ \operatorname{ReadsPath}(e_{r},\ P)\ \land \ \operatorname{WritesPath}(e_{w},\ P)
 ```
 
-```text
-CompoundRewriteOp(op) ⇔ op ∈ {`+`, `-`, `*`, `/`, `%`}
+```math
+\operatorname{CompoundRewriteOp}(\mathsf{op})\ \Leftrightarrow \ \mathsf{op}\ \in \ \{\texttt{+},\ \texttt{-},\ \texttt{*},\ \texttt{/},\ \texttt{\%}\}
 ```
 
-```text
-CompoundRewriteCandidate(P, S) ⇔ S = AssignStmt(P, BinaryExpr(op, P, e), span) ∧ CompoundRewriteOp(op)
+```math
+\operatorname{CompoundRewriteCandidate}(P,\ S)\ \Leftrightarrow \ S\ =\ \operatorname{AssignStmt}(P,\ \operatorname{BinaryExpr}(\mathsf{op},\ P,\ e),\ \mathsf{span})\ \land \ \operatorname{CompoundRewriteOp}(\mathsf{op})
 ```
 
 In this chapter, `ReadThenWrite(P, S)` is required to be diagnosed for assignment and compound-assignment statement surfaces that visibly separate a read of `P` from a write of `P`.
@@ -770,76 +818,81 @@ Other write forms continue to be governed by `RequiredMode`, `Covered`, and the 
 
 **(K-Read-Write-Reject)**
 
-```text
-Γ ⊢ P : `shared` T    ReadThenWrite(P, S)    ¬ ∃ (Q, Write, S') ∈ Γ_keys : Prefix(Q, P)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ P\ :\ \texttt{shared}\ T\quad \operatorname{ReadThenWrite}(P,\ S)\quad \lnot \ \exists \ (Q,\ \mathsf{Write},\ S')\ \in \ \Gamma_{\mathsf{keys}} \ :\ \operatorname{Prefix}(Q,\ P) \\
+\rule{18em}{0.4pt} \\
+\mathsf{Reject}
+\end{array}
 ```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────
-Reject
 
 **(K-RMW-Permitted)**
 
-```text
-Γ ⊢ P : `shared` T    ReadThenWrite(P, S)    ∃ (Q, Write, S') ∈ Γ_keys : Prefix(Q, P)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ P\ :\ \texttt{shared}\ T\quad \operatorname{ReadThenWrite}(P,\ S)\quad \exists \ (Q,\ \mathsf{Write},\ S')\ \in \ \Gamma_{\mathsf{keys}} \ :\ \operatorname{Prefix}(Q,\ P) \\
+\rule{18em}{0.4pt} \\
+\mathsf{Permitted}
+\end{array}
 ```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────
-Permitted
 
 **(K-RMW-Explicit-Warn)**
 
-```text
-Γ ⊢ P : `shared` T    ReadThenWrite(P, S)    ∃ (Q, Write, S') ∈ Γ_keys : Prefix(Q, P)    CompoundRewriteCandidate(P, S)    w = Code(K-RMW-Explicit-Warn)
-──────────────────
-Γ ⊢ WarnRMW(S) ⇓ w
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ P\ :\ \texttt{shared}\ T\quad \operatorname{ReadThenWrite}(P,\ S)\quad \exists \ (Q,\ \mathsf{Write},\ S')\ \in \ \Gamma_{\mathsf{keys}} \ :\ \operatorname{Prefix}(Q,\ P)\quad \operatorname{CompoundRewriteCandidate}(P,\ S)\quad w\ =\ \operatorname{Code}(K-\mathsf{RMW}-\mathsf{Explicit}-\mathsf{Warn}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{WarnRMW}(S)\ \Downarrow \ w
+\end{array}
 ```
 
 **(K-RMW-Contention-Warn)**
 
-```text
-Γ ⊢ P : `shared` T    ReadThenWrite(P, S)    ∃ (Q, Write, S') ∈ Γ_keys : Prefix(Q, P)    ¬ CompoundRewriteCandidate(P, S)    w = Code(K-RMW-Contention-Warn)
-──────────────────
-Γ ⊢ WarnRMW(S) ⇓ w
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ P\ :\ \texttt{shared}\ T\quad \operatorname{ReadThenWrite}(P,\ S)\quad \exists \ (Q,\ \mathsf{Write},\ S')\ \in \ \Gamma_{\mathsf{keys}} \ :\ \operatorname{Prefix}(Q,\ P)\quad \lnot \ \operatorname{CompoundRewriteCandidate}(P,\ S)\quad w\ =\ \operatorname{Code}(K-\mathsf{RMW}-\mathsf{Contention}-\mathsf{Warn}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{WarnRMW}(S)\ \Downarrow \ w
+\end{array}
 ```
 
-```text
-NonIndexShape(P) = [seg | seg ∈ PathSegments(P) ∧ ¬ IsIndex(seg)]
-OrderedBase(P) = ⟨Root(P), NonIndexShape(P)⟩
-OrderedComparable(paths) ⇔ ∀ P, Q ∈ paths. OrderedBase(P) = OrderedBase(Q)
-StaticallyComparableIndices(paths) ⇔ ∀ P, Q ∈ paths. OrderedBase(P) = OrderedBase(Q) ⇒ PathSegments(P) and PathSegments(Q) differ only at index segments whose values are compile-time comparable under `IndexValue`
+```math
+\begin{array}{l}
+\operatorname{NonIndexShape}(P)\ =\ [\mathsf{seg}\ \mid \ \mathsf{seg}\ \in \ \operatorname{PathSegments}(P)\ \land \ \lnot \ \operatorname{IsIndex}(\mathsf{seg})] \\
+\operatorname{OrderedBase}(P)\ =\ \langle \operatorname{Root}(P),\ \operatorname{NonIndexShape}(P)\rangle  \\
+\operatorname{OrderedComparable}(\mathsf{paths})\ \Leftrightarrow \ \forall \ P,\ Q\ \in \ \mathsf{paths}.\ \operatorname{OrderedBase}(P)\ =\ \operatorname{OrderedBase}(Q) \\
+\operatorname{StaticallyComparableIndices}(\mathsf{paths})\ \Leftrightarrow \ \forall \ P,\ Q\ \in \ \mathsf{paths}.\ \operatorname{OrderedBase}(P)\ =\ \operatorname{OrderedBase}(Q)\ \Rightarrow \ \operatorname{PathSegments}(P)\ \mathsf{and}\ \operatorname{PathSegments}(Q)\ \mathsf{differ}\ \mathsf{only}\ \mathsf{at}\ \mathsf{index}\ \mathsf{segments}\ \mathsf{whose}\ \mathsf{values}\ \mathsf{are}\ \mathsf{compile}-\mathsf{time}\ \mathsf{comparable}\ \mathsf{under}\ \texttt{IndexValue}
+\end{array}
 ```
 
 **(K-Ordered-Ok)**
 
-```text
-Ordered ∈ mods    OrderedComparable([KeyPath(p) | p ∈ paths])
+```math
+\begin{array}{l}
+\mathsf{Ordered}\ \in \ \mathsf{mods}\quad \operatorname{OrderedComparable}([\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}]) \\
+\rule{18em}{0.4pt} \\
+\operatorname{OrderedPathsOk}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}))
+\end{array}
 ```
-
-────────────────────────────────────────────────────────────────────────────
-OrderedPathsOk(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span))
 
 **(K-Ordered-Base-Err)**
 
-```text
-Ordered ∈ mods    ¬ OrderedComparable([KeyPath(p) | p ∈ paths])    c = Code(K-Ordered-Base-Err)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span) ⇑ c
+```math
+\begin{array}{l}
+\mathsf{Ordered}\ \in \ \mathsf{mods}\quad \lnot \ \operatorname{OrderedComparable}([\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}])\quad c\ =\ \operatorname{Code}(K-\mathsf{Ordered}-\mathsf{Base}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span})\ \Uparrow \ c
+\end{array}
 ```
 
 **(K-Ordered-Redundant-Warn)**
 
-```text
-Ordered ∈ mods    OrderedComparable([KeyPath(p) | p ∈ paths])    StaticallyComparableIndices([KeyPath(p) | p ∈ paths])    w = Code(K-Ordered-Redundant-Warn)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ WarnKeyBlock(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span)) ⇓ w
+```math
+\begin{array}{l}
+\mathsf{Ordered}\ \in \ \mathsf{mods}\quad \operatorname{OrderedComparable}([\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}])\quad \operatorname{StaticallyComparableIndices}([\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}])\quad w\ =\ \operatorname{Code}(K-\mathsf{Ordered}-\mathsf{Redundant}-\mathsf{Warn}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{WarnKeyBlock}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}))\ \Downarrow \ w
+\end{array}
 ```
 
 #### 19.3.5 Dynamic Semantics
@@ -850,24 +903,24 @@ Ordered ∈ mods    OrderedComparable([KeyPath(p) | p ∈ paths])    StaticallyC
 
 #### 19.3.6 Lowering
 
-```text
-LowerConflictChecks(paths, mode_opt) ⇓ IR ⇔
-  Γ ⊢ LowerKeyPaths(paths) ⇓ Ps ∧
-  mode = ModeOf(mode_opt) ∧
-  sorted = CanonicalSort(Ps) ∧
-  IR = SeqIRList([CheckConflict(P_i, mode) | P_i ∈ sorted])
+```math
+\begin{array}{l}
+\operatorname{LowerConflictChecks}(\mathsf{paths},\ \mathsf{mode}_{\mathsf{opt}})\ \Downarrow \ \mathsf{IR}\ \Leftrightarrow  \\
+\ \Gamma \ \vdash \ \operatorname{LowerKeyPaths}(\mathsf{paths})\ \Downarrow \ \mathsf{Ps}\ \land  \\
+\ \mathsf{mode}\ =\ \operatorname{ModeOf}(\mathsf{mode}_{\mathsf{opt}})\ \land  \\
+\ \mathsf{sorted}\ =\ \operatorname{CanonicalSort}(\mathsf{Ps})\ \land  \\
+\ \mathsf{IR}\ =\ \operatorname{SeqIRList}([\operatorname{CheckConflict}(P_{i},\ \mathsf{mode})\ \mid \ P_{i}\ \in \ \mathsf{sorted}])
+\end{array}
 ```
 
 **(Lower-Key-ConflictChecks)**
 
-```text
-Γ ⊢ LowerConflictChecks(paths, mode_opt) ⇓ IR
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ LowerKeyChecks(paths, mode_opt) ⇓ IR
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerConflictChecks}(\mathsf{paths},\ \mathsf{mode}_{\mathsf{opt}})\ \Downarrow \ \mathsf{IR} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerKeyChecks}(\mathsf{paths},\ \mathsf{mode}_{\mathsf{opt}})\ \Downarrow \ \mathsf{IR}
+\end{array}
 ```
 
 #### 19.3.7 Diagnostics
@@ -894,72 +947,71 @@ This section introduces no additional parsing rules beyond §19.2.2.
 
 #### 19.4.3 AST Representation / Form
 
-```text
-Nested release is represented by `KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span)` with `Release ∈ mods`.
+```math
+\mathsf{Nested}\ \mathsf{release}\ \mathsf{is}\ \mathsf{represented}\ \mathsf{by}\ \texttt{KeyBlockStmt(attrs\_opt, paths, mods, mode\_opt, body, span)}\ \mathsf{with}\ \texttt{Release in mods}.
 ```
 
 #### 19.4.4 Static Semantics
 
 **(K-Nested-Same-Path)**
 
-```text
-Held(P, M_outer, Γ_keys)    #P M_inner { ... }
+```math
+\begin{array}{l}
+\operatorname{Held}(P,\ M_{\mathsf{outer}},\ \Gamma_{\mathsf{keys}} )\quad \#P\ M_{\mathsf{inner}}\ \{\ \ldots \ \} \\
+\rule{18em}{0.4pt} \\
+\mathsf{if}\ M_{\mathsf{inner}}\ =\ M_{\mathsf{outer}}: \\
+\ \mathsf{Covered} \\
+\mathsf{otherwise}\ \mathsf{if}\ M_{\mathsf{inner}}\ \ne \ M_{\mathsf{outer}}\ \land \ \texttt{release}\ \in \ \mathsf{modifiers}: \\
+\ \mathsf{Release}-\mathsf{and}-\mathsf{Reacquire} \\
+\mathsf{otherwise}: \\
+\ \mathsf{Reject}
+\end{array}
 ```
-
-──────────────────────────────────────────────────────────────
-if M_inner = M_outer:
- Covered
-
-```text
-otherwise if M_inner ≠ M_outer ∧ `release` ∈ modifiers:
-```
-
- Release-and-Reacquire
-otherwise:
- Reject
 
 **(K-Reentrant)**
 
-```text
-SharedParam(proc, i) ⇔ the i-th formal parameter of proc has type `shared` T for some T
-DirectCalleeAccesses(proc) = {⟨i, rel, M⟩ | SharedParam(proc, i) ∧ proc.body contains KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span) ∧ q ∈ paths ∧ KeyPath(q) = name(param_i) ++ rel ∧ M = BlockMode(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span))}
-CalleeAccessSummary(proc) is the least set A such that DirectCalleeAccesses(proc) ⊆ A and, for every directly resolved call `g(a_1, …, a_n)` in proc.body, every ⟨j, rel, M⟩ ∈ CalleeAccessSummary(g), and every i with SharedParam(proc, i) and KeyPath(a_j) = name(param_i) ++ rel_0, ⟨i, rel_0 ++ rel, M⟩ ∈ A.
-InstantiateCalleeAccess(v, ⟨i, rel, M⟩) = ⟨Q, M⟩ ⇔ KeyPath(v) = Q_0 ∧ Q = Q_0 ++ rel
-CalleeAccesses(Q) at call site `call(f, a_1, …, a_n)` iff ∃ ⟨i, rel, M⟩ ∈ CalleeAccessSummary(f). InstantiateCalleeAccess(a_i, ⟨i, rel, M⟩) = ⟨Q, M⟩
+```math
+\begin{array}{l}
+\operatorname{SharedParam}(\mathsf{proc},\ i)\ \Leftrightarrow \ \mathsf{the}\ i-\mathsf{th}\ \mathsf{formal}\ \mathsf{parameter}\ \mathsf{of}\ \mathsf{proc}\ \mathsf{has}\ \mathsf{type}\ \texttt{shared}\ T\ \mathsf{for}\ \mathsf{some}\ T \\
+\operatorname{DirectCalleeAccesses}(\mathsf{proc})\ =\ \{\langle i,\ \mathsf{rel},\ M\rangle \ \mid \ \operatorname{SharedParam}(\mathsf{proc},\ i)\ \land \ \mathsf{proc}.\mathsf{body}\ \mathsf{contains}\ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span})\ \land \ q\ \in \ \mathsf{paths}\ \land \ \operatorname{KeyPath}(q)\ =\ \operatorname{name}(\mathsf{param}_{i})\ \mathbin{++} \ \mathsf{rel}\ \land \ M\ =\ \operatorname{BlockMode}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}))\} \\
+\operatorname{CalleeAccessSummary}(\mathsf{proc})\ \mathsf{is}\ \mathsf{the}\ \mathsf{least}\ \mathsf{set}\ A\ \mathsf{such}\ \mathsf{that}\ \operatorname{DirectCalleeAccesses}(\mathsf{proc})\ \subseteq \ A\ \mathsf{and},\ \mathsf{for}\ \mathsf{every}\ \mathsf{directly}\ \mathsf{resolved}\ \mathsf{call}\ \texttt{g(a\_1, ..., a\_n)}\ \mathsf{in}\ \mathsf{proc}.\mathsf{body},\ \mathsf{every}\ \langle j,\ \mathsf{rel},\ M\rangle \ \in \ \operatorname{CalleeAccessSummary}(g),\ \mathsf{and}\ \mathsf{every}\ i\ \mathsf{with}\ \operatorname{SharedParam}(\mathsf{proc},\ i)\ \mathsf{and}\ \operatorname{KeyPath}(a_{j})\ =\ \operatorname{name}(\mathsf{param}_{i})\ \mathbin{++} \ \mathsf{rel}_{0},\ \langle i,\ \mathsf{rel}_{0}\ \mathbin{++} \ \mathsf{rel},\ M\rangle \ \in \ A. \\
+\operatorname{InstantiateCalleeAccess}(v,\ \langle i,\ \mathsf{rel},\ M\rangle )\ =\ \langle Q,\ M\rangle \ \Leftrightarrow \ \operatorname{KeyPath}(v)\ =\ Q_{0}\ \land \ Q\ =\ Q_{0}\ \mathbin{++} \ \mathsf{rel} \\
+\operatorname{CalleeAccesses}(Q)\ \mathsf{at}\ \mathsf{call}\ \mathsf{site}\ \texttt{call(f, a\_1, ..., a\_n)}\ \mathsf{iff}\ \exists \ \langle i,\ \mathsf{rel},\ M\rangle \ \in \ \operatorname{CalleeAccessSummary}(f).\ \operatorname{InstantiateCalleeAccess}(a_{i},\ \langle i,\ \mathsf{rel},\ M\rangle )\ =\ \langle Q,\ M\rangle 
+\end{array}
 ```
-
 CalleeCovered(Q) at call site iff the instantiated access for Q has required mode M_Q and Covered(Q, M_Q, G_keys).
 
 Held(P, M, G_keys)    Prefix(P, Q)    CalleeAccesses(Q)
 
-```text
-──────────────────
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\operatorname{CalleeCovered}(Q)
+\end{array}
 ```
-
-CalleeCovered(Q)
 
 If CalleeAccessSummary(f) cannot be computed because the callee is unresolved, bodyless, dynamically dispatched, or recursively unknown, the compiler MUST emit the unknown-callee-access warning defined in §19.4.7 once per call site whose `shared` actual argument path lies under a currently held prefix. For static analysis, that call site is treated as potentially accessing every subpath of the actual argument path in `Write` mode.
 
 Passing a `shared` value as a procedure argument does not itself acquire a key:
 
-```text
-Γ ⊢ f : (`shared` T) → R    Γ ⊢ v : `shared` T
-──────────────────
-call(f, v) ⇒ no key acquisition at call site
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ f\ :\ (\texttt{shared}\ T)\ \to \ R\quad \Gamma \ \vdash \ v\ :\ \texttt{shared}\ T \\
+\rule{18em}{0.4pt} \\
+\operatorname{call}(f,\ v)\ \Rightarrow \ \mathsf{no}\ \mathsf{key}\ \mathsf{acquisition}\ \mathsf{at}\ \mathsf{call}\ \mathsf{site}
+\end{array}
 ```
 
 `[[stale_ok]]` suppresses the stale-after-release warning on a binding derived from `shared` data across a `release` boundary. Attribute syntax and attachment are defined in §9.5.
 
 **(K-Release-SameMode-Err)**
 
-```text
-Release ∈ modifiers    Held(P, M_outer, Γ_keys)    P ∈ {KeyPath(p) | p ∈ paths}    BlockMode(KeyBlockStmt(attrs_opt, paths, modifiers, mode_opt, body, span)) = M_outer    c = Code(K-Release-SameMode-Err)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ KeyBlockStmt(attrs_opt, paths, modifiers, mode_opt, body, span) ⇑ c
+```math
+\begin{array}{l}
+\mathsf{Release}\ \in \ \mathsf{modifiers}\quad \operatorname{Held}(P,\ M_{\mathsf{outer}},\ \Gamma_{\mathsf{keys}} )\quad P\ \in \ \{\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}\}\quad \operatorname{BlockMode}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{modifiers},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}))\ =\ M_{\mathsf{outer}}\quad c\ =\ \operatorname{Code}(K-\mathsf{Release}-\mathsf{SameMode}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{modifiers},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span})\ \Uparrow \ c
+\end{array}
 ```
 
 #### 19.4.5 Dynamic Semantics
@@ -973,75 +1025,75 @@ When entering `#path release <target> { body }`:
 5. Reacquire the outer-mode key for the remainder of the enclosing scope.
 
 **(K-Release-Sequence)**
-Held(P, M_outer, S_outer)    #P `release` M_inner { B }
-────────────────────────────────────────────────────────────
 
-```text
-Release(P, Γ_keys);
+```math
+\begin{array}{l}
+\operatorname{Held}(P,\ M_{\mathsf{outer}},\ S_{\mathsf{outer}})\quad \#P\ \texttt{release}\ M_{\mathsf{inner}}\ \{\ B\ \} \\
+\rule{18em}{0.4pt} \\
+\operatorname{Release}(P,\ \Gamma_{\mathsf{keys}} );
+\end{array}
 ```
-
 Acquire(P, M_inner, S_inner);
 Eval(B);
 
-```text
-Release(P, Γ_keys);
+```math
+\operatorname{Release}(P,\ \Gamma_{\mathsf{keys}} );
 ```
-
 Acquire(P, M_outer, S_outer)
 
 Between steps 1 and 2, and between steps 4 and 5, other tasks MAY acquire conflicting keys to the same path.
 
-```text
-HeldKeysForPaths(paths, σ) = keys ⇔ keys = [k ∈ σ.held_keys | PathOf(k) ∈ CanonicalOrder([KeyPath(p) | p ∈ paths])]
-PathOf(⟨P, _, _⟩) = P
-KeyModeOf(⟨_, M, _⟩) = M
-KeyScopeOf(⟨_, _, S⟩) = S
+```math
+\begin{array}{l}
+\operatorname{HeldKeysForPaths}(\mathsf{paths},\ \sigma )\ =\ \mathsf{keys}\ \Leftrightarrow \ \mathsf{keys}\ =\ [k\ \in \ \sigma .\mathsf{held}_{\mathsf{keys}}\ \mid \ \operatorname{PathOf}(k)\ \in \ \operatorname{CanonicalOrder}([\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}])] \\
+\operatorname{PathOf}(\langle P,\ \_,\ \_\rangle )\ =\ P \\
+\operatorname{KeyModeOf}(\langle \_,\ M,\ \_\rangle )\ =\ M \\
+\operatorname{KeyScopeOf}(\langle \_,\ \_,\ S\rangle )\ =\ S
+\end{array}
 ```
 
-```text
-MarkKeysReleased(σ, keys) = σ' ⇔ σ' = σ[held_keys := σ.held_keys ∖ keys, released_keys := σ.released_keys ∪ keys]
+```math
+\operatorname{MarkKeysReleased}(\sigma ,\ \mathsf{keys})\ =\ \sigma '\ \Leftrightarrow \ \sigma '\ =\ \sigma [\mathsf{held}_{\mathsf{keys}}\ :=\ \sigma .\mathsf{held}_{\mathsf{keys}}\ \setminus \ \mathsf{keys},\ \mathsf{released}_{\mathsf{keys}}\ :=\ \sigma .\mathsf{released}_{\mathsf{keys}}\ \cup \ \mathsf{keys}]
 ```
 
-```text
-ClearReleased(σ, keys) = σ' ⇔ σ' = σ[released_keys := σ.released_keys ∖ keys]
+```math
+\operatorname{ClearReleased}(\sigma ,\ \mathsf{keys})\ =\ \sigma '\ \Leftrightarrow \ \sigma '\ =\ \sigma [\mathsf{released}_{\mathsf{keys}}\ :=\ \sigma .\mathsf{released}_{\mathsf{keys}}\ \setminus \ \mathsf{keys}]
 ```
 
-```text
-ReacquireHeldKeysSigma(keys, σ) ⇓ σ' ⇔
-  sorted = CanonicalSort([PathOf(k) | k ∈ keys]) ∧
-  ∀ P ∈ sorted. ∃ k ∈ keys. PathOf(k) = P ∧ AcquireLock(σ, P, KeyModeOf(k)) ∧
-  σ' = σ[held_keys := σ.held_keys ∪ keys]
+```math
+\begin{array}{l}
+\operatorname{ReacquireHeldKeysSigma}(\mathsf{keys},\ \sigma )\ \Downarrow \ \sigma '\ \Leftrightarrow  \\
+\ \mathsf{sorted}\ =\ \operatorname{CanonicalSort}([\operatorname{PathOf}(k)\ \mid \ k\ \in \ \mathsf{keys}])\ \land  \\
+\ \forall \ P\ \in \ \mathsf{sorted}.\ \exists \ k\ \in \ \mathsf{keys}.\ \operatorname{PathOf}(k)\ =\ P\ \land \ \operatorname{AcquireLock}(\sigma ,\ P,\ \operatorname{KeyModeOf}(k))\ \land  \\
+\ \sigma '\ =\ \sigma [\mathsf{held}_{\mathsf{keys}}\ :=\ \sigma .\mathsf{held}_{\mathsf{keys}}\ \cup \ \mathsf{keys}]
+\end{array}
 ```
 
 **(ExecSigma-KeyBlock-Release)**
 
-```text
-Release ∈ mods    outer = HeldKeysForPaths(paths, σ)    Γ ⊢ ReleaseKeysSigma(outer, σ) ⇓ σ_1    σ_2 = MarkKeysReleased(σ_1, outer)    Γ ⊢ AcquireKeysSigma(paths, mode_opt, σ_2) ⇓ (σ_3, inner)    Γ ⊢ EvalBlockSigma(body, σ_3) ⇓ (out, σ_4)    Γ ⊢ ReleaseKeysSigma(inner, σ_4) ⇓ σ_5    σ_6 = ClearReleased(σ_5, outer)    Γ ⊢ ReacquireHeldKeysSigma(outer, σ_6) ⇓ σ_7
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ExecSigma(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span), σ) ⇓ (StmtOutOf(out), σ_7)
+```math
+\begin{array}{l}
+\mathsf{Release}\ \in \ \mathsf{mods}\quad \mathsf{outer}\ =\ \operatorname{HeldKeysForPaths}(\mathsf{paths},\ \sigma )\quad \Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{outer},\ \sigma )\ \Downarrow \ \sigma_{1} \quad \sigma_{2} \ =\ \operatorname{MarkKeysReleased}(\sigma_{1} ,\ \mathsf{outer})\quad \Gamma \ \vdash \ \operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode}_{\mathsf{opt}},\ \sigma_{2} )\ \Downarrow \ (\sigma_{3} ,\ \mathsf{inner})\quad \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma_{3} )\ \Downarrow \ (\mathsf{out},\ \sigma_{4} )\quad \Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{inner},\ \sigma_{4} )\ \Downarrow \ \sigma_{5} \quad \sigma_{6} \ =\ \operatorname{ClearReleased}(\sigma_{5} ,\ \mathsf{outer})\quad \Gamma \ \vdash \ \operatorname{ReacquireHeldKeysSigma}(\mathsf{outer},\ \sigma_{6} )\ \Downarrow \ \sigma_{7}  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\ \Downarrow \ (\operatorname{StmtOutOf}(\mathsf{out}),\ \sigma_{7} )
+\end{array}
 ```
 
 #### 19.4.6 Lowering
 
 **(Lower-Stmt-KeyBlock-Release)**
 
-```text
-Release ∈ mods    Γ ⊢ LowerKeyPaths(paths) ⇓ Ps    outer = EnclosingHeldKeys(Ps)    mode = ModeOf(mode_opt)    sorted = CanonicalSort(Ps)
-IR_release_outer = SeqIRList([ReleaseKey(PathOf(k), KeyScopeOf(k)) | k ∈ Reverse(outer)])
-IR_acquire_inner = SeqIRList([SeqIR(CheckConflict(P_i, mode), AcquireKey(P_i, mode, CurrentScope)) | P_i ∈ sorted])
-Γ ⊢ LowerBlock(body) ⇓ ⟨IR_b, v_b⟩
-IR_release_inner = SeqIRList([ReleaseKey(P_i, CurrentScope) | P_i ∈ Reverse(sorted)])
-IR_reacquire_outer = SeqIRList([AcquireKey(PathOf(k), KeyModeOf(k), KeyScopeOf(k)) | k ∈ outer])
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ LowerStmt(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span)) ⇓ SeqIR(IR_release_outer, IR_acquire_inner, IR_b, IR_release_inner, IR_reacquire_outer)
+```math
+\begin{array}{l}
+\mathsf{Release}\ \in \ \mathsf{mods}\quad \Gamma \ \vdash \ \operatorname{LowerKeyPaths}(\mathsf{paths})\ \Downarrow \ \mathsf{Ps}\quad \mathsf{outer}\ =\ \operatorname{EnclosingHeldKeys}(\mathsf{Ps})\quad \mathsf{mode}\ =\ \operatorname{ModeOf}(\mathsf{mode}_{\mathsf{opt}})\quad \mathsf{sorted}\ =\ \operatorname{CanonicalSort}(\mathsf{Ps}) \\
+\mathsf{IR}_{\mathsf{release}\_\mathsf{outer}}\ =\ \operatorname{SeqIRList}([\operatorname{ReleaseKey}(\operatorname{PathOf}(k),\ \operatorname{KeyScopeOf}(k))\ \mid \ k\ \in \ \operatorname{Reverse}(\mathsf{outer})]) \\
+\mathsf{IR}_{\mathsf{acquire}\_\mathsf{inner}}\ =\ \operatorname{SeqIRList}([\operatorname{SeqIR}(\operatorname{CheckConflict}(P_{i},\ \mathsf{mode}),\ \operatorname{AcquireKey}(P_{i},\ \mathsf{mode},\ \mathsf{CurrentScope}))\ \mid \ P_{i}\ \in \ \mathsf{sorted}]) \\
+\Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\
+\mathsf{IR}_{\mathsf{release}\_\mathsf{inner}}\ =\ \operatorname{SeqIRList}([\operatorname{ReleaseKey}(P_{i},\ \mathsf{CurrentScope})\ \mid \ P_{i}\ \in \ \operatorname{Reverse}(\mathsf{sorted})]) \\
+\mathsf{IR}_{\mathsf{reacquire}\_\mathsf{outer}}\ =\ \operatorname{SeqIRList}([\operatorname{AcquireKey}(\operatorname{PathOf}(k),\ \operatorname{KeyModeOf}(k),\ \operatorname{KeyScopeOf}(k))\ \mid \ k\ \in \ \mathsf{outer}]) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{\mathsf{release}\_\mathsf{outer}},\ \mathsf{IR}_{\mathsf{acquire}\_\mathsf{inner}},\ \mathsf{IR}_{b},\ \mathsf{IR}_{\mathsf{release}\_\mathsf{inner}},\ \mathsf{IR}_{\mathsf{reacquire}\_\mathsf{outer}})
+\end{array}
 ```
 
 #### 19.4.7 Diagnostics
@@ -1068,44 +1120,54 @@ Speculative blocks use the key-block parser in §19.2.2 together with `Parse-Key
 
 #### 19.5.3 AST Representation / Form
 
-```text
-Speculative execution is represented by `KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span)` with `Speculative ∈ mods`.
+```math
+\mathsf{Speculative}\ \mathsf{execution}\ \mathsf{is}\ \mathsf{represented}\ \mathsf{by}\ \texttt{KeyBlockStmt(attrs\_opt, paths, mods, mode\_opt, body, span)}\ \mathsf{with}\ \texttt{Speculative in mods}.
 ```
 
-ReadSet = ℘(Path × Value)
-
-WriteSet = ℘(Path × Value)
-
-SpecState = {
-
-```text
-  SpecStart(paths, body, σ),
-  SpecSnapshot(paths, body, R, σ),
-  SpecExec(body, R, W, σ),
-  SpecCommit(R, W, v, σ),
-  SpecRetry(paths, body, n, σ),
-  SpecFallback(paths, body, σ),
-  SpecDone(v, σ),
-  SpecPanic(σ)
+```math
+\mathsf{ReadSet}\ =\ \wp (\mathsf{Path}\ \times \ \mathsf{Value})
 ```
 
+```math
+\mathsf{WriteSet}\ =\ \wp (\mathsf{Path}\ \times \ \mathsf{Value})
+```
+
+```math
+\begin{array}{l}
+\mathsf{SpecState}\ =\ \{ \\
+\ \operatorname{SpecStart}(\mathsf{paths},\ \mathsf{body},\ \sigma ), \\
+\ \operatorname{SpecSnapshot}(\mathsf{paths},\ \mathsf{body},\ R,\ \sigma ), \\
+\ \operatorname{SpecExec}(\mathsf{body},\ R,\ W,\ \sigma ), \\
+\ \operatorname{SpecCommit}(R,\ W,\ v,\ \sigma ), \\
+\ \operatorname{SpecRetry}(\mathsf{paths},\ \mathsf{body},\ n,\ \sigma ), \\
+\ \operatorname{SpecFallback}(\mathsf{paths},\ \mathsf{body},\ \sigma ), \\
+\ \operatorname{SpecDone}(v,\ \sigma ), \\
+\ \operatorname{SpecPanic}(\sigma )
+\end{array}
+```
 }
 
 #### 19.5.4 Static Semantics
 
 **(K-Spec-Write-Required)**
 
-```text
-#P `speculative` M {B}    M ≠ `write`
+```math
+\begin{array}{l}
+\#P\ \texttt{speculative}\ M\ \{B\}\quad M\ \ne \ \texttt{write} \\
+\rule{18em}{0.4pt} \\
+\mathsf{Reject}
+\end{array}
 ```
 
-────────────────────────────────────────
-Reject
-
 **(K-Spec-Pure-Body)**
-#P `speculative write` {B}    Writes(B) ⊄ CoveredPaths(P)
-──────────────────────────────────────────────────────────
-Reject
+
+```math
+\begin{array}{l}
+\#P\ \texttt{speculative write}\ \{B\}\quad \operatorname{Writes}(B)\ \nsubseteq \ \operatorname{CoveredPaths}(P) \\
+\rule{18em}{0.4pt} \\
+\mathsf{Reject}
+\end{array}
+```
 
 Permitted operations:
 
@@ -1127,68 +1189,62 @@ Prohibited operations:
 
 **(K-Spec-No-Nested-Key)**
 
-```text
-#P `speculative write` {B}    #Q _ {…} ∈ Subexpressions(B)
+```math
+\begin{array}{l}
+\#P\ \texttt{speculative write}\ \{B\}\quad \#Q\ \_\ \{\ldots \}\ \in \ \operatorname{Subexpressions}(B) \\
+\rule{18em}{0.4pt} \\
+\mathsf{Reject}
+\end{array}
 ```
-
-──────────────────────────────────────────────────────────
-Reject
 
 **(K-Spec-No-Impure-Call)**
 
-```text
-#P `speculative write` {B}    ∃ c ∈ Subexpressions(B). IsCallLike(c) ∧ ¬(Γ ⊢ c pure)    c_err = Code(K-Spec-No-Impure-Call)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-G ⊢ KeyBlockStmt(attrs_opt, paths, mods, mode_opt, B, span) ⇑ c_err
+```math
+\begin{array}{l}
+\#P\ \texttt{speculative write}\ \{B\}\quad \exists \ c\ \in \ \operatorname{Subexpressions}(B).\ \operatorname{IsCallLike}(c)\ \land \ \lnot (\Gamma \ \vdash \ c\ \mathsf{pure})\quad c_{\mathsf{err}}\ =\ \operatorname{Code}(K-\mathsf{Spec}-\mathsf{No}-\mathsf{Impure}-\mathsf{Call}) \\
+\rule{18em}{0.4pt} \\
+G\ \vdash \ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ B,\ \mathsf{span})\ \Uparrow \ c_{\mathsf{err}}
+\end{array}
 ```
 
 **(K-Spec-No-Memory-Ordering)**
 
-```text
-#P `speculative write` {B}    ∃ x ∈ Subexpressions(B). (IsMemoryOrderAnnotation(x) ∨ IsFenceExpr(x))
+```math
+\begin{array}{l}
+\#P\ \texttt{speculative write}\ \{B\}\quad \exists \ x\ \in \ \operatorname{Subexpressions}(B).\ (\operatorname{IsMemoryOrderAnnotation}(x)\ \lor \ \operatorname{IsFenceExpr}(x)) \\
+\rule{18em}{0.4pt} \\
+\mathsf{Reject}
+\end{array}
 ```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────
-Reject
 
 **(K-Spec-No-Wait)**
 
-```text
-#P `speculative write` {B}    WaitExpr(_) ∈ Subexpressions(B)    c = Code(K-Spec-No-Wait)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ KeyBlockStmt(attrs_opt, paths, mods, mode_opt, B, span) ⇑ c
+```math
+\begin{array}{l}
+\#P\ \texttt{speculative write}\ \{B\}\quad \operatorname{WaitExpr}(\_)\ \in \ \operatorname{Subexpressions}(B)\quad c\ =\ \operatorname{Code}(K-\mathsf{Spec}-\mathsf{No}-\mathsf{Wait}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ B,\ \mathsf{span})\ \Uparrow \ c
+\end{array}
 ```
 
 **(K-Spec-No-Defer)**
 
-```text
-#P `speculative write` {B}    DeferStmt(_) ∈ SubStatements(B)    c = Code(K-Spec-No-Defer)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ KeyBlockStmt(attrs_opt, paths, mods, mode_opt, B, span) ⇑ c
+```math
+\begin{array}{l}
+\#P\ \texttt{speculative write}\ \{B\}\quad \operatorname{DeferStmt}(\_)\ \in \ \operatorname{SubStatements}(B)\quad c\ =\ \operatorname{Code}(K-\mathsf{Spec}-\mathsf{No}-\mathsf{Defer}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ B,\ \mathsf{span})\ \Uparrow \ c
+\end{array}
 ```
 
 **(K-Spec-No-Release)**
 
-```text
-Speculative ∈ mods    Release ∈ mods    c = Code(K-Spec-No-Release)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span) ⇑ c
+```math
+\begin{array}{l}
+\mathsf{Speculative}\ \in \ \mathsf{mods}\quad \mathsf{Release}\ \in \ \mathsf{mods}\quad c\ =\ \operatorname{Code}(K-\mathsf{Spec}-\mathsf{No}-\mathsf{Release}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span})\ \Uparrow \ c
+\end{array}
 ```
 
 #### 19.5.5 Dynamic Semantics
@@ -1197,167 +1253,155 @@ Speculative ∈ mods    Release ∈ mods    c = Code(K-Spec-No-Release)
 
 **(ExecSigma-KeyBlock-Speculative)**
 
-```text
-Speculative ∈ mods    retries = 0
+```math
+\begin{array}{l}
+\mathsf{Speculative}\ \in \ \mathsf{mods}\quad \mathsf{retries}\ =\ 0 \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\ \Downarrow \ \operatorname{SpecLoop}(\mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{retries},\ \sigma )
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ExecSigma(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span), σ) ⇓ SpecLoop(paths, mods, mode_opt, body, retries, σ)
-```
-
-```text
-SpecLoop(paths, mods, mode_opt, body, retries, σ) ⇓ (out, σ') ⇔
-  R = SnapshotKeyedPaths(paths, σ) ∧
-  Γ ⊢ EvalBlockSigma(body, σ) ⇓ (out_body, σ_1) ∧
-  W = CollectWrites(σ, σ_1) ∧
-  (SpeculativeCommit(R, W) ⇒ out = out_body ∧ σ' = ApplyWrites(σ, W)) ∧
-  (¬SpeculativeCommit(R, W) ∧ retries < MAX_SPECULATIVE_RETRIES ⇒ SpecLoop(paths, mods, mode_opt, body, retries + 1, σ) ⇓ (out, σ')) ∧
-  (¬SpeculativeCommit(R, W) ∧ retries = MAX_SPECULATIVE_RETRIES ⇒ Γ ⊢ ExecSigma(KeyBlockStmt(attrs_opt, paths, mods \ {Speculative}, mode_opt, body, span), σ) ⇓ (out, σ'))
+```math
+\begin{array}{l}
+\operatorname{SpecLoop}(\mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{retries},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\ \Leftrightarrow  \\
+\ R\ =\ \operatorname{SnapshotKeyedPaths}(\mathsf{paths},\ \sigma )\ \land  \\
+\ \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma )\ \Downarrow \ (\mathsf{out}_{\mathsf{body}},\ \sigma_{1} )\ \land  \\
+\ W\ =\ \operatorname{CollectWrites}(\sigma ,\ \sigma_{1} )\ \land  \\
+\ (\operatorname{SpeculativeCommit}(R,\ W)\ \Rightarrow \ \mathsf{out}\ =\ \mathsf{out}_{\mathsf{body}}\ \land \ \sigma '\ =\ \operatorname{ApplyWrites}(\sigma ,\ W))\ \land  \\
+\ (\lnot \operatorname{SpeculativeCommit}(R,\ W)\ \land \ \mathsf{retries}\ <\ \mathsf{MAX}_{\mathsf{SPECULATIVE}\_\mathsf{RETRIES}}\ \Rightarrow \ \operatorname{SpecLoop}(\mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{retries}\ +\ 1,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma '))\ \land  \\
+\ (\lnot \operatorname{SpeculativeCommit}(R,\ W)\ \land \ \mathsf{retries}\ =\ \mathsf{MAX}_{\mathsf{SPECULATIVE}\_\mathsf{RETRIES}}\ \Rightarrow \ \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods}\ \setminus \ \{\mathsf{Speculative}\},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma '))
+\end{array}
 ```
 
 **State Machine**
 
 **(Spec-Start)**
-────────────────────────────────────────────────────────────────────
 
-```text
-⟨SpecStart(paths, body, σ)⟩ → ⟨SpecSnapshot(paths, body, ∅, σ)⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\langle \operatorname{SpecStart}(\mathsf{paths},\ \mathsf{body},\ \sigma )\rangle \ \to \ \langle \operatorname{SpecSnapshot}(\mathsf{paths},\ \mathsf{body},\ \emptyset ,\ \sigma )\rangle 
+\end{array}
 ```
 
 **(Spec-Snapshot)**
 
-```text
-∀ p ∈ paths. ReadPath(σ, p) = v_p    R = {(p, v_p) | p ∈ paths}
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-⟨SpecSnapshot(paths, body, ∅, σ)⟩ → ⟨SpecExec(body, R, ∅, σ)⟩
+```math
+\begin{array}{l}
+\forall \ p\ \in \ \mathsf{paths}.\ \operatorname{ReadPath}(\sigma ,\ p)\ =\ v_{p}\quad R\ =\ \{(p,\ v_{p})\ \mid \ p\ \in \ \mathsf{paths}\} \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{SpecSnapshot}(\mathsf{paths},\ \mathsf{body},\ \emptyset ,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecExec}(\mathsf{body},\ R,\ \emptyset ,\ \sigma )\rangle 
+\end{array}
 ```
 
 **(Spec-Exec-Ok)**
 
-```text
-Γ ⊢ EvalSpeculative(body, σ, R) ⇓ (Val(v), W, σ')
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-⟨SpecExec(body, R, ∅, σ)⟩ → ⟨SpecCommit(R, W, v, σ')⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSpeculative}(\mathsf{body},\ \sigma ,\ R)\ \Downarrow \ (\operatorname{Val}(v),\ W,\ \sigma ') \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{SpecExec}(\mathsf{body},\ R,\ \emptyset ,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecCommit}(R,\ W,\ v,\ \sigma ')\rangle 
+\end{array}
 ```
 
 **(Spec-Exec-Panic)**
 
-```text
-Γ ⊢ EvalSpeculative(body, σ, R) ⇓ (Ctrl(Panic), W, σ')
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-⟨SpecExec(body, R, ∅, σ)⟩ → ⟨SpecPanic(σ')⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSpeculative}(\mathsf{body},\ \sigma ,\ R)\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ W,\ \sigma ') \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{SpecExec}(\mathsf{body},\ R,\ \emptyset ,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecPanic}(\sigma ')\rangle 
+\end{array}
 ```
 
 **(Spec-Commit-Success)**
 
-```text
-∀ (p, v) ∈ R. ReadPath(σ, p) = v    ApplyWrites(σ, W) = σ'
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-⟨SpecCommit(R, W, v, σ)⟩ → ⟨SpecDone(v, σ')⟩
+```math
+\begin{array}{l}
+\forall \ (p,\ v)\ \in \ R.\ \operatorname{ReadPath}(\sigma ,\ p)\ =\ v\quad \operatorname{ApplyWrites}(\sigma ,\ W)\ =\ \sigma ' \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{SpecCommit}(R,\ W,\ v,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecDone}(v,\ \sigma ')\rangle 
+\end{array}
 ```
 
 **(Spec-Commit-Fail-Retry)**
 
-```text
-∃ (p, v) ∈ R. ReadPath(σ, p) ≠ v    n < MAX_SPECULATIVE_RETRIES
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-⟨SpecCommit(R, W, v, σ)⟩ → ⟨SpecRetry(paths(R), body, n + 1, σ)⟩
+```math
+\begin{array}{l}
+\exists \ (p,\ v)\ \in \ R.\ \operatorname{ReadPath}(\sigma ,\ p)\ \ne \ v\quad n\ <\ \mathsf{MAX}_{\mathsf{SPECULATIVE}\_\mathsf{RETRIES}} \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{SpecCommit}(R,\ W,\ v,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecRetry}(\operatorname{paths}(R),\ \mathsf{body},\ n\ +\ 1,\ \sigma )\rangle 
+\end{array}
 ```
 
 **(Spec-Commit-Fail-Fallback)**
 
-```text
-∃ (p, v) ∈ R. ReadPath(σ, p) ≠ v    n ≥ MAX_SPECULATIVE_RETRIES
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-⟨SpecCommit(R, W, v, σ)⟩ → ⟨SpecFallback(paths(R), body, σ)⟩
+```math
+\begin{array}{l}
+\exists \ (p,\ v)\ \in \ R.\ \operatorname{ReadPath}(\sigma ,\ p)\ \ne \ v\quad n\ \ge \ \mathsf{MAX}_{\mathsf{SPECULATIVE}\_\mathsf{RETRIES}} \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{SpecCommit}(R,\ W,\ v,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecFallback}(\operatorname{paths}(R),\ \mathsf{body},\ \sigma )\rangle 
+\end{array}
 ```
 
 **(Spec-Retry)**
-────────────────────────────────────────────────────────────────────
 
-```text
-⟨SpecRetry(paths, body, n, σ)⟩ → ⟨SpecSnapshot(paths, body, ∅, σ)⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\langle \operatorname{SpecRetry}(\mathsf{paths},\ \mathsf{body},\ n,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecSnapshot}(\mathsf{paths},\ \mathsf{body},\ \emptyset ,\ \sigma )\rangle 
+\end{array}
 ```
 
 **(Spec-Fallback)**
 
-```text
-AcquireKey(σ, paths, Write) = σ_k    Γ ⊢ EvalSigma(body, σ_k) ⇓ (Val(v), σ')    ReleaseKey(σ', paths) = σ''
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨SpecFallback(paths, body, σ)⟩ → ⟨SpecDone(v, σ'')⟩
+```math
+\begin{array}{l}
+\operatorname{AcquireKey}(\sigma ,\ \mathsf{paths},\ \mathsf{Write})\ =\ \sigma_{k} \quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma_{k} )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma ')\quad \operatorname{ReleaseKey}(\sigma ',\ \mathsf{paths})\ =\ \sigma '' \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{SpecFallback}(\mathsf{paths},\ \mathsf{body},\ \sigma )\rangle \ \to \ \langle \operatorname{SpecDone}(v,\ \sigma '')\rangle 
+\end{array}
 ```
 
 **(SpecBlock-Ok)**
 
-```text
-⟨SpecStart(paths, body, σ)⟩ →* ⟨SpecDone(v, σ')⟩
-```
-
-─────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalSpecBlock(paths, body, σ) ⇓ (Val(v), σ')
+```math
+\begin{array}{l}
+\langle \operatorname{SpecStart}(\mathsf{paths},\ \mathsf{body},\ \sigma )\rangle \ \to *\ \langle \operatorname{SpecDone}(v,\ \sigma ')\rangle  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSpecBlock}(\mathsf{paths},\ \mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma ')
+\end{array}
 ```
 
 **(SpecBlock-Panic)**
 
-```text
-⟨SpecStart(paths, body, σ)⟩ →* ⟨SpecPanic(σ')⟩
+```math
+\begin{array}{l}
+\langle \operatorname{SpecStart}(\mathsf{paths},\ \mathsf{body},\ \sigma )\rangle \ \to *\ \langle \operatorname{SpecPanic}(\sigma ')\rangle  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSpecBlock}(\mathsf{paths},\ \mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma ')
+\end{array}
 ```
 
-─────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ EvalSpecBlock(paths, body, σ) ⇓ (Ctrl(Panic), σ')
+```math
+\operatorname{ReadPath}(\sigma ,\ p)\ =\ v\ \Leftrightarrow \ \mathsf{evaluate}\ \mathsf{path}\ \mathsf{expression}\ \texttt{p}\ \mathsf{in}\ \mathsf{state}\ \texttt{sigma},\ \mathsf{returning}\ \texttt{v}.
 ```
 
-```text
-ReadPath(σ, p) = v ⇔ evaluate path expression `p` in state `σ`, returning `v`.
+```math
+\operatorname{ApplyWrites}(\sigma ,\ W)\ =\ \sigma '\ \Leftrightarrow \ \mathsf{atomically}\ \mathsf{apply}\ \mathsf{all}\ \texttt{(p, v) in W}\ \mathsf{to}\ \texttt{sigma}.
 ```
 
-```text
-ApplyWrites(σ, W) = σ' ⇔ atomically apply all `(p, v) ∈ W` to `σ`.
+```math
+\operatorname{paths}(R)\ =\ \{p\ \mid \ (p,\ \_)\ \in \ R\}
 ```
 
-```text
-paths(R) = {p | (p, _) ∈ R}
+```math
+\operatorname{EvalSpeculative}(\mathsf{body},\ \sigma ,\ R)\ \Downarrow \ (\mathsf{out},\ W,\ \sigma ')\ \mathsf{intercepts}\ \mathsf{writes}\ \mathsf{to}\ \mathsf{paths}\ \mathsf{in}\ \texttt{paths(R)}\ \mathsf{and}\ \mathsf{collects}\ \mathsf{them}\ \mathsf{in}\ \texttt{W}\ \mathsf{instead}\ \mathsf{of}\ \mathsf{applying}\ \mathsf{them}\ \mathsf{to}\ \texttt{sigma}.
 ```
 
-```text
-EvalSpeculative(body, σ, R) ⇓ (out, W, σ') intercepts writes to paths in `paths(R)` and collects them in `W` instead of applying them to `σ`.
+```math
+\texttt{MAX\_SPECULATIVE\_RETRIES = 8}.
 ```
-
-`MAX_SPECULATIVE_RETRIES = 8`.
 
 If a panic occurs during speculative execution, the write set is discarded and the panic propagates.
 
@@ -1369,20 +1413,20 @@ An implementation MAY conservatively realize `# ... speculative write { ... }` b
 
 #### 19.5.6 Lowering
 
-SpeculativeIR = {SpecSnapshotIR(paths), SpecValidateIR(paths), SpecCommitIR(paths), SpecRetryIR, SpecFallbackIR}
+```math
+\mathsf{SpeculativeIR}\ =\ \{\operatorname{SpecSnapshotIR}(\mathsf{paths}),\ \operatorname{SpecValidateIR}(\mathsf{paths}),\ \operatorname{SpecCommitIR}(\mathsf{paths}),\ \mathsf{SpecRetryIR},\ \mathsf{SpecFallbackIR}\}
+```
 
 **(Lower-Stmt-KeyBlock-Speculative)**
 
-```text
-Speculative ∈ mods    Γ ⊢ LowerKeyPaths(paths) ⇓ Ps    sorted = CanonicalSort(Ps)    Γ ⊢ LowerBlock(body) ⇓ ⟨IR_b, v_b⟩
-IR_fallback = SeqIR(SeqIRList([SeqIR(CheckConflict(P_i, Write), AcquireKey(P_i, Write, CurrentScope)) | P_i ∈ sorted]), IR_b, SeqIRList([ReleaseKey(P_i, CurrentScope) | P_i ∈ Reverse(sorted)]))
-```
-
-IR = SpecLoopIR(SpecSnapshotIR(sorted), IR_b, SpecValidateIR(sorted), SpecCommitIR(sorted), SpecRetryIR, SpecFallbackIR(IR_fallback))
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ LowerStmt(KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span)) ⇓ IR
+```math
+\begin{array}{l}
+\mathsf{Speculative}\ \in \ \mathsf{mods}\quad \Gamma \ \vdash \ \operatorname{LowerKeyPaths}(\mathsf{paths})\ \Downarrow \ \mathsf{Ps}\quad \mathsf{sorted}\ =\ \operatorname{CanonicalSort}(\mathsf{Ps})\quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\
+\mathsf{IR}_{\mathsf{fallback}}\ =\ \operatorname{SeqIR}(\operatorname{SeqIRList}([\operatorname{SeqIR}(\operatorname{CheckConflict}(P_{i},\ \mathsf{Write}),\ \operatorname{AcquireKey}(P_{i},\ \mathsf{Write},\ \mathsf{CurrentScope}))\ \mid \ P_{i}\ \in \ \mathsf{sorted}]),\ \mathsf{IR}_{b},\ \operatorname{SeqIRList}([\operatorname{ReleaseKey}(P_{i},\ \mathsf{CurrentScope})\ \mid \ P_{i}\ \in \ \operatorname{Reverse}(\mathsf{sorted})])) \\
+\mathsf{IR}\ =\ \operatorname{SpecLoopIR}(\operatorname{SpecSnapshotIR}(\mathsf{sorted}),\ \mathsf{IR}_{b},\ \operatorname{SpecValidateIR}(\mathsf{sorted}),\ \operatorname{SpecCommitIR}(\mathsf{sorted}),\ \mathsf{SpecRetryIR},\ \operatorname{SpecFallbackIR}(\mathsf{IR}_{\mathsf{fallback}})) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}))\ \Downarrow \ \mathsf{IR}
+\end{array}
 ```
 
 #### 19.5.7 Diagnostics
@@ -1412,7 +1456,9 @@ This section introduces no additional parsing rules beyond the generic attribute
 
 #### 19.6.3 AST Representation / Form
 
-StaticallySafe(P) is classified by the following source conditions:
+```math
+\operatorname{StaticallySafe}(P)\ \mathsf{is}\ \mathsf{classified}\ \mathsf{by}\ \mathsf{the}\ \mathsf{following}\ \mathsf{source}\ \mathsf{conditions}:
+```
 
 | Condition            | Description                                                 | Rule   |
 | -------------------- | ----------------------------------------------------------- | ------ |
@@ -1433,8 +1479,13 @@ An implementation MUST treat `StaticallySafe(P)` as false unless it can establis
 
 **(K-Static-Safe)**
 Access(P, M)    StaticallySafe(P)
-────────────────────────────────
-NoRuntimeSync(P)
+
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\operatorname{NoRuntimeSync}(P)
+\end{array}
+```
 
 `NoRuntimeSync(P)` means that runtime synchronization is not required for correctness of the access.
 
@@ -1442,12 +1493,13 @@ An implementation MAY omit runtime synchronization for `P`, or MAY conservativel
 
 **(K-Static-Required)**
 
-```text
-¬ StaticallySafe(P)    ¬ InDynamicContext
+```math
+\begin{array}{l}
+\lnot \ \operatorname{StaticallySafe}(P)\quad \lnot \ \mathsf{InDynamicContext} \\
+\rule{18em}{0.4pt} \\
+\mathsf{Reject}
+\end{array}
 ```
-
-──────────────────────────────────────────
-Reject
 
 #### 19.6.5 Dynamic Semantics
 
@@ -1480,12 +1532,13 @@ Observable behavior under statically-proven key safety and under runtime synchro
 
 **(K-Dynamic-Permitted)**
 
-```text
-¬ StaticallySafe(P)    InDynamicContext
+```math
+\begin{array}{l}
+\lnot \ \operatorname{StaticallySafe}(P)\quad \mathsf{InDynamicContext} \\
+\rule{18em}{0.4pt} \\
+\operatorname{EmitRuntimeSync}(P)
+\end{array}
 ```
-
-────────────────────────────────────────
-EmitRuntimeSync(P)
 
 When `InDynamicContext` and `StaticallySafe(P)` both hold, runtime synchronization is not required. An implementation MAY omit it or conservatively retain equivalent synchronization.
 
@@ -1512,15 +1565,24 @@ fence_order            ::= "acquire" | "release" | "seqcst"
 
 Memory-order attributes use the generic attribute parser in Chapter 9.
 
-This section defines the surface grammar `fence_expr ::= "fence" "(" fence_order ")"`. No separate named parser helper beyond ordinary expression parsing is introduced here.
+```math
+\mathsf{This}\ \mathsf{section}\ \mathsf{defines}\ \mathsf{the}\ \mathsf{surface}\ \mathsf{grammar}\ \texttt{fence\_expr ::= "fence" "(" fence\_order ")"}.\ \mathsf{No}\ \mathsf{separate}\ \mathsf{named}\ \mathsf{parser}\ \mathsf{helper}\ \mathsf{beyond}\ \mathsf{ordinary}\ \mathsf{expression}\ \mathsf{parsing}\ \mathsf{is}\ \mathsf{introduced}\ \mathsf{here}.
+```
 
 #### 19.7.3 AST Representation / Form
 
 Memory-order attributes are attached through the generic attribute forms owned by Chapter 9.
-FenceOrder = {`acquire`, `release`, `seqcst`}
-Expr = … | FenceExpr(order) | …
 
-EffectiveOrdering(e) is defined by nearest-override precedence:
+```math
+\begin{array}{l}
+\mathsf{FenceOrder}\ =\ \{\texttt{acquire},\ \texttt{release},\ \texttt{seqcst}\} \\
+\mathsf{Expr}\ =\ \ldots \ \mid \ \operatorname{FenceExpr}(\mathsf{order})\ \mid \ \ldots 
+\end{array}
+```
+
+```math
+\operatorname{EffectiveOrdering}(e)\ \mathsf{is}\ \mathsf{defined}\ \mathsf{by}\ \mathsf{nearest}-\mathsf{override}\ \mathsf{precedence}:
+```
 
 1. The nearest enclosing expression-level memory-order attribute on `e`.
 2. Else the nearest enclosing key-block default memory-order attribute.
@@ -1557,21 +1619,21 @@ Memory-order annotations MUST NOT appear inside speculative blocks.
 
 **(T-Fence)**
 
-```text
-O ∈ {`acquire`, `release`, `seqcst`}
-```
-
-────────────────────────────────────────
-
-```text
-Γ ⊢ `fence`(O) : ()
+```math
+\begin{array}{l}
+O\ \in \ \{\texttt{acquire},\ \texttt{release},\ \texttt{seqcst}\} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \texttt{fence}(O)\ :\ ()
+\end{array}
 ```
 
 Fence operations MAY appear in runtime expression contexts. They MUST NOT alter the held-key context.
 
 #### 19.7.5 Dynamic Semantics
 
-Evaluation of `fence(O)`:
+```math
+\mathsf{Evaluation}\ \mathsf{of}\ \texttt{fence(O)}:
+```
 
 1. Evaluate `fence(O)` at the current expression evaluation point.
 2. Emit ordering event `Fence(O)`.
@@ -1588,22 +1650,22 @@ Fence evaluation MUST NOT read or write program-visible storage.
 #### 19.7.6 Lowering
 
 **(Lower-Expr-Fence)**
-──────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ LowerExpr(FenceExpr(order)) ⇓ ⟨FenceIR(order), UnitVal⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{FenceExpr}(\mathsf{order}))\ \Downarrow \ \langle \operatorname{FenceIR}(\mathsf{order}),\ \mathsf{UnitVal}\rangle 
+\end{array}
 ```
 
 **(Lower-Ordered-Access)**
 
-```text
-ContainsSharedAccess(e)    ord = EffectiveOrdering(e)    Γ ⊢ LowerExprCore(e) ⇓ ⟨IR, v⟩
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ LowerExpr(e) ⇓ ⟨OrderedAccessIR(ord, IR), v⟩
+```math
+\begin{array}{l}
+\operatorname{ContainsSharedAccess}(e)\quad \mathsf{ord}\ =\ \operatorname{EffectiveOrdering}(e)\quad \Gamma \ \vdash \ \operatorname{LowerExprCore}(e)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \operatorname{OrderedAccessIR}(\mathsf{ord},\ \mathsf{IR}),\ v\rangle 
+\end{array}
 ```
 
 #### 19.7.7 Diagnostics

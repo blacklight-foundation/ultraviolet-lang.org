@@ -3,7 +3,7 @@ title: "Type System Core"
 description: "8. Type System Core of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T17:39:45.389Z"
+generatedAt: "2026-05-09T18:13:03.158Z"
 generated: true
 ---
 
@@ -16,1205 +16,1144 @@ generated: true
 
 ### 8.1 Type Equivalence
 
-TypeEqJudg = {≡}
-ConstLenJudg = {ConstLen}
+```math
+\begin{array}{l}
+\mathsf{TypeEqJudg}\ =\ \{\equiv \} \\
+\mathsf{ConstLenJudg}\ =\ \{\mathsf{ConstLen}\}
+\end{array}
+```
 
 **(ConstLen-Lit)**
-e = Literal(lit)    lit.kind = IntLiteral    InRange(IntValue(lit), "usize")    n = IntValue(lit)
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ConstLen(e) ⇓ n
+```math
+\begin{array}{l}
+e\ =\ \operatorname{Literal}(\mathsf{lit})\quad \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\quad \operatorname{InRange}(\operatorname{IntValue}(\mathsf{lit}),\ \texttt{"usize"})\quad n\ =\ \operatorname{IntValue}(\mathsf{lit}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ConstLen}(e)\ \Downarrow \ n
+\end{array}
 ```
 
 **(ConstLen-Path)**
 
-```text
-e = Path(path, name)    ValuePathType(path, name) = T    StaticDecl(_, _, _, ⟨IdentPattern(name), _, "=", init, _⟩, _, _) ∈ Γ    Γ ⊢ ConstLen(init) ⇓ n
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ConstLen(e) ⇓ n
+```math
+\begin{array}{l}
+e\ =\ \operatorname{Path}(\mathsf{path},\ \mathsf{name})\quad \operatorname{ValuePathType}(\mathsf{path},\ \mathsf{name})\ =\ T\quad \operatorname{StaticDecl}(\_,\ \_,\ \_,\ \langle \operatorname{IdentPattern}(\mathsf{name}),\ \_,\ \texttt{"="},\ \mathsf{init},\ \_\rangle ,\ \_,\ \_)\ \in \ \Gamma \quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{init})\ \Downarrow \ n \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ConstLen}(e)\ \Downarrow \ n
+\end{array}
 ```
 
 **(ConstLen-Err)**
 
-```text
-¬ ∃ n. Γ ⊢ ConstLen(e) ⇓ n    c = Code(ConstLen-Err)
+```math
+\begin{array}{l}
+\lnot \ \exists \ n.\ \Gamma \ \vdash \ \operatorname{ConstLen}(e)\ \Downarrow \ n\quad c\ =\ \operatorname{Code}(\mathsf{ConstLen}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ConstLen}(e)\ \Uparrow \ c
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ConstLen(e) ⇑ c
-```
-
-```text
-MembersEq([T_1, …, T_n], [U_1, …, U_n]) ⇔ ∃ U'. Permutation(U', [U_1, …, U_n]) ∧ ∀ i. 0 ≤ i < n ⇒ Γ ⊢ T_i ≡ U'[i]
+```math
+\operatorname{MembersEq}([T_{1},\ \ldots ,\ T_{n}],\ [U_{1},\ \ldots ,\ U_{n}])\ \Leftrightarrow \ \exists \ U'.\ \operatorname{Permutation}(U',\ [U_{1},\ \ldots ,\ U_{n}])\ \land \ \forall \ i.\ 0\ \le \ i\ <\ n\ \Rightarrow \ \Gamma \ \vdash \ T_{i}\ \equiv \ U'[i]
 ```
 
 **(T-Equiv-Prim)**
-T = TypePrim(n)    U = TypePrim(n)
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypePrim}(n)\quad U\ =\ \operatorname{TypePrim}(n) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-Perm)**
 
-```text
-T = TypePerm(p, T_0)    U = TypePerm(p, U_0)    Γ ⊢ T_0 ≡ U_0
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypePerm}(p,\ T_{0})\quad U\ =\ \operatorname{TypePerm}(p,\ U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-Tuple)**
 
-```text
-T = TypeTuple([T_1, …, T_n])    U = TypeTuple([U_1, …, U_n])    ∀ i, Γ ⊢ T_i ≡ U_i
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeTuple}([U_{1},\ \ldots ,\ U_{n}])\quad \forall \ i,\ \Gamma \ \vdash \ T_{i}\ \equiv \ U_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-Array)**
 
-```text
-T = TypeArray(T_0, e_0)    U = TypeArray(U_0, e_1)    Γ ⊢ ConstLen(e_0) ⇓ n    Γ ⊢ ConstLen(e_1) ⇓ n    Γ ⊢ T_0 ≡ U_0
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeArray}(T_{0},\ e_{0})\quad U\ =\ \operatorname{TypeArray}(U_{0},\ e_{1})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{0})\ \Downarrow \ n\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{1})\ \Downarrow \ n\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-Slice)**
 
-```text
-T = TypeSlice(T_0)    U = TypeSlice(U_0)    Γ ⊢ T_0 ≡ U_0
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeSlice}(T_{0})\quad U\ =\ \operatorname{TypeSlice}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-Func)**
 
-```text
-T = TypeFunc([⟨m_1, T_1⟩, …, ⟨m_n, T_n⟩], R)    U = TypeFunc([⟨m_1, U_1⟩, …, ⟨m_n, U_n⟩], S)    ∀ i, Γ ⊢ T_i ≡ U_i    Γ ⊢ R ≡ S
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeFunc}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R)\quad U\ =\ \operatorname{TypeFunc}([\langle m_{1},\ U_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ U_{n}\rangle ],\ S)\quad \forall \ i,\ \Gamma \ \vdash \ T_{i}\ \equiv \ U_{i}\quad \Gamma \ \vdash \ R\ \equiv \ S \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-Closure)**
 
-```text
-T = TypeClosure([⟨m_1, T_1⟩, …, ⟨m_n, T_n⟩], R, D)    U = TypeClosure([⟨m_1, U_1⟩, …, ⟨m_n, U_n⟩], S, D)    ∀ i, Γ ⊢ T_i ≡ U_i    Γ ⊢ R ≡ S
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeClosure}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R,\ D)\quad U\ =\ \operatorname{TypeClosure}([\langle m_{1},\ U_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ U_{n}\rangle ],\ S,\ D)\quad \forall \ i,\ \Gamma \ \vdash \ T_{i}\ \equiv \ U_{i}\quad \Gamma \ \vdash \ R\ \equiv \ S \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-Union)**
-T = TypeUnion([T_1, …, T_n])    U = TypeUnion([U_1, …, U_n])    MembersEq([T_1, …, T_n], [U_1, …, U_n])
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeUnion}([T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeUnion}([U_{1},\ \ldots ,\ U_{n}])\quad \operatorname{MembersEq}([T_{1},\ \ldots ,\ T_{n}],\ [U_{1},\ \ldots ,\ U_{n}]) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-Path)**
-T = TypePath(p)    U = TypePath(p)
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypePath}(p)\quad U\ =\ \operatorname{TypePath}(p) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-ModalState)**
-T = TypeModalState(modal_ref, S)    U = TypeModalState(modal_ref, S)
-──────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)\quad U\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-String)**
-T = TypeString(st)    U = TypeString(st)
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeString}(\mathsf{st})\quad U\ =\ \operatorname{TypeString}(\mathsf{st}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-Bytes)**
-T = TypeBytes(st)    U = TypeBytes(st)
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeBytes}(\mathsf{st})\quad U\ =\ \operatorname{TypeBytes}(\mathsf{st}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-Range)**
 
-```text
-T = TypeRange(T_0)    U = TypeRange(U_0)    Γ ⊢ T_0 ≡ U_0
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRange}(T_{0})\quad U\ =\ \operatorname{TypeRange}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-RangeInclusive)**
 
-```text
-T = TypeRangeInclusive(T_0)    U = TypeRangeInclusive(U_0)    Γ ⊢ T_0 ≡ U_0
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRangeInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeInclusive}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-RangeFrom)**
 
-```text
-T = TypeRangeFrom(T_0)    U = TypeRangeFrom(U_0)    Γ ⊢ T_0 ≡ U_0
-```
-
-────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRangeFrom}(T_{0})\quad U\ =\ \operatorname{TypeRangeFrom}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-RangeTo)**
 
-```text
-T = TypeRangeTo(T_0)    U = TypeRangeTo(U_0)    Γ ⊢ T_0 ≡ U_0
-```
-
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRangeTo}(T_{0})\quad U\ =\ \operatorname{TypeRangeTo}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-RangeToInclusive)**
 
-```text
-T = TypeRangeToInclusive(T_0)    U = TypeRangeToInclusive(U_0)    Γ ⊢ T_0 ≡ U_0
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRangeToInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeToInclusive}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-RangeFull)**
 T = TypeRangeFull    U = TypeRangeFull
-────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-Ptr)**
 
-```text
-T = TypePtr(T_0, s)    U = TypePtr(U_0, s)    Γ ⊢ T_0 ≡ U_0
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypePtr}(T_{0},\ s)\quad U\ =\ \operatorname{TypePtr}(U_{0},\ s)\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-RawPtr)**
 
-```text
-T = TypeRawPtr(q, T_0)    U = TypeRawPtr(q, U_0)    Γ ⊢ T_0 ≡ U_0
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRawPtr}(q,\ T_{0})\quad U\ =\ \operatorname{TypeRawPtr}(q,\ U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-Dynamic)**
-T = TypeDynamic(p)    U = TypeDynamic(p)
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeDynamic}(p)\quad U\ =\ \operatorname{TypeDynamic}(p) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-Apply)**
 
-```text
-T = TypeApply(path, [T_1, …, T_n])    U = TypeApply(path, [U_1, …, U_n])    ∀ i, Γ ⊢ T_i ≡ U_i
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}])\quad \forall \ i,\ \Gamma \ \vdash \ T_{i}\ \equiv \ U_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-Opaque)**
-T = TypeOpaque(path)    U = TypeOpaque(path)
-──────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeOpaque}(\mathsf{path})\quad U\ =\ \operatorname{TypeOpaque}(\mathsf{path}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-Refine)**
 
-```text
-T = TypeRefine(T_0, P_1)    U = TypeRefine(U_0, P_2)    Γ ⊢ T_0 ≡ U_0    PredicateEquiv(P_1, P_2)
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRefine}(T_{0},\ P_{1})\quad U\ =\ \operatorname{TypeRefine}(U_{0},\ P_{2})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0}\quad \operatorname{PredicateEquiv}(P_{1},\ P_{2}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T ≡ U
-```
-
-```text
-PredicateEquiv(P_1, P_2) ⇔ ∀ σ. (Eval(P_1, σ) = true ⇔ Eval(P_2, σ) = true)
+```math
+\operatorname{PredicateEquiv}(P_{1},\ P_{2})\ \Leftrightarrow \ \forall \ \sigma .\ (\operatorname{Eval}(P_{1},\ \sigma )\ =\ \mathsf{true}\ \Leftrightarrow \ \operatorname{Eval}(P_{2},\ \sigma )\ =\ \mathsf{true})
 ```
 
 **(T-Equiv-Refine-Norm)**
 
-```text
-T = TypeRefine(TypeRefine(T_0, P_1), P_2)    U = TypeRefine(T_0, P_1 ∧ P_2)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T ≡ U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRefine}(\operatorname{TypeRefine}(T_{0},\ P_{1}),\ P_{2})\quad U\ =\ \operatorname{TypeRefine}(T_{0},\ P_{1}\ \land \ P_{2}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U
+\end{array}
 ```
 
 **(T-Equiv-Refl)**
 
-```text
-T ∈ 𝒯
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ T ≡ T
+```math
+\begin{array}{l}
+T\ \in \ 𝒯 \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ T
+\end{array}
 ```
 
 **(T-Equiv-Sym)**
 
-```text
-Γ ⊢ T ≡ U
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ U ≡ T
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ T\ \equiv \ U \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ U\ \equiv \ T
+\end{array}
 ```
 
 **(T-Equiv-Trans)**
 
-```text
-Γ ⊢ T ≡ U    Γ ⊢ U ≡ V
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ T ≡ V
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ T\ \equiv \ U\quad \Gamma \ \vdash \ U\ \equiv \ V \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ V
+\end{array}
 ```
 
 ### 8.2 Subtyping
 
-SubtypingJudg = {<:}
+```math
+\mathsf{SubtypingJudg}\ =\ \{\mathrel{<:} \}
+```
 
-```text
-∀ T, U ∈ IntTypes. T ≠ U ⇒ ¬(Γ ⊢ T <: U)
-∀ T, U ∈ FloatTypes. T ≠ U ⇒ ¬(Γ ⊢ T <: U)
+```math
+\begin{array}{l}
+\forall \ T,\ U\ \in \ \mathsf{IntTypes}.\ T\ \ne \ U\ \Rightarrow \ \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ U) \\
+\forall \ T,\ U\ \in \ \mathsf{FloatTypes}.\ T\ \ne \ U\ \Rightarrow \ \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ U)
+\end{array}
 ```
 
 Permission admissibility is defined by Chapter 10. This chapter defines only type subtyping. For permission-qualified types, general subtyping requires permission equality.
 
 **(Sub-Perm)**
 
-```text
-T = TypePerm(p, T_0)    U = TypePerm(q, U_0)    p = q    Γ ⊢ T_0 <: U_0
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T <: U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypePerm}(p,\ T_{0})\quad U\ =\ \operatorname{TypePerm}(q,\ U_{0})\quad p\ =\ q\quad \Gamma \ \vdash \ T_{0}\ \mathrel{<:} \ U_{0} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U
+\end{array}
 ```
 
 **(Sub-Never)**
 
-```text
-T ∈ 𝒯
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypePrim("!") <: T
+```math
+\begin{array}{l}
+T\ \in \ 𝒯 \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypePrim}(\texttt{"!"})\ \mathrel{<:} \ T
+\end{array}
 ```
 
 **(Sub-Tuple)**
 
-```text
-T = TypeTuple([T_1, …, T_n])    U = TypeTuple([U_1, …, U_n])    ∀ i, Γ ⊢ T_i <: U_i
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T <: U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeTuple}([U_{1},\ \ldots ,\ U_{n}])\quad \forall \ i,\ \Gamma \ \vdash \ T_{i}\ \mathrel{<:} \ U_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U
+\end{array}
 ```
 
 **(Sub-Array)**
 
-```text
-T = TypeArray(T_0, e_0)    U = TypeArray(U_0, e_1)    Γ ⊢ ConstLen(e_0) ⇓ n    Γ ⊢ ConstLen(e_1) ⇓ n    Γ ⊢ T_0 ≡ U_0
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T <: U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeArray}(T_{0},\ e_{0})\quad U\ =\ \operatorname{TypeArray}(U_{0},\ e_{1})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{0})\ \Downarrow \ n\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{1})\ \Downarrow \ n\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U
+\end{array}
 ```
 
 **(Sub-Slice)**
 
-```text
-T = TypeSlice(T_0)    U = TypeSlice(U_0)    Γ ⊢ T_0 ≡ U_0
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T <: U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeSlice}(T_{0})\quad U\ =\ \operatorname{TypeSlice}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U
+\end{array}
 ```
 
 **(Sub-Range)**
 
-```text
-T = TypeRange(T_0)    U = TypeRange(U_0)    Γ ⊢ T_0 <: U_0
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T <: U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRange}(T_{0})\quad U\ =\ \operatorname{TypeRange}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \mathrel{<:} \ U_{0} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U
+\end{array}
 ```
 
 **(Sub-RangeInclusive)**
 
-```text
-T = TypeRangeInclusive(T_0)    U = TypeRangeInclusive(U_0)    Γ ⊢ T_0 <: U_0
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T <: U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRangeInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeInclusive}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \mathrel{<:} \ U_{0} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U
+\end{array}
 ```
 
 **(Sub-RangeFrom)**
 
-```text
-T = TypeRangeFrom(T_0)    U = TypeRangeFrom(U_0)    Γ ⊢ T_0 <: U_0
-```
-
-────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T <: U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRangeFrom}(T_{0})\quad U\ =\ \operatorname{TypeRangeFrom}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \mathrel{<:} \ U_{0} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U
+\end{array}
 ```
 
 **(Sub-RangeTo)**
 
-```text
-T = TypeRangeTo(T_0)    U = TypeRangeTo(U_0)    Γ ⊢ T_0 <: U_0
-```
-
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T <: U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRangeTo}(T_{0})\quad U\ =\ \operatorname{TypeRangeTo}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \mathrel{<:} \ U_{0} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U
+\end{array}
 ```
 
 **(Sub-RangeToInclusive)**
 
-```text
-T = TypeRangeToInclusive(T_0)    U = TypeRangeToInclusive(U_0)    Γ ⊢ T_0 <: U_0
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T <: U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRangeToInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeToInclusive}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \mathrel{<:} \ U_{0} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U
+\end{array}
 ```
 
 **(Sub-RangeFull)**
 T = TypeRangeFull    U = TypeRangeFull
-────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ T <: U
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U
+\end{array}
 ```
 
 **(Sub-Ptr-State)**
 
-```text
-s ∈ {`Valid`, `Null`}
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypePtr(T, s) <: TypePtr(T, ⊥)
+```math
+\begin{array}{l}
+s\ \in \ \{\texttt{Valid},\ \texttt{Null}\} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypePtr}(T,\ s)\ \mathrel{<:} \ \operatorname{TypePtr}(T,\ \bot )
+\end{array}
 ```
 
 **(Sub-Modal-Niche)**
 
-```text
-ModalDeclOf(modal_ref) = M    S ∈ States(M)    NicheCompatible(modal_ref, S)
-```
-
-────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ TypeModalState(modal_ref, S) <: ModalRefType(modal_ref)
+```math
+\begin{array}{l}
+\operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad S\ \in \ \operatorname{States}(M)\quad \operatorname{NicheCompatible}(\mathsf{modal}_{\mathsf{ref}},\ S) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)\ \mathrel{<:} \ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})
+\end{array}
 ```
 
 **(Sub-Func)**
 
-```text
-T = TypeFunc([⟨m_1, T_1⟩, …, ⟨m_n, T_n⟩], R)    U = TypeFunc([⟨m_1, U_1⟩, …, ⟨m_n, U_n⟩], S)    ∀ i, Γ ⊢ U_i <: T_i    Γ ⊢ R <: S
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T <: U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeFunc}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R)\quad U\ =\ \operatorname{TypeFunc}([\langle m_{1},\ U_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ U_{n}\rangle ],\ S)\quad \forall \ i,\ \Gamma \ \vdash \ U_{i}\ \mathrel{<:} \ T_{i}\quad \Gamma \ \vdash \ R\ \mathrel{<:} \ S \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U
+\end{array}
 ```
 
 **(Sub-Closure)**
 
-```text
-T = TypeClosure([⟨m_1, T_1⟩, …, ⟨m_n, T_n⟩], R, D)    U = TypeClosure([⟨m_1, U_1⟩, …, ⟨m_n, U_n⟩], S, D)    ∀ i, Γ ⊢ U_i <: T_i    Γ ⊢ R <: S
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T <: U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeClosure}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R,\ D)\quad U\ =\ \operatorname{TypeClosure}([\langle m_{1},\ U_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ U_{n}\rangle ],\ S,\ D)\quad \forall \ i,\ \Gamma \ \vdash \ U_{i}\ \mathrel{<:} \ T_{i}\quad \Gamma \ \vdash \ R\ \mathrel{<:} \ S \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U
+\end{array}
 ```
 
 **(Sub-Async)**
 
-```text
-AsyncSig(T) = ⟨Out_1, In_1, Result_1, E_1⟩    AsyncSig(U) = ⟨Out_2, In_2, Result_2, E_2⟩
-Γ ⊢ Out_1 <: Out_2    Γ ⊢ In_2 <: In_1    Γ ⊢ Result_1 <: Result_2    Γ ⊢ E_1 <: E_2
+```math
+\begin{array}{l}
+\operatorname{AsyncSig}(T)\ =\ \langle \mathsf{Out}_{1},\ \mathsf{In}_{1},\ \mathsf{Result}_{1},\ E_{1}\rangle \quad \operatorname{AsyncSig}(U)\ =\ \langle \mathsf{Out}_{2},\ \mathsf{In}_{2},\ \mathsf{Result}_{2},\ E_{2}\rangle  \\
+\Gamma \ \vdash \ \mathsf{Out}_{1}\ \mathrel{<:} \ \mathsf{Out}_{2}\quad \Gamma \ \vdash \ \mathsf{In}_{2}\ \mathrel{<:} \ \mathsf{In}_{1}\quad \Gamma \ \vdash \ \mathsf{Result}_{1}\ \mathrel{<:} \ \mathsf{Result}_{2}\quad \Gamma \ \vdash \ E_{1}\ \mathrel{<:} \ E_{2} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T <: U
-```
-
-```text
-Member(T, U) ⇔ U = TypeUnion([U_1, …, U_n]) ∧ ∃ i. Γ ⊢ T ≡ U_i
+```math
+\operatorname{Member}(T,\ U)\ \Leftrightarrow \ U\ =\ \operatorname{TypeUnion}([U_{1},\ \ldots ,\ U_{n}])\ \land \ \exists \ i.\ \Gamma \ \vdash \ T\ \equiv \ U_{i}
 ```
 
 **(Sub-Member-Union)**
 Member(T, U)
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ T <: U
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U
+\end{array}
 ```
 
 **(Sub-Union-Width)**
 
-```text
-U_1 = TypeUnion([T_1, …, T_n])    U_2 = TypeUnion([U_1', …, U_m'])    ∀ i, Member(T_i, U_2)
+```math
+\begin{array}{l}
+U_{1}\ =\ \operatorname{TypeUnion}([T_{1},\ \ldots ,\ T_{n}])\quad U_{2}\ =\ \operatorname{TypeUnion}([U_{1}',\ \ldots ,\ U_{m}'])\quad \forall \ i,\ \operatorname{Member}(T_{i},\ U_{2}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ U_{1}\ \mathrel{<:} \ U_{2}
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ U_1 <: U_2
+```math
+\begin{array}{l}
+\mathsf{Variance}\ =\ \{\texttt{+},\ \texttt{-},\ \texttt{=},\ \texttt{+/-}\} \\
+\mathsf{VarianceOf}\ :\ \mathsf{TypePath}\ \times \ \mathbb{N} \ \to \ \mathsf{Variance} \\
+\operatorname{VarianceOf}(\mathsf{path},\ i)\ =\ v\ \Leftrightarrow \ \operatorname{GenericDecl}(\mathsf{path})\ =\ \langle \mathsf{params},\ \_\rangle \ \land \ \mathsf{params}[i].\mathsf{variance}\ =\ v
+\end{array}
 ```
 
-Variance = {`+`, `-`, `=`, `±`}
-
-```text
-VarianceOf : TypePath × ℕ → Variance
-VarianceOf(path, i) = v ⇔ GenericDecl(path) = ⟨params, _⟩ ∧ params[i].variance = v
+```math
+\begin{array}{l}
+\operatorname{VarianceSatisfied}(v,\ T,\ U)\ \Leftrightarrow  \\
+\ (v\ =\ \texttt{+}\ \land \ \Gamma \ \vdash \ T\ \mathrel{<:} \ U)\ \lor  \\
+\ (v\ =\ \texttt{-}\ \land \ \Gamma \ \vdash \ U\ \mathrel{<:} \ T)\ \lor  \\
+\ (v\ =\ \texttt{=}\ \land \ \Gamma \ \vdash \ T\ \equiv \ U)\ \lor  \\
+\ (v\ =\ \texttt{+/-})
+\end{array}
 ```
-
-```text
-VarianceSatisfied(v, T, U) ⇔
-  (v = `+` ∧ Γ ⊢ T <: U) ∨
-  (v = `-` ∧ Γ ⊢ U <: T) ∨
-  (v = `=` ∧ Γ ⊢ T ≡ U) ∨
-```
-
-  (v = `±`)
 
 **(Sub-Generic)**
 
-```text
-T = TypeApply(path, [T_1, …, T_n])    U = TypeApply(path, [U_1, …, U_n])    ∀ i, VarianceSatisfied(VarianceOf(path, i), T_i, U_i)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T <: U
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}])\quad \forall \ i,\ \operatorname{VarianceSatisfied}(\operatorname{VarianceOf}(\mathsf{path},\ i),\ T_{i},\ U_{i}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U
+\end{array}
 ```
 
 **(Sub-Generic-Invariant-Err)**
 
-```text
-T = TypeApply(path, [T_1, …, T_n])    U = TypeApply(path, [U_1, …, U_n])    ∃ i, VarianceOf(path, i) = `=` ∧ ¬(Γ ⊢ T_i ≡ U_i)    c = Code(E-TYP-1520)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T <: U ⇑ c
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}])\quad \exists \ i,\ \operatorname{VarianceOf}(\mathsf{path},\ i)\ =\ \texttt{=}\ \land \ \lnot (\Gamma \ \vdash \ T_{i}\ \equiv \ U_{i})\quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-1520) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U\ \Uparrow \ c
+\end{array}
 ```
 
 **(Sub-Generic-Covariant-Err)**
 
-```text
-T = TypeApply(path, [T_1, …, T_n])    U = TypeApply(path, [U_1, …, U_n])    ∃ i, VarianceOf(path, i) = `+` ∧ ¬(Γ ⊢ T_i <: U_i)    c = Code(E-TYP-1521)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T <: U ⇑ c
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}])\quad \exists \ i,\ \operatorname{VarianceOf}(\mathsf{path},\ i)\ =\ \texttt{+}\ \land \ \lnot (\Gamma \ \vdash \ T_{i}\ \mathrel{<:} \ U_{i})\quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-1521) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U\ \Uparrow \ c
+\end{array}
 ```
 
 **(Sub-Generic-Contravariant-Err)**
 
-```text
-T = TypeApply(path, [T_1, …, T_n])    U = TypeApply(path, [U_1, …, U_n])    ∃ i, VarianceOf(path, i) = `-` ∧ ¬(Γ ⊢ U_i <: T_i)    c = Code(E-TYP-1521)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ T <: U ⇑ c
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}])\quad \exists \ i,\ \operatorname{VarianceOf}(\mathsf{path},\ i)\ =\ \texttt{-}\ \land \ \lnot (\Gamma \ \vdash \ U_{i}\ \mathrel{<:} \ T_{i})\quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-1521) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U\ \Uparrow \ c
+\end{array}
 ```
 
 **(Sub-Refl)**
 
-```text
-T ∈ 𝒯
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ T <: T
+```math
+\begin{array}{l}
+T\ \in \ 𝒯 \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ T
+\end{array}
 ```
 
 **(Sub-Trans)**
 
-```text
-Γ ⊢ T <: U    Γ ⊢ U <: V
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ T <: V
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U\quad \Gamma \ \vdash \ U\ \mathrel{<:} \ V \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ V
+\end{array}
 ```
 
 ### 8.3 Type Inference
 
-```text
-TypeInfJudg = {⇒, ⇐, Solve}
+```math
+\mathsf{TypeInfJudg}\ =\ \{\Rightarrow ,\ \Leftarrow ,\ \mathsf{Solve}\}
 ```
 
-Constraint = Type × Type
-ConstraintSet = ℘(Constraint)
+```math
+\begin{array}{l}
+\mathsf{Constraint}\ =\ \mathsf{Type}\ \times \ \mathsf{Type} \\
+\mathsf{ConstraintSet}\ =\ \wp (\mathsf{Constraint})
+\end{array}
+```
 
-Constraint generation is feature-local. This chapter defines only the shared equality-constraint domain, substitution machinery, and solver consumed by those rules. Rules that generate no additional equalities yield `∅`.
+```math
+\mathsf{Constraint}\ \mathsf{generation}\ \mathsf{is}\ \mathsf{feature}-\mathsf{local}.\ \mathsf{This}\ \mathsf{chapter}\ \mathsf{defines}\ \mathsf{only}\ \mathsf{the}\ \mathsf{shared}\ \mathsf{equality}-\mathsf{constraint}\ \mathsf{domain},\ \mathsf{substitution}\ \mathsf{machinery},\ \mathsf{and}\ \mathsf{solver}\ \mathsf{consumed}\ \mathsf{by}\ \mathsf{those}\ \mathsf{rules}.\ \mathsf{Rules}\ \mathsf{that}\ \mathsf{generate}\ \mathsf{no}\ \mathsf{additional}\ \mathsf{equalities}\ \mathsf{yield}\ \texttt{emptyset}.
+```
 
-TVar = {α, β, γ, ...}
-TVars(T) = set of type variables occurring in T
+```math
+\begin{array}{l}
+\mathsf{TVar}\ =\ \{\alpha ,\ \beta ,\ \gamma ,\ \ldots \} \\
+\operatorname{TVars}(T)\ =\ \mathsf{set}\ \mathsf{of}\ \mathsf{type}\ \mathsf{variables}\ \mathsf{occurring}\ \mathsf{in}\ T
+\end{array}
+```
 
 Subst = TVar ⇀ Type
 
-```text
-Dom(θ) = {α | θ(α) defined}
+```math
+\begin{array}{l}
+\operatorname{Dom}(\theta )\ =\ \{\alpha \ \mid \ \theta (\alpha )\ \mathsf{defined}\} \\
+\mathsf{Id}\ =\ \emptyset 
+\end{array}
 ```
 
-Id = ∅
-
-```text
-θ(TypePrim(p)) = TypePrim(p)
-θ(TVar(α)) = θ(α) if α ∈ Dom(θ), else TVar(α)
-θ(TypeTuple(Ts)) = TypeTuple([θ(T) | T ∈ Ts])
-θ(TypeArray(T, n)) = TypeArray(θ(T), n)
-θ(TypeSlice(T)) = TypeSlice(θ(T))
-θ(TypeUnion(Ts)) = TypeUnion([θ(T) | T ∈ Ts])
-θ(TypeFunc(ps, R)) = TypeFunc([(m, θ(T)) | (m, T) ∈ ps], θ(R))
-θ(TypePtr(T, s)) = TypePtr(θ(T), s)
-θ(TypePerm(p, T)) = TypePerm(p, θ(T))
-θ(TypeApply(path, args)) = TypeApply(path, [θ(T) | T ∈ args])
-θ distributes over all remaining type constructors.
+```math
+\begin{array}{l}
+\theta (\operatorname{TypePrim}(p))\ =\ \operatorname{TypePrim}(p) \\
+\theta (\operatorname{TVar}(\alpha ))\ =\ \theta (\alpha )\ \mathsf{if}\ \alpha \ \in \ \operatorname{Dom}(\theta ),\ \mathsf{else}\ \operatorname{TVar}(\alpha ) \\
+\theta (\operatorname{TypeTuple}(\mathsf{Ts}))\ =\ \operatorname{TypeTuple}([\theta (T)\ \mid \ T\ \in \ \mathsf{Ts}]) \\
+\theta (\operatorname{TypeArray}(T,\ n))\ =\ \operatorname{TypeArray}(\theta (T),\ n) \\
+\theta (\operatorname{TypeSlice}(T))\ =\ \operatorname{TypeSlice}(\theta (T)) \\
+\theta (\operatorname{TypeUnion}(\mathsf{Ts}))\ =\ \operatorname{TypeUnion}([\theta (T)\ \mid \ T\ \in \ \mathsf{Ts}]) \\
+\theta (\operatorname{TypeFunc}(\mathsf{ps},\ R))\ =\ \operatorname{TypeFunc}([(m,\ \theta (T))\ \mid \ (m,\ T)\ \in \ \mathsf{ps}],\ \theta (R)) \\
+\theta (\operatorname{TypePtr}(T,\ s))\ =\ \operatorname{TypePtr}(\theta (T),\ s) \\
+\theta (\operatorname{TypePerm}(p,\ T))\ =\ \operatorname{TypePerm}(p,\ \theta (T)) \\
+\theta (\operatorname{TypeApply}(\mathsf{path},\ \mathsf{args}))\ =\ \operatorname{TypeApply}(\mathsf{path},\ [\theta (T)\ \mid \ T\ \in \ \mathsf{args}]) \\
+\theta \ \mathsf{distributes}\ \mathsf{over}\ \mathsf{all}\ \mathsf{remaining}\ \mathsf{type}\ \mathsf{constructors}.
+\end{array}
 ```
 
-```text
-θ₁ ∘ θ₂ = λα. θ₁(θ₂(α))
+```math
+\theta _{1}\ \circ \ \theta _{2}\ =\ \lambda \alpha .\ \theta _{1}(\theta _{2}(\alpha ))
 ```
 
-```text
-UnifyState = {UnifyStart(C), UnifyStep(C, θ), UnifyDone(θ), UnifyFail}
+```math
+\mathsf{UnifyState}\ =\ \{\operatorname{UnifyStart}(C),\ \operatorname{UnifyStep}(C,\ \theta ),\ \operatorname{UnifyDone}(\theta ),\ \mathsf{UnifyFail}\}
 ```
 
 **(Unify-Empty)**
-────────────────────────────────────
 
-```text
-⟨UnifyStart(∅)⟩ → ⟨UnifyDone(Id)⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStart}(\emptyset )\rangle \ \to \ \langle \operatorname{UnifyDone}(\mathsf{Id})\rangle 
+\end{array}
 ```
 
 **(Unify-Eq)**
 T = U
-────────────────────────────────────────────────────────
 
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyStep(C, θ)⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(C,\ \theta )\rangle 
+\end{array}
 ```
 
 **(Unify-Var-L)**
 
-```text
-T = TVar(α)    α ∉ TVars(U)
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyStep([α ↦ U]C, [α ↦ U] ∘ θ)⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TVar}(\alpha )\quad \alpha \ \notin \ \operatorname{TVars}(U) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}([\alpha \ \mapsto \ U]C,\ [\alpha \ \mapsto \ U]\ \circ \ \theta )\rangle 
+\end{array}
 ```
 
 **(Unify-Var-R)**
 
-```text
-U = TVar(α)    α ∉ TVars(T)
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyStep([α ↦ T]C, [α ↦ T] ∘ θ)⟩
+```math
+\begin{array}{l}
+U\ =\ \operatorname{TVar}(\alpha )\quad \alpha \ \notin \ \operatorname{TVars}(T) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}([\alpha \ \mapsto \ T]C,\ [\alpha \ \mapsto \ T]\ \circ \ \theta )\rangle 
+\end{array}
 ```
 
 **(Unify-Occurs-Fail)**
 
-```text
-T = TVar(α)    α ∈ TVars(U)    T ≠ U
-```
-
-────────────────────────────────────────────────────────────────────
-
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyFail⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TVar}(\alpha )\quad \alpha \ \in \ \operatorname{TVars}(U)\quad T\ \ne \ U \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\end{array}
 ```
 
 **(Unify-Tuple)**
-T = TypeTuple([T_1, …, T_n])    U = TypeTuple([U_1, …, U_n])
-────────────────────────────────────────────────────────────────────────────
 
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyStep({(T_1, U_1), …, (T_n, U_n)} ∪ C, θ)⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeTuple}([U_{1},\ \ldots ,\ U_{n}]) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{1},\ U_{1}),\ \ldots ,\ (T_{n},\ U_{n})\}\ \cup \ C,\ \theta )\rangle 
+\end{array}
 ```
 
 **(Unify-Tuple-Fail)**
 
-```text
-T = TypeTuple([T_1, …, T_n])    U = TypeTuple([U_1, …, U_m])    n ≠ m
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyFail⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeTuple}([U_{1},\ \ldots ,\ U_{m}])\quad n\ \ne \ m \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\end{array}
 ```
 
 **(Unify-Array)**
 
-```text
-T = TypeArray(T_0, e_0)    U = TypeArray(U_0, e_1)    Γ ⊢ ConstLen(e_0) ⇓ n    Γ ⊢ ConstLen(e_1) ⇓ n
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyStep({(T_0, U_0)} ∪ C, θ)⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeArray}(T_{0},\ e_{0})\quad U\ =\ \operatorname{TypeArray}(U_{0},\ e_{1})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{0})\ \Downarrow \ n\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{1})\ \Downarrow \ n \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\end{array}
 ```
 
 **(Unify-Array-Len-Fail)**
 
-```text
-T = TypeArray(T_0, e_0)    U = TypeArray(U_0, e_1)    Γ ⊢ ConstLen(e_0) ⇓ n_0    Γ ⊢ ConstLen(e_1) ⇓ n_1    n_0 ≠ n_1
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyFail⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeArray}(T_{0},\ e_{0})\quad U\ =\ \operatorname{TypeArray}(U_{0},\ e_{1})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{0})\ \Downarrow \ n_{0}\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{1})\ \Downarrow \ n_{1}\quad n_{0}\ \ne \ n_{1} \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\end{array}
 ```
 
 **(Unify-Slice)**
-T = TypeSlice(T_0)    U = TypeSlice(U_0)
-────────────────────────────────────────────────────────────────────────────
 
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyStep({(T_0, U_0)} ∪ C, θ)⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeSlice}(T_{0})\quad U\ =\ \operatorname{TypeSlice}(U_{0}) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\end{array}
 ```
 
 **(Unify-Perm)**
-T = TypePerm(p, T_0)    U = TypePerm(p, U_0)
-────────────────────────────────────────────────────────────────────────────
 
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyStep({(T_0, U_0)} ∪ C, θ)⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypePerm}(p,\ T_{0})\quad U\ =\ \operatorname{TypePerm}(p,\ U_{0}) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\end{array}
 ```
 
 **(Unify-Perm-Fail)**
 
-```text
-T = TypePerm(p, T_0)    U = TypePerm(q, U_0)    p ≠ q
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyFail⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypePerm}(p,\ T_{0})\quad U\ =\ \operatorname{TypePerm}(q,\ U_{0})\quad p\ \ne \ q \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\end{array}
 ```
 
 **(Unify-Func)**
-T = TypeFunc([(m_1, T_1), …, (m_n, T_n)], R_T)
-U = TypeFunc([(m_1, U_1), …, (m_n, U_n)], R_U)
-────────────────────────────────────────────────────────────────────────────
 
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyStep({(T_1, U_1), …, (T_n, U_n), (R_T, R_U)} ∪ C, θ)⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeFunc}([(m_{1},\ T_{1}),\ \ldots ,\ (m_{n},\ T_{n})],\ R_{T}) \\
+U\ =\ \operatorname{TypeFunc}([(m_{1},\ U_{1}),\ \ldots ,\ (m_{n},\ U_{n})],\ R_{U}) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{1},\ U_{1}),\ \ldots ,\ (T_{n},\ U_{n}),\ (R_{T},\ R_{U})\}\ \cup \ C,\ \theta )\rangle 
+\end{array}
 ```
 
 **(Unify-Func-Fail)**
 
-```text
-T = TypeFunc(ps_T, R_T)    U = TypeFunc(ps_U, R_U)    ¬ ∃ n, vec{m}, vec{T}, vec{U}. ps_T = [(m_1, T_1), …, (m_n, T_n)] ∧ ps_U = [(m_1, U_1), …, (m_n, U_n)]
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyFail⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeFunc}(\mathsf{ps}_{T},\ R_{T})\quad U\ =\ \operatorname{TypeFunc}(\mathsf{ps}_{U},\ R_{U})\quad \lnot \ \exists \ n,\ \mathsf{vec}\{m\},\ \mathsf{vec}\{T\},\ \mathsf{vec}\{U\}.\ \mathsf{ps}_{T}\ =\ [(m_{1},\ T_{1}),\ \ldots ,\ (m_{n},\ T_{n})]\ \land \ \mathsf{ps}_{U}\ =\ [(m_{1},\ U_{1}),\ \ldots ,\ (m_{n},\ U_{n})] \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\end{array}
 ```
 
 **(Unify-Closure)**
-T = TypeClosure([(m_1, T_1), …, (m_n, T_n)], R_T, D)    U = TypeClosure([(m_1, U_1), …, (m_n, U_n)], R_U, D)
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyStep({(T_1, U_1), …, (T_n, U_n), (R_T, R_U)} ∪ C, θ)⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeClosure}([(m_{1},\ T_{1}),\ \ldots ,\ (m_{n},\ T_{n})],\ R_{T},\ D)\quad U\ =\ \operatorname{TypeClosure}([(m_{1},\ U_{1}),\ \ldots ,\ (m_{n},\ U_{n})],\ R_{U},\ D) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{1},\ U_{1}),\ \ldots ,\ (T_{n},\ U_{n}),\ (R_{T},\ R_{U})\}\ \cup \ C,\ \theta )\rangle 
+\end{array}
 ```
 
 **(Unify-Closure-Fail)**
 
-```text
-T = TypeClosure(ps_T, R_T, D_T)    U = TypeClosure(ps_U, R_U, D_U)    (D_T ≠ D_U ∨ ¬ ∃ n, vec{m}, vec{T}, vec{U}. ps_T = [(m_1, T_1), …, (m_n, T_n)] ∧ ps_U = [(m_1, U_1), …, (m_n, U_n)])
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyFail⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeClosure}(\mathsf{ps}_{T},\ R_{T},\ D_{T})\quad U\ =\ \operatorname{TypeClosure}(\mathsf{ps}_{U},\ R_{U},\ D_{U})\quad (D_{T}\ \ne \ D_{U}\ \lor \ \lnot \ \exists \ n,\ \mathsf{vec}\{m\},\ \mathsf{vec}\{T\},\ \mathsf{vec}\{U\}.\ \mathsf{ps}_{T}\ =\ [(m_{1},\ T_{1}),\ \ldots ,\ (m_{n},\ T_{n})]\ \land \ \mathsf{ps}_{U}\ =\ [(m_{1},\ U_{1}),\ \ldots ,\ (m_{n},\ U_{n})]) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\end{array}
 ```
 
 **(Unify-Ptr)**
-T = TypePtr(T_0, s)    U = TypePtr(U_0, s)
-────────────────────────────────────────────────────────────────────────────
 
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyStep({(T_0, U_0)} ∪ C, θ)⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypePtr}(T_{0},\ s)\quad U\ =\ \operatorname{TypePtr}(U_{0},\ s) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\end{array}
 ```
 
 **(Unify-Ptr-State-Fail)**
 
-```text
-T = TypePtr(T_0, s_0)    U = TypePtr(U_0, s_1)    s_0 ≠ s_1
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyFail⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypePtr}(T_{0},\ s_{0})\quad U\ =\ \operatorname{TypePtr}(U_{0},\ s_{1})\quad s_{0}\ \ne \ s_{1} \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\end{array}
 ```
 
 **(Unify-RawPtr)**
-T = TypeRawPtr(q, T_0)    U = TypeRawPtr(q, U_0)
-────────────────────────────────────────────────────────────────────────────
 
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyStep({(T_0, U_0)} ∪ C, θ)⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRawPtr}(q,\ T_{0})\quad U\ =\ \operatorname{TypeRawPtr}(q,\ U_{0}) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\end{array}
 ```
 
 **(Unify-RawPtr-Qual-Fail)**
 
-```text
-T = TypeRawPtr(q_0, T_0)    U = TypeRawPtr(q_1, U_0)    q_0 ≠ q_1
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyFail⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRawPtr}(q_{0},\ T_{0})\quad U\ =\ \operatorname{TypeRawPtr}(q_{1},\ U_{0})\quad q_{0}\ \ne \ q_{1} \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\end{array}
 ```
 
 **(Unify-Apply)**
-T = TypeApply(path, [T_1, …, T_n])    U = TypeApply(path, [U_1, …, U_n])
-────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyStep({(T_1, U_1), …, (T_n, U_n)} ∪ C, θ)⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}]) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{1},\ U_{1}),\ \ldots ,\ (T_{n},\ U_{n})\}\ \cup \ C,\ \theta )\rangle 
+\end{array}
 ```
 
 **(Unify-Apply-Fail)**
 
-```text
-T = TypeApply(path_T, Ts)    U = TypeApply(path_U, Us)    (path_T ≠ path_U ∨ |Ts| ≠ |Us|)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyFail⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeApply}(\mathsf{path}_{T},\ \mathsf{Ts})\quad U\ =\ \operatorname{TypeApply}(\mathsf{path}_{U},\ \mathsf{Us})\quad (\mathsf{path}_{T}\ \ne \ \mathsf{path}_{U}\ \lor \ \mid \mathsf{Ts}\mid \ \ne \ \mid \mathsf{Us}\mid ) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\end{array}
 ```
 
 **(Unify-Range)**
-T = TypeRange(T_0)    U = TypeRange(U_0)
-────────────────────────────────────────────────────────────────────────────
 
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyStep({(T_0, U_0)} ∪ C, θ)⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRange}(T_{0})\quad U\ =\ \operatorname{TypeRange}(U_{0}) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\end{array}
 ```
 
 **(Unify-RangeInclusive)**
-T = TypeRangeInclusive(T_0)    U = TypeRangeInclusive(U_0)
-────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyStep({(T_0, U_0)} ∪ C, θ)⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRangeInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeInclusive}(U_{0}) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\end{array}
 ```
 
 **(Unify-RangeFrom)**
-T = TypeRangeFrom(T_0)    U = TypeRangeFrom(U_0)
-────────────────────────────────────────────────────────────────────────────────────
 
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyStep({(T_0, U_0)} ∪ C, θ)⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRangeFrom}(T_{0})\quad U\ =\ \operatorname{TypeRangeFrom}(U_{0}) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\end{array}
 ```
 
 **(Unify-RangeTo)**
-T = TypeRangeTo(T_0)    U = TypeRangeTo(U_0)
-────────────────────────────────────────────────────────────────────────────────
 
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyStep({(T_0, U_0)} ∪ C, θ)⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRangeTo}(T_{0})\quad U\ =\ \operatorname{TypeRangeTo}(U_{0}) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\end{array}
 ```
 
 **(Unify-RangeToInclusive)**
-T = TypeRangeToInclusive(T_0)    U = TypeRangeToInclusive(U_0)
-────────────────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyStep({(T_0, U_0)} ∪ C, θ)⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRangeToInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeToInclusive}(U_{0}) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\end{array}
 ```
 
 **(Unify-Refine)**
-T = TypeRefine(T_0, pred)    U = TypeRefine(U_0, pred)
-────────────────────────────────────────────────────────────────────────────
 
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyStep({(T_0, U_0)} ∪ C, θ)⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRefine}(T_{0},\ \mathsf{pred})\quad U\ =\ \operatorname{TypeRefine}(U_{0},\ \mathsf{pred}) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\end{array}
 ```
 
 **(Unify-Refine-Pred-Fail)**
 
-```text
-T = TypeRefine(T_0, pred_T)    U = TypeRefine(U_0, pred_U)    pred_T ≠ pred_U
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyFail⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypeRefine}(T_{0},\ \mathsf{pred}_{T})\quad U\ =\ \operatorname{TypeRefine}(U_{0},\ \mathsf{pred}_{U})\quad \mathsf{pred}_{T}\ \ne \ \mathsf{pred}_{U} \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\end{array}
 ```
 
 **(Unify-Prim-Fail)**
 
-```text
-T = TypePrim(p_T)    U = TypePrim(p_U)    p_T ≠ p_U
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyFail⟩
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypePrim}(p_{T})\quad U\ =\ \operatorname{TypePrim}(p_{U})\quad p_{T}\ \ne \ p_{U} \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\end{array}
 ```
 
 **(Unify-Rigid-Fail)**
 
-```text
-((T = TypeUnion(_) ∧ U = TypeUnion(_)) ∨
- (T = TypePath(_) ∧ U = TypePath(_)) ∨
- (T = TypeString(_) ∧ U = TypeString(_)) ∨
- (T = TypeBytes(_) ∧ U = TypeBytes(_)) ∨
- (T = TypeDynamic(_) ∧ U = TypeDynamic(_)) ∨
- (T = TypeOpaque(_) ∧ U = TypeOpaque(_)) ∨
- (T = TypeModalState(_, _) ∧ U = TypeModalState(_, _)) ∨
- (T = TypeRangeFull ∧ U = TypeRangeFull))    T ≠ U
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyFail⟩
+```math
+\begin{array}{l}
+((T\ =\ \operatorname{TypeUnion}(\_)\ \land \ U\ =\ \operatorname{TypeUnion}(\_))\ \lor  \\
+\ (T\ =\ \operatorname{TypePath}(\_)\ \land \ U\ =\ \operatorname{TypePath}(\_))\ \lor  \\
+\ (T\ =\ \operatorname{TypeString}(\_)\ \land \ U\ =\ \operatorname{TypeString}(\_))\ \lor  \\
+\ (T\ =\ \operatorname{TypeBytes}(\_)\ \land \ U\ =\ \operatorname{TypeBytes}(\_))\ \lor  \\
+\ (T\ =\ \operatorname{TypeDynamic}(\_)\ \land \ U\ =\ \operatorname{TypeDynamic}(\_))\ \lor  \\
+\ (T\ =\ \operatorname{TypeOpaque}(\_)\ \land \ U\ =\ \operatorname{TypeOpaque}(\_))\ \lor  \\
+\ (T\ =\ \operatorname{TypeModalState}(\_,\ \_)\ \land \ U\ =\ \operatorname{TypeModalState}(\_,\ \_))\ \lor  \\
+\ (T\ =\ \mathsf{TypeRangeFull}\ \land \ U\ =\ \mathsf{TypeRangeFull}))\quad T\ \ne \ U \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\end{array}
 ```
 
 **(Unify-Ctor-Mismatch)**
 
-```text
-TypeCtor(T) ≠ TypeCtor(U)    T ∉ TVar    U ∉ TVar
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-⟨UnifyStep({(T, U)} ∪ C, θ)⟩ → ⟨UnifyFail⟩
+```math
+\begin{array}{l}
+\operatorname{TypeCtor}(T)\ \ne \ \operatorname{TypeCtor}(U)\quad T\ \notin \ \mathsf{TVar}\quad U\ \notin \ \mathsf{TVar} \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\end{array}
 ```
 
 **(Unify-Ok)**
 
-```text
-⟨UnifyStart(C)⟩ →* ⟨UnifyDone(θ)⟩
-```
-
-─────────────────────────────────────
-
-```text
-Γ ⊢ Unify(C) ⇓ θ
+```math
+\begin{array}{l}
+\langle \operatorname{UnifyStart}(C)\rangle \ \to *\ \langle \operatorname{UnifyDone}(\theta )\rangle  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Unify}(C)\ \Downarrow \ \theta 
+\end{array}
 ```
 
 **(Unify-Err)**
 
-```text
-⟨UnifyStart(C)⟩ →* ⟨UnifyFail⟩    c = Code(Unify-Fail)
-```
-
-────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Unify(C) ⇑ c
+```math
+\begin{array}{l}
+\langle \operatorname{UnifyStart}(C)\rangle \ \to *\ \langle \mathsf{UnifyFail}\rangle \quad c\ =\ \operatorname{Code}(\mathsf{Unify}-\mathsf{Fail}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Unify}(C)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Solve-Unify)**
 
-```text
-Γ ⊢ Unify(C) ⇓ θ
-```
-
-───────────────────────
-
-```text
-Γ ⊢ Solve(C) ⇓ θ
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{Unify}(C)\ \Downarrow \ \theta  \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Solve}(C)\ \Downarrow \ \theta 
+\end{array}
 ```
 
 **(Solve-Fail)**
 
-```text
-Γ ⊢ Unify(C) ⇑ c
-```
-
-─────────────────────────
-
-```text
-Γ ⊢ Solve(C) ⇑ c
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{Unify}(C)\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Solve}(C)\ \Uparrow \ c
+\end{array}
 ```
 
 **(Syn-Expr)**
 
-```text
-Γ; R; L ⊢ e : T
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ; R; L ⊢ e ⇒ T ⊣ ∅
+```math
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ e\ :\ T \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ \Rightarrow \ T\ \dashv \ \emptyset 
+\end{array}
 ```
 
 **(Syn-Ident)**
 
-```text
-(x : T) ∈ Γ
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ; R; L ⊢ Identifier(x) ⇒ T ⊣ ∅
+```math
+\begin{array}{l}
+(x\ :\ T)\ \in \ \Gamma  \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{Identifier}(x)\ \Rightarrow \ T\ \dashv \ \emptyset 
+\end{array}
 ```
 
 **(Syn-Unit)**
-────────────────────────────────────────────────────────────────
 
-```text
-Γ; R; L ⊢ TupleExpr([]) ⇒ TypePrim("()") ⊣ ∅
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{TupleExpr}([])\ \Rightarrow \ \operatorname{TypePrim}(\texttt{"()"})\ \dashv \ \emptyset 
+\end{array}
 ```
 
 **(Syn-Tuple)**
 
-```text
-n ≥ 1    ∀ i, Γ; R; L ⊢ e_i ⇒ T_i ⊣ C_i
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ; R; L ⊢ TupleExpr([e_1, …, e_n]) ⇒ TypeTuple([T_1, …, T_n]) ⊣ ⋃_i C_i
+```math
+\begin{array}{l}
+n\ \ge \ 1\quad \forall \ i,\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ \Rightarrow \ T_{i}\ \dashv \ C_{i} \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{TupleExpr}([e_{1},\ \ldots ,\ e_{n}])\ \Rightarrow \ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\ \dashv \ \bigcup_{i} \ C_{i}
+\end{array}
 ```
 
 **(Syn-Call)**
 
-```text
-Γ; R; L ⊢ callee ⇒ TypeFunc(params, R_c) ⊣ C_0    Γ; R; L ⊢ ArgsOk_T(params, args)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ; R; L ⊢ Call(callee, args) ⇒ R_c ⊣ C_0
+```math
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ \Rightarrow \ \operatorname{TypeFunc}(\mathsf{params},\ R_{c})\ \dashv \ C_{0}\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}(\mathsf{params},\ \mathsf{args}) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Rightarrow \ R_{c}\ \dashv \ C_{0}
+\end{array}
 ```
 
 **(Syn-Call-Err)**
 
-```text
-Γ; R; L ⊢ Call(callee, args) ⇑ c
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ; R; L ⊢ Call(callee, args) ⇒ T ⊣ C ⇑ c
+```math
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Uparrow \ c \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Rightarrow \ T\ \dashv \ C\ \Uparrow \ c
+\end{array}
 ```
 
 **(Chk-Subsumption-Modal-NonNiche)**
 
-```text
-Γ; R; L ⊢ e ⇒ S ⊣ C    StripPerm(S) = TypeModalState(modal_ref, S_s)    StripPerm(T) = ModalRefType(modal_ref)    ModalDeclOf(modal_ref) = M    ¬ NicheCompatible(modal_ref, S_s)    c = Code(Chk-Subsumption-Modal-NonNiche)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ; R; L ⊢ e ⇐ T ⇑ c
+```math
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ e\ \Rightarrow \ S\ \dashv \ C\quad \operatorname{StripPerm}(S)\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S_{s})\quad \operatorname{StripPerm}(T)\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\quad \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad \lnot \ \operatorname{NicheCompatible}(\mathsf{modal}_{\mathsf{ref}},\ S_{s})\quad c\ =\ \operatorname{Code}(\mathsf{Chk}-\mathsf{Subsumption}-\mathsf{Modal}-\mathsf{NonNiche}) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ T\ \Uparrow \ c
+\end{array}
 ```
 
 **(Chk-Subsumption)**
 
-```text
-Γ; R; L ⊢ e ⇒ S ⊣ C    Γ ⊢ S <: T
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ; R; L ⊢ e ⇐ T ⊣ C
+```math
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ e\ \Rightarrow \ S\ \dashv \ C\quad \Gamma \ \vdash \ S\ \mathrel{<:} \ T \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ T\ \dashv \ C
+\end{array}
 ```
 
 **(Chk-Null-Ptr)**
 
-```text
-T = TypePtr(U, s)    s ∈ {`Null`, ⊥}
+```math
+\begin{array}{l}
+T\ =\ \operatorname{TypePtr}(U,\ s)\quad s\ \in \ \{\texttt{Null},\ \bot \} \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{PtrNullExpr}\ \Leftarrow \ T\ \dashv \ \emptyset 
+\end{array}
 ```
 
-────────────────────────────────────────────────────────────────
-
-```text
-Γ; R; L ⊢ PtrNullExpr ⇐ T ⊣ ∅
-```
-
-```text
-PtrNullExpected(T) ⇔ T = TypePtr(U, s) ∧ s ∈ {`Null`, ⊥}
+```math
+\operatorname{PtrNullExpected}(T)\ \Leftrightarrow \ T\ =\ \operatorname{TypePtr}(U,\ s)\ \land \ s\ \in \ \{\texttt{Null},\ \bot \}
 ```
 
 **(Syn-PtrNull-Err)**
-c = Code(PtrNull-Infer-Err)
-────────────────────────────────────────────────────────────────
 
-```text
-Γ; R; L ⊢ PtrNullExpr ⇒ T ⊣ C ⇑ c
+```math
+\begin{array}{l}
+c\ =\ \operatorname{Code}(\mathsf{PtrNull}-\mathsf{Infer}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{PtrNullExpr}\ \Rightarrow \ T\ \dashv \ C\ \Uparrow \ c
+\end{array}
 ```
 
 **(Chk-PtrNull-Err)**
 
-```text
-¬ PtrNullExpected(T)    c = Code(PtrNull-Infer-Err)
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ; R; L ⊢ PtrNullExpr ⇐ T ⊣ C ⇑ c
+```math
+\begin{array}{l}
+\lnot \ \operatorname{PtrNullExpected}(T)\quad c\ =\ \operatorname{Code}(\mathsf{PtrNull}-\mathsf{Infer}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{PtrNullExpr}\ \Leftarrow \ T\ \dashv \ C\ \Uparrow \ c
+\end{array}
 ```
 
 Feature-local synthesis and checking rules are owned by the corresponding feature chapters. This chapter owns the shared unification, substitution, and judgment framework those rules consume.
@@ -1225,24 +1164,23 @@ This subsection states the key metatheoretic properties that the Ultraviolet typ
 
 **(Progress)**
 
-```text
-If Γ ⊢ e : T and `e` is not a value, then either:
+```math
+\mathsf{If}\ \Gamma \ \vdash \ e\ :\ T\ \mathsf{and}\ \texttt{e}\ \mathsf{is}\ \mathsf{not}\ a\ \mathsf{value},\ \mathsf{then}\ \mathsf{either}:
 ```
-
 1. `e` can take a step.
 2. `e` is blocked on an external operation.
 3. `e` panics.
 
 **(Preservation)**
 
-```text
-If Γ ⊢ e : T and `e → e'`, then Γ ⊢ e' : T.
+```math
+\mathsf{If}\ \Gamma \ \vdash \ e\ :\ T\ \mathsf{and}\ \texttt{e -> e'},\ \mathsf{then}\ \Gamma \ \vdash \ e'\ :\ T.
 ```
 
 **(No-Use-After-Free)**
 
-```text
-A binding in state `Moved` or `PartiallyMoved(F)` where `f ∈ F` cannot be read or moved from.
+```math
+A\ \mathsf{binding}\ \mathsf{in}\ \mathsf{state}\ \texttt{Moved}\ \mathsf{or}\ \texttt{PartiallyMoved(F)}\ \mathsf{where}\ \texttt{f in F}\ \mathsf{cannot}\ \mathsf{be}\ \mathsf{read}\ \mathsf{or}\ \mathsf{moved}\ \mathsf{from}.
 ```
 
 **(No-Double-Free)**
@@ -1250,8 +1188,8 @@ Each responsible binding is dropped exactly once when it goes out of scope.
 
 **(No-Dangling-Pointers)**
 
-```text
-A pointer `Ptr<T>@Valid` always references valid storage. A pointer with provenance `π` cannot escape to storage with longer lifetime `π'` where `π < π'`.
+```math
+A\ \mathsf{pointer}\ \texttt{Ptr<T>@Valid}\ \mathsf{always}\ \mathsf{references}\ \mathsf{valid}\ \mathsf{storage}.\ A\ \mathsf{pointer}\ \mathsf{with}\ \mathsf{provenance}\ \texttt{pi}\ \mathsf{cannot}\ \mathsf{escape}\ \mathsf{to}\ \mathsf{storage}\ \mathsf{with}\ \mathsf{longer}\ \mathsf{lifetime}\ \texttt{pi'}\ \mathsf{where}\ \texttt{pi < pi'}.
 ```
 
 **(Exclusivity-Invariant)**
@@ -1261,7 +1199,10 @@ If a binding `x` has permission `unique` and is in state `Active`, then no other
 Permissions are preserved as permission regimes. Admissibility at a use site MUST NOT create a weaker alias or convert a `unique` binding into `shared` or `const`.
 
 **(State-Determinism)**
-At each program point, every binding has exactly one state in `{Valid, Moved, PartiallyMoved(F)}`.
+
+```math
+\mathsf{At}\ \mathsf{each}\ \mathsf{program}\ \mathsf{point},\ \mathsf{every}\ \mathsf{binding}\ \mathsf{has}\ \mathsf{exactly}\ \mathsf{one}\ \mathsf{state}\ \mathsf{in}\ \texttt{\{Valid, Moved, PartiallyMoved(F)\}}.
+```
 
 **(No-Resurrection)**
 A binding in state `Moved` cannot transition back to `Valid` except through reassignment of a `var` binding.

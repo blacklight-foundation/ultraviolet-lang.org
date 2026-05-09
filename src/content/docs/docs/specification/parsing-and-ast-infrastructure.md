@@ -3,7 +3,7 @@ title: "Parsing and AST Infrastructure"
 description: "5. Parsing and AST Infrastructure of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T17:39:45.389Z"
+generatedAt: "2026-05-09T18:13:03.158Z"
 generated: true
 ---
 
@@ -16,785 +16,804 @@ generated: true
 
 ### 5.1 Parsing Inputs, Outputs, and Invariants
 
-```text
-ParseInputs(S, K_raw, D, K) ⇔ Γ ⊢ Tokenize(S) ⇓ (K_raw, D) ∧ K = Filter(K_raw)
-ParseOutputs(S, F) ⇔ Γ ⊢ ParseFile(S) ⇓ F
+```math
+\begin{array}{l}
+\operatorname{ParseInputs}(S,\ K_{\mathsf{raw}},\ D,\ K)\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{Tokenize}(S)\ \Downarrow \ (K_{\mathsf{raw}},\ D)\ \land \ K\ =\ \operatorname{Filter}(K_{\mathsf{raw}}) \\
+\operatorname{ParseOutputs}(S,\ F)\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{ParseFile}(S)\ \Downarrow \ F
+\end{array}
 ```
 
 **Parsing Phase Invariants.**
 
 **(Phase1-File)**
 
-```text
-Γ ⊢ ParseFile(S) ⇓ F
-```
-
-────────────────────────────
-
-```text
-Γ ⊢ ParsePhase(S) ⇓ F
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseFile}(S)\ \Downarrow \ F \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParsePhase}(S)\ \Downarrow \ F
+\end{array}
 ```
 
 **(Phase1-Forward-Refs)**
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ParsePhase(S) ⇓ NoResolutionConstraints
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParsePhase}(S)\ \Downarrow \ \mathsf{NoResolutionConstraints}
+\end{array}
 ```
 
 Construct-specific `ParseItem`, `ParseExpr`, `ParsePattern`, `ParseType`, and `ParseStmt` rules are defined by the owning feature chapters. `ParseModule` and `ParseModules` are defined by §11.5.4.
 
 ### 5.2 AST Meta-Conventions
 
-```text
-ASTNode = ASTItem ∪ ASTExpr ∪ ASTPattern ∪ ASTType ∪ ASTStmt
-SpanOfNode : ASTNode → Span
-DocOf : ASTNode → (DocList ∪ {⊥})
+```math
+\begin{array}{l}
+\mathsf{ASTNode}\ =\ \mathsf{ASTItem}\ \cup \ \mathsf{ASTExpr}\ \cup \ \mathsf{ASTPattern}\ \cup \ \mathsf{ASTType}\ \cup \ \mathsf{ASTStmt} \\
+\mathsf{SpanOfNode}\ :\ \mathsf{ASTNode}\ \to \ \mathsf{Span} \\
+\mathsf{DocOf}\ :\ \mathsf{ASTNode}\ \to \ (\mathsf{DocList}\ \cup \ \{\bot \})
+\end{array}
 ```
 
-SpanDefault(P, P') = SpanBetween(P, P')
-DocDefault = []
-
-```text
-DocOptDefault = ⊥
+```math
+\begin{array}{l}
+\operatorname{SpanDefault}(P,\ P')\ =\ \operatorname{SpanBetween}(P,\ P') \\
+\mathsf{DocDefault}\ =\ [] \\
+\mathsf{DocOptDefault}\ =\ \bot  \\
+\operatorname{FillSpan}(n,\ P,\ P')\ = \\
+\ n[\mathsf{span}\ :=\ \operatorname{SpanDefault}(P,\ P')]\ \mathsf{if}\ \operatorname{SpanMissing}(n) \\
+\ n\quad \mathsf{otherwise} \\
+\operatorname{FillDoc}(n)\ = \\
+\ n[\mathsf{doc}\ :=\ \mathsf{DocDefault}]\ \mathsf{if}\ \operatorname{DocMissing}(n) \\
+\ n\quad \mathsf{otherwise} \\
+\operatorname{FillDocOpt}(n)\ = \\
+\ n[\mathsf{doc}_{\mathsf{opt}}\ :=\ \mathsf{DocOptDefault}]\ \mathsf{if}\ \operatorname{DocOptMissing}(n) \\
+\ n\quad \mathsf{otherwise} \\
+\operatorname{ParseCtor}(n,\ P,\ P')\ =\ \operatorname{FillDocOpt}(\operatorname{FillDoc}(\operatorname{FillSpan}(n,\ P,\ P')))
+\end{array}
 ```
 
-FillSpan(n, P, P') =
- n[span := SpanDefault(P, P')]  if SpanMissing(n)
- n                             otherwise
-FillDoc(n) =
- n[doc := DocDefault]  if DocMissing(n)
- n                     otherwise
-FillDocOpt(n) =
- n[doc_opt := DocOptDefault]  if DocOptMissing(n)
- n                            otherwise
-ParseCtor(n, P, P') = FillDocOpt(FillDoc(FillSpan(n, P, P')))
+```math
+\mathsf{DocList}\ =\ [\mathsf{DocComment}]
+```
 
-DocList = [DocComment]
-
-```text
-ASTItem ∈ {ImportDecl, UsingDecl, ExternBlock, StaticDecl, ProcedureDecl, CtProc, RecordDecl, EnumDecl, ModalDecl, ClassDecl, TypeAliasDecl, DeriveTargetDecl, ErrorItem}
+```math
+\mathsf{ASTItem}\ \in \ \{\mathsf{ImportDecl},\ \mathsf{UsingDecl},\ \mathsf{ExternBlock},\ \mathsf{StaticDecl},\ \mathsf{ProcedureDecl},\ \mathsf{CtProc},\ \mathsf{RecordDecl},\ \mathsf{EnumDecl},\ \mathsf{ModalDecl},\ \mathsf{ClassDecl},\ \mathsf{TypeAliasDecl},\ \mathsf{DeriveTargetDecl},\ \mathsf{ErrorItem}\}
 ```
 
 **ErrorItem.**
 
-```text
-ErrorItem = ⟨span⟩
+```math
+\begin{array}{l}
+\mathsf{ErrorItem}\ =\ \langle \mathsf{span}\rangle  \\
+\operatorname{IsDecl}(\operatorname{ErrorItem}(\_))\ =\ \mathsf{false}
+\end{array}
 ```
-
-IsDecl(ErrorItem(_)) = false
 
 **Type.**
-Type = {TypePerm(perm, base), TypePrim(name), TypeTuple(elems), TypeArray(elem, size_expr), TypeSlice(elem), TypeUnion(members), TypeFunc(params, ret), TypePath(path), TypeApply(path, args), TypeDynamic(path), TypeOpaque(path), TypeRefine(base, pred), TypeString(string_state_opt), TypeBytes(bytes_state_opt), TypeModalState(modal_ref, state), TypePtr(elem, ptr_state_opt), TypeRawPtr(qual, elem), TypeRange(base), TypeRangeInclusive(base), TypeRangeFrom(base), TypeRangeTo(base), TypeRangeToInclusive(base), TypeRangeFull, TypeClosure(params, ret, deps_opt)}
 
-```text
-TypeApply = ⟨path, args⟩
-TypeOpaque = ⟨path⟩
-TypeRefine = ⟨base, pred⟩
-TypeClosure = ⟨params, ret, deps_opt⟩    params ∈ [ParamType], ret ∈ Type, deps_opt ∈ {⊥} ∪ SharedDeps
-SharedDep = ⟨name, type⟩ where name ∈ Identifier ∧ type ∈ Type
+```math
+\begin{array}{l}
+\mathsf{Type}\ =\ \{\operatorname{TypePerm}(\mathsf{perm},\ \mathsf{base}),\ \operatorname{TypePrim}(\mathsf{name}),\ \operatorname{TypeTuple}(\mathsf{elems}),\ \operatorname{TypeArray}(\mathsf{elem},\ \mathsf{size}_{\mathsf{expr}}),\ \operatorname{TypeSlice}(\mathsf{elem}),\ \operatorname{TypeUnion}(\mathsf{members}),\ \operatorname{TypeFunc}(\mathsf{params},\ \mathsf{ret}),\ \operatorname{TypePath}(\mathsf{path}),\ \operatorname{TypeApply}(\mathsf{path},\ \mathsf{args}),\ \operatorname{TypeDynamic}(\mathsf{path}),\ \operatorname{TypeOpaque}(\mathsf{path}),\ \operatorname{TypeRefine}(\mathsf{base},\ \mathsf{pred}),\ \operatorname{TypeString}(\mathsf{string}_{\mathsf{state}\_\mathsf{opt}}),\ \operatorname{TypeBytes}(\mathsf{bytes}_{\mathsf{state}\_\mathsf{opt}}),\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ \mathsf{state}),\ \operatorname{TypePtr}(\mathsf{elem},\ \mathsf{ptr}_{\mathsf{state}\_\mathsf{opt}}),\ \operatorname{TypeRawPtr}(\mathsf{qual},\ \mathsf{elem}),\ \operatorname{TypeRange}(\mathsf{base}),\ \operatorname{TypeRangeInclusive}(\mathsf{base}),\ \operatorname{TypeRangeFrom}(\mathsf{base}),\ \operatorname{TypeRangeTo}(\mathsf{base}),\ \operatorname{TypeRangeToInclusive}(\mathsf{base}),\ \mathsf{TypeRangeFull},\ \operatorname{TypeClosure}(\mathsf{params},\ \mathsf{ret},\ \mathsf{deps}_{\mathsf{opt}})\} \\
+\mathsf{TypeApply}\ =\ \langle \mathsf{path},\ \mathsf{args}\rangle  \\
+\mathsf{TypeOpaque}\ =\ \langle \mathsf{path}\rangle  \\
+\mathsf{TypeRefine}\ =\ \langle \mathsf{base},\ \mathsf{pred}\rangle  \\
+\mathsf{TypeClosure}\ =\ \langle \mathsf{params},\ \mathsf{ret},\ \mathsf{deps}_{\mathsf{opt}}\rangle \quad \mathsf{params}\ \in \ [\mathsf{ParamType}],\ \mathsf{ret}\ \in \ \mathsf{Type},\ \mathsf{deps}_{\mathsf{opt}}\ \in \ \{\bot \}\ \cup \ \mathsf{SharedDeps} \\
+\mathsf{SharedDep}\ =\ \langle \mathsf{name},\ \mathsf{type}\rangle \ \mathsf{where}\ \mathsf{name}\ \in \ \mathsf{Identifier}\ \land \ \mathsf{type}\ \in \ \mathsf{Type} \\
+\mathsf{SharedDeps}\ =\ [\mathsf{SharedDep}]
+\end{array}
 ```
-
-SharedDeps = [SharedDep]
 MoveMode = ParamMode
 
-Perm = {`const`, `unique`, `shared`}
-Qual = {`imm`, `mut`}
-
-```text
-PtrStateOpt = {⊥, `Valid`, `Null`, `Expired`}
-StringStateOpt = {⊥, `@Managed`, `@View`}
-BytesStateOpt = {⊥, `@Managed`, `@View`}
-Name ∈ PrimTypeNames
+```math
+\begin{array}{l}
+\mathsf{Perm}\ =\ \{\texttt{const},\ \texttt{unique},\ \texttt{shared}\} \\
+\mathsf{Qual}\ =\ \{\texttt{imm},\ \texttt{mut}\} \\
+\mathsf{PtrStateOpt}\ =\ \{\bot ,\ \texttt{Valid},\ \texttt{Null},\ \texttt{Expired}\} \\
+\mathsf{StringStateOpt}\ =\ \{\bot ,\ \texttt{@Managed},\ \texttt{@View}\} \\
+\mathsf{BytesStateOpt}\ =\ \{\bot ,\ \texttt{@Managed},\ \texttt{@View}\} \\
+\mathsf{Name}\ \in \ \mathsf{PrimTypeNames}
+\end{array}
 ```
 
-```text
-ParamMode = {`move`, ⊥}
-ParamType = ⟨mode, type⟩ where mode ∈ ParamMode ∧ type ∈ Type
+```math
+\begin{array}{l}
+\mathsf{ParamMode}\ =\ \{\texttt{move},\ \bot \} \\
+\mathsf{ParamType}\ =\ \langle \mathsf{mode},\ \mathsf{type}\rangle \ \mathsf{where}\ \mathsf{mode}\ \in \ \mathsf{ParamMode}\ \land \ \mathsf{type}\ \in \ \mathsf{Type}
+\end{array}
 ```
 
 ### 5.3 Parser State and Judgments
 
 **Parser State.**
 
-```text
-PState = ⟨K, i, D, j, d, Δ⟩
+```math
+\mathsf{PState}\ =\ \langle K,\ i,\ D,\ j,\ d,\ \Delta \rangle 
 ```
 
-TokStream(P) = K
-TokIndex(P) = i
-DocStream(P) = D
-DocIndex(P) = j
-Depth(P) = d
-DiagStream(P) = Δ
+```math
+\begin{array}{l}
+\operatorname{TokStream}(P)\ =\ K \\
+\operatorname{TokIndex}(P)\ =\ i \\
+\operatorname{DocStream}(P)\ =\ D \\
+\operatorname{DocIndex}(P)\ =\ j \\
+\operatorname{Depth}(P)\ =\ d \\
+\operatorname{DiagStream}(P)\ =\ \Delta 
+\end{array}
+```
 
 **Helper Functions.**
-Tok(P) =
- K[i]                        if i < |K|
 
-```text
- ⟨EOF, ε, EOFSpan(K)⟩        if i = |K|
+```math
+\begin{array}{l}
+\operatorname{Tok}(P)\ = \\
+\ K[i]\quad \mathsf{if}\ i\ <\ \mid K\mid  \\
+\ \langle \mathsf{EOF},\ \varepsilon ,\ \operatorname{EOFSpan}(K)\rangle \quad \mathsf{if}\ i\ =\ \mid K\mid 
+\end{array}
 ```
 
-```text
-SourceOf(K) = S ⇔ Γ ⊢ Tokenize(S) ⇓ (K_raw, D) ∧ K = Filter(K_raw)
+```math
+\begin{array}{l}
+\operatorname{SourceOf}(K)\ =\ S\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{Tokenize}(S)\ \Downarrow \ (K_{\mathsf{raw}},\ D)\ \land \ K\ =\ \operatorname{Filter}(K_{\mathsf{raw}}) \\
+\operatorname{EOFSpan}(K)\ =\ \operatorname{EOFSpan}(\operatorname{SourceOf}(K))
+\end{array}
 ```
 
-EOFSpan(K) = EOFSpan(SourceOf(K))
-
-```text
-Advance(P) = ⟨K, i+1, D, j, d, Δ⟩
-Clone(P) = ⟨K, i, D, j, d, []⟩
-MergeDiag(P_b, P_d, P_s) = ⟨TokStream(P_s), TokIndex(P_s), DocStream(P_s), DocIndex(P_s), Depth(P_s), DiagStream(P_b) ++ DiagStream(P_d)⟩
+```math
+\begin{array}{l}
+\operatorname{Advance}(P)\ =\ \langle K,\ i+1,\ D,\ j,\ d,\ \Delta \rangle  \\
+\operatorname{Clone}(P)\ =\ \langle K,\ i,\ D,\ j,\ d,\ []\rangle  \\
+\operatorname{MergeDiag}(P_{b},\ P_{d},\ P_{s})\ =\ \langle \operatorname{TokStream}(P_{s}),\ \operatorname{TokIndex}(P_{s}),\ \operatorname{DocStream}(P_{s}),\ \operatorname{DocIndex}(P_{s}),\ \operatorname{Depth}(P_{s}),\ \operatorname{DiagStream}(P_{b})\ \mathbin{++} \ \operatorname{DiagStream}(P_{d})\rangle 
+\end{array}
 ```
 
 **Parser Index Invariant.**
 
-```text
-PStateOk(P) ⇔ 0 ≤ i ≤ |K|
+```math
+\operatorname{PStateOk}(P)\ \Leftrightarrow \ 0\ \le \ i\ \le \ \mid K\mid 
 ```
 
-AdvanceOrEOF(P) =
- Advance(P)  if i < |K|
- P           if i = |K|
-
-LastConsumed(P, P') =
- K[i'-1]  if i' > i
- Tok(P)   if i' = i
-
-SpanBetween(P, P') = SpanFrom(Tok(P), LastConsumed(P, P'))
-
-SplitSpan2(sp) = (sp_L, sp_R) where
-
-```text
- sp_L.file = sp.file ∧ sp_R.file = sp.file
- sp_L.start_offset = sp.start_offset ∧ sp_L.end_offset = sp.start_offset + 1
- sp_R.start_offset = sp.start_offset + 1 ∧ sp_R.end_offset = sp.start_offset + 2
- sp_L.start_line = sp.start_line ∧ sp_L.end_line = sp.start_line
- sp_R.start_line = sp.start_line ∧ sp_R.end_line = sp.start_line
- sp_L.start_col = sp.start_col ∧ sp_L.end_col = sp.start_col + 1
- sp_R.start_col = sp.start_col + 1 ∧ sp_R.end_col = sp.start_col + 2
+```math
+\begin{array}{l}
+\operatorname{AdvanceOrEOF}(P)\ = \\
+\ \operatorname{Advance}(P)\ \mathsf{if}\ i\ <\ \mid K\mid  \\
+\ P\quad \mathsf{if}\ i\ =\ \mid K\mid 
+\end{array}
 ```
 
-```text
-SplitShiftR(P) = ⟨K', i, D, j, d, Δ⟩
-where Tok(P) = ⟨Operator(">>"), ">>", sp⟩ ∧ (sp_L, sp_R) = SplitSpan2(sp)
-K' = K[0..i) ++ [⟨Operator(">"), ">", sp_L⟩, ⟨Operator(">"), ">", sp_R⟩] ++ K[i+1..]
+```math
+\begin{array}{l}
+\operatorname{LastConsumed}(P,\ P')\ = \\
+\ K[i'-1]\ \mathsf{if}\ i'\ >\ i \\
+\ \operatorname{Tok}(P)\ \mathsf{if}\ i'\ =\ i
+\end{array}
+```
+
+```math
+\operatorname{SpanBetween}(P,\ P')\ =\ \operatorname{SpanFrom}(\operatorname{Tok}(P),\ \operatorname{LastConsumed}(P,\ P'))
+```
+
+```math
+\begin{array}{l}
+\operatorname{SplitSpan2}(\mathsf{sp})\ =\ (\mathsf{sp}_{L},\ \mathsf{sp}_{R})\ \mathsf{where} \\
+\ \mathsf{sp}_{L}.\mathsf{file}\ =\ \mathsf{sp}.\mathsf{file}\ \land \ \mathsf{sp}_{R}.\mathsf{file}\ =\ \mathsf{sp}.\mathsf{file} \\
+\ \mathsf{sp}_{L}.\mathsf{start}_{\mathsf{offset}}\ =\ \mathsf{sp}.\mathsf{start}_{\mathsf{offset}}\ \land \ \mathsf{sp}_{L}.\mathsf{end}_{\mathsf{offset}}\ =\ \mathsf{sp}.\mathsf{start}_{\mathsf{offset}}\ +\ 1 \\
+\ \mathsf{sp}_{R}.\mathsf{start}_{\mathsf{offset}}\ =\ \mathsf{sp}.\mathsf{start}_{\mathsf{offset}}\ +\ 1\ \land \ \mathsf{sp}_{R}.\mathsf{end}_{\mathsf{offset}}\ =\ \mathsf{sp}.\mathsf{start}_{\mathsf{offset}}\ +\ 2 \\
+\ \mathsf{sp}_{L}.\mathsf{start}_{\mathsf{line}}\ =\ \mathsf{sp}.\mathsf{start}_{\mathsf{line}}\ \land \ \mathsf{sp}_{L}.\mathsf{end}_{\mathsf{line}}\ =\ \mathsf{sp}.\mathsf{start}_{\mathsf{line}} \\
+\ \mathsf{sp}_{R}.\mathsf{start}_{\mathsf{line}}\ =\ \mathsf{sp}.\mathsf{start}_{\mathsf{line}}\ \land \ \mathsf{sp}_{R}.\mathsf{end}_{\mathsf{line}}\ =\ \mathsf{sp}.\mathsf{start}_{\mathsf{line}} \\
+\ \mathsf{sp}_{L}.\mathsf{start}_{\mathsf{col}}\ =\ \mathsf{sp}.\mathsf{start}_{\mathsf{col}}\ \land \ \mathsf{sp}_{L}.\mathsf{end}_{\mathsf{col}}\ =\ \mathsf{sp}.\mathsf{start}_{\mathsf{col}}\ +\ 1 \\
+\ \mathsf{sp}_{R}.\mathsf{start}_{\mathsf{col}}\ =\ \mathsf{sp}.\mathsf{start}_{\mathsf{col}}\ +\ 1\ \land \ \mathsf{sp}_{R}.\mathsf{end}_{\mathsf{col}}\ =\ \mathsf{sp}.\mathsf{start}_{\mathsf{col}}\ +\ 2
+\end{array}
+```
+
+```math
+\begin{array}{l}
+\operatorname{SplitShiftR}(P)\ =\ \langle K',\ i,\ D,\ j,\ d,\ \Delta \rangle  \\
+\mathsf{where}\ \operatorname{Tok}(P)\ =\ \langle \operatorname{Operator}(\texttt{">>"}),\ \texttt{">>"},\ \mathsf{sp}\rangle \ \land \ (\mathsf{sp}_{L},\ \mathsf{sp}_{R})\ =\ \operatorname{SplitSpan2}(\mathsf{sp}) \\
+K'\ =\ K[0..i)\ \mathbin{++} \ [\langle \operatorname{Operator}(\texttt{">"}),\ \texttt{">"},\ \mathsf{sp}_{L}\rangle ,\ \langle \operatorname{Operator}(\texttt{">"}),\ \texttt{">"},\ \mathsf{sp}_{R}\rangle ]\ \mathbin{++} \ K[i+1..]
+\end{array}
 ```
 
 **Judgments (Big-Step).**
-ParseJudgment = {ParseFile, ParseModule, ParseItem, ParseStmt, ParseExpr, ParsePattern, ParseType}
+
+```math
+\mathsf{ParseJudgment}\ =\ \{\mathsf{ParseFile},\ \mathsf{ParseModule},\ \mathsf{ParseItem},\ \mathsf{ParseStmt},\ \mathsf{ParseExpr},\ \mathsf{ParsePattern},\ \mathsf{ParseType}\}
+```
 
 ### 5.4 Shared Grammar Policy and Parser Helpers
 
 **Lexeme Predicates.**
 
-```text
-IsIdent(t) ⇔ t.kind = Identifier
-IsKw(t, s) ⇔ t.kind = Keyword(s)
-IsOp(t, s) ⇔ t.kind = Operator(s)
-IsPunc(t, s) ⇔ t.kind = Punctuator(s)
+```math
+\begin{array}{l}
+\operatorname{IsIdent}(t)\ \Leftrightarrow \ t.\mathsf{kind}\ =\ \mathsf{Identifier} \\
+\operatorname{IsKw}(t,\ s)\ \Leftrightarrow \ t.\mathsf{kind}\ =\ \operatorname{Keyword}(s) \\
+\operatorname{IsOp}(t,\ s)\ \Leftrightarrow \ t.\mathsf{kind}\ =\ \operatorname{Operator}(s) \\
+\operatorname{IsPunc}(t,\ s)\ \Leftrightarrow \ t.\mathsf{kind}\ =\ \operatorname{Punctuator}(s) \\
+\operatorname{Lexeme}(t)\ =\ t.\mathsf{lexeme}
+\end{array}
 ```
 
-Lexeme(t) = t.lexeme
-
 **Contextual Keywords.**
-CtxKeyword = {"in", "key", "wait"}
 
-```text
-Ctx(t, s) ⇔ IsIdent(t) ∧ Lexeme(t) = s ∧ s ∈ CtxKeyword
-¬ Ctx(t, "as") ∧ ¬ Ctx(t, "move")
+```math
+\begin{array}{l}
+\mathsf{CtxKeyword}\ =\ \{\texttt{"in"},\ \texttt{"key"},\ \texttt{"wait"}\} \\
+\operatorname{Ctx}(t,\ s)\ \Leftrightarrow \ \operatorname{IsIdent}(t)\ \land \ \operatorname{Lexeme}(t)\ =\ s\ \land \ s\ \in \ \mathsf{CtxKeyword} \\
+\lnot \ \operatorname{Ctx}(t,\ \texttt{"as"})\ \land \ \lnot \ \operatorname{Ctx}(t,\ \texttt{"move"})
+\end{array}
 ```
 
 **Fixed Identifier Lexemes.**
-FixedIdent_Key = {"read", "write", "dynamic", "speculative", "release"}
-FixedIdent_Parallel = {"cancel", "name", "workgroup", "workgroups"}
-FixedIdent_Spawn = {"name", "affinity", "priority"}
-FixedIdent_Dispatch = {"reduce", "ordered", "chunk", "workgroup", "min", "max", "and", "or"}
-FixedIdent_Meta = {"pattern", "target", "requires", "emits"}
 
-```text
-FixedIdent = FixedIdent_Key ∪ FixedIdent_Parallel ∪ FixedIdent_Spawn ∪ FixedIdent_Dispatch ∪ FixedIdent_Meta
-FixedIdentTok(t, s) ⇔ IsIdent(t) ∧ Lexeme(t) = s ∧ s ∈ FixedIdent
+```math
+\begin{array}{l}
+\mathsf{FixedIdent}_{\mathsf{Key}}\ =\ \{\texttt{"read"},\ \texttt{"write"},\ \texttt{"dynamic"},\ \texttt{"speculative"},\ \texttt{"release"}\} \\
+\mathsf{FixedIdent}_{\mathsf{Parallel}}\ =\ \{\texttt{"cancel"},\ \texttt{"name"},\ \texttt{"workgroup"},\ \texttt{"workgroups"}\} \\
+\mathsf{FixedIdent}_{\mathsf{Spawn}}\ =\ \{\texttt{"name"},\ \texttt{"affinity"},\ \texttt{"priority"}\} \\
+\mathsf{FixedIdent}_{\mathsf{Dispatch}}\ =\ \{\texttt{"reduce"},\ \texttt{"ordered"},\ \texttt{"chunk"},\ \texttt{"workgroup"},\ \texttt{"min"},\ \texttt{"max"},\ \texttt{"and"},\ \texttt{"or"}\} \\
+\mathsf{FixedIdent}_{\mathsf{Meta}}\ =\ \{\texttt{"pattern"},\ \texttt{"target"},\ \texttt{"requires"},\ \texttt{"emits"}\} \\
+\mathsf{FixedIdent}\ =\ \mathsf{FixedIdent}_{\mathsf{Key}}\ \cup \ \mathsf{FixedIdent}_{\mathsf{Parallel}}\ \cup \ \mathsf{FixedIdent}_{\mathsf{Spawn}}\ \cup \ \mathsf{FixedIdent}_{\mathsf{Dispatch}}\ \cup \ \mathsf{FixedIdent}_{\mathsf{Meta}} \\
+\operatorname{FixedIdentTok}(t,\ s)\ \Leftrightarrow \ \operatorname{IsIdent}(t)\ \land \ \operatorname{Lexeme}(t)\ =\ s\ \land \ s\ \in \ \mathsf{FixedIdent}
+\end{array}
 ```
-
 Fixed identifiers MUST be tokenized as identifiers and are disambiguated by syntactic position.
 
 **Union Propagation.**
 
-```text
-UnionPropTok(t) ⇔ IsOp(t, "?")
-UnionPropForm(e) ⇔ ∃ e_0. e = Propagate(e_0)
+```math
+\begin{array}{l}
+\operatorname{UnionPropTok}(t)\ \Leftrightarrow \ \operatorname{IsOp}(t,\ \texttt{"?"}) \\
+\operatorname{UnionPropForm}(e)\ \Leftrightarrow \ \exists \ e_{0}.\ e\ =\ \operatorname{Propagate}(e_{0})
+\end{array}
 ```
 
 **Type Tokens.**
 
-```text
-TypePredicateTok(t) ⇔ IsOp(t, "|:")
-OpaqueTypeTok(t) ⇔ IsIdent(t) ∧ Lexeme(t) = "opaque"
-TypeArgsStartTok(t) ⇔ IsOp(t, "<")
+```math
+\begin{array}{l}
+\operatorname{TypePredicateTok}(t)\ \Leftrightarrow \ \operatorname{IsOp}(t,\ \texttt{"|:"}) \\
+\operatorname{OpaqueTypeTok}(t)\ \Leftrightarrow \ \operatorname{IsIdent}(t)\ \land \ \operatorname{Lexeme}(t)\ =\ \texttt{"opaque"} \\
+\operatorname{TypeArgsStartTok}(t)\ \Leftrightarrow \ \operatorname{IsOp}(t,\ \texttt{"<"})
+\end{array}
 ```
 
 Trailing comma rules are defined by §5.5.
 
 **(Parse-Ident)**
 IsIdent(Tok(P))
-──────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseIdent(P) ⇓ (Advance(P), Lexeme(Tok(P)))
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \operatorname{Lexeme}(\operatorname{Tok}(P)))
+\end{array}
 ```
 
 **(Parse-Ident-Err)**
 
-```text
-¬ IsIdent(Tok(P))    c = Code(Parse-Syntax-Err)    Γ ⊢ Emit(c, Tok(P).span)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseIdent(P) ⇓ (P, "_")
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsIdent}(\operatorname{Tok}(P))\quad c\ =\ \operatorname{Code}(\mathsf{Parse}-\mathsf{Syntax}-\mathsf{Err})\quad \Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{Tok}(P).\mathsf{span}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P,\ \texttt{"\_"})
+\end{array}
 ```
 
 **(Parse-TypePath)**
 
-```text
-Γ ⊢ ParseIdent(P) ⇓ (P_1, id)    Γ ⊢ ParseTypePathTail(P_1, [id]) ⇓ (P_2, path)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseTypePath(P) ⇓ (P_2, path)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{id})\quad \Gamma \ \vdash \ \operatorname{ParseTypePathTail}(P_{1},\ [\mathsf{id}])\ \Downarrow \ (P_{2},\ \mathsf{path}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseTypePath}(P)\ \Downarrow \ (P_{2},\ \mathsf{path})
+\end{array}
 ```
 
 **(Parse-ClassPath)**
 
-```text
-Γ ⊢ ParseTypePath(P) ⇓ (P_1, path)
-```
-
-────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseClassPath(P) ⇓ (P_1, path)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseTypePath}(P)\ \Downarrow \ (P_{1},\ \mathsf{path}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseClassPath}(P)\ \Downarrow \ (P_{1},\ \mathsf{path})
+\end{array}
 ```
 
 **(Parse-TypePathTail-End)**
 
-```text
-¬ IsOp(Tok(P), "::")
-```
-
-────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseTypePathTail(P, xs) ⇓ (P, xs)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"::"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseTypePathTail}(P,\ \mathsf{xs})\ \Downarrow \ (P,\ \mathsf{xs})
+\end{array}
 ```
 
 **(Parse-TypePathTail-Cons)**
 
-```text
-IsOp(Tok(P), "::")    Γ ⊢ ParseIdent(Advance(P)) ⇓ (P_1, id)    Γ ⊢ ParseTypePathTail(P_1, xs ++ [id]) ⇓ (P_2, ys)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseTypePathTail(P, xs) ⇓ (P_2, ys)
+```math
+\begin{array}{l}
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"::"})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{id})\quad \Gamma \ \vdash \ \operatorname{ParseTypePathTail}(P_{1},\ \mathsf{xs}\ \mathbin{++} \ [\mathsf{id}])\ \Downarrow \ (P_{2},\ \mathsf{ys}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseTypePathTail}(P,\ \mathsf{xs})\ \Downarrow \ (P_{2},\ \mathsf{ys})
+\end{array}
 ```
 
 **(Parse-QualifiedHead)**
 
-```text
-Γ ⊢ ParseIdent(P) ⇓ (P_1, id_0)    IsOp(Tok(P_1), "::")    Γ ⊢ ParseModulePathTail(P_1, [id_0]) ⇓ (P_2, xs)    xs = ys ++ [name]    |xs| ≥ 2
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseQualifiedHead(P) ⇓ (P_2, ys, name)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{id}_{0})\quad \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"::"})\quad \Gamma \ \vdash \ \operatorname{ParseModulePathTail}(P_{1},\ [\mathsf{id}_{0}])\ \Downarrow \ (P_{2},\ \mathsf{xs})\quad \mathsf{xs}\ =\ \mathsf{ys}\ \mathbin{++} \ [\mathsf{name}]\quad \mid \mathsf{xs}\mid \ \ge \ 2 \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseQualifiedHead}(P)\ \Downarrow \ (P_{2},\ \mathsf{ys},\ \mathsf{name})
+\end{array}
 ```
 
 **(Parse-Vis-Opt)**
 
-```text
-IsKw(Tok(P), v)    v ∈ {`public`, `internal`, `private`}
-```
-
-────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseVis(P) ⇓ (Advance(P), v)
+```math
+\begin{array}{l}
+\operatorname{IsKw}(\operatorname{Tok}(P),\ v)\quad v\ \in \ \{\texttt{public},\ \texttt{internal},\ \texttt{private}\} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseVis}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ v)
+\end{array}
 ```
 
 **(Parse-Vis-Default)**
 
-```text
-¬ IsKw(Tok(P), v)
-```
-
-──────────────────────────────────────────
-
-```text
-Γ ⊢ ParseVis(P) ⇓ (P, `internal`)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsKw}(\operatorname{Tok}(P),\ v) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseVis}(P)\ \Downarrow \ (P,\ \texttt{internal})
+\end{array}
 ```
 
 **(Parse-ModalOpt-Yes)**
 IsKw(Tok(P), `modal`)
-────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseModalOpt(P) ⇓ (Advance(P), true)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseModalOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \mathsf{true})
+\end{array}
 ```
 
 **(Parse-ModalOpt-No)**
 
-```text
-¬ IsKw(Tok(P), `modal`)
-```
-
-────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseModalOpt(P) ⇓ (P, false)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{modal}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseModalOpt}(P)\ \Downarrow \ (P,\ \mathsf{false})
+\end{array}
 ```
 
 **(Parse-AliasOpt-None)**
 
-```text
-¬ IsKw(Tok(P), `as`)
-```
-
-───────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAliasOpt(P) ⇓ (P, ⊥)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{as}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAliasOpt}(P)\ \Downarrow \ (P,\ \bot )
+\end{array}
 ```
 
 **(Parse-AliasOpt-Yes)**
 
-```text
-IsKw(Tok(P), `as`)    Γ ⊢ ParseIdent(Advance(P)) ⇓ (P_1, id)
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAliasOpt(P) ⇓ (P_1, id)
+```math
+\begin{array}{l}
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{as})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{id}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAliasOpt}(P)\ \Downarrow \ (P_{1},\ \mathsf{id})
+\end{array}
 ```
 
 **(Parse-TypeAnnotOpt-None)**
 
-```text
-¬ IsPunc(Tok(P), ":")
-```
-
-─────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseTypeAnnotOpt(P) ⇓ (P, ⊥)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{":"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseTypeAnnotOpt}(P)\ \Downarrow \ (P,\ \bot )
+\end{array}
 ```
 
 **(Parse-TypeAnnotOpt-Yes)**
 
-```text
-IsPunc(Tok(P), ":")    Γ ⊢ ParseType(Advance(P)) ⇓ (P_1, ty)
-```
-
-──────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseTypeAnnotOpt(P) ⇓ (P_1, ty)
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseType}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{ty}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseTypeAnnotOpt}(P)\ \Downarrow \ (P_{1},\ \mathsf{ty})
+\end{array}
 ```
 
 **(Parse-KeyBoundaryOpt-Yes)**
 IsOp(Tok(P), "#")
-────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseKeyBoundaryOpt(P) ⇓ (Advance(P), true)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseKeyBoundaryOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \mathsf{true})
+\end{array}
 ```
 
 **(Parse-KeyBoundaryOpt-No)**
 
-```text
-¬ IsOp(Tok(P), "#")
-```
-
-────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseKeyBoundaryOpt(P) ⇓ (P, false)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"\#"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseKeyBoundaryOpt}(P)\ \Downarrow \ (P,\ \mathsf{false})
+\end{array}
 ```
 
 ### 5.5 Token Consumption and List Parsing
 
-ConsumeState = {Consume(P, k), ConsumeDone(P)}
-ParseRejectRules = ∅
+```math
+\begin{array}{l}
+\mathsf{ConsumeState}\ =\ \{\operatorname{Consume}(P,\ k),\ \operatorname{ConsumeDone}(P)\} \\
+\mathsf{ParseRejectRules}\ =\ \emptyset 
+\end{array}
+```
 
 **(Tok-Consume-Kind)**
-Tok(P).kind = k
-────────────────────────────────────────────────
 
-```text
-⟨Consume(P, k)⟩ → ⟨ConsumeDone(Advance(P))⟩
+```math
+\begin{array}{l}
+\operatorname{Tok}(P).\mathsf{kind}\ =\ k \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{Consume}(P,\ k)\rangle \ \to \ \langle \operatorname{ConsumeDone}(\operatorname{Advance}(P))\rangle 
+\end{array}
 ```
 
 **(Tok-Consume-Keyword)**
 IsKw(Tok(P), s)
-────────────────────────────────────────────────────────────
 
-```text
-⟨Consume(P, Keyword(s))⟩ → ⟨ConsumeDone(Advance(P))⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\langle \operatorname{Consume}(P,\ \operatorname{Keyword}(s))\rangle \ \to \ \langle \operatorname{ConsumeDone}(\operatorname{Advance}(P))\rangle 
+\end{array}
 ```
 
 **(Tok-Consume-Operator)**
 IsOp(Tok(P), s)
-────────────────────────────────────────────────────────────
 
-```text
-⟨Consume(P, Operator(s))⟩ → ⟨ConsumeDone(Advance(P))⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\langle \operatorname{Consume}(P,\ \operatorname{Operator}(s))\rangle \ \to \ \langle \operatorname{ConsumeDone}(\operatorname{Advance}(P))\rangle 
+\end{array}
 ```
 
 **(Tok-Consume-Punct)**
 IsPunc(Tok(P), s)
-────────────────────────────────────────────────────────────
 
-```text
-⟨Consume(P, Punctuator(s))⟩ → ⟨ConsumeDone(Advance(P))⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\langle \operatorname{Consume}(P,\ \operatorname{Punctuator}(s))\rangle \ \to \ \langle \operatorname{ConsumeDone}(\operatorname{Advance}(P))\rangle 
+\end{array}
 ```
 
 **List Parsing (Small-Step)**
-ListState = {ListStart(P), ListScan(P, xs), ListDone(P, xs)}
+
+```math
+\mathsf{ListState}\ =\ \{\operatorname{ListStart}(P),\ \operatorname{ListScan}(P,\ \mathsf{xs}),\ \operatorname{ListDone}(P,\ \mathsf{xs})\}
+```
 
 **(List-Start)**
-────────────────────────────────────────
 
-```text
-⟨ListStart(P)⟩ → ⟨ListScan(P, [])⟩
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\langle \operatorname{ListStart}(P)\rangle \ \to \ \langle \operatorname{ListScan}(P,\ [])\rangle 
+\end{array}
 ```
 
 **(List-Cons)**
 
-```text
-Γ ⊢ ParseElem(P) ⇓ (P', x)
-```
-
-──────────────────────────────────────────────────────
-
-```text
-⟨ListScan(P, xs)⟩ → ⟨ListScan(P', xs ++ [x])⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseElem}(P)\ \Downarrow \ (P',\ x) \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{ListScan}(P,\ \mathsf{xs})\rangle \ \to \ \langle \operatorname{ListScan}(P',\ \mathsf{xs}\ \mathbin{++} \ [x])\rangle 
+\end{array}
 ```
 
 **(List-Done)**
 
-```text
-Tok(P) ∈ EndSet
+```math
+\begin{array}{l}
+\operatorname{Tok}(P)\ \in \ \mathsf{EndSet} \\
+\rule{18em}{0.4pt} \\
+\langle \operatorname{ListScan}(P,\ \mathsf{xs})\rangle \ \to \ \langle \operatorname{ListDone}(P,\ \mathsf{xs})\rangle 
+\end{array}
 ```
 
-──────────────────────────────────────
-
-```text
-⟨ListScan(P, xs)⟩ → ⟨ListDone(P, xs)⟩
+```math
+\mathsf{EndSet}\ \subseteq \ \mathsf{TokenKind}
 ```
-
-```text
-EndSet ⊆ TokenKind
-```
-
 In list parsing rules, P_0 denotes the parser state immediately after consuming the list opening delimiter for the list being parsed.
 
-```text
-TrailingComma(P, EndSet) ⇔ IsPunc(Tok(P), ",") ∧ Tok(Advance(P)) ∈ EndSet
-TokensBetween(P_0, P) = ⟨TokIndex(P_0), TokIndex(P)⟩
-```
-
-TokLine(t) = t.span.start_line
-
-```text
-TrailingCommaAllowed(P_0, P, EndSet) ⇔ TrailingComma(P, EndSet) ∧ TokLine(Tok(P)) < TokLine(Tok(Advance(P)))
+```math
+\begin{array}{l}
+\operatorname{TrailingComma}(P,\ \mathsf{EndSet})\ \Leftrightarrow \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\ \land \ \operatorname{Tok}(\operatorname{Advance}(P))\ \in \ \mathsf{EndSet} \\
+\operatorname{TokensBetween}(P_{0},\ P)\ =\ \langle \operatorname{TokIndex}(P_{0}),\ \operatorname{TokIndex}(P)\rangle  \\
+\operatorname{TokLine}(t)\ =\ t.\mathsf{span}.\mathsf{start}_{\mathsf{line}} \\
+\operatorname{TrailingCommaAllowed}(P_{0},\ P,\ \mathsf{EndSet})\ \Leftrightarrow \ \operatorname{TrailingComma}(P,\ \mathsf{EndSet})\ \land \ \operatorname{TokLine}(\operatorname{Tok}(P))\ <\ \operatorname{TokLine}(\operatorname{Tok}(\operatorname{Advance}(P)))
+\end{array}
 ```
 
 **(Trailing-Comma-Err)**
 
-```text
-TrailingComma(P, EndSet)    ¬ TrailingCommaAllowed(P_0, P, EndSet)    c = Code(Trailing-Comma-Err)
-```
-
-─────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ Emit(c, Tok(P).span)
+```math
+\begin{array}{l}
+\operatorname{TrailingComma}(P,\ \mathsf{EndSet})\quad \lnot \ \operatorname{TrailingCommaAllowed}(P_{0},\ P,\ \mathsf{EndSet})\quad c\ =\ \operatorname{Code}(\mathsf{Trailing}-\mathsf{Comma}-\mathsf{Err}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{Tok}(P).\mathsf{span})
+\end{array}
 ```
 
 ### 5.6 ParseFile, Item Sequencing, and Terminators
 
 **ParseFile (Big-Step).**
 
-```text
-Γ ⊢ Tokenize(S) ⇓ (K_raw, D)
-```
-
-K = Filter(K_raw)
-
-```text
-P_0 = ⟨K, 0, D, 0, 0, []⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{Tokenize}(S)\ \Downarrow \ (K_{\mathsf{raw}},\ D) \\
+K\ =\ \operatorname{Filter}(K_{\mathsf{raw}}) \\
+P_{0}\ =\ \langle K,\ 0,\ D,\ 0,\ 0,\ []\rangle 
+\end{array}
 ```
 
 **(ParseFile-Ok)**
 
-```text
-Γ ⊢ ParseItems(P_0) ⇓ (P_1, I, MDoc)
-```
-
-────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseFile(S) ⇓ ⟨S.path, I, MDoc⟩
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseItems}(P_{0})\ \Downarrow \ (P_{1},\ I,\ \mathsf{MDoc}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseFile}(S)\ \Downarrow \ \langle S.\mathsf{path},\ I,\ \mathsf{MDoc}\rangle 
+\end{array}
 ```
 
 **Item Sequence (Big-Step).**
 
 **(ParseItems-Empty)**
-Tok(P) = EOF
-──────────────────────────────────────
 
-```text
-Γ ⊢ ParseItems(P) ⇓ (P, [], [])
+```math
+\begin{array}{l}
+\operatorname{Tok}(P)\ =\ \mathsf{EOF} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseItems}(P)\ \Downarrow \ (P,\ [],\ [])
+\end{array}
 ```
 
 **(ParseItems-Cons)**
 
-```text
-Tok(P) ≠ EOF    Γ ⊢ ParseItem(P) ⇓ (P_1, it)    Γ ⊢ ParseItems(P_1) ⇓ (P_2, I, M)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseItems(P) ⇓ (P_2, [it] ++ I, M)
+```math
+\begin{array}{l}
+\operatorname{Tok}(P)\ \ne \ \mathsf{EOF}\quad \Gamma \ \vdash \ \operatorname{ParseItem}(P)\ \Downarrow \ (P_{1},\ \mathsf{it})\quad \Gamma \ \vdash \ \operatorname{ParseItems}(P_{1})\ \Downarrow \ (P_{2},\ I,\ M) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseItems}(P)\ \Downarrow \ (P_{2},\ [\mathsf{it}]\ \mathbin{++} \ I,\ M)
+\end{array}
 ```
 
 **Statement Terminators.**
-StmtTerm = {Punctuator(";"), Newline}
 
-```text
-IsTerm(t) ⇔ t ∈ StmtTerm
+```math
+\begin{array}{l}
+\mathsf{StmtTerm}\ =\ \{\operatorname{Punctuator}(\texttt{";"}),\ \mathsf{Newline}\} \\
+\operatorname{IsTerm}(t)\ \Leftrightarrow \ t\ \in \ \mathsf{StmtTerm}
+\end{array}
 ```
 
-```text
-ReqTerm(s) ⇔ s ∈ {LetStmt(_), VarStmt(_), UsingLocalStmt(_, _, _), AssignStmt(_, _), CompoundAssignStmt(_, _, _), ExprStmt(_)}
+```math
+\operatorname{ReqTerm}(s)\ \Leftrightarrow \ s\ \in \ \{\operatorname{LetStmt}(\_),\ \operatorname{VarStmt}(\_),\ \operatorname{UsingLocalStmt}(\_,\ \_,\ \_),\ \operatorname{AssignStmt}(\_,\ \_),\ \operatorname{CompoundAssignStmt}(\_,\ \_,\ \_),\ \operatorname{ExprStmt}(\_)\}
 ```
 
 **(ConsumeTerminatorOpt-Req-Yes)**
 ReqTerm(s)    IsTerm(Tok(P))
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ ConsumeTerminatorOpt(P, s) ⇓ Advance(P)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ConsumeTerminatorOpt}(P,\ s)\ \Downarrow \ \operatorname{Advance}(P)
+\end{array}
 ```
 
 **(ConsumeTerminatorOpt-Req-No)**
 
-```text
-ReqTerm(s)    ¬ IsTerm(Tok(P))    Emit(Code(Missing-Terminator-Err), Span = Tok(P).span)    Γ ⊢ SyncStmt(P) ⇓ P_1
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ConsumeTerminatorOpt(P, s) ⇓ P_1
+```math
+\begin{array}{l}
+\operatorname{ReqTerm}(s)\quad \lnot \ \operatorname{IsTerm}(\operatorname{Tok}(P))\quad \operatorname{Emit}(\operatorname{Code}(\mathsf{Missing}-\mathsf{Terminator}-\mathsf{Err}),\ \mathsf{Span}\ =\ \operatorname{Tok}(P).\mathsf{span})\quad \Gamma \ \vdash \ \operatorname{SyncStmt}(P)\ \Downarrow \ P_{1} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ConsumeTerminatorOpt}(P,\ s)\ \Downarrow \ P_{1}
+\end{array}
 ```
 
 **(ConsumeTerminatorOpt-Opt-Yes)**
 
-```text
-¬ ReqTerm(s)    IsTerm(Tok(P))
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ConsumeTerminatorOpt(P, s) ⇓ Advance(P)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{ReqTerm}(s)\quad \operatorname{IsTerm}(\operatorname{Tok}(P)) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ConsumeTerminatorOpt}(P,\ s)\ \Downarrow \ \operatorname{Advance}(P)
+\end{array}
 ```
 
 **(ConsumeTerminatorOpt-Opt-No)**
 
-```text
-¬ ReqTerm(s)    ¬ IsTerm(Tok(P))
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ConsumeTerminatorOpt(P, s) ⇓ P
+```math
+\begin{array}{l}
+\lnot \ \operatorname{ReqTerm}(s)\quad \lnot \ \operatorname{IsTerm}(\operatorname{Tok}(P)) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ConsumeTerminatorOpt}(P,\ s)\ \Downarrow \ P
+\end{array}
 ```
 
 **(ConsumeTerminatorReq-Yes)**
 
-```text
-Tok(P) ∈ {Punctuator(";"), Newline}
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ConsumeTerminatorReq(P) ⇓ Advance(P)
+```math
+\begin{array}{l}
+\operatorname{Tok}(P)\ \in \ \{\operatorname{Punctuator}(\texttt{";"}),\ \mathsf{Newline}\} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ConsumeTerminatorReq}(P)\ \Downarrow \ \operatorname{Advance}(P)
+\end{array}
 ```
 
 **(ConsumeTerminatorReq-No)**
 
-```text
-Tok(P) ∉ {Punctuator(";"), Newline}    c = Code(Missing-Terminator-Err)    Γ ⊢ Emit(c, Tok(P).span)    Γ ⊢ SyncStmt(P) ⇓ P_1
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ConsumeTerminatorReq(P) ⇓ P_1
+```math
+\begin{array}{l}
+\operatorname{Tok}(P)\ \notin \ \{\operatorname{Punctuator}(\texttt{";"}),\ \mathsf{Newline}\}\quad c\ =\ \operatorname{Code}(\mathsf{Missing}-\mathsf{Terminator}-\mathsf{Err})\quad \Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{Tok}(P).\mathsf{span})\quad \Gamma \ \vdash \ \operatorname{SyncStmt}(P)\ \Downarrow \ P_{1} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ConsumeTerminatorReq}(P)\ \Downarrow \ P_{1}
+\end{array}
 ```
 
 ### 5.7 Doc Comment Association
 
-DocSeq(D) = D
-ItemSeq(Items) = Items
+```math
+\begin{array}{l}
+\operatorname{DocSeq}(D)\ =\ D \\
+\operatorname{ItemSeq}(\mathsf{Items})\ =\ \mathsf{Items}
+\end{array}
+```
 
 **(Attach-Doc-Line)**
 
-```text
-d.kind = LineDoc    Items = [i_1, …, i_k]    j = min{ t | d.span.end_offset ≤ i_t.span.start_offset }
+```math
+\begin{array}{l}
+d.\mathsf{kind}\ =\ \mathsf{LineDoc}\quad \mathsf{Items}\ =\ [i_{1},\ \ldots ,\ i_{k}]\quad j\ =\ \mathsf{min}\{\ t\ \mid \ d.\mathsf{span}.\mathsf{end}_{\mathsf{offset}}\ \le \ i_{t}.\mathsf{span}.\mathsf{start}_{\mathsf{offset}}\ \} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AttachDoc}(d,\ i_{j})
+\end{array}
 ```
 
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ AttachDoc(d, i_j)
-```
-
-```text
-LineDocTarget(d, Items) = i_j ⇔ Γ ⊢ AttachDoc(d, i_j)
-LineDocsFor(i, D, Items) = [d ∈ D | d.kind = LineDoc ∧ LineDocTarget(d, Items) = i]
+```math
+\begin{array}{l}
+\operatorname{LineDocTarget}(d,\ \mathsf{Items})\ =\ i_{j}\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{AttachDoc}(d,\ i_{j}) \\
+\operatorname{LineDocsFor}(i,\ D,\ \mathsf{Items})\ =\ [d\ \in \ D\ \mid \ d.\mathsf{kind}\ =\ \mathsf{LineDoc}\ \land \ \operatorname{LineDocTarget}(d,\ \mathsf{Items})\ =\ i]
+\end{array}
 ```
 
 **(Attach-Doc-Module)**
 d.kind = ModuleDoc
-──────────────────────────────────────────────
 
-```text
-Γ ⊢ AttachModuleDoc(d)
+```math
+\begin{array}{l}
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AttachModuleDoc}(d)
+\end{array}
 ```
 
-```text
-ModuleDocs(D) = [d ∈ D | d.kind = ModuleDoc]
+```math
+\operatorname{ModuleDocs}(D)\ =\ [d\ \in \ D\ \mid \ d.\mathsf{kind}\ =\ \mathsf{ModuleDoc}]
 ```
 
 ### 5.8 Error Recovery and Synchronization
 
 **Statement Synchronization Set.**
-SyncStmt = {Punctuator(";"), Newline, Punctuator("}"), EOF}
+
+```math
+\mathsf{SyncStmt}\ =\ \{\operatorname{Punctuator}(\texttt{";"}),\ \mathsf{Newline},\ \operatorname{Punctuator}(\texttt{"\}"}),\ \mathsf{EOF}\}
+```
 
 **Item Synchronization Set.**
-SyncItem = {Keyword(`procedure`), Keyword(`record`), Keyword(`enum`), Keyword(`modal`), Keyword(`class`), Keyword(`type`), Keyword(`using`), Keyword(`let`), Keyword(`var`), Punctuator("}"), EOF}
+
+```math
+\mathsf{SyncItem}\ =\ \{\operatorname{Keyword}(\texttt{procedure}),\ \operatorname{Keyword}(\texttt{record}),\ \operatorname{Keyword}(\texttt{enum}),\ \operatorname{Keyword}(\texttt{modal}),\ \operatorname{Keyword}(\texttt{class}),\ \operatorname{Keyword}(\texttt{type}),\ \operatorname{Keyword}(\texttt{using}),\ \operatorname{Keyword}(\texttt{let}),\ \operatorname{Keyword}(\texttt{var}),\ \operatorname{Punctuator}(\texttt{"\}"}),\ \mathsf{EOF}\}
+```
 
 **Type Synchronization Set.**
-SyncType = {Punctuator(","), Punctuator(";"), Newline, Punctuator(")"), Punctuator("]"), Punctuator("}"), EOF}
+
+```math
+\mathsf{SyncType}\ =\ \{\operatorname{Punctuator}(\texttt{","}),\ \operatorname{Punctuator}(\texttt{";"}),\ \mathsf{Newline},\ \operatorname{Punctuator}(\texttt{")"}),\ \operatorname{Punctuator}(\texttt{"]"}),\ \operatorname{Punctuator}(\texttt{"\}"}),\ \mathsf{EOF}\}
+```
 
 **(Sync-Stmt-Stop)**
 
-```text
-Tok(P) ∈ {Punctuator("}"), EOF}
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ SyncStmt(P) ⇓ P
+```math
+\begin{array}{l}
+\operatorname{Tok}(P)\ \in \ \{\operatorname{Punctuator}(\texttt{"\}"}),\ \mathsf{EOF}\} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{SyncStmt}(P)\ \Downarrow \ P
+\end{array}
 ```
 
 **(Sync-Stmt-Consume)**
 
-```text
-Tok(P) ∈ {Punctuator(";"), Newline}
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ SyncStmt(P) ⇓ Advance(P)
+```math
+\begin{array}{l}
+\operatorname{Tok}(P)\ \in \ \{\operatorname{Punctuator}(\texttt{";"}),\ \mathsf{Newline}\} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{SyncStmt}(P)\ \Downarrow \ \operatorname{Advance}(P)
+\end{array}
 ```
 
 **(Sync-Stmt-Advance)**
 
-```text
-Tok(P) ∉ SyncStmt
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ SyncStmt(P) ⇓ SyncStmt(Advance(P))
+```math
+\begin{array}{l}
+\operatorname{Tok}(P)\ \notin \ \mathsf{SyncStmt} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{SyncStmt}(P)\ \Downarrow \ \operatorname{SyncStmt}(\operatorname{Advance}(P))
+\end{array}
 ```
 
 **(Sync-Item-Stop)**
 
-```text
-Tok(P) ∈ SyncItem
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ SyncItem(P) ⇓ P
+```math
+\begin{array}{l}
+\operatorname{Tok}(P)\ \in \ \mathsf{SyncItem} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{SyncItem}(P)\ \Downarrow \ P
+\end{array}
 ```
 
 **(Sync-Item-Advance)**
 
-```text
-Tok(P) ∉ SyncItem
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ SyncItem(P) ⇓ SyncItem(Advance(P))
+```math
+\begin{array}{l}
+\operatorname{Tok}(P)\ \notin \ \mathsf{SyncItem} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{SyncItem}(P)\ \Downarrow \ \operatorname{SyncItem}(\operatorname{Advance}(P))
+\end{array}
 ```
 
 **(Sync-Type-Stop)**
 
-```text
-Tok(P) ∈ {Punctuator(")"), Punctuator("]"), Punctuator("}"), EOF}
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ SyncType(P) ⇓ P
+```math
+\begin{array}{l}
+\operatorname{Tok}(P)\ \in \ \{\operatorname{Punctuator}(\texttt{")"}),\ \operatorname{Punctuator}(\texttt{"]"}),\ \operatorname{Punctuator}(\texttt{"\}"}),\ \mathsf{EOF}\} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{SyncType}(P)\ \Downarrow \ P
+\end{array}
 ```
 
 **(Sync-Type-Consume)**
 
-```text
-Tok(P) ∈ {Punctuator(","), Punctuator(";"), Newline}
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ SyncType(P) ⇓ Advance(P)
+```math
+\begin{array}{l}
+\operatorname{Tok}(P)\ \in \ \{\operatorname{Punctuator}(\texttt{","}),\ \operatorname{Punctuator}(\texttt{";"}),\ \mathsf{Newline}\} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{SyncType}(P)\ \Downarrow \ \operatorname{Advance}(P)
+\end{array}
 ```
 
 **(Sync-Type-Advance)**
 
-```text
-Tok(P) ∉ SyncType
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ SyncType(P) ⇓ SyncType(Advance(P))
+```math
+\begin{array}{l}
+\operatorname{Tok}(P)\ \notin \ \mathsf{SyncType} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{SyncType}(P)\ \Downarrow \ \operatorname{SyncType}(\operatorname{Advance}(P))
+\end{array}
 ```
 
 StmtParseErrRule = Parse-Statement-Err
@@ -802,19 +821,22 @@ ItemParseErrRule = Parse-Item-Err
 
 ### 5.9 Parsing Diagnostics
 
-Phase1DiagRules = {Missing-Terminator-Err, Trailing-Comma-Err, Parse-Syntax-Err}
-
-**(Parse-Syntax-Err)**
-GenericParseRules = {Parse-Ident-Err, Parse-Type-Err, Parse-Pattern-Err, Parse-Primary-Err, Parse-Statement-Err, Parse-Item-Err}
-
-```text
-r ∈ GenericParseRules    PremisesHold(r, P)
+```math
+\mathsf{Phase1DiagRules}\ =\ \{\mathsf{Missing}-\mathsf{Terminator}-\mathsf{Err},\ \mathsf{Trailing}-\mathsf{Comma}-\mathsf{Err},\ \mathsf{Parse}-\mathsf{Syntax}-\mathsf{Err}\}
 ```
 
-────────────────────────────────────────────────
+**(Parse-Syntax-Err)**
 
-```text
-Γ ⊢ Emit(Code(Parse-Syntax-Err))
+```math
+\mathsf{GenericParseRules}\ =\ \{\mathsf{Parse}-\mathsf{Ident}-\mathsf{Err},\ \mathsf{Parse}-\mathsf{Type}-\mathsf{Err},\ \mathsf{Parse}-\mathsf{Pattern}-\mathsf{Err},\ \mathsf{Parse}-\mathsf{Primary}-\mathsf{Err},\ \mathsf{Parse}-\mathsf{Statement}-\mathsf{Err},\ \mathsf{Parse}-\mathsf{Item}-\mathsf{Err}\}
+```
+
+```math
+\begin{array}{l}
+r\ \in \ \mathsf{GenericParseRules}\quad \operatorname{PremisesHold}(r,\ P) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Emit}(\operatorname{Code}(\mathsf{Parse}-\mathsf{Syntax}-\mathsf{Err}))
+\end{array}
 ```
 
 ### 5.10 Parsing Diagnostics Supplement

@@ -3,7 +3,7 @@ title: "Attributes and Metadata"
 description: "9. Attributes and Metadata of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
 specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T17:39:45.389Z"
+generatedAt: "2026-05-09T18:13:03.158Z"
 generated: true
 ---
 
@@ -45,386 +45,361 @@ An attribute list MUST appear immediately before the declaration or expression i
 
 **(Parse-AttrListOpt-None)**
 
-```text
-¬ IsPunc(Tok(P), "[[")
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrListOpt(P) ⇓ (P, ⊥)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P,\ \bot )
+\end{array}
 ```
 
 **(Parse-AttrListOpt-Yes)**
 
-```text
-IsPunc(Tok(P), "[[")    Γ ⊢ ParseAttrList(P) ⇓ (P_1, attrs)
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrListOpt(P) ⇓ (P_1, attrs)
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["})\quad \Gamma \ \vdash \ \operatorname{ParseAttrList}(P)\ \Downarrow \ (P_{1},\ \mathsf{attrs}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P_{1},\ \mathsf{attrs})
+\end{array}
 ```
 
 **(Parse-AttrList-Cons)**
 
-```text
-Γ ⊢ ParseAttrBlock(P) ⇓ (P_1, attrs_0)    Γ ⊢ ParseAttrListTail(P_1, attrs_0) ⇓ (P_2, attrs)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrList(P) ⇓ (P_2, attrs)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseAttrBlock}(P)\ \Downarrow \ (P_{1},\ \mathsf{attrs}_{0})\quad \Gamma \ \vdash \ \operatorname{ParseAttrListTail}(P_{1},\ \mathsf{attrs}_{0})\ \Downarrow \ (P_{2},\ \mathsf{attrs}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrList}(P)\ \Downarrow \ (P_{2},\ \mathsf{attrs})
+\end{array}
 ```
 
 **(Parse-AttrListTail-End)**
 
-```text
-¬ IsPunc(Tok(P), "[[")
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrListTail(P, attrs) ⇓ (P, attrs)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrListTail}(P,\ \mathsf{attrs})\ \Downarrow \ (P,\ \mathsf{attrs})
+\end{array}
 ```
 
 **(Parse-AttrListTail-Cons)**
 
-```text
-IsPunc(Tok(P), "[[")    Γ ⊢ ParseAttrBlock(P) ⇓ (P_1, attrs_0)    Γ ⊢ ParseAttrListTail(P_1, attrs ++ attrs_0) ⇓ (P_2, attrs_1)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrListTail(P, attrs) ⇓ (P_2, attrs_1)
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["})\quad \Gamma \ \vdash \ \operatorname{ParseAttrBlock}(P)\ \Downarrow \ (P_{1},\ \mathsf{attrs}_{0})\quad \Gamma \ \vdash \ \operatorname{ParseAttrListTail}(P_{1},\ \mathsf{attrs}\ \mathbin{++} \ \mathsf{attrs}_{0})\ \Downarrow \ (P_{2},\ \mathsf{attrs}_{1}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrListTail}(P,\ \mathsf{attrs})\ \Downarrow \ (P_{2},\ \mathsf{attrs}_{1})
+\end{array}
 ```
 
 **(Parse-AttrBlock)**
 
-```text
-IsPunc(Tok(P), "[[")    P_0 = Advance(P)    Γ ⊢ ParseAttrSpecList(P_0) ⇓ (P_1, specs)    IsPunc(Tok(P_1), "]]")
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrBlock(P) ⇓ (Advance(P_1), specs)
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["})\quad P_{0}\ =\ \operatorname{Advance}(P)\quad \Gamma \ \vdash \ \operatorname{ParseAttrSpecList}(P_{0})\ \Downarrow \ (P_{1},\ \mathsf{specs})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"]]"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrBlock}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \mathsf{specs})
+\end{array}
 ```
 
 **(Parse-AttrSpecList-Cons)**
 
-```text
-Γ ⊢ ParseAttrSpec(P) ⇓ (P_1, s)    Γ ⊢ ParseAttrSpecListTail(P_1, [s]) ⇓ (P_2, specs)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrSpecList(P) ⇓ (P_2, specs)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseAttrSpec}(P)\ \Downarrow \ (P_{1},\ s)\quad \Gamma \ \vdash \ \operatorname{ParseAttrSpecListTail}(P_{1},\ [s])\ \Downarrow \ (P_{2},\ \mathsf{specs}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrSpecList}(P)\ \Downarrow \ (P_{2},\ \mathsf{specs})
+\end{array}
 ```
 
 **(Parse-AttrSpecListTail-End)**
 
-```text
-¬ IsPunc(Tok(P), ",")
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrSpecListTail(P, xs) ⇓ (P, xs)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrSpecListTail}(P,\ \mathsf{xs})\ \Downarrow \ (P,\ \mathsf{xs})
+\end{array}
 ```
 
 **(Parse-AttrSpecListTail-TrailingComma)**
-IsPunc(Tok(P), ",")    IsPunc(Tok(Advance(P)), "]]")    TrailingCommaAllowed(P_0, P, {Punctuator("]]")})
-────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseAttrSpecListTail(P, xs) ⇓ (Advance(P), xs)
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"]]"})\quad \operatorname{TrailingCommaAllowed}(P_{0},\ P,\ \{\operatorname{Punctuator}(\texttt{"]]"})\}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrSpecListTail}(P,\ \mathsf{xs})\ \Downarrow \ (\operatorname{Advance}(P),\ \mathsf{xs})
+\end{array}
 ```
 
 **(Parse-AttrSpecListTail-Comma)**
 
-```text
-IsPunc(Tok(P), ",")    Γ ⊢ ParseAttrSpec(Advance(P)) ⇓ (P_1, s)    Γ ⊢ ParseAttrSpecListTail(P_1, xs ++ [s]) ⇓ (P_2, ys)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrSpecListTail(P, xs) ⇓ (P_2, ys)
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \Gamma \ \vdash \ \operatorname{ParseAttrSpec}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ s)\quad \Gamma \ \vdash \ \operatorname{ParseAttrSpecListTail}(P_{1},\ \mathsf{xs}\ \mathbin{++} \ [s])\ \Downarrow \ (P_{2},\ \mathsf{ys}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrSpecListTail}(P,\ \mathsf{xs})\ \Downarrow \ (P_{2},\ \mathsf{ys})
+\end{array}
 ```
 
 **(Parse-AttrSpec)**
 
-```text
-Γ ⊢ ParseAttrName(P) ⇓ (P_1, name)    Γ ⊢ ParseAttrArgsOpt(P_1) ⇓ (P_2, args)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrSpec(P) ⇓ (P_2, Attr(name, args))
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseAttrName}(P)\ \Downarrow \ (P_{1},\ \mathsf{name})\quad \Gamma \ \vdash \ \operatorname{ParseAttrArgsOpt}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{args}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrSpec}(P)\ \Downarrow \ (P_{2},\ \operatorname{Attr}(\mathsf{name},\ \mathsf{args}))
+\end{array}
 ```
 
 **(Parse-AttrArgsOpt-None)**
 
-```text
-¬ IsPunc(Tok(P), "(")
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrArgsOpt(P) ⇓ (P, [])
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrArgsOpt}(P)\ \Downarrow \ (P,\ [])
+\end{array}
 ```
 
 **(Parse-AttrArgsOpt-Yes)**
 
-```text
-IsPunc(Tok(P), "(")    Γ ⊢ ParseAttrArgList(Advance(P)) ⇓ (P_1, args)    IsPunc(Tok(P_1), ")")
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrArgsOpt(P) ⇓ (Advance(P_1), args)
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseAttrArgList}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{args})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrArgsOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \mathsf{args})
+\end{array}
 ```
 
 **(Parse-AttrArgList-Cons)**
 
-```text
-Γ ⊢ ParseAttrArg(P) ⇓ (P_1, a)    Γ ⊢ ParseAttrArgListTail(P_1, [a]) ⇓ (P_2, args)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrArgList(P) ⇓ (P_2, args)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseAttrArg}(P)\ \Downarrow \ (P_{1},\ a)\quad \Gamma \ \vdash \ \operatorname{ParseAttrArgListTail}(P_{1},\ [a])\ \Downarrow \ (P_{2},\ \mathsf{args}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrArgList}(P)\ \Downarrow \ (P_{2},\ \mathsf{args})
+\end{array}
 ```
 
 **(Parse-AttrArgListTail-End)**
 
-```text
-¬ IsPunc(Tok(P), ",")
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrArgListTail(P, xs) ⇓ (P, xs)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrArgListTail}(P,\ \mathsf{xs})\ \Downarrow \ (P,\ \mathsf{xs})
+\end{array}
 ```
 
 **(Parse-AttrArgListTail-TrailingComma)**
-IsPunc(Tok(P), ",")    IsPunc(Tok(Advance(P)), ")")    TrailingCommaAllowed(P_0, P, {Punctuator(")")})
-────────────────────────────────────────────────────────────────────────────────────────────────
 
-```text
-Γ ⊢ ParseAttrArgListTail(P, xs) ⇓ (Advance(P), xs)
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{")"})\quad \operatorname{TrailingCommaAllowed}(P_{0},\ P,\ \{\operatorname{Punctuator}(\texttt{")"})\}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrArgListTail}(P,\ \mathsf{xs})\ \Downarrow \ (\operatorname{Advance}(P),\ \mathsf{xs})
+\end{array}
 ```
 
 **(Parse-AttrArgListTail-Comma)**
 
-```text
-IsPunc(Tok(P), ",")    Γ ⊢ ParseAttrArg(Advance(P)) ⇓ (P_1, a)    Γ ⊢ ParseAttrArgListTail(P_1, xs ++ [a]) ⇓ (P_2, ys)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrArgListTail(P, xs) ⇓ (P_2, ys)
+```math
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \Gamma \ \vdash \ \operatorname{ParseAttrArg}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ a)\quad \Gamma \ \vdash \ \operatorname{ParseAttrArgListTail}(P_{1},\ \mathsf{xs}\ \mathbin{++} \ [a])\ \Downarrow \ (P_{2},\ \mathsf{ys}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrArgListTail}(P,\ \mathsf{xs})\ \Downarrow \ (P_{2},\ \mathsf{ys})
+\end{array}
 ```
 
 **(Parse-AttrArg-Named-Literal)**
 
-```text
-Γ ⊢ ParseIdent(P) ⇓ (P_1, name)    IsPunc(Tok(P_1), ":")    Tok(Advance(P_1)).kind ∈ LiteralKind
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrArg(P) ⇓ (Advance(Advance(P_1)), ⟨name, Tok(Advance(P_1))⟩)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{name})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{":"})\quad \operatorname{Tok}(\operatorname{Advance}(P_{1})).\mathsf{kind}\ \in \ \mathsf{LiteralKind} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrArg}(P)\ \Downarrow \ (\operatorname{Advance}(\operatorname{Advance}(P_{1})),\ \langle \mathsf{name},\ \operatorname{Tok}(\operatorname{Advance}(P_{1}))\rangle )
+\end{array}
 ```
 
 **(Parse-AttrArg-Named-Ident)**
 
-```text
-Γ ⊢ ParseIdent(P) ⇓ (P_1, name)    IsPunc(Tok(P_1), ":")    Γ ⊢ ParseIdent(Advance(P_1)) ⇓ (P_2, value)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrArg(P) ⇓ (P_2, ⟨name, value⟩)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{name})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{value}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrArg}(P)\ \Downarrow \ (P_{2},\ \langle \mathsf{name},\ \mathsf{value}\rangle )
+\end{array}
 ```
 
 **(Parse-AttrArg-Named-Call)**
 
-```text
-Γ ⊢ ParseIdent(P) ⇓ (P_1, name)    IsPunc(Tok(P_1), "(")    Γ ⊢ ParseAttrArgList(Advance(P_1)) ⇓ (P_2, args)    IsPunc(Tok(P_2), ")")
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrArg(P) ⇓ (Advance(P_2), ⟨name, args⟩)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{name})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseAttrArgList}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{args})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{")"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrArg}(P)\ \Downarrow \ (\operatorname{Advance}(P_{2}),\ \langle \mathsf{name},\ \mathsf{args}\rangle )
+\end{array}
 ```
 
 **(Parse-AttrArg-Literal)**
 
-```text
-Tok(P).kind ∈ LiteralKind
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrArg(P) ⇓ (Advance(P), Tok(P))
+```math
+\begin{array}{l}
+\operatorname{Tok}(P).\mathsf{kind}\ \in \ \mathsf{LiteralKind} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrArg}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \operatorname{Tok}(P))
+\end{array}
 ```
 
 **(Parse-AttrArg-Ident)**
 
-```text
-Γ ⊢ ParseIdent(P) ⇓ (P_1, name)
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrArg(P) ⇓ (P_1, name)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{name}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrArg}(P)\ \Downarrow \ (P_{1},\ \mathsf{name})
+\end{array}
 ```
 
 #### 9.1.3 AST Representation / Form
 
-AttrName ::= identifier
+```math
+\mathsf{AttrName}\ \mathbin{::} =\ \mathsf{identifier}
+```
            | "dynamic"
            | "static"
            | ⟨vendor_prefix, identifier⟩
            | ⟨vendor_prefix, "dynamic"⟩
            | ⟨vendor_prefix, "static"⟩
-vendor_prefix ::= identifier ("::" identifier)*
 
-```text
-AttrArg ::= literal | identifier | ⟨name, literal⟩ | ⟨name, identifier⟩ | ⟨name, args⟩
+```math
+\begin{array}{l}
+\mathsf{vendor}_{\mathsf{prefix}}\ \mathbin{::} =\ \mathsf{identifier}\ (\texttt{"::"}\ \mathsf{identifier})* \\
+\mathsf{AttrArg}\ \mathbin{::} =\ \mathsf{literal}\ \mid \ \mathsf{identifier}\ \mid \ \langle \mathsf{name},\ \mathsf{literal}\rangle \ \mid \ \langle \mathsf{name},\ \mathsf{identifier}\rangle \ \mid \ \langle \mathsf{name},\ \mathsf{args}\rangle  \\
+\mathsf{AttributeSpec}\ \mathbin{::} =\ \operatorname{Attr}(\mathsf{name}:\ \mathsf{AttrName},\ \mathsf{args}:\ [\mathsf{AttrArg}]) \\
+\mathsf{AttributeList}\ \mathbin{::} =\ [\mathsf{AttributeSpec}] \\
+\mathsf{AttrOpt}\ \mathbin{::} =\ \{\bot \}\ \cup \ \mathsf{AttributeList}
+\end{array}
 ```
 
-AttributeSpec ::= Attr(name: AttrName, args: [AttrArg])
-AttributeList ::= [AttributeSpec]
-
-```text
-AttrOpt ::= {⊥} ∪ AttributeList
+```math
+\operatorname{ExprAttrs}(e)\ \in \ \mathsf{AttrOpt}
 ```
 
-```text
-ExprAttrs(e) ∈ AttrOpt
+```math
+\operatorname{AttachExprAttrs}(e,\ \mathsf{attrs})\ =\ e'\ \mathsf{where}\ \operatorname{ExprAttrs}(e')\ =\ (\mathsf{attrs}\ \mathbin{++} \ \operatorname{ExprAttrs}(e)\ \mathsf{if}\ \operatorname{ExprAttrs}(e)\ \ne \ \bot \ \mathsf{else}\ \mathsf{attrs})\ \mathsf{and}\ \mathsf{all}\ \mathsf{other}\ \mathsf{fields}\ \mathsf{of}\ e'\ \mathsf{equal}\ \mathsf{those}\ \mathsf{of}\ e
 ```
 
-```text
-AttachExprAttrs(e, attrs) = e' where ExprAttrs(e') = (attrs ++ ExprAttrs(e) if ExprAttrs(e) ≠ ⊥ else attrs) and all other fields of e' equal those of e
-```
-
-AttrListOf(item) = attrs    if item.attrs_opt = attrs
-
-```text
-AttrListOf(item) = []       if item.attrs_opt = ⊥
-AttrByName(item, n) = [a | a ∈ AttrListOf(item) ∧ a.name = n]
+```math
+\begin{array}{l}
+\operatorname{AttrListOf}(\mathsf{item})\ =\ \mathsf{attrs}\quad \mathsf{if}\ \mathsf{item}.\mathsf{attrs}_{\mathsf{opt}}\ =\ \mathsf{attrs} \\
+\operatorname{AttrListOf}(\mathsf{item})\ =\ []\quad \mathsf{if}\ \mathsf{item}.\mathsf{attrs}_{\mathsf{opt}}\ =\ \bot  \\
+\operatorname{AttrByName}(\mathsf{item},\ n)\ =\ [a\ \mid \ a\ \in \ \operatorname{AttrListOf}(\mathsf{item})\ \land \ a.\mathsf{name}\ =\ n]
+\end{array}
 ```
 
 #### 9.1.4 Static Semantics
 
 Malformed attribute syntax is ill-formed.
 
-AttrTarget = {Record, Enum, Modal, Procedure, Method, Field, Binding, Statement, Expression, KeyBlock, ExternBlock, TypeAlias}
+```math
+\mathsf{AttrTarget}\ =\ \{\mathsf{Record},\ \mathsf{Enum},\ \mathsf{Modal},\ \mathsf{Procedure},\ \mathsf{Method},\ \mathsf{Field},\ \mathsf{Binding},\ \mathsf{Statement},\ \mathsf{Expression},\ \mathsf{KeyBlock},\ \mathsf{ExternBlock},\ \mathsf{TypeAlias}\}
+```
 
-AttrRegistry = R_spec ⊎ R_vendor
-R_vendor = ∅
+```math
+\begin{array}{l}
+\mathsf{AttrRegistry}\ =\ R_{\mathsf{spec}}\ \uplus \ R_{\mathsf{vendor}} \\
+R_{\mathsf{vendor}}\ =\ \emptyset 
+\end{array}
+```
 
-R_spec = {
-  layout, inline, cold, deprecated,
-  dynamic, stale_ok,
-  relaxed, acquire, release, acqrel, seqcst,
-  static,
-  mangle, library, unwind,
-  reflect, derive, emit, files,
-  export, host_export, ffi_pass_by_value,
-  test
+```math
+\begin{array}{l}
+R_{\mathsf{spec}}\ =\ \{ \\
+\ \mathsf{layout},\ \mathsf{inline},\ \mathsf{cold},\ \mathsf{deprecated}, \\
+\ \mathsf{dynamic},\ \mathsf{stale}_{\mathsf{ok}}, \\
+\ \mathsf{relaxed},\ \mathsf{acquire},\ \mathsf{release},\ \mathsf{acqrel},\ \mathsf{seqcst}, \\
+\ \mathsf{static}, \\
+\ \mathsf{mangle},\ \mathsf{library},\ \mathsf{unwind}, \\
+\ \mathsf{reflect},\ \mathsf{derive},\ \mathsf{emit},\ \mathsf{files}, \\
+\ \mathsf{export},\ \mathsf{host}_{\mathsf{export}},\ \mathsf{ffi}_{\mathsf{pass}\_\mathsf{by}\_\mathsf{value}}, \\
+\ \mathsf{test}
+\end{array}
+```
 }
 
-AttrTargets(layout) = {Record, Enum}
-AttrTargets(inline) = {Procedure, Method}
-AttrTargets(cold) = {Procedure, Method}
-AttrTargets(deprecated) = {Record, Enum, Modal, Procedure, Method, Field, Binding, TypeAlias}
-AttrTargets(dynamic) = {Record, Enum, Modal, Procedure, Method, Expression}
-AttrTargets(stale_ok) = {Binding}
-AttrTargets(relaxed) = {Expression, KeyBlock}
-AttrTargets(acquire) = {Expression, KeyBlock}
-AttrTargets(release) = {Expression, KeyBlock}
-AttrTargets(acqrel) = {Expression, KeyBlock}
-AttrTargets(seqcst) = {Expression, KeyBlock}
-AttrTargets(static) = {Procedure}
-AttrTargets(mangle) = {Procedure}
-AttrTargets(library) = {ExternBlock}
-AttrTargets(unwind) = {Procedure}
-AttrTargets(reflect) = {Record, Enum, Modal}
-AttrTargets(derive) = {Record, Enum, Modal}
-AttrTargets(emit) = {Statement, Expression}
-AttrTargets(files) = {Statement, Expression}
-AttrTargets(export) = {Procedure}
-AttrTargets(host_export) = {Procedure}
-AttrTargets(ffi_pass_by_value) = {Record, Enum}
-AttrTargets(test) = {Procedure}
+```math
+\begin{array}{l}
+\operatorname{AttrTargets}(\mathsf{layout})\ =\ \{\mathsf{Record},\ \mathsf{Enum}\} \\
+\operatorname{AttrTargets}(\mathsf{inline})\ =\ \{\mathsf{Procedure},\ \mathsf{Method}\} \\
+\operatorname{AttrTargets}(\mathsf{cold})\ =\ \{\mathsf{Procedure},\ \mathsf{Method}\} \\
+\operatorname{AttrTargets}(\mathsf{deprecated})\ =\ \{\mathsf{Record},\ \mathsf{Enum},\ \mathsf{Modal},\ \mathsf{Procedure},\ \mathsf{Method},\ \mathsf{Field},\ \mathsf{Binding},\ \mathsf{TypeAlias}\} \\
+\operatorname{AttrTargets}(\mathsf{dynamic})\ =\ \{\mathsf{Record},\ \mathsf{Enum},\ \mathsf{Modal},\ \mathsf{Procedure},\ \mathsf{Method},\ \mathsf{Expression}\} \\
+\operatorname{AttrTargets}(\mathsf{stale}_{\mathsf{ok}})\ =\ \{\mathsf{Binding}\} \\
+\operatorname{AttrTargets}(\mathsf{relaxed})\ =\ \{\mathsf{Expression},\ \mathsf{KeyBlock}\} \\
+\operatorname{AttrTargets}(\mathsf{acquire})\ =\ \{\mathsf{Expression},\ \mathsf{KeyBlock}\} \\
+\operatorname{AttrTargets}(\mathsf{release})\ =\ \{\mathsf{Expression},\ \mathsf{KeyBlock}\} \\
+\operatorname{AttrTargets}(\mathsf{acqrel})\ =\ \{\mathsf{Expression},\ \mathsf{KeyBlock}\} \\
+\operatorname{AttrTargets}(\mathsf{seqcst})\ =\ \{\mathsf{Expression},\ \mathsf{KeyBlock}\} \\
+\operatorname{AttrTargets}(\mathsf{static})\ =\ \{\mathsf{Procedure}\} \\
+\operatorname{AttrTargets}(\mathsf{mangle})\ =\ \{\mathsf{Procedure}\} \\
+\operatorname{AttrTargets}(\mathsf{library})\ =\ \{\mathsf{ExternBlock}\} \\
+\operatorname{AttrTargets}(\mathsf{unwind})\ =\ \{\mathsf{Procedure}\} \\
+\operatorname{AttrTargets}(\mathsf{reflect})\ =\ \{\mathsf{Record},\ \mathsf{Enum},\ \mathsf{Modal}\} \\
+\operatorname{AttrTargets}(\mathsf{derive})\ =\ \{\mathsf{Record},\ \mathsf{Enum},\ \mathsf{Modal}\} \\
+\operatorname{AttrTargets}(\mathsf{emit})\ =\ \{\mathsf{Statement},\ \mathsf{Expression}\} \\
+\operatorname{AttrTargets}(\mathsf{files})\ =\ \{\mathsf{Statement},\ \mathsf{Expression}\} \\
+\operatorname{AttrTargets}(\mathsf{export})\ =\ \{\mathsf{Procedure}\} \\
+\operatorname{AttrTargets}(\mathsf{host}_{\mathsf{export}})\ =\ \{\mathsf{Procedure}\} \\
+\operatorname{AttrTargets}(\mathsf{ffi}_{\mathsf{pass}\_\mathsf{by}\_\mathsf{value}})\ =\ \{\mathsf{Record},\ \mathsf{Enum}\} \\
+\operatorname{AttrTargets}(\mathsf{test})\ =\ \{\mathsf{Procedure}\}
+\end{array}
+```
 
-AttrListJudg = {AttrListWf}
+```math
+\mathsf{AttrListJudg}\ =\ \{\mathsf{AttrListWf}\}
+```
 
 **(AttrList-Ok)**
 
-```text
-A = [a_1, …, a_n]    ∀ i, a_i = ⟨name_i, args_i⟩    ∀ i, name_i ∈ R_spec ∪ R_vendor    ∀ i, τ ∈ AttrTargets(name_i)    ∀ i, AttrArgsOk(name_i, args_i)
-```
-
-──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ AttrListWf(A, τ) ⇓ ok
+```math
+\begin{array}{l}
+A\ =\ [a_{1},\ \ldots ,\ a_{n}]\quad \forall \ i,\ a_{i}\ =\ \langle \mathsf{name}_{i},\ \mathsf{args}_{i}\rangle \quad \forall \ i,\ \mathsf{name}_{i}\ \in \ R_{\mathsf{spec}}\ \cup \ R_{\mathsf{vendor}}\quad \forall \ i,\ \tau \ \in \ \operatorname{AttrTargets}(\mathsf{name}_{i})\quad \forall \ i,\ \operatorname{AttrArgsOk}(\mathsf{name}_{i},\ \mathsf{args}_{i}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AttrListWf}(A,\ \tau )\ \Downarrow \ \mathsf{ok}
+\end{array}
 ```
 
 **(AttrList-Unknown)**
 
-```text
-A = [a_1, …, a_n]    ∃ i, a_i = ⟨name_i, _⟩ ∧ name_i ∉ R_spec ∪ R_vendor
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ AttrListWf(A, τ) ⇑ c    c = Code(Attr-Unknown)
+```math
+\begin{array}{l}
+A\ =\ [a_{1},\ \ldots ,\ a_{n}]\quad \exists \ i,\ a_{i}\ =\ \langle \mathsf{name}_{i},\ \_\rangle \ \land \ \mathsf{name}_{i}\ \notin \ R_{\mathsf{spec}}\ \cup \ R_{\mathsf{vendor}} \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AttrListWf}(A,\ \tau )\ \Uparrow \ c\quad c\ =\ \operatorname{Code}(\mathsf{Attr}-\mathsf{Unknown})
+\end{array}
 ```
 
 **(AttrList-Target-Err)**
 
-```text
-A = [a_1, …, a_n]    ∃ i, a_i = ⟨name_i, _⟩ ∧ name_i ∈ R_spec ∪ R_vendor ∧ τ ∉ AttrTargets(name_i)
+```math
+\begin{array}{l}
+A\ =\ [a_{1},\ \ldots ,\ a_{n}]\quad \exists \ i,\ a_{i}\ =\ \langle \mathsf{name}_{i},\ \_\rangle \ \land \ \mathsf{name}_{i}\ \in \ R_{\mathsf{spec}}\ \cup \ R_{\mathsf{vendor}}\ \land \ \tau \ \notin \ \operatorname{AttrTargets}(\mathsf{name}_{i}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AttrListWf}(A,\ \tau )\ \Uparrow \ c\quad c\ =\ \operatorname{Code}(\mathsf{Attr}-\mathsf{Target}-\mathsf{Err})
+\end{array}
 ```
 
-───────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ AttrListWf(A, τ) ⇑ c    c = Code(Attr-Target-Err)
-```
-
-```text
-AttrArgsOk(name, args) ⇔ args satisfy the attribute-specific grammar and constraints in §§9.3–9.6, §19.7, §23.4, and §23.6, or the vendor-defined schema for name ∈ R_vendor.
+```math
+\operatorname{AttrArgsOk}(\mathsf{name},\ \mathsf{args})\ \Leftrightarrow \ \mathsf{args}\ \mathsf{satisfy}\ \mathsf{the}\ \mathsf{attribute}-\mathsf{specific}\ \mathsf{grammar}\ \mathsf{and}\ \mathsf{constraints}\ \mathsf{in}\ \S \S 9.3- 9.6,\ \S 19.7,\ \S 23.4,\ \mathsf{and}\ \S 23.6,\ \mathsf{or}\ \mathsf{the}\ \mathsf{vendor}-\mathsf{defined}\ \mathsf{schema}\ \mathsf{for}\ \mathsf{name}\ \in \ R_{\mathsf{vendor}}.
 ```
 
 Memory-order attributes are well-formed only when attached to key blocks or expressions that contain key acquisition.
 
-```text
-For every declaration or expression with an attribute list A and target kind τ, the implementation MUST check Γ ⊢ AttrListWf(A, τ) ⇓ ok.
+```math
+\mathsf{For}\ \mathsf{every}\ \mathsf{declaration}\ \mathsf{or}\ \mathsf{expression}\ \mathsf{with}\ \mathsf{an}\ \mathsf{attribute}\ \mathsf{list}\ A\ \mathsf{and}\ \mathsf{target}\ \mathsf{kind}\ \tau ,\ \mathsf{the}\ \mathsf{implementation}\ \mathsf{MUST}\ \mathsf{check}\ \Gamma \ \vdash \ \operatorname{AttrListWf}(A,\ \tau )\ \Downarrow \ \mathsf{ok}.
 ```
 
 Multiple attribute lists on the same target are equivalent to a single list with concatenated entries in source order. Attribute application order is left-to-right in that concatenated list.
@@ -457,71 +432,69 @@ This section introduces no additional concrete syntax beyond the scoped `attribu
 
 Vendor-qualified attribute names reuse the general attribute parser with the vendor-name delta below.
 
-```text
-AttrLeafTok(tok, id) ⇔ tok = Identifier(id) ∨ (tok = Keyword(kw) ∧ kw ∈ {`dynamic`, `static`} ∧ id = kw)
+```math
+\operatorname{AttrLeafTok}(\mathsf{tok},\ \mathsf{id})\ \Leftrightarrow \ \mathsf{tok}\ =\ \operatorname{Identifier}(\mathsf{id})\ \lor \ (\mathsf{tok}\ =\ \operatorname{Keyword}(\mathsf{kw})\ \land \ \mathsf{kw}\ \in \ \{\texttt{dynamic},\ \texttt{static}\}\ \land \ \mathsf{id}\ =\ \mathsf{kw})
 ```
 
 **(Parse-AttrName-Plain)**
 
-```text
-AttrLeafTok(Tok(P), id)    P_1 = Advance(P)    ¬ IsPunc(Tok(P_1), ".")    ¬ IsOp(Tok(P_1), "::")
-```
-
-────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrName(P) ⇓ (P_1, id)
+```math
+\begin{array}{l}
+\operatorname{AttrLeafTok}(\operatorname{Tok}(P),\ \mathsf{id})\quad P_{1}\ =\ \operatorname{Advance}(P)\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"."})\quad \lnot \ \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"::"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrName}(P)\ \Downarrow \ (P_{1},\ \mathsf{id})
+\end{array}
 ```
 
 **(Parse-AttrName-Vendor)**
 
-```text
-Γ ⊢ ParseIdent(P) ⇓ (P_1, id_0)    Γ ⊢ ParseVendorPrefixTail(P_1, [id_0]) ⇓ (P_2, pref)    IsOp(Tok(P_2), "::")    AttrLeafTok(Tok(Advance(P_2)), name)    P_3 = Advance(Advance(P_2))
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseAttrName(P) ⇓ (P_3, ⟨pref, name⟩)
+```math
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{id}_{0})\quad \Gamma \ \vdash \ \operatorname{ParseVendorPrefixTail}(P_{1},\ [\mathsf{id}_{0}])\ \Downarrow \ (P_{2},\ \mathsf{pref})\quad \operatorname{IsOp}(\operatorname{Tok}(P_{2}),\ \texttt{"::"})\quad \operatorname{AttrLeafTok}(\operatorname{Tok}(\operatorname{Advance}(P_{2})),\ \mathsf{name})\quad P_{3}\ =\ \operatorname{Advance}(\operatorname{Advance}(P_{2})) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrName}(P)\ \Downarrow \ (P_{3},\ \langle \mathsf{pref},\ \mathsf{name}\rangle )
+\end{array}
 ```
 
 **(Parse-VendorPrefixTail-End)**
 
-```text
-¬ IsOp(Tok(P), "::")
-```
-
-──────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseVendorPrefixTail(P, xs) ⇓ (P, xs)
+```math
+\begin{array}{l}
+\lnot \ \operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"::"}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseVendorPrefixTail}(P,\ \mathsf{xs})\ \Downarrow \ (P,\ \mathsf{xs})
+\end{array}
 ```
 
 **(Parse-VendorPrefixTail-Cons)**
 
-```text
-IsOp(Tok(P), "::")    Γ ⊢ ParseIdent(Advance(P)) ⇓ (P_1, id)    Γ ⊢ ParseVendorPrefixTail(P_1, xs ++ [id]) ⇓ (P_2, ys)
-```
-
-────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-```text
-Γ ⊢ ParseVendorPrefixTail(P, xs) ⇓ (P_2, ys)
+```math
+\begin{array}{l}
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"::"})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{id})\quad \Gamma \ \vdash \ \operatorname{ParseVendorPrefixTail}(P_{1},\ \mathsf{xs}\ \mathbin{++} \ [\mathsf{id}])\ \Downarrow \ (P_{2},\ \mathsf{ys}) \\
+\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseVendorPrefixTail}(P,\ \mathsf{xs})\ \Downarrow \ (P_{2},\ \mathsf{ys})
+\end{array}
 ```
 
 #### 9.2.3 AST Representation / Form
 
-```text
-Vendor-defined attribute names use the scoped `AttrName` form `⟨vendor_prefix, leaf⟩`, where `leaf` is an `identifier` or one of the reserved verification-mode names `dynamic` or `static`. `vendor_prefix` segments are always `identifier` tokens.
+```math
+\mathsf{Vendor}-\mathsf{defined}\ \mathsf{attribute}\ \mathsf{names}\ \mathsf{use}\ \mathsf{the}\ \mathsf{scoped}\ \texttt{AttrName}\ \mathsf{form}\ \texttt{<vendor\_prefix, leaf>},\ \mathsf{where}\ \texttt{leaf}\ \mathsf{is}\ \mathsf{an}\ \texttt{identifier}\ \mathsf{or}\ \mathsf{one}\ \mathsf{of}\ \mathsf{the}\ \mathsf{reserved}\ \mathsf{verification}-\mathsf{mode}\ \mathsf{names}\ \texttt{dynamic}\ \mathsf{or}\ \texttt{static}.\ \texttt{vendor\_prefix}\ \mathsf{segments}\ \mathsf{are}\ \mathsf{always}\ \texttt{identifier}\ \mathsf{tokens}.
 ```
 
 #### 9.2.4 Static Semantics
 
-Vendor-defined attributes in `R_vendor` MUST use scoped prefixes of the form `vendor::name` or `com::vendor::name`.
+```math
+\mathsf{Vendor}-\mathsf{defined}\ \mathsf{attributes}\ \mathsf{in}\ \texttt{R\_vendor}\ \mathsf{MUST}\ \mathsf{use}\ \mathsf{scoped}\ \mathsf{prefixes}\ \mathsf{of}\ \mathsf{the}\ \mathsf{form}\ \texttt{vendor::name}\ \mathsf{or}\ \texttt{com::vendor::name}.
+```
 
-The `ultraviolet::...` namespace is reserved for specification-defined attributes.
+```math
+\mathsf{The}\ \texttt{ultraviolet::...}\ \mathsf{namespace}\ \mathsf{is}\ \mathsf{reserved}\ \mathsf{for}\ \mathsf{specification}-\mathsf{defined}\ \mathsf{attributes}.
+```
 
-`R_vendor = ∅`. Any attribute name not in `R_spec` is rejected as unknown.
+```math
+\texttt{R\_vendor = emptyset}.\ \mathsf{Any}\ \mathsf{attribute}\ \mathsf{name}\ \mathsf{not}\ \mathsf{in}\ \texttt{R\_spec}\ \mathsf{is}\ \mathsf{rejected}\ \mathsf{as}\ \mathsf{unknown}.
+```
 
 #### 9.2.5 Dynamic Semantics
 
@@ -560,7 +533,9 @@ Layout attributes are ordinary `AttributeSpec` entries attached to `RecordDecl` 
 
 #### 9.3.4 Static Semantics
 
-**`[[layout(C)]]`.** Specifies C-compatible memory layout.
+```math
+**\texttt{[[layout(C)]]}.**\ \mathsf{Specifies}\ C-\mathsf{compatible}\ \mathsf{memory}\ \mathsf{layout}.
+```
 
 For `record` declarations:
 1. Fields MUST be laid out in declaration order.
@@ -572,21 +547,29 @@ For `enum` declarations:
 2. Default tag type is `DiscType(E)` as defined by §12.7.
 3. Layout MUST conform to a tagged union per the target C ABI.
 
-**`[[layout(IntType)]]` (explicit discriminant).** For an `enum` marked `[[layout(IntType)]]` where `IntType` is `i8`–`i64` or `u8`–`u64`:
+```math
+**\texttt{[[layout(IntType)]]}\ (\mathsf{explicit}\ \mathsf{discriminant}).**\ \mathsf{For}\ \mathsf{an}\ \texttt{enum}\ \mathsf{marked}\ \texttt{[[layout(IntType)]]}\ \mathsf{where}\ \texttt{IntType}\ \mathsf{is}\ \texttt{i8}- \texttt{i64}\ \mathsf{or}\ \texttt{u8}- \texttt{u64}:
+```
 1. The discriminant MUST use the specified integer type.
 2. Each variant's discriminant value MUST be representable in that type.
 3. This form is valid only on `enum` declarations.
 
-**`[[layout(packed)]]`.** Removes inter-field padding.
+```math
+**\texttt{[[layout(packed)]]}.**\ \mathsf{Removes}\ \mathsf{inter}-\mathsf{field}\ \mathsf{padding}.
+```
 
-For a `record` marked `[[layout(packed)]]`:
+```math
+\mathsf{For}\ a\ \texttt{record}\ \mathsf{marked}\ \texttt{[[layout(packed)]]}:
+```
 1. All inter-field padding is removed.
 2. Each field MUST be laid out with alignment 1.
 3. The record's overall alignment becomes 1.
 
 Taking a reference to a packed field MUST occur within an `unsafe` block. Outside `unsafe`, the program is ill-formed.
 
-**`[[layout(align(N))]]`.** Sets a minimum alignment.
+```math
+**\texttt{[[layout(align(N))]]}.**\ \mathsf{Sets}\ a\ \mathsf{minimum}\ \mathsf{alignment}.
+```
 
 1. N MUST be a positive integer that is a power of two.
 2. Effective alignment is max(N, natural alignment).
@@ -659,11 +642,17 @@ Optimization attributes are ordinary `AttributeSpec` entries attached to `Proced
 
 **`[[inline]]`.** The implementation SHOULD inline the procedure at call sites when feasible.
 
-**`[[inline(always)]]`.** The implementation SHOULD inline the procedure at all call sites. If inlining is not possible, such as for reultraviolet procedures or procedures whose address is taken, the implementation SHOULD emit a warning.
+```math
+**\texttt{[[inline(always)]]}.**\ \mathsf{The}\ \mathsf{implementation}\ \mathsf{SHOULD}\ \mathsf{inline}\ \mathsf{the}\ \mathsf{procedure}\ \mathsf{at}\ \mathsf{all}\ \mathsf{call}\ \mathsf{sites}.\ \mathsf{If}\ \mathsf{inlining}\ \mathsf{is}\ \mathsf{not}\ \mathsf{possible},\ \mathsf{such}\ \mathsf{as}\ \mathsf{for}\ \mathsf{reultraviolet}\ \mathsf{procedures}\ \mathsf{or}\ \mathsf{procedures}\ \mathsf{whose}\ \mathsf{address}\ \mathsf{is}\ \mathsf{taken},\ \mathsf{the}\ \mathsf{implementation}\ \mathsf{SHOULD}\ \mathsf{emit}\ a\ \mathsf{warning}.
+```
 
-**`[[inline(default)]]`.** Equivalent to omitting the attribute.
+```math
+**\texttt{[[inline(default)]]}.**\ \mathsf{Equivalent}\ \mathsf{to}\ \mathsf{omitting}\ \mathsf{the}\ \mathsf{attribute}.
+```
 
-**`[[inline(never)]]`.** The implementation MUST NOT inline the procedure. The procedure body MUST be emitted as a separate callable unit.
+```math
+**\texttt{[[inline(never)]]}.**\ \mathsf{The}\ \mathsf{implementation}\ \mathsf{MUST}\ \mathsf{NOT}\ \mathsf{inline}\ \mathsf{the}\ \mathsf{procedure}.\ \mathsf{The}\ \mathsf{procedure}\ \mathsf{body}\ \mathsf{MUST}\ \mathsf{be}\ \mathsf{emitted}\ \mathsf{as}\ a\ \mathsf{separate}\ \mathsf{callable}\ \mathsf{unit}.
+```
 
 **`[[cold]]`.** Marks a procedure as unlikely to execute during typical runs. The implementation MAY use this as an optimization hint.
 
@@ -673,7 +662,9 @@ Optimization attributes do not change the language-level runtime semantics of th
 
 #### 9.4.6 Lowering
 
-`[[inline(always)]]` and `[[inline(never)]]` constrain procedure inlining decisions during lowering. `[[inline(never)]]` requires emission of a separate callable unit. `[[cold]]` MAY influence code layout or backend optimization heuristics.
+```math
+\texttt{[[inline(always)]]}\ \mathsf{and}\ \texttt{[[inline(never)]]}\ \mathsf{constrain}\ \mathsf{procedure}\ \mathsf{inlining}\ \mathsf{decisions}\ \mathsf{during}\ \mathsf{lowering}.\ \texttt{[[inline(never)]]}\ \mathsf{requires}\ \mathsf{emission}\ \mathsf{of}\ a\ \mathsf{separate}\ \mathsf{callable}\ \mathsf{unit}.\ \texttt{[[cold]]}\ \mathsf{MAY}\ \mathsf{influence}\ \mathsf{code}\ \mathsf{layout}\ \mathsf{or}\ \mathsf{backend}\ \mathsf{optimization}\ \mathsf{heuristics}.
+```
 
 #### 9.4.7 Diagnostics
 
@@ -693,18 +684,21 @@ These attributes are parsed by the general attribute parser in §9.1.2.
 
 #### 9.5.3 AST Representation / Form
 
-ExprAttrList(e) = A    if ExprAttrs(e) = A
-
-```text
-ExprAttrList(e) = []   if ExprAttrs(e) = ⊥
-ExprAttrByName(e, n) = [a | a ∈ ExprAttrList(e) ∧ a.name = n]
+```math
+\begin{array}{l}
+\operatorname{ExprAttrList}(e)\ =\ A\quad \mathsf{if}\ \operatorname{ExprAttrs}(e)\ =\ A \\
+\operatorname{ExprAttrList}(e)\ =\ []\ \mathsf{if}\ \operatorname{ExprAttrs}(e)\ =\ \bot  \\
+\operatorname{ExprAttrByName}(e,\ n)\ =\ [a\ \mid \ a\ \in \ \operatorname{ExprAttrList}(e)\ \land \ a.\mathsf{name}\ =\ n]
+\end{array}
 ```
 
-```text
-DynamicDecl(d) ⇔ AttrByName(d, "dynamic") ≠ []
-DynamicExpr(e) ⇔ ExprAttrByName(e, "dynamic") ≠ []
-DynamicScope(s) ⇔ (∃ d. DynamicDecl(d) ∧ s ⊆ d.span) ∨ (∃ e. DynamicExpr(e) ∧ s ⊆ ExprSpan(e))
-InDynamicContext ⇔ DynamicScope(s) where s is the span of the syntactic form currently being verified or type-checked.
+```math
+\begin{array}{l}
+\operatorname{DynamicDecl}(d)\ \Leftrightarrow \ \operatorname{AttrByName}(d,\ \texttt{"dynamic"})\ \ne \ [] \\
+\operatorname{DynamicExpr}(e)\ \Leftrightarrow \ \operatorname{ExprAttrByName}(e,\ \texttt{"dynamic"})\ \ne \ [] \\
+\operatorname{DynamicScope}(s)\ \Leftrightarrow \ (\exists \ d.\ \operatorname{DynamicDecl}(d)\ \land \ s\ \subseteq \ d.\mathsf{span})\ \lor \ (\exists \ e.\ \operatorname{DynamicExpr}(e)\ \land \ s\ \subseteq \ \operatorname{ExprSpan}(e)) \\
+\mathsf{InDynamicContext}\ \Leftrightarrow \ \operatorname{DynamicScope}(s)\ \mathsf{where}\ s\ \mathsf{is}\ \mathsf{the}\ \mathsf{span}\ \mathsf{of}\ \mathsf{the}\ \mathsf{syntactic}\ \mathsf{form}\ \mathsf{currently}\ \mathsf{being}\ \mathsf{verified}\ \mathsf{or}\ \mathsf{type}-\mathsf{checked}.
+\end{array}
 ```
 
 #### 9.5.4 Static Semantics
@@ -717,8 +711,8 @@ Scope determination:
 1. `e` is within a `[[dynamic]]` scope if it is enclosed by a `[[dynamic]]` declaration, or by an attributed expression.
 2. Scope is lexical and does not propagate through procedure calls.
 
-```text
-ComputeDynamicContext : Span × AncestorList → Bool
+```math
+\mathsf{ComputeDynamicContext}\ :\ \mathsf{Span}\ \times \ \mathsf{AncestorList}\ \to \ \mathsf{Bool}
 ```
 
 ```text
@@ -730,8 +724,8 @@ ComputeDynamicContext(s, ancestors) =
   }
 ```
 
-```text
-FindInnermostDynamic : Span × AncestorList → Option<Span>
+```math
+\mathsf{FindInnermostDynamic}\ :\ \mathsf{Span}\ \times \ \mathsf{AncestorList}\ \to \ \mathsf{Option}<\mathsf{Span}>
 ```
 
 ```text
@@ -741,8 +735,8 @@ FindInnermostDynamic(s, ancestors) =
   else Some(MinimalSpan(dynamic_ancestors))
 ```
 
-```text
-MinimalSpan : [SyntacticForm] → Span
+```math
+\mathsf{MinimalSpan}\ :\ [\mathsf{SyntacticForm}]\ \to \ \mathsf{Span}
 ```
 
 ```text
@@ -752,7 +746,7 @@ MinimalSpan(forms) = argmin_{f ∈ forms} |f.span|
 **(DynamicContext-Override)**
 ```text
 ClassProc(C, m) has [[dynamic]]    ClassImpl(T, C) has override m
-─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+──────────────────
 ComputeDynamicContext(override.body.span, Ancestors(override)) = true
 ```
 
@@ -761,7 +755,7 @@ A class procedure's `[[dynamic]]` annotation propagates to implementations.
 **(DynamicContext-NoInherit-Call)**
 ```text
 CallExpr(f, args) at span s    f is [[dynamic]]    s ⊄ f.span
-─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+──────────────────
 ComputeDynamicContext(s, Ancestors(s)) does not consider f's [[dynamic]]
 ```
 
@@ -785,7 +779,9 @@ If a `[[dynamic]]` scope results in no runtime checks or runtime synchronization
 
 **`[[reflect]]`.** Marks a `record`, `enum`, or `modal` declaration as reflectable during Phase 2. Reflection queries over such declarations are defined by §22.3. A conforming implementation MUST expose the declaration's canonical shape, member order, and attached attributes to the compile-time reflection environment.
 
-**`[[derive(... )]]`.** Schedules derive-target execution in Phase 2 for the annotated `record`, `enum`, or `modal` declaration. Derive target resolution, dependency ordering, and contract checking are defined by §22.5.
+```math
+**\texttt{[[derive(... )]]}.**\ \mathsf{Schedules}\ \mathsf{derive}-\mathsf{target}\ \mathsf{execution}\ \mathsf{in}\ \mathsf{Phase}\ 2\ \mathsf{for}\ \mathsf{the}\ \mathsf{annotated}\ \texttt{record},\ \texttt{enum},\ \mathsf{or}\ \texttt{modal}\ \mathsf{declaration}.\ \mathsf{Derive}\ \mathsf{target}\ \mathsf{resolution},\ \mathsf{dependency}\ \mathsf{ordering},\ \mathsf{and}\ \mathsf{contract}\ \mathsf{checking}\ \mathsf{are}\ \mathsf{defined}\ \mathsf{by}\ \S 22.5.
+```
 
 **`[[emit]]`.** Grants the `TypeEmitter` capability to the annotated compile-time statement or compile-time expression. The target MUST be a `comptime` form. Emission ordering and generated-item visibility are defined by §22.4.
 
@@ -799,7 +795,9 @@ For `[[dynamic]]`, runtime synchronization or runtime verification MUST be inser
 
 #### 9.5.6 Lowering
 
-`[[dynamic]]` lowers by enabling runtime synchronization or runtime checks exactly where the owning semantic sections require them and nowhere else. `[[stale_ok]]` suppresses warnings only and does not affect lowering. `[[deprecated]]` introduces no lowering. `[[reflect]]`, `[[derive(... )]]`, `[[emit]]`, and `[[files]]` lower only through Phase 2 execution as defined by Chapter 22 and MUST introduce no direct Phase 4 runtime instrumentation.
+```math
+\texttt{[[dynamic]]}\ \mathsf{lowers}\ \mathsf{by}\ \mathsf{enabling}\ \mathsf{runtime}\ \mathsf{synchronization}\ \mathsf{or}\ \mathsf{runtime}\ \mathsf{checks}\ \mathsf{exactly}\ \mathsf{where}\ \mathsf{the}\ \mathsf{owning}\ \mathsf{semantic}\ \mathsf{sections}\ \mathsf{require}\ \mathsf{them}\ \mathsf{and}\ \mathsf{nowhere}\ \mathsf{else}.\ \texttt{[[stale\_ok]]}\ \mathsf{suppresses}\ \mathsf{warnings}\ \mathsf{only}\ \mathsf{and}\ \mathsf{does}\ \mathsf{not}\ \mathsf{affect}\ \mathsf{lowering}.\ \texttt{[[deprecated]]}\ \mathsf{introduces}\ \mathsf{no}\ \mathsf{lowering}.\ \texttt{[[reflect]]},\ \texttt{[[derive(... )]]},\ \texttt{[[emit]]},\ \mathsf{and}\ \texttt{[[files]]}\ \mathsf{lower}\ \mathsf{only}\ \mathsf{through}\ \mathsf{Phase}\ 2\ \mathsf{execution}\ \mathsf{as}\ \mathsf{defined}\ \mathsf{by}\ \mathsf{Chapter}\ 22\ \mathsf{and}\ \mathsf{MUST}\ \mathsf{introduce}\ \mathsf{no}\ \mathsf{direct}\ \mathsf{Phase}\ 4\ \mathsf{runtime}\ \mathsf{instrumentation}.
+```
 
 #### 9.5.7 Diagnostics
 
@@ -826,9 +824,11 @@ test_attribute_arg  ::= "name" ":" string_literal
 
 `[[test]]` is parsed by the ordinary attribute parser from §9.1.2. The `name`
 
-```text
-argument is represented as `⟨name, string_literal⟩`. Each `covers(...)` argument
-is represented as `⟨covers, [string_literal]⟩`.
+```math
+\begin{array}{l}
+\mathsf{argument}\ \mathsf{is}\ \mathsf{represented}\ \mathsf{as}\ \texttt{<name, string\_literal>}.\ \mathsf{Each}\ \texttt{covers(...)}\ \mathsf{argument} \\
+\mathsf{is}\ \mathsf{represented}\ \mathsf{as}\ \texttt{<covers, [string\_literal]>}.
+\end{array}
 ```
 
 #### 9.6.3 AST Representation / Form
@@ -836,17 +836,25 @@ is represented as `⟨covers, [string_literal]⟩`.
 A source-native test is an ordinary `ProcedureDecl` whose `AttrByName(proc,
 test)` set is non-empty.
 
-TestName(proc) = s when the unique `name: s` argument is present.
-TestName(proc) = FullyQualifiedProcPath(proc) when no `name` argument is present.
+```math
+\begin{array}{l}
+\operatorname{TestName}(\mathsf{proc})\ =\ s\ \mathsf{when}\ \mathsf{the}\ \mathsf{unique}\ \texttt{name: s}\ \mathsf{argument}\ \mathsf{is}\ \mathsf{present}. \\
+\operatorname{TestName}(\mathsf{proc})\ =\ \operatorname{FullyQualifiedProcPath}(\mathsf{proc})\ \mathsf{when}\ \mathsf{no}\ \texttt{name}\ \mathsf{argument}\ \mathsf{is}\ \mathsf{present}.
+\end{array}
+```
 
-TestCoverage(proc) = [r_1, …, r_n] where each r_i is the string argument of one
+```math
+\operatorname{TestCoverage}(\mathsf{proc})\ =\ [r_{1},\ \ldots ,\ r_{n}]\ \mathsf{where}\ \mathsf{each}\ r_{i}\ \mathsf{is}\ \mathsf{the}\ \mathsf{string}\ \mathsf{argument}\ \mathsf{of}\ \mathsf{one}
+```
 `covers(r_i)` entry in source order.
 
 #### 9.6.4 Static Semantics
 
 `[[test]]` is valid only on ordinary source procedures.
 
-`AttrArgsOk(test, args)` holds exactly when:
+```math
+\texttt{AttrArgsOk(test, args)}\ \mathsf{holds}\ \mathsf{exactly}\ \mathsf{when}:
+```
 
 1. every argument is either `name: string_literal` or `covers(string_literal)`;
 2. at most one `name` argument is present;
@@ -881,94 +889,68 @@ authority, or cannot be invoked by the generated harness.
 
 `[[test]]` does not lower into production program artifacts.
 
-```text
-TestArg = ⊥ | s where s is the optional positional argument to `uv test`.
+```math
+\mathsf{TestArg}\ =\ \bot \ \mid \ s\ \mathsf{where}\ s\ \mathsf{is}\ \mathsf{the}\ \mathsf{optional}\ \mathsf{positional}\ \mathsf{argument}\ \mathsf{to}\ \texttt{uv test}.
 ```
 
-```text
-HostPath(s) ⇔ ResolveHostPath(CurrentDirectory, s) ⇓ p ∧ exists(p)
+```math
+\operatorname{HostPath}(s)\ \Leftrightarrow \ \operatorname{ResolveHostPath}(\mathsf{CurrentDirectory},\ s)\ \Downarrow \ p\ \land \ \operatorname{exists}(p)
 ```
 
-```text
-TestInput(⊥) = CurrentDirectory
-TestInput(s) = p  if HostPath(s) ∧ ResolveHostPath(CurrentDirectory, s) ⇓ p
-TestInput(s) = CurrentDirectory  if ¬ HostPath(s)
+```math
+\begin{array}{l}
+\operatorname{TestInput}(\bot )\ =\ \mathsf{CurrentDirectory} \\
+\operatorname{TestInput}(s)\ =\ p\ \mathsf{if}\ \operatorname{HostPath}(s)\ \land \ \operatorname{ResolveHostPath}(\mathsf{CurrentDirectory},\ s)\ \Downarrow \ p \\
+\operatorname{TestInput}(s)\ =\ \mathsf{CurrentDirectory}\ \mathsf{if}\ \lnot \ \operatorname{HostPath}(s)
+\end{array}
 ```
 
-TestRoot(arg) = FindProjectRoot(TestInput(arg))
-
-TestsPrefix(A) = A.name :: `Tests`
-
-```text
-TestBearing(A) ⇔ ∃ m ∈ A.modules. Prefix(path(m), TestsPrefix(A))
-TestAssemblies(P) = [A ∈ P.assemblies | TestBearing(A)]
+```math
+\operatorname{TestRoot}(\mathsf{arg})\ =\ \operatorname{FindProjectRoot}(\operatorname{TestInput}(\mathsf{arg}))
 ```
 
-TestScope ::= AllTests | AssemblyTests(A) | ModuleTests(q) | SourceFileTests(f) | DirectoryTests(d)
-
-```text
-ResolveTestTarget(P, ⊥) = AllTests
+```math
+\begin{array}{l}
+\operatorname{TestsPrefix}(A)\ =\ A.\mathsf{name}\ \mathbin{::} \ \texttt{Tests} \\
+\operatorname{TestBearing}(A)\ \Leftrightarrow \ \exists \ m\ \in \ A.\mathsf{modules}.\ \operatorname{Prefix}(\operatorname{path}(m),\ \operatorname{TestsPrefix}(A)) \\
+\operatorname{TestAssemblies}(P)\ =\ [A\ \in \ P.\mathsf{assemblies}\ \mid \ \operatorname{TestBearing}(A)]
+\end{array}
 ```
 
-ResolveTestTarget(P, s) = SourceFileTests(p)
-
-```text
-  if HostPath(s) ∧ ResolveHostPath(CurrentDirectory, s) ⇓ p ∧ File(p)
+```math
+\mathsf{TestScope}\ \mathbin{::} =\ \mathsf{AllTests}\ \mid \ \operatorname{AssemblyTests}(A)\ \mid \ \operatorname{ModuleTests}(q)\ \mid \ \operatorname{SourceFileTests}(f)\ \mid \ \operatorname{DirectoryTests}(d)
 ```
 
-ResolveTestTarget(P, s) = AllTests
-
-```text
-  if HostPath(s) ∧ ResolveHostPath(CurrentDirectory, s) ⇓ p ∧ Dir(p) ∧ p = P.root
+```math
+\begin{array}{l}
+\operatorname{ResolveTestTarget}(P,\ \bot )\ =\ \mathsf{AllTests} \\
+\operatorname{ResolveTestTarget}(P,\ s)\ =\ \operatorname{SourceFileTests}(p) \\
+\ \mathsf{if}\ \operatorname{HostPath}(s)\ \land \ \operatorname{ResolveHostPath}(\mathsf{CurrentDirectory},\ s)\ \Downarrow \ p\ \land \ \operatorname{File}(p) \\
+\operatorname{ResolveTestTarget}(P,\ s)\ =\ \mathsf{AllTests} \\
+\ \mathsf{if}\ \operatorname{HostPath}(s)\ \land \ \operatorname{ResolveHostPath}(\mathsf{CurrentDirectory},\ s)\ \Downarrow \ p\ \land \ \operatorname{Dir}(p)\ \land \ p\ =\ P.\mathsf{root} \\
+\operatorname{ResolveTestTarget}(P,\ s)\ =\ \operatorname{DirectoryTests}(p) \\
+\ \mathsf{if}\ \operatorname{HostPath}(s)\ \land \ \operatorname{ResolveHostPath}(\mathsf{CurrentDirectory},\ s)\ \Downarrow \ p\ \land \ \operatorname{Dir}(p)\ \land \ p\ \ne \ P.\mathsf{root} \\
+\operatorname{ResolveTestTarget}(P,\ s)\ =\ \operatorname{AssemblyTests}(A) \\
+\ \mathsf{if}\ \lnot \ \operatorname{HostPath}(s)\ \land \ A\ \in \ P.\mathsf{assemblies}\ \land \ A.\mathsf{name}\ =\ s \\
+\operatorname{ResolveTestTarget}(P,\ s)\ =\ \operatorname{ModuleTests}(q) \\
+\ \mathsf{if}\ \lnot \ \operatorname{HostPath}(s)\ \land \ \operatorname{ParseModulePath}(s)\ \Downarrow \ q\ \land \ \exists \ m\ \in \ \operatorname{ModuleList}(P).\ \operatorname{path}(m)\ =\ q \\
+\operatorname{ResolveTestTarget}(P,\ s)\ \Uparrow \ \operatorname{Code}(\mathsf{Test}-\mathsf{Target}-\mathsf{Err})\ \mathsf{otherwise}
+\end{array}
 ```
 
-ResolveTestTarget(P, s) = DirectoryTests(p)
-
-```text
-  if HostPath(s) ∧ ResolveHostPath(CurrentDirectory, s) ⇓ p ∧ Dir(p) ∧ p ≠ P.root
-```
-
-ResolveTestTarget(P, s) = AssemblyTests(A)
-
-```text
-  if ¬ HostPath(s) ∧ A ∈ P.assemblies ∧ A.name = s
-```
-
-ResolveTestTarget(P, s) = ModuleTests(q)
-
-```text
-  if ¬ HostPath(s) ∧ ParseModulePath(s) ⇓ q ∧ ∃ m ∈ ModuleList(P). path(m) = q
-ResolveTestTarget(P, s) ⇑ Code(Test-Target-Err) otherwise
-```
-
-SelectedTests(P, AllTests) =
-
-```text
-  [proc | A ∈ TestAssemblies(P), proc ∈ TestProceduresUnder(A, TestsPrefix(A))]
-```
-
-SelectedTests(P, AssemblyTests(A)) =
-
-```text
-  [proc | proc ∈ TestProceduresUnder(A, TestsPrefix(A))]
-```
-
-SelectedTests(P, ModuleTests(q)) =
-
-```text
-  [proc | proc ∈ TestProceduresUnder(OwnerAssembly(P, q), q)]
-```
-
-SelectedTests(P, SourceFileTests(f)) =
-
-```text
-  [proc | proc ∈ TestProceduresInFile(P, f) ∧ InTestsSubtree(P, proc)]
-```
-
-SelectedTests(P, DirectoryTests(d)) =
-
-```text
-  [proc | proc ∈ TestProceduresUnderDirectory(P, d) ∧ InTestsSubtree(P, proc)]
+```math
+\begin{array}{l}
+\operatorname{SelectedTests}(P,\ \mathsf{AllTests})\ = \\
+\ [\mathsf{proc}\ \mid \ A\ \in \ \operatorname{TestAssemblies}(P),\ \mathsf{proc}\ \in \ \operatorname{TestProceduresUnder}(A,\ \operatorname{TestsPrefix}(A))] \\
+\operatorname{SelectedTests}(P,\ \operatorname{AssemblyTests}(A))\ = \\
+\ [\mathsf{proc}\ \mid \ \mathsf{proc}\ \in \ \operatorname{TestProceduresUnder}(A,\ \operatorname{TestsPrefix}(A))] \\
+\operatorname{SelectedTests}(P,\ \operatorname{ModuleTests}(q))\ = \\
+\ [\mathsf{proc}\ \mid \ \mathsf{proc}\ \in \ \operatorname{TestProceduresUnder}(\operatorname{OwnerAssembly}(P,\ q),\ q)] \\
+\operatorname{SelectedTests}(P,\ \operatorname{SourceFileTests}(f))\ = \\
+\ [\mathsf{proc}\ \mid \ \mathsf{proc}\ \in \ \operatorname{TestProceduresInFile}(P,\ f)\ \land \ \operatorname{InTestsSubtree}(P,\ \mathsf{proc})] \\
+\operatorname{SelectedTests}(P,\ \operatorname{DirectoryTests}(d))\ = \\
+\ [\mathsf{proc}\ \mid \ \mathsf{proc}\ \in \ \operatorname{TestProceduresUnderDirectory}(P,\ d)\ \land \ \operatorname{InTestsSubtree}(P,\ \mathsf{proc})]
+\end{array}
 ```
 
 For each selected assembly A represented in SelectedTests(P, scope), `uv test`
