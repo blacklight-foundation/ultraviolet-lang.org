@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import NewsletterSignup from '../components/NewsletterSignup.astro';
 import { fundingGoals } from '../data/funding';
 
 const constructExplainers = {
@@ -39,6 +38,16 @@ const constructExplainers = {
     body: '`shared` marks coordinated shared access through the permission and key systems.',
     href: '/docs/core-language/permissions/',
   },
+  const: {
+    title: 'const binding state',
+    body: '`const` keeps a binding readable without allowing mutation through that binding.',
+    href: '/docs/core-language/permissions/',
+  },
+  unique: {
+    title: 'unique permission',
+    body: '`unique` represents exclusive access to a resource path.',
+    href: '/docs/core-language/permissions/',
+  },
   unionReturn: {
     title: 'Union return',
     body: 'The return type lists every state the operation can produce.',
@@ -72,6 +81,11 @@ const constructExplainers = {
   dispatch: {
     title: 'dispatch',
     body: 'Partitions work items over a range inside a parallel block.',
+    href: '/docs/specification/structured-parallelism/',
+  },
+  spawn: {
+    title: 'spawn',
+    body: '`spawn` starts child work that remains visible to structured synchronization.',
     href: '/docs/specification/structured-parallelism/',
   },
   domain: {
@@ -272,63 +286,112 @@ const languageFeatures = [
   {
     title: 'Modal programming',
     body: 'Model resources, protocols, async work, and execution lifecycles as explicit states with checked transitions.',
-    cue: 'modal',
     href: '/docs/modal-programming/',
     exampleTitle: 'State-gated session',
     exampleLines: [
-      [term('modal', 'modal'), ' Session {'],
+      [term('visibility', 'public'), ' ', term('modal', 'modal'), ' Session {'],
       ['    ', term('state', '@Disconnected'), ' {'],
-      ['        public ', term('transition', 'transition'), ' connect() -> ', term('state', '@Connected'), ' {'],
-      ['            return ', term('stateValue', 'Session@Connected'), ' {}'],
+      ['        ', term('visibility', 'public'), ' endpoint: string@View'],
+      ['        ', term('visibility', 'public'), ' ', term('transition', 'transition'), ' connect(', term('receiver', '~'), ', net: ', term('shared', 'shared'), ' Net)'],
+      ['          -> Session', term('state', '@Connected'), ' ', term('unionReturn', '|'), ' Session', term('state', '@Failed')],
+      ['          ', term('contract', '|:'), ' self.endpoint', term('call', '~>'), 'length() > 0'],
+      ['        {'],
+      ['            let socket = net', term('call', '~>'), 'open(self.endpoint)'],
+      ['            if (!socket', term('call', '~>'), 'ready()) { return ', term('stateValue', 'Session@Failed'), ' { reason: "network" } }'],
+      ['            return ', term('stateValue', 'Session@Connected'), ' { socket: ', term('move', 'move'), ' socket, pending: 0 }'],
       ['        }'],
       ['    }'],
       ['    ', term('state', '@Connected'), ' {'],
-      ['        public ', term('transition', 'transition'), ' close() -> ', term('state', '@Disconnected'), ' {'],
-      ['            return ', term('stateValue', 'Session@Disconnected'), ' {}'],
+      ['        ', term('visibility', 'public'), ' socket: ', term('unique', 'unique'), ' Socket'],
+      ['        ', term('visibility', 'public'), ' pending: u32'],
+      ['        ', term('visibility', 'public'), ' ', term('transition', 'transition'), ' send(', term('receiver', '~'), ', ', term('move', 'move'), ' bytes: Buffer)'],
+      ['          -> Session', term('state', '@Connected'), ' ', term('unionReturn', '|'), ' Session', term('state', '@Closed')],
+      ['          ', term('contract', '|:'), ' bytes', term('call', '~>'), 'length() > 0'],
+      ['        {'],
+      ['            if (!self.socket', term('call', '~>'), 'write(', term('move', 'move'), ' bytes)) { return ', term('stateValue', 'Session@Closed'), ' {} }'],
+      ['            return ', term('stateValue', 'Session@Connected'), ' { socket: ', term('move', 'move'), ' self.socket, pending: self.pending + 1 }'],
       ['        }'],
       ['    }'],
+      ['    ', term('state', '@Closed'), ' {}'],
+      ['    ', term('state', '@Failed'), ' { ', term('visibility', 'public'), ' reason: string@View }'],
       ['}'],
     ],
   },
   {
     title: 'Contracts',
     body: 'Preconditions, postconditions, invariants, and foreign contracts make generated assumptions part of source.',
-    cue: 'contracts',
     href: '/docs/core-language/contracts/',
-    exampleTitle: 'Checked precondition',
+    exampleTitle: 'Checked preconditions',
     exampleLines: [
-      [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' divide(numerator: i32, denominator: i32) -> i32'],
-      [term('contract', '|:'), ' denominator != 0'],
+      [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' normalizedRatio('],
+      ['    numerator: i32,'],
+      ['    denominator: i32'],
+      [') -> Percent'],
+      [term('contract', '|:'), ' denominator > 0'],
+      [term('contract', '|:'), ' numerator >= 0'],
+      [term('contract', '|:'), ' numerator <= denominator'],
       ['{'],
-      ['    return numerator / denominator'],
+      ['    let scaled = (numerator * 100) / denominator'],
+      ['    return Percent { value: scaled }'],
+      ['}'],
+      [''],
+      [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' allocateWindow(start: usize, count: usize, total: usize) -> Window'],
+      [term('contract', '|:'), ' count > 0'],
+      [term('contract', '|:'), ' start + count <= total'],
+      ['{'],
+      ['    let end = start + count'],
+      ['    return Window { start: start, end: end }'],
       ['}'],
     ],
   },
   {
     title: 'Permissions and binding state',
     body: 'move, const, shared, and unique separate transfer of responsibility from access permission.',
-    cue: 'access',
     href: '/docs/core-language/permissions/',
     exampleTitle: 'Responsibility plus shared access',
     exampleLines: [
-      [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' flush('],
-      ['    ', term('move', 'move'), ' buffer: Buffer,'],
-      ['    sink: ', term('shared', 'shared'), ' Sink'],
+      [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' stageUpload('],
+      ['    ', term('move', 'move'), ' packet: Packet,'],
+      ['    sink: ', term('shared', 'shared'), ' UploadSink,'],
+      ['    audit: ', term('shared', 'shared'), ' AuditLog'],
       [') {'],
-      ['    sink', term('call', '~>'), 'write(', term('move', 'move'), ' buffer)'],
+      ['    let header: ', term('const', 'const'), ' PacketHeader = packet', term('call', '~>'), 'header()'],
+      ['    audit', term('call', '~>'), 'record(header)'],
+      ['    sink', term('call', '~>'), 'write(', term('move', 'move'), ' packet)'],
+      ['}'],
+      [''],
+      [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' rotateBuffer('],
+      ['    ', term('move', 'move'), ' current: ', term('unique', 'unique'), ' Buffer,'],
+      ['    pool: ', term('shared', 'shared'), ' BufferPool'],
+      [') -> ', term('unique', 'unique'), ' Buffer {'],
+      ['    pool', term('call', '~>'), 'release(', term('move', 'move'), ' current)'],
+      ['    return pool', term('call', '~>'), 'claim()'],
       ['}'],
     ],
   },
   {
     title: 'Structured parallelism',
     body: 'parallel, spawn, dispatch, sync, race, and async state share one visible execution model.',
-    cue: 'parallel',
     href: '/docs/core-language/structured-concurrency/',
     exampleTitle: 'Structured CPU work',
     exampleLines: [
-      [term('parallel', 'parallel'), ' ', term('contextDomain', 'ctx.cpu'), '() {'],
-      ['    ', term('dispatch', 'dispatch'), ' item in 0..count {'],
-      ['        jobs[item]', term('call', '~>'), 'run()'],
+      [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' rebuildIndex('],
+      ['    ctx: Context,'],
+      ['    jobs: ', term('shared', 'shared'), ' JobQueue,'],
+      ['    index: ', term('shared', 'shared'), ' SearchIndex'],
+      [') {'],
+      ['    ', term('parallel', 'parallel'), ' ', term('contextDomain', 'ctx.cpu'), '() {'],
+      ['        ', term('dispatch', 'dispatch'), ' shard in 0..jobs', term('call', '~>'), 'shardCount() {'],
+      ['            let load = ', term('spawn', 'spawn'), ' jobs', term('call', '~>'), 'loadAsync(shard)'],
+      ['            let rows = ', term('sync', 'sync'), ' load'],
+      ['            index', term('call', '~>'), 'replace(shard, ', term('move', 'move'), ' rows)'],
+      ['        }'],
+      ['    }'],
+      [''],
+      ['    let warmed = jobs', term('call', '~>'), 'warmCacheAsync()'],
+      ['    let state = ', term('race', 'race'), ' {'],
+      ['        warmed -> | ready | ready,'],
+      ['        index', term('call', '~>'), 'flushAsync() -> | flushed | flushed,'],
       ['    }'],
       ['}'],
     ],
@@ -336,14 +399,27 @@ const languageFeatures = [
   {
     title: 'CPU + GPU programming',
     body: 'Write code for CPU or GPU execution in one language model, with execution domains exposed as typed capabilities.',
-    cue: 'domains',
     href: '/docs/core-language/cpu-gpu-programming/',
     exampleTitle: 'GPU dispatch domain',
     exampleLines: [
-      ['let gpu = ', term('contextDomain', 'ctx.gpu'), '()'],
-      [term('parallel', 'parallel'), ' gpu {'],
-      ['    ', term('dispatch', 'dispatch'), ' index in 0..count {'],
-      ['        output[index] = input[index] * 2'],
+      [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' toneMap('],
+      ['    ctx: Context,'],
+      ['    input: ', term('shared', 'shared'), ' Image,'],
+      ['    output: ', term('shared', 'shared'), ' Image,'],
+      ['    count: usize'],
+      [') {'],
+      ['    let gpu = ', term('contextDomain', 'ctx.gpu'), '()'],
+      ['    ', term('parallel', 'parallel'), ' gpu {'],
+      ['        ', term('dispatch', 'dispatch'), ' pixel in 0..count {'],
+      ['            let rgba = input[pixel]'],
+      ['            output[pixel] = rgba', term('call', '~>'), 'mapHdr()'],
+      ['        }'],
+      ['    }'],
+      [''],
+      ['    ', term('parallel', 'parallel'), ' ', term('contextDomain', 'ctx.cpu'), '() {'],
+      ['        ', term('dispatch', 'dispatch'), ' tile in 0..output', term('call', '~>'), 'tileCount() {'],
+      ['            output', term('call', '~>'), 'seal(tile)'],
+      ['        }'],
       ['    }'],
       ['}'],
     ],
@@ -351,16 +427,27 @@ const languageFeatures = [
   {
     title: 'Compile-time generation',
     body: 'comptime, quote/splice, reflection, and emission support controlled generated source.',
-    cue: 'comptime',
     href: '/docs/specification/compile-time-execution-and-metaprogramming/',
     exampleTitle: 'Checked emission',
     exampleLines: [
       [term('emitAttribute', '[[emit]]')],
       [term('comptime', 'comptime'), ' {'],
-      ['    let item = ', term('quote', 'quote'), ' {'],
-      ['        ', term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' generated() -> i32 { return 0 }'],
+      ['    let fields = TypeInfo<UserRecord>', term('call', '~>'), 'fields()'],
+      ['    let encoder = ', term('quote', 'quote'), ' {'],
+      ['        ', term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' encode(value: UserRecord, sink: ', term('shared', 'shared'), ' JsonSink) {'],
+      ['            sink', term('call', '~>'), 'beginObject()'],
+      ['        }'],
       ['    }'],
-      ['    ', term('emitter', 'emitter'), term('call', '~>'), 'emit(item)'],
+      [''],
+      ['    for field in fields {'],
+      ['        let writeField = ', term('quote', 'quote'), ' {'],
+      ['            sink', term('call', '~>'), 'field(', term('splice', 'splice'), '(field.name), value.', term('splice', 'splice'), '(field.name))'],
+      ['        }'],
+      ['        encoder', term('call', '~>'), 'append(', term('splice', 'splice'), '(writeField))'],
+      ['    }'],
+      [''],
+      ['    encoder', term('call', '~>'), 'append(', term('quote', 'quote'), ' { sink', term('call', '~>'), 'endObject() })'],
+      ['    ', term('emitter', 'emitter'), term('call', '~>'), 'emit(encoder)'],
       ['}'],
     ],
   },
@@ -375,14 +462,46 @@ const languageFeatures = [
         <p class="eyebrow">Public alpha / Blacklight Foundation</p>
         <h1>Ultraviolet</h1>
         <p class="hero-lede">
-          Ultraviolet is a high-visibility, general-purpose systems programming
-          language for AI/LLM-generated code and human review.
+          High-visibility, high-performance, general-purpose programming
+          language for humans and AI.
         </p>
-        <p class="hero-copy">
-          Designed for performant, safe, and auditable systems. Ultraviolet
-          enforces explicit source forms so that LLM-generated assumptions,
-          state transitions, and side-effects are visible during review.
-        </p>
+        <form
+          class="hero-signup"
+          data-newsletter-form
+          action="/api/subscribe"
+          method="post"
+          novalidate
+        >
+          <input type="hidden" name="source" value="hero" />
+          <label class="sr-only" for="hero-newsletter-email">Email address</label>
+          <div class="hero-signup-row">
+            <input
+              id="hero-newsletter-email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              inputmode="email"
+              placeholder="Email for public alpha updates"
+              required
+            />
+            <input
+              class="newsletter-honeypot"
+              name="company"
+              type="text"
+              tabindex="-1"
+              autocomplete="off"
+              aria-hidden="true"
+            />
+            <button type="submit">Subscribe</button>
+          </div>
+          <p
+            class="hero-signup-status"
+            data-newsletter-status
+            aria-live="polite"
+            aria-atomic="true"
+          >
+          </p>
+        </form>
       </div>
       <div
         class="proof-panel code-proof-panel"
@@ -461,61 +580,66 @@ const languageFeatures = [
       <div class="section-heading">
         <h2>Language features</h2>
       </div>
-      <div class="feature-bento">
+      <div class="feature-workbench">
+        <div class="feature-index" aria-label="Language feature examples">
+          {
+            languageFeatures.map((principle, index) => (
+              <button
+                class={`feature-index-item${index === 0 ? ' is-active' : ''}`}
+                type="button"
+                data-feature-card
+                data-feature-index={index}
+                aria-controls={`feature-example-${index}`}
+                aria-label={`${principle.title}: ${principle.body}`}
+                aria-pressed={index === 0 ? 'true' : 'false'}
+              >
+                <span class="feature-index-title">{principle.title}</span>
+              </button>
+            ))
+          }
+        </div>
+        <div class="feature-reader" data-feature-panel-shell aria-live="polite">
         {
-          languageFeatures.map((principle) => (
+          languageFeatures.map((principle, index) => (
             <article
-              class="card principle-card"
-              tabindex="0"
-              data-feature-card
-              aria-label={`${principle.title}: ${principle.body}`}
+              id={`feature-example-${index}`}
+              class={`feature-example-slide${index === 0 ? ' is-active' : ''}`}
+              data-feature-panel
+              data-feature-index={index}
+              aria-hidden={index === 0 ? 'false' : 'true'}
             >
-              <div class="feature-card-summary" data-feature-summary aria-hidden="false">
-                <span class="feature-cue">{principle.cue}</span>
-                <h3>{principle.title}</h3>
-                <p>{principle.body}</p>
-              </div>
-              <div class="feature-card-reveal" data-feature-reveal aria-hidden="true">
-                <div class="feature-example" data-feature-example>
-                  <div class="feature-example-head">
-                    <span>{principle.exampleTitle}</span>
-                  </div>
-                  <pre class="annotated-code feature-code"><code>{principle.exampleLines.map((line) => (
-                    <span class="code-line">{line.length === 0 ? '\u00A0' : line.map((part) => {
-                      if (typeof part === 'string') return part;
-                      const explainer = constructExplainers[part.key];
-                      return (
-                        <a
-                          class="code-term"
-                          href={explainer.href}
-                          data-title={explainer.title}
-                          data-body={explainer.body}
-                          aria-label={`${part.text}: ${explainer.title}. ${explainer.body}`}
-                          tabindex="-1"
-                        >{part.text}</a>
-                      );
-                    })}</span>
-                  ))}</code></pre>
-                  <div class="code-tooltip" data-code-tooltip aria-hidden="true"></div>
+              <div class="feature-example-panel-head">
+                <div>
+                  <h3>{principle.title}</h3>
+                  <p>{principle.body}</p>
                 </div>
-                <a class="feature-doc-link" href={principle.href} tabindex="-1">
+                <a class="feature-doc-link" href={principle.href}>
                   Open docs
                 </a>
+              </div>
+              <div class="feature-example-code-wrap" data-feature-example>
+                <pre class="annotated-code feature-code"><code>{principle.exampleLines.map((line) => (
+                  <span class="code-line">{line.length === 0 ? '\u00A0' : line.map((part) => {
+                    if (typeof part === 'string') return part;
+                    const explainer = constructExplainers[part.key];
+                    return (
+                      <a
+                        class="code-term"
+                        href={explainer.href}
+                        data-title={explainer.title}
+                        data-body={explainer.body}
+                        aria-label={`${part.text}: ${explainer.title}. ${explainer.body}`}
+                      >{part.text}</a>
+                    );
+                  })}</span>
+                ))}</code></pre>
+                <div class="code-tooltip" data-code-tooltip aria-hidden="true"></div>
               </div>
             </article>
           ))
         }
+        </div>
       </div>
-    </div>
-  </section>
-
-  <section class="band">
-    <div class="page-section compact-section">
-      <NewsletterSignup
-        source="home"
-        heading="Follow the public alpha"
-        description="Compiler progress, language notes, CPU/GPU execution work, funding milestones, and AI-generated-source research updates."
-      />
     </div>
   </section>
 
@@ -556,7 +680,6 @@ const languageFeatures = [
   <script is:inline>
     (() => {
       const tooltipHiders = [];
-      const pointerCanHover = window.matchMedia('(hover: hover)');
 
       const bindCodeTooltips = (scope) => {
         const tooltip = scope.querySelector('[data-code-tooltip]');
@@ -689,58 +812,39 @@ const languageFeatures = [
       });
 
       const featureCards = Array.from(document.querySelectorAll('[data-feature-card]'));
+      const featurePanels = Array.from(document.querySelectorAll('[data-feature-panel]'));
+      let activeFeatureIndex = 0;
 
-      const setFeatureCard = (card, isRevealed) => {
-        const summary = card.querySelector('[data-feature-summary]');
-        const reveal = card.querySelector('[data-feature-reveal]');
+      const setActiveFeature = (nextIndex) => {
+        const clampedIndex = (nextIndex + featureCards.length) % featureCards.length;
+        activeFeatureIndex = clampedIndex;
+        hideAllTooltips();
 
-        card.classList.toggle('is-revealed', isRevealed);
-        if (summary) {
-          summary.setAttribute('aria-hidden', isRevealed ? 'true' : 'false');
-        }
-        if (reveal) {
-          reveal.setAttribute('aria-hidden', isRevealed ? 'false' : 'true');
-          reveal.querySelectorAll('a').forEach((link) => {
-            if (isRevealed) {
-              link.removeAttribute('tabindex');
-            } else {
-              link.setAttribute('tabindex', '-1');
-            }
-          });
-        }
+        featureCards.forEach((card, index) => {
+          const isActive = index === clampedIndex;
+          card.classList.toggle('is-active', isActive);
+          card.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+
+        featurePanels.forEach((panel, index) => {
+          const isActive = index === clampedIndex;
+          panel.classList.toggle('is-active', isActive);
+          panel.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+        });
       };
 
-      featureCards.forEach((card) => {
-        setFeatureCard(card, false);
-
-        card.addEventListener('mouseenter', () => setFeatureCard(card, true));
-        card.addEventListener('mouseleave', () => {
-          setFeatureCard(card, false);
-          hideAllTooltips();
-        });
-
-        card.addEventListener('focusin', () => setFeatureCard(card, true));
-        card.addEventListener('focusout', (event) => {
-          if (!card.contains(event.relatedTarget)) {
-            setFeatureCard(card, false);
-            hideAllTooltips();
-          }
-        });
-
-        card.addEventListener('click', (event) => {
-          if (event.target.closest('a') || pointerCanHover.matches) return;
-          setFeatureCard(card, !card.classList.contains('is-revealed'));
-        });
-
+      featureCards.forEach((card, index) => {
+        card.addEventListener('mouseenter', () => setActiveFeature(index));
+        card.addEventListener('focusin', () => setActiveFeature(index));
+        card.addEventListener('click', () => setActiveFeature(index));
         card.addEventListener('keydown', (event) => {
-          if ((event.key === 'Enter' || event.key === ' ') && event.target === card) {
+          if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
-            setFeatureCard(card, !card.classList.contains('is-revealed'));
+            setActiveFeature(index);
           }
 
           if (event.key === 'Escape') {
-            setFeatureCard(card, false);
-            hideAllTooltips();
+            setActiveFeature(0);
           }
         });
       });
@@ -751,11 +855,12 @@ const languageFeatures = [
 
       document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
-          featureCards.forEach((card) => setFeatureCard(card, false));
+          setActiveFeature(0);
           hideAllTooltips();
         }
       });
 
+      setActiveFeature(activeFeatureIndex);
       window.addEventListener('resize', hideAllTooltips);
       window.addEventListener('scroll', hideAllTooltips, { passive: true });
     })();
