@@ -3,63 +3,91 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const releaseLinks = [
   {
-    label: 'Compiler artifacts',
-    title: 'Download releases',
-    body: 'Published compiler builds and release notes live on GitHub releases.',
+    label: 'Release notes',
+    title: 'GitHub releases',
+    body: 'Published notes, tags, and artifacts for public compiler drops.',
     href: 'https://github.com/blacklight-foundation/ultraviolet/releases',
     cta: 'Open releases',
   },
   {
-    label: 'Build path',
-    title: 'Build from source',
-    body: 'Use the current bootstrap path while binary release packaging is being hardened.',
+    label: 'Build guide',
+    title: 'Local compiler build',
+    body: 'Prerequisites and bootstrap steps for building the compiler locally.',
     href: '/docs/build-the-compiler/',
-    cta: 'Build the compiler',
+    cta: 'Open build guide',
   },
   {
     label: 'First run',
     title: 'Start with the quickstart',
-    body: 'Create the manifest, first source file, and run through the current command surface.',
+    body: 'Create a manifest, write a first source file, and run the command surface.',
     href: '/docs/quickstart/',
     cta: 'Open quickstart',
   },
 ];
+
+const releaseTimeline = [
+  {
+    title: 'Build checklist',
+    status: 'Now',
+    tone: 'now',
+    body: 'Smoke tests, prerequisite checks, and documented verification for local builds.',
+  },
+  {
+    title: 'Packaged artifacts',
+    status: 'Next',
+    tone: 'next',
+    body: 'Target-specific archives, checksums, and installation notes for the first packaged alpha.',
+  },
+  {
+    title: 'Release cadence',
+    status: 'Planned',
+    tone: 'planned',
+    body: 'Supported-target policy, recurring release notes, diagnostics examples, and public reports.',
+  },
+];
 ---
 
-<BaseLayout title="Compiler Releases">
-  <article class="article-page releases-page">
+<BaseLayout
+  title="Compiler Releases"
+  description="Find the current Ultraviolet compiler release path, build instructions, GitHub artifacts, and public alpha release status."
+>
+  <article class="article-page status-page releases-page">
     <header>
       <p class="eyebrow">Compiler downloads</p>
       <h1>Compiler Releases</h1>
       <p>
-        Ultraviolet compiler releases are published as public alpha artifacts.
-        Until packaged builds are complete for every target, the source build
-        path remains the canonical way to evaluate the current compiler.
+        Find compiler artifacts, release notes, build instructions, and
+        quickstart links for the public alpha.
       </p>
       <div class="actions">
         <a class="button primary" href="https://github.com/blacklight-foundation/ultraviolet/releases">
           Open GitHub releases
         </a>
         <a class="button secondary" href="/docs/build-the-compiler/">
-          Build from source
+          Open build guide
         </a>
       </div>
     </header>
 
-    <section class="card release-status">
-      <strong>Public alpha release status.</strong>
-      <span>
-        Release engineering is in progress. Use this page to find published
-        artifacts, source-build instructions, and the current roadmap.
-      </span>
+    <section class="card release-current" aria-labelledby="release-status-heading">
+      <div>
+        <span class="status-kicker">Available now</span>
+        <h2 id="release-status-heading">Current alpha path.</h2>
+      </div>
+      <p>
+        Build from source today; packaged binaries are being prepared.
+      </p>
+      <a class="button secondary" href="/docs/build-the-compiler/">
+        Open build guide
+      </a>
     </section>
 
-    <section>
+    <section class="status-page-section">
       <h2>Release paths</h2>
-      <div class="grid three-col">
+      <div class="status-card-grid">
         {
           releaseLinks.map((link) => (
-            <a class="card post-card compact-card" href={link.href}>
+            <a class="card post-card compact-card status-link-card" href={link.href}>
               <span class="status-tag">{link.label}</span>
               <h3>{link.title}</h3>
               <p>{link.body}</p>
@@ -70,30 +98,20 @@ const releaseLinks = [
       </div>
     </section>
 
-    <section>
+    <section class="status-page-section">
       <h2>Release timeline</h2>
       <div class="timeline">
-        <article class="timeline-item">
-          <div>
-            <h3>Bootstrap build hardening</h3>
-            <p>Compiler, runtime, and <code>uv</code> source build through a clear public alpha path.</p>
-          </div>
-          <strong>In progress</strong>
-        </article>
-        <article class="timeline-item">
-          <div>
-            <h3>First packaged alpha</h3>
-            <p>Release checklist, smoke tests, first example, and downloadable compiler artifacts.</p>
-          </div>
-          <strong>Next</strong>
-        </article>
-        <article class="timeline-item">
-          <div>
-            <h3>Maintained release channel</h3>
-            <p>Documented release cadence, supported targets, diagnostics examples, and public reports.</p>
-          </div>
-          <strong>Planned</strong>
-        </article>
+        {
+          releaseTimeline.map((item) => (
+            <article class="timeline-item">
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </div>
+              <span class={`status-tag status-${item.tone}`}>{item.status}</span>
+            </article>
+          ))
+        }
       </div>
       <p>
         See the <a href="/roadmap/">public alpha roadmap</a> for funded milestones

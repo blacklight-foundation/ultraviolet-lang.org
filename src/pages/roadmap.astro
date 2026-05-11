@@ -5,48 +5,57 @@ const milestones = [
   {
     title: 'Bootstrap build hardening',
     target: '$7,500',
-    status: 'in progress',
+    status: 'Now',
+    tone: 'now',
     deliverable:
       'Compiler, runtime, and uv source build through a clear public alpha path.',
   },
   {
     title: 'First public example',
     target: '$5,000',
-    status: 'fundable',
+    status: 'Fundable',
+    tone: 'fundable',
     deliverable: 'A clean clone/check/build/run path and first maintained .uv example.',
   },
   {
     title: 'CI smoke tests',
     target: '$5,000',
-    status: 'fundable',
+    status: 'Fundable',
+    tone: 'fundable',
     deliverable: 'Public smoke tests, build workflow, and release checklist.',
   },
   {
     title: 'Diagnostics examples',
     target: '$15,000',
-    status: 'planned',
+    status: 'Planned',
+    tone: 'planned',
     deliverable:
       'Maintained examples that demonstrate compiler diagnostics, contracts, modals, permissions, keys, and CPU/GPU execution-domain code.',
   },
   {
     title: 'Open LLM training corpus',
     target: '$50,000',
-    status: 'fundable',
+    status: 'Fundable',
+    tone: 'fundable',
     deliverable:
       'Open-licensed corpus of examples, constrained tasks, expected outputs, review annotations, diagnostics cases, and evaluation material for LLMs that generate Ultraviolet source.',
   },
   {
     title: 'Self-hosting progress',
     target: '$120,000/year',
-    status: 'planned',
+    status: 'Planned',
+    tone: 'planned',
     deliverable:
       'Sustained compiler, runtime, release, documentation, contributor, and self-hosting work.',
   },
 ];
 ---
 
-<BaseLayout title="Public Alpha Roadmap">
-  <article class="article-page roadmap-page">
+<BaseLayout
+  title="Public Alpha Roadmap"
+  description="Track the Ultraviolet public alpha roadmap, funding targets, milestone status, and next compiler, release, documentation, and training-corpus work."
+>
+  <article class="article-page status-page roadmap-page">
     <header>
       <p class="eyebrow">Project roadmap</p>
       <h1>Public Alpha Roadmap</h1>
@@ -55,36 +64,47 @@ const milestones = [
         command path, first examples, CI, diagnostics, training material for LLM
         generation, and self-hosting progress.
       </p>
-    </header>
-
-    <div class="roadmap-table" aria-label="Public alpha milestones">
-      <div class="roadmap-table-head">
-        <span>Milestone</span>
-        <span>Target</span>
-        <span>Status</span>
-        <span>Support</span>
-      </div>
-      {
-        milestones.map((milestone) => (
-          <section class="roadmap-row">
-            <div class="roadmap-main">
-              <h2>{milestone.title}</h2>
-              <p>{milestone.deliverable}</p>
-            </div>
-            <strong>{milestone.target}</strong>
-            <span class="status-tag">{milestone.status}</span>
-            <a href="/sponsor/#funding-goals">Support</a>
-          </section>
-        ))
-      }
-    </div>
-
-    <section>
-      <h2>Want to support one of these milestones?</h2>
       <div class="actions">
         <a class="button primary" href="/sponsor/#funding-goals">
           Support a milestone
         </a>
+        <a class="button secondary" href="/releases/">
+          View release status
+        </a>
+      </div>
+    </header>
+
+    <section class="status-page-section" aria-labelledby="roadmap-milestones-heading">
+      <h2 id="roadmap-milestones-heading">Milestones</h2>
+      <div class="milestone-grid">
+        {
+          milestones.map((milestone) => (
+            <article class="card milestone-card">
+              <div class="milestone-card-head">
+                <span class={`status-tag status-${milestone.tone}`}>{milestone.status}</span>
+                <h3>{milestone.title}</h3>
+              </div>
+              <p>{milestone.deliverable}</p>
+              <dl class="milestone-meta">
+                <div>
+                  <dt>Funding target</dt>
+                  <dd>{milestone.target}</dd>
+                </div>
+                <div>
+                  <dt>Status</dt>
+                  <dd>{milestone.status}</dd>
+                </div>
+              </dl>
+              <a
+                class="card-cta"
+                href="/sponsor/#funding-goals"
+                aria-label={`Support ${milestone.title}`}
+              >
+                Support this milestone
+              </a>
+            </article>
+          ))
+        }
       </div>
     </section>
   </article>

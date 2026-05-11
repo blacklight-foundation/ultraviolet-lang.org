@@ -1,28 +1,98 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import NewsletterSignup from '../../components/NewsletterSignup.astro';
+
+const statusLinks = [
+  {
+    label: 'Releases',
+    title: 'Compiler release status',
+    body: 'Find GitHub artifacts, source-build instructions, and the current alpha release path.',
+    href: '/releases/',
+    cta: 'View releases',
+  },
+  {
+    label: 'Roadmap',
+    title: 'Public alpha roadmap',
+    body: 'Track funded milestones, current work, and planned compiler, docs, and training-corpus progress.',
+    href: '/roadmap/',
+    cta: 'View roadmap',
+  },
+  {
+    label: 'Newsletter',
+    title: 'Follow public updates',
+    body: 'Subscribe for compiler progress, release notes, funding milestones, and research updates.',
+    href: '#newsletter',
+    cta: 'Subscribe',
+  },
+];
 ---
 
-<BaseLayout title="Blog">
-  <article class="article-page">
+<BaseLayout
+  title="Project Updates"
+  description="Read public Ultraviolet updates on the language, compiler, runtime, releases, roadmap, funding milestones, and AI-generated-source research."
+>
+  <article class="article-page status-page updates-page">
     <header>
       <p class="eyebrow">Project updates</p>
-      <h1>Blog</h1>
+      <h1>Project Updates</h1>
       <p>
         Public updates on the Ultraviolet language, compiler, runtime, CPU/GPU
-        execution work, documentation, and foundation support.
+        execution work, documentation, releases, roadmap, and foundation support.
       </p>
     </header>
 
-    <a class="post-card" href="/blog/launching-the-public-alpha/">
-      <p class="post-meta">Public alpha</p>
-      <h2>Launching the Ultraviolet Public Alpha</h2>
-      <p>
-        What Ultraviolet is, why AI-written code needs auditability, what exists
-        now, and how support moves the public alpha forward.
-      </p>
-    </a>
+    <section class="status-overview" aria-labelledby="updates-status-heading">
+      <div class="card status-summary-card">
+        <span class="status-kicker">Latest update</span>
+        <h2 id="updates-status-heading">Public alpha work is underway.</h2>
+        <p>
+          Updates connect the release path, roadmap milestones, compiler work,
+          and foundation support behind the public alpha.
+        </p>
+      </div>
+      <div class="status-mini-list">
+        <a href="/releases/">
+          <span>Current release</span>
+          <strong>Source build path</strong>
+        </a>
+        <a href="/roadmap/">
+          <span>Current work</span>
+          <strong>Bootstrap hardening</strong>
+        </a>
+      </div>
+    </section>
 
-    <NewsletterSignup source="blog" />
+    <section class="status-page-section" aria-labelledby="latest-updates-heading">
+      <h2 id="latest-updates-heading">Latest update</h2>
+      <a class="post-card featured-update-card" href="/blog/launching-the-public-alpha/">
+        <p class="post-meta">Public alpha</p>
+        <h3>Launching the Ultraviolet Public Alpha</h3>
+        <p>
+          What Ultraviolet is, why AI-written code needs auditability, what exists
+          now, and how support moves the public alpha forward.
+        </p>
+        <span class="card-cta">Read update</span>
+      </a>
+    </section>
+
+    <section class="status-page-section" aria-labelledby="status-links-heading">
+      <h2 id="status-links-heading">Project status</h2>
+      <div class="status-card-grid">
+        {
+          statusLinks.map((link) => (
+            <a class="card post-card compact-card status-link-card" href={link.href}>
+              <span class="status-tag">{link.label}</span>
+              <h3>{link.title}</h3>
+              <p>{link.body}</p>
+              <span class="card-cta">{link.cta}</span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <div id="newsletter">
+      <NewsletterSignup source="blog" />
+    </div>
   </article>
 </BaseLayout>
