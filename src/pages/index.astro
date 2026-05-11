@@ -3,33 +3,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import NewsletterSignup from '../components/NewsletterSignup.astro';
 import { fundingGoals } from '../data/funding';
 
-const proofMetrics = [
-  {
-    label: 'Semantics',
-    value: 'Explicit over Implicit',
-  },
-  {
-    label: 'Verification',
-    value: 'Static by Default',
-  },
-  {
-    label: 'Memory & State',
-    value: 'Modal Lifecycle Tracking',
-  },
-  {
-    label: 'Concurrency',
-    value: 'Structured Parallelism',
-  },
-  {
-    label: 'Execution',
-    value: 'CPU & GPU Domains',
-  },
-  {
-    label: 'Safety',
-    value: 'Visible Contracts & Keys',
-  },
-];
-
 const constructExplainers = {
   visibility: {
     title: 'Visibility',
@@ -238,11 +211,36 @@ const annotatedExamples = [
   },
 ];
 
-const reviewFlow = [
-  'AI-Generated Logic',
-  'Explicit Source Forms',
-  'Human Audit',
-  'Static Verification',
+const quickLinks = [
+  {
+    label: 'Download',
+    title: 'Compiler releases',
+    body: 'Find public alpha artifacts, source-build status, and release notes.',
+    href: '/releases/',
+    cta: 'Open releases',
+    primary: true,
+  },
+  {
+    label: 'Start',
+    title: 'Documentation',
+    body: 'Project shape, first program, command surface, and specification links.',
+    href: '/docs/',
+    cta: 'Read docs',
+  },
+  {
+    label: 'Timeline',
+    title: 'Public roadmap',
+    body: 'Track build hardening, examples, CI, diagnostics, and release work.',
+    href: '/roadmap/',
+    cta: 'View roadmap',
+  },
+  {
+    label: 'Support',
+    title: 'Support tiers',
+    body: 'Fund release engineering, documentation, examples, and infrastructure.',
+    href: '/sponsor/#support-tiers',
+    cta: 'See tiers',
+  },
 ];
 
 const languageFeatures = [
@@ -288,26 +286,6 @@ const languageFeatures = [
   },
 ];
 
-const docsEntrypoints = [
-  {
-    title: 'Start with the alpha docs',
-    body: 'Project shape, first program, command surface, and current build notes.',
-    href: '/docs/',
-    cta: 'Open docs',
-  },
-  {
-    title: 'Read the specification',
-    body: 'The authoritative source for syntax, semantics, lowering, diagnostics, ABI, and conformance.',
-    href: '/docs/specification/',
-    cta: 'Open spec guide',
-  },
-  {
-    title: 'Track alpha delivery',
-    body: 'Build hardening, examples, CI, diagnostics, corpus work, and self-hosting progress.',
-    href: '/roadmap/',
-    cta: 'Open roadmap',
-  },
-];
 ---
 
 <BaseLayout title="Ultraviolet">
@@ -325,18 +303,6 @@ const docsEntrypoints = [
           enforces explicit source forms so that LLM-generated assumptions,
           state transitions, and side-effects are visible during review.
         </p>
-        <div class="actions" aria-label="Primary actions">
-          <a class="button primary" href="/docs/">Start with the alpha docs</a>
-          <a class="button secondary" href="/docs/specification/">
-            Read the specification
-          </a>
-          <a
-            class="button ghost"
-            href="https://github.com/blacklight-foundation/ultraviolet"
-          >
-            View compiler source
-          </a>
-        </div>
       </div>
       <div
         class="proof-panel code-proof-panel"
@@ -395,65 +361,18 @@ const docsEntrypoints = [
     </div>
   </section>
 
-  <section class="proof-strip" aria-label="Current project status">
-    <div class="proof-strip-inner">
+  <section class="action-strip" aria-label="Primary project actions">
+    <div class="action-strip-inner">
       {
-        proofMetrics.map((item) => (
-          <article class="proof-metric">
-            <span>{item.label}</span>
-            <strong>{item.value}</strong>
-          </article>
+        quickLinks.map((link) => (
+          <a class={`action-strip-link${link.primary ? ' is-primary' : ''}`} href={link.href}>
+            <span>{link.label}</span>
+            <strong>{link.title}</strong>
+            <small>{link.body}</small>
+            <em>{link.cta}</em>
+          </a>
         ))
       }
-    </div>
-  </section>
-
-  <section class="page-section problem-section">
-    <div class="section-heading">
-      <h2>AI-generated code still needs source-level review.</h2>
-      <p>
-        Reviewers need to see contracts, states, transitions, permissions, key
-        paths, parallel execution structure, CPU/GPU execution domains, and
-        effect-bearing capabilities. Ultraviolet puts those review properties in
-        the source language.
-      </p>
-    </div>
-    <div class="review-flow" aria-label="Review loop">
-      {
-        reviewFlow.map((item) => (
-          <div class="review-flow-step">
-            <span>{item}</span>
-          </div>
-        ))
-      }
-    </div>
-  </section>
-
-  <section class="page-section design-contract-section">
-    <div class="section-heading">
-      <h2>The Language Design Contract</h2>
-      <p>
-        Ultraviolet achieves high-visibility through four core principles that
-        ensure safe interoperability between AI generation and human review.
-      </p>
-    </div>
-    <div class="grid four-col">
-      <article class="card principle-card">
-        <h3>One Correct Way</h3>
-        <p>No aliases or syntactic sugar. Source forms map 1:1 with semantic operations.</p>
-      </article>
-      <article class="card principle-card">
-        <h3>Local Reasoning</h3>
-        <p>Authority, ownership, and synchronization are visible in local syntactic context.</p>
-      </article>
-      <article class="card principle-card">
-        <h3>Explicit over Implicit</h3>
-        <p>No hidden allocations, dynamic dispatch, or foreign trust boundaries.</p>
-      </article>
-      <article class="card principle-card">
-        <h3>Static by Default</h3>
-        <p>Compile-time verification is preferred; runtime checks require explicit source opt-in.</p>
-      </article>
     </div>
   </section>
 
@@ -462,7 +381,7 @@ const docsEntrypoints = [
       <div class="section-heading">
         <h2>Language features</h2>
       </div>
-      <div class="grid four-col feature-grid">
+      <div class="feature-bento">
         {
           languageFeatures.map((principle) => (
             <article class="card principle-card">
@@ -473,27 +392,6 @@ const docsEntrypoints = [
           ))
         }
       </div>
-    </div>
-  </section>
-
-  <section class="page-section">
-    <div class="section-heading">
-      <h2>Evaluate the language architecture.</h2>
-      <p>
-        The alpha documentation provides direct access to the canonical
-        specification, compiler internals, capability models, and ABI targets.
-      </p>
-    </div>
-    <div class="grid three-col">
-      {
-        docsEntrypoints.map((entry) => (
-          <a class="card post-card compact-card" href={entry.href}>
-            <h3>{entry.title}</h3>
-            <p>{entry.body}</p>
-            <span class="card-cta">{entry.cta}</span>
-          </a>
-        ))
-      }
     </div>
   </section>
 
@@ -537,17 +435,6 @@ const docsEntrypoints = [
             </article>
           ))
         }
-      </div>
-    </div>
-  </section>
-
-  <section class="page-section">
-    <div class="section-heading">
-      <h2>
-        Help build a language for AI-written code humans can trust.
-      </h2>
-      <div class="actions">
-        <a class="button primary" href="/sponsor/">Support the public alpha</a>
       </div>
     </div>
   </section>
