@@ -394,6 +394,7 @@ p {
 .code-proof-panel {
   align-self: start;
   min-width: 0;
+  position: relative;
 }
 
 .code-panel-head,
@@ -525,11 +526,14 @@ p {
 }
 
 .proof-panel .annotated-code {
-  overflow: visible;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .annotated-code code {
   display: block;
+  width: 100%;
+  min-width: 0;
   overflow-wrap: normal;
   white-space: pre;
   word-break: normal;
@@ -537,6 +541,8 @@ p {
 
 .code-line {
   display: block;
+  width: 100%;
+  max-width: 100%;
   min-height: 1.38em;
   overflow-wrap: normal;
   white-space: pre;
@@ -561,13 +567,12 @@ p {
   outline: none;
 }
 
-.code-term::after {
-  content: attr(data-title) "\A" attr(data-body) "\A" "Open docs";
+.code-tooltip {
   position: absolute;
-  left: 50%;
-  bottom: calc(100% + 0.42rem);
-  z-index: 8;
-  width: min(19rem, 72vw);
+  top: 0;
+  left: 0;
+  z-index: 20;
+  width: min(19rem, calc(100% - 1rem));
   border: 1px solid rgba(167, 139, 250, 0.35);
   border-radius: 8px;
   background: rgba(7, 8, 10, 0.98);
@@ -582,28 +587,31 @@ p {
   line-height: 1.38;
   opacity: 0;
   pointer-events: none;
+  visibility: hidden;
   text-align: left;
   text-transform: none;
-  transform: translate(-50%, 0.2rem);
+  transform: translateY(0.2rem);
   transition:
     opacity 0.12s ease,
     transform 0.12s ease;
   white-space: pre-wrap;
 }
 
-.code-term:hover::after,
-.code-term:focus-visible::after {
+.code-tooltip.is-visible {
   opacity: 1;
-  transform: translate(-50%, 0);
+  transform: translateY(0);
+  visibility: visible;
 }
 
 .proof-panel.code-proof-panel,
 .proof-panel.code-proof-panel .code-panel-stack,
-.proof-panel.code-proof-panel .annotated-code-card,
-.proof-panel.code-proof-panel .annotated-code,
-.proof-panel.code-proof-panel .annotated-code code,
-.proof-panel.code-proof-panel .code-line {
+.proof-panel.code-proof-panel .annotated-code-card {
   overflow: visible;
+}
+
+.proof-panel.code-proof-panel .annotated-code {
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .actions {
@@ -658,8 +666,8 @@ p {
 
 .proof-panel .code-sample pre {
   padding: 0.48rem 0.58rem 0.58rem;
-  font-size: 0.76rem;
-  line-height: 1.38;
+  font-size: 0.7rem;
+  line-height: 1.32;
 }
 
 .review-surface-list {

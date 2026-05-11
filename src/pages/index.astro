@@ -51,6 +51,11 @@ const constructExplainers = {
     body: 'A procedure exposes its parameters, result type, effects, and contracts in its signature.',
     href: '/docs/specification/procedures-and-contracts/',
   },
+  receiver: {
+    title: 'Receiver shorthand',
+    body: '`~` declares the method receiver and introduces `self` inside the method body.',
+    href: '/docs/specification/procedures-and-contracts/',
+  },
   move: {
     title: 'move',
     body: '`move` makes responsibility transfer explicit instead of hiding ownership changes.',
@@ -79,6 +84,11 @@ const constructExplainers = {
   stateValue: {
     title: 'State value',
     body: 'Constructs or returns a concrete modal state value.',
+    href: '/docs/modal-programming/',
+  },
+  transition: {
+    title: 'Transition',
+    body: 'A modal transition consumes one concrete state and returns another.',
     href: '/docs/modal-programming/',
   },
   parallel: {
@@ -145,78 +155,84 @@ const term = (key: keyof typeof constructExplainers, text: string) => ({
 
 const annotatedExamples = [
   {
-    title: 'Retrying Background Job',
+    title: 'Bounded Webhook Retry',
     lines: [
-      [term('visibility', 'public'), ' ', term('modal', 'modal'), ' SyncJob {'],
-      ['  ', term('state', '@Queued'), ' { ', term('visibility', 'public'), ' source: Url }'],
-      ['  ', term('state', '@Retryable'), ' { ', term('visibility', 'public'), ' attempt: u8 }'],
-      ['  ', term('state', '@Done'), ' { ', term('visibility', 'public'), ' rows: RowBatch }'],
-      ['}'],
-      [],
-      [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' run_sync('],
-      ['  ', term('move', 'move'), ' job: SyncJob@Queued,'],
-      ['  api: ', term('shared', 'shared'), ' ApiClient,'],
-      ['  db: ', term('shared', 'shared'), ' Database'],
-      [') -> SyncJob@Done ', term('unionReturn', '|'), ' SyncJob@Retryable'],
-      ['  ', term('contract', '|:'), ' job.source', term('call', '~>'), 'isAllowed()'],
-      ['{'],
-      ['  let rows: RowBatch = api', term('call', '~>'), 'fetch(job.source)'],
-      ['  if (!db', term('call', '~>'), 'insert(rows)) {'],
-      ['    return ', term('stateValue', 'SyncJob@Retryable'), ' { attempt: 1 }'],
-      ['  }'],
-      ['  return ', term('stateValue', 'SyncJob@Done'), ' { rows: ', term('move', 'move'), ' rows }'],
+      [term('visibility', 'public'), ' ', term('modal', 'modal'), ' HookJob {'],
+      ['    ', term('state', '@Queued'), ' {'],
+      ['        ', term('visibility', 'public'), ' path: string@View'],
+      ['        ', term('visibility', 'public'), ' attempt: u8'],
+      ['        ', term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' send(', term('receiver', '~'), ', net: ', term('shared', 'shared'), ' Net)'],
+      ['          -> HookJob@Sent ', term('unionReturn', '|'), ' HookJob@Retry'],
+      ['           ', term('unionReturn', '|'), ' HookJob@Failed'],
+      ['          ', term('contract', '|:'), ' self.attempt < 5'],
+      ['        {'],
+      ['            if (net', term('call', '~>'), 'post(self.path)) { return ', term('stateValue', 'HookJob@Sent'), ' {} }'],
+      ['            if (self.attempt == 4) { return ', term('stateValue', 'HookJob@Failed'), ' {} }'],
+      ['            return ', term('stateValue', 'HookJob@Retry'), ' { attempt: self.attempt + 1 }'],
+      ['        }'],
+      ['    }'],
+      ['    ', term('state', '@Retry'), ' { ', term('visibility', 'public'), ' attempt: u8 }'],
+      ['    ', term('state', '@Sent'), ' {} ', term('state', '@Failed'), ' {}'],
       ['}'],
     ],
   },
   {
     title: 'Parallel Index Rebuild',
     lines: [
-      [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' rebuild_index('],
-      ['  ctx: Context,'],
-      ['  docs: ', term('shared', 'shared'), ' DocumentStore,'],
-      ['  index: ', term('shared', 'shared'), ' SearchIndex'],
+      [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' rebuildIndex('],
+      ['    ctx: Context,'],
+      ['    docs: ', term('shared', 'shared'), ' DocumentStore,'],
+      ['    index: ', term('shared', 'shared'), ' SearchIndex'],
       [') {'],
-      ['  ', term('parallel', 'parallel'), ' ctx', term('call', '~>'), 'cpu() {'],
-      ['    ', term('dispatch', 'dispatch'), ' shard in docs', term('call', '~>'), 'shards()'],
-      ['      ', term('key', 'key'), ' index[#shard] write [', term('ordered', 'ordered'), '] {'],
-      ['      let rows: RowBatch = docs', term('call', '~>'), 'read(shard)'],
-      ['      index', term('call', '~>'), 'replace(shard, ', term('move', 'move'), ' rows)'],
+      ['    ', term('parallel', 'parallel'), ' ctx', term('call', '~>'), 'cpu() {'],
+      ['        ', term('dispatch', 'dispatch'), ' shard in docs', term('call', '~>'), 'shards() {'],
+      ['            ', term('keyBlock', '#'), ' index[#shard] ', term('ordered', 'ordered'), ' write {'],
+      ['                let batch: RowBatch = docs', term('call', '~>'), 'read(shard)'],
+      ['                index', term('call', '~>'), 'replace(shard, ', term('move', 'move'), ' batch)'],
+      ['            }'],
+      ['        }'],
       ['    }'],
-      ['  }'],
       ['}'],
     ],
   },
   {
-    title: 'Async Fallback Race',
+    title: 'Cache Fallback Race',
     lines: [
-      [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' profile('],
-      ['  user: UserId,'],
-      ['  cache: ', term('shared', 'shared'), ' ProfileCache,'],
-      ['  api: ', term('shared', 'shared'), ' ProfileApi'],
+      [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' loadProfile('],
+      ['    user_id: UserId,'],
+      ['    cache: ', term('shared', 'shared'), ' ProfileCache,'],
+      ['    api: ', term('shared', 'shared'), ' ProfileApi'],
       [') -> Profile ', term('unionReturn', '|'), ' ProfileError {'],
-      ['  return ', term('race', 'race'), ' {'],
-      ['    cache', term('call', '~>'), 'lookup(user) -> |hit| hit,'],
-      ['    ', term('sync', 'sync'), ' api', term('call', '~>'), 'fetch(user) -> |fresh| {'],
-      ['      ', term('keyBlock', '#cache write'), ' { cache', term('call', '~>'), 'store(user, fresh) }'],
-      ['      fresh'],
+      ['    let cached = cache', term('call', '~>'), 'lookupAsync(user_id)'],
+      ['    let remote = api', term('call', '~>'), 'fetchAsync(user_id)'],
+      ['    return ', term('race', 'race'), ' {'],
+      ['        cached -> | hit | hit,'],
+      ['        remote -> | fresh | {'],
+      ['            ', term('keyBlock', '#'), ' cache write {'],
+      ['                cache', term('call', '~>'), 'store(user_id, fresh)'],
+      ['            }'],
+      ['            fresh'],
+      ['        },'],
       ['    }'],
-      ['  }'],
       ['}'],
     ],
   },
   {
-    title: 'Compile-Time Review Codegen',
+    title: 'Payment Commit Gate',
     lines: [
-      ['[[emit]]'],
-      [term('comptime', 'comptime'), ' {'],
-      ['  let fields = reflect', term('call', '~>'), 'fields(AuditEvent)'],
-      ['  emitter', term('call', '~>'), 'emit('],
-      ['    ', term('quote', 'quote'), ' {'],
-      ['      ', term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' validate(event: AuditEvent) -> bool {'],
-      ['        return ', term('splice', '$(fields)'), term('call', '~>'), 'all_present(event)'],
-      ['      }'],
+      [term('visibility', 'public'), ' ', term('modal', 'modal'), ' PayTx {'],
+      ['    ', term('state', '@Open'), ' {'],
+      ['        ', term('visibility', 'public'), ' due: Money'],
+      ['        ', term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' settle(', term('receiver', '~'), ', bank: ', term('shared', 'shared'), ' Bank)'],
+      ['          -> PayTx@Paid ', term('unionReturn', '|'), ' PayTx@Void'],
+      ['          ', term('contract', '|:'), ' self.due', term('call', '~>'), 'isPositive()'],
+      ['        {'],
+      ['            if (!bank', term('call', '~>'), 'ok(self.due)) { return ', term('stateValue', 'PayTx@Void'), ' {} }'],
+      ['            return ', term('stateValue', 'PayTx@Paid'), ' { receipt: bank', term('call', '~>'), 'pay(self.due) }'],
+      ['        }'],
       ['    }'],
-      ['  )'],
+      ['    ', term('state', '@Paid'), ' { ', term('visibility', 'public'), ' receipt: Receipt }'],
+      ['    ', term('state', '@Void'), ' {}'],
       ['}'],
     ],
   },
@@ -374,6 +390,7 @@ const docsEntrypoints = [
             ))
           }
         </div>
+        <div class="code-tooltip" data-code-tooltip aria-hidden="true"></div>
       </div>
     </div>
   </section>
@@ -543,10 +560,38 @@ const docsEntrypoints = [
         const slides = Array.from(carousel.querySelectorAll('[data-example-slide]'));
         const controls = Array.from(carousel.querySelectorAll('[data-example-control]'));
         const title = carousel.querySelector('[data-example-title]');
+        const tooltip = carousel.querySelector('[data-code-tooltip]');
         let activeIndex = 0;
         let timer = null;
 
+        const hideTooltip = () => {
+          if (!tooltip) return;
+          tooltip.classList.remove('is-visible');
+          tooltip.setAttribute('aria-hidden', 'true');
+        };
+
+        const showTooltip = (term) => {
+          if (!tooltip) return;
+
+          tooltip.textContent = `${term.dataset.title || ''}\n${term.dataset.body || ''}\nOpen docs`;
+          tooltip.classList.add('is-visible');
+          tooltip.setAttribute('aria-hidden', 'false');
+
+          const carouselRect = carousel.getBoundingClientRect();
+          const termRect = term.getBoundingClientRect();
+          const tooltipRect = tooltip.getBoundingClientRect();
+          const padding = 10;
+          const maxLeft = carouselRect.width - tooltipRect.width - padding;
+          const preferredLeft = termRect.left - carouselRect.left + (termRect.width / 2) - (tooltipRect.width / 2);
+          const left = Math.max(padding, Math.min(preferredLeft, maxLeft));
+          const top = termRect.top - carouselRect.top - tooltipRect.height - 8;
+
+          tooltip.style.left = `${left}px`;
+          tooltip.style.top = `${top}px`;
+        };
+
         const show = (nextIndex) => {
+          hideTooltip();
           activeIndex = (nextIndex + slides.length) % slides.length;
 
           slides.forEach((slide, index) => {
@@ -588,6 +633,41 @@ const docsEntrypoints = [
         carousel.addEventListener('mouseleave', start);
         carousel.addEventListener('focusin', stop);
         carousel.addEventListener('focusout', start);
+
+        carousel.addEventListener('mouseover', (event) => {
+          const term = event.target.closest('.code-term');
+          if (term && carousel.contains(term)) {
+            showTooltip(term);
+          }
+        });
+
+        carousel.addEventListener('mouseout', (event) => {
+          const term = event.target.closest('.code-term');
+          if (term && !term.contains(event.relatedTarget)) {
+            hideTooltip();
+          }
+        });
+
+        carousel.addEventListener('focusin', (event) => {
+          const term = event.target.closest('.code-term');
+          if (term && carousel.contains(term)) {
+            showTooltip(term);
+          }
+        });
+
+        carousel.addEventListener('focusout', (event) => {
+          const term = event.target.closest('.code-term');
+          if (term) {
+            hideTooltip();
+          }
+        });
+
+        carousel.querySelectorAll('.annotated-code').forEach((codeBlock) => {
+          codeBlock.addEventListener('scroll', hideTooltip);
+        });
+
+        window.addEventListener('resize', hideTooltip);
+        window.addEventListener('scroll', hideTooltip, { passive: true });
 
         show(0);
         start();
