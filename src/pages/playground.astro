@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const playgroundSample = [
+  'procedure main(move ctx: Context) -> i32 {',
+  '  return 0',
+  '}',
+].join('\n');
+---
+
+<BaseLayout
+  title="Playground"
+  description="The Ultraviolet web playground is under construction."
+>
+  <article class="article-page playground-page">
+    <header>
+      <p class="eyebrow">Web compiler</p>
+      <h1>Playground</h1>
+      <p>
+        The browser-based Ultraviolet compiler playground is under construction.
+        It will provide a fast way to inspect source, diagnostics, and generated
+        output without setting up a local toolchain.
+      </p>
+    </header>
+
+    <section class="playground-shell" aria-label="Playground status">
+      <div class="playground-editor" aria-hidden="true">
+        <div class="code-panel-head">
+          <span>editor</span>
+          <span>coming soon</span>
+        </div>
+        <pre><code>{playgroundSample}</code></pre>
+      </div>
+      <div class="playground-status-card">
+        <span class="status-tag">under construction</span>
+        <h2>Compiler-in-browser work is not ready yet.</h2>
+        <p>
+          For now, use the docs and specification to evaluate the language
+          model. The playground will be wired up when the public alpha compiler
+          surface is stable enough for interactive use.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="/docs/">Read the docs</a>
+          <a class="button secondary" href="/docs/specification/">
+            Open the specification
+          </a>
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

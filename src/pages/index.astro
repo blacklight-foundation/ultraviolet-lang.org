@@ -5,62 +5,228 @@ import { fundingGoals } from '../data/funding';
 
 const proofMetrics = [
   {
-    label: '.uv source',
-    value: 'PascalCase.uv files',
+    label: 'Semantics',
+    value: 'Explicit over Implicit',
   },
   {
-    label: 'Project file',
-    value: 'Ultraviolet.toml',
+    label: 'Verification',
+    value: 'Static by Default',
   },
   {
-    label: 'CLI',
-    value: 'uv build/check/run/test',
+    label: 'Memory & State',
+    value: 'Modal Lifecycle Tracking',
   },
   {
-    label: 'Bootstrap target',
-    value: 'x86_64-win64',
+    label: 'Concurrency',
+    value: 'Structured Parallelism',
   },
   {
-    label: 'Spec',
-    value: 'Public source of truth',
+    label: 'Execution',
+    value: 'CPU & GPU Domains',
   },
   {
-    label: 'Source',
-    value: 'Compiler + runtime',
+    label: 'Safety',
+    value: 'Visible Contracts & Keys',
   },
 ];
 
-const sourceTabs = [
+const constructExplainers = {
+  visibility: {
+    title: 'Visibility',
+    body: '`public` makes a declaration or member part of the exported surface.',
+    href: '/docs/specification/name-resolution-and-visibility/',
+  },
+  modal: {
+    title: 'Modal type',
+    body: 'A modal type declares an explicit lifecycle with named, checked states.',
+    href: '/docs/modal-programming/',
+  },
+  state: {
+    title: 'Modal state',
+    body: 'A concrete state in a modal lifecycle; only valid state operations are available.',
+    href: '/docs/modal-programming/',
+  },
+  procedure: {
+    title: 'Procedure',
+    body: 'A procedure exposes its parameters, result type, effects, and contracts in its signature.',
+    href: '/docs/specification/procedures-and-contracts/',
+  },
+  move: {
+    title: 'move',
+    body: '`move` makes responsibility transfer explicit instead of hiding ownership changes.',
+    href: '/docs/core-language/permissions/',
+  },
+  shared: {
+    title: 'shared permission',
+    body: '`shared` marks coordinated shared access through the permission and key systems.',
+    href: '/docs/core-language/permissions/',
+  },
+  unionReturn: {
+    title: 'Union return',
+    body: 'The return type lists every state the operation can produce.',
+    href: '/docs/specification/complete-grammar-reference/',
+  },
+  contract: {
+    title: 'Contract clause',
+    body: '`|:` makes the precondition part of the source contract reviewers can inspect.',
+    href: '/docs/core-language/contracts/',
+  },
+  call: {
+    title: 'Receiver call',
+    body: '`~>` makes receiver-style operations explicit at call sites.',
+    href: '/docs/specification/expressions/',
+  },
+  stateValue: {
+    title: 'State value',
+    body: 'Constructs or returns a concrete modal state value.',
+    href: '/docs/modal-programming/',
+  },
+  parallel: {
+    title: 'parallel',
+    body: 'Starts structured parallel work in an explicit execution domain.',
+    href: '/docs/specification/structured-parallelism/',
+  },
+  dispatch: {
+    title: 'dispatch',
+    body: 'Partitions work items over a range inside a parallel block.',
+    href: '/docs/specification/structured-parallelism/',
+  },
+  domain: {
+    title: 'Execution domain',
+    body: 'CPU, GPU, and inline execution are explicit source-level domains.',
+    href: '/docs/core-language/cpu-gpu-programming/',
+  },
+  key: {
+    title: 'Key clause',
+    body: 'Coordinates access to shared paths and makes conflict boundaries reviewable.',
+    href: '/docs/core-language/key-system/',
+  },
+  keyBlock: {
+    title: 'Key block',
+    body: 'Acquires read or write authority over shared paths for a lexical block.',
+    href: '/docs/core-language/key-system/',
+  },
+  ordered: {
+    title: 'ordered',
+    body: 'Requests deterministic ordered access for indexed shared paths.',
+    href: '/docs/core-language/key-system/',
+  },
+  race: {
+    title: 'race',
+    body: 'Waits for the first async result and handles it with an explicit pattern.',
+    href: '/docs/specification/asynchronous-operations/',
+  },
+  sync: {
+    title: 'sync',
+    body: 'Synchronously waits on an async operation at an explicit source site.',
+    href: '/docs/specification/asynchronous-operations/',
+  },
+  comptime: {
+    title: 'comptime',
+    body: 'Runs source-level generation during the compile-time execution phase.',
+    href: '/docs/specification/compile-time-execution-and-metaprogramming/',
+  },
+  quote: {
+    title: 'quote',
+    body: 'Builds a checked AST fragment for controlled compile-time emission.',
+    href: '/docs/specification/compile-time-execution-and-metaprogramming/',
+  },
+  splice: {
+    title: 'splice',
+    body: 'Injects a compile-time value into a quoted source fragment.',
+    href: '/docs/specification/compile-time-execution-and-metaprogramming/',
+  },
+} as const;
+
+const term = (key: keyof typeof constructExplainers, text: string) => ({
+  key,
+  text,
+});
+
+const annotatedExamples = [
   {
-    label: 'src/Main.uv',
-    body: [
-      'public procedure main(',
-      '    move ctx: Context',
-      ') -> i32 {',
-      '    return 0',
-      '}',
+    title: 'Retrying Background Job',
+    lines: [
+      [term('visibility', 'public'), ' ', term('modal', 'modal'), ' SyncJob {'],
+      ['  ', term('state', '@Queued'), ' { ', term('visibility', 'public'), ' source: Url }'],
+      ['  ', term('state', '@Retryable'), ' { ', term('visibility', 'public'), ' attempt: u8 }'],
+      ['  ', term('state', '@Done'), ' { ', term('visibility', 'public'), ' rows: RowBatch }'],
+      ['}'],
+      [],
+      [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' run_sync('],
+      ['  ', term('move', 'move'), ' job: SyncJob@Queued,'],
+      ['  api: ', term('shared', 'shared'), ' ApiClient,'],
+      ['  db: ', term('shared', 'shared'), ' Database'],
+      [') -> SyncJob@Done ', term('unionReturn', '|'), ' SyncJob@Retryable'],
+      ['  ', term('contract', '|:'), ' job.source', term('call', '~>'), 'isAllowed()'],
+      ['{'],
+      ['  let rows: RowBatch = api', term('call', '~>'), 'fetch(job.source)'],
+      ['  if (!db', term('call', '~>'), 'insert(rows)) {'],
+      ['    return ', term('stateValue', 'SyncJob@Retryable'), ' { attempt: 1 }'],
+      ['  }'],
+      ['  return ', term('stateValue', 'SyncJob@Done'), ' { rows: ', term('move', 'move'), ' rows }'],
+      ['}'],
     ],
   },
   {
-    label: 'Ultraviolet.toml',
-    body: [
-      '[[assembly]]',
-      'name = "hello"',
-      'kind = "executable"',
-      'root = "src"',
+    title: 'Parallel Index Rebuild',
+    lines: [
+      [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' rebuild_index('],
+      ['  ctx: Context,'],
+      ['  docs: ', term('shared', 'shared'), ' DocumentStore,'],
+      ['  index: ', term('shared', 'shared'), ' SearchIndex'],
+      [') {'],
+      ['  ', term('parallel', 'parallel'), ' ctx', term('call', '~>'), 'cpu() {'],
+      ['    ', term('dispatch', 'dispatch'), ' shard in docs', term('call', '~>'), 'shards()'],
+      ['      ', term('key', 'key'), ' index[#shard] write [', term('ordered', 'ordered'), '] {'],
+      ['      let rows: RowBatch = docs', term('call', '~>'), 'read(shard)'],
+      ['      index', term('call', '~>'), 'replace(shard, ', term('move', 'move'), ' rows)'],
+      ['    }'],
+      ['  }'],
+      ['}'],
     ],
   },
   {
-    label: 'uv',
-    body: ['uv init', 'uv check', 'uv build', 'uv run', 'uv test'],
+    title: 'Async Fallback Race',
+    lines: [
+      [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' profile('],
+      ['  user: UserId,'],
+      ['  cache: ', term('shared', 'shared'), ' ProfileCache,'],
+      ['  api: ', term('shared', 'shared'), ' ProfileApi'],
+      [') -> Profile ', term('unionReturn', '|'), ' ProfileError {'],
+      ['  return ', term('race', 'race'), ' {'],
+      ['    cache', term('call', '~>'), 'lookup(user) -> |hit| hit,'],
+      ['    ', term('sync', 'sync'), ' api', term('call', '~>'), 'fetch(user) -> |fresh| {'],
+      ['      ', term('keyBlock', '#cache write'), ' { cache', term('call', '~>'), 'store(user, fresh) }'],
+      ['      fresh'],
+      ['    }'],
+      ['  }'],
+      ['}'],
+    ],
+  },
+  {
+    title: 'Compile-Time Review Codegen',
+    lines: [
+      ['[[emit]]'],
+      [term('comptime', 'comptime'), ' {'],
+      ['  let fields = reflect', term('call', '~>'), 'fields(AuditEvent)'],
+      ['  emitter', term('call', '~>'), 'emit('],
+      ['    ', term('quote', 'quote'), ' {'],
+      ['      ', term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' validate(event: AuditEvent) -> bool {'],
+      ['        return ', term('splice', '$(fields)'), term('call', '~>'), 'all_present(event)'],
+      ['      }'],
+      ['    }'],
+      ['  )'],
+      ['}'],
+    ],
   },
 ];
 
 const reviewFlow = [
-  'AI-written source',
-  'Visible surfaces',
-  'Human review',
-  'Compiler check',
+  'AI-Generated Logic',
+  'Explicit Source Forms',
+  'Human Audit',
+  'Static Verification',
 ];
 
 const languageFeatures = [
@@ -75,7 +241,7 @@ const languageFeatures = [
     cue: 'contracts',
   },
   {
-    title: 'Permission and responsibility',
+    title: 'Permissions and binding state',
     body: 'move, const, shared, and unique separate transfer of responsibility from access permission.',
     cue: 'access',
   },
@@ -85,7 +251,7 @@ const languageFeatures = [
     cue: 'keys',
   },
   {
-    title: 'Structured concurrency',
+    title: 'Structured parallelism',
     body: 'parallel, spawn, dispatch, sync, race, and async state share one visible execution model.',
     cue: 'parallel',
   },
@@ -135,12 +301,13 @@ const docsEntrypoints = [
         <p class="eyebrow">Public alpha / Blacklight Foundation</p>
         <h1>Ultraviolet</h1>
         <p class="hero-lede">
-          Ultraviolet is a high-visibility, general-purpose programming
-          language for AI and Humans.
+          Ultraviolet is a high-visibility, general-purpose systems programming
+          language for AI/LLM-generated code and human review.
         </p>
         <p class="hero-copy">
-          Ultraviolet is designed for performant, safe, auditable code, with
-          source forms that make mistakes visible during review.
+          Designed for performant, safe, and auditable systems. Ultraviolet
+          enforces explicit source forms so that LLM-generated assumptions,
+          state transitions, and side-effects are visible during review.
         </p>
         <div class="actions" aria-label="Primary actions">
           <a class="button primary" href="/docs/">Start with the alpha docs</a>
@@ -155,20 +322,57 @@ const docsEntrypoints = [
           </a>
         </div>
       </div>
-      <div class="proof-panel code-proof-panel" aria-label="Ultraviolet source and command surface">
+      <div
+        class="proof-panel code-proof-panel"
+        aria-label="Annotated Ultraviolet source examples"
+        data-example-carousel
+      >
         <div class="code-panel-head">
-          <span>public alpha surface</span>
-          <span>.uv / uv</span>
+          <span data-example-title>{annotatedExamples[0].title}</span>
+          <div class="example-controls" aria-label="Example selector">
+            {
+              annotatedExamples.map((example, index) => (
+                <button
+                  class={index === 0 ? 'is-active' : ''}
+                  type="button"
+                  aria-label={`Show ${example.title}`}
+                  aria-pressed={index === 0 ? 'true' : 'false'}
+                  data-example-control
+                  data-example-index={index}
+                >
+                  {index + 1}
+                </button>
+              ))
+            }
+          </div>
         </div>
         <div class="code-panel-stack">
-          {sourceTabs.map((tab) => (
-            <article class="code-sample">
-              <div class="code-sample-head">
-                <span>{tab.label}</span>
-              </div>
-              <pre><code>{tab.body.join('\n')}</code></pre>
-            </article>
-          ))}
+          {
+            annotatedExamples.map((example, index) => (
+              <article
+                class={`code-sample annotated-code-card example-slide${index === 0 ? ' is-active' : ''}`}
+                aria-hidden={index === 0 ? 'false' : 'true'}
+                data-example-slide
+                data-example-title-value={example.title}
+              >
+                <pre class="annotated-code"><code>{example.lines.map((line) => (
+                  <span class="code-line">{line.length === 0 ? '\u00A0' : line.map((part) => {
+                    if (typeof part === 'string') return part;
+                    const explainer = constructExplainers[part.key];
+                    return (
+                      <a
+                        class="code-term"
+                        href={explainer.href}
+                        data-title={explainer.title}
+                        data-body={explainer.body}
+                        aria-label={`${part.text}: ${explainer.title}. ${explainer.body}`}
+                      >{part.text}</a>
+                    );
+                  })}</span>
+                ))}</code></pre>
+              </article>
+            ))
+          }
         </div>
       </div>
     </div>
@@ -189,10 +393,10 @@ const docsEntrypoints = [
 
   <section class="page-section problem-section">
     <div class="section-heading">
-      <h2>Generated code still needs source-level review.</h2>
+      <h2>AI-generated code still needs source-level review.</h2>
       <p>
         Reviewers need to see contracts, states, transitions, permissions, key
-        paths, concurrency structure, CPU/GPU execution domains, and
+        paths, parallel execution structure, CPU/GPU execution domains, and
         effect-bearing capabilities. Ultraviolet puts those review properties in
         the source language.
       </p>
@@ -205,6 +409,34 @@ const docsEntrypoints = [
           </div>
         ))
       }
+    </div>
+  </section>
+
+  <section class="page-section design-contract-section">
+    <div class="section-heading">
+      <h2>The Language Design Contract</h2>
+      <p>
+        Ultraviolet achieves high-visibility through four core principles that
+        ensure safe interoperability between AI generation and human review.
+      </p>
+    </div>
+    <div class="grid four-col">
+      <article class="card principle-card">
+        <h3>One Correct Way</h3>
+        <p>No aliases or syntactic sugar. Source forms map 1:1 with semantic operations.</p>
+      </article>
+      <article class="card principle-card">
+        <h3>Local Reasoning</h3>
+        <p>Authority, ownership, and synchronization are visible in local syntactic context.</p>
+      </article>
+      <article class="card principle-card">
+        <h3>Explicit over Implicit</h3>
+        <p>No hidden allocations, dynamic dispatch, or foreign trust boundaries.</p>
+      </article>
+      <article class="card principle-card">
+        <h3>Static by Default</h3>
+        <p>Compile-time verification is preferred; runtime checks require explicit source opt-in.</p>
+      </article>
     </div>
   </section>
 
@@ -229,11 +461,10 @@ const docsEntrypoints = [
 
   <section class="page-section">
     <div class="section-heading">
-      <h2>Start from real language artifacts.</h2>
+      <h2>Evaluate the language architecture.</h2>
       <p>
-        The alpha docs should help technical visitors inspect the project
-        format, command surface, specification, compiler source, runtime source,
-        and delivery roadmap without waiting for a polished release.
+        The alpha documentation provides direct access to the canonical
+        specification, compiler internals, capability models, and ABI targets.
       </p>
     </div>
     <div class="grid three-col">
@@ -303,4 +534,64 @@ const docsEntrypoints = [
       </div>
     </div>
   </section>
+
+  <script is:inline>
+    (() => {
+      const carousels = document.querySelectorAll('[data-example-carousel]');
+
+      carousels.forEach((carousel) => {
+        const slides = Array.from(carousel.querySelectorAll('[data-example-slide]'));
+        const controls = Array.from(carousel.querySelectorAll('[data-example-control]'));
+        const title = carousel.querySelector('[data-example-title]');
+        let activeIndex = 0;
+        let timer = null;
+
+        const show = (nextIndex) => {
+          activeIndex = (nextIndex + slides.length) % slides.length;
+
+          slides.forEach((slide, index) => {
+            const isActive = index === activeIndex;
+            slide.classList.toggle('is-active', isActive);
+            slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+            if (isActive && title) {
+              title.textContent = slide.dataset.exampleTitleValue || '';
+            }
+          });
+
+          controls.forEach((control, index) => {
+            const isActive = index === activeIndex;
+            control.classList.toggle('is-active', isActive);
+            control.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+          });
+        };
+
+        const start = () => {
+          if (timer || slides.length < 2) return;
+          timer = window.setInterval(() => show(activeIndex + 1), 7000);
+        };
+
+        const stop = () => {
+          if (!timer) return;
+          window.clearInterval(timer);
+          timer = null;
+        };
+
+        controls.forEach((control) => {
+          control.addEventListener('click', () => {
+            stop();
+            show(Number(control.dataset.exampleIndex || 0));
+            start();
+          });
+        });
+
+        carousel.addEventListener('mouseenter', stop);
+        carousel.addEventListener('mouseleave', start);
+        carousel.addEventListener('focusin', stop);
+        carousel.addEventListener('focusout', start);
+
+        show(0);
+        start();
+      });
+    })();
+  </script>
 </BaseLayout>

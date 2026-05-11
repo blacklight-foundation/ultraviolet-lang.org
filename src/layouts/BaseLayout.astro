@@ -9,7 +9,7 @@ interface Props {
 
 const defaultTitle = 'Ultraviolet';
 const defaultDescription =
-  'Ultraviolet is a high-visibility, general-purpose programming language for AI and Humans.';
+  'Ultraviolet is a high-visibility, general-purpose programming language for AI-written code and human review.';
 
 const { title = defaultTitle, description = defaultDescription } = Astro.props;
 const pageTitle =
@@ -19,8 +19,7 @@ const canonical = new URL(Astro.url.pathname, site).toString();
 
 const navLinks = [
   { href: '/docs/', label: 'Docs' },
-  { href: '/docs/language-tour/', label: 'Language' },
-  { href: '/docs/specification/', label: 'Spec' },
+  { href: '/playground/', label: 'Playground' },
   { href: '/roadmap/', label: 'Roadmap' },
   { href: '/blog/', label: 'Updates' },
   {
@@ -31,8 +30,7 @@ const navLinks = [
 
 const footerPrimaryLinks = [
   { href: '/docs/', label: 'Docs' },
-  { href: '/docs/language-tour/', label: 'Language' },
-  { href: '/docs/specification/', label: 'Specification' },
+  { href: '/playground/', label: 'Playground' },
   { href: '/roadmap/', label: 'Roadmap' },
   { href: '/blog/', label: 'Updates' },
   { href: '/sponsor/', label: 'Support' },
@@ -122,8 +120,9 @@ const footerUtilityLinks = [
             <span>Ultraviolet</span>
           </a>
           <p class="footer-summary">
-            High-visibility, general-purpose programming language for AI and
-            Humans, stewarded by Blacklight Foundation.
+            High-visibility, general-purpose programming language for
+            AI-written code and human review, stewarded by Blacklight
+            Foundation.
           </p>
           <nav class="footer-links" aria-label="Footer primary navigation">
             {
