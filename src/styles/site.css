@@ -597,6 +597,15 @@ p {
   transform: translate(-50%, 0);
 }
 
+.proof-panel.code-proof-panel,
+.proof-panel.code-proof-panel .code-panel-stack,
+.proof-panel.code-proof-panel .annotated-code-card,
+.proof-panel.code-proof-panel .annotated-code,
+.proof-panel.code-proof-panel .annotated-code code,
+.proof-panel.code-proof-panel .code-line {
+  overflow: visible;
+}
+
 .actions {
   display: flex;
   flex-wrap: wrap;
