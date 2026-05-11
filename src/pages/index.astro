@@ -119,6 +119,31 @@ const constructExplainers = {
     body: 'Injects a compile-time value into a quoted source fragment.',
     href: '/docs/specification/compile-time-execution-and-metaprogramming/',
   },
+  context: {
+    title: 'Context',
+    body: '`Context` carries the runtime capability bundle into executable code.',
+    href: '/docs/core-language/explicit-effects/',
+  },
+  contextField: {
+    title: 'Capability field',
+    body: 'Runtime capability values are reached through fields on the explicit context value.',
+    href: '/docs/core-language/explicit-effects/',
+  },
+  contextDomain: {
+    title: 'Context execution domain',
+    body: '`ctx.cpu()`, `ctx.gpu()`, and `ctx.inline()` produce typed execution-domain values.',
+    href: '/docs/core-language/cpu-gpu-programming/',
+  },
+  emitAttribute: {
+    title: 'emit attribute',
+    body: '`[[emit]]` grants the compile-time emitter capability at that source site.',
+    href: '/docs/specification/compile-time-execution-and-metaprogramming/',
+  },
+  emitter: {
+    title: 'TypeEmitter',
+    body: '`emitter~>emit` inserts checked AST declarations during compile-time execution.',
+    href: '/docs/specification/compile-time-execution-and-metaprogramming/',
+  },
 } as const;
 
 const term = (key: keyof typeof constructExplainers, text: string) => ({
@@ -248,41 +273,96 @@ const languageFeatures = [
     title: 'Modal programming',
     body: 'Model resources, protocols, async work, and execution lifecycles as explicit states with checked transitions.',
     cue: 'modal',
+    href: '/docs/modal-programming/',
+    exampleTitle: 'State-gated session',
+    exampleLines: [
+      [term('modal', 'modal'), ' Session {'],
+      ['    ', term('state', '@Disconnected'), ' {'],
+      ['        public ', term('transition', 'transition'), ' connect() -> ', term('state', '@Connected'), ' {'],
+      ['            return ', term('stateValue', 'Session@Connected'), ' {}'],
+      ['        }'],
+      ['    }'],
+      ['    ', term('state', '@Connected'), ' {'],
+      ['        public ', term('transition', 'transition'), ' close() -> ', term('state', '@Disconnected'), ' {'],
+      ['            return ', term('stateValue', 'Session@Disconnected'), ' {}'],
+      ['        }'],
+      ['    }'],
+      ['}'],
+    ],
   },
   {
     title: 'Contracts',
     body: 'Preconditions, postconditions, invariants, and foreign contracts make generated assumptions part of source.',
     cue: 'contracts',
+    href: '/docs/core-language/contracts/',
+    exampleTitle: 'Checked precondition',
+    exampleLines: [
+      [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' divide(numerator: i32, denominator: i32) -> i32'],
+      [term('contract', '|:'), ' denominator != 0'],
+      ['{'],
+      ['    return numerator / denominator'],
+      ['}'],
+    ],
   },
   {
     title: 'Permissions and binding state',
     body: 'move, const, shared, and unique separate transfer of responsibility from access permission.',
     cue: 'access',
-  },
-  {
-    title: 'Key system',
-    body: 'Shared access is coordinated through language-level key paths and conflict checks.',
-    cue: 'keys',
+    href: '/docs/core-language/permissions/',
+    exampleTitle: 'Responsibility plus shared access',
+    exampleLines: [
+      [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' flush('],
+      ['    ', term('move', 'move'), ' buffer: Buffer,'],
+      ['    sink: ', term('shared', 'shared'), ' Sink'],
+      [') {'],
+      ['    sink', term('call', '~>'), 'write(', term('move', 'move'), ' buffer)'],
+      ['}'],
+    ],
   },
   {
     title: 'Structured parallelism',
     body: 'parallel, spawn, dispatch, sync, race, and async state share one visible execution model.',
     cue: 'parallel',
+    href: '/docs/core-language/structured-concurrency/',
+    exampleTitle: 'Structured CPU work',
+    exampleLines: [
+      [term('parallel', 'parallel'), ' ', term('contextDomain', 'ctx.cpu'), '() {'],
+      ['    ', term('dispatch', 'dispatch'), ' item in 0..count {'],
+      ['        jobs[item]', term('call', '~>'), 'run()'],
+      ['    }'],
+      ['}'],
+    ],
   },
   {
     title: 'CPU + GPU programming',
     body: 'Write code for CPU or GPU execution in one language model, with execution domains exposed as typed capabilities.',
     cue: 'domains',
-  },
-  {
-    title: 'Explicit effects',
-    body: 'Effect-bearing operations flow through capability values and procedure signatures.',
-    cue: 'effects',
+    href: '/docs/core-language/cpu-gpu-programming/',
+    exampleTitle: 'GPU dispatch domain',
+    exampleLines: [
+      ['let gpu = ', term('contextDomain', 'ctx.gpu'), '()'],
+      [term('parallel', 'parallel'), ' gpu {'],
+      ['    ', term('dispatch', 'dispatch'), ' index in 0..count {'],
+      ['        output[index] = input[index] * 2'],
+      ['    }'],
+      ['}'],
+    ],
   },
   {
     title: 'Compile-time generation',
     body: 'comptime, quote/splice, reflection, and emission support controlled generated source.',
     cue: 'comptime',
+    href: '/docs/specification/compile-time-execution-and-metaprogramming/',
+    exampleTitle: 'Checked emission',
+    exampleLines: [
+      [term('emitAttribute', '[[emit]]')],
+      [term('comptime', 'comptime'), ' {'],
+      ['    let item = ', term('quote', 'quote'), ' {'],
+      ['        ', term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' generated() -> i32 { return 0 }'],
+      ['    }'],
+      ['    ', term('emitter', 'emitter'), term('call', '~>'), 'emit(item)'],
+      ['}'],
+    ],
   },
 ];
 
@@ -384,10 +464,44 @@ const languageFeatures = [
       <div class="feature-bento">
         {
           languageFeatures.map((principle) => (
-            <article class="card principle-card">
-              <span>{principle.cue}</span>
-              <h3>{principle.title}</h3>
-              <p>{principle.body}</p>
+            <article
+              class="card principle-card"
+              tabindex="0"
+              data-feature-card
+              aria-label={`${principle.title}: ${principle.body}`}
+            >
+              <div class="feature-card-summary" data-feature-summary aria-hidden="false">
+                <span class="feature-cue">{principle.cue}</span>
+                <h3>{principle.title}</h3>
+                <p>{principle.body}</p>
+              </div>
+              <div class="feature-card-reveal" data-feature-reveal aria-hidden="true">
+                <div class="feature-example" data-feature-example>
+                  <div class="feature-example-head">
+                    <span>{principle.exampleTitle}</span>
+                  </div>
+                  <pre class="annotated-code feature-code"><code>{principle.exampleLines.map((line) => (
+                    <span class="code-line">{line.length === 0 ? '\u00A0' : line.map((part) => {
+                      if (typeof part === 'string') return part;
+                      const explainer = constructExplainers[part.key];
+                      return (
+                        <a
+                          class="code-term"
+                          href={explainer.href}
+                          data-title={explainer.title}
+                          data-body={explainer.body}
+                          aria-label={`${part.text}: ${explainer.title}. ${explainer.body}`}
+                          tabindex="-1"
+                        >{part.text}</a>
+                      );
+                    })}</span>
+                  ))}</code></pre>
+                  <div class="code-tooltip" data-code-tooltip aria-hidden="true"></div>
+                </div>
+                <a class="feature-doc-link" href={principle.href} tabindex="-1">
+                  Open docs
+                </a>
+              </div>
             </article>
           ))
         }
@@ -441,41 +555,90 @@ const languageFeatures = [
 
   <script is:inline>
     (() => {
+      const tooltipHiders = [];
+      const pointerCanHover = window.matchMedia('(hover: hover)');
+
+      const bindCodeTooltips = (scope) => {
+        const tooltip = scope.querySelector('[data-code-tooltip]');
+        if (!tooltip) return () => {};
+
+        const hideTooltip = () => {
+          tooltip.classList.remove('is-visible');
+          tooltip.setAttribute('aria-hidden', 'true');
+        };
+
+        const showTooltip = (term) => {
+          tooltip.textContent = `${term.dataset.title || ''}\n${term.dataset.body || ''}\nOpen docs`;
+          tooltip.classList.add('is-visible');
+          tooltip.setAttribute('aria-hidden', 'false');
+
+          const scopeRect = scope.getBoundingClientRect();
+          const termRect = term.getBoundingClientRect();
+          const tooltipRect = tooltip.getBoundingClientRect();
+          const padding = 10;
+          const maxLeft = Math.max(padding, scopeRect.width - tooltipRect.width - padding);
+          const preferredLeft = termRect.left - scopeRect.left + (termRect.width / 2) - (tooltipRect.width / 2);
+          const left = Math.max(padding, Math.min(preferredLeft, maxLeft));
+          const preferredTop = termRect.top - scopeRect.top - tooltipRect.height - 8;
+          const fallbackTop = termRect.bottom - scopeRect.top + 8;
+          const maxTop = Math.max(padding, scopeRect.height - tooltipRect.height - padding);
+          const top = preferredTop >= padding
+            ? Math.min(preferredTop, maxTop)
+            : Math.min(Math.max(fallbackTop, padding), maxTop);
+
+          tooltip.style.left = `${left}px`;
+          tooltip.style.top = `${top}px`;
+        };
+
+        scope.addEventListener('mouseover', (event) => {
+          const term = event.target.closest('.code-term');
+          if (term && scope.contains(term)) {
+            showTooltip(term);
+          }
+        });
+
+        scope.addEventListener('mouseout', (event) => {
+          const term = event.target.closest('.code-term');
+          if (term && !term.contains(event.relatedTarget)) {
+            hideTooltip();
+          }
+        });
+
+        scope.addEventListener('focusin', (event) => {
+          const term = event.target.closest('.code-term');
+          if (term && scope.contains(term)) {
+            showTooltip(term);
+          }
+        });
+
+        scope.addEventListener('focusout', (event) => {
+          const term = event.target.closest('.code-term');
+          if (term) {
+            hideTooltip();
+          }
+        });
+
+        scope.querySelectorAll('.annotated-code').forEach((codeBlock) => {
+          codeBlock.addEventListener('scroll', hideTooltip);
+        });
+
+        tooltipHiders.push(hideTooltip);
+        return hideTooltip;
+      };
+
+      const hideAllTooltips = () => {
+        tooltipHiders.forEach((hideTooltip) => hideTooltip());
+      };
+
       const carousels = document.querySelectorAll('[data-example-carousel]');
 
       carousels.forEach((carousel) => {
         const slides = Array.from(carousel.querySelectorAll('[data-example-slide]'));
         const controls = Array.from(carousel.querySelectorAll('[data-example-control]'));
         const title = carousel.querySelector('[data-example-title]');
-        const tooltip = carousel.querySelector('[data-code-tooltip]');
+        const hideTooltip = bindCodeTooltips(carousel);
         let activeIndex = 0;
         let timer = null;
-
-        const hideTooltip = () => {
-          if (!tooltip) return;
-          tooltip.classList.remove('is-visible');
-          tooltip.setAttribute('aria-hidden', 'true');
-        };
-
-        const showTooltip = (term) => {
-          if (!tooltip) return;
-
-          tooltip.textContent = `${term.dataset.title || ''}\n${term.dataset.body || ''}\nOpen docs`;
-          tooltip.classList.add('is-visible');
-          tooltip.setAttribute('aria-hidden', 'false');
-
-          const carouselRect = carousel.getBoundingClientRect();
-          const termRect = term.getBoundingClientRect();
-          const tooltipRect = tooltip.getBoundingClientRect();
-          const padding = 10;
-          const maxLeft = carouselRect.width - tooltipRect.width - padding;
-          const preferredLeft = termRect.left - carouselRect.left + (termRect.width / 2) - (tooltipRect.width / 2);
-          const left = Math.max(padding, Math.min(preferredLeft, maxLeft));
-          const top = termRect.top - carouselRect.top - tooltipRect.height - 8;
-
-          tooltip.style.left = `${left}px`;
-          tooltip.style.top = `${top}px`;
-        };
 
         const show = (nextIndex) => {
           hideTooltip();
@@ -521,44 +684,80 @@ const languageFeatures = [
         carousel.addEventListener('focusin', stop);
         carousel.addEventListener('focusout', start);
 
-        carousel.addEventListener('mouseover', (event) => {
-          const term = event.target.closest('.code-term');
-          if (term && carousel.contains(term)) {
-            showTooltip(term);
-          }
-        });
-
-        carousel.addEventListener('mouseout', (event) => {
-          const term = event.target.closest('.code-term');
-          if (term && !term.contains(event.relatedTarget)) {
-            hideTooltip();
-          }
-        });
-
-        carousel.addEventListener('focusin', (event) => {
-          const term = event.target.closest('.code-term');
-          if (term && carousel.contains(term)) {
-            showTooltip(term);
-          }
-        });
-
-        carousel.addEventListener('focusout', (event) => {
-          const term = event.target.closest('.code-term');
-          if (term) {
-            hideTooltip();
-          }
-        });
-
-        carousel.querySelectorAll('.annotated-code').forEach((codeBlock) => {
-          codeBlock.addEventListener('scroll', hideTooltip);
-        });
-
-        window.addEventListener('resize', hideTooltip);
-        window.addEventListener('scroll', hideTooltip, { passive: true });
-
         show(0);
         start();
       });
+
+      const featureCards = Array.from(document.querySelectorAll('[data-feature-card]'));
+
+      const setFeatureCard = (card, isRevealed) => {
+        const summary = card.querySelector('[data-feature-summary]');
+        const reveal = card.querySelector('[data-feature-reveal]');
+
+        card.classList.toggle('is-revealed', isRevealed);
+        if (summary) {
+          summary.setAttribute('aria-hidden', isRevealed ? 'true' : 'false');
+        }
+        if (reveal) {
+          reveal.setAttribute('aria-hidden', isRevealed ? 'false' : 'true');
+          reveal.querySelectorAll('a').forEach((link) => {
+            if (isRevealed) {
+              link.removeAttribute('tabindex');
+            } else {
+              link.setAttribute('tabindex', '-1');
+            }
+          });
+        }
+      };
+
+      featureCards.forEach((card) => {
+        setFeatureCard(card, false);
+
+        card.addEventListener('mouseenter', () => setFeatureCard(card, true));
+        card.addEventListener('mouseleave', () => {
+          setFeatureCard(card, false);
+          hideAllTooltips();
+        });
+
+        card.addEventListener('focusin', () => setFeatureCard(card, true));
+        card.addEventListener('focusout', (event) => {
+          if (!card.contains(event.relatedTarget)) {
+            setFeatureCard(card, false);
+            hideAllTooltips();
+          }
+        });
+
+        card.addEventListener('click', (event) => {
+          if (event.target.closest('a') || pointerCanHover.matches) return;
+          setFeatureCard(card, !card.classList.contains('is-revealed'));
+        });
+
+        card.addEventListener('keydown', (event) => {
+          if ((event.key === 'Enter' || event.key === ' ') && event.target === card) {
+            event.preventDefault();
+            setFeatureCard(card, !card.classList.contains('is-revealed'));
+          }
+
+          if (event.key === 'Escape') {
+            setFeatureCard(card, false);
+            hideAllTooltips();
+          }
+        });
+      });
+
+      document.querySelectorAll('[data-feature-example]').forEach((example) => {
+        bindCodeTooltips(example);
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          featureCards.forEach((card) => setFeatureCard(card, false));
+          hideAllTooltips();
+        }
+      });
+
+      window.addEventListener('resize', hideAllTooltips);
+      window.addEventListener('scroll', hideAllTooltips, { passive: true });
     })();
   </script>
 </BaseLayout>
