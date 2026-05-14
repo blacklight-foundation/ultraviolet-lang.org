@@ -3,7 +3,7 @@ title: Documentation
 description: Documentation overview for Ultraviolet.
 ---
 
-Ultraviolet is a systems language for fast, safe, auditable code from LLMs and humans.
+Ultraviolet is a high-visibility, general-purpose programming language for humans and AI.
 
 The language is designed to make generated code performant, safe, and auditable, and to make the important mistakes visible when generated code misses that bar. Source form is part of the design: contracts, modal states, permissions, keys, concurrency, and CPU/GPU execution choices are meant to stay local enough for review.
 

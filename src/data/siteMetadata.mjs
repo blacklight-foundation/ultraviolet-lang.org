@@ -1,7 +1,7 @@
 export const siteTitle = 'Ultraviolet';
 
 export const siteDescription =
-  'A systems language for fast, safe, auditable code from LLMs and humans.';
+  'A high-visibility, general-purpose programming language for humans and AI';
 
 export const socialImagePath = '/ultraviolet-social-card-v2.png';
 export const socialImageAlt =
