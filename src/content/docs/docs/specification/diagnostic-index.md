@@ -2,14 +2,14 @@
 title: "Diagnostic Index"
 description: "Appendix A. Diagnostic Index of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T19:35:24.518Z"
+specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+generatedAt: "2026-05-14T00:55:03.609Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e</code></span>
+  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
 </div>
 
 
@@ -34,7 +34,7 @@ Only sections that define named diagnostics are listed below.
 - `§11.1.7 Import Declarations`: `E-MOD-1202`
 - `§11.2.7 Using Declarations`: `E-MOD-1204`, `E-MOD-1205`, `E-MOD-1206`, `W-MOD-1201`
 - `§11.3.7 Static Declarations`: `E-TYP-1505`, `E-MOD-2402`, `E-MOD-2433`
-- `§11.5.7 Module and File Aggregation`: `E-MOD-1104`, `E-MOD-1105`, `E-MOD-1106`, `W-MOD-1101`, `E-MOD-1201`, `E-MOD-1304`, `E-MOD-1401`
+- `§11.5.7 Module and File Aggregation`: `E-MOD-1104`, `E-MOD-1105`, `E-MOD-1106`, `E-MOD-1107`, `W-MOD-1101`, `E-MOD-1201`, `E-MOD-1401`
 - `§12.2.7 Tuples`: `E-TYP-1801`, `E-TYP-1802`, `E-TYP-1803`, `E-SEM-2524`
 - `§12.6.7 Records`: `E-TYP-1901`, `E-TYP-1902`, `E-TYP-1903`, `E-TYP-1904`, `E-TYP-1905`, `E-TYP-1906`, `E-TYP-1907`, `E-TYP-1911`
 - `§12.7.7 Enums`: `E-TYP-1920`, `E-TYP-1921`, `E-TYP-1922`, `E-TYP-1923`
@@ -43,7 +43,7 @@ Only sections that define named diagnostics are listed below.
 - `§14.11 Refinement and Polymorphism Diagnostics Supplement`: `E-TYP-1953`, `E-TYP-1954`, `E-TYP-1955`, `E-TYP-1956`, `E-TYP-1957`, `P-TYP-1953`, `E-TYP-2301`, `E-TYP-2302`, `E-TYP-2303`, `E-TYP-2304`, `E-TYP-2305`, `E-TYP-2307`, `E-TYP-2308`, `E-TYP-2401`, `E-TYP-2402`, `E-TYP-2403`, `E-TYP-2404`, `E-TYP-2405`, `E-TYP-2406`, `E-TYP-2407`, `E-TYP-2408`, `E-TYP-2409`, `E-TYP-2500`, `E-TYP-2501`, `E-TYP-2502`, `E-TYP-2503`, `E-TYP-2504`, `E-TYP-2505`, `E-TYP-2506`, `E-TYP-2507`, `E-TYP-2508`, `E-TYP-2509`, `E-TYP-2510`, `E-TYP-2511`, `E-TYP-2512`, `E-TYP-2530`, `E-TYP-2531`, `E-TYP-2540`, `E-TYP-2541`, `E-TYP-2542`, `E-TYP-2621`, `E-TYP-2622`, `E-UNS-0105`, `E-UNS-0106`
 - `§15.10 Procedure, Contract, and Entry Diagnostics Supplement`: `E-TYP-1507`, `E-TYP-1912`, `E-MOD-2411`, `E-MOD-2430`, `E-MOD-2431`, `E-MOD-2432`, `E-MOD-2434`, `E-CON-0415`, `E-CON-0416`, `P-SEM-2850`, `E-SEM-2801`, `E-SEM-2802`, `E-SEM-2803`, `E-SEM-2804`, `E-SEM-2805`, `E-SEM-2806`, `E-SEM-2807`, `E-SEM-2820`, `E-SEM-2821`, `E-SEM-2822`, `E-SEM-2823`, `E-SEM-2824`, `E-SEM-2830`, `E-SEM-2831`, `E-SEM-3004`
 - `§16.10 Expression Diagnostics Supplement`: `E-SEM-2527`, `E-SEM-2528`, `E-SEM-2531`, `E-SEM-2532`, `E-SEM-2533`, `E-SEM-2534`, `E-SEM-2535`, `E-SEM-2536`, `E-SEM-2538`, `E-SEM-2539`, `E-SEM-2591`, `E-MEM-3031`, `E-UNS-0102`, `E-UNS-0103`, `E-UNS-0104`, `E-UNS-0107`, `W-SAFE-0100`
-- `§17.7 Pattern Diagnostics Supplement`: `E-SEM-2705`, `E-SEM-2711`, `E-SEM-2713`, `E-SEM-2721`, `E-SEM-2722`, `E-SEM-2731`
+- `§17.7 Pattern Diagnostics Supplement`: `E-SEM-2705`, `E-SEM-2711`, `E-SEM-2713`, `E-SEM-2721`, `E-SEM-2722`, `E-SEM-2731`, `E-SEM-2741`, `E-SEM-2751`, `E-SEM-2761`, `E-SEM-2762`
 - `§18.11 Statement Diagnostics Supplement`: `E-MOD-2401`, `E-SEM-3011`, `E-SEM-3012`, `E-SEM-3131`, `E-SEM-3132`, `E-SEM-3133`, `E-SEM-3151`, `E-SEM-3152`, `E-SEM-3161`, `E-SEM-3162`, `E-SEM-3163`, `E-SEM-3165`
 - `§19.1.7 Key Paths`: `E-CON-0002`, `E-CON-0003`, `E-CON-0030`, `E-CON-0033`, `E-CON-0034`, `E-CON-0083`
 - `§19.2.7 Key Acquisition Blocks`: `E-CON-0001`, `E-CON-0004`, `E-CON-0006`, `E-CON-0031`, `E-CON-0032`, `E-CON-0070`, `E-CON-0085`, `E-CON-0086`, `W-CON-0001`, `W-CON-0002`, `W-CON-0003`, `W-CON-0009`

@@ -2,14 +2,14 @@
 title: "Foreign Function Interface"
 description: "23. Foreign Function Interface of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T19:35:24.518Z"
+specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+generatedAt: "2026-05-14T00:55:03.609Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e</code></span>
+  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
 </div>
 
 
@@ -47,9 +47,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{HasLayoutC}(D)\ \Leftrightarrow \ \texttt{layout(C)}\ \mathsf{appears}\ \mathsf{in}\ D.\mathsf{attrs}_{\mathsf{opt}} \\
-\operatorname{PayloadTypes}(v)\ =\ []\quad \mathsf{if}\ v.\mathsf{payload}_{\mathsf{opt}}\ =\ \bot  \\
-\operatorname{PayloadTypes}(v)\ =\ \mathsf{ts}\quad \mathsf{if}\ v.\mathsf{payload}_{\mathsf{opt}}\ =\ \operatorname{TuplePayload}(\mathsf{ts}) \\
+\operatorname{HasLayoutC}(D)\ \Leftrightarrow \ \texttt{layout(C)}\ \mathsf{appears}\ \mathsf{in}\ D.\mathsf{attrs}_{\mathsf{opt}} \\[0.16em]
+\operatorname{PayloadTypes}(v)\ =\ []\quad \mathsf{if}\ v.\mathsf{payload}_{\mathsf{opt}}\ =\ \bot  \\[0.16em]
+\operatorname{PayloadTypes}(v)\ =\ \mathsf{ts}\quad \mathsf{if}\ v.\mathsf{payload}_{\mathsf{opt}}\ =\ \operatorname{TuplePayload}(\mathsf{ts}) \\[0.16em]
 \operatorname{PayloadTypes}(v)\ =\ [T_{f}\ \mid \ \langle \_,\ f,\ T_{f},\ \_,\ \_,\ \_\rangle \ \in \ \mathsf{fields}]\quad \mathsf{if}\ v.\mathsf{payload}_{\mathsf{opt}}\ =\ \operatorname{RecordPayload}(\mathsf{fields})
 \end{array}
 $$
@@ -60,114 +60,114 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AliasParams}(p)\ =\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}}\ \Leftrightarrow \ \Sigma .\mathsf{Types}[p]\ =\ \operatorname{TypeAliasDecl}(\_,\ \_,\ \_,\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \_,\ \_,\ \_,\ \_) \\
+\operatorname{AliasParams}(p)\ =\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}}\ \Leftrightarrow \ \Sigma .\mathsf{Types}[p]\ =\ \operatorname{TypeAliasDecl}(\_,\ \_,\ \_,\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \_,\ \_,\ \_,\ \_) \\[0.16em]
 \operatorname{AliasPredicateClause}(p)\ =\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}}\ \Leftrightarrow \ \Sigma .\mathsf{Types}[p]\ =\ \operatorname{TypeAliasDecl}(\_,\ \_,\ \_,\ \_,\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \_,\ \_,\ \_)
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypePath}([x]))\ =\ \theta (x)\quad \mathsf{if}\ x\ \in \ \operatorname{dom}(\theta ) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypePath}(p))\ =\ \operatorname{TypePath}(p)\quad \mathsf{if}\ p\ \ne \ [x]\ \lor \ x\ \notin \ \operatorname{dom}(\theta ) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeApply}(p,\ \mathsf{args}))\ =\ \operatorname{TypeApply}(p,\ [\operatorname{TypeSubst}(\theta ,\ a)\ \mid \ a\ \in \ \mathsf{args}]) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypePerm}(p,\ T))\ =\ \operatorname{TypePerm}(p,\ \operatorname{TypeSubst}(\theta ,\ T)) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeTuple}(\mathsf{ts}))\ =\ \operatorname{TypeTuple}([\operatorname{TypeSubst}(\theta ,\ t)\ \mid \ t\ \in \ \mathsf{ts}]) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeArray}(T,\ e))\ =\ \operatorname{TypeArray}(\operatorname{TypeSubst}(\theta ,\ T),\ e) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeSlice}(T))\ =\ \operatorname{TypeSlice}(\operatorname{TypeSubst}(\theta ,\ T)) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeUnion}(\mathsf{ts}))\ =\ \operatorname{TypeUnion}([\operatorname{TypeSubst}(\theta ,\ t)\ \mid \ t\ \in \ \mathsf{ts}]) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeFunc}(\mathsf{params},\ R))\ =\ \operatorname{TypeFunc}([\langle m,\ \operatorname{TypeSubst}(\theta ,\ T)\rangle \ \mid \ \langle m,\ T\rangle \ \in \ \mathsf{params}],\ \operatorname{TypeSubst}(\theta ,\ R)) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypePtr}(T,\ s))\ =\ \operatorname{TypePtr}(\operatorname{TypeSubst}(\theta ,\ T),\ s) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeRawPtr}(q,\ T))\ =\ \operatorname{TypeRawPtr}(q,\ \operatorname{TypeSubst}(\theta ,\ T)) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeString}(s))\ =\ \operatorname{TypeString}(s) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeBytes}(s))\ =\ \operatorname{TypeBytes}(s) \\
-\operatorname{ModalRefSubst}(\theta ,\ \operatorname{TypePath}(p))\ =\ \operatorname{TypePath}(p) \\
-\operatorname{ModalRefSubst}(\theta ,\ \operatorname{TypeApply}(p,\ \mathsf{args}))\ =\ \operatorname{TypeApply}(p,\ [\operatorname{TypeSubst}(\theta ,\ a)\ \mid \ a\ \in \ \mathsf{args}]) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S))\ =\ \operatorname{TypeModalState}(\operatorname{ModalRefSubst}(\theta ,\ \mathsf{modal}_{\mathsf{ref}}),\ S) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeDynamic}(p))\ =\ \operatorname{TypeDynamic}(p) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeOpaque}(p))\ =\ \operatorname{TypeOpaque}(p) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypePrim}(n))\ =\ \operatorname{TypePrim}(n) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeRange}(\mathsf{base}))\ =\ \operatorname{TypeRange}(\operatorname{TypeSubst}(\theta ,\ \mathsf{base})) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeRangeInclusive}(\mathsf{base}))\ =\ \operatorname{TypeRangeInclusive}(\operatorname{TypeSubst}(\theta ,\ \mathsf{base})) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeRangeFrom}(\mathsf{base}))\ =\ \operatorname{TypeRangeFrom}(\operatorname{TypeSubst}(\theta ,\ \mathsf{base})) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeRangeTo}(\mathsf{base}))\ =\ \operatorname{TypeRangeTo}(\operatorname{TypeSubst}(\theta ,\ \mathsf{base})) \\
-\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeRangeToInclusive}(\mathsf{base}))\ =\ \operatorname{TypeRangeToInclusive}(\operatorname{TypeSubst}(\theta ,\ \mathsf{base})) \\
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypePath}([x]))\ =\ \theta (x)\quad \mathsf{if}\ x\ \in \ \operatorname{dom}(\theta ) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypePath}(p))\ =\ \operatorname{TypePath}(p)\quad \mathsf{if}\ p\ \ne \ [x]\ \lor \ x\ \notin \ \operatorname{dom}(\theta ) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeApply}(p,\ \mathsf{args}))\ =\ \operatorname{TypeApply}(p,\ [\operatorname{TypeSubst}(\theta ,\ a)\ \mid \ a\ \in \ \mathsf{args}]) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypePerm}(p,\ T))\ =\ \operatorname{TypePerm}(p,\ \operatorname{TypeSubst}(\theta ,\ T)) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeTuple}(\mathsf{ts}))\ =\ \operatorname{TypeTuple}([\operatorname{TypeSubst}(\theta ,\ t)\ \mid \ t\ \in \ \mathsf{ts}]) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeArray}(T,\ e))\ =\ \operatorname{TypeArray}(\operatorname{TypeSubst}(\theta ,\ T),\ e) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeSlice}(T))\ =\ \operatorname{TypeSlice}(\operatorname{TypeSubst}(\theta ,\ T)) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeUnion}(\mathsf{ts}))\ =\ \operatorname{TypeUnion}([\operatorname{TypeSubst}(\theta ,\ t)\ \mid \ t\ \in \ \mathsf{ts}]) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeFunc}(\mathsf{params},\ R))\ =\ \operatorname{TypeFunc}([\langle m,\ \operatorname{TypeSubst}(\theta ,\ T)\rangle \ \mid \ \langle m,\ T\rangle \ \in \ \mathsf{params}],\ \operatorname{TypeSubst}(\theta ,\ R)) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypePtr}(T,\ s))\ =\ \operatorname{TypePtr}(\operatorname{TypeSubst}(\theta ,\ T),\ s) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeRawPtr}(q,\ T))\ =\ \operatorname{TypeRawPtr}(q,\ \operatorname{TypeSubst}(\theta ,\ T)) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeString}(s))\ =\ \operatorname{TypeString}(s) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeBytes}(s))\ =\ \operatorname{TypeBytes}(s) \\[0.16em]
+\operatorname{ModalRefSubst}(\theta ,\ \operatorname{TypePath}(p))\ =\ \operatorname{TypePath}(p) \\[0.16em]
+\operatorname{ModalRefSubst}(\theta ,\ \operatorname{TypeApply}(p,\ \mathsf{args}))\ =\ \operatorname{TypeApply}(p,\ [\operatorname{TypeSubst}(\theta ,\ a)\ \mid \ a\ \in \ \mathsf{args}]) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S))\ =\ \operatorname{TypeModalState}(\operatorname{ModalRefSubst}(\theta ,\ \mathsf{modal}_{\mathsf{ref}}),\ S) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeDynamic}(p))\ =\ \operatorname{TypeDynamic}(p) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeOpaque}(p))\ =\ \operatorname{TypeOpaque}(p) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypePrim}(n))\ =\ \operatorname{TypePrim}(n) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeRange}(\mathsf{base}))\ =\ \operatorname{TypeRange}(\operatorname{TypeSubst}(\theta ,\ \mathsf{base})) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeRangeInclusive}(\mathsf{base}))\ =\ \operatorname{TypeRangeInclusive}(\operatorname{TypeSubst}(\theta ,\ \mathsf{base})) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeRangeFrom}(\mathsf{base}))\ =\ \operatorname{TypeRangeFrom}(\operatorname{TypeSubst}(\theta ,\ \mathsf{base})) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeRangeTo}(\mathsf{base}))\ =\ \operatorname{TypeRangeTo}(\operatorname{TypeSubst}(\theta ,\ \mathsf{base})) \\[0.16em]
+\operatorname{TypeSubst}(\theta ,\ \operatorname{TypeRangeToInclusive}(\mathsf{base}))\ =\ \operatorname{TypeRangeToInclusive}(\operatorname{TypeSubst}(\theta ,\ \mathsf{base})) \\[0.16em]
 \operatorname{TypeSubst}(\theta ,\ \mathsf{TypeRangeFull})\ =\ \mathsf{TypeRangeFull}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{TypeParamsIn}(\operatorname{TypePath}([x]),\ \mathsf{params})\ =\ \{x\}\quad \mathsf{if}\ x\ \in \ \operatorname{TypeParamSet}(\mathsf{params}) \\
-\operatorname{TypeParamsIn}(\operatorname{TypePath}(p),\ \mathsf{params})\ =\ \emptyset \quad \mathsf{if}\ p\ \ne \ [x]\ \lor \ x\ \notin \ \operatorname{TypeParamSet}(\mathsf{params}) \\
-\operatorname{TypeParamsIn}(\operatorname{TypeApply}(\_,\ \mathsf{args}),\ \mathsf{params})\ =\ \bigcup \_\{a\ \in \ \mathsf{args}\}\ \operatorname{TypeParamsIn}(a,\ \mathsf{params}) \\
-\operatorname{TypeParamsIn}(\operatorname{TypePerm}(\_,\ T),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(T,\ \mathsf{params}) \\
-\operatorname{TypeParamsIn}(\operatorname{TypeTuple}(\mathsf{ts}),\ \mathsf{params})\ =\ \bigcup \_\{t\ \in \ \mathsf{ts}\}\ \operatorname{TypeParamsIn}(t,\ \mathsf{params}) \\
-\operatorname{TypeParamsIn}(\operatorname{TypeArray}(T,\ \_),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(T,\ \mathsf{params}) \\
-\operatorname{TypeParamsIn}(\operatorname{TypeSlice}(T),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(T,\ \mathsf{params}) \\
-\operatorname{TypeParamsIn}(\operatorname{TypeUnion}(\mathsf{ts}),\ \mathsf{params})\ =\ \bigcup \_\{t\ \in \ \mathsf{ts}\}\ \operatorname{TypeParamsIn}(t,\ \mathsf{params}) \\
-\operatorname{TypeParamsIn}(\operatorname{TypeFunc}(\mathsf{params}_{t},\ R),\ \mathsf{params})\ =\ \bigcup \_\{\langle \_,\ T\rangle \ \in \ \mathsf{params}_{t}\}\ \operatorname{TypeParamsIn}(T,\ \mathsf{params})\ \cup \ \operatorname{TypeParamsIn}(R,\ \mathsf{params}) \\
-\operatorname{TypeParamsIn}(\operatorname{TypePtr}(T,\ \_),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(T,\ \mathsf{params}) \\
-\operatorname{TypeParamsIn}(\operatorname{TypeRawPtr}(\_,\ T),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(T,\ \mathsf{params}) \\
-\operatorname{TypeParamsInModalRef}(\operatorname{TypePath}(\_),\ \mathsf{params})\ =\ \emptyset  \\
-\operatorname{TypeParamsInModalRef}(\operatorname{TypeApply}(\_,\ \mathsf{args}),\ \mathsf{params})\ =\ \bigcup \_\{a\ \in \ \mathsf{args}\}\ \operatorname{TypeParamsIn}(a,\ \mathsf{params}) \\
-\operatorname{TypeParamsIn}(\operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ \_),\ \mathsf{params})\ =\ \operatorname{TypeParamsInModalRef}(\mathsf{modal}_{\mathsf{ref}},\ \mathsf{params}) \\
-\operatorname{TypeParamsIn}(\operatorname{TypeString}(\_),\ \mathsf{params})\ =\ \emptyset  \\
-\operatorname{TypeParamsIn}(\operatorname{TypeBytes}(\_),\ \mathsf{params})\ =\ \emptyset  \\
-\operatorname{TypeParamsIn}(\operatorname{TypeModalState}(\_,\ \_),\ \mathsf{params})\ =\ \emptyset  \\
-\operatorname{TypeParamsIn}(\operatorname{TypeDynamic}(\_),\ \mathsf{params})\ =\ \emptyset  \\
-\operatorname{TypeParamsIn}(\operatorname{TypeOpaque}(\_),\ \mathsf{params})\ =\ \emptyset  \\
-\operatorname{TypeParamsIn}(\operatorname{TypePrim}(\_),\ \mathsf{params})\ =\ \emptyset  \\
-\operatorname{TypeParamsIn}(\operatorname{TypeRange}(\mathsf{base}),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(\mathsf{base},\ \mathsf{params}) \\
-\operatorname{TypeParamsIn}(\operatorname{TypeRangeInclusive}(\mathsf{base}),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(\mathsf{base},\ \mathsf{params}) \\
-\operatorname{TypeParamsIn}(\operatorname{TypeRangeFrom}(\mathsf{base}),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(\mathsf{base},\ \mathsf{params}) \\
-\operatorname{TypeParamsIn}(\operatorname{TypeRangeTo}(\mathsf{base}),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(\mathsf{base},\ \mathsf{params}) \\
-\operatorname{TypeParamsIn}(\operatorname{TypeRangeToInclusive}(\mathsf{base}),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(\mathsf{base},\ \mathsf{params}) \\
+\operatorname{TypeParamsIn}(\operatorname{TypePath}([x]),\ \mathsf{params})\ =\ \{x\}\quad \mathsf{if}\ x\ \in \ \operatorname{TypeParamSet}(\mathsf{params}) \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypePath}(p),\ \mathsf{params})\ =\ \emptyset \quad \mathsf{if}\ p\ \ne \ [x]\ \lor \ x\ \notin \ \operatorname{TypeParamSet}(\mathsf{params}) \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeApply}(\_,\ \mathsf{args}),\ \mathsf{params})\ =\ \bigcup \_\{a\ \in \ \mathsf{args}\}\ \operatorname{TypeParamsIn}(a,\ \mathsf{params}) \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypePerm}(\_,\ T),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(T,\ \mathsf{params}) \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeTuple}(\mathsf{ts}),\ \mathsf{params})\ =\ \bigcup \_\{t\ \in \ \mathsf{ts}\}\ \operatorname{TypeParamsIn}(t,\ \mathsf{params}) \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeArray}(T,\ \_),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(T,\ \mathsf{params}) \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeSlice}(T),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(T,\ \mathsf{params}) \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeUnion}(\mathsf{ts}),\ \mathsf{params})\ =\ \bigcup \_\{t\ \in \ \mathsf{ts}\}\ \operatorname{TypeParamsIn}(t,\ \mathsf{params}) \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeFunc}(\mathsf{params}_{t},\ R),\ \mathsf{params})\ =\ \bigcup \_\{\langle \_,\ T\rangle \ \in \ \mathsf{params}_{t}\}\ \operatorname{TypeParamsIn}(T,\ \mathsf{params})\ \cup \ \operatorname{TypeParamsIn}(R,\ \mathsf{params}) \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypePtr}(T,\ \_),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(T,\ \mathsf{params}) \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeRawPtr}(\_,\ T),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(T,\ \mathsf{params}) \\[0.16em]
+\operatorname{TypeParamsInModalRef}(\operatorname{TypePath}(\_),\ \mathsf{params})\ =\ \emptyset  \\[0.16em]
+\operatorname{TypeParamsInModalRef}(\operatorname{TypeApply}(\_,\ \mathsf{args}),\ \mathsf{params})\ =\ \bigcup \_\{a\ \in \ \mathsf{args}\}\ \operatorname{TypeParamsIn}(a,\ \mathsf{params}) \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ \_),\ \mathsf{params})\ =\ \operatorname{TypeParamsInModalRef}(\mathsf{modal}_{\mathsf{ref}},\ \mathsf{params}) \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeString}(\_),\ \mathsf{params})\ =\ \emptyset  \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeBytes}(\_),\ \mathsf{params})\ =\ \emptyset  \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeModalState}(\_,\ \_),\ \mathsf{params})\ =\ \emptyset  \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeDynamic}(\_),\ \mathsf{params})\ =\ \emptyset  \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeOpaque}(\_),\ \mathsf{params})\ =\ \emptyset  \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypePrim}(\_),\ \mathsf{params})\ =\ \emptyset  \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeRange}(\mathsf{base}),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(\mathsf{base},\ \mathsf{params}) \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeRangeInclusive}(\mathsf{base}),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(\mathsf{base},\ \mathsf{params}) \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeRangeFrom}(\mathsf{base}),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(\mathsf{base},\ \mathsf{params}) \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeRangeTo}(\mathsf{base}),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(\mathsf{base},\ \mathsf{params}) \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeRangeToInclusive}(\mathsf{base}),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(\mathsf{base},\ \mathsf{params}) \\[0.16em]
 \operatorname{TypeParamsIn}(\mathsf{TypeRangeFull},\ \mathsf{params})\ =\ \emptyset 
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{TypeParamsInFields}(\mathsf{fields},\ \mathsf{params})\ =\ \bigcup \_\{f\ \in \ \mathsf{fields}\}\ \operatorname{TypeParamsIn}(f.\mathsf{type},\ \mathsf{params}) \\
+\operatorname{TypeParamsInFields}(\mathsf{fields},\ \mathsf{params})\ =\ \bigcup \_\{f\ \in \ \mathsf{fields}\}\ \operatorname{TypeParamsIn}(f.\mathsf{type},\ \mathsf{params}) \\[0.16em]
 \operatorname{TypeParamsInPayloads}(\mathsf{vars},\ \mathsf{params})\ =\ \bigcup \_\{v\ \in \ \mathsf{vars}\}\ \bigcup \_\{T_{f}\ \in \ \operatorname{PayloadTypes}(v)\}\ \operatorname{TypeParamsIn}(T_{f},\ \mathsf{params})
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{HasFfiSafeReq}(W,\ x)\ \Leftrightarrow \ \exists \ \mathsf{wp}\ \in \ \operatorname{PredicateReqs}(W).\ \mathsf{wp}\ =\ \operatorname{PredicateReq}(\texttt{FfiSafe},\ \operatorname{TypePath}([x])) \\
+\operatorname{HasFfiSafeReq}(W,\ x)\ \Leftrightarrow \ \exists \ \mathsf{wp}\ \in \ \operatorname{PredicateReqs}(W).\ \mathsf{wp}\ =\ \operatorname{PredicateReq}(\texttt{FfiSafe},\ \operatorname{TypePath}([x])) \\[0.16em]
 \operatorname{FfiSafePredicateClauseOk}(\mathsf{params},\ W,\ \mathsf{Xs})\ \Leftrightarrow \ \forall \ x\ \in \ \mathsf{Xs}.\ \operatorname{HasFfiSafeReq}(W,\ x)
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{ProhibitedFfiType}(T)\ \Leftrightarrow  \\
-\ T\ =\ \operatorname{TypePrim}(\texttt{"bool"})\ \lor  \\
-\ T\ =\ \operatorname{TypePtr}(\_,\ \_)\ \lor  \\
-\ T\ =\ \operatorname{TypeModalState}(\_,\ \_)\ \lor  \\
-\ T\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\ \lor  \\
-\ T\ =\ \operatorname{TypeDynamic}(\_)\ \lor  \\
-\ T\ =\ \operatorname{TypeOpaque}(\_)\ \lor  \\
-\ T\ =\ \operatorname{TypeTuple}(\_)\ \lor  \\
-\ T\ =\ \operatorname{TypeUnion}(\_)\ \lor  \\
-\ T\ =\ \operatorname{TypeSlice}(\_)\ \lor  \\
-\ T\ =\ \operatorname{TypeString}(\_)\ \lor  \\
-\ T\ =\ \operatorname{TypeBytes}(\_)\ \lor  \\
-\ T\ =\ \operatorname{TypeRange}(\_)\ \lor  \\
-\ T\ =\ \operatorname{TypeRangeInclusive}(\_)\ \lor  \\
-\ T\ =\ \operatorname{TypeRangeFrom}(\_)\ \lor  \\
-\ T\ =\ \operatorname{TypeRangeTo}(\_)\ \lor  \\
-\ T\ =\ \operatorname{TypeRangeToInclusive}(\_)\ \lor  \\
-\ T\ =\ \mathsf{TypeRangeFull}\ \lor  \\
+\operatorname{ProhibitedFfiType}(T)\ \Leftrightarrow  \\[0.16em]
+\ T\ =\ \operatorname{TypePrim}(\texttt{"bool"})\ \lor  \\[0.16em]
+\ T\ =\ \operatorname{TypePtr}(\_,\ \_)\ \lor  \\[0.16em]
+\ T\ =\ \operatorname{TypeModalState}(\_,\ \_)\ \lor  \\[0.16em]
+\ T\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\ \lor  \\[0.16em]
+\ T\ =\ \operatorname{TypeDynamic}(\_)\ \lor  \\[0.16em]
+\ T\ =\ \operatorname{TypeOpaque}(\_)\ \lor  \\[0.16em]
+\ T\ =\ \operatorname{TypeTuple}(\_)\ \lor  \\[0.16em]
+\ T\ =\ \operatorname{TypeUnion}(\_)\ \lor  \\[0.16em]
+\ T\ =\ \operatorname{TypeSlice}(\_)\ \lor  \\[0.16em]
+\ T\ =\ \operatorname{TypeString}(\_)\ \lor  \\[0.16em]
+\ T\ =\ \operatorname{TypeBytes}(\_)\ \lor  \\[0.16em]
+\ T\ =\ \operatorname{TypeRange}(\_)\ \lor  \\[0.16em]
+\ T\ =\ \operatorname{TypeRangeInclusive}(\_)\ \lor  \\[0.16em]
+\ T\ =\ \operatorname{TypeRangeFrom}(\_)\ \lor  \\[0.16em]
+\ T\ =\ \operatorname{TypeRangeTo}(\_)\ \lor  \\[0.16em]
+\ T\ =\ \operatorname{TypeRangeToInclusive}(\_)\ \lor  \\[0.16em]
+\ T\ =\ \mathsf{TypeRangeFull}\ \lor  \\[0.16em]
 \ T\ =\ \operatorname{TypePath}([\texttt{"Context"}])
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{FfiByValueType}(T)\ \Leftrightarrow \ \operatorname{StripPerm}(T)\ \notin \ \{\operatorname{TypeRawPtr}(\_,\ \_),\ \operatorname{TypePtr}(\_,\ \_),\ \operatorname{TypeFunc}(\_,\ \_)\}\ \land \ \operatorname{StripPerm}(T)\ \ne \ \operatorname{TypePrim}(\texttt{"()"}) \\
-\operatorname{FfiPassByValueAttr}(T)\ \Leftrightarrow \ (T\ =\ \operatorname{TypePath}(p)\ \land \ \operatorname{RecordDecl}(p)\ =\ R\ \land \ \operatorname{AttrByName}(R,\ \texttt{"ffi\_pass\_by\_value"})\ \ne \ [])\ \lor \ (T\ =\ \operatorname{TypePath}(p)\ \land \ \operatorname{EnumDecl}(p)\ =\ E\ \land \ \operatorname{AttrByName}(E,\ \texttt{"ffi\_pass\_by\_value"})\ \ne \ []) \\
+\operatorname{FfiByValueType}(T)\ \Leftrightarrow \ \operatorname{StripPerm}(T)\ \notin \ \{\operatorname{TypeRawPtr}(\_,\ \_),\ \operatorname{TypePtr}(\_,\ \_),\ \operatorname{TypeFunc}(\_,\ \_)\}\ \land \ \operatorname{StripPerm}(T)\ \ne \ \operatorname{TypePrim}(\texttt{"()"}) \\[0.16em]
+\operatorname{FfiPassByValueAttr}(T)\ \Leftrightarrow \ (T\ =\ \operatorname{TypePath}(p)\ \land \ \operatorname{RecordDecl}(p)\ =\ R\ \land \ \operatorname{AttrByName}(R,\ \texttt{"ffi\_pass\_by\_value"})\ \ne \ [])\ \lor \ (T\ =\ \operatorname{TypePath}(p)\ \land \ \operatorname{EnumDecl}(p)\ =\ E\ \land \ \operatorname{AttrByName}(E,\ \texttt{"ffi\_pass\_by\_value"})\ \ne \ []) \\[0.16em]
 \operatorname{FfiByValueOk}(T)\ \Leftrightarrow \ \lnot (\operatorname{DropType}(T)\ \land \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok}\ \land \ \operatorname{FfiByValueType}(T))\ \lor \ \operatorname{FfiPassByValueAttr}(\operatorname{StripPerm}(T))
 \end{array}
 $$
@@ -176,8 +176,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{FfiPrimTypes} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{FfiPrimTypes} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok}
 \end{array}
 $$
@@ -186,8 +186,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRawPtr}(\_,\ \_) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRawPtr}(\_,\ \_) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok}
 \end{array}
 $$
@@ -196,8 +196,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeArray}(U,\ n)\quad \Gamma \ \vdash \ \operatorname{ConstLen}(n)\ \Downarrow \ \_\quad \Gamma \ \vdash \ \operatorname{FfiSafeType}(U)\ \Downarrow \ \mathsf{ok} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeArray}(U,\ n)\quad \Gamma \ \vdash \ \operatorname{ConstLen}(n)\ \Downarrow \ \_\quad \Gamma \ \vdash \ \operatorname{FfiSafeType}(U)\ \Downarrow \ \mathsf{ok} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok}
 \end{array}
 $$
@@ -206,8 +206,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeFunc}(\mathsf{params},\ R)\quad \forall \ \langle \_,\ T_{i}\rangle \ \in \ \mathsf{params}.\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(T_{i})\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{FfiSafeType}(R)\ \Downarrow \ \mathsf{ok} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeFunc}(\mathsf{params},\ R)\quad \forall \ \langle \_,\ T_{i}\rangle \ \in \ \mathsf{params}.\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(T_{i})\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{FfiSafeType}(R)\ \Downarrow \ \mathsf{ok} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok}
 \end{array}
 $$
@@ -216,8 +216,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePerm}(\_,\ U)\quad \Gamma \ \vdash \ \operatorname{FfiSafeType}(U)\ \Downarrow \ \mathsf{ok} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePerm}(\_,\ U)\quad \Gamma \ \vdash \ \operatorname{FfiSafeType}(U)\ \Downarrow \ \mathsf{ok} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok}
 \end{array}
 $$
@@ -226,8 +226,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}(p)\quad \operatorname{AliasBody}(p)\ =\ \mathsf{ty}\quad \Gamma \ \vdash \ \operatorname{FfiSafeType}(\mathsf{ty})\ \Downarrow \ \mathsf{ok} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{AliasBody}(p)\ =\ \mathsf{ty}\quad \Gamma \ \vdash \ \operatorname{FfiSafeType}(\mathsf{ty})\ \Downarrow \ \mathsf{ok} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok}
 \end{array}
 $$
@@ -236,8 +236,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}(p,\ \mathsf{args})\quad \operatorname{AliasBody}(p)\ =\ \mathsf{ty}\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(\operatorname{AliasParams}(p))\quad \operatorname{DefaultArgs}(\mathsf{params}_{\mathsf{gen}},\ \mathsf{args})\ =\ \mathsf{args}'\quad \theta \ =\ [\mathsf{args}'\_i\ /\ \mathsf{params}_{\mathsf{gen}}[i].\mathsf{name}]\quad \Gamma \ \vdash \ \operatorname{AliasPredicateClause}(p)[\theta ]\ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{FfiSafeType}(\operatorname{TypeSubst}(\theta ,\ \mathsf{ty}))\ \Downarrow \ \mathsf{ok} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeApply}(p,\ \mathsf{args})\quad \operatorname{AliasBody}(p)\ =\ \mathsf{ty}\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(\operatorname{AliasParams}(p))\quad \operatorname{DefaultArgs}(\mathsf{params}_{\mathsf{gen}},\ \mathsf{args})\ =\ \mathsf{args}'\quad \theta \ =\ [\mathsf{args}'\_i\ /\ \mathsf{params}_{\mathsf{gen}}[i].\mathsf{name}]\quad \Gamma \ \vdash \ \operatorname{AliasPredicateClause}(p)[\theta ]\ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{FfiSafeType}(\operatorname{TypeSubst}(\theta ,\ \mathsf{ty}))\ \Downarrow \ \mathsf{ok} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok}
 \end{array}
 $$
@@ -246,8 +246,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{HasLayoutC}(R)\quad \operatorname{TypeParamsOpt}(R.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\ =\ []\quad \Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \_\quad \forall \ f\ :\ T_{f}\ \in \ \operatorname{Fields}(R).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(T_{f})\ \Downarrow \ \mathsf{ok}\quad \operatorname{FfiSafePredicateClauseOk}([],\ R.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \emptyset ) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{HasLayoutC}(R)\quad \operatorname{TypeParamsOpt}(R.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\ =\ []\quad \Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \_\quad \forall \ f\ :\ T_{f}\ \in \ \operatorname{Fields}(R).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(T_{f})\ \Downarrow \ \mathsf{ok}\quad \operatorname{FfiSafePredicateClauseOk}([],\ R.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \emptyset ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok}
 \end{array}
 $$
@@ -256,8 +256,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}(p,\ \mathsf{args})\quad \operatorname{RecordDecl}(p)\ =\ R\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(R.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \operatorname{DefaultArgs}(\mathsf{params}_{\mathsf{gen}},\ \mathsf{args})\ =\ \mathsf{args}'\quad \theta \ =\ [\mathsf{args}'\_i\ /\ \mathsf{params}_{\mathsf{gen}}[i].\mathsf{name}]\quad \operatorname{HasLayoutC}(R)\quad \Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \_\quad \Gamma \ \vdash \ R.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}}[\theta ]\ \mathsf{ok}\quad \operatorname{FfiSafePredicateClauseOk}(\mathsf{params}_{\mathsf{gen}},\ R.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \operatorname{TypeParamsInFields}(\operatorname{Fields}(R),\ \mathsf{params}_{\mathsf{gen}}))\quad \forall \ f\ :\ T_{f}\ \in \ \operatorname{Fields}(R).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(\operatorname{TypeSubst}(\theta ,\ T_{f}))\ \Downarrow \ \mathsf{ok} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeApply}(p,\ \mathsf{args})\quad \operatorname{RecordDecl}(p)\ =\ R\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(R.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \operatorname{DefaultArgs}(\mathsf{params}_{\mathsf{gen}},\ \mathsf{args})\ =\ \mathsf{args}'\quad \theta \ =\ [\mathsf{args}'\_i\ /\ \mathsf{params}_{\mathsf{gen}}[i].\mathsf{name}]\quad \operatorname{HasLayoutC}(R)\quad \Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \_\quad \Gamma \ \vdash \ R.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}}[\theta ]\ \mathsf{ok}\quad \operatorname{FfiSafePredicateClauseOk}(\mathsf{params}_{\mathsf{gen}},\ R.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \operatorname{TypeParamsInFields}(\operatorname{Fields}(R),\ \mathsf{params}_{\mathsf{gen}}))\quad \forall \ f\ :\ T_{f}\ \in \ \operatorname{Fields}(R).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(\operatorname{TypeSubst}(\theta ,\ T_{f}))\ \Downarrow \ \mathsf{ok} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok}
 \end{array}
 $$
@@ -266,8 +266,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}(p)\quad \operatorname{EnumDecl}(p)\ =\ E\quad \operatorname{HasLayoutC}(E)\quad \operatorname{TypeParamsOpt}(E.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\ =\ []\quad \Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \_\quad \forall \ v\ \in \ \operatorname{Variants}(E).\ \forall \ T_{f}\ \in \ \operatorname{PayloadTypes}(v).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(T_{f})\ \Downarrow \ \mathsf{ok}\quad \operatorname{FfiSafePredicateClauseOk}([],\ E.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \emptyset ) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{EnumDecl}(p)\ =\ E\quad \operatorname{HasLayoutC}(E)\quad \operatorname{TypeParamsOpt}(E.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\ =\ []\quad \Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \_\quad \forall \ v\ \in \ \operatorname{Variants}(E).\ \forall \ T_{f}\ \in \ \operatorname{PayloadTypes}(v).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(T_{f})\ \Downarrow \ \mathsf{ok}\quad \operatorname{FfiSafePredicateClauseOk}([],\ E.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \emptyset ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok}
 \end{array}
 $$
@@ -276,8 +276,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}(p,\ \mathsf{args})\quad \operatorname{EnumDecl}(p)\ =\ E\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(E.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \operatorname{DefaultArgs}(\mathsf{params}_{\mathsf{gen}},\ \mathsf{args})\ =\ \mathsf{args}'\quad \theta \ =\ [\mathsf{args}'\_i\ /\ \mathsf{params}_{\mathsf{gen}}[i].\mathsf{name}]\quad \operatorname{HasLayoutC}(E)\quad \Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \_\quad \Gamma \ \vdash \ E.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}}[\theta ]\ \mathsf{ok}\quad \operatorname{FfiSafePredicateClauseOk}(\mathsf{params}_{\mathsf{gen}},\ E.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \operatorname{TypeParamsInPayloads}(\operatorname{Variants}(E),\ \mathsf{params}_{\mathsf{gen}}))\quad \forall \ v\ \in \ \operatorname{Variants}(E).\ \forall \ T_{f}\ \in \ \operatorname{PayloadTypes}(v).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(\operatorname{TypeSubst}(\theta ,\ T_{f}))\ \Downarrow \ \mathsf{ok} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeApply}(p,\ \mathsf{args})\quad \operatorname{EnumDecl}(p)\ =\ E\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(E.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \operatorname{DefaultArgs}(\mathsf{params}_{\mathsf{gen}},\ \mathsf{args})\ =\ \mathsf{args}'\quad \theta \ =\ [\mathsf{args}'\_i\ /\ \mathsf{params}_{\mathsf{gen}}[i].\mathsf{name}]\quad \operatorname{HasLayoutC}(E)\quad \Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \_\quad \Gamma \ \vdash \ E.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}}[\theta ]\ \mathsf{ok}\quad \operatorname{FfiSafePredicateClauseOk}(\mathsf{params}_{\mathsf{gen}},\ E.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \operatorname{TypeParamsInPayloads}(\operatorname{Variants}(E),\ \mathsf{params}_{\mathsf{gen}}))\quad \forall \ v\ \in \ \operatorname{Variants}(E).\ \forall \ T_{f}\ \in \ \operatorname{PayloadTypes}(v).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(\operatorname{TypeSubst}(\theta ,\ T_{f}))\ \Downarrow \ \mathsf{ok} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok}
 \end{array}
 $$
@@ -286,8 +286,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ProhibitedFfiType}(T)\quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Prohibited}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{ProhibitedFfiType}(T)\quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Prohibited}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Uparrow \ c
 \end{array}
 $$
@@ -296,8 +296,8 @@ $$
 
 $$
 \begin{array}{l}
-(T\ =\ \operatorname{TypePath}(p)\ \lor \ T\ =\ \operatorname{TypeApply}(p,\ \_))\quad \operatorname{RecordDecl}(p)\ =\ R\quad \lnot \ \operatorname{HasLayoutC}(R)\quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Record}-\mathsf{LayoutC}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+(T\ =\ \operatorname{TypePath}(p)\ \lor \ T\ =\ \operatorname{TypeApply}(p,\ \_))\quad \operatorname{RecordDecl}(p)\ =\ R\quad \lnot \ \operatorname{HasLayoutC}(R)\quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Record}-\mathsf{LayoutC}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Uparrow \ c
 \end{array}
 $$
@@ -306,8 +306,8 @@ $$
 
 $$
 \begin{array}{l}
-(T\ =\ \operatorname{TypePath}(p)\ \lor \ T\ =\ \operatorname{TypeApply}(p,\ \_))\quad \operatorname{EnumDecl}(p)\ =\ E\quad \lnot \ \operatorname{HasLayoutC}(E)\quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Enum}-\mathsf{LayoutC}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+(T\ =\ \operatorname{TypePath}(p)\ \lor \ T\ =\ \operatorname{TypeApply}(p,\ \_))\quad \operatorname{EnumDecl}(p)\ =\ E\quad \lnot \ \operatorname{HasLayoutC}(E)\quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Enum}-\mathsf{LayoutC}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Uparrow \ c
 \end{array}
 $$
@@ -316,8 +316,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{HasLayoutC}(R)\quad \exists \ f\ :\ T_{f}\ \in \ \operatorname{Fields}(R).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(T_{f})\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Record}-\mathsf{Field}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{HasLayoutC}(R)\quad \exists \ f\ :\ T_{f}\ \in \ \operatorname{Fields}(R).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(T_{f})\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Record}-\mathsf{Field}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Uparrow \ c
 \end{array}
 $$
@@ -326,8 +326,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}(p,\ \mathsf{args})\quad \operatorname{RecordDecl}(p)\ =\ R\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(R.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \operatorname{DefaultArgs}(\mathsf{params}_{\mathsf{gen}},\ \mathsf{args})\ =\ \mathsf{args}'\quad \theta \ =\ [\mathsf{args}'\_i\ /\ \mathsf{params}_{\mathsf{gen}}[i].\mathsf{name}]\quad \operatorname{HasLayoutC}(R)\quad \exists \ f\ :\ T_{f}\ \in \ \operatorname{Fields}(R).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(\operatorname{TypeSubst}(\theta ,\ T_{f}))\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Record}-\mathsf{Field}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeApply}(p,\ \mathsf{args})\quad \operatorname{RecordDecl}(p)\ =\ R\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(R.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \operatorname{DefaultArgs}(\mathsf{params}_{\mathsf{gen}},\ \mathsf{args})\ =\ \mathsf{args}'\quad \theta \ =\ [\mathsf{args}'\_i\ /\ \mathsf{params}_{\mathsf{gen}}[i].\mathsf{name}]\quad \operatorname{HasLayoutC}(R)\quad \exists \ f\ :\ T_{f}\ \in \ \operatorname{Fields}(R).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(\operatorname{TypeSubst}(\theta ,\ T_{f}))\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Record}-\mathsf{Field}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Uparrow \ c
 \end{array}
 $$
@@ -336,8 +336,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}(p)\quad \operatorname{EnumDecl}(p)\ =\ E\quad \operatorname{HasLayoutC}(E)\quad \exists \ v\ \in \ \operatorname{Variants}(E).\ \exists \ T_{f}\ \in \ \operatorname{PayloadTypes}(v).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(T_{f})\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Enum}-\mathsf{Field}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{EnumDecl}(p)\ =\ E\quad \operatorname{HasLayoutC}(E)\quad \exists \ v\ \in \ \operatorname{Variants}(E).\ \exists \ T_{f}\ \in \ \operatorname{PayloadTypes}(v).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(T_{f})\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Enum}-\mathsf{Field}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Uparrow \ c
 \end{array}
 $$
@@ -346,8 +346,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}(p,\ \mathsf{args})\quad \operatorname{EnumDecl}(p)\ =\ E\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(E.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \operatorname{DefaultArgs}(\mathsf{params}_{\mathsf{gen}},\ \mathsf{args})\ =\ \mathsf{args}'\quad \theta \ =\ [\mathsf{args}'\_i\ /\ \mathsf{params}_{\mathsf{gen}}[i].\mathsf{name}]\quad \operatorname{HasLayoutC}(E)\quad \exists \ v\ \in \ \operatorname{Variants}(E).\ \exists \ T_{f}\ \in \ \operatorname{PayloadTypes}(v).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(\operatorname{TypeSubst}(\theta ,\ T_{f}))\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Enum}-\mathsf{Field}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeApply}(p,\ \mathsf{args})\quad \operatorname{EnumDecl}(p)\ =\ E\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(E.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \operatorname{DefaultArgs}(\mathsf{params}_{\mathsf{gen}},\ \mathsf{args})\ =\ \mathsf{args}'\quad \theta \ =\ [\mathsf{args}'\_i\ /\ \mathsf{params}_{\mathsf{gen}}[i].\mathsf{name}]\quad \operatorname{HasLayoutC}(E)\quad \exists \ v\ \in \ \operatorname{Variants}(E).\ \exists \ T_{f}\ \in \ \operatorname{PayloadTypes}(v).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(\operatorname{TypeSubst}(\theta ,\ T_{f}))\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Enum}-\mathsf{Field}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Uparrow \ c
 \end{array}
 $$
@@ -356,8 +356,8 @@ $$
 
 $$
 \begin{array}{l}
-(T\ =\ \operatorname{TypePath}(p)\ \lor \ T\ =\ \operatorname{TypeApply}(p,\ \_))\quad (\operatorname{RecordDecl}(p)\ =\ R\ \lor \ \operatorname{EnumDecl}(p)\ =\ E)\quad \lnot \ \exists \ \tau .\ \Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \tau \quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Incomplete}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+(T\ =\ \operatorname{TypePath}(p)\ \lor \ T\ =\ \operatorname{TypeApply}(p,\ \_))\quad (\operatorname{RecordDecl}(p)\ =\ R\ \lor \ \operatorname{EnumDecl}(p)\ =\ E)\quad \lnot \ \exists \ \tau .\ \Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \tau \quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Incomplete}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Uparrow \ c
 \end{array}
 $$
@@ -366,8 +366,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(R.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \mathsf{params}_{\mathsf{gen}}\ \ne \ []\quad \lnot \ \operatorname{FfiSafePredicateClauseOk}(\mathsf{params}_{\mathsf{gen}},\ R.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \operatorname{TypeParamsInFields}(\operatorname{Fields}(R),\ \mathsf{params}_{\mathsf{gen}}))\quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Generic}-\mathsf{Unbounded}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(R.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \mathsf{params}_{\mathsf{gen}}\ \ne \ []\quad \lnot \ \operatorname{FfiSafePredicateClauseOk}(\mathsf{params}_{\mathsf{gen}},\ R.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \operatorname{TypeParamsInFields}(\operatorname{Fields}(R),\ \mathsf{params}_{\mathsf{gen}}))\quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Generic}-\mathsf{Unbounded}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Uparrow \ c
 \end{array}
 $$
@@ -376,8 +376,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}(p)\quad \operatorname{EnumDecl}(p)\ =\ E\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(E.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \mathsf{params}_{\mathsf{gen}}\ \ne \ []\quad \lnot \ \operatorname{FfiSafePredicateClauseOk}(\mathsf{params}_{\mathsf{gen}},\ E.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \operatorname{TypeParamsInPayloads}(\operatorname{Variants}(E),\ \mathsf{params}_{\mathsf{gen}}))\quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Generic}-\mathsf{Unbounded}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{EnumDecl}(p)\ =\ E\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(E.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \mathsf{params}_{\mathsf{gen}}\ \ne \ []\quad \lnot \ \operatorname{FfiSafePredicateClauseOk}(\mathsf{params}_{\mathsf{gen}},\ E.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \operatorname{TypeParamsInPayloads}(\operatorname{Variants}(E),\ \mathsf{params}_{\mathsf{gen}}))\quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Generic}-\mathsf{Unbounded}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Uparrow \ c
 \end{array}
 $$
@@ -386,8 +386,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}(p,\ \mathsf{args})\quad \operatorname{RecordDecl}(p)\ =\ R\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(R.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \mathsf{params}_{\mathsf{gen}}\ \ne \ []\quad \lnot \ \operatorname{FfiSafePredicateClauseOk}(\mathsf{params}_{\mathsf{gen}},\ R.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \operatorname{TypeParamsInFields}(\operatorname{Fields}(R),\ \mathsf{params}_{\mathsf{gen}}))\quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Generic}-\mathsf{Unbounded}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeApply}(p,\ \mathsf{args})\quad \operatorname{RecordDecl}(p)\ =\ R\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(R.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \mathsf{params}_{\mathsf{gen}}\ \ne \ []\quad \lnot \ \operatorname{FfiSafePredicateClauseOk}(\mathsf{params}_{\mathsf{gen}},\ R.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \operatorname{TypeParamsInFields}(\operatorname{Fields}(R),\ \mathsf{params}_{\mathsf{gen}}))\quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Generic}-\mathsf{Unbounded}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Uparrow \ c
 \end{array}
 $$
@@ -396,8 +396,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}(p,\ \mathsf{args})\quad \operatorname{EnumDecl}(p)\ =\ E\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(E.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \mathsf{params}_{\mathsf{gen}}\ \ne \ []\quad \lnot \ \operatorname{FfiSafePredicateClauseOk}(\mathsf{params}_{\mathsf{gen}},\ E.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \operatorname{TypeParamsInPayloads}(\operatorname{Variants}(E),\ \mathsf{params}_{\mathsf{gen}}))\quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Generic}-\mathsf{Unbounded}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeApply}(p,\ \mathsf{args})\quad \operatorname{EnumDecl}(p)\ =\ E\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(E.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \mathsf{params}_{\mathsf{gen}}\ \ne \ []\quad \lnot \ \operatorname{FfiSafePredicateClauseOk}(\mathsf{params}_{\mathsf{gen}},\ E.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \operatorname{TypeParamsInPayloads}(\operatorname{Variants}(E),\ \mathsf{params}_{\mathsf{gen}}))\quad c\ =\ \operatorname{Code}(\mathsf{FfiSafe}-\mathsf{Generic}-\mathsf{Unbounded}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Uparrow \ c
 \end{array}
 $$
@@ -420,9 +420,7 @@ The following type categories MUST NOT satisfy `FfiSafeType`:
 
 **RAII by-value rule.** If a type satisfies both `DropType` and `FfiSafeType`, then any by-value appearance of that type in an FFI signature requires the defining type to carry `[[ffi_pass_by_value]]`.
 
-$$
-**\mathsf{Generic}\ \mathsf{Bounds}.**\ \mathsf{Any}\ \mathsf{type}\ \mathsf{parameter}\ \mathsf{that}\ \mathsf{appears}\ \mathsf{in}\ a\ \mathsf{field}\ \mathsf{type}\ \mathsf{or}\ \mathsf{variant}\ \mathsf{payload}\ \mathsf{of}\ a\ \mathsf{type}\ \mathsf{satisfying}\ \texttt{FfiSafeType}\ \mathsf{MUST}\ \mathsf{be}\ \mathsf{bounded}\ \mathsf{by}\ a\ \mathsf{predicate}\ \mathsf{requirement}\ \mathsf{of}\ \mathsf{the}\ \mathsf{form}\ \texttt{FfiSafe(X)}\ \mathsf{in}\ \mathsf{the}\ \mathsf{declaration}'s\ \texttt{|:}\ \mathsf{clause}.
-$$
+**Generic Bounds.** Any type parameter that appears in a field type or variant payload of a type satisfying `FfiSafeType` MUST be bounded by a predicate requirement of the form `FfiSafe(X)` in the declaration's `|:` clause.
 
 ### 23.1.5 Dynamic Semantics
 
@@ -459,8 +457,8 @@ extern_procedure_decl ::= attribute_list? visibility? "procedure" identifier gen
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P_{0},\ \mathsf{attrs}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseVis}(P_{0})\ \Downarrow \ (P_{1},\ \mathsf{vis})\quad \operatorname{IsKw}(\operatorname{Tok}(P_{1}),\ \texttt{procedure})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{name})\quad \Gamma \ \vdash \ \operatorname{ParseGenericParamsOpt}(P_{2})\ \Downarrow \ (P_{3},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseSignature}(P_{3})\ \Downarrow \ (P_{4},\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParsePredicateClauseOpt}(P_{4})\ \Downarrow \ (P_{5},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseContractClauseOpt}(P_{5})\ \Downarrow \ (P_{6},\ \mathsf{contract}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseForeignContractClauseListOpt}(P_{6})\ \Downarrow \ (P_{7},\ \mathsf{foreign}_{\mathsf{contracts}\_\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ConsumeTerminatorReq}(P_{7})\ \Downarrow \ P_{8} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P_{0},\ \mathsf{attrs}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseVis}(P_{0})\ \Downarrow \ (P_{1},\ \mathsf{vis})\quad \operatorname{IsKw}(\operatorname{Tok}(P_{1}),\ \texttt{procedure})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{name})\quad \Gamma \ \vdash \ \operatorname{ParseGenericParamsOpt}(P_{2})\ \Downarrow \ (P_{3},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseSignature}(P_{3})\ \Downarrow \ (P_{4},\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParsePredicateClauseOpt}(P_{4})\ \Downarrow \ (P_{5},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseContractClauseOpt}(P_{5})\ \Downarrow \ (P_{6},\ \mathsf{contract}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseForeignContractClauseListOpt}(P_{6})\ \Downarrow \ (P_{7},\ \mathsf{foreign}_{\mathsf{contracts}\_\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ConsumeTerminatorReq}(P_{7})\ \Downarrow \ P_{8} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseExternProcDecl}(P)\ \Downarrow \ (P_{8},\ \operatorname{ExternProcDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{foreign}_{\mathsf{contracts}\_\mathsf{opt}},\ \operatorname{SpanBetween}(P,\ P_{8}),\ []))
 \end{array}
 $$
@@ -477,7 +475,7 @@ Extern procedure declarations also admit the derived forms:
 
 $$
 \begin{array}{l}
-\operatorname{ProcName}(\mathsf{proc})\ =\ \mathsf{name}\ \Leftrightarrow \ \mathsf{proc}\ =\ \operatorname{ExternProcDecl}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_) \\
+\operatorname{ProcName}(\mathsf{proc})\ =\ \mathsf{name}\ \Leftrightarrow \ \mathsf{proc}\ =\ \operatorname{ExternProcDecl}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_) \\[0.16em]
 \operatorname{ExternRawName}(\mathsf{proc})\ \Leftrightarrow \ \mathsf{proc}\ =\ \operatorname{ExternProcDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \land \ \operatorname{ExternAbiName}(\operatorname{ExternAbiOf}(\mathsf{proc}))\ \in \ \{\texttt{"C"},\ \texttt{"C-unwind"}\}
 \end{array}
 $$
@@ -497,9 +495,9 @@ AbiProfileOk("system", profile)
 
 $$
 \begin{array}{l}
-\operatorname{AbiProfileOk}(\texttt{"stdcall"},\ \mathsf{profile})\ \Leftrightarrow \ \mathsf{profile}\ =\ \texttt{x86\_64-win64} \\
-\operatorname{AbiProfileOk}(\texttt{"fastcall"},\ \mathsf{profile})\ \Leftrightarrow \ \mathsf{profile}\ =\ \texttt{x86\_64-win64} \\
-\operatorname{AbiProfileOk}(\texttt{"vectorcall"},\ \mathsf{profile})\ \Leftrightarrow \ \mathsf{profile}\ =\ \texttt{x86\_64-win64} \\
+\operatorname{AbiProfileOk}(\texttt{"stdcall"},\ \mathsf{profile})\ \Leftrightarrow \ \mathsf{profile}\ =\ \texttt{x86\_64-win64} \\[0.16em]
+\operatorname{AbiProfileOk}(\texttt{"fastcall"},\ \mathsf{profile})\ \Leftrightarrow \ \mathsf{profile}\ =\ \texttt{x86\_64-win64} \\[0.16em]
+\operatorname{AbiProfileOk}(\texttt{"vectorcall"},\ \mathsf{profile})\ \Leftrightarrow \ \mathsf{profile}\ =\ \texttt{x86\_64-win64} \\[0.16em]
 \operatorname{ExternAbiOk}(\mathsf{abi}_{\mathsf{opt}})\ \Leftrightarrow \ \operatorname{ExternAbiName}(\mathsf{abi}_{\mathsf{opt}})\ \in \ \mathsf{ExternAbiSet}\ \land \ \operatorname{AbiProfileOk}(\operatorname{ExternAbiName}(\mathsf{abi}_{\mathsf{opt}}),\ \mathsf{SelectedTargetProfile})
 \end{array}
 $$
@@ -508,12 +506,12 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ExternParamTypes}(\mathsf{params})\ =\ [T_{i}\ \mid \ \langle \_,\ \_,\ T_{i}\rangle \ \in \ \mathsf{params}] \\
-\operatorname{ExternSigOk}(\mathsf{params},\ \mathsf{ret}_{\mathsf{opt}})\ \Leftrightarrow  \\
-\ R\ =\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\ \land  \\
-\ (R\ =\ \operatorname{TypePrim}(\texttt{"()"})\ \lor \ \Gamma \ \vdash \ \operatorname{FfiSafeType}(R)\ \Downarrow \ \mathsf{ok})\ \land  \\
-\ (\forall \ T\ \in \ \operatorname{ExternParamTypes}(\mathsf{params}).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok})\ \land  \\
-\ (\forall \ T\ \in \ \operatorname{ExternParamTypes}(\mathsf{params}).\ \operatorname{FfiByValueOk}(T))\ \land  \\
+\operatorname{ExternParamTypes}(\mathsf{params})\ =\ [T_{i}\ \mid \ \langle \_,\ \_,\ T_{i}\rangle \ \in \ \mathsf{params}] \\[0.16em]
+\operatorname{ExternSigOk}(\mathsf{params},\ \mathsf{ret}_{\mathsf{opt}})\ \Leftrightarrow  \\[0.16em]
+\ R\ =\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\ \land  \\[0.16em]
+\ (R\ =\ \operatorname{TypePrim}(\texttt{"()"})\ \lor \ \Gamma \ \vdash \ \operatorname{FfiSafeType}(R)\ \Downarrow \ \mathsf{ok})\ \land  \\[0.16em]
+\ (\forall \ T\ \in \ \operatorname{ExternParamTypes}(\mathsf{params}).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok})\ \land  \\[0.16em]
+\ (\forall \ T\ \in \ \operatorname{ExternParamTypes}(\mathsf{params}).\ \operatorname{FfiByValueOk}(T))\ \land  \\[0.16em]
 \ \operatorname{FfiByValueOk}(R)
 \end{array}
 $$
@@ -534,9 +532,7 @@ Calls to extern procedures MUST appear within an `unsafe` block.
 
 ### 23.2.5 Dynamic Semantics
 
-$$
-\mathsf{Calls}\ \mathsf{to}\ \mathsf{extern}\ \mathsf{procedures}\ \mathsf{transfer}\ \mathsf{control}\ \mathsf{to}\ \mathsf{foreign}\ \mathsf{code}.\ \mathsf{If}\ \texttt{UnwindMode(proc) = "catch"},\ \mathsf{foreign}\ \mathsf{unwinds}\ \mathsf{are}\ \mathsf{converted}\ \mathsf{to}\ \mathsf{Ultraviolet}\ \mathsf{panics}\ \mathsf{at}\ \mathsf{the}\ \mathsf{boundary}\ \mathsf{as}\ \mathsf{defined}\ \mathsf{in}\ \S 23.7.\ \mathsf{If}\ \texttt{UnwindMode(proc) = "abort"},\ \mathsf{any}\ \mathsf{unwind}\ \mathsf{that}\ \mathsf{attempts}\ \mathsf{to}\ \mathsf{cross}\ \mathsf{the}\ \mathsf{boundary}\ \mathsf{aborts}\ \mathsf{as}\ \mathsf{defined}\ \mathsf{in}\ \S 23.7.
-$$
+Calls to extern procedures transfer control to foreign code. If `UnwindMode(proc) = "catch"`, foreign unwinds are converted to Ultraviolet panics at the boundary as defined in §23.7. If `UnwindMode(proc) = "abort"`, any unwind that attempts to cross the boundary aborts as defined in §23.7.
 
 ### 23.2.6 Lowering
 
@@ -555,17 +551,13 @@ Type-admissibility failures in `FfiSafeType` and by-value FFI use are owned by �
 
 ### 23.3.1 Raw Exported Procedures
 
-$$
-A\ \mathsf{procedure}\ \mathsf{becomes}\ a\ \mathsf{raw}\ \mathsf{exported}\ \mathsf{procedure}\ \mathsf{when}\ \mathsf{it}\ \mathsf{carries}\ \texttt{[[export("abi")]]}.\ \mathsf{The}\ \mathsf{attribute}\ \mathsf{syntax}\ \mathsf{is}\ \mathsf{defined}\ \mathsf{in}\ \S 23.4.1.
-$$
+A procedure becomes a raw exported procedure when it carries `[[export("abi")]]`. The attribute syntax is defined in §23.4.1.
 
 ### 23.3.2 Parsing
 
 Raw exported procedures are parsed by the ordinary procedure-declaration parser from §15.1.2.
 
-$$
-\mathsf{An}\ \mathsf{ordinary}\ \texttt{ProcedureDecl}\ \mathsf{is}\ \mathsf{classified}\ \mathsf{as}\ a\ \mathsf{raw}\ \mathsf{exported}\ \mathsf{procedure}\ \mathsf{when}\ \mathsf{its}\ \mathsf{attached}\ \mathsf{attribute}\ \mathsf{list}\ \mathsf{contains}\ \texttt{[[export("abi")]]}\ \mathsf{as}\ \mathsf{parsed}\ \mathsf{by}\ \S 23.4.2.
-$$
+An ordinary `ProcedureDecl` is classified as a raw exported procedure when its attached attribute list contains `[[export("abi")]]` as parsed by §23.4.2.
 
 ### 23.3.3 AST Representation / Form
 
@@ -581,15 +573,15 @@ This section introduces no dedicated raw-export AST node beyond `ProcedureDecl` 
 
 $$
 \begin{array}{l}
-\operatorname{ZeroBits}(T)\ =\ [0\mathsf{x00},\ \ldots ,\ 0\mathsf{x00}]\ \mathsf{where}\ \mid \operatorname{ZeroBits}(T)\mid \ =\ \operatorname{sizeof}(T) \\
-\operatorname{ZeroValue}(T)\ =\ v\ \Leftrightarrow \ \operatorname{ValueBits}(T,\ v)\ =\ \operatorname{ZeroBits}(T)\ \land \ \forall \ v'.\ (\operatorname{ValueBits}(T,\ v')\ =\ \operatorname{ZeroBits}(T)\ \Rightarrow \ v'\ =\ v) \\
+\operatorname{ZeroBits}(T)\ =\ [0\mathsf{x00},\ \ldots ,\ 0\mathsf{x00}]\ \mathsf{where}\ \mid \operatorname{ZeroBits}(T)\mid \ =\ \operatorname{sizeof}(T) \\[0.16em]
+\operatorname{ZeroValue}(T)\ =\ v\ \Leftrightarrow \ \operatorname{ValueBits}(T,\ v)\ =\ \operatorname{ZeroBits}(T)\ \land \ \forall \ v'.\ (\operatorname{ValueBits}(T,\ v')\ =\ \operatorname{ZeroBits}(T)\ \Rightarrow \ v'\ =\ v) \\[0.16em]
 \operatorname{ZeroableType}(T)\ \Leftrightarrow \ \exists \ v.\ \operatorname{ZeroValue}(T)\ =\ v
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\mathsf{ExportSigJudg}\ =\ \{\mathsf{ExportSigOk}\} \\
+\mathsf{ExportSigJudg}\ =\ \{\mathsf{ExportSigOk}\} \\[0.16em]
 \operatorname{ExportParamTypes}(\mathsf{params})\ =\ [T_{i}\ \mid \ \langle \_,\ \_,\ T_{i}\rangle \ \in \ \mathsf{params}]
 \end{array}
 $$
@@ -598,25 +590,19 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \mathsf{vis},\ \_,\ \_,\ \_,\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \_,\ \_,\ \_)\quad \mathsf{vis}\ =\ \texttt{public}\quad \operatorname{ExportAttr}(\mathsf{proc})\ =\ \langle \mathsf{abi},\ \_\rangle \quad \mathsf{abi}\ \in \ \mathsf{ExternAbiSet}\quad \operatorname{AbiProfileOk}(\mathsf{abi},\ \mathsf{SelectedTargetProfile})\quad R\ =\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\quad (R\ =\ \operatorname{TypePrim}(\texttt{"()"})\ \lor \ \Gamma \ \vdash \ \operatorname{FfiSafeType}(R)\ \Downarrow \ \mathsf{ok})\quad (\forall \ T\ \in \ \operatorname{ExportParamTypes}(\mathsf{params}).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok})\quad (\forall \ T\ \in \ \operatorname{ExportParamTypes}(\mathsf{params}).\ \operatorname{FfiByValueOk}(T))\quad \operatorname{FfiByValueOk}(R)\quad (\operatorname{UnwindMode}(\mathsf{proc})\ \ne \ \texttt{catch}\ \lor \ \operatorname{ZeroableType}(R)) \\
-\rule{18em}{0.4pt} \\
+\mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \mathsf{vis},\ \_,\ \_,\ \_,\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \_,\ \_,\ \_)\quad \mathsf{vis}\ =\ \texttt{public}\quad \operatorname{ExportAttr}(\mathsf{proc})\ =\ \langle \mathsf{abi},\ \_\rangle \quad \mathsf{abi}\ \in \ \mathsf{ExternAbiSet}\quad \operatorname{AbiProfileOk}(\mathsf{abi},\ \mathsf{SelectedTargetProfile})\quad R\ =\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\quad (R\ =\ \operatorname{TypePrim}(\texttt{"()"})\ \lor \ \Gamma \ \vdash \ \operatorname{FfiSafeType}(R)\ \Downarrow \ \mathsf{ok})\quad (\forall \ T\ \in \ \operatorname{ExportParamTypes}(\mathsf{params}).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok})\quad (\forall \ T\ \in \ \operatorname{ExportParamTypes}(\mathsf{params}).\ \operatorname{FfiByValueOk}(T))\quad \operatorname{FfiByValueOk}(R)\quad (\operatorname{UnwindMode}(\mathsf{proc})\ \ne \ \texttt{catch}\ \lor \ \operatorname{ZeroableType}(R)) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExportSigOk}(\mathsf{proc})\ \Downarrow \ \mathsf{ok}
 \end{array}
 $$
 
 ### 23.3.5 Dynamic Semantics
 
-$$
-\mathsf{Execution}\ \mathsf{of}\ \mathsf{the}\ \mathsf{body}\ \mathsf{follows}\ \mathsf{ordinary}\ \mathsf{procedure}\ \mathsf{semantics}.\ \mathsf{Boundary}\ \mathsf{panic}\ \mathsf{handling}\ \mathsf{is}\ \mathsf{defined}\ \mathsf{by}\ \S 23.7.\ \mathsf{When}\ \texttt{UnwindMode(proc) = "catch"},\ \mathsf{the}\ \mathsf{boundary}\ \mathsf{MUST}\ \mathsf{return}\ \texttt{ZeroValue(R)}\ \mathsf{for}\ \mathsf{the}\ \mathsf{raw}\ \mathsf{exported}\ \mathsf{procedure}'s\ \mathsf{return}\ \mathsf{type}\ \texttt{R}.
-$$
+Execution of the body follows ordinary procedure semantics. Boundary panic handling is defined by §23.7. When `UnwindMode(proc) = "catch"`, the boundary MUST return `ZeroValue(R)` for the raw exported procedure's return type `R`.
 
-$$
-\mathsf{For}\ a\ \mathsf{raw}\ \mathsf{exported}\ \mathsf{procedure}\ \texttt{proc}\ \mathsf{owned}\ \mathsf{by}\ a\ \mathsf{project}\ \texttt{P}\ \mathsf{satisfying}\ \texttt{RawExportLibrary(P)},\ a\ \mathsf{boundary}\ \mathsf{call}\ \mathsf{occurs}\ \mathsf{only}\ \mathsf{through}\ \mathsf{one}\ \mathsf{live}\ \mathsf{loaded}\ \mathsf{library}\ \mathsf{image}\ \texttt{i}\ \mathsf{owned}\ \mathsf{by}\ \texttt{P}.\ \mathsf{Before}\ \mathsf{the}\ \mathsf{first}\ \mathsf{raw}\ \mathsf{export}\ \mathsf{call}\ \mathsf{through}\ a\ \mathsf{newly}\ \mathsf{loaded}\ \mathsf{image},\ \mathsf{the}\ \mathsf{implementation}\ \mathsf{MUST}\ \mathsf{establish}\ \mathsf{that}\ \mathsf{image}\ \mathsf{by}\ \texttt{LibraryImageInitSigma(P, i, sigma)}\ \mathsf{as}\ \mathsf{defined}\ \mathsf{in}\ \S 24.4.4.\ \mathsf{Later}\ \mathsf{raw}\ \mathsf{export}\ \mathsf{calls}\ \mathsf{through}\ \mathsf{the}\ \mathsf{same}\ \mathsf{live}\ \mathsf{image}\ \mathsf{MUST}\ \mathsf{reuse}\ \mathsf{the}\ \mathsf{same}\ \mathsf{image}-\mathsf{owned}\ \mathsf{static}\ \mathsf{state},\ \mathsf{poison}\ \mathsf{flags},\ \mathsf{and}\ \mathsf{boundary}\ \mathsf{panic}\ \mathsf{record}\ \mathsf{until}\ \mathsf{unload}.\ \mathsf{On}\ \mathsf{unload}\ \mathsf{of}\ \mathsf{that}\ \mathsf{live}\ \mathsf{image},\ \mathsf{the}\ \mathsf{implementation}\ \mathsf{MUST}\ \mathsf{execute}\ \texttt{LibraryImageDestroySigma(P, i, sigma)}\ \mathsf{exactly}\ \mathsf{once}.\ \mathsf{User}-\mathsf{procedure}\ \mathsf{execution}\ \mathsf{within}\ \mathsf{that}\ \mathsf{live}\ \mathsf{image}\ \mathsf{is}\ \mathsf{governed}\ \mathsf{by}\ \texttt{RawLibraryCallSigma(P, i, proc, vs, sigma)}\ \mathsf{in}\ \S 24.4.4.
-$$
+For a raw exported procedure `proc` owned by a project `P` satisfying `RawExportLibrary(P)`, a boundary call occurs only through one live loaded library image `i` owned by `P`. Before the first raw export call through a newly loaded image, the implementation MUST establish that image by `LibraryImageInitSigma(P, i, σ)` as defined in §24.4.4. Later raw export calls through the same live image MUST reuse the same image-owned static state, poison flags, and boundary panic record until unload. On unload of that live image, the implementation MUST execute `LibraryImageDestroySigma(P, i, σ)` exactly once. User-procedure execution within that live image is governed by `RawLibraryCallSigma(P, i, proc, vs, σ)` in §24.4.4.
 
-$$
-\mathsf{For}\ \mathsf{any}\ \mathsf{shared}\ \mathsf{library}\ \mathsf{project}\ \texttt{P},\ \mathsf{an}\ \mathsf{ordinary}\ \mathsf{Ultraviolet}\ \mathsf{call}\ \mathsf{that}\ \mathsf{crosses}\ a\ \mathsf{shared}-\mathsf{library}\ \mathsf{link}\ \mathsf{boundary}\ \mathsf{into}\ \mathsf{one}\ \mathsf{externally}\ \mathsf{linked}\ \mathsf{procedure}\ \mathsf{owned}\ \mathsf{by}\ \texttt{P}\ \mathsf{likewise}\ \mathsf{occurs}\ \mathsf{only}\ \mathsf{through}\ \mathsf{one}\ \mathsf{live}\ \mathsf{loaded}\ \mathsf{library}\ \mathsf{image}\ \texttt{i}\ \mathsf{owned}\ \mathsf{by}\ \texttt{P}.\ \mathsf{Before}\ \mathsf{the}\ \mathsf{first}\ \mathsf{such}\ \mathsf{linked}\ \mathsf{call}\ \mathsf{through}\ a\ \mathsf{newly}\ \mathsf{loaded}\ \mathsf{image},\ \mathsf{the}\ \mathsf{implementation}\ \mathsf{MUST}\ \mathsf{establish}\ \mathsf{that}\ \mathsf{image}\ \mathsf{by}\ \texttt{LibraryImageInitSigma(P, i, sigma)}\ \mathsf{as}\ \mathsf{defined}\ \mathsf{in}\ \S 24.4.4.\ \mathsf{Later}\ \mathsf{linked}\ \mathsf{calls}\ \mathsf{through}\ \mathsf{the}\ \mathsf{same}\ \mathsf{live}\ \mathsf{image}\ \mathsf{MUST}\ \mathsf{reuse}\ \mathsf{the}\ \mathsf{same}\ \mathsf{image}-\mathsf{owned}\ \mathsf{static}\ \mathsf{state},\ \mathsf{poison}\ \mathsf{flags},\ \mathsf{and}\ \mathsf{boundary}\ \mathsf{panic}\ \mathsf{record}\ \mathsf{until}\ \mathsf{unload}.\ \mathsf{On}\ \mathsf{unload}\ \mathsf{of}\ \mathsf{that}\ \mathsf{live}\ \mathsf{image},\ \mathsf{the}\ \mathsf{implementation}\ \mathsf{MUST}\ \mathsf{execute}\ \texttt{LibraryImageDestroySigma(P, i, sigma)}\ \mathsf{exactly}\ \mathsf{once}.\ \mathsf{User}-\mathsf{procedure}\ \mathsf{execution}\ \mathsf{for}\ \mathsf{that}\ \mathsf{linked}\ \mathsf{call}\ \mathsf{continues}\ \mathsf{to}\ \mathsf{follow}\ \mathsf{ordinary}\ \texttt{ApplyProcSigma}\ \mathsf{under}\ \mathsf{the}\ \mathsf{image}-\mathsf{state}\ \mathsf{interpretation}\ \mathsf{defined}\ \mathsf{by}\ \S 24.4.4.
-$$
+For any shared library project `P`, an ordinary Ultraviolet call that crosses a shared-library link boundary into one externally linked procedure owned by `P` likewise occurs only through one live loaded library image `i` owned by `P`. Before the first such linked call through a newly loaded image, the implementation MUST establish that image by `LibraryImageInitSigma(P, i, σ)` as defined in §24.4.4. Later linked calls through the same live image MUST reuse the same image-owned static state, poison flags, and boundary panic record until unload. On unload of that live image, the implementation MUST execute `LibraryImageDestroySigma(P, i, σ)` exactly once. User-procedure execution for that linked call continues to follow ordinary `ApplyProcSigma` under the image-state interpretation defined by §24.4.4.
 
 ### 23.3.6 Lowering
 
@@ -633,17 +619,13 @@ Unsupported export-ABI-string rejection is owned by §23.2.7. Type-admissibility
 
 ### 23.3.8 Hosted Exports
 
-$$
-A\ \mathsf{procedure}\ \mathsf{becomes}\ a\ \mathsf{hosted}\ \mathsf{export}\ \mathsf{when}\ \mathsf{it}\ \mathsf{carries}\ \texttt{[[host\_export("abi")]]}.\ A\ \mathsf{hosted}\ \mathsf{export}\ \mathsf{is}\ \mathsf{not}\ a\ \mathsf{raw}\ \mathsf{FFI}\ \mathsf{signature}:\ \mathsf{the}\ \mathsf{foreign}-\mathsf{visible}\ \mathsf{signature}\ \mathsf{is}\ \mathsf{derived}\ \mathsf{from}\ \mathsf{the}\ \mathsf{source}\ \mathsf{procedure}\ \mathsf{plus}\ \mathsf{an}\ \mathsf{opaque}\ \mathsf{hosted}-\mathsf{library}\ \mathsf{session}\ \mathsf{handle}.
-$$
+A procedure becomes a hosted export when it carries `[[host_export("abi")]]`. A hosted export is not a raw FFI signature: the foreign-visible signature is derived from the source procedure plus an opaque hosted-library session handle.
 
 ### 23.3.9 Parsing
 
 Hosted exports are parsed by the ordinary procedure-declaration parser from §15.1.2.
 
-$$
-\mathsf{An}\ \mathsf{ordinary}\ \texttt{ProcedureDecl}\ \mathsf{is}\ \mathsf{classified}\ \mathsf{as}\ a\ \mathsf{hosted}\ \mathsf{export}\ \mathsf{when}\ \mathsf{its}\ \mathsf{attached}\ \mathsf{attribute}\ \mathsf{list}\ \mathsf{contains}\ \texttt{[[host\_export("abi")]]}\ \mathsf{as}\ \mathsf{parsed}\ \mathsf{by}\ \S 23.4.2.
-$$
+An ordinary `ProcedureDecl` is classified as a hosted export when its attached attribute list contains `[[host_export("abi")]]` as parsed by §23.4.2.
 
 ### 23.3.10 AST Representation / Form
 
@@ -651,15 +633,15 @@ Hosted exports are represented by ordinary `ProcedureDecl(...)` items with `Host
 
 $$
 \begin{array}{l}
-\operatorname{HostExported}(\mathsf{proc})\ \Leftrightarrow \ \mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \land \ \operatorname{HostExportAttr}(\mathsf{proc})\ \mathsf{defined} \\
-\operatorname{HostContextParam}(\mathsf{proc})\ =\ \langle \mathsf{mode},\ \mathsf{name},\ T_{\mathsf{ctx}}\rangle \ \Leftrightarrow \ \mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ [\langle \mathsf{mode},\ \mathsf{name},\ T_{\mathsf{ctx}}\rangle ]\ \mathbin{++} \ \_,\ \_,\ \_,\ \_,\ \_,\ \_) \\
-\operatorname{HostVisibleParams}(\mathsf{proc})\ =\ \mathsf{params}_{\mathsf{vis}}\ \Leftrightarrow \ \mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ [\mathsf{ctx}_{\mathsf{param}}]\ \mathbin{++} \ \mathsf{params}_{\mathsf{vis}},\ \_,\ \_,\ \_,\ \_,\ \_) \\
-\operatorname{HostVisibleParamTypes}(\mathsf{proc})\ =\ [T_{i}\ \mid \ \langle \_,\ \_,\ T_{i}\rangle \ \in \ \mathsf{params}_{\mathsf{vis}}]\ \Leftrightarrow \ \operatorname{HostVisibleParams}(\mathsf{proc})\ =\ \mathsf{params}_{\mathsf{vis}} \\
-\operatorname{HostExports}(P)\ =\ [d\ \mid \ m\ \in \ P.\mathsf{modules},\ d\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items},\ \operatorname{HostExported}(d)] \\
-\operatorname{RawExports}(P)\ =\ [d\ \mid \ m\ \in \ P.\mathsf{modules},\ d\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items},\ d\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \land \ \operatorname{ExportAttr}(d)\ \mathsf{defined}] \\
-\operatorname{HostedLibrary}(P)\ \Leftrightarrow \ \operatorname{Library}(P)\ \land \ \operatorname{HostExports}(P)\ \ne \ [] \\
-\operatorname{MixedForeignExportModes}(P)\ \Leftrightarrow \ \operatorname{HostedLibrary}(P)\ \land \ \operatorname{RawExports}(P)\ \ne \ [] \\
-\operatorname{HostedRootCaps}(P)\ =\ \bigcup \{\operatorname{CapInType}(\operatorname{StripPerm}(T_{\mathsf{ctx}}))\ \mid \ d\ \in \ \operatorname{HostExports}(P)\ \land \ \operatorname{HostContextParam}(d)\ =\ \langle \_,\ \_,\ T_{\mathsf{ctx}}\rangle \} \\
+\operatorname{HostExported}(\mathsf{proc})\ \Leftrightarrow \ \mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \land \ \operatorname{HostExportAttr}(\mathsf{proc})\ \mathsf{defined} \\[0.16em]
+\operatorname{HostContextParam}(\mathsf{proc})\ =\ \langle \mathsf{mode},\ \mathsf{name},\ T_{\mathsf{ctx}}\rangle \ \Leftrightarrow \ \mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ [\langle \mathsf{mode},\ \mathsf{name},\ T_{\mathsf{ctx}}\rangle ]\ \mathbin{++} \ \_,\ \_,\ \_,\ \_,\ \_,\ \_) \\[0.16em]
+\operatorname{HostVisibleParams}(\mathsf{proc})\ =\ \mathsf{params}_{\mathsf{vis}}\ \Leftrightarrow \ \mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ [\mathsf{ctx}_{\mathsf{param}}]\ \mathbin{++} \ \mathsf{params}_{\mathsf{vis}},\ \_,\ \_,\ \_,\ \_,\ \_) \\[0.16em]
+\operatorname{HostVisibleParamTypes}(\mathsf{proc})\ =\ [T_{i}\ \mid \ \langle \_,\ \_,\ T_{i}\rangle \ \in \ \mathsf{params}_{\mathsf{vis}}]\ \Leftrightarrow \ \operatorname{HostVisibleParams}(\mathsf{proc})\ =\ \mathsf{params}_{\mathsf{vis}} \\[0.16em]
+\operatorname{HostExports}(P)\ =\ [d\ \mid \ m\ \in \ P.\mathsf{modules},\ d\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items},\ \operatorname{HostExported}(d)] \\[0.16em]
+\operatorname{RawExports}(P)\ =\ [d\ \mid \ m\ \in \ P.\mathsf{modules},\ d\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items},\ d\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \land \ \operatorname{ExportAttr}(d)\ \mathsf{defined}] \\[0.16em]
+\operatorname{HostedLibrary}(P)\ \Leftrightarrow \ \operatorname{Library}(P)\ \land \ \operatorname{HostExports}(P)\ \ne \ [] \\[0.16em]
+\operatorname{MixedForeignExportModes}(P)\ \Leftrightarrow \ \operatorname{HostedLibrary}(P)\ \land \ \operatorname{RawExports}(P)\ \ne \ [] \\[0.16em]
+\operatorname{HostedRootCaps}(P)\ =\ \bigcup \{\operatorname{CapInType}(\operatorname{StripPerm}(T_{\mathsf{ctx}}))\ \mid \ d\ \in \ \operatorname{HostExports}(P)\ \land \ \operatorname{HostContextParam}(d)\ =\ \langle \_,\ \_,\ T_{\mathsf{ctx}}\rangle \} \\[0.16em]
 \operatorname{HostedContextBundleType}(T)\ \Leftrightarrow \ \operatorname{ContextBundleType}(T)\ \land \ \operatorname{AliasNorm}(T)\ \ne \ \operatorname{TypePath}([\texttt{"Context"}])
 \end{array}
 $$
@@ -667,9 +649,9 @@ HostAbiVersion = 1
 
 $$
 \begin{array}{l}
-\mathsf{HostSessionAbiParam}\ =\ \langle \texttt{move},\ \texttt{\_\_ultraviolet\_session},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle  \\
-\operatorname{HostThunkParams}(\mathsf{proc})\ =\ [\mathsf{HostSessionAbiParam}]\ \mathbin{++} \ \mathsf{params}_{\mathsf{vis}}\ \Leftrightarrow \ \operatorname{HostVisibleParams}(\mathsf{proc})\ =\ \mathsf{params}_{\mathsf{vis}} \\
-\operatorname{HostThunkForeignParamTypes}(\mathsf{proc})\ =\ [\operatorname{TypePrim}(\texttt{"usize"})]\ \mathbin{++} \ [T_{i}\ \mid \ \langle \_,\ \_,\ T_{i}\rangle \ \in \ \mathsf{params}_{\mathsf{vis}}]\ \Leftrightarrow \ \operatorname{HostVisibleParams}(\mathsf{proc})\ =\ \mathsf{params}_{\mathsf{vis}} \\
+\mathsf{HostSessionAbiParam}\ =\ \langle \texttt{move},\ \texttt{\_\_ultraviolet\_session},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle  \\[0.16em]
+\operatorname{HostThunkParams}(\mathsf{proc})\ =\ [\mathsf{HostSessionAbiParam}]\ \mathbin{++} \ \mathsf{params}_{\mathsf{vis}}\ \Leftrightarrow \ \operatorname{HostVisibleParams}(\mathsf{proc})\ =\ \mathsf{params}_{\mathsf{vis}} \\[0.16em]
+\operatorname{HostThunkForeignParamTypes}(\mathsf{proc})\ =\ [\operatorname{TypePrim}(\texttt{"usize"})]\ \mathbin{++} \ [T_{i}\ \mid \ \langle \_,\ \_,\ T_{i}\rangle \ \in \ \mathsf{params}_{\mathsf{vis}}]\ \Leftrightarrow \ \operatorname{HostVisibleParams}(\mathsf{proc})\ =\ \mathsf{params}_{\mathsf{vis}} \\[0.16em]
 \operatorname{HostThunkSig}(\mathsf{proc})\ =\ \langle \operatorname{HostThunkParams}(\mathsf{proc}),\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\rangle \ \Leftrightarrow \ \mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \_,\ \_,\ \_)
 \end{array}
 $$
@@ -682,9 +664,7 @@ $$
 
 **Foreign-visible signature.** For a hosted export `proc`, the foreign-visible signature consists of one leading `usize` session-handle parameter followed by the source parameters after the first source parameter. The first source parameter itself is not part of the foreign-visible ABI.
 
-$$
-\mathsf{For}\ \mathsf{each}\ \mathsf{visible}\ \mathsf{source}\ \mathsf{parameter}\ \texttt{<mode\_i, \_, T\_i>},\ \mathsf{the}\ \mathsf{foreign}-\mathsf{visible}\ \mathsf{pass}\ \mathsf{kind}\ \mathsf{MUST}\ \mathsf{be}\ \mathsf{derived}\ \mathsf{by}\ \texttt{ForeignABIParam(T\_i)}\ (\S 24.2.5),\ \mathsf{independent}\ \mathsf{of}\ \mathsf{source}\ \mathsf{parameter}\ \mathsf{mode}.
-$$
+For each visible source parameter `⟨mode_i, _, T_i⟩`, the foreign-visible pass kind MUST be derived by `ForeignABIParam(T_i)` (§24.2.5), independent of source parameter mode.
 
 $$
 \mathsf{HostExportSigJudg}\ =\ \{\mathsf{HostExportSigOk}\}
@@ -694,8 +674,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{Project}(\Gamma )\ =\ P\quad \mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \mathsf{vis},\ \_,\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \_,\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \_,\ \_,\ \_)\quad \mathsf{vis}\ =\ \texttt{public}\quad \operatorname{HostExportAttr}(\mathsf{proc})\ =\ \langle \mathsf{abi},\ \_\rangle \quad \operatorname{TypeParamsOpt}(\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\ =\ []\quad \lnot \ \operatorname{MixedForeignExportModes}(P)\quad \operatorname{Library}(P)\quad \mathsf{params}\ =\ [\langle \bot ,\ \_,\ T_{\mathsf{ctx}}\rangle ]\ \mathbin{++} \ \mathsf{params}_{\mathsf{vis}}\quad \operatorname{HostedContextBundleType}(\operatorname{StripPerm}(T_{\mathsf{ctx}}))\quad \mathsf{abi}\ \in \ \mathsf{ExternAbiSet}\quad \operatorname{AbiProfileOk}(\mathsf{abi},\ \mathsf{SelectedTargetProfile})\quad R\ =\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\quad (R\ =\ \operatorname{TypePrim}(\texttt{"()"})\ \lor \ \Gamma \ \vdash \ \operatorname{FfiSafeType}(R)\ \Downarrow \ \mathsf{ok})\quad (\forall \ T\ \in \ \operatorname{HostVisibleParamTypes}(\mathsf{proc}).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok})\quad (\forall \ T\ \in \ \operatorname{HostVisibleParamTypes}(\mathsf{proc}).\ \operatorname{CapInType}(T)\ =\ \emptyset )\quad \operatorname{CapInType}(R)\ =\ \emptyset \quad (\forall \ T\ \in \ \operatorname{HostVisibleParamTypes}(\mathsf{proc}).\ \operatorname{FfiByValueOk}(T))\quad \operatorname{FfiByValueOk}(R)\quad (\operatorname{UnwindMode}(\mathsf{proc})\ \ne \ \texttt{catch}\ \lor \ \operatorname{ZeroableType}(R)) \\
-\rule{18em}{0.4pt} \\
+\operatorname{Project}(\Gamma )\ =\ P\quad \mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \mathsf{vis},\ \_,\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \_,\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \_,\ \_,\ \_)\quad \mathsf{vis}\ =\ \texttt{public}\quad \operatorname{HostExportAttr}(\mathsf{proc})\ =\ \langle \mathsf{abi},\ \_\rangle \quad \operatorname{TypeParamsOpt}(\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\ =\ []\quad \lnot \ \operatorname{MixedForeignExportModes}(P)\quad \operatorname{Library}(P)\quad \mathsf{params}\ =\ [\langle \bot ,\ \_,\ T_{\mathsf{ctx}}\rangle ]\ \mathbin{++} \ \mathsf{params}_{\mathsf{vis}}\quad \operatorname{HostedContextBundleType}(\operatorname{StripPerm}(T_{\mathsf{ctx}}))\quad \mathsf{abi}\ \in \ \mathsf{ExternAbiSet}\quad \operatorname{AbiProfileOk}(\mathsf{abi},\ \mathsf{SelectedTargetProfile})\quad R\ =\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\quad (R\ =\ \operatorname{TypePrim}(\texttt{"()"})\ \lor \ \Gamma \ \vdash \ \operatorname{FfiSafeType}(R)\ \Downarrow \ \mathsf{ok})\quad (\forall \ T\ \in \ \operatorname{HostVisibleParamTypes}(\mathsf{proc}).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok})\quad (\forall \ T\ \in \ \operatorname{HostVisibleParamTypes}(\mathsf{proc}).\ \operatorname{CapInType}(T)\ =\ \emptyset )\quad \operatorname{CapInType}(R)\ =\ \emptyset \quad (\forall \ T\ \in \ \operatorname{HostVisibleParamTypes}(\mathsf{proc}).\ \operatorname{FfiByValueOk}(T))\quad \operatorname{FfiByValueOk}(R)\quad (\operatorname{UnwindMode}(\mathsf{proc})\ \ne \ \texttt{catch}\ \lor \ \operatorname{ZeroableType}(R)) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{HostExportSigOk}(\mathsf{proc})\ \Downarrow \ \mathsf{ok}
 \end{array}
 $$
@@ -704,8 +684,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{Project}(\Gamma )\ =\ P\quad \operatorname{HostExported}(\mathsf{proc})\quad \lnot \ \operatorname{Library}(P)\quad c\ =\ \operatorname{Code}(\mathsf{HostExport}-\mathsf{Library}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{Project}(\Gamma )\ =\ P\quad \operatorname{HostExported}(\mathsf{proc})\quad \lnot \ \operatorname{Library}(P)\quad c\ =\ \operatorname{Code}(\mathsf{HostExport}-\mathsf{Library}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{HostExportSigOk}(\mathsf{proc})\ \Uparrow \ c
 \end{array}
 $$
@@ -714,8 +694,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{Project}(\Gamma )\ =\ P\quad \operatorname{HostExported}(\mathsf{proc})\quad \operatorname{MixedForeignExportModes}(P)\quad c\ =\ \operatorname{Code}(\mathsf{HostExport}-\mathsf{MixedMode}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{Project}(\Gamma )\ =\ P\quad \operatorname{HostExported}(\mathsf{proc})\quad \operatorname{MixedForeignExportModes}(P)\quad c\ =\ \operatorname{Code}(\mathsf{HostExport}-\mathsf{MixedMode}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{HostExportSigOk}(\mathsf{proc})\ \Uparrow \ c
 \end{array}
 $$
@@ -724,8 +704,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\quad \operatorname{HostExportAttr}(\mathsf{proc})\ =\ \langle \_,\ \_\rangle \quad \operatorname{TypeParamsOpt}(\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\ \ne \ []\quad c\ =\ \operatorname{Code}(\mathsf{HostExport}-\mathsf{Generic}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\quad \operatorname{HostExportAttr}(\mathsf{proc})\ =\ \langle \_,\ \_\rangle \quad \operatorname{TypeParamsOpt}(\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\ \ne \ []\quad c\ =\ \operatorname{Code}(\mathsf{HostExport}-\mathsf{Generic}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{HostExportSigOk}(\mathsf{proc})\ \Uparrow \ c
 \end{array}
 $$
@@ -734,8 +714,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{params},\ \_,\ \_,\ \_,\ \_,\ \_)\quad \operatorname{HostExportAttr}(\mathsf{proc})\ =\ \langle \_,\ \_\rangle \quad (\mathsf{params}\ =\ []\ \lor \ (\mathsf{params}\ =\ [\langle \mathsf{mode},\ \_,\ T_{\mathsf{ctx}}\rangle ]\ \mathbin{++} \ \_\ \land \ \lnot \ \operatorname{ContextBundleType}(\operatorname{StripPerm}(T_{\mathsf{ctx}}))))\quad c\ =\ \operatorname{Code}(\mathsf{HostExport}-\mathsf{Context}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{params},\ \_,\ \_,\ \_,\ \_,\ \_)\quad \operatorname{HostExportAttr}(\mathsf{proc})\ =\ \langle \_,\ \_\rangle \quad (\mathsf{params}\ =\ []\ \lor \ (\mathsf{params}\ =\ [\langle \mathsf{mode},\ \_,\ T_{\mathsf{ctx}}\rangle ]\ \mathbin{++} \ \_\ \land \ \lnot \ \operatorname{ContextBundleType}(\operatorname{StripPerm}(T_{\mathsf{ctx}}))))\quad c\ =\ \operatorname{Code}(\mathsf{HostExport}-\mathsf{Context}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{HostExportSigOk}(\mathsf{proc})\ \Uparrow \ c
 \end{array}
 $$
@@ -744,8 +724,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ [\langle \mathsf{mode},\ \_,\ T_{\mathsf{ctx}}\rangle ]\ \mathbin{++} \ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\quad \operatorname{HostExportAttr}(\mathsf{proc})\ =\ \langle \_,\ \_\rangle \quad \operatorname{AliasNorm}(\operatorname{StripPerm}(T_{\mathsf{ctx}}))\ =\ \operatorname{TypePath}([\texttt{"Context"}])\quad c\ =\ \operatorname{Code}(\mathsf{HostExport}-\mathsf{Context}-\mathsf{Raw}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ [\langle \mathsf{mode},\ \_,\ T_{\mathsf{ctx}}\rangle ]\ \mathbin{++} \ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\quad \operatorname{HostExportAttr}(\mathsf{proc})\ =\ \langle \_,\ \_\rangle \quad \operatorname{AliasNorm}(\operatorname{StripPerm}(T_{\mathsf{ctx}}))\ =\ \operatorname{TypePath}([\texttt{"Context"}])\quad c\ =\ \operatorname{Code}(\mathsf{HostExport}-\mathsf{Context}-\mathsf{Raw}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{HostExportSigOk}(\mathsf{proc})\ \Uparrow \ c
 \end{array}
 $$
@@ -754,8 +734,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ [\langle \texttt{move},\ \_,\ T_{\mathsf{ctx}}\rangle ]\ \mathbin{++} \ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\quad \operatorname{HostExportAttr}(\mathsf{proc})\ =\ \langle \_,\ \_\rangle \quad \operatorname{ContextBundleType}(\operatorname{StripPerm}(T_{\mathsf{ctx}}))\quad c\ =\ \operatorname{Code}(\mathsf{HostExport}-\mathsf{Context}-\mathsf{Move}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ [\langle \texttt{move},\ \_,\ T_{\mathsf{ctx}}\rangle ]\ \mathbin{++} \ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\quad \operatorname{HostExportAttr}(\mathsf{proc})\ =\ \langle \_,\ \_\rangle \quad \operatorname{ContextBundleType}(\operatorname{StripPerm}(T_{\mathsf{ctx}}))\quad c\ =\ \operatorname{Code}(\mathsf{HostExport}-\mathsf{Context}-\mathsf{Move}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{HostExportSigOk}(\mathsf{proc})\ \Uparrow \ c
 \end{array}
 $$
@@ -781,17 +761,13 @@ If the supplied handle is invalid, not live, or busy, then the hosted-export bou
 1. return `ZeroValue(R)` when `UnwindMode(proc) = "catch"`;
 2. otherwise terminate the boundary call as `Abort`.
 
-$$
-\mathsf{When}\ \texttt{UnwindMode(proc) = "catch"},\ \mathsf{any}\ \mathsf{boundary}\ \mathsf{failure}\ \mathsf{that}\ \mathsf{occurs}\ \mathsf{before}\ \mathsf{or}\ \mathsf{during}\ \mathsf{hosted}-\mathsf{export}\ \mathsf{invocation}\ \mathsf{MUST}\ \mathsf{return}\ \texttt{ZeroValue(R)}\ \mathsf{for}\ \mathsf{the}\ \mathsf{hosted}\ \mathsf{export}'s\ \mathsf{return}\ \mathsf{type}\ \texttt{R}.
-$$
+When `UnwindMode(proc) = "catch"`, any boundary failure that occurs before or during hosted-export invocation MUST return `ZeroValue(R)` for the hosted export's return type `R`.
 
 ### 23.3.13 Lowering
 
 Hosted-export lowering MUST preserve the raw-FFI rules of §§23.1–23.5 for the foreign-visible signature while reconstructing the first source parameter internally.
 
-$$
-\mathsf{For}\ a\ \mathsf{hosted}\ \mathsf{export}\ \texttt{proc}\ \mathsf{with}\ \texttt{HostExportAttr(proc) = <abi, \_>}\ \mathsf{and}\ \texttt{HostThunkSig(proc) = <params\_thunk, R>},\ \mathsf{the}\ \mathsf{foreign}-\mathsf{visible}\ \mathsf{thunk}\ \mathsf{ABI}\ \mathsf{is}\ \mathsf{determined}\ \mathsf{exactly}\ \mathsf{as}\ \mathsf{follows}:
-$$
+For a hosted export `proc` with `HostExportAttr(proc) = ⟨abi, _⟩` and `HostThunkSig(proc) = ⟨params_thunk, R⟩`, the foreign-visible thunk ABI is determined exactly as follows:
 
 1. `Γ ⊢ ForeignABICall(HostThunkForeignParamTypes(proc), R) ⇓ ⟨[k_1, …, k_n], k_r, sretSigma⟩` determines the complete foreign by-value/by-reference parameter classification and indirect-return decision.
 2. `ConventionLayout(SelectedTargetProfile, AbiToConvention(abi))` determines the calling-convention layout used by the thunk.
@@ -800,21 +776,21 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{HostThunkParamCarrierJudg}\ =\ \{\mathsf{HostThunkParamCarrier}\} \\
-\mathsf{HostThunkRetCarrierJudg}\ =\ \{\mathsf{HostThunkRetCarrier}\} \\
-\operatorname{HostThunkParamShape}(\mathsf{proc})\ =\ [\langle k_{i},\ c_{i},\ \tau_{i} \rangle ]\ \Leftrightarrow  \\
-\ \operatorname{HostThunkForeignParamTypes}(\mathsf{proc})\ =\ [T_{i}]\ \land  \\
-\ \operatorname{HostThunkSig}(\mathsf{proc})\ =\ \langle \_,\ R\rangle \ \land  \\
-\ \Gamma \ \vdash \ \operatorname{ForeignABICall}([T_{i}],\ R)\ \Downarrow \ \langle [k_{i}],\ k_{r},\ \mathsf{sretSigma}_{\mathsf{base}}\rangle \ \land  \\
-\ \forall \ i.\ \Gamma \ \vdash \ \operatorname{HostThunkParamCarrier}(\mathsf{SelectedTargetProfile},\ k_{i},\ T_{i})\ \Downarrow \ \langle c_{i},\ \tau_{i} \rangle  \\
-\operatorname{HostThunkRetShape}(\mathsf{proc})\ =\ \langle k_{r},\ c_{r},\ \tau_{r} ,\ \mathsf{sretSigma}\rangle \ \Leftrightarrow  \\
-\ \operatorname{HostThunkSig}(\mathsf{proc})\ =\ \langle \_,\ R\rangle \ \land  \\
-\ \Gamma \ \vdash \ \operatorname{ForeignABICall}(\operatorname{HostThunkForeignParamTypes}(\mathsf{proc}),\ R)\ \Downarrow \ \langle [k_{i}],\ k_{r},\ \mathsf{sretSigma}_{\mathsf{base}}\rangle \ \land  \\
-\ \Gamma \ \vdash \ \operatorname{HostThunkRetCarrier}(\mathsf{SelectedTargetProfile},\ k_{r},\ R,\ \mathsf{sretSigma}_{\mathsf{base}})\ \Downarrow \ \langle c_{r},\ \tau_{r} ,\ \mathsf{sretSigma}\rangle  \\
-\operatorname{IntLane}(1)\ =\ \texttt{i8} \\
-\operatorname{IntLane}(2)\ =\ \texttt{i16} \\
-\operatorname{IntLane}(4)\ =\ \texttt{i32} \\
-\operatorname{IntLane}(8)\ =\ \texttt{i64} \\
+\mathsf{HostThunkParamCarrierJudg}\ =\ \{\mathsf{HostThunkParamCarrier}\} \\[0.16em]
+\mathsf{HostThunkRetCarrierJudg}\ =\ \{\mathsf{HostThunkRetCarrier}\} \\[0.16em]
+\operatorname{HostThunkParamShape}(\mathsf{proc})\ =\ [\langle k_{i},\ c_{i},\ \tau_{i} \rangle ]\ \Leftrightarrow  \\[0.16em]
+\ \operatorname{HostThunkForeignParamTypes}(\mathsf{proc})\ =\ [T_{i}]\ \land  \\[0.16em]
+\ \operatorname{HostThunkSig}(\mathsf{proc})\ =\ \langle \_,\ R\rangle \ \land  \\[0.16em]
+\ \Gamma \ \vdash \ \operatorname{ForeignABICall}([T_{i}],\ R)\ \Downarrow \ \langle [k_{i}],\ k_{r},\ \mathsf{sretSigma}_{\mathsf{base}}\rangle \ \land  \\[0.16em]
+\ \forall \ i.\ \Gamma \ \vdash \ \operatorname{HostThunkParamCarrier}(\mathsf{SelectedTargetProfile},\ k_{i},\ T_{i})\ \Downarrow \ \langle c_{i},\ \tau_{i} \rangle  \\[0.16em]
+\operatorname{HostThunkRetShape}(\mathsf{proc})\ =\ \langle k_{r},\ c_{r},\ \tau_{r} ,\ \mathsf{sretSigma}\rangle \ \Leftrightarrow  \\[0.16em]
+\ \operatorname{HostThunkSig}(\mathsf{proc})\ =\ \langle \_,\ R\rangle \ \land  \\[0.16em]
+\ \Gamma \ \vdash \ \operatorname{ForeignABICall}(\operatorname{HostThunkForeignParamTypes}(\mathsf{proc}),\ R)\ \Downarrow \ \langle [k_{i}],\ k_{r},\ \mathsf{sretSigma}_{\mathsf{base}}\rangle \ \land  \\[0.16em]
+\ \Gamma \ \vdash \ \operatorname{HostThunkRetCarrier}(\mathsf{SelectedTargetProfile},\ k_{r},\ R,\ \mathsf{sretSigma}_{\mathsf{base}})\ \Downarrow \ \langle c_{r},\ \tau_{r} ,\ \mathsf{sretSigma}\rangle  \\[0.16em]
+\operatorname{IntLane}(1)\ =\ \texttt{i8} \\[0.16em]
+\operatorname{IntLane}(2)\ =\ \texttt{i16} \\[0.16em]
+\operatorname{IntLane}(4)\ =\ \texttt{i32} \\[0.16em]
+\operatorname{IntLane}(8)\ =\ \texttt{i64} \\[0.16em]
 \operatorname{AggLLVM}(T)\ \Leftrightarrow \ \exists \ \tau .\ \Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau \ \land \ (\tau \ \mathsf{is}\ \texttt{struct}\ \lor \ \tau \ \mathsf{is}\ \texttt{array})
 \end{array}
 $$
@@ -824,7 +800,7 @@ k = `ByRef`
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{HostThunkParamCarrier}(\mathsf{profile},\ k,\ T)\ \Downarrow \ \langle \texttt{Direct},\ \operatorname{LLVMPtrTy}(\operatorname{TypePtr}(\operatorname{TypePerm}(\texttt{const},\ T),\ \texttt{Valid}))\rangle 
 \end{array}
 $$
@@ -833,8 +809,8 @@ $$
 
 $$
 \begin{array}{l}
-k\ =\ \texttt{ByValue}\quad \lnot (\mathsf{profile}\ =\ \texttt{x86\_64-win64}\ \land \ \operatorname{AggLLVM}(T))\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau  \\
-\rule{18em}{0.4pt} \\
+k\ =\ \texttt{ByValue}\quad \lnot (\mathsf{profile}\ =\ \texttt{x86\_64-win64}\ \land \ \operatorname{AggLLVM}(T))\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{HostThunkParamCarrier}(\mathsf{profile},\ k,\ T)\ \Downarrow \ \langle \texttt{Direct},\ \tau \rangle 
 \end{array}
 $$
@@ -843,8 +819,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{profile}\ =\ \texttt{x86\_64-win64}\quad k\ =\ \texttt{ByValue}\quad \operatorname{AggLLVM}(T)\quad \Gamma \ \vdash \ \operatorname{sizeof}(T)\ =\ n\quad n\ \in \ \{1,\ 2,\ 4,\ 8\} \\
-\rule{18em}{0.4pt} \\
+\mathsf{profile}\ =\ \texttt{x86\_64-win64}\quad k\ =\ \texttt{ByValue}\quad \operatorname{AggLLVM}(T)\quad \Gamma \ \vdash \ \operatorname{sizeof}(T)\ =\ n\quad n\ \in \ \{1,\ 2,\ 4,\ 8\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{HostThunkParamCarrier}(\mathsf{profile},\ k,\ T)\ \Downarrow \ \langle \texttt{Direct},\ \operatorname{IntLane}(n)\rangle 
 \end{array}
 $$
@@ -853,8 +829,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{profile}\ =\ \texttt{x86\_64-win64}\quad k\ =\ \texttt{ByValue}\quad \operatorname{AggLLVM}(T)\quad \Gamma \ \vdash \ \operatorname{sizeof}(T)\ =\ n\quad n\ >\ 0\quad n\ \notin \ \{1,\ 2,\ 4,\ 8\} \\
-\rule{18em}{0.4pt} \\
+\mathsf{profile}\ =\ \texttt{x86\_64-win64}\quad k\ =\ \texttt{ByValue}\quad \operatorname{AggLLVM}(T)\quad \Gamma \ \vdash \ \operatorname{sizeof}(T)\ =\ n\quad n\ >\ 0\quad n\ \notin \ \{1,\ 2,\ 4,\ 8\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{HostThunkParamCarrier}(\mathsf{profile},\ k,\ T)\ \Downarrow \ \langle \texttt{Indirect},\ \operatorname{LLVMPtrTy}(\operatorname{TypePtr}(\operatorname{TypePerm}(\texttt{const},\ T),\ \texttt{Valid}))\rangle 
 \end{array}
 $$
@@ -863,8 +839,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{profile}\ \ne \ \texttt{x86\_64-win64}\ \lor \ \lnot (k_{r}\ =\ \texttt{ByValue}\ \land \ \operatorname{AggLLVM}(R))\quad \Gamma \ \vdash \ \operatorname{LLVMRetLower}(R,\ k_{r})\ \Downarrow \ \tau_{r}  \\
-\rule{18em}{0.4pt} \\
+\mathsf{profile}\ \ne \ \texttt{x86\_64-win64}\ \lor \ \lnot (k_{r}\ =\ \texttt{ByValue}\ \land \ \operatorname{AggLLVM}(R))\quad \Gamma \ \vdash \ \operatorname{LLVMRetLower}(R,\ k_{r})\ \Downarrow \ \tau_{r}  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{HostThunkRetCarrier}(\mathsf{profile},\ k_{r},\ R,\ \mathsf{sretSigma}_{\mathsf{base}})\ \Downarrow \ \langle \texttt{Direct},\ \tau_{r} ,\ \mathsf{sretSigma}_{\mathsf{base}}\rangle 
 \end{array}
 $$
@@ -873,8 +849,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{profile}\ =\ \texttt{x86\_64-win64}\quad k_{r}\ =\ \texttt{ByValue}\quad \operatorname{AggLLVM}(R)\quad \Gamma \ \vdash \ \operatorname{sizeof}(R)\ =\ n\quad n\ \in \ \{1,\ 2,\ 4,\ 8\} \\
-\rule{18em}{0.4pt} \\
+\mathsf{profile}\ =\ \texttt{x86\_64-win64}\quad k_{r}\ =\ \texttt{ByValue}\quad \operatorname{AggLLVM}(R)\quad \Gamma \ \vdash \ \operatorname{sizeof}(R)\ =\ n\quad n\ \in \ \{1,\ 2,\ 4,\ 8\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{HostThunkRetCarrier}(\mathsf{profile},\ k_{r},\ R,\ \mathsf{sretSigma}_{\mathsf{base}})\ \Downarrow \ \langle \texttt{Direct},\ \operatorname{IntLane}(n),\ \mathsf{false}\rangle 
 \end{array}
 $$
@@ -883,29 +859,23 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{profile}\ =\ \texttt{x86\_64-win64}\quad k_{r}\ =\ \texttt{ByValue}\quad \operatorname{AggLLVM}(R)\quad \Gamma \ \vdash \ \operatorname{sizeof}(R)\ =\ n\quad n\ >\ 0\quad n\ \notin \ \{1,\ 2,\ 4,\ 8\} \\
-\rule{18em}{0.4pt} \\
+\mathsf{profile}\ =\ \texttt{x86\_64-win64}\quad k_{r}\ =\ \texttt{ByValue}\quad \operatorname{AggLLVM}(R)\quad \Gamma \ \vdash \ \operatorname{sizeof}(R)\ =\ n\quad n\ >\ 0\quad n\ \notin \ \{1,\ 2,\ 4,\ 8\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{HostThunkRetCarrier}(\mathsf{profile},\ k_{r},\ R,\ \mathsf{sretSigma}_{\mathsf{base}})\ \Downarrow \ \langle \texttt{Indirect},\ \texttt{void},\ \mathsf{true}\rangle 
 \end{array}
 $$
 
 For hosted-export thunk lowering, a conforming implementation MUST use `HostThunkParamShape(proc)` and `HostThunkRetShape(proc)` as the foreign ABI shape.
 
-$$
-\mathsf{For}\ \texttt{SelectedTargetProfile = x86\_64-win64},\ a\ \mathsf{conforming}\ \mathsf{implementation}\ \mathsf{MUST}\ \mathsf{NOT}\ \mathsf{split}\ \mathsf{one}\ \mathsf{by}-\mathsf{value}\ \mathsf{aggregate}\ \mathsf{source}\ \mathsf{parameter}\ \mathsf{of}\ a\ \mathsf{hosted}\ \mathsf{export}\ \mathsf{into}\ \mathsf{multiple}\ \mathsf{scalar}\ \mathsf{ABI}\ \mathsf{parameters}\ \mathsf{at}\ \mathsf{the}\ \mathsf{foreign}-\mathsf{visible}\ \mathsf{thunk}\ \mathsf{boundary}.
-$$
+For `SelectedTargetProfile = x86_64-win64`, a conforming implementation MUST NOT split one by-value aggregate source parameter of a hosted export into multiple scalar ABI parameters at the foreign-visible thunk boundary.
 
 No hosted-export-specific ABI rewriting beyond prepending `HostSessionAbiParam` and omitting the first source parameter is permitted.
 
 Hosted thunk foreign parameter classification MUST be mode-independent. Pointer-typed visible parameters therefore use canonical C-style pointer carriers at the foreign boundary.
 
-$$
-\mathsf{When}\ \texttt{ForeignABIParam(T\_i) != ABIParam(mode\_i, T\_i)},\ \mathsf{thunk}-\mathsf{to}-\mathsf{source}\ \mathsf{call}\ \mathsf{reconstruction}\ \mathsf{MUST}\ \mathsf{preserve}\ \mathsf{source}\ \mathsf{semantics}\ \mathsf{by}\ \mathsf{materializing}\ \mathsf{one}\ \mathsf{temporary}\ \mathsf{storage}\ \mathsf{cell}\ \mathsf{of}\ \mathsf{type}\ \texttt{T\_i},\ \mathsf{storing}\ \mathsf{the}\ \mathsf{incoming}\ \mathsf{foreign}\ \mathsf{value}\ \mathsf{into}\ \mathsf{that}\ \mathsf{cell},\ \mathsf{and}\ \mathsf{passing}\ \mathsf{that}\ \mathsf{temporary}\ \mathsf{according}\ \mathsf{to}\ \texttt{ABIParam(mode\_i, T\_i)}\ \mathsf{to}\ \mathsf{the}\ \mathsf{source}\ \mathsf{procedure}\ \mathsf{body}.
-$$
+When `ForeignABIParam(T_i) ≠ ABIParam(mode_i, T_i)`, thunk-to-source call reconstruction MUST preserve source semantics by materializing one temporary storage cell of type `T_i`, storing the incoming foreign value into that cell, and passing that temporary according to `ABIParam(mode_i, T_i)` to the source procedure body.
 
-$$
-\mathsf{For}\ \mathsf{hosted}-\mathsf{library}\ \mathsf{thunk}\ \mathsf{and}\ \mathsf{body}\ \mathsf{emission},\ \mathsf{loads}\ \mathsf{and}\ \mathsf{stores}\ \mathsf{of}\ \texttt{HostedStateSym(Project(Gamma), sym)}\ \mathsf{MUST}\ \mathsf{resolve}\ \mathsf{by}\ \mathsf{full}\ \mathsf{symbol}\ \mathsf{identity}\ \texttt{sym}\ (\mathsf{including}\ \mathsf{cross}-\mathsf{module}\ \mathsf{references})\ \mathsf{and}\ \mathsf{session}\ \mathsf{context},\ \mathsf{not}\ \mathsf{by}\ \mathsf{module}-\mathsf{local}\ \mathsf{global}-\mathsf{declaration}\ \mathsf{presence}.\ \mathsf{When}\ \texttt{HostedStateSym(Project(Gamma), sym)}\ \mathsf{holds},\ a\ \mathsf{conforming}\ \mathsf{implementation}\ \mathsf{MUST}\ \mathsf{NOT}\ \mathsf{substitute}\ \texttt{ZeroValue}\ \mathsf{or}\ \mathsf{any}\ \mathsf{other}\ \mathsf{default}\ \mathsf{value}\ \mathsf{in}\ \mathsf{place}\ \mathsf{of}\ a\ \mathsf{failed}\ \mathsf{symbol}\ \mathsf{materialization}.
-$$
+For hosted-library thunk and body emission, loads and stores of `HostedStateSym(Project(Γ), sym)` MUST resolve by full symbol identity `sym` (including cross-module references) and session context, not by module-local global-declaration presence. When `HostedStateSym(Project(Γ), sym)` holds, a conforming implementation MUST NOT substitute `ZeroValue` or any other default value in place of a failed symbol materialization.
 
 For every hosted library, a conforming implementation MUST emit foreign-callable lifecycle exports with the following names and ABIs:
 
@@ -926,9 +896,7 @@ For every hosted export `proc`, a conforming implementation MUST emit one foreig
 4. rejects invalid, non-live, and busy handles according to §23.3.12 before any user code executes;
 5. applies the same `[[unwind]]` boundary rules as a raw exported procedure with the derived foreign-visible signature.
 
-$$
-\mathsf{These}\ \mathsf{hosted}-\mathsf{export}\ \mathsf{thunks}\ \mathsf{are}\ \mathsf{backend}-\mathsf{generated}\ \mathsf{boundary}\ \mathsf{declarations}.\ \mathsf{They}\ \mathsf{are}\ \mathsf{not}\ \mathsf{the}\ \mathsf{same}\ \mathsf{declarations}\ \mathsf{as}\ \mathsf{the}\ \mathsf{user}-\mathsf{authored}\ \mathsf{source}\ \mathsf{procedures}.\ A\ \mathsf{conforming}\ \mathsf{backend}\ \mathsf{MUST}\ \mathsf{emit}\ \mathsf{exactly}\ \mathsf{one}\ \mathsf{hosted}-\mathsf{export}\ \mathsf{thunk}\ \mathsf{per}\ \texttt{proc in HostExports(P)}\ \mathsf{in}\ \mathsf{the}\ \mathsf{linked}\ \mathsf{image}\ \mathsf{of}\ \texttt{P},\ \mathsf{and}\ \mathsf{that}\ \mathsf{thunk}\ \mathsf{MUST}\ \mathsf{use}\ \texttt{HostThunkLinkName(proc)}\ \mathsf{as}\ \mathsf{its}\ \mathsf{foreign}\ \mathsf{symbol}\ \mathsf{while}\ \mathsf{calls}\ \mathsf{from}\ \mathsf{Ultraviolet}\ \mathsf{code}\ \mathsf{continue}\ \mathsf{to}\ \mathsf{target}\ \mathsf{the}\ \mathsf{source}\ \mathsf{procedure}\ \mathsf{body}\ \mathsf{symbol}\ \texttt{Mangle(proc)}.\ A\ \mathsf{conforming}\ \mathsf{implementation}\ \mathsf{MUST}\ \mathsf{NOT}\ \mathsf{expose}\ \texttt{Mangle(proc)}\ \mathsf{itself}\ \mathsf{as}\ \mathsf{the}\ \mathsf{hosted}\ \mathsf{foreign}\ \mathsf{entrypoint}\ \mathsf{for}\ \texttt{proc};\ \mathsf{foreign}\ \mathsf{code}\ \mathsf{enters}\ \mathsf{only}\ \mathsf{through}\ \mathsf{the}\ \mathsf{generated}\ \mathsf{thunk}.
-$$
+These hosted-export thunks are backend-generated boundary declarations. They are not the same declarations as the user-authored source procedures. A conforming backend MUST emit exactly one hosted-export thunk per `proc ∈ HostExports(P)` in the linked image of `P`, and that thunk MUST use `HostThunkLinkName(proc)` as its foreign symbol while calls from Ultraviolet code continue to target the source procedure body symbol `Mangle(proc)`. A conforming implementation MUST NOT expose `Mangle(proc)` itself as the hosted foreign entrypoint for `proc`; foreign code enters only through the generated thunk.
 
 ### 23.3.14 Diagnostics
 
@@ -1008,15 +976,15 @@ FFI attributes are ordinary attribute-list entries attached to their owning decl
 
 $$
 \begin{array}{l}
-\operatorname{ResolveLibraryName}(\texttt{dylib},\ \mathsf{name},\ \texttt{x86\_64-sysv})\ =\ \texttt{"lib"}\ \mathbin{++} \ \mathsf{name}\ \mathbin{++} \ \texttt{".so"} \\
-\operatorname{ResolveLibraryName}(\texttt{dylib},\ \mathsf{name},\ \texttt{aarch64-aapcs64})\ =\ \texttt{"lib"}\ \mathbin{++} \ \mathsf{name}\ \mathbin{++} \ \texttt{".so"} \\
-\operatorname{ResolveLibraryName}(\texttt{dylib},\ \mathsf{name},\ \texttt{x86\_64-win64})\ =\ \mathsf{name}\ \mathbin{++} \ \texttt{".dll"} \\
-\operatorname{ResolveLibraryName}(\texttt{static},\ \mathsf{name},\ \texttt{x86\_64-sysv})\ =\ \texttt{"lib"}\ \mathbin{++} \ \mathsf{name}\ \mathbin{++} \ \texttt{".a"} \\
-\operatorname{ResolveLibraryName}(\texttt{static},\ \mathsf{name},\ \texttt{aarch64-aapcs64})\ =\ \texttt{"lib"}\ \mathbin{++} \ \mathsf{name}\ \mathbin{++} \ \texttt{".a"} \\
-\operatorname{ResolveLibraryName}(\texttt{static},\ \mathsf{name},\ \texttt{x86\_64-win64})\ =\ \mathsf{name}\ \mathbin{++} \ \texttt{".lib"} \\
-\operatorname{ResolveLibraryName}(\texttt{raw-dylib},\ \mathsf{name},\ \texttt{x86\_64-win64})\ =\ \mathsf{name}\ \mathbin{++} \ \texttt{".dll"} \\
-\operatorname{LibraryKindSupported}(\texttt{framework},\ \mathsf{profile})\ \Leftrightarrow \ \mathsf{false} \\
-\operatorname{LibraryKindSupported}(\texttt{raw-dylib},\ \mathsf{profile})\ \Leftrightarrow \ \mathsf{profile}\ =\ \texttt{x86\_64-win64} \\
+\operatorname{ResolveLibraryName}(\texttt{dylib},\ \mathsf{name},\ \texttt{x86\_64-sysv})\ =\ \texttt{"lib"}\ \mathbin{++} \ \mathsf{name}\ \mathbin{++} \ \texttt{".so"} \\[0.16em]
+\operatorname{ResolveLibraryName}(\texttt{dylib},\ \mathsf{name},\ \texttt{aarch64-aapcs64})\ =\ \texttt{"lib"}\ \mathbin{++} \ \mathsf{name}\ \mathbin{++} \ \texttt{".so"} \\[0.16em]
+\operatorname{ResolveLibraryName}(\texttt{dylib},\ \mathsf{name},\ \texttt{x86\_64-win64})\ =\ \mathsf{name}\ \mathbin{++} \ \texttt{".dll"} \\[0.16em]
+\operatorname{ResolveLibraryName}(\texttt{static},\ \mathsf{name},\ \texttt{x86\_64-sysv})\ =\ \texttt{"lib"}\ \mathbin{++} \ \mathsf{name}\ \mathbin{++} \ \texttt{".a"} \\[0.16em]
+\operatorname{ResolveLibraryName}(\texttt{static},\ \mathsf{name},\ \texttt{aarch64-aapcs64})\ =\ \texttt{"lib"}\ \mathbin{++} \ \mathsf{name}\ \mathbin{++} \ \texttt{".a"} \\[0.16em]
+\operatorname{ResolveLibraryName}(\texttt{static},\ \mathsf{name},\ \texttt{x86\_64-win64})\ =\ \mathsf{name}\ \mathbin{++} \ \texttt{".lib"} \\[0.16em]
+\operatorname{ResolveLibraryName}(\texttt{raw-dylib},\ \mathsf{name},\ \texttt{x86\_64-win64})\ =\ \mathsf{name}\ \mathbin{++} \ \texttt{".dll"} \\[0.16em]
+\operatorname{LibraryKindSupported}(\texttt{framework},\ \mathsf{profile})\ \Leftrightarrow \ \mathsf{false} \\[0.16em]
+\operatorname{LibraryKindSupported}(\texttt{raw-dylib},\ \mathsf{profile})\ \Leftrightarrow \ \mathsf{profile}\ =\ \texttt{x86\_64-win64} \\[0.16em]
 \operatorname{LibraryKindSupported}(\mathsf{kind},\ \mathsf{profile})\ \Leftrightarrow \ \mathsf{kind}\ \in \ \{\texttt{dylib},\ \texttt{static}\}
 \end{array}
 $$
@@ -1043,9 +1011,7 @@ If `[[unwind]]` is not specified, `"abort"` is assumed.
 
 **Catch ABI Requirement.**
 
-$$
-\mathsf{If}\ \texttt{UnwindMode(proc) = "catch"},\ \mathsf{the}\ \mathsf{ABI}\ \mathsf{at}\ \mathsf{the}\ \mathsf{boundary}\ \mathsf{MUST}\ \mathsf{be}\ \texttt{"C-unwind"}:
-$$
+If `UnwindMode(proc) = "catch"`, the ABI at the boundary MUST be `"C-unwind"`:
 1. For extern procedures: `ExternAbiName(ExternAbiOf(proc)) = "C-unwind"`.
 2. For raw exported procedures: `ExportAttr(proc) = ⟨"C-unwind", _⟩`.
 3. For hosted exports: `HostExportAttr(proc) = ⟨"C-unwind", _⟩`.
@@ -1138,8 +1104,8 @@ Capability-isolation checks range over existing FFI signature types and declarat
 
 $$
 \begin{array}{l}
-\operatorname{RegionLocalProv}(\pi )\ \Leftrightarrow \ \exists \ \mathsf{tag}.\ \pi \ =\ \pi_{\mathsf{Region}} (\mathsf{tag}) \\
-\operatorname{RawPtrType}(T)\ \Leftrightarrow \ T\ =\ \operatorname{TypeRawPtr}(\_,\ \_) \\
+\operatorname{RegionLocalProv}(\pi )\ \Leftrightarrow \ \exists \ \mathsf{tag}.\ \pi \ =\ \pi_{\mathsf{Region}} (\mathsf{tag}) \\[0.16em]
+\operatorname{RawPtrType}(T)\ \Leftrightarrow \ T\ =\ \operatorname{TypeRawPtr}(\_,\ \_) \\[0.16em]
 \operatorname{FFICall}(\operatorname{Call}(\mathsf{callee},\ \mathsf{args}))\ \Leftrightarrow \ \operatorname{CalleeProc}(\mathsf{callee})\ =\ \mathsf{proc}\ \land \ \operatorname{FFIBoundary}(\mathsf{proc})
 \end{array}
 $$
@@ -1148,8 +1114,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{FFICall}(\operatorname{Call}(\mathsf{callee},\ \mathsf{args}))\quad \exists \ \langle \_,\ \mathsf{arg},\ \_\rangle \ \in \ \mathsf{args}.\ \Gamma ;\ \Omega \ \vdash \ \mathsf{arg}\ \Downarrow \ \pi \ \land \ \operatorname{RegionLocalProv}(\pi )\ \land \ \operatorname{RawPtrType}(\operatorname{ExprType}(\mathsf{arg})) \\
-\rule{18em}{0.4pt} \\
+\operatorname{FFICall}(\operatorname{Call}(\mathsf{callee},\ \mathsf{args}))\quad \exists \ \langle \_,\ \mathsf{arg},\ \_\rangle \ \in \ \mathsf{args}.\ \Gamma ;\ \Omega \ \vdash \ \mathsf{arg}\ \Downarrow \ \pi \ \land \ \operatorname{RegionLocalProv}(\pi )\ \land \ \operatorname{RawPtrType}(\operatorname{ExprType}(\mathsf{arg})) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ \Omega \ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Uparrow 
 \end{array}
 $$
@@ -1158,8 +1124,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{CurrentProcedure}(\Gamma )\ =\ \mathsf{proc}\quad (\operatorname{ExportAttr}(\mathsf{proc})\ \mathsf{defined}\ \lor \ \operatorname{HostExportAttr}(\mathsf{proc})\ \mathsf{defined})\quad \Gamma ;\ \Omega \ \vdash \ e\ \Downarrow \ \pi \quad \operatorname{RegionLocalProv}(\pi )\quad \operatorname{RawPtrType}(\operatorname{ExprType}(e)) \\
-\rule{18em}{0.4pt} \\
+\operatorname{CurrentProcedure}(\Gamma )\ =\ \mathsf{proc}\quad (\operatorname{ExportAttr}(\mathsf{proc})\ \mathsf{defined}\ \lor \ \operatorname{HostExportAttr}(\mathsf{proc})\ \mathsf{defined})\quad \Gamma ;\ \Omega \ \vdash \ e\ \Downarrow \ \pi \quad \operatorname{RegionLocalProv}(\pi )\quad \operatorname{RawPtrType}(\operatorname{ExprType}(e)) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ \Omega \ \vdash \ \operatorname{ReturnStmt}(e)\ \Uparrow 
 \end{array}
 $$
@@ -1206,8 +1172,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{ForeignContractStart}(P) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{ForeignContractStart}(P) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseForeignContractClauseListOpt}(P)\ \Downarrow \ (P,\ \bot )
 \end{array}
 $$
@@ -1216,8 +1182,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ForeignContractStart}(P)\quad \Gamma \ \vdash \ \operatorname{ParseForeignContractClauseList}(P)\ \Downarrow \ (P_{1},\ \mathsf{clauses}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{ForeignContractStart}(P)\quad \Gamma \ \vdash \ \operatorname{ParseForeignContractClauseList}(P)\ \Downarrow \ (P_{1},\ \mathsf{clauses}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseForeignContractClauseListOpt}(P)\ \Downarrow \ (P_{1},\ \mathsf{clauses})
 \end{array}
 $$
@@ -1226,8 +1192,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseForeignContractClause}(P)\ \Downarrow \ (P_{1},\ \mathsf{clause})\quad \Gamma \ \vdash \ \operatorname{ParseForeignContractClauseListTail}(P_{1},\ [\mathsf{clause}])\ \Downarrow \ (P_{2},\ \mathsf{clauses}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseForeignContractClause}(P)\ \Downarrow \ (P_{1},\ \mathsf{clause})\quad \Gamma \ \vdash \ \operatorname{ParseForeignContractClauseListTail}(P_{1},\ [\mathsf{clause}])\ \Downarrow \ (P_{2},\ \mathsf{clauses}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseForeignContractClauseList}(P)\ \Downarrow \ (P_{2},\ \mathsf{clauses})
 \end{array}
 $$
@@ -1236,8 +1202,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{ForeignContractStart}(P) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{ForeignContractStart}(P) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseForeignContractClauseListTail}(P,\ \mathsf{xs})\ \Downarrow \ (P,\ \mathsf{xs})
 \end{array}
 $$
@@ -1246,8 +1212,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ForeignContractStart}(P)\quad \Gamma \ \vdash \ \operatorname{ParseForeignContractClause}(P)\ \Downarrow \ (P_{1},\ \mathsf{clause})\quad \Gamma \ \vdash \ \operatorname{ParseForeignContractClauseListTail}(P_{1},\ \mathsf{xs}\ \mathbin{++} \ [\mathsf{clause}])\ \Downarrow \ (P_{2},\ \mathsf{ys}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{ForeignContractStart}(P)\quad \Gamma \ \vdash \ \operatorname{ParseForeignContractClause}(P)\ \Downarrow \ (P_{1},\ \mathsf{clause})\quad \Gamma \ \vdash \ \operatorname{ParseForeignContractClauseListTail}(P_{1},\ \mathsf{xs}\ \mathbin{++} \ [\mathsf{clause}])\ \Downarrow \ (P_{2},\ \mathsf{ys}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseForeignContractClauseListTail}(P,\ \mathsf{xs})\ \Downarrow \ (P_{2},\ \mathsf{ys})
 \end{array}
 $$
@@ -1256,8 +1222,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"|:"})\quad \operatorname{IsOp}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"@"})\quad \operatorname{IsIdent}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))))\quad \operatorname{Lexeme}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))))\ =\ \texttt{foreign\_assumes}\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P)))),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P)))))\ \Downarrow \ (P_{1},\ \mathsf{pred})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"|:"})\quad \operatorname{IsOp}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"@"})\quad \operatorname{IsIdent}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))))\quad \operatorname{Lexeme}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))))\ =\ \texttt{foreign\_assumes}\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P)))),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P)))))\ \Downarrow \ (P_{1},\ \mathsf{pred})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseForeignContractClause}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{ForeignContractClause}(\mathsf{ForeignAssumes},\ [\mathsf{pred}]))
 \end{array}
 $$
@@ -1266,24 +1232,24 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"|:"})\quad \operatorname{IsOp}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"@"})\quad \operatorname{IsIdent}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))))\quad \operatorname{Lexeme}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))))\ =\ \texttt{foreign\_ensures}\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P)))),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseEnsuresPredicate}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P)))))\ \Downarrow \ (P_{1},\ \mathsf{epred})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"|:"})\quad \operatorname{IsOp}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"@"})\quad \operatorname{IsIdent}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))))\quad \operatorname{Lexeme}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))))\ =\ \texttt{foreign\_ensures}\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P)))),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseEnsuresPredicate}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P)))))\ \Downarrow \ (P_{1},\ \mathsf{epred})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseForeignContractClause}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{ForeignContractClause}(\operatorname{ForeignEnsuresKind}(\mathsf{epred}),\ [\operatorname{ForeignEnsuresExpr}(\mathsf{epred})]))
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{ForeignEnsuresKind}(\operatorname{Ensures}(\mathsf{pred}))\ =\ \mathsf{ForeignEnsures} \\
-\operatorname{ForeignEnsuresKind}(\operatorname{EnsuresError}(\mathsf{pred}))\ =\ \mathsf{ForeignEnsuresError} \\
+\operatorname{ForeignEnsuresKind}(\operatorname{Ensures}(\mathsf{pred}))\ =\ \mathsf{ForeignEnsures} \\[0.16em]
+\operatorname{ForeignEnsuresKind}(\operatorname{EnsuresError}(\mathsf{pred}))\ =\ \mathsf{ForeignEnsuresError} \\[0.16em]
 \operatorname{ForeignEnsuresKind}(\operatorname{EnsuresNullResult}(\mathsf{pred}))\ =\ \mathsf{ForeignEnsuresNullResult}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{ForeignEnsuresExpr}(\operatorname{Ensures}(\mathsf{pred}))\ =\ \mathsf{pred} \\
-\operatorname{ForeignEnsuresExpr}(\operatorname{EnsuresError}(\mathsf{pred}))\ =\ \mathsf{pred} \\
+\operatorname{ForeignEnsuresExpr}(\operatorname{Ensures}(\mathsf{pred}))\ =\ \mathsf{pred} \\[0.16em]
+\operatorname{ForeignEnsuresExpr}(\operatorname{EnsuresError}(\mathsf{pred}))\ =\ \mathsf{pred} \\[0.16em]
 \operatorname{ForeignEnsuresExpr}(\operatorname{EnsuresNullResult}(\mathsf{pred}))\ =\ \mathsf{pred}
 \end{array}
 $$
@@ -1292,8 +1258,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"@"})\quad \operatorname{IsIdent}(\operatorname{Tok}(\operatorname{Advance}(P)))\quad \operatorname{Lexeme}(\operatorname{Tok}(\operatorname{Advance}(P)))\ =\ \texttt{error}\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P))))\ \Downarrow \ (P_{1},\ \mathsf{pred}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"@"})\quad \operatorname{IsIdent}(\operatorname{Tok}(\operatorname{Advance}(P)))\quad \operatorname{Lexeme}(\operatorname{Tok}(\operatorname{Advance}(P)))\ =\ \texttt{error}\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P))))\ \Downarrow \ (P_{1},\ \mathsf{pred}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseEnsuresPredicate}(P)\ \Downarrow \ (P_{1},\ \operatorname{EnsuresError}(\mathsf{pred}))
 \end{array}
 $$
@@ -1302,8 +1268,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"@"})\quad \operatorname{IsIdent}(\operatorname{Tok}(\operatorname{Advance}(P)))\quad \operatorname{Lexeme}(\operatorname{Tok}(\operatorname{Advance}(P)))\ =\ \texttt{null\_result}\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P))))\ \Downarrow \ (P_{1},\ \mathsf{pred}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"@"})\quad \operatorname{IsIdent}(\operatorname{Tok}(\operatorname{Advance}(P)))\quad \operatorname{Lexeme}(\operatorname{Tok}(\operatorname{Advance}(P)))\ =\ \texttt{null\_result}\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P))))\ \Downarrow \ (P_{1},\ \mathsf{pred}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseEnsuresPredicate}(P)\ \Downarrow \ (P_{1},\ \operatorname{EnsuresNullResult}(\mathsf{pred}))
 \end{array}
 $$
@@ -1312,8 +1278,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(P)\ \Downarrow \ (P_{1},\ \mathsf{pred}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(P)\ \Downarrow \ (P_{1},\ \mathsf{pred}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseEnsuresPredicate}(P)\ \Downarrow \ (P_{1},\ \operatorname{Ensures}(\mathsf{pred}))
 \end{array}
 $$
@@ -1323,10 +1289,10 @@ Foreign contracts are attached to extern declarations via `foreign_contracts_opt
 
 $$
 \begin{array}{l}
-\mathsf{foreign}_{\mathsf{contracts}\_\mathsf{opt}}\ \in \ \{\bot \}\ \cup \ [\mathsf{ForeignContractClause}] \\
-\mathsf{ForeignContractKind}\ =\ \{\mathsf{ForeignAssumes},\ \mathsf{ForeignEnsures},\ \mathsf{ForeignEnsuresError},\ \mathsf{ForeignEnsuresNullResult}\} \\
-\mathsf{EnsuresPredicate}\ =\ \{\operatorname{Ensures}(\mathsf{pred}),\ \operatorname{EnsuresError}(\mathsf{pred}),\ \operatorname{EnsuresNullResult}(\mathsf{pred})\}\quad \mathsf{pred}\ \in \ \mathsf{Expr} \\
-\mathsf{ForeignContractClause}\ =\ \operatorname{ForeignContractClause}(\mathsf{kind},\ \mathsf{preds}) \\
+\mathsf{foreign}_{\mathsf{contracts}\_\mathsf{opt}}\ \in \ \{\bot \}\ \cup \ [\mathsf{ForeignContractClause}] \\[0.16em]
+\mathsf{ForeignContractKind}\ =\ \{\mathsf{ForeignAssumes},\ \mathsf{ForeignEnsures},\ \mathsf{ForeignEnsuresError},\ \mathsf{ForeignEnsuresNullResult}\} \\[0.16em]
+\mathsf{EnsuresPredicate}\ =\ \{\operatorname{Ensures}(\mathsf{pred}),\ \operatorname{EnsuresError}(\mathsf{pred}),\ \operatorname{EnsuresNullResult}(\mathsf{pred})\}\quad \mathsf{pred}\ \in \ \mathsf{Expr} \\[0.16em]
+\mathsf{ForeignContractClause}\ =\ \operatorname{ForeignContractClause}(\mathsf{kind},\ \mathsf{preds}) \\[0.16em]
 \mathsf{kind}\ \in \ \mathsf{ForeignContractKind}\quad \mathsf{preds}\ \in \ [\mathsf{Expr}]
 \end{array}
 $$
@@ -1393,7 +1359,7 @@ ErrCond =
 
 $$
 \begin{array}{l}
-\ \bigwedge \_(P\ \in \ E)\ P\quad \mathsf{if}\ E\ \ne \ \emptyset  \\
+\ \bigwedge \_(P\ \in \ E)\ P\quad \mathsf{if}\ E\ \ne \ \emptyset  \\[0.16em]
 \ \texttt{false}\quad \mathsf{otherwise}
 \end{array}
 $$
@@ -1421,7 +1387,7 @@ Then the foreign postcondition obligations are:
 
 $$
 \begin{array}{l}
-\operatorname{NullableFfiResult}(T)\ \Leftrightarrow \ T\ =\ \operatorname{TypePtr}(\_,\ \texttt{@Null})\ \lor \ T\ =\ \operatorname{TypeRawPtr}(\texttt{imm},\ \_)\ \lor \ T\ =\ \operatorname{TypeRawPtr}(\texttt{mut},\ \_) \\
+\operatorname{NullableFfiResult}(T)\ \Leftrightarrow \ T\ =\ \operatorname{TypePtr}(\_,\ \texttt{@Null})\ \lor \ T\ =\ \operatorname{TypeRawPtr}(\texttt{imm},\ \_)\ \lor \ T\ =\ \operatorname{TypeRawPtr}(\texttt{mut},\ \_) \\[0.16em]
 \operatorname{NullResultEnsures}(\mathsf{proc})\ =\ [\mathsf{pred}\ \mid \ \mathsf{clause}\ \in \ \mathsf{proc}.\mathsf{foreign}_{\mathsf{contracts}\_\mathsf{opt}}\ \land \ \mathsf{clause}.\mathsf{kind}\ =\ \mathsf{ForeignEnsures}\ \land \ \mathsf{pred}\ \in \ \mathsf{clause}.\mathsf{preds}\ \land \ \mathsf{pred}\ =\ \operatorname{EnsuresNullResult}(\_)]
 \end{array}
 $$
@@ -1430,9 +1396,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{proc}\ =\ \operatorname{ExternProcDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \mathsf{foreign}_{\mathsf{contracts}\_\mathsf{opt}},\ \_,\ \_) \\
-\operatorname{NullResultEnsures}(\mathsf{proc})\ \ne \ []\quad R\ =\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\quad \lnot \ \operatorname{NullableFfiResult}(R) \\
-\rule{18em}{0.4pt} \\
+\mathsf{proc}\ =\ \operatorname{ExternProcDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \mathsf{foreign}_{\mathsf{contracts}\_\mathsf{opt}},\ \_,\ \_) \\[0.16em]
+\operatorname{NullResultEnsures}(\mathsf{proc})\ \ne \ []\quad R\ =\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\quad \lnot \ \operatorname{NullableFfiResult}(R) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \mathsf{proc}\ \Uparrow 
 \end{array}
 $$
@@ -1461,9 +1427,7 @@ $$
 
 For foreign preconditions, a failed `ForeignPre` check triggers a panic.
 
-$$
-\mathsf{For}\ \mathsf{foreign}\ \mathsf{postconditions},\ \mathsf{in}\ \texttt{[[dynamic]]}\ \mathsf{mode},\ \mathsf{the}\ \mathsf{implementation}\ \mathsf{MUST}\ \mathsf{evaluate}\ \texttt{ErrCond}\ \mathsf{and}\ \texttt{NullCond}\ \mathsf{in}\ \mathsf{left}-\mathsf{to}-\mathsf{right}\ \mathsf{predicate}\ \mathsf{order}\ \mathsf{and}\ \mathsf{insert}\ \mathsf{runtime}\ \mathsf{checks}\ \mathsf{enforcing}\ \mathsf{the}\ \mathsf{implications}\ \mathsf{above}\ \mathsf{immediately}\ \mathsf{after}\ \mathsf{the}\ \mathsf{foreign}\ \mathsf{call}\ \mathsf{returns}.\ \mathsf{Each}\ \mathsf{inserted}\ \mathsf{check}\ \mathsf{is}\ \texttt{ContractCheck(P, ForeignPost, s, rho\_foreign\_post)}.\ A\ \mathsf{failed}\ \mathsf{runtime}\ \mathsf{check}\ \mathsf{triggers}\ a\ \mathsf{panic}\ \mathsf{with}\ \mathsf{payload}\ \texttt{ContractViolation(ForeignPost, P, s)}\ \mathsf{at}\ \mathsf{the}\ \mathsf{call}\ \mathsf{site}.
-$$
+For foreign postconditions, in `[[dynamic]]` mode, the implementation MUST evaluate `ErrCond` and `NullCond` in left-to-right predicate order and insert runtime checks enforcing the implications above immediately after the foreign call returns. Each inserted check is `ContractCheck(P, ForeignPost, s, ρ_foreign_post)`. A failed runtime check triggers a panic with payload `ContractViolation(ForeignPost, P, s)` at the call site.
 
 ### 23.6.6 Lowering
 
@@ -1487,9 +1451,7 @@ $$
 
 ### 23.7.1 Syntax
 
-$$
-\mathsf{The}\ \mathsf{only}\ \mathsf{surface}\ \mathsf{syntax}\ \mathsf{owned}\ \mathsf{by}\ \mathsf{this}\ \mathsf{section}\ \mathsf{is}\ \texttt{[[unwind(...)]],}\ \mathsf{defined}\ \mathsf{in}\ \S 23.4.1.\ \mathsf{This}\ \mathsf{section}\ \mathsf{introduces}\ \mathsf{no}\ \mathsf{additional}\ \mathsf{concrete}\ \mathsf{syntax}.
-$$
+The only surface syntax owned by this section is `[[unwind(...)]],` defined in §23.4.1. This section introduces no additional concrete syntax.
 
 ### 23.7.2 Parsing
 
@@ -1509,7 +1471,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{UnwindMode}(\mathsf{proc})\ =\ m\ \Leftrightarrow \ \operatorname{UnwindAttr}(\mathsf{proc})\ =\ m \\
+\operatorname{UnwindMode}(\mathsf{proc})\ =\ m\ \Leftrightarrow \ \operatorname{UnwindAttr}(\mathsf{proc})\ =\ m \\[0.16em]
 \operatorname{UnwindMode}(\mathsf{proc})\ =\ \texttt{abort}\ \Leftrightarrow \ \operatorname{UnwindAttr}(\mathsf{proc})\ \mathsf{undefined}
 \end{array}
 $$
@@ -1528,12 +1490,12 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{DetermineUnwindMode}(\mathsf{proc})\ = \\
-\ \mathsf{let}\ \mathsf{attrs}\ =\ \operatorname{AttrByName}(\mathsf{proc},\ \texttt{"unwind"}) \\
-\ \mathsf{match}\ \mathsf{attrs}\ \{ \\
-\quad []\quad \to \ \texttt{abort} \\
-\quad [a]\quad \to \ \operatorname{ParseUnwindArg}(a) \\
-\quad \_\quad \to \ \operatorname{Emit}(\texttt{E-FFI-0350}) \\
+\operatorname{DetermineUnwindMode}(\mathsf{proc})\ = \\[0.16em]
+\ \mathsf{let}\ \mathsf{attrs}\ =\ \operatorname{AttrByName}(\mathsf{proc},\ \texttt{"unwind"}) \\[0.16em]
+\ \mathsf{match}\ \mathsf{attrs}\ \{ \\[0.16em]
+\quad []\quad \to \ \texttt{abort} \\[0.16em]
+\quad [a]\quad \to \ \operatorname{ParseUnwindArg}(a) \\[0.16em]
+\quad \_\quad \to \ \operatorname{Emit}(\texttt{E-FFI-0350}) \\[0.16em]
 \ \}
 \end{array}
 $$
@@ -1544,11 +1506,11 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ParseUnwindArg}(a)\ = \\
-\ \mathsf{match}\ a.\mathsf{args}\ \{ \\
-\quad [\operatorname{StringLiteral}(\texttt{"abort"})]\ \to \ \texttt{abort} \\
-\quad [\operatorname{StringLiteral}(\texttt{"catch"})]\ \to \ \texttt{catch} \\
-\quad \_\quad \to \ \operatorname{Emit}(\texttt{E-SYS-3355}) \\
+\operatorname{ParseUnwindArg}(a)\ = \\[0.16em]
+\ \mathsf{match}\ a.\mathsf{args}\ \{ \\[0.16em]
+\quad [\operatorname{StringLiteral}(\texttt{"abort"})]\ \to \ \texttt{abort} \\[0.16em]
+\quad [\operatorname{StringLiteral}(\texttt{"catch"})]\ \to \ \texttt{catch} \\[0.16em]
+\quad \_\quad \to \ \operatorname{Emit}(\texttt{E-SYS-3355}) \\[0.16em]
 \ \}
 \end{array}
 $$
@@ -1557,8 +1519,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{UnwindAttr}(\mathsf{proc})\ =\ m\quad m\ \in \ \{\ \texttt{"abort"},\ \texttt{"catch"}\ \} \\
-\rule{18em}{0.4pt} \\
+\operatorname{UnwindAttr}(\mathsf{proc})\ =\ m\quad m\ \in \ \{\ \texttt{"abort"},\ \texttt{"catch"}\ \} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{UnwindMode}(\mathsf{proc})\ =\ m
 \end{array}
 $$
@@ -1567,8 +1529,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{UnwindAttr}(\mathsf{proc})\ =\ m\quad m\ \notin \ \{\ \texttt{"abort"},\ \texttt{"catch"}\ \}\quad c\ =\ \operatorname{Code}(E-\mathsf{SYS}-3355) \\
-\rule{18em}{0.4pt} \\
+\operatorname{UnwindAttr}(\mathsf{proc})\ =\ m\quad m\ \notin \ \{\ \texttt{"abort"},\ \texttt{"catch"}\ \}\quad c\ =\ \operatorname{Code}(E-\mathsf{SYS}-3355) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{UnwindMode}(\mathsf{proc})\ \Uparrow \ c
 \end{array}
 $$
@@ -1600,8 +1562,8 @@ The `UnwindMode` affects generated code at FFI boundaries:
 
 $$
 \begin{array}{l}
-\operatorname{UnwindMode}(\mathsf{extern}_{\mathsf{proc}})\ =\ \texttt{abort}\quad \operatorname{CallSite}(\mathsf{extern}_{\mathsf{proc}})\ \mathsf{at}\ \mathsf{location}\ L \\
-\rule{18em}{0.4pt} \\
+\operatorname{UnwindMode}(\mathsf{extern}_{\mathsf{proc}})\ =\ \texttt{abort}\quad \operatorname{CallSite}(\mathsf{extern}_{\mathsf{proc}})\ \mathsf{at}\ \mathsf{location}\ L \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{EmitAbortLandingPad}(L)
 \end{array}
 $$
@@ -1610,8 +1572,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{UnwindMode}(\mathsf{extern}_{\mathsf{proc}})\ =\ \texttt{catch}\quad \operatorname{CallSite}(\mathsf{extern}_{\mathsf{proc}})\ \mathsf{at}\ \mathsf{location}\ L \\
-\rule{18em}{0.4pt} \\
+\operatorname{UnwindMode}(\mathsf{extern}_{\mathsf{proc}})\ =\ \texttt{catch}\quad \operatorname{CallSite}(\mathsf{extern}_{\mathsf{proc}})\ \mathsf{at}\ \mathsf{location}\ L \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{EmitCatchLandingPad}(L,\ \mathsf{ConvertToUltravioletPanic})
 \end{array}
 $$
@@ -1620,8 +1582,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{UnwindMode}(\mathsf{exported}_{\mathsf{proc}})\ =\ \texttt{abort}\quad \operatorname{EntryPoint}(\mathsf{exported}_{\mathsf{proc}})\ \mathsf{at}\ \mathsf{location}\ L \\
-\rule{18em}{0.4pt} \\
+\operatorname{UnwindMode}(\mathsf{exported}_{\mathsf{proc}})\ =\ \texttt{abort}\quad \operatorname{EntryPoint}(\mathsf{exported}_{\mathsf{proc}})\ \mathsf{at}\ \mathsf{location}\ L \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{EmitAbortOnPanicFrame}(L)
 \end{array}
 $$
@@ -1630,8 +1592,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{UnwindMode}(\mathsf{exported}_{\mathsf{proc}})\ =\ \texttt{catch}\quad \operatorname{EntryPoint}(\mathsf{exported}_{\mathsf{proc}})\ \mathsf{at}\ \mathsf{location}\ L \\
-\rule{18em}{0.4pt} \\
+\operatorname{UnwindMode}(\mathsf{exported}_{\mathsf{proc}})\ =\ \texttt{catch}\quad \operatorname{EntryPoint}(\mathsf{exported}_{\mathsf{proc}})\ \mathsf{at}\ \mathsf{location}\ L \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{EmitCatchExportFrame}(L,\ \mathsf{ReturnZeroValue})
 \end{array}
 $$

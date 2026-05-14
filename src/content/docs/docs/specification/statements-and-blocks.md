@@ -2,14 +2,14 @@
 title: "Statements and Blocks"
 description: "18. Statements and Blocks of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T19:35:24.518Z"
+specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+generatedAt: "2026-05-14T00:55:03.609Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e</code></span>
+  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
 </div>
 
 
@@ -45,21 +45,19 @@ block_expr    ::= "{" statement_seq "}"
 
 $$
 \begin{array}{l}
-\mathsf{StmtTerm}\ =\ \{\operatorname{Punctuator}(\texttt{";"}),\ \mathsf{Newline}\} \\
+\mathsf{StmtTerm}\ =\ \{\operatorname{Punctuator}(\texttt{";"}),\ \mathsf{Newline}\} \\[0.16em]
 \operatorname{Terminates}(t)\ \Leftrightarrow \ t\ \in \ \mathsf{StmtTerm}
 \end{array}
 $$
 
-$$
-\operatorname{AttachStmtAttrs}(\bot ,\ s)\ =\ s.\ \mathsf{When}\ \mathsf{attrs}_{\mathsf{opt}}\ \ne \ \bot ,\ \operatorname{AttachStmtAttrs}(\mathsf{attrs}_{\mathsf{opt}},\ s)\ \mathsf{denotes}\ \mathsf{the}\ \mathsf{statement}\ \mathsf{obtained}\ \mathsf{by}\ \mathsf{attaching}\ \mathsf{attrs}_{\mathsf{opt}}\ \mathsf{to}\ s\ \mathsf{according}\ \mathsf{to}\ \mathsf{Chapter}\ 9.
-$$
+AttachStmtAttrs(⊥, s) = s. When attrs_opt ≠ ⊥, AttachStmtAttrs(attrs_opt, s) denotes the statement obtained by attaching attrs_opt to s according to Chapter 9.
 
 **(Parse-Statement)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P_{0},\ \mathsf{attrs}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseStmtCore}(P_{0})\ \Downarrow \ (P_{1},\ s_{0})\quad s\ =\ \operatorname{AttachStmtAttrs}(\mathsf{attrs}_{\mathsf{opt}},\ s_{0})\quad \Gamma \ \vdash \ \operatorname{ConsumeTerminatorOpt}(P_{1},\ s)\ \Downarrow \ P_{2} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P_{0},\ \mathsf{attrs}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseStmtCore}(P_{0})\ \Downarrow \ (P_{1},\ s_{0})\quad s\ =\ \operatorname{AttachStmtAttrs}(\mathsf{attrs}_{\mathsf{opt}},\ s_{0})\quad \Gamma \ \vdash \ \operatorname{ConsumeTerminatorOpt}(P_{1},\ s)\ \Downarrow \ P_{2} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseStmt}(P)\ \Downarrow \ (P_{2},\ s)
 \end{array}
 $$
@@ -68,8 +66,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P_{0},\ \mathsf{attrs}_{\mathsf{opt}})\quad c\ =\ \operatorname{Code}(\mathsf{Parse}-\mathsf{Syntax}-\mathsf{Err})\quad \Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{Tok}(P_{0}).\mathsf{span})\quad P_{1}\ =\ \operatorname{AdvanceOrEOF}(P_{0})\quad \Gamma \ \vdash \ \operatorname{SyncStmt}(P_{1})\ \Downarrow \ P_{2} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P_{0},\ \mathsf{attrs}_{\mathsf{opt}})\quad c\ =\ \operatorname{Code}(\mathsf{Parse}-\mathsf{Syntax}-\mathsf{Err})\quad \Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{Tok}(P_{0}).\mathsf{span})\quad P_{1}\ =\ \operatorname{AdvanceOrEOF}(P_{0})\quad \Gamma \ \vdash \ \operatorname{SyncStmt}(P_{1})\ \Downarrow \ P_{2} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseStmt}(P)\ \Downarrow \ (P_{2},\ \operatorname{ErrorStmt}(\operatorname{SpanBetween}(P_{0},\ P_{2})))
 \end{array}
 $$
@@ -78,8 +76,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseStmtSeq}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{stmts},\ \mathsf{tail})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\}"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseStmtSeq}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{stmts},\ \mathsf{tail})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\}"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseBlock}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}))
 \end{array}
 $$
@@ -93,7 +91,7 @@ ReqTerm(s)    IsTerm(Tok(P))
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ConsumeTerminatorOpt}(P,\ s)\ \Downarrow \ \operatorname{Advance}(P)
 \end{array}
 $$
@@ -102,8 +100,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ReqTerm}(s)\quad \lnot \ \operatorname{IsTerm}(\operatorname{Tok}(P))\quad \operatorname{Emit}(\operatorname{Code}(\mathsf{Missing}-\mathsf{Terminator}-\mathsf{Err}),\ \mathsf{Span}\ =\ \operatorname{Tok}(P).\mathsf{span})\quad \Gamma \ \vdash \ \operatorname{SyncStmt}(P)\ \Downarrow \ P_{1} \\
-\rule{18em}{0.4pt} \\
+\operatorname{ReqTerm}(s)\quad \lnot \ \operatorname{IsTerm}(\operatorname{Tok}(P))\quad \operatorname{Emit}(\operatorname{Code}(\mathsf{Missing}-\mathsf{Terminator}-\mathsf{Err}),\ \mathsf{Span}\ =\ \operatorname{Tok}(P).\mathsf{span})\quad \Gamma \ \vdash \ \operatorname{SyncStmt}(P)\ \Downarrow \ P_{1} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ConsumeTerminatorOpt}(P,\ s)\ \Downarrow \ P_{1}
 \end{array}
 $$
@@ -112,8 +110,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{ReqTerm}(s)\quad \operatorname{IsTerm}(\operatorname{Tok}(P)) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{ReqTerm}(s)\quad \operatorname{IsTerm}(\operatorname{Tok}(P)) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ConsumeTerminatorOpt}(P,\ s)\ \Downarrow \ \operatorname{Advance}(P)
 \end{array}
 $$
@@ -122,15 +120,15 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{ReqTerm}(s)\quad \lnot \ \operatorname{IsTerm}(\operatorname{Tok}(P)) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{ReqTerm}(s)\quad \lnot \ \operatorname{IsTerm}(\operatorname{Tok}(P)) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ConsumeTerminatorOpt}(P,\ s)\ \Downarrow \ P
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{SkipNL}(P)\ =\ P\quad \mathsf{if}\ \operatorname{Tok}(P)\ \ne \ \mathsf{Newline} \\
+\operatorname{SkipNL}(P)\ =\ P\quad \mathsf{if}\ \operatorname{Tok}(P)\ \ne \ \mathsf{Newline} \\[0.16em]
 \operatorname{SkipNL}(P)\ =\ \operatorname{SkipNL}(\operatorname{Advance}(P))\quad \mathsf{if}\ \operatorname{Tok}(P)\ =\ \mathsf{Newline}
 \end{array}
 $$
@@ -139,8 +137,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{Tok}(P)\ =\ \operatorname{Punctuator}(\texttt{"\}"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{Tok}(P)\ =\ \operatorname{Punctuator}(\texttt{"\}"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseStmtSeq}(P)\ \Downarrow \ (P,\ [],\ \bot )
 \end{array}
 $$
@@ -149,8 +147,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{Tok}(P)\ \notin \ \{\operatorname{Punctuator}(\texttt{"\}"})\}\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(P)\ \Downarrow \ (P_{1},\ e)\quad P_{1}'\ =\ \operatorname{SkipNL}(P_{1})\quad \operatorname{Tok}(P_{1}')\ =\ \operatorname{Punctuator}(\texttt{"\}"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{Tok}(P)\ \notin \ \{\operatorname{Punctuator}(\texttt{"\}"})\}\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(P)\ \Downarrow \ (P_{1},\ e)\quad P_{1}'\ =\ \operatorname{SkipNL}(P_{1})\quad \operatorname{Tok}(P_{1}')\ =\ \operatorname{Punctuator}(\texttt{"\}"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseStmtSeq}(P)\ \Downarrow \ (P_{1}',\ [],\ e)
 \end{array}
 $$
@@ -159,8 +157,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseStmt}(P)\ \Downarrow \ (P_{1},\ s)\quad \Gamma \ \vdash \ \operatorname{ParseStmtSeq}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{ss},\ \mathsf{tail}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseStmt}(P)\ \Downarrow \ (P_{1},\ s)\quad \Gamma \ \vdash \ \operatorname{ParseStmtSeq}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{ss},\ \mathsf{tail}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseStmtSeq}(P)\ \Downarrow \ (P_{2},\ [s]\ \mathbin{++} \ \mathsf{ss},\ \mathsf{tail})
 \end{array}
 $$
@@ -177,14 +175,14 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{LastStmt}([])\ =\ \bot  \\
+\operatorname{LastStmt}([])\ =\ \bot  \\[0.16em]
 \operatorname{LastStmt}([s_{1},\ \ldots ,\ s_{n}])\ =\ s_{n}\quad (n\ \ge \ 1)
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{ResType}([T_{1},\ \ldots ,\ T_{n}])\ =\ T\ \Leftrightarrow \ n\ \ge \ 1\ \land \ \forall \ i.\ \Gamma \ \vdash \ T_{i}\ \equiv \ T \\
+\operatorname{ResType}([T_{1},\ \ldots ,\ T_{n}])\ =\ T\ \Leftrightarrow \ n\ \ge \ 1\ \land \ \forall \ i.\ \Gamma \ \vdash \ T_{i}\ \equiv \ T \\[0.16em]
 \operatorname{ResType}([])\ =\ \bot 
 \end{array}
 $$
@@ -193,10 +191,10 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{MutKind}\ =\ \{\texttt{let},\ \texttt{var}\} \\
-\mathsf{Bind}\ =\ \{\langle \mathsf{mut},\ T\rangle \ \mid \ \mathsf{mut}\ \in \ \mathsf{MutKind}\ \land \ T\ \in \ \mathsf{Type}\} \\
-\operatorname{BindOf}(\Gamma ,\ x)\ =\ \langle \mathsf{mut},\ T\rangle \ \Leftrightarrow \ \langle \mathsf{mut},\ T\rangle \ \mathsf{is}\ \mathsf{the}\ \mathsf{binding}\ \mathsf{for}\ x\ \mathsf{in}\ \mathsf{the}\ \mathsf{nearest}\ \mathsf{scope}\ \mathsf{of}\ \operatorname{Scopes}(\Gamma ) \\
-(x\ :\ T)\ \in \ \Gamma \ \Leftrightarrow \ \exists \ \mathsf{mut}.\ \operatorname{BindOf}(\Gamma ,\ x)\ =\ \langle \mathsf{mut},\ T\rangle  \\
+\mathsf{MutKind}\ =\ \{\texttt{let},\ \texttt{var}\} \\[0.16em]
+\mathsf{Bind}\ =\ \{\langle \mathsf{mut},\ T\rangle \ \mid \ \mathsf{mut}\ \in \ \mathsf{MutKind}\ \land \ T\ \in \ \mathsf{Type}\} \\[0.16em]
+\operatorname{BindOf}(\Gamma ,\ x)\ =\ \langle \mathsf{mut},\ T\rangle \ \Leftrightarrow \ \langle \mathsf{mut},\ T\rangle \ \mathsf{is}\ \mathsf{the}\ \mathsf{binding}\ \mathsf{for}\ x\ \mathsf{in}\ \mathsf{the}\ \mathsf{nearest}\ \mathsf{scope}\ \mathsf{of}\ \operatorname{Scopes}(\Gamma ) \\[0.16em]
+(x\ :\ T)\ \in \ \Gamma \ \Leftrightarrow \ \exists \ \mathsf{mut}.\ \operatorname{BindOf}(\Gamma ,\ x)\ =\ \langle \mathsf{mut},\ T\rangle  \\[0.16em]
 \operatorname{MutOf}(\Gamma ,\ x)\ =\ \mathsf{mut}\ \Leftrightarrow \ \operatorname{BindOf}(\Gamma ,\ x)\ =\ \langle \mathsf{mut},\ T\rangle 
 \end{array}
 $$
@@ -211,7 +209,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{PushScope}(\Gamma )\ =\ \Gamma '\ \Leftrightarrow \ \operatorname{Scopes}(\Gamma ')\ =\ [\emptyset ]\ \mathbin{++} \ \operatorname{Scopes}(\Gamma )\ \land \ \operatorname{Project}(\Gamma ')\ =\ \operatorname{Project}(\Gamma )\ \land \ \operatorname{ResCtx}(\Gamma ')\ =\ \operatorname{ResCtx}(\Gamma ) \\
+\operatorname{PushScope}(\Gamma )\ =\ \Gamma '\ \Leftrightarrow \ \operatorname{Scopes}(\Gamma ')\ =\ [\emptyset ]\ \mathbin{++} \ \operatorname{Scopes}(\Gamma )\ \land \ \operatorname{Project}(\Gamma ')\ =\ \operatorname{Project}(\Gamma )\ \land \ \operatorname{ResCtx}(\Gamma ')\ =\ \operatorname{ResCtx}(\Gamma ) \\[0.16em]
 \operatorname{PopScope}(\Gamma ')\ =\ \Gamma \ \Leftrightarrow \ \operatorname{Scopes}(\Gamma ')\ =\ [\_]\ \mathbin{++} \ \operatorname{Scopes}(\Gamma )\ \land \ \operatorname{Project}(\Gamma ')\ =\ \operatorname{Project}(\Gamma )\ \land \ \operatorname{ResCtx}(\Gamma ')\ =\ \operatorname{ResCtx}(\Gamma )
 \end{array}
 $$
@@ -220,7 +218,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{ErrorStmt}(\_)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
 \end{array}
 $$
@@ -229,8 +227,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} ;\ R;\ L\ \vdash \ \mathsf{stmts}\ \Rightarrow \ \Gamma_{1} \ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \Gamma \ \vdash \ \operatorname{WarnResultUnreachable}(\mathsf{stmts})\ \Downarrow \ \mathsf{ok}\quad \operatorname{ResType}(\mathsf{Res})\ =\ T\quad (\mathsf{tail}_{\mathsf{opt}}\ =\ e\ \Rightarrow \ \Gamma_{1} ;\ R;\ L\ \vdash \ e\ :\ T_{e}) \\
-\rule{18em}{0.4pt} \\
+\Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} ;\ R;\ L\ \vdash \ \mathsf{stmts}\ \Rightarrow \ \Gamma_{1} \ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \Gamma \ \vdash \ \operatorname{WarnResultUnreachable}(\mathsf{stmts})\ \Downarrow \ \mathsf{ok}\quad \operatorname{ResType}(\mathsf{Res})\ =\ T\quad (\mathsf{tail}_{\mathsf{opt}}\ =\ e\ \Rightarrow \ \Gamma_{1} ;\ R;\ L\ \vdash \ e\ :\ T_{e}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockInfo}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}))\ \Downarrow \ \langle T,\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle 
 \end{array}
 $$
@@ -239,8 +237,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} ;\ R;\ L\ \vdash \ \mathsf{stmts}\ \Rightarrow \ \Gamma_{1} \ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \mathsf{Res}\ \ne \ []\quad \lnot \ \exists \ T.\ \operatorname{ResType}(\mathsf{Res})\ =\ T\quad c\ =\ \operatorname{Code}(\mathsf{BlockInfo}-\mathsf{Res}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} ;\ R;\ L\ \vdash \ \mathsf{stmts}\ \Rightarrow \ \Gamma_{1} \ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \mathsf{Res}\ \ne \ []\quad \lnot \ \exists \ T.\ \operatorname{ResType}(\mathsf{Res})\ =\ T\quad c\ =\ \operatorname{Code}(\mathsf{BlockInfo}-\mathsf{Res}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockInfo}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}))\ \Uparrow \ c
 \end{array}
 $$
@@ -249,8 +247,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} ;\ R;\ L\ \vdash \ \mathsf{stmts}\ \Rightarrow \ \Gamma_{1} \ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \Gamma \ \vdash \ \operatorname{WarnResultUnreachable}(\mathsf{stmts})\ \Downarrow \ \mathsf{ok}\quad \operatorname{ResType}(\mathsf{Res})\ =\ \bot \quad \mathsf{tail}_{\mathsf{opt}}\ =\ e\quad \Gamma_{1} ;\ R;\ L\ \vdash \ e\ :\ T \\
-\rule{18em}{0.4pt} \\
+\Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} ;\ R;\ L\ \vdash \ \mathsf{stmts}\ \Rightarrow \ \Gamma_{1} \ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \Gamma \ \vdash \ \operatorname{WarnResultUnreachable}(\mathsf{stmts})\ \Downarrow \ \mathsf{ok}\quad \operatorname{ResType}(\mathsf{Res})\ =\ \bot \quad \mathsf{tail}_{\mathsf{opt}}\ =\ e\quad \Gamma_{1} ;\ R;\ L\ \vdash \ e\ :\ T \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockInfo}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}))\ \Downarrow \ \langle T,\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle 
 \end{array}
 $$
@@ -259,8 +257,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} ;\ R;\ L\ \vdash \ \mathsf{stmts}\ \Rightarrow \ \Gamma_{1} \ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \Gamma \ \vdash \ \operatorname{WarnResultUnreachable}(\mathsf{stmts})\ \Downarrow \ \mathsf{ok}\quad \operatorname{ResType}(\mathsf{Res})\ =\ \bot \quad \mathsf{tail}_{\mathsf{opt}}\ =\ \bot \quad \operatorname{LastStmt}(\mathsf{stmts})\ =\ \operatorname{ReturnStmt}(\_) \\
-\rule{18em}{0.4pt} \\
+\Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} ;\ R;\ L\ \vdash \ \mathsf{stmts}\ \Rightarrow \ \Gamma_{1} \ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \Gamma \ \vdash \ \operatorname{WarnResultUnreachable}(\mathsf{stmts})\ \Downarrow \ \mathsf{ok}\quad \operatorname{ResType}(\mathsf{Res})\ =\ \bot \quad \mathsf{tail}_{\mathsf{opt}}\ =\ \bot \quad \operatorname{LastStmt}(\mathsf{stmts})\ =\ \operatorname{ReturnStmt}(\_) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockInfo}(\operatorname{BlockExpr}(\mathsf{stmts},\ \bot ))\ \Downarrow \ \langle \operatorname{TypePrim}(\texttt{"!"}),\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle 
 \end{array}
 $$
@@ -269,8 +267,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} ;\ R;\ L\ \vdash \ \mathsf{stmts}\ \Rightarrow \ \Gamma_{1} \ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \Gamma \ \vdash \ \operatorname{WarnResultUnreachable}(\mathsf{stmts})\ \Downarrow \ \mathsf{ok}\quad \operatorname{ResType}(\mathsf{Res})\ =\ \bot \quad \mathsf{tail}_{\mathsf{opt}}\ =\ \bot \quad \operatorname{LastStmt}(\mathsf{stmts})\ \ne \ \operatorname{ReturnStmt}(\_) \\
-\rule{18em}{0.4pt} \\
+\Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} ;\ R;\ L\ \vdash \ \mathsf{stmts}\ \Rightarrow \ \Gamma_{1} \ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \Gamma \ \vdash \ \operatorname{WarnResultUnreachable}(\mathsf{stmts})\ \Downarrow \ \mathsf{ok}\quad \operatorname{ResType}(\mathsf{Res})\ =\ \bot \quad \mathsf{tail}_{\mathsf{opt}}\ =\ \bot \quad \operatorname{LastStmt}(\mathsf{stmts})\ \ne \ \operatorname{ReturnStmt}(\_) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockInfo}(\operatorname{BlockExpr}(\mathsf{stmts},\ \bot ))\ \Downarrow \ \langle \operatorname{TypePrim}(\texttt{"()"}),\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle 
 \end{array}
 $$
@@ -279,8 +277,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockInfo}(b)\ \Downarrow \ \langle T,\ \_,\ \_\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockInfo}(b)\ \Downarrow \ \langle T,\ \_,\ \_\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ b\ :\ T
 \end{array}
 $$
@@ -297,21 +295,21 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{Ctrl}\ =\ \{\operatorname{Return}(v),\ \operatorname{Result}(v),\ \operatorname{Break}(v_{\mathsf{opt}}),\ \mathsf{Continue},\ \mathsf{Panic},\ \mathsf{Abort}\} \\
-\mathsf{StmtOut}\ =\ \{\mathsf{ok}\}\ \cup \ \{\operatorname{Ctrl}(\kappa )\ \mid \ \kappa \ \in \ \mathsf{Ctrl}\} \\
-\mathsf{EvalOutcome}\ =\ \{\operatorname{Val}(v)\}\ \cup \ \{\operatorname{Ctrl}(\kappa )\ \mid \ \kappa \ \in \ \mathsf{Ctrl}\} \\
-\operatorname{StmtOutOf}(\operatorname{Val}(v))\ =\ \mathsf{ok} \\
-\operatorname{StmtOutOf}(\operatorname{Ctrl}(\kappa ))\ =\ \operatorname{Ctrl}(\kappa ) \\
-\operatorname{BreakVal}(\bot )\ =\ () \\
+\mathsf{Ctrl}\ =\ \{\operatorname{Return}(v),\ \operatorname{Result}(v),\ \operatorname{Break}(v_{\mathsf{opt}}),\ \mathsf{Continue},\ \mathsf{Panic},\ \mathsf{Abort}\} \\[0.16em]
+\mathsf{StmtOut}\ =\ \{\mathsf{ok}\}\ \cup \ \{\operatorname{Ctrl}(\kappa )\ \mid \ \kappa \ \in \ \mathsf{Ctrl}\} \\[0.16em]
+\mathsf{EvalOutcome}\ =\ \{\operatorname{Val}(v)\}\ \cup \ \{\operatorname{Ctrl}(\kappa )\ \mid \ \kappa \ \in \ \mathsf{Ctrl}\} \\[0.16em]
+\operatorname{StmtOutOf}(\operatorname{Val}(v))\ =\ \mathsf{ok} \\[0.16em]
+\operatorname{StmtOutOf}(\operatorname{Ctrl}(\kappa ))\ =\ \operatorname{Ctrl}(\kappa ) \\[0.16em]
+\operatorname{BreakVal}(\bot )\ =\ () \\[0.16em]
 \operatorname{BreakVal}(v)\ =\ v
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{ExitOutcome}(\mathsf{out},\ \mathsf{ok})\ =\ \mathsf{out} \\
-\operatorname{ExitOutcome}(\operatorname{Ctrl}(\mathsf{Abort}),\ c)\ =\ \operatorname{Ctrl}(\mathsf{Abort}) \\
-\operatorname{ExitOutcome}(\operatorname{Ctrl}(\mathsf{Panic}),\ \mathsf{panic})\ =\ \operatorname{Ctrl}(\mathsf{Abort}) \\
+\operatorname{ExitOutcome}(\mathsf{out},\ \mathsf{ok})\ =\ \mathsf{out} \\[0.16em]
+\operatorname{ExitOutcome}(\operatorname{Ctrl}(\mathsf{Abort}),\ c)\ =\ \operatorname{Ctrl}(\mathsf{Abort}) \\[0.16em]
+\operatorname{ExitOutcome}(\operatorname{Ctrl}(\mathsf{Panic}),\ \mathsf{panic})\ =\ \operatorname{Ctrl}(\mathsf{Abort}) \\[0.16em]
 \operatorname{ExitOutcome}(\mathsf{out},\ \mathsf{panic})\ =\ \operatorname{Ctrl}(\mathsf{Panic})\quad (\mathsf{out}\ \ne \ \operatorname{Ctrl}(\mathsf{Panic})\ \land \ \mathsf{out}\ \ne \ \operatorname{Ctrl}(\mathsf{Abort}))
 \end{array}
 $$
@@ -322,11 +320,11 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{EvalBlockBodySigma}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{ExecSeqSigma}(\mathsf{stmts},\ \sigma )\ \Downarrow \ (\mathsf{sout},\ \sigma_{1} )\ \land \ ( \\
-\ (\mathsf{sout}\ =\ \mathsf{ok}\ \land \ \mathsf{tail}_{\mathsf{opt}}\ =\ e\ \land \ \Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma '))\ \lor  \\
-\ (\mathsf{sout}\ =\ \mathsf{ok}\ \land \ \mathsf{tail}_{\mathsf{opt}}\ =\ \bot \ \land \ \mathsf{out}\ =\ \operatorname{Val}(())\ \land \ \sigma '\ =\ \sigma_{1} )\ \lor  \\
-\ (\mathsf{sout}\ =\ \operatorname{Ctrl}(\operatorname{TailValue}(v))\ \land \ \mathsf{out}\ =\ \operatorname{Val}(v)\ \land \ \sigma '\ =\ \sigma_{1} )\ \lor  \\
-\ (\mathsf{sout}\ =\ \operatorname{Ctrl}(\kappa )\ \land \ \kappa \ \ne \ \operatorname{TailValue}(\_)\ \land \ \mathsf{out}\ =\ \operatorname{Ctrl}(\kappa )\ \land \ \sigma '\ =\ \sigma_{1} ) \\
+\operatorname{EvalBlockBodySigma}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{ExecSeqSigma}(\mathsf{stmts},\ \sigma )\ \Downarrow \ (\mathsf{sout},\ \sigma_{1} )\ \land \ ( \\[0.16em]
+\ (\mathsf{sout}\ =\ \mathsf{ok}\ \land \ \mathsf{tail}_{\mathsf{opt}}\ =\ e\ \land \ \Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma '))\ \lor  \\[0.16em]
+\ (\mathsf{sout}\ =\ \mathsf{ok}\ \land \ \mathsf{tail}_{\mathsf{opt}}\ =\ \bot \ \land \ \mathsf{out}\ =\ \operatorname{Val}(())\ \land \ \sigma '\ =\ \sigma_{1} )\ \lor  \\[0.16em]
+\ (\mathsf{sout}\ =\ \operatorname{Ctrl}(\operatorname{TailValue}(v))\ \land \ \mathsf{out}\ =\ \operatorname{Val}(v)\ \land \ \sigma '\ =\ \sigma_{1} )\ \lor  \\[0.16em]
+\ (\mathsf{sout}\ =\ \operatorname{Ctrl}(\kappa )\ \land \ \kappa \ \ne \ \operatorname{TailValue}(\_)\ \land \ \mathsf{out}\ =\ \operatorname{Ctrl}(\kappa )\ \land \ \sigma '\ =\ \sigma_{1} ) \\[0.16em]
 )
 \end{array}
 $$
@@ -355,7 +353,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSeqSigma}([],\ \sigma )\ \Downarrow \ (\mathsf{ok},\ \sigma )
 \end{array}
 $$
@@ -364,8 +362,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ExecSigma}(s,\ \sigma )\ \Downarrow \ (\mathsf{ok},\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{ExecSeqSigma}(\mathsf{ss},\ \sigma_{1} )\ \Downarrow \ (\mathsf{sout},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ExecSigma}(s,\ \sigma )\ \Downarrow \ (\mathsf{ok},\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{ExecSeqSigma}(\mathsf{ss},\ \sigma_{1} )\ \Downarrow \ (\mathsf{sout},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSeqSigma}(s\mathbin{::} \mathsf{ss},\ \sigma )\ \Downarrow \ (\mathsf{sout},\ \sigma_{2} )
 \end{array}
 $$
@@ -374,8 +372,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ExecSigma}(s,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ExecSigma}(s,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSeqSigma}(s\mathbin{::} \mathsf{ss},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -384,7 +382,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{ErrorStmt}(\_),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma )
 \end{array}
 $$
@@ -397,8 +395,8 @@ $$
 
 $$
 \begin{array}{l}
-s\ \notin \ \{\operatorname{DeferStmt}(\_),\ \operatorname{RegionStmt}(\_,\ \_,\ \_),\ \operatorname{FrameStmt}(\_,\ \_),\ \operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \_,\ \_,\ \_)\}\quad \Gamma \ \vdash \ \operatorname{ExecSigma}(s,\ \sigma )\ \Downarrow \ (\mathsf{ok},\ \sigma ') \\
-\rule{18em}{0.4pt} \\
+s\ \notin \ \{\operatorname{DeferStmt}(\_),\ \operatorname{RegionStmt}(\_,\ \_,\ \_),\ \operatorname{FrameStmt}(\_,\ \_),\ \operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \_,\ \_,\ \_)\}\quad \Gamma \ \vdash \ \operatorname{ExecSigma}(s,\ \sigma )\ \Downarrow \ (\mathsf{ok},\ \sigma ') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{Exec}(s,\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle 
 \end{array}
 $$
@@ -407,8 +405,8 @@ $$
 
 $$
 \begin{array}{l}
-s\ \notin \ \{\operatorname{DeferStmt}(\_),\ \operatorname{RegionStmt}(\_,\ \_,\ \_),\ \operatorname{FrameStmt}(\_,\ \_),\ \operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \_,\ \_,\ \_)\}\quad \Gamma \ \vdash \ \operatorname{ExecSigma}(s,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma ') \\
-\rule{18em}{0.4pt} \\
+s\ \notin \ \{\operatorname{DeferStmt}(\_),\ \operatorname{RegionStmt}(\_,\ \_,\ \_),\ \operatorname{FrameStmt}(\_,\ \_),\ \operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \_,\ \_,\ \_)\}\quad \Gamma \ \vdash \ \operatorname{ExecSigma}(s,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma ') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{Exec}(s,\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma ')\rangle 
 \end{array}
 $$
@@ -417,8 +415,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ExecSeqSigma}(\mathsf{ss},\ \sigma )\ \Downarrow \ (\mathsf{ok},\ \sigma ') \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ExecSeqSigma}(\mathsf{ss},\ \sigma )\ \Downarrow \ (\mathsf{ok},\ \sigma ') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{ExecSeq}(\mathsf{ss},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle 
 \end{array}
 $$
@@ -427,8 +425,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ExecSeqSigma}(\mathsf{ss},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma ') \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ExecSeqSigma}(\mathsf{ss},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma ') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{ExecSeq}(\mathsf{ss},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma ')\rangle 
 \end{array}
 $$
@@ -437,8 +435,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AppendCleanup}(\sigma ,\ \operatorname{DeferBlock}(b))\ \Downarrow \ \sigma ' \\
-\rule{18em}{0.4pt} \\
+\operatorname{AppendCleanup}(\sigma ,\ \operatorname{DeferBlock}(b))\ \Downarrow \ \sigma ' \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{Exec}(\operatorname{DeferStmt}(b),\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle 
 \end{array}
 $$
@@ -457,8 +455,8 @@ $$
 
 $$
 \begin{array}{l}
-\forall \ \sigma ,\ \Gamma \ \vdash \ \operatorname{ExecSigma}(s,\ \sigma )\ \Downarrow \ (\mathsf{sout},\ \sigma ')\ \Rightarrow \ \operatorname{ExecIRSigma}(\mathsf{IR},\ \sigma )\ \Downarrow \ (\mathsf{sout},\ \sigma ') \\
-\rule{18em}{0.4pt} \\
+\forall \ \sigma ,\ \Gamma \ \vdash \ \operatorname{ExecSigma}(s,\ \sigma )\ \Downarrow \ (\mathsf{sout},\ \sigma ')\ \Rightarrow \ \operatorname{ExecIRSigma}(\mathsf{IR},\ \sigma )\ \Downarrow \ (\mathsf{sout},\ \sigma ') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(s)\ \Downarrow \ \mathsf{IR}
 \end{array}
 $$
@@ -467,15 +465,15 @@ $$
 
 $$
 \begin{array}{l}
-\forall \ \sigma ,\ \mathsf{out},\ \sigma '.\ \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(b,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\ \Rightarrow \ (\operatorname{ExecIRSigma}(\mathsf{IR},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\ \land \ (\mathsf{out}\ =\ \operatorname{Val}(v')\ \Rightarrow \ v\ =\ v')) \\
-\rule{18em}{0.4pt} \\
+\forall \ \sigma ,\ \mathsf{out},\ \sigma '.\ \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(b,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\ \Rightarrow \ (\operatorname{ExecIRSigma}(\mathsf{IR},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\ \land \ (\mathsf{out}\ =\ \operatorname{Val}(v')\ \Rightarrow \ v\ =\ v')) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerBlock}(b)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\mathsf{StmtForms0}\ =\ \{\operatorname{LetStmt}(\_),\ \operatorname{VarStmt}(\_),\ \operatorname{UsingLocalStmt}(\_,\ \_,\ \_),\ \operatorname{AssignStmt}(\_,\ \_),\ \operatorname{CompoundAssignStmt}(\_,\ \_,\ \_),\ \operatorname{ExprStmt}(\_),\ \operatorname{DeferStmt}(\_),\ \operatorname{RegionStmt}(\_,\ \_,\ \_),\ \operatorname{FrameStmt}(\_,\ \_),\ \operatorname{ReturnStmt}(\_),\ \operatorname{BreakStmt}(\_),\ \mathsf{ContinueStmt},\ \operatorname{UnsafeBlockStmt}(\_),\ \operatorname{ErrorStmt}(\_)\} \\
+\mathsf{StmtForms0}\ =\ \{\operatorname{LetStmt}(\_),\ \operatorname{VarStmt}(\_),\ \operatorname{UsingLocalStmt}(\_,\ \_,\ \_),\ \operatorname{AssignStmt}(\_,\ \_),\ \operatorname{CompoundAssignStmt}(\_,\ \_,\ \_),\ \operatorname{ExprStmt}(\_),\ \operatorname{DeferStmt}(\_),\ \operatorname{RegionStmt}(\_,\ \_,\ \_),\ \operatorname{FrameStmt}(\_,\ \_),\ \operatorname{ReturnStmt}(\_),\ \operatorname{BreakStmt}(\_),\ \mathsf{ContinueStmt},\ \operatorname{UnsafeBlockStmt}(\_),\ \operatorname{ErrorStmt}(\_)\} \\[0.16em]
 \operatorname{LowerStmtTotal}(\Gamma )\ \Leftrightarrow \ \forall \ s.\ s\ \in \ \mathsf{StmtForms0}\ \Rightarrow \ \exists \ \mathsf{IR}.\ \Gamma \ \vdash \ \operatorname{LowerStmt}(s)\ \Downarrow \ \mathsf{IR}
 \end{array}
 $$
@@ -484,7 +482,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmtList}([])\ \Downarrow \ \varepsilon 
 \end{array}
 $$
@@ -493,8 +491,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerStmt}(s)\ \Downarrow \ \mathsf{IR}_{s}\quad \Gamma \ \vdash \ \operatorname{LowerStmtList}(\mathsf{ss})\ \Downarrow \ \mathsf{IR}_{r} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerStmt}(s)\ \Downarrow \ \mathsf{IR}_{s}\quad \Gamma \ \vdash \ \operatorname{LowerStmtList}(\mathsf{ss})\ \Downarrow \ \mathsf{IR}_{r} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmtList}(s\mathbin{::} \mathsf{ss})\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{s},\ \mathsf{IR}_{r})
 \end{array}
 $$
@@ -503,8 +501,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{tail}\ \ne \ \bot \quad \Gamma \ \vdash \ \operatorname{LowerStmtList}(\mathsf{stmts})\ \Downarrow \ \mathsf{IR}_{s}\quad \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{tail})\ \Downarrow \ \langle \mathsf{IR}_{t},\ v_{t}\rangle  \\
-\rule{18em}{0.4pt} \\
+\mathsf{tail}\ \ne \ \bot \quad \Gamma \ \vdash \ \operatorname{LowerStmtList}(\mathsf{stmts})\ \Downarrow \ \mathsf{IR}_{s}\quad \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{tail})\ \Downarrow \ \langle \mathsf{IR}_{t},\ v_{t}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerBlock}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}))\ \Downarrow \ \langle \operatorname{BlockIR}(\mathsf{IR}_{s},\ \mathsf{IR}_{t},\ v_{t}),\ v_{\mathsf{block}}\rangle 
 \end{array}
 $$
@@ -513,8 +511,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerStmtList}(\mathsf{stmts})\ \Downarrow \ \mathsf{IR}_{s} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerStmtList}(\mathsf{stmts})\ \Downarrow \ \mathsf{IR}_{s} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerBlock}(\operatorname{BlockExpr}(\mathsf{stmts},\ \bot ))\ \Downarrow \ \langle \operatorname{BlockIR}(\mathsf{IR}_{s},\ \varepsilon ,\ ()),\ v_{\mathsf{block}}\rangle 
 \end{array}
 $$
@@ -523,18 +521,17 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{ErrorStmt}(\mathsf{span}))\ \Downarrow \ \operatorname{LowerPanic}(\operatorname{ErrorStmt}(\mathsf{span}))
 \end{array}
 $$
 
 **Temporary Cleanup in Lowering.**
 
+Let `TempDropOrder(s) = [e_1, …, e_k]`. For each `i`, let
+
 $$
-\begin{array}{l}
-\mathsf{Let}\ \texttt{TempDropOrder(s) = [e\_1, ..., e\_k]}.\ \mathsf{For}\ \mathsf{each}\ \texttt{i},\ \mathsf{let} \\
 \texttt{Gamma |- LowerExpr(e\_i) => <IR\_i, v\_i>}
-\end{array}
 $$
 denote the unique invocation of `LowerExpr(e_i)` in the derivation of
 
@@ -544,35 +541,34 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{TempCleanupIR}(s)\ = \\
-\ \{\ \varepsilon \quad \mathsf{if}\ k\ =\ 0 \\
+\operatorname{TempCleanupIR}(s)\ = \\[0.16em]
+\ \{\ \varepsilon \quad \mathsf{if}\ k\ =\ 0 \\[0.16em]
 \quad \operatorname{SeqIRList}([\operatorname{EmitDrop}(T_{k},\ v_{k}),\ \ldots ,\ \operatorname{EmitDrop}(T_{1},\ v_{1})])\quad \mathsf{otherwise}\ \}
 \end{array}
 $$
 
+For `s ∉ {ReturnStmt(_), BreakStmt(_), ContinueStmt}`, the lowering MUST produce
+
 $$
-\begin{array}{l}
-\mathsf{For}\ \texttt{s notin \{ReturnStmt(\_), BreakStmt(\_), ContinueStmt\}},\ \mathsf{the}\ \mathsf{lowering}\ \mathsf{MUST}\ \mathsf{produce} \\
 \texttt{Gamma |- LowerStmt(s) => SeqIR(IR\_s, TempCleanupIR(s))}.
-\end{array}
 $$
 
 For control-flow statements, the lowering MUST emit temporary cleanup immediately before the control transfer:
 
 $$
 \begin{array}{l}
-\texttt{Gamma |- LowerStmt(ReturnStmt(e)) => SeqIR(IR\_e, TempCleanupIR(s), ReturnIR(v))} \\
-\texttt{Gamma |- LowerStmt(BreakStmt(e)) => SeqIR(IR\_e, TempCleanupIR(s), BreakIR(v))} \\
-\texttt{Gamma |- LowerStmt(BreakStmt(bottom)) => SeqIR(TempCleanupIR(s), BreakIR(bottom))} \\
+\texttt{Gamma |- LowerStmt(ReturnStmt(e)) => SeqIR(IR\_e, TempCleanupIR(s), ReturnIR(v))} \\[0.16em]
+\texttt{Gamma |- LowerStmt(BreakStmt(e)) => SeqIR(IR\_e, TempCleanupIR(s), BreakIR(v))} \\[0.16em]
+\texttt{Gamma |- LowerStmt(BreakStmt(bottom)) => SeqIR(TempCleanupIR(s), BreakIR(bottom))} \\[0.16em]
 \texttt{Gamma |- LowerStmt(ContinueStmt) => SeqIR(TempCleanupIR(s), ContinueIR)}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\mathsf{BlockForms0}\ =\ \{\operatorname{BlockExpr}(\_,\ \_)\} \\
-\mathsf{LoopForms0}\ =\ \{\operatorname{LoopInfinite}(\_,\ \_),\ \operatorname{LoopConditional}(\_,\ \_,\ \_),\ \operatorname{LoopIter}(\_,\ \_,\ \_,\ \_,\ \_)\} \\
-\operatorname{LowerBlockTotal}(\Gamma )\ \Leftrightarrow \ \forall \ b.\ b\ \in \ \mathsf{BlockForms0}\ \Rightarrow \ \exists \ \mathsf{IR},\ v.\ \Gamma \ \vdash \ \operatorname{LowerBlock}(b)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\
+\mathsf{BlockForms0}\ =\ \{\operatorname{BlockExpr}(\_,\ \_)\} \\[0.16em]
+\mathsf{LoopForms0}\ =\ \{\operatorname{LoopInfinite}(\_,\ \_),\ \operatorname{LoopConditional}(\_,\ \_,\ \_),\ \operatorname{LoopIter}(\_,\ \_,\ \_,\ \_,\ \_)\} \\[0.16em]
+\operatorname{LowerBlockTotal}(\Gamma )\ \Leftrightarrow \ \forall \ b.\ b\ \in \ \mathsf{BlockForms0}\ \Rightarrow \ \exists \ \mathsf{IR},\ v.\ \Gamma \ \vdash \ \operatorname{LowerBlock}(b)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
 \operatorname{LowerLoopTotal}(\Gamma )\ \Leftrightarrow \ \forall \ l.\ l\ \in \ \mathsf{LoopForms0}\ \Rightarrow \ \exists \ \mathsf{IR},\ v.\ \Gamma \ \vdash \ \operatorname{LowerLoop}(l)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
 \end{array}
 $$
@@ -581,8 +577,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerLoop}(\operatorname{LoopInfinite}(\mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}))\ \Downarrow \ \langle \operatorname{LoopIR}(\mathsf{LoopInfinite},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{IR}_{b},\ v_{b}),\ v_{\mathsf{loop}}\rangle 
 \end{array}
 $$
@@ -591,8 +587,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{cond})\ \Downarrow \ \langle \mathsf{IR}_{c},\ v_{c}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{cond})\ \Downarrow \ \langle \mathsf{IR}_{c},\ v_{c}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerLoop}(\operatorname{LoopConditional}(\mathsf{cond},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}))\ \Downarrow \ \langle \operatorname{LoopIR}(\mathsf{LoopConditional},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{IR}_{c},\ v_{c},\ \mathsf{IR}_{b},\ v_{b}),\ v_{\mathsf{loop}}\rangle 
 \end{array}
 $$
@@ -601,8 +597,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{iter})\ \Downarrow \ \langle \mathsf{IR}_{i},\ v_{\mathsf{iter}}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{iter})\ \Downarrow \ \langle \mathsf{IR}_{i},\ v_{\mathsf{iter}}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerLoop}(\operatorname{LoopIter}(\mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{iter},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}))\ \Downarrow \ \langle \operatorname{LoopIR}(\mathsf{LoopIter},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{IR}_{i},\ v_{\mathsf{iter}},\ \mathsf{IR}_{b},\ v_{b}),\ v_{\mathsf{loop}}\rangle 
 \end{array}
 $$
@@ -626,8 +622,8 @@ binding_op   ::= "=" | ":="
 
 $$
 \begin{array}{l}
-\operatorname{Tok}(P)\ \in \ \{\operatorname{Keyword}(\texttt{let}),\ \operatorname{Keyword}(\texttt{var})\}\quad \Gamma \ \vdash \ \operatorname{ParseBindingAfterLetVar}(P)\ \Downarrow \ (P_{1},\ \mathsf{bind}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{Tok}(P)\ \in \ \{\operatorname{Keyword}(\texttt{let}),\ \operatorname{Keyword}(\texttt{var})\}\quad \Gamma \ \vdash \ \operatorname{ParseBindingAfterLetVar}(P)\ \Downarrow \ (P_{1},\ \mathsf{bind}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseStmtCore}(P)\ \Downarrow \ (P_{1},\ \operatorname{LetOrVarStmt}(P,\ \mathsf{bind}))
 \end{array}
 $$
@@ -636,8 +632,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{Tok}(P)\ =\ \mathsf{kw}\ \in \ \{\operatorname{Keyword}(\texttt{let}),\ \operatorname{Keyword}(\texttt{var})\}\quad \Gamma \ \vdash \ \operatorname{ParsePattern}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{pat})\quad \Gamma \ \vdash \ \operatorname{ParseTypeAnnotOpt}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{ty}_{\mathsf{opt}})\quad \operatorname{Tok}(P_{2})\ \in \ \{\operatorname{Operator}(\texttt{"="}),\ \operatorname{Operator}(\texttt{":="})\}\quad \mathsf{op}\ =\ \operatorname{Tok}(P_{2})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P_{2}))\ \Downarrow \ (P_{3},\ \mathsf{init}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{Tok}(P)\ =\ \mathsf{kw}\ \in \ \{\operatorname{Keyword}(\texttt{let}),\ \operatorname{Keyword}(\texttt{var})\}\quad \Gamma \ \vdash \ \operatorname{ParsePattern}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{pat})\quad \Gamma \ \vdash \ \operatorname{ParseTypeAnnotOpt}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{ty}_{\mathsf{opt}})\quad \operatorname{Tok}(P_{2})\ \in \ \{\operatorname{Operator}(\texttt{"="}),\ \operatorname{Operator}(\texttt{":="})\}\quad \mathsf{op}\ =\ \operatorname{Tok}(P_{2})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P_{2}))\ \Downarrow \ (P_{3},\ \mathsf{init}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseBindingAfterLetVar}(P)\ \Downarrow \ (P_{3},\ \langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \operatorname{SpanBetween}(P,\ P_{3})\rangle )
 \end{array}
 $$
@@ -646,8 +642,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{Tok}(P)\ =\ \operatorname{Keyword}(\texttt{let}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{Tok}(P)\ =\ \operatorname{Keyword}(\texttt{let}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LetOrVarStmt}(P,\ \mathsf{bind})\ \Downarrow \ \operatorname{LetStmt}(\mathsf{bind})
 \end{array}
 $$
@@ -656,8 +652,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{Tok}(P)\ =\ \operatorname{Keyword}(\texttt{var}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{Tok}(P)\ =\ \operatorname{Keyword}(\texttt{var}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LetOrVarStmt}(P,\ \mathsf{bind})\ \Downarrow \ \operatorname{VarStmt}(\mathsf{bind})
 \end{array}
 $$
@@ -670,22 +666,22 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{Binding}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \mathsf{span}\rangle  \\
-\operatorname{BindingForm}(\mathsf{binding})\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle  \\
+\mathsf{Binding}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \mathsf{span}\rangle  \\[0.16em]
+\operatorname{BindingForm}(\mathsf{binding})\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle  \\[0.16em]
 \operatorname{BindingParts}(\mathsf{binding})\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \mathsf{span}\rangle 
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{BindType}(\langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle )\ =\ T\ \Leftrightarrow \ \mathsf{ty}_{\mathsf{opt}}\ =\ T \\
+\operatorname{BindType}(\langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle )\ =\ T\ \Leftrightarrow \ \mathsf{ty}_{\mathsf{opt}}\ =\ T \\[0.16em]
 \operatorname{BindType}(\langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \bot ,\ \mathsf{op},\ \mathsf{init},\ \_\rangle )\ =\ \theta (T_{i})\ \Leftrightarrow \ \Gamma ;\ R;\ L\ \vdash \ \mathsf{init}\ \Rightarrow \ T_{i}\ \dashv \ C\ \land \ \operatorname{Solve}(C)\ \Downarrow \ \theta 
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{TypeOf}(\langle \mathsf{sid},\ \mathsf{bind}_{\mathsf{id}},\ x\rangle )\ =\ \operatorname{TypeOf}(x) \\
+\operatorname{TypeOf}(\langle \mathsf{sid},\ \mathsf{bind}_{\mathsf{id}},\ x\rangle )\ =\ \operatorname{TypeOf}(x) \\[0.16em]
 \operatorname{BindInfo}(\langle \mathsf{sid},\ \mathsf{bind}_{\mathsf{id}},\ x\rangle )\ =\ \operatorname{BindInfo}(x)
 \end{array}
 $$
@@ -700,7 +696,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{IntroAll}(\Gamma ,\ [])\ \Downarrow \ \Gamma 
 \end{array}
 $$
@@ -709,8 +705,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{Intro}(x,\ \mathsf{IntroEnt})\ \Downarrow \ \Gamma_{1} \quad \operatorname{IntroAll}(\Gamma_{1} \ \cup \ \{x\ \mapsto \ \langle \texttt{let},\ T\rangle \},\ \mathsf{rest})\ \Downarrow \ \Gamma_{2}  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Intro}(x,\ \mathsf{IntroEnt})\ \Downarrow \ \Gamma_{1} \quad \operatorname{IntroAll}(\Gamma_{1} \ \cup \ \{x\ \mapsto \ \langle \texttt{let},\ T\rangle \},\ \mathsf{rest})\ \Downarrow \ \Gamma_{2}  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{IntroAll}(\Gamma ,\ [(x,\ T)]\ \mathbin{++} \ \mathsf{rest})\ \Downarrow \ \Gamma_{2} 
 \end{array}
 $$
@@ -719,7 +715,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{IntroAllVar}(\Gamma ,\ [])\ \Downarrow \ \Gamma 
 \end{array}
 $$
@@ -728,8 +724,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{Intro}(x,\ \mathsf{IntroEnt})\ \Downarrow \ \Gamma_{1} \quad \operatorname{IntroAllVar}(\Gamma_{1} \ \cup \ \{x\ \mapsto \ \langle \texttt{var},\ T\rangle \},\ \mathsf{rest})\ \Downarrow \ \Gamma_{2}  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Intro}(x,\ \mathsf{IntroEnt})\ \Downarrow \ \Gamma_{1} \quad \operatorname{IntroAllVar}(\Gamma_{1} \ \cup \ \{x\ \mapsto \ \langle \texttt{var},\ T\rangle \},\ \mathsf{rest})\ \Downarrow \ \Gamma_{2}  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{IntroAllVar}(\Gamma ,\ [(x,\ T)]\ \mathbin{++} \ \mathsf{rest})\ \Downarrow \ \Gamma_{2} 
 \end{array}
 $$
@@ -738,8 +734,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{ty}_{\mathsf{opt}}\ =\ T_{a}\quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{init}\ \Leftarrow \ T_{a}\ \dashv \ \emptyset \quad \Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ T_{a}\ \dashv \ B\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}))\quad \operatorname{IntroAll}(\Gamma ,\ B)\ \Downarrow \ \Gamma ' \\
-\rule{18em}{0.4pt} \\
+\mathsf{ty}_{\mathsf{opt}}\ =\ T_{a}\quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{init}\ \Leftarrow \ T_{a}\ \dashv \ \emptyset \quad \Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ T_{a}\ \dashv \ B\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}))\quad \operatorname{IntroAll}(\Gamma ,\ B)\ \Downarrow \ \Gamma ' \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{LetStmt}(\mathsf{binding})\ \Rightarrow \ \Gamma '\ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
 \end{array}
 $$
@@ -748,8 +744,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{ty}_{\mathsf{opt}}\ =\ T_{a}\quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{init}\ \Rightarrow \ T_{i}\ \dashv \ C\quad \lnot (\Gamma \ \vdash \ T_{i}\ \mathrel{<:} \ T_{a})\quad c\ =\ \operatorname{Code}(T-\mathsf{LetStmt}-\mathsf{Ann}-\mathsf{Mismatch}) \\
-\rule{18em}{0.4pt} \\
+\mathsf{ty}_{\mathsf{opt}}\ =\ T_{a}\quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{init}\ \Rightarrow \ T_{i}\ \dashv \ C\quad \lnot (\Gamma \ \vdash \ T_{i}\ \mathrel{<:} \ T_{a})\quad c\ =\ \operatorname{Code}(T-\mathsf{LetStmt}-\mathsf{Ann}-\mathsf{Mismatch}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{LetStmt}(\mathsf{binding})\ \Uparrow \ c
 \end{array}
 $$
@@ -758,8 +754,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{ty}_{\mathsf{opt}}\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{init}\ \Rightarrow \ T_{i}\ \dashv \ C\quad \operatorname{Solve}(C)\ \Downarrow \ \theta \quad T_{b}\ =\ \theta (T_{i})\quad \Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ T_{b}\ \dashv \ B\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}))\quad \operatorname{IntroAll}(\Gamma ,\ B)\ \Downarrow \ \Gamma ' \\
-\rule{18em}{0.4pt} \\
+\mathsf{ty}_{\mathsf{opt}}\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{init}\ \Rightarrow \ T_{i}\ \dashv \ C\quad \operatorname{Solve}(C)\ \Downarrow \ \theta \quad T_{b}\ =\ \theta (T_{i})\quad \Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ T_{b}\ \dashv \ B\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}))\quad \operatorname{IntroAll}(\Gamma ,\ B)\ \Downarrow \ \Gamma ' \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{LetStmt}(\mathsf{binding})\ \Rightarrow \ \Gamma '\ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
 \end{array}
 $$
@@ -768,8 +764,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{ty}_{\mathsf{opt}}\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{init}\ \Rightarrow \ T_{i}\ \dashv \ C\quad \operatorname{Solve}(C)\ \Uparrow \quad c\ =\ \operatorname{Code}(T-\mathsf{LetStmt}-\mathsf{Infer}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\mathsf{ty}_{\mathsf{opt}}\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{init}\ \Rightarrow \ T_{i}\ \dashv \ C\quad \operatorname{Solve}(C)\ \Uparrow \quad c\ =\ \operatorname{Code}(T-\mathsf{LetStmt}-\mathsf{Infer}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{LetStmt}(\mathsf{binding})\ \Uparrow \ c
 \end{array}
 $$
@@ -780,8 +776,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{pat}\ \in \ \{\operatorname{LiteralPattern}(\_),\ \operatorname{EnumPattern}(\_,\ \_,\ \_),\ \operatorname{ModalPattern}(\_,\ \_),\ \operatorname{RangePattern}(\_,\ \_,\ \_)\}\quad c\ =\ \operatorname{Code}(\mathsf{Let}-\mathsf{Refutable}-\mathsf{Pattern}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\mathsf{pat}\ \in \ \{\operatorname{LiteralPattern}(\_),\ \operatorname{EnumPattern}(\_,\ \_,\ \_),\ \operatorname{ModalPattern}(\_,\ \_),\ \operatorname{RangePattern}(\_,\ \_,\ \_)\}\quad c\ =\ \operatorname{Code}(\mathsf{Let}-\mathsf{Refutable}-\mathsf{Pattern}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ T\ \Uparrow \ c
 \end{array}
 $$
@@ -790,16 +786,16 @@ $$
 
 $$
 \begin{array}{l}
-T_{b}\ =\ \operatorname{BindType}(\langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle )\quad \operatorname{PermOf}(T_{b})\ =\ \texttt{unique}\quad \operatorname{IsPlace}(\mathsf{init})\quad \lnot \ \operatorname{IsMoveExpr}(\mathsf{init})\quad c\ =\ \operatorname{Code}(B-\mathsf{LetVar}-\mathsf{UniqueNonMove}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
-\Gamma ;\ 𝔅;\ \Pi \ \vdash \ \operatorname{LetOrVarStmt}(\langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle )\ \Uparrow \ c
+T_{b}\ =\ \operatorname{BindType}(\langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle )\quad \operatorname{PermOf}(T_{b})\ =\ \texttt{unique}\quad \operatorname{IsPlace}(\mathsf{init})\quad \lnot \ \operatorname{IsMoveExpr}(\mathsf{init})\quad c\ =\ \operatorname{Code}(B-\mathsf{LetVar}-\mathsf{UniqueNonMove}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma ;\ \mathfrak{B} ;\ \Pi \ \vdash \ \operatorname{LetOrVarStmt}(\langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle )\ \Uparrow \ c
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{SuspendUniqueBind}(\Pi ,\ \mathsf{init},\ T_{b})\ = \\
-\ \{\ \operatorname{SuspendUniquePath}(\Pi ,\ \bot ,\ \mathsf{init})\quad \mathsf{if}\ \operatorname{IsPlace}(\mathsf{init})\ \land \ \operatorname{PermOf}(\operatorname{ExprType}(\mathsf{init}))\ =\ \texttt{unique}\ \land \ \operatorname{PermOf}(T_{b})\ =\ \texttt{const} \\
+\operatorname{SuspendUniqueBind}(\Pi ,\ \mathsf{init},\ T_{b})\ = \\[0.16em]
+\ \{\ \operatorname{SuspendUniquePath}(\Pi ,\ \bot ,\ \mathsf{init})\quad \mathsf{if}\ \operatorname{IsPlace}(\mathsf{init})\ \land \ \operatorname{PermOf}(\operatorname{ExprType}(\mathsf{init}))\ =\ \texttt{unique}\ \land \ \operatorname{PermOf}(T_{b})\ =\ \texttt{const} \\[0.16em]
 \quad \Pi \quad \mathsf{otherwise}\ \}
 \end{array}
 $$
@@ -808,9 +804,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ 𝔅;\ \Pi \ \vdash \ \mathsf{init}\ \Rightarrow \ 𝔅\_1\ \triangleright \ \Pi_{1} \quad T_{b}\ =\ \operatorname{BindType}(\langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle )\quad \Pi_{2} \ =\ \operatorname{SuspendUniqueBind}(\Pi_{1} ,\ \mathsf{init},\ T_{b})\quad 𝔅\_2\ =\ \operatorname{ConsumeOnMove}(𝔅\_1,\ \mathsf{init})\quad \Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ T_{b}\ \dashv \ B\quad 𝔅\_3\ =\ \operatorname{IntroAll_B}(𝔅\_2,\ \operatorname{BindInfoMap}(\lambda \ U.\ \operatorname{RespOfInit}(\mathsf{init}),\ B,\ \operatorname{MovOf}(\mathsf{op}),\ \mathsf{mut})) \\
-\rule{18em}{0.4pt} \\
-\Gamma ;\ 𝔅;\ \Pi \ \vdash \ \operatorname{LetOrVarStmt}(\langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle )\ \Rightarrow \ 𝔅\_3\ \triangleright \ \Pi_{2} 
+\Gamma ;\ \mathfrak{B} ;\ \Pi \ \vdash \ \mathsf{init}\ \Rightarrow \ \mathfrak{B}_{1} \ \triangleright \ \Pi_{1} \quad T_{b}\ =\ \operatorname{BindType}(\langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle )\quad \Pi_{2} \ =\ \operatorname{SuspendUniqueBind}(\Pi_{1} ,\ \mathsf{init},\ T_{b})\quad \mathfrak{B}_{2} \ =\ \operatorname{ConsumeOnMove}(\mathfrak{B}_{1} ,\ \mathsf{init})\quad \Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ T_{b}\ \dashv \ B\quad \mathfrak{B}_{3} \ =\ \operatorname{IntroAll_B}(\mathfrak{B}_{2} ,\ \operatorname{BindInfoMap}(\lambda \ U.\ \operatorname{RespOfInit}(\mathsf{init}),\ B,\ \operatorname{MovOf}(\mathsf{op}),\ \mathsf{mut})) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma ;\ \mathfrak{B} ;\ \Pi \ \vdash \ \operatorname{LetOrVarStmt}(\langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle )\ \Rightarrow \ \mathfrak{B}_{3} \ \triangleright \ \Pi_{2} 
 \end{array}
 $$
 
@@ -818,8 +814,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{binding}\ =\ \langle \mathsf{pat},\ \_,\ \_,\ \mathsf{init},\ \_\rangle \quad \Gamma ;\ \Omega \ \vdash \ \mathsf{init}\ \Downarrow \ \pi_{\mathsf{init}} \quad \Gamma \ \vdash \ \operatorname{PatNames}(\mathsf{pat})\ \Downarrow \ N\quad \pi_{\mathsf{bind}} \ =\ \operatorname{BindProv}(\Omega ,\ \pi_{\mathsf{init}} )\quad \pi_{\mathsf{bind}} \ \ne \ \pi_{\mathsf{Region}} (\mathsf{tag})\ \mathsf{for}\ \mathsf{every}\ \mathsf{tag}\quad \Sigma \_\pi '\ =\ \mathsf{IntroAll}\_\pi (\Sigma \_\pi ,\ N,\ \pi_{\mathsf{bind}} ) \\
-\rule{18em}{0.4pt} \\
+\mathsf{binding}\ =\ \langle \mathsf{pat},\ \_,\ \_,\ \mathsf{init},\ \_\rangle \quad \Gamma ;\ \Omega \ \vdash \ \mathsf{init}\ \Downarrow \ \pi_{\mathsf{init}} \quad \Gamma \ \vdash \ \operatorname{PatNames}(\mathsf{pat})\ \Downarrow \ N\quad \pi_{\mathsf{bind}} \ =\ \operatorname{BindProv}(\Omega ,\ \pi_{\mathsf{init}} )\quad \pi_{\mathsf{bind}} \ \ne \ \pi_{\mathsf{Region}} (\mathsf{tag})\ \mathsf{for}\ \mathsf{every}\ \mathsf{tag}\quad \Sigma \_\pi '\ =\ \mathsf{IntroAll}\_\pi (\Sigma \_\pi ,\ N,\ \pi_{\mathsf{bind}} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ \langle \Sigma \_\pi ,\ \mathsf{RS}\rangle \ \vdash \ \operatorname{LetOrVarStmt}(\mathsf{binding})\ \Rightarrow \ \langle \Sigma \_\pi ',\ \mathsf{RS}\rangle \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
 \end{array}
 $$
@@ -828,8 +824,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{binding}\ =\ \langle \mathsf{pat},\ \_,\ \_,\ \mathsf{init},\ \_\rangle \quad \Gamma ;\ \Omega \ \vdash \ \mathsf{init}\ \Downarrow \ \pi_{\mathsf{Region}} (\mathsf{tag})\quad \Gamma \ \vdash \ \operatorname{PatNames}(\mathsf{pat})\ \Downarrow \ [x]\quad \Sigma \_\pi '\ =\ \mathsf{Intro}\_\pi (\Sigma \_\pi ,\ x,\ \pi_{\mathsf{Region}} (\mathsf{tag}))\quad \mathsf{IntroRegionAlias}\_\pi (\langle \Sigma \_\pi ',\ \mathsf{RS}\rangle ,\ \mathsf{tag},\ x)\ =\ \Omega ' \\
-\rule{18em}{0.4pt} \\
+\mathsf{binding}\ =\ \langle \mathsf{pat},\ \_,\ \_,\ \mathsf{init},\ \_\rangle \quad \Gamma ;\ \Omega \ \vdash \ \mathsf{init}\ \Downarrow \ \pi_{\mathsf{Region}} (\mathsf{tag})\quad \Gamma \ \vdash \ \operatorname{PatNames}(\mathsf{pat})\ \Downarrow \ [x]\quad \Sigma \_\pi '\ =\ \mathsf{Intro}\_\pi (\Sigma \_\pi ,\ x,\ \pi_{\mathsf{Region}} (\mathsf{tag}))\quad \mathsf{IntroRegionAlias}\_\pi (\langle \Sigma \_\pi ',\ \mathsf{RS}\rangle ,\ \mathsf{tag},\ x)\ =\ \Omega ' \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ \langle \Sigma \_\pi ,\ \mathsf{RS}\rangle \ \vdash \ \operatorname{LetOrVarStmt}(\mathsf{binding})\ \Rightarrow \ \Omega '\ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
 \end{array}
 $$
@@ -838,8 +834,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{binding}\ =\ \langle \mathsf{pat},\ \_,\ \_,\ \mathsf{init},\ \_\rangle \quad \operatorname{FreshRegionExpr}(\mathsf{init})\quad \Gamma \ \vdash \ \operatorname{PatNames}(\mathsf{pat})\ \Downarrow \ [x]\quad \operatorname{FreshRegionTag}(\langle \Sigma \_\pi ,\ \mathsf{RS}\rangle )\ =\ \mathsf{tag}\quad \Sigma \_\pi '\ =\ \mathsf{Intro}\_\pi (\Sigma \_\pi ,\ x,\ \pi_{\mathsf{Region}} (\mathsf{tag}))\quad \mathsf{IntroRegionAlias}\_\pi (\langle \Sigma \_\pi ',\ \mathsf{RS}\rangle ,\ \mathsf{tag},\ x)\ =\ \Omega ' \\
-\rule{18em}{0.4pt} \\
+\mathsf{binding}\ =\ \langle \mathsf{pat},\ \_,\ \_,\ \mathsf{init},\ \_\rangle \quad \operatorname{FreshRegionExpr}(\mathsf{init})\quad \Gamma \ \vdash \ \operatorname{PatNames}(\mathsf{pat})\ \Downarrow \ [x]\quad \operatorname{FreshRegionTag}(\langle \Sigma \_\pi ,\ \mathsf{RS}\rangle )\ =\ \mathsf{tag}\quad \Sigma \_\pi '\ =\ \mathsf{Intro}\_\pi (\Sigma \_\pi ,\ x,\ \pi_{\mathsf{Region}} (\mathsf{tag}))\quad \mathsf{IntroRegionAlias}\_\pi (\langle \Sigma \_\pi ',\ \mathsf{RS}\rangle ,\ \mathsf{tag},\ x)\ =\ \Omega ' \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ \langle \Sigma \_\pi ,\ \mathsf{RS}\rangle \ \vdash \ \operatorname{LetOrVarStmt}(\mathsf{binding})\ \Rightarrow \ \Omega '\ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
 \end{array}
 $$
@@ -852,7 +848,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{BindPatternVal}(p,\ v)\ \Downarrow \ B\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{MatchPattern}(p,\ v)\ \Downarrow \ B \\
+\operatorname{BindPatternVal}(p,\ v)\ \Downarrow \ B\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{MatchPattern}(p,\ v)\ \Downarrow \ B \\[0.16em]
 \operatorname{BindOrder}(p,\ B)\ =\ [\langle x,\ B[x]\rangle \ \mid \ x\ \in \ \operatorname{PatNames}(p)]
 \end{array}
 $$
@@ -861,7 +857,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{BindList}(\sigma ,\ [])\ \Downarrow \ (\sigma ,\ [])
 \end{array}
 $$
@@ -870,8 +866,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{BindVal}(\sigma ,\ x,\ v)\ \Downarrow \ (\sigma_{1} ,\ b)\quad \operatorname{BindList}(\sigma_{1} ,\ \mathsf{xs})\ \Downarrow \ (\sigma_{2} ,\ \mathsf{bs}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{BindVal}(\sigma ,\ x,\ v)\ \Downarrow \ (\sigma_{1} ,\ b)\quad \operatorname{BindList}(\sigma_{1} ,\ \mathsf{xs})\ \Downarrow \ (\sigma_{2} ,\ \mathsf{bs}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{BindList}(\sigma ,\ [\langle x,\ v\rangle ]\ \mathbin{++} \ \mathsf{xs})\ \Downarrow \ (\sigma_{2} ,\ b\mathbin{::} \mathsf{bs})
 \end{array}
 $$
@@ -884,8 +880,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{BindingForm}(\mathsf{binding})\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle \quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{init},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \operatorname{BindPattern}(\sigma_{1} ,\ \mathsf{pat},\ v)\ \Downarrow \ (\sigma_{2} ,\ \mathsf{bs}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{BindingForm}(\mathsf{binding})\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle \quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{init},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \operatorname{BindPattern}(\sigma_{1} ,\ \mathsf{pat},\ v)\ \Downarrow \ (\sigma_{2} ,\ \mathsf{bs}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{LetStmt}(\mathsf{binding}),\ \sigma )\ \Downarrow \ (\mathsf{ok},\ \sigma_{2} )
 \end{array}
 $$
@@ -894,8 +890,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{BindingForm}(\mathsf{binding})\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle \quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{init},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\operatorname{BindingForm}(\mathsf{binding})\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle \quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{init},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{LetStmt}(\mathsf{binding}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -908,8 +904,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{BindingParts}(\mathsf{binding})\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \mathsf{span}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{init})\ \Downarrow \ \langle \mathsf{IR}_{i},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBindPattern}(\mathsf{pat},\ v)\ \Downarrow \ \mathsf{IR}_{b} \\
-\rule{18em}{0.4pt} \\
+\operatorname{BindingParts}(\mathsf{binding})\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \mathsf{span}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{init})\ \Downarrow \ \langle \mathsf{IR}_{i},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBindPattern}(\mathsf{pat},\ v)\ \Downarrow \ \mathsf{IR}_{b} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{LetStmt}(\mathsf{binding}))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{i},\ \mathsf{IR}_{b})
 \end{array}
 $$
@@ -918,8 +914,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{BindingParts}(\mathsf{binding})\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \mathsf{span}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{init})\ \Downarrow \ \langle \mathsf{IR}_{i},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBindPattern}(\mathsf{pat},\ v)\ \Downarrow \ \mathsf{IR}_{b} \\
-\rule{18em}{0.4pt} \\
+\operatorname{BindingParts}(\mathsf{binding})\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \mathsf{span}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{init})\ \Downarrow \ \langle \mathsf{IR}_{i},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBindPattern}(\mathsf{pat},\ v)\ \Downarrow \ \mathsf{IR}_{b} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{VarStmt}(\mathsf{binding}))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{i},\ \mathsf{IR}_{b})
 \end{array}
 $$
@@ -942,8 +938,8 @@ using_local_stmt ::= "using" identifier "as" identifier terminator
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{using})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{source})\quad \operatorname{IsKw}(\operatorname{Tok}(P_{1}),\ \texttt{as})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{alias})\quad s\ =\ \operatorname{UsingLocalStmt}(\mathsf{source},\ \mathsf{alias},\ \operatorname{SpanBetween}(P,\ P_{2})) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{using})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{source})\quad \operatorname{IsKw}(\operatorname{Tok}(P_{1}),\ \texttt{as})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{alias})\quad s\ =\ \operatorname{UsingLocalStmt}(\mathsf{source},\ \mathsf{alias},\ \operatorname{SpanBetween}(P,\ P_{2})) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseStmtCore}(P)\ \Downarrow \ (P_{2},\ s)
 \end{array}
 $$
@@ -960,8 +956,8 @@ Evaluation of a `UsingLocalStmt` extends the environment via the `UsingAlias` ju
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{UsingAlias}(\mathsf{source},\ \mathsf{alias})\ \Downarrow \ \Gamma ' \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{UsingAlias}(\mathsf{source},\ \mathsf{alias})\ \Downarrow \ \Gamma ' \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{UsingLocalStmt}(\mathsf{source},\ \mathsf{alias},\ \_)\ \Rightarrow \ \Gamma '
 \end{array}
 $$
@@ -970,8 +966,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{UsingAlias}(\mathsf{source},\ \mathsf{alias})\ \Uparrow \ c \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{UsingAlias}(\mathsf{source},\ \mathsf{alias})\ \Uparrow \ c \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{UsingLocalStmt}(\mathsf{source},\ \mathsf{alias},\ \_)\ \Uparrow \ c
 \end{array}
 $$
@@ -984,7 +980,7 @@ The alias introduces no new storage; the `Entity` stored under `alias` is the id
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{UsingLocalStmt}(\_,\ \_,\ \_),\ \sigma )\ \Downarrow \ (\mathsf{ok},\ \sigma )
 \end{array}
 $$
@@ -997,7 +993,7 @@ A `UsingLocalStmt` has no runtime effect: name resolution is compile-time only.
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{UsingLocalStmt}(\_,\ \_,\ \_))\ \Downarrow \ \mathsf{NoOpIR}
 \end{array}
 $$
@@ -1023,8 +1019,8 @@ compound_assign ::= place_expr compound_op expression terminator
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParsePlace}(P)\ \Downarrow \ (P_{1},\ p)\quad \operatorname{Tok}(P_{1})\ \in \ \{\operatorname{Operator}(\texttt{"="}),\ \operatorname{Operator}(\texttt{"+="}),\ \operatorname{Operator}(\texttt{"-="}),\ \operatorname{Operator}(\texttt{"*="}),\ \operatorname{Operator}(\texttt{"/="}),\ \operatorname{Operator}(\texttt{"\%="})\}\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ e) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParsePlace}(P)\ \Downarrow \ (P_{1},\ p)\quad \operatorname{Tok}(P_{1})\ \in \ \{\operatorname{Operator}(\texttt{"="}),\ \operatorname{Operator}(\texttt{"+="}),\ \operatorname{Operator}(\texttt{"-="}),\ \operatorname{Operator}(\texttt{"*="}),\ \operatorname{Operator}(\texttt{"/="}),\ \operatorname{Operator}(\texttt{"\%="})\}\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseStmtCore}(P)\ \Downarrow \ (P_{2},\ \operatorname{AssignOrCompound}(P_{1},\ p,\ e))
 \end{array}
 $$
@@ -1033,8 +1029,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{Tok}(P_{1})\ =\ \operatorname{Operator}(\texttt{"="}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{Tok}(P_{1})\ =\ \operatorname{Operator}(\texttt{"="}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{AssignOrCompound}(P_{1},\ p,\ e)\ \Downarrow \ \operatorname{AssignStmt}(p,\ e)
 \end{array}
 $$
@@ -1043,8 +1039,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{Tok}(P_{1})\ =\ \operatorname{Operator}(\mathsf{op})\quad \mathsf{op}\ \in \ \{\texttt{"+="},\ \texttt{"-="},\ \texttt{"*="},\ \texttt{"/="},\ \texttt{"\%="}\} \\
-\rule{18em}{0.4pt} \\
+\operatorname{Tok}(P_{1})\ =\ \operatorname{Operator}(\mathsf{op})\quad \mathsf{op}\ \in \ \{\texttt{"+="},\ \texttt{"-="},\ \texttt{"*="},\ \texttt{"/="},\ \texttt{"\%="}\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{AssignOrCompound}(P_{1},\ p,\ e)\ \Downarrow \ \operatorname{CompoundAssignStmt}(p,\ \mathsf{op},\ e)
 \end{array}
 $$
@@ -1056,10 +1052,10 @@ CompoundAssignStmt(place, op, expr)
 
 $$
 \begin{array}{l}
-\operatorname{PlaceRoot}(\operatorname{Identifier}(x))\ =\ x \\
-\operatorname{PlaceRoot}(\operatorname{FieldAccess}(p,\ \_))\ =\ \operatorname{PlaceRoot}(p) \\
-\operatorname{PlaceRoot}(\operatorname{TupleAccess}(p,\ \_))\ =\ \operatorname{PlaceRoot}(p) \\
-\operatorname{PlaceRoot}(\operatorname{IndexAccess}(p,\ \_))\ =\ \operatorname{PlaceRoot}(p) \\
+\operatorname{PlaceRoot}(\operatorname{Identifier}(x))\ =\ x \\[0.16em]
+\operatorname{PlaceRoot}(\operatorname{FieldAccess}(p,\ \_))\ =\ \operatorname{PlaceRoot}(p) \\[0.16em]
+\operatorname{PlaceRoot}(\operatorname{TupleAccess}(p,\ \_))\ =\ \operatorname{PlaceRoot}(p) \\[0.16em]
+\operatorname{PlaceRoot}(\operatorname{IndexAccess}(p,\ \_))\ =\ \operatorname{PlaceRoot}(p) \\[0.16em]
 \operatorname{PlaceRoot}(\operatorname{Deref}(p))\ =\ \operatorname{PlaceRoot}(p)
 \end{array}
 $$
@@ -1070,8 +1066,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPlace}(p)\quad \operatorname{PlaceRoot}(p)\ =\ x\quad \operatorname{MutOf}(\Gamma ,\ x)\ =\ \texttt{var}\quad \Gamma ;\ R;\ L\ \vdash \ p\ :\mathsf{place}\ T_{p}\quad \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ T_{p}\ \dashv \ \emptyset  \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPlace}(p)\quad \operatorname{PlaceRoot}(p)\ =\ x\quad \operatorname{MutOf}(\Gamma ,\ x)\ =\ \texttt{var}\quad \Gamma ;\ R;\ L\ \vdash \ p\ :\mathsf{place}\ T_{p}\quad \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ T_{p}\ \dashv \ \emptyset  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{AssignStmt}(p,\ e)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
 \end{array}
 $$
@@ -1080,8 +1076,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPlace}(p)\quad \operatorname{PlaceRoot}(p)\ =\ x\quad \operatorname{MutOf}(\Gamma ,\ x)\ =\ \texttt{var}\quad \Gamma ;\ R;\ L\ \vdash \ p\ :\mathsf{place}\ T_{p}\quad \operatorname{StripPerm}(T_{p})\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{NumericTypes}\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \Gamma \ \vdash \ T_{e}\ \mathrel{<:} \ \operatorname{TypePrim}(t) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPlace}(p)\quad \operatorname{PlaceRoot}(p)\ =\ x\quad \operatorname{MutOf}(\Gamma ,\ x)\ =\ \texttt{var}\quad \Gamma ;\ R;\ L\ \vdash \ p\ :\mathsf{place}\ T_{p}\quad \operatorname{StripPerm}(T_{p})\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{NumericTypes}\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \Gamma \ \vdash \ T_{e}\ \mathrel{<:} \ \operatorname{TypePrim}(t) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{CompoundAssignStmt}(p,\ \mathsf{op},\ e)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
 \end{array}
 $$
@@ -1090,8 +1086,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{stmt}\ \in \ \{\operatorname{AssignStmt}(p,\ e),\ \operatorname{CompoundAssignStmt}(p,\ \mathsf{op},\ e)\}\quad \lnot \ \operatorname{IsPlace}(p)\quad c\ =\ \operatorname{Code}(\mathsf{Assign}-\mathsf{NotPlace}) \\
-\rule{18em}{0.4pt} \\
+\mathsf{stmt}\ \in \ \{\operatorname{AssignStmt}(p,\ e),\ \operatorname{CompoundAssignStmt}(p,\ \mathsf{op},\ e)\}\quad \lnot \ \operatorname{IsPlace}(p)\quad c\ =\ \operatorname{Code}(\mathsf{Assign}-\mathsf{NotPlace}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \mathsf{stmt}\ \Uparrow \ c
 \end{array}
 $$
@@ -1100,8 +1096,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{stmt}\ \in \ \{\operatorname{AssignStmt}(p,\ e),\ \operatorname{CompoundAssignStmt}(p,\ \mathsf{op},\ e)\}\quad \operatorname{IsPlace}(p)\quad \operatorname{PlaceRoot}(p)\ =\ x\quad \operatorname{MutOf}(\Gamma ,\ x)\ =\ \texttt{let}\quad c\ =\ \operatorname{Code}(\mathsf{Assign}-\mathsf{Immutable}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\mathsf{stmt}\ \in \ \{\operatorname{AssignStmt}(p,\ e),\ \operatorname{CompoundAssignStmt}(p,\ \mathsf{op},\ e)\}\quad \operatorname{IsPlace}(p)\quad \operatorname{PlaceRoot}(p)\ =\ x\quad \operatorname{MutOf}(\Gamma ,\ x)\ =\ \texttt{let}\quad c\ =\ \operatorname{Code}(\mathsf{Assign}-\mathsf{Immutable}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \mathsf{stmt}\ \Uparrow \ c
 \end{array}
 $$
@@ -1110,8 +1106,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{stmt}\ \in \ \{\operatorname{AssignStmt}(p,\ e),\ \operatorname{CompoundAssignStmt}(p,\ \mathsf{op},\ e)\}\quad \operatorname{IsPlace}(p)\quad \Gamma ;\ R;\ L\ \vdash \ p\ :\mathsf{place}\ T_{p}\quad \Gamma ;\ R;\ L\ \vdash \ e\ \Rightarrow \ T_{e}\ \dashv \ C\quad ((\mathsf{stmt}\ =\ \operatorname{AssignStmt}(p,\ e)\ \land \ \lnot (\Gamma \ \vdash \ T_{e}\ \mathrel{<:} \ T_{p}))\ \lor \ (\mathsf{stmt}\ =\ \operatorname{CompoundAssignStmt}(p,\ \mathsf{op},\ e)\ \land \ (\lnot (\Gamma \ \vdash \ T_{e}\ \mathrel{<:} \ \operatorname{StripPerm}(T_{p}))\ \lor \ \lnot \ \exists \ t.\ \operatorname{StripPerm}(T_{p})\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{NumericTypes})))\quad c\ =\ \operatorname{Code}(\mathsf{Assign}-\mathsf{Type}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\mathsf{stmt}\ \in \ \{\operatorname{AssignStmt}(p,\ e),\ \operatorname{CompoundAssignStmt}(p,\ \mathsf{op},\ e)\}\quad \operatorname{IsPlace}(p)\quad \Gamma ;\ R;\ L\ \vdash \ p\ :\mathsf{place}\ T_{p}\quad \Gamma ;\ R;\ L\ \vdash \ e\ \Rightarrow \ T_{e}\ \dashv \ C\quad ((\mathsf{stmt}\ =\ \operatorname{AssignStmt}(p,\ e)\ \land \ \lnot (\Gamma \ \vdash \ T_{e}\ \mathrel{<:} \ T_{p}))\ \lor \ (\mathsf{stmt}\ =\ \operatorname{CompoundAssignStmt}(p,\ \mathsf{op},\ e)\ \land \ (\lnot (\Gamma \ \vdash \ T_{e}\ \mathrel{<:} \ \operatorname{StripPerm}(T_{p}))\ \lor \ \lnot \ \exists \ t.\ \operatorname{StripPerm}(T_{p})\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{NumericTypes})))\quad c\ =\ \operatorname{Code}(\mathsf{Assign}-\mathsf{Type}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \mathsf{stmt}\ \Uparrow \ c
 \end{array}
 $$
@@ -1120,8 +1116,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{stmt}\ \in \ \{\operatorname{AssignStmt}(p,\ e),\ \operatorname{CompoundAssignStmt}(p,\ \mathsf{op},\ e)\}\quad \Gamma ;\ R;\ L\ \vdash \ p\ :\ \operatorname{TypePerm}(\texttt{const},\ T)\quad c\ =\ \operatorname{Code}(\mathsf{Assign}-\mathsf{Const}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\mathsf{stmt}\ \in \ \{\operatorname{AssignStmt}(p,\ e),\ \operatorname{CompoundAssignStmt}(p,\ \mathsf{op},\ e)\}\quad \Gamma ;\ R;\ L\ \vdash \ p\ :\ \operatorname{TypePerm}(\texttt{const},\ T)\quad c\ =\ \operatorname{Code}(\mathsf{Assign}-\mathsf{Const}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \mathsf{stmt}\ \Uparrow \ c
 \end{array}
 $$
@@ -1136,22 +1132,22 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RootBinding}(\mathsf{Sigma},\ p)\ = \\
-\ \operatorname{Local}(b)\quad \mathsf{if}\ \operatorname{LookupBind}(\mathsf{Sigma},\ \operatorname{PlaceRoot}(p))\ =\ b \\
-\ \operatorname{Static}(\mathsf{path},\ \mathsf{name})\quad \mathsf{if}\ \operatorname{LookupBind}(\mathsf{Sigma},\ \operatorname{PlaceRoot}(p))\ \mathsf{undefined}\ \land \ \Gamma \ \vdash \ \operatorname{ResolveValueName}(\operatorname{PlaceRoot}(p))\ \Downarrow \ \mathsf{ent}\ \land \ \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \mathsf{mp}\ \land \ \mathsf{name}\ =\ (\mathsf{ent}.\mathsf{target}_{\mathsf{opt}}\ \mathsf{if}\ \mathsf{present},\ \mathsf{else}\ \operatorname{PlaceRoot}(p))\ \land \ \mathsf{path}\ =\ \operatorname{PathOfModule}(\mathsf{mp})
+\operatorname{RootBinding}(\mathsf{Sigma},\ p)\ = \\[0.16em]
+\ \operatorname{Local}(b)\quad \mathsf{if}\ \operatorname{LookupBind}(\mathsf{Sigma},\ \operatorname{PlaceRoot}(p))\ =\ b
 \end{array}
 $$
+ Static(path, name)    if LookupBind(Sigma, PlaceRoot(p)) undefined ∧ Γ ⊢ ResolveValueName(PlaceRoot(p)) ⇓ ent ∧ ent.origin_opt = mp ∧ name = (ent.target_opt if present, else PlaceRoot(p)) ∧ path = PathOfModule(mp)
 
 $$
 \begin{array}{l}
-\operatorname{DropOnAssign}(b)\ \Leftrightarrow \ \operatorname{BindInfo}(b).\mathsf{mov}\ =\ \mathsf{immov}\ \land \ \operatorname{BindInfo}(b).\mathsf{resp}\ =\ \mathsf{resp} \\
+\operatorname{DropOnAssign}(b)\ \Leftrightarrow \ \operatorname{BindInfo}(b).\mathsf{mov}\ =\ \mathsf{immov}\ \land \ \operatorname{BindInfo}(b).\mathsf{resp}\ =\ \mathsf{resp} \\[0.16em]
 \operatorname{DropOnAssignStatic}(\mathsf{path},\ \mathsf{name})\ \Leftrightarrow \ \operatorname{StaticBindInfo}(\mathsf{path},\ \mathsf{name}).\mathsf{mov}\ =\ \mathsf{immov}\ \land \ \operatorname{StaticBindInfo}(\mathsf{path},\ \mathsf{name}).\mathsf{resp}\ =\ \mathsf{resp}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{DropOnAssignRoot}(\mathsf{Sigma},\ p)\ \Leftrightarrow \ (\operatorname{RootBinding}(\mathsf{Sigma},\ p)\ =\ \operatorname{Local}(b)\ \land \ \operatorname{DropOnAssign}(b))\ \lor \ (\operatorname{RootBinding}(\mathsf{Sigma},\ p)\ =\ \operatorname{Static}(\mathsf{path},\ \mathsf{name})\ \land \ \operatorname{DropOnAssignStatic}(\mathsf{path},\ \mathsf{name})) \\
+\operatorname{DropOnAssignRoot}(\mathsf{Sigma},\ p)\ \Leftrightarrow \ (\operatorname{RootBinding}(\mathsf{Sigma},\ p)\ =\ \operatorname{Local}(b)\ \land \ \operatorname{DropOnAssign}(b))\ \lor \ (\operatorname{RootBinding}(\mathsf{Sigma},\ p)\ =\ \operatorname{Static}(\mathsf{path},\ \mathsf{name})\ \land \ \operatorname{DropOnAssignStatic}(\mathsf{path},\ \mathsf{name})) \\[0.16em]
 \operatorname{RootMoved}(\mathsf{Sigma},\ p)\ \Leftrightarrow \ \operatorname{RootBinding}(\mathsf{Sigma},\ p)\ =\ \operatorname{Local}(b)\ \land \ \operatorname{BindState}(\mathsf{Sigma},\ b)\ =\ \mathsf{Moved}
 \end{array}
 $$
@@ -1164,8 +1160,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{DropOnAssignRoot}(\mathsf{Sigma},\ p)\quad \lnot \ \operatorname{RootMoved}(\mathsf{Sigma},\ p)\quad \Gamma \ \vdash \ \operatorname{DropValue}(T,\ v,\ \emptyset )\ \Downarrow \ \mathsf{Sigma}' \\
-\rule{18em}{0.4pt} \\
+\operatorname{DropOnAssignRoot}(\mathsf{Sigma},\ p)\quad \lnot \ \operatorname{RootMoved}(\mathsf{Sigma},\ p)\quad \Gamma \ \vdash \ \operatorname{DropValue}(T,\ v,\ \emptyset )\ \Downarrow \ \mathsf{Sigma}' \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{DropSubvalue}(p,\ T,\ v,\ \mathsf{Sigma})\ \Downarrow \ \mathsf{Sigma}'
 \end{array}
 $$
@@ -1174,8 +1170,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{DropOnAssignRoot}(\mathsf{Sigma},\ p)\ \lor \ \operatorname{RootMoved}(\mathsf{Sigma},\ p) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{DropOnAssignRoot}(\mathsf{Sigma},\ p)\ \lor \ \operatorname{RootMoved}(\mathsf{Sigma},\ p) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{DropSubvalue}(p,\ T,\ v,\ \mathsf{Sigma})\ \Downarrow \ \mathsf{Sigma}
 \end{array}
 $$
@@ -1184,8 +1180,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{WritePlaceSigma}(p,\ v,\ \sigma_{1} )\ \Downarrow \ (\mathsf{sout},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{WritePlaceSigma}(p,\ v,\ \sigma_{1} )\ \Downarrow \ (\mathsf{sout},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{AssignStmt}(p,\ e),\ \sigma )\ \Downarrow \ (\mathsf{sout},\ \sigma_{2} )
 \end{array}
 $$
@@ -1194,8 +1190,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{AssignStmt}(p,\ e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -1204,8 +1200,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ReadPlaceSigma}(p,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{p}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(v_{e}),\ \sigma_{2} )\quad \operatorname{BinOp}(\mathsf{op},\ v_{p},\ v_{e})\ \Downarrow \ v\quad \Gamma \ \vdash \ \operatorname{WritePlaceSigma}(p,\ v,\ \sigma_{2} )\ \Downarrow \ (\mathsf{sout},\ \sigma_{3} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ReadPlaceSigma}(p,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{p}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(v_{e}),\ \sigma_{2} )\quad \operatorname{BinOp}(\mathsf{op},\ v_{p},\ v_{e})\ \Downarrow \ v\quad \Gamma \ \vdash \ \operatorname{WritePlaceSigma}(p,\ v,\ \sigma_{2} )\ \Downarrow \ (\mathsf{sout},\ \sigma_{3} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{CompoundAssignStmt}(p,\ \mathsf{op},\ e),\ \sigma )\ \Downarrow \ (\mathsf{sout},\ \sigma_{3} )
 \end{array}
 $$
@@ -1218,8 +1214,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{expr})\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerWritePlace}(\mathsf{place},\ v)\ \Downarrow \ \mathsf{IR}_{w} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{expr})\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerWritePlace}(\mathsf{place},\ v)\ \Downarrow \ \mathsf{IR}_{w} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{AssignStmt}(\mathsf{place},\ \mathsf{expr}))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{w})
 \end{array}
 $$
@@ -1228,8 +1224,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerReadPlace}(\mathsf{place})\ \Downarrow \ \langle \mathsf{IR}_{p},\ v_{p}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{expr})\ \Downarrow \ \langle \mathsf{IR}_{e},\ v_{e}\rangle \quad \operatorname{BinOp}(\mathsf{op},\ v_{p},\ v_{e})\ \Downarrow \ v\quad \Gamma \ \vdash \ \operatorname{LowerWritePlace}(\mathsf{place},\ v)\ \Downarrow \ \mathsf{IR}_{w} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerReadPlace}(\mathsf{place})\ \Downarrow \ \langle \mathsf{IR}_{p},\ v_{p}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{expr})\ \Downarrow \ \langle \mathsf{IR}_{e},\ v_{e}\rangle \quad \operatorname{BinOp}(\mathsf{op},\ v_{p},\ v_{e})\ \Downarrow \ v\quad \Gamma \ \vdash \ \operatorname{LowerWritePlace}(\mathsf{place},\ v)\ \Downarrow \ \mathsf{IR}_{w} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{CompoundAssignStmt}(\mathsf{place},\ \mathsf{op},\ \mathsf{expr}))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{p},\ \mathsf{IR}_{e},\ \mathsf{IR}_{w})
 \end{array}
 $$
@@ -1252,8 +1248,8 @@ expr_stmt ::= expression terminator
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseExpr}(P)\ \Downarrow \ (P_{1},\ e) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseExpr}(P)\ \Downarrow \ (P_{1},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseStmtCore}(P)\ \Downarrow \ (P_{1},\ \operatorname{ExprStmt}(e))
 \end{array}
 $$
@@ -1268,8 +1264,8 @@ ExprStmt(expr)
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ :\ T \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ :\ T \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{ExprStmt}(e)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
 \end{array}
 $$
@@ -1282,8 +1278,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{ExprStmt}(e),\ \sigma )\ \Downarrow \ (\operatorname{StmtOutOf}(\mathsf{out}),\ \sigma_{1} )
 \end{array}
 $$
@@ -1294,8 +1290,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{expr})\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{expr})\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{ExprStmt}(\mathsf{expr}))\ \Downarrow \ \mathsf{IR}_{e}
 \end{array}
 $$
@@ -1318,8 +1314,8 @@ defer_stmt ::= "defer" block_expr
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{defer})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ b) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{defer})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ b) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseStmtCore}(P)\ \Downarrow \ (P_{1},\ \operatorname{DeferStmt}(b))
 \end{array}
 $$
@@ -1334,8 +1330,8 @@ DeferStmt(block)
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ b\ \Leftarrow \ \operatorname{TypePrim}(\texttt{"()"})\ \dashv \ \emptyset \quad \operatorname{DeferSafe}(b) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ b\ \Leftarrow \ \operatorname{TypePrim}(\texttt{"()"})\ \dashv \ \emptyset \quad \operatorname{DeferSafe}(b) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{DeferStmt}(b)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
 \end{array}
 $$
@@ -1344,8 +1340,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ b\ :\ T_{b}\quad T_{b}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})\quad c\ =\ \operatorname{Code}(\mathsf{Defer}-\mathsf{NonUnit}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ b\ :\ T_{b}\quad T_{b}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})\quad c\ =\ \operatorname{Code}(\mathsf{Defer}-\mathsf{NonUnit}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{DeferStmt}(b)\ \Uparrow \ c
 \end{array}
 $$
@@ -1354,8 +1350,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{DeferSafe}(b)\quad c\ =\ \operatorname{Code}(\mathsf{Defer}-\mathsf{NonLocal}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{DeferSafe}(b)\quad c\ =\ \operatorname{Code}(\mathsf{Defer}-\mathsf{NonLocal}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{DeferStmt}(b)\ \Uparrow \ c
 \end{array}
 $$
@@ -1364,7 +1360,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{HasNonLocalCtrl}(\operatorname{ReturnStmt}(\_),\ \mathsf{in}_{\mathsf{loop}})
 \end{array}
 $$
@@ -1373,8 +1369,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{in}_{\mathsf{loop}}\ =\ \mathsf{false} \\
-\rule{18em}{0.4pt} \\
+\mathsf{in}_{\mathsf{loop}}\ =\ \mathsf{false} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{HasNonLocalCtrl}(\operatorname{BreakStmt}(\_),\ \mathsf{in}_{\mathsf{loop}})
 \end{array}
 $$
@@ -1383,8 +1379,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{in}_{\mathsf{loop}}\ =\ \mathsf{false} \\
-\rule{18em}{0.4pt} \\
+\mathsf{in}_{\mathsf{loop}}\ =\ \mathsf{false} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{HasNonLocalCtrl}(\mathsf{ContinueStmt},\ \mathsf{in}_{\mathsf{loop}})
 \end{array}
 $$
@@ -1403,8 +1399,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AppendCleanup}(\sigma ,\ \operatorname{DeferBlock}(b))\ \Downarrow \ \sigma ' \\
-\rule{18em}{0.4pt} \\
+\operatorname{AppendCleanup}(\sigma ,\ \operatorname{DeferBlock}(b))\ \Downarrow \ \sigma ' \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{DeferStmt}(b),\ \sigma )\ \Downarrow \ (\mathsf{ok},\ \sigma ')
 \end{array}
 $$
@@ -1419,7 +1415,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{DeferStmt}(\mathsf{block}))\ \Downarrow \ \operatorname{DeferIR}(\mathsf{block})
 \end{array}
 $$
@@ -1444,8 +1440,8 @@ region_alias ::= "as" identifier
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseRegionOptsOpt}(P)\ \Downarrow \ (P,\ \bot )
 \end{array}
 $$
@@ -1454,8 +1450,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e)\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e)\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseRegionOptsOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ e)
 \end{array}
 $$
@@ -1464,8 +1460,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{as}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{as}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseRegionAliasOpt}(P)\ \Downarrow \ (P,\ \bot )
 \end{array}
 $$
@@ -1474,8 +1470,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{as})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{name}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{as})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{name}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseRegionAliasOpt}(P)\ \Downarrow \ (P_{1},\ \mathsf{name})
 \end{array}
 $$
@@ -1484,8 +1480,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{region})\quad \Gamma \ \vdash \ \operatorname{ParseRegionOptsOpt}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{opts}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseRegionAliasOpt}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{alias}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(P_{2})\ \Downarrow \ (P_{3},\ b) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{region})\quad \Gamma \ \vdash \ \operatorname{ParseRegionOptsOpt}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{opts}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseRegionAliasOpt}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{alias}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(P_{2})\ \Downarrow \ (P_{3},\ b) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseStmtCore}(P)\ \Downarrow \ (P_{3},\ \operatorname{RegionStmt}(\mathsf{opts}_{\mathsf{opt}},\ \mathsf{alias}_{\mathsf{opt}},\ b))
 \end{array}
 $$
@@ -1496,14 +1492,14 @@ RegionStmt(opts_opt, alias_opt, block)
 
 $$
 \begin{array}{l}
-\operatorname{RegionActiveType}(T)\ \Leftrightarrow \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeModalState}([\texttt{Region}],\ \texttt{Active}) \\
+\operatorname{RegionActiveType}(T)\ \Leftrightarrow \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeModalState}([\texttt{Region}],\ \texttt{Active}) \\[0.16em]
 \operatorname{FreshRegion}(\Gamma )\ \in \ \mathsf{Name}\ \setminus \ \operatorname{dom}(\Gamma )
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{RegionOptsExpr}(\bot )\ =\ \operatorname{Call}(\operatorname{Identifier}(\texttt{RegionOptions}),\ []) \\
+\operatorname{RegionOptsExpr}(\bot )\ =\ \operatorname{Call}(\operatorname{Identifier}(\texttt{RegionOptions}),\ []) \\[0.16em]
 \operatorname{RegionOptsExpr}(e)\ =\ e\quad \mathsf{if}\ e\ \ne \ \bot 
 \end{array}
 $$
@@ -1512,8 +1508,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RegionBind}(\Gamma ,\ \mathsf{alias}_{\mathsf{opt}})\ =\ \Gamma_{r} \ \Leftrightarrow \ r\ = \\
-\ \{\ \mathsf{alias}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{alias}_{\mathsf{opt}}\ \ne \ \bot  \\
+\operatorname{RegionBind}(\Gamma ,\ \mathsf{alias}_{\mathsf{opt}})\ =\ \Gamma_{r} \ \Leftrightarrow \ r\ = \\[0.16em]
+\ \{\ \mathsf{alias}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{alias}_{\mathsf{opt}}\ \ne \ \bot  \\[0.16em]
 \quad \operatorname{FreshRegion}(\Gamma )\quad \mathsf{otherwise}\ \}\ \land \ \operatorname{IntroAll}(\Gamma ,\ [\langle r,\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{Region}],\ \texttt{Active}))\rangle ])\ \Downarrow \ \Gamma_{r} 
 \end{array}
 $$
@@ -1522,27 +1518,23 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RegionOptsExpr}(\mathsf{opts}_{\mathsf{opt}})\ =\ \mathsf{opts}\quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{opts}\ \Leftarrow \ \operatorname{TypePath}([\texttt{RegionOptions}])\ \dashv \ \emptyset \quad \operatorname{RegionBind}(\Gamma ,\ \mathsf{alias}_{\mathsf{opt}})\ =\ \Gamma_{r} \quad \Gamma_{r} ;\ R;\ L\ \vdash \ b\ :\ T_{b} \\
-\rule{18em}{0.4pt} \\
+\operatorname{RegionOptsExpr}(\mathsf{opts}_{\mathsf{opt}})\ =\ \mathsf{opts}\quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{opts}\ \Leftarrow \ \operatorname{TypePath}([\texttt{RegionOptions}])\ \dashv \ \emptyset \quad \operatorname{RegionBind}(\Gamma ,\ \mathsf{alias}_{\mathsf{opt}})\ =\ \Gamma_{r} \quad \Gamma_{r} ;\ R;\ L\ \vdash \ b\ :\ T_{b} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{RegionStmt}(\mathsf{opts}_{\mathsf{opt}},\ \mathsf{alias}_{\mathsf{opt}},\ b)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
 \end{array}
 $$
 
-$$
-\mathsf{If}\ \mathsf{alias}_{\mathsf{opt}}\ =\ \bot ,\ \mathsf{the}\ \mathsf{identifier}\ \mathsf{produced}\ \mathsf{for}\ \mathsf{the}\ \mathsf{region}\ \mathsf{binding}\ \mathsf{MUST}\ \mathsf{be}\ \mathsf{treated}\ \mathsf{as}\ \mathsf{synthetic}.\ \mathsf{It}\ \mathsf{MUST}\ \mathsf{NOT}\ \mathsf{be}\ \mathsf{introduced}\ \mathsf{by}\ \mathsf{name}\ \mathsf{resolution}\ \mathsf{and}\ \mathsf{MUST}\ \mathsf{NOT}\ \mathsf{be}\ \mathsf{referenced}\ \mathsf{by}\ \mathsf{user}\ \mathsf{code}.
-$$
+If alias_opt = ⊥, the identifier produced for the region binding MUST be treated as synthetic. It MUST NOT be introduced by name resolution and MUST NOT be referenced by user code.
 
 **(B-RegionStmt)** introduces the region binding into a fresh local scope and pushes the corresponding permission scope.
 
-$$
-**(\mathsf{Prov}-\mathsf{RegionStmt})**\ \mathsf{introduces}\ \mathsf{the}\ \mathsf{region}\ \mathsf{provenance}\ \mathsf{tag}\ \mathsf{and}\ \mathsf{pushes}\ \texttt{<r, r>}\ \mathsf{onto}\ \mathsf{the}\ \mathsf{runtime}\ \mathsf{region}\ \mathsf{stack}\ \mathsf{relation}.
-$$
+**(Prov-RegionStmt)** introduces the region provenance tag and pushes `⟨r, r⟩` onto the runtime region stack relation.
 
 ### 18.7.5 Dynamic Semantics
 
 $$
 \begin{array}{l}
-\operatorname{BindRegionAlias}(\sigma ,\ \bot ,\ r)\ \Downarrow \ \sigma  \\
+\operatorname{BindRegionAlias}(\sigma ,\ \bot ,\ r)\ \Downarrow \ \sigma  \\[0.16em]
 \operatorname{BindRegionAlias}(\sigma ,\ x,\ r)\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{BindVal}(\sigma ,\ x,\ \operatorname{RegionValue}(\texttt{@Active},\ r))\ \Downarrow \ (\sigma ',\ b)
 \end{array}
 $$
@@ -1551,8 +1543,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{opts},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{o}),\ \sigma_{1} )\quad \operatorname{RegionNew}(\sigma_{1} ,\ v_{o})\ \Downarrow \ (\sigma_{2} ,\ r,\ \mathsf{scope})\quad \operatorname{BindRegionAlias}(\sigma_{2} ,\ \mathsf{alias}_{\mathsf{opt}},\ r)\ \Downarrow \ \sigma_{3} \quad \Gamma \ \vdash \ \operatorname{EvalInScopeSigma}(b,\ \sigma_{3} ,\ \mathsf{scope})\ \Downarrow \ (\mathsf{out},\ \sigma_{4} )\quad \operatorname{RegionRelease}(\sigma_{4} ,\ r,\ \mathsf{scope},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma_{5} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{opts},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{o}),\ \sigma_{1} )\quad \operatorname{RegionNew}(\sigma_{1} ,\ v_{o})\ \Downarrow \ (\sigma_{2} ,\ r,\ \mathsf{scope})\quad \operatorname{BindRegionAlias}(\sigma_{2} ,\ \mathsf{alias}_{\mathsf{opt}},\ r)\ \Downarrow \ \sigma_{3} \quad \Gamma \ \vdash \ \operatorname{EvalInScopeSigma}(b,\ \sigma_{3} ,\ \mathsf{scope})\ \Downarrow \ (\mathsf{out},\ \sigma_{4} )\quad \operatorname{RegionRelease}(\sigma_{4} ,\ r,\ \mathsf{scope},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma_{5} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{RegionStmt}(\mathsf{opts}_{\mathsf{opt}},\ \mathsf{alias}_{\mathsf{opt}},\ b),\ \sigma )\ \Downarrow \ (\operatorname{StmtOutOf}(\mathsf{out}'),\ \sigma_{5} )
 \end{array}
 $$
@@ -1561,8 +1553,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{opts},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{opts},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{RegionStmt}(\mathsf{opts}_{\mathsf{opt}},\ \mathsf{alias}_{\mathsf{opt}},\ b),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -1575,8 +1567,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{opts}\ =\ \operatorname{RegionOptsExpr}(\mathsf{opts}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{opts},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{o}),\ \sigma_{1} )\quad \operatorname{RegionNew}(\sigma_{1} ,\ v_{o})\ \Downarrow \ (\sigma_{2} ,\ r,\ \mathsf{scope})\quad \operatorname{BindRegionAlias}(\sigma_{2} ,\ \mathsf{alias}_{\mathsf{opt}},\ r)\ \Downarrow \ \sigma_{3}  \\
-\rule{18em}{0.4pt} \\
+\mathsf{opts}\ =\ \operatorname{RegionOptsExpr}(\mathsf{opts}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{opts},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{o}),\ \sigma_{1} )\quad \operatorname{RegionNew}(\sigma_{1} ,\ v_{o})\ \Downarrow \ (\sigma_{2} ,\ r,\ \mathsf{scope})\quad \operatorname{BindRegionAlias}(\sigma_{2} ,\ \mathsf{alias}_{\mathsf{opt}},\ r)\ \Downarrow \ \sigma_{3}  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{Exec}(\operatorname{RegionStmt}(\mathsf{opts}_{\mathsf{opt}},\ \mathsf{alias}_{\mathsf{opt}},\ b),\ \sigma )\rangle \ \to \ \langle \operatorname{RegionBody}(r,\ \mathsf{scope},\ b,\ \sigma_{3} )\rangle 
 \end{array}
 $$
@@ -1585,8 +1577,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{opts}\ =\ \operatorname{RegionOptsExpr}(\mathsf{opts}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{opts},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\mathsf{opts}\ =\ \operatorname{RegionOptsExpr}(\mathsf{opts}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{opts},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{Exec}(\operatorname{RegionStmt}(\mathsf{opts}_{\mathsf{opt}},\ \mathsf{alias}_{\mathsf{opt}},\ b),\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma_{1} )\rangle 
 \end{array}
 $$
@@ -1595,8 +1587,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalInScopeSigma}(b,\ \sigma ,\ \mathsf{scope})\ \Downarrow \ (\mathsf{out},\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalInScopeSigma}(b,\ \sigma ,\ \mathsf{scope})\ \Downarrow \ (\mathsf{out},\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{RegionBody}(r,\ \mathsf{scope},\ b,\ \sigma )\rangle \ \to \ \langle \operatorname{RegionExit}(r,\ \mathsf{scope},\ \mathsf{out},\ \sigma_{1} )\rangle 
 \end{array}
 $$
@@ -1605,8 +1597,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RegionRelease}(\sigma ,\ r,\ \mathsf{scope},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma ')\quad \operatorname{StmtOutOf}(\mathsf{out}')\ =\ \mathsf{ok} \\
-\rule{18em}{0.4pt} \\
+\operatorname{RegionRelease}(\sigma ,\ r,\ \mathsf{scope},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma ')\quad \operatorname{StmtOutOf}(\mathsf{out}')\ =\ \mathsf{ok} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{RegionExit}(r,\ \mathsf{scope},\ \mathsf{out},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle 
 \end{array}
 $$
@@ -1615,8 +1607,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RegionRelease}(\sigma ,\ r,\ \mathsf{scope},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma ')\quad \operatorname{StmtOutOf}(\mathsf{out}')\ =\ \operatorname{Ctrl}(\kappa ) \\
-\rule{18em}{0.4pt} \\
+\operatorname{RegionRelease}(\sigma ,\ r,\ \mathsf{scope},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma ')\quad \operatorname{StmtOutOf}(\mathsf{out}')\ =\ \operatorname{Ctrl}(\kappa ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{RegionExit}(r,\ \mathsf{scope},\ \mathsf{out},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma ')\rangle 
 \end{array}
 $$
@@ -1627,8 +1619,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{opts}\ =\ \operatorname{RegionOptsExpr}(\mathsf{opts}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{opts})\ \Downarrow \ \langle \mathsf{IR}_{o},\ v_{o}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{block})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\
-\rule{18em}{0.4pt} \\
+\mathsf{opts}\ =\ \operatorname{RegionOptsExpr}(\mathsf{opts}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{opts})\ \Downarrow \ \langle \mathsf{IR}_{o},\ v_{o}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{block})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{RegionStmt}(\mathsf{opts}_{\mathsf{opt}},\ \mathsf{alias}_{\mathsf{opt}},\ \mathsf{block}))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{o},\ \operatorname{RegionIR}(v_{o},\ \mathsf{alias}_{\mathsf{opt}},\ \mathsf{IR}_{b},\ v_{b}))
 \end{array}
 $$
@@ -1651,8 +1643,8 @@ frame_stmt ::= "frame" block_expr | identifier "." "frame" block_expr
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{frame})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ b) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{frame})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ b) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseStmtCore}(P)\ \Downarrow \ (P_{1},\ \operatorname{FrameStmt}(\bot ,\ b))
 \end{array}
 $$
@@ -1661,8 +1653,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsIdent}(\operatorname{Tok}(P))\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"."})\quad \operatorname{IsKw}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))),\ \texttt{frame})\quad \mathsf{name}\ =\ \operatorname{Lexeme}(\operatorname{Tok}(P))\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P))))\ \Downarrow \ (P_{1},\ b) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsIdent}(\operatorname{Tok}(P))\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"."})\quad \operatorname{IsKw}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))),\ \texttt{frame})\quad \mathsf{name}\ =\ \operatorname{Lexeme}(\operatorname{Tok}(P))\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P))))\ \Downarrow \ (P_{1},\ b) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseStmtCore}(P)\ \Downarrow \ (P_{1},\ \operatorname{FrameStmt}(\mathsf{name},\ b))
 \end{array}
 $$
@@ -1673,17 +1665,17 @@ FrameStmt(target_opt, block)
 
 $$
 \begin{array}{l}
-\operatorname{InnermostActiveRegion}([])\ =\ \bot  \\
-\operatorname{InnermostActiveRegion}([\sigma ]\ \mathbin{++} \ \Gamma ')\ = \\
-\ \{\ r\quad \mathsf{if}\ \exists \ r.\ r\ \in \ \operatorname{dom}(\sigma )\ \land \ \operatorname{RegionActiveType}(\sigma [r]) \\
+\operatorname{InnermostActiveRegion}([])\ =\ \bot  \\[0.16em]
+\operatorname{InnermostActiveRegion}([\sigma ]\ \mathbin{++} \ \Gamma ')\ = \\[0.16em]
+\ \{\ r\quad \mathsf{if}\ \exists \ r.\ r\ \in \ \operatorname{dom}(\sigma )\ \land \ \operatorname{RegionActiveType}(\sigma [r]) \\[0.16em]
 \quad \operatorname{InnermostActiveRegion}(\Gamma ')\ \mathsf{otherwise}\ \}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{FrameBind}(\Gamma ,\ \mathsf{target}_{\mathsf{opt}})\ =\ \Gamma_{f} \ \Leftrightarrow \ r\ = \\
-\ \{\ \operatorname{InnermostActiveRegion}(\Gamma )\quad \mathsf{if}\ \mathsf{target}_{\mathsf{opt}}\ =\ \bot  \\
+\operatorname{FrameBind}(\Gamma ,\ \mathsf{target}_{\mathsf{opt}})\ =\ \Gamma_{f} \ \Leftrightarrow \ r\ = \\[0.16em]
+\ \{\ \operatorname{InnermostActiveRegion}(\Gamma )\quad \mathsf{if}\ \mathsf{target}_{\mathsf{opt}}\ =\ \bot  \\[0.16em]
 \quad \mathsf{target}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{target}_{\mathsf{opt}}\ \ne \ \bot \ \land \ \Gamma ;\ R;\ L\ \vdash \ \operatorname{Identifier}(\mathsf{target}_{\mathsf{opt}})\ :\ T_{r}\ \land \ \operatorname{RegionActiveType}(T_{r})\ \}\ \land \ F\ =\ \operatorname{FreshRegion}(\Gamma )\ \land \ \operatorname{IntroAll}(\Gamma ,\ [\langle F,\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{Region}],\ \texttt{Active}))\rangle ])\ \Downarrow \ \Gamma_{f} 
 \end{array}
 $$
@@ -1694,8 +1686,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{FrameBind}(\Gamma ,\ \bot )\ =\ \Gamma_{f} \quad \Gamma_{f} ;\ R;\ L\ \vdash \ b\ :\ T_{b} \\
-\rule{18em}{0.4pt} \\
+\operatorname{FrameBind}(\Gamma ,\ \bot )\ =\ \Gamma_{f} \quad \Gamma_{f} ;\ R;\ L\ \vdash \ b\ :\ T_{b} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{FrameStmt}(\bot ,\ b)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
 \end{array}
 $$
@@ -1704,8 +1696,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{FrameBind}(\Gamma ,\ r)\ =\ \Gamma_{f} \quad \Gamma_{f} ;\ R;\ L\ \vdash \ b\ :\ T_{b} \\
-\rule{18em}{0.4pt} \\
+\operatorname{FrameBind}(\Gamma ,\ r)\ =\ \Gamma_{f} \quad \Gamma_{f} ;\ R;\ L\ \vdash \ b\ :\ T_{b} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{FrameStmt}(r,\ b)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
 \end{array}
 $$
@@ -1714,8 +1706,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{InnermostActiveRegion}(\Gamma )\ \mathsf{undefined}\quad c\ =\ \operatorname{Code}(\mathsf{Frame}-\mathsf{NoActiveRegion}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{InnermostActiveRegion}(\Gamma )\ \mathsf{undefined}\quad c\ =\ \operatorname{Code}(\mathsf{Frame}-\mathsf{NoActiveRegion}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{FrameStmt}(\bot ,\ b)\ \Uparrow \ c
 \end{array}
 $$
@@ -1724,27 +1716,23 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{Identifier}(r)\ :\ T_{r}\quad \lnot \ \operatorname{RegionActiveType}(T_{r})\quad c\ =\ \operatorname{Code}(\mathsf{Frame}-\mathsf{Target}-\mathsf{NotActive}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{Identifier}(r)\ :\ T_{r}\quad \lnot \ \operatorname{RegionActiveType}(T_{r})\quad c\ =\ \operatorname{Code}(\mathsf{Frame}-\mathsf{Target}-\mathsf{NotActive}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{FrameStmt}(r,\ b)\ \Uparrow \ c
 \end{array}
 $$
 
 FrameBind introduces a fresh synthetic region identifier `F` with the same synthetic-binding restriction as the anonymous `region` binding. `F` is used only for provenance assignment.
 
-$$
-**(B-\mathsf{FrameStmt})**\ \mathsf{pushes}\ a\ \mathsf{fresh}\ \mathsf{scope},\ \mathsf{introduces}\ \texttt{FrameBindInfo(Gamma)},\ \mathsf{and}\ \mathsf{evaluates}\ \mathsf{the}\ \mathsf{body}\ \mathsf{in}\ \mathsf{that}\ \mathsf{scope}.
-$$
+**(B-FrameStmt)** pushes a fresh scope, introduces `FrameBindInfo(Γ)`, and evaluates the body in that scope.
 
-$$
-**(\mathsf{Prov}-\mathsf{FrameStmt})**\ \mathsf{pushes}\ \texttt{<F, r>}\ \mathsf{on}\ \mathsf{the}\ \mathsf{runtime}\ \mathsf{region}\ \mathsf{stack}\ \mathsf{relation},\ \mathsf{where}\ \texttt{r}\ \mathsf{is}\ \mathsf{the}\ \mathsf{resolved}\ \mathsf{target}.
-$$
+**(Prov-FrameStmt)** pushes `⟨F, r⟩` on the runtime region stack relation, where `r` is the resolved target.
 
 ### 18.8.5 Dynamic Semantics
 
 $$
 \begin{array}{l}
-\operatorname{ActiveTarget}(\sigma )\ =\ \mathsf{target}\ \Leftrightarrow \ \operatorname{ActiveEntry}(\sigma )\ =\ e\ \land \ \operatorname{RegionTargetOf}(e)\ =\ \mathsf{target} \\
+\operatorname{ActiveTarget}(\sigma )\ =\ \mathsf{target}\ \Leftrightarrow \ \operatorname{ActiveEntry}(\sigma )\ =\ e\ \land \ \operatorname{RegionTargetOf}(e)\ =\ \mathsf{target} \\[0.16em]
 \operatorname{ResolveTarget}(\sigma ,\ r)\ =\ \mathsf{target}\ \Leftrightarrow \ \operatorname{ResolveEntry}(\operatorname{RegionStack}(\sigma ),\ r)\ =\ e\ \land \ \operatorname{RegionTargetOf}(e)\ =\ \mathsf{target}
 \end{array}
 $$
@@ -1757,8 +1745,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ActiveTarget}(\sigma )\ =\ r\quad \operatorname{FrameEnter}(\sigma ,\ r)\ \Downarrow \ (\sigma_{1} ,\ F,\ \mathsf{scope},\ \mathsf{mark})\quad \Gamma \ \vdash \ \operatorname{EvalInScopeSigma}(b,\ \sigma_{1} ,\ \mathsf{scope})\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )\quad \operatorname{FrameReset}(\sigma_{2} ,\ r,\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma_{3} ) \\
-\rule{18em}{0.4pt} \\
+\operatorname{ActiveTarget}(\sigma )\ =\ r\quad \operatorname{FrameEnter}(\sigma ,\ r)\ \Downarrow \ (\sigma_{1} ,\ F,\ \mathsf{scope},\ \mathsf{mark})\quad \Gamma \ \vdash \ \operatorname{EvalInScopeSigma}(b,\ \sigma_{1} ,\ \mathsf{scope})\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )\quad \operatorname{FrameReset}(\sigma_{2} ,\ r,\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma_{3} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{FrameStmt}(\bot ,\ b),\ \sigma )\ \Downarrow \ (\operatorname{StmtOutOf}(\mathsf{out}'),\ \sigma_{3} )
 \end{array}
 $$
@@ -1767,8 +1755,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{LookupVal}(\sigma ,\ r)\ =\ v_{r}\quad \operatorname{RegionHandleOf}(v_{r})\ =\ h\quad \operatorname{ResolveTarget}(\sigma ,\ h)\ =\ r_{t}\quad \operatorname{FrameEnter}(\sigma ,\ r_{t})\ \Downarrow \ (\sigma_{1} ,\ F,\ \mathsf{scope},\ \mathsf{mark})\quad \Gamma \ \vdash \ \operatorname{EvalInScopeSigma}(b,\ \sigma_{1} ,\ \mathsf{scope})\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )\quad \operatorname{FrameReset}(\sigma_{2} ,\ r_{t},\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma_{3} ) \\
-\rule{18em}{0.4pt} \\
+\operatorname{LookupVal}(\sigma ,\ r)\ =\ v_{r}\quad \operatorname{RegionHandleOf}(v_{r})\ =\ h\quad \operatorname{ResolveTarget}(\sigma ,\ h)\ =\ r_{t}\quad \operatorname{FrameEnter}(\sigma ,\ r_{t})\ \Downarrow \ (\sigma_{1} ,\ F,\ \mathsf{scope},\ \mathsf{mark})\quad \Gamma \ \vdash \ \operatorname{EvalInScopeSigma}(b,\ \sigma_{1} ,\ \mathsf{scope})\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )\quad \operatorname{FrameReset}(\sigma_{2} ,\ r_{t},\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma_{3} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{FrameStmt}(r,\ b),\ \sigma )\ \Downarrow \ (\operatorname{StmtOutOf}(\mathsf{out}'),\ \sigma_{3} )
 \end{array}
 $$
@@ -1781,8 +1769,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ActiveTarget}(\sigma )\ =\ r\quad \operatorname{FrameEnter}(\sigma ,\ r)\ \Downarrow \ (\sigma_{1} ,\ F,\ \mathsf{scope},\ \mathsf{mark}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{ActiveTarget}(\sigma )\ =\ r\quad \operatorname{FrameEnter}(\sigma ,\ r)\ \Downarrow \ (\sigma_{1} ,\ F,\ \mathsf{scope},\ \mathsf{mark}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{Exec}(\operatorname{FrameStmt}(\bot ,\ b),\ \sigma )\rangle \ \to \ \langle \operatorname{FrameBody}(r,\ \mathsf{scope},\ \mathsf{mark},\ b,\ \sigma_{1} )\rangle 
 \end{array}
 $$
@@ -1791,8 +1779,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{LookupVal}(\sigma ,\ r)\ =\ v_{r}\quad \operatorname{RegionHandleOf}(v_{r})\ =\ h\quad \operatorname{ResolveTarget}(\sigma ,\ h)\ =\ r_{t}\quad \operatorname{FrameEnter}(\sigma ,\ r_{t})\ \Downarrow \ (\sigma_{1} ,\ F,\ \mathsf{scope},\ \mathsf{mark}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{LookupVal}(\sigma ,\ r)\ =\ v_{r}\quad \operatorname{RegionHandleOf}(v_{r})\ =\ h\quad \operatorname{ResolveTarget}(\sigma ,\ h)\ =\ r_{t}\quad \operatorname{FrameEnter}(\sigma ,\ r_{t})\ \Downarrow \ (\sigma_{1} ,\ F,\ \mathsf{scope},\ \mathsf{mark}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{Exec}(\operatorname{FrameStmt}(r,\ b),\ \sigma )\rangle \ \to \ \langle \operatorname{FrameBody}(r_{t},\ \mathsf{scope},\ \mathsf{mark},\ b,\ \sigma_{1} )\rangle 
 \end{array}
 $$
@@ -1801,8 +1789,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalInScopeSigma}(b,\ \sigma ,\ \mathsf{scope})\ \Downarrow \ (\mathsf{out},\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalInScopeSigma}(b,\ \sigma ,\ \mathsf{scope})\ \Downarrow \ (\mathsf{out},\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{FrameBody}(r,\ \mathsf{scope},\ \mathsf{mark},\ b,\ \sigma )\rangle \ \to \ \langle \operatorname{FrameExit}(r,\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out},\ \sigma_{1} )\rangle 
 \end{array}
 $$
@@ -1811,8 +1799,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{FrameReset}(\sigma ,\ r,\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma ')\quad \operatorname{StmtOutOf}(\mathsf{out}')\ =\ \mathsf{ok} \\
-\rule{18em}{0.4pt} \\
+\operatorname{FrameReset}(\sigma ,\ r,\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma ')\quad \operatorname{StmtOutOf}(\mathsf{out}')\ =\ \mathsf{ok} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{FrameExit}(r,\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle 
 \end{array}
 $$
@@ -1821,8 +1809,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{FrameReset}(\sigma ,\ r,\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma ')\quad \operatorname{StmtOutOf}(\mathsf{out}')\ =\ \operatorname{Ctrl}(\kappa ) \\
-\rule{18em}{0.4pt} \\
+\operatorname{FrameReset}(\sigma ,\ r,\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma ')\quad \operatorname{StmtOutOf}(\mathsf{out}')\ =\ \operatorname{Ctrl}(\kappa ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{FrameExit}(r,\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma ')\rangle 
 \end{array}
 $$
@@ -1833,8 +1821,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{block})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{block})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{FrameStmt}(\bot ,\ \mathsf{block}))\ \Downarrow \ \operatorname{FrameIR}(\bot ,\ \mathsf{IR}_{b},\ v_{b})
 \end{array}
 $$
@@ -1843,8 +1831,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Identifier}(r))\ \Downarrow \ \langle \mathsf{IR}_{r},\ v_{r}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{block})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Identifier}(r))\ \Downarrow \ \langle \mathsf{IR}_{r},\ v_{r}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{block})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{FrameStmt}(r,\ \mathsf{block}))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{r},\ \operatorname{FrameIR}(v_{r},\ \mathsf{IR}_{b},\ v_{b}))
 \end{array}
 $$
@@ -1869,8 +1857,8 @@ continue_stmt ::= "continue" terminator?
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{return})\quad \Gamma \ \vdash \ \operatorname{ParseExprOpt}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e_{\mathsf{opt}}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{return})\quad \Gamma \ \vdash \ \operatorname{ParseExprOpt}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e_{\mathsf{opt}}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseStmtCore}(P)\ \Downarrow \ (P_{1},\ \operatorname{ReturnStmt}(e_{\mathsf{opt}}))
 \end{array}
 $$
@@ -1879,8 +1867,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{break})\quad \Gamma \ \vdash \ \operatorname{ParseExprOpt}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e_{\mathsf{opt}}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{break})\quad \Gamma \ \vdash \ \operatorname{ParseExprOpt}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e_{\mathsf{opt}}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseStmtCore}(P)\ \Downarrow \ (P_{1},\ \operatorname{BreakStmt}(e_{\mathsf{opt}}))
 \end{array}
 $$
@@ -1890,7 +1878,7 @@ IsKw(Tok(P), `continue`)
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseStmtCore}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \mathsf{ContinueStmt})
 \end{array}
 $$
@@ -1907,8 +1895,8 @@ ContinueStmt
 
 $$
 \begin{array}{l}
-R_{b}\ =\ \operatorname{BodyReturnType}(R)\quad \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ R_{b}\ \dashv \ \emptyset  \\
-\rule{18em}{0.4pt} \\
+R_{b}\ =\ \operatorname{BodyReturnType}(R)\quad \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ R_{b}\ \dashv \ \emptyset  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnStmt}(e)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
 \end{array}
 $$
@@ -1917,8 +1905,8 @@ $$
 
 $$
 \begin{array}{l}
-R_{b}\ =\ \operatorname{BodyReturnType}(R)\quad R_{b}\ =\ \operatorname{TypePrim}(\texttt{"()"}) \\
-\rule{18em}{0.4pt} \\
+R_{b}\ =\ \operatorname{BodyReturnType}(R)\quad R_{b}\ =\ \operatorname{TypePrim}(\texttt{"()"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnStmt}(\bot )\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
 \end{array}
 $$
@@ -1927,8 +1915,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T\quad \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ \mathsf{Result})\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0203) \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T\quad \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ \mathsf{Result})\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0203) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnStmt}(e)\ \Uparrow \ c
 \end{array}
 $$
@@ -1937,8 +1925,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \mathsf{Result}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0203) \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \mathsf{Result}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0203) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnStmt}(\bot )\ \Uparrow \ c
 \end{array}
 $$
@@ -1947,8 +1935,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T\quad R_{b}\ =\ \operatorname{BodyReturnType}(R)\quad \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ R_{b})\quad c\ =\ \operatorname{Code}(\mathsf{Return}-\mathsf{Type}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T\quad R_{b}\ =\ \operatorname{BodyReturnType}(R)\quad \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ R_{b})\quad c\ =\ \operatorname{Code}(\mathsf{Return}-\mathsf{Type}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnStmt}(e)\ \Uparrow \ c
 \end{array}
 $$
@@ -1957,8 +1945,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \bot \quad R_{b}\ =\ \operatorname{BodyReturnType}(R)\quad R_{b}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})\quad c\ =\ \operatorname{Code}(\mathsf{Return}-\mathsf{Type}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \bot \quad R_{b}\ =\ \operatorname{BodyReturnType}(R)\quad R_{b}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})\quad c\ =\ \operatorname{Code}(\mathsf{Return}-\mathsf{Type}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnStmt}(\bot )\ \Uparrow \ c
 \end{array}
 $$
@@ -1967,8 +1955,8 @@ $$
 
 $$
 \begin{array}{l}
-L\ =\ \texttt{loop}\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T \\
-\rule{18em}{0.4pt} \\
+L\ =\ \texttt{loop}\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{BreakStmt}(e)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [T],\ \mathsf{false}\rangle 
 \end{array}
 $$
@@ -1978,7 +1966,7 @@ L = `loop`
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{BreakStmt}(\bot )\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{true}\rangle 
 \end{array}
 $$
@@ -1987,8 +1975,8 @@ $$
 
 $$
 \begin{array}{l}
-L\ \ne \ \texttt{loop}\quad c\ =\ \operatorname{Code}(\mathsf{Break}-\mathsf{Outside}-\mathsf{Loop}) \\
-\rule{18em}{0.4pt} \\
+L\ \ne \ \texttt{loop}\quad c\ =\ \operatorname{Code}(\mathsf{Break}-\mathsf{Outside}-\mathsf{Loop}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{BreakStmt}(\_)\ \Uparrow \ c
 \end{array}
 $$
@@ -1998,7 +1986,7 @@ L = `loop`
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \mathsf{ContinueStmt}\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
 \end{array}
 $$
@@ -2007,8 +1995,8 @@ $$
 
 $$
 \begin{array}{l}
-L\ \ne \ \texttt{loop}\quad c\ =\ \operatorname{Code}(\mathsf{Continue}-\mathsf{Outside}-\mathsf{Loop}) \\
-\rule{18em}{0.4pt} \\
+L\ \ne \ \texttt{loop}\quad c\ =\ \operatorname{Code}(\mathsf{Continue}-\mathsf{Outside}-\mathsf{Loop}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \mathsf{ContinueStmt}\ \Uparrow \ c
 \end{array}
 $$
@@ -2023,8 +2011,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{ReturnStmt}(e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\operatorname{Return}(v)),\ \sigma_{1} )
 \end{array}
 $$
@@ -2033,7 +2021,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{ReturnStmt}(\bot ),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\operatorname{Return}(())),\ \sigma )
 \end{array}
 $$
@@ -2042,8 +2030,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{ReturnStmt}(e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -2052,8 +2040,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{BreakStmt}(e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\operatorname{Break}(v)),\ \sigma_{1} )
 \end{array}
 $$
@@ -2062,7 +2050,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{BreakStmt}(\bot ),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\operatorname{Break}(\bot )),\ \sigma )
 \end{array}
 $$
@@ -2071,8 +2059,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{BreakStmt}(e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -2081,7 +2069,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\mathsf{ContinueStmt},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Continue}),\ \sigma )
 \end{array}
 $$
@@ -2092,8 +2080,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{ReturnStmt}(e))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{ReturnIR}(v))
 \end{array}
 $$
@@ -2102,7 +2090,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{ReturnStmt}(\bot ))\ \Downarrow \ \operatorname{ReturnIR}(())
 \end{array}
 $$
@@ -2111,8 +2099,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{BreakStmt}(e))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{BreakIR}(v))
 \end{array}
 $$
@@ -2121,7 +2109,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{BreakStmt}(\bot ))\ \Downarrow \ \operatorname{BreakIR}(\bot )
 \end{array}
 $$
@@ -2130,7 +2118,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\mathsf{ContinueStmt})\ \Downarrow \ \mathsf{ContinueIR}
 \end{array}
 $$
@@ -2139,9 +2127,9 @@ For control-flow statements, the lowering MUST emit temporary cleanup immediatel
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{ReturnStmt}(e))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{TempCleanupIR}(s),\ \operatorname{ReturnIR}(v)) \\
-\Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{BreakStmt}(e))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{TempCleanupIR}(s),\ \operatorname{BreakIR}(v)) \\
-\Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{BreakStmt}(\bot ))\ \Downarrow \ \operatorname{SeqIR}(\operatorname{TempCleanupIR}(s),\ \operatorname{BreakIR}(\bot )) \\
+\Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{ReturnStmt}(e))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{TempCleanupIR}(s),\ \operatorname{ReturnIR}(v)) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{BreakStmt}(e))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{TempCleanupIR}(s),\ \operatorname{BreakIR}(v)) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{BreakStmt}(\bot ))\ \Downarrow \ \operatorname{SeqIR}(\operatorname{TempCleanupIR}(s),\ \operatorname{BreakIR}(\bot )) \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\mathsf{ContinueStmt})\ \Downarrow \ \operatorname{SeqIR}(\operatorname{TempCleanupIR}(s),\ \mathsf{ContinueIR})
 \end{array}
 $$
@@ -2164,8 +2152,8 @@ unsafe_block ::= "unsafe" block_expr
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{unsafe})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ b) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{unsafe})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ b) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseStmtCore}(P)\ \Downarrow \ (P_{1},\ \operatorname{UnsafeBlockStmt}(b))
 \end{array}
 $$
@@ -2180,8 +2168,8 @@ UnsafeBlockStmt(block)
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ b\ :\ T \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ b\ :\ T \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{UnsafeBlockStmt}(b)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
 \end{array}
 $$
@@ -2196,8 +2184,8 @@ Unsafe-required operation diagnostics are owned by the constructs that require t
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(b,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(b,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{UnsafeBlockStmt}(b),\ \sigma )\ \Downarrow \ (\operatorname{StmtOutOf}(\mathsf{out}),\ \sigma_{1} )
 \end{array}
 $$
@@ -2208,8 +2196,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{block})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{block})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{UnsafeBlockStmt}(\mathsf{block}))\ \Downarrow \ \mathsf{IR}_{b}
 \end{array}
 $$

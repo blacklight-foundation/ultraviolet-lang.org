@@ -2,14 +2,14 @@
 title: "Asynchronous Operations"
 description: "21. Asynchronous Operations of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T19:35:24.518Z"
+specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+generatedAt: "2026-05-14T00:55:03.609Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e</code></span>
+  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
 </div>
 
 
@@ -42,9 +42,7 @@ The following built-in async states are reserved and use ordinary modal-state ty
 
 `Async@Suspended`, `Async@Completed`, and `Async@Failed` use ordinary modal-state type parsing.
 
-$$
-\texttt{TypePath(["Async"])}\ \mathsf{MAY}\ \mathsf{be}\ \mathsf{parsed}\ \mathsf{by}\ \mathsf{the}\ \mathsf{general}\ \mathsf{type}\ \mathsf{parser};\ \mathsf{rejection}\ \mathsf{of}\ \mathsf{unapplied}\ \texttt{Async}\ \mathsf{is}\ a\ \mathsf{static}-\mathsf{semantic}\ \mathsf{rule}\ \mathsf{of}\ \mathsf{this}\ \mathsf{section}.
-$$
+`TypePath(["Async"])` MAY be parsed by the general type parser; rejection of unapplied `Async` is a static-semantic rule of this section.
 
 ### 21.1.3 AST Representation / Form
 
@@ -52,51 +50,51 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{States}(\texttt{Async})\ =\ \{\ \texttt{@Suspended},\ \texttt{@Completed},\ \texttt{@Failed}\ \} \\
-\mathsf{AsyncParams}\ =\ [ \\
-\ \langle \texttt{Out},\ [],\ \bot ,\ \bot \rangle , \\
-\ \langle \texttt{In},\ [],\ \operatorname{TypePrim}(\texttt{"()"}),\ \bot \rangle , \\
-\ \langle \texttt{Result},\ [],\ \operatorname{TypePrim}(\texttt{"()"}),\ \bot \rangle , \\
-\ \langle \texttt{E},\ [],\ \operatorname{TypePrim}(\texttt{"!"}),\ \bot \rangle  \\
-] \\
-\mathsf{AsyncRef}\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\operatorname{TypePath}([\texttt{"Out"}]),\ \operatorname{TypePath}([\texttt{"In"}]),\ \operatorname{TypePath}([\texttt{"Result"}]),\ \operatorname{TypePath}([\texttt{"E"}])]) \\
-\mathsf{AsyncSuspendedFields}\ =\ [\langle \texttt{output},\ \operatorname{TypePath}([\texttt{"Out"}])\rangle ] \\
-\mathsf{AsyncCompletedFields}\ =\ [\langle \texttt{value},\ \operatorname{TypePath}([\texttt{"Result"}])\rangle ] \\
-\mathsf{AsyncFailedFields}\ =\ [\langle \texttt{error},\ \operatorname{TypePath}([\texttt{"E"}])\rangle ] \\
-\operatorname{Payload}(\texttt{Async},\ \texttt{@Suspended})\ =\ \mathsf{AsyncSuspendedFields} \\
-\operatorname{Payload}(\texttt{Async},\ \texttt{@Completed})\ =\ \mathsf{AsyncCompletedFields} \\
-\operatorname{Payload}(\texttt{Async},\ \texttt{@Failed})\ =\ \mathsf{AsyncFailedFields} \\
-\mathsf{AsyncSuspendedMembers}\ =\ [ \\
-\ \operatorname{StateFieldDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{output},\ \operatorname{TypePath}([\texttt{"Out"}]),\ \bot ,\ \bot ), \\
-\ \operatorname{StateMethodDecl}( \\
-\quad \bot , \\
-\quad \texttt{public}, \\
-\quad \texttt{"resume"}, \\
-\quad \bot , \\
-\quad \operatorname{ReceiverShorthand}(\texttt{unique}), \\
-\quad [\langle \bot ,\ \texttt{input},\ \operatorname{TypePath}([\texttt{"In"}])\rangle ], \\
-\quad \operatorname{TypeUnion}([ \\
-\quad \operatorname{TypeModalState}(\mathsf{AsyncRef},\ \texttt{@Suspended}), \\
-\quad \operatorname{TypeModalState}(\mathsf{AsyncRef},\ \texttt{@Completed}), \\
-\quad \operatorname{TypeModalState}(\mathsf{AsyncRef},\ \texttt{@Failed}) \\
-\quad ]), \\
-\quad \bot , \\
-\quad \bot , \\
-\quad \bot , \\
-\quad \bot  \\
-\ ) \\
-] \\
-\mathsf{AsyncCompletedMembers}\ =\ [ \\
-\ \operatorname{StateFieldDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{value},\ \operatorname{TypePath}([\texttt{"Result"}]),\ \bot ,\ \bot ) \\
-] \\
-\mathsf{AsyncFailedMembers}\ =\ [ \\
-\ \operatorname{StateFieldDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{error},\ \operatorname{TypePath}([\texttt{"E"}]),\ \bot ,\ \bot ) \\
-] \\
-\mathsf{AsyncStates}\ =\ [ \\
-\ \operatorname{StateBlock}(\texttt{@Suspended},\ \mathsf{AsyncSuspendedMembers},\ \bot ,\ \bot ), \\
-\ \operatorname{StateBlock}(\texttt{@Completed},\ \mathsf{AsyncCompletedMembers},\ \bot ,\ \bot ), \\
-\ \operatorname{StateBlock}(\texttt{@Failed},\ \mathsf{AsyncFailedMembers},\ \bot ,\ \bot ) \\
-] \\
+\operatorname{States}(\texttt{Async})\ =\ \{\ \texttt{@Suspended},\ \texttt{@Completed},\ \texttt{@Failed}\ \} \\[0.16em]
+\mathsf{AsyncParams}\ =\ [ \\[0.16em]
+\ \langle \texttt{Out},\ [],\ \bot ,\ \bot \rangle , \\[0.16em]
+\ \langle \texttt{In},\ [],\ \operatorname{TypePrim}(\texttt{"()"}),\ \bot \rangle , \\[0.16em]
+\ \langle \texttt{Result},\ [],\ \operatorname{TypePrim}(\texttt{"()"}),\ \bot \rangle , \\[0.16em]
+\ \langle \texttt{E},\ [],\ \operatorname{TypePrim}(\texttt{"!"}),\ \bot \rangle  \\[0.16em]
+] \\[0.16em]
+\mathsf{AsyncRef}\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\operatorname{TypePath}([\texttt{"Out"}]),\ \operatorname{TypePath}([\texttt{"In"}]),\ \operatorname{TypePath}([\texttt{"Result"}]),\ \operatorname{TypePath}([\texttt{"E"}])]) \\[0.16em]
+\mathsf{AsyncSuspendedFields}\ =\ [\langle \texttt{output},\ \operatorname{TypePath}([\texttt{"Out"}])\rangle ] \\[0.16em]
+\mathsf{AsyncCompletedFields}\ =\ [\langle \texttt{value},\ \operatorname{TypePath}([\texttt{"Result"}])\rangle ] \\[0.16em]
+\mathsf{AsyncFailedFields}\ =\ [\langle \texttt{error},\ \operatorname{TypePath}([\texttt{"E"}])\rangle ] \\[0.16em]
+\operatorname{Payload}(\texttt{Async},\ \texttt{@Suspended})\ =\ \mathsf{AsyncSuspendedFields} \\[0.16em]
+\operatorname{Payload}(\texttt{Async},\ \texttt{@Completed})\ =\ \mathsf{AsyncCompletedFields} \\[0.16em]
+\operatorname{Payload}(\texttt{Async},\ \texttt{@Failed})\ =\ \mathsf{AsyncFailedFields} \\[0.16em]
+\mathsf{AsyncSuspendedMembers}\ =\ [ \\[0.16em]
+\ \operatorname{StateFieldDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{output},\ \operatorname{TypePath}([\texttt{"Out"}]),\ \bot ,\ \bot ), \\[0.16em]
+\ \operatorname{StateMethodDecl}( \\[0.16em]
+\quad \bot , \\[0.16em]
+\quad \texttt{public}, \\[0.16em]
+\quad \texttt{"resume"}, \\[0.16em]
+\quad \bot , \\[0.16em]
+\quad \operatorname{ReceiverShorthand}(\texttt{unique}), \\[0.16em]
+\quad [\langle \bot ,\ \texttt{input},\ \operatorname{TypePath}([\texttt{"In"}])\rangle ], \\[0.16em]
+\quad \operatorname{TypeUnion}([ \\[0.16em]
+\quad \operatorname{TypeModalState}(\mathsf{AsyncRef},\ \texttt{@Suspended}), \\[0.16em]
+\quad \operatorname{TypeModalState}(\mathsf{AsyncRef},\ \texttt{@Completed}), \\[0.16em]
+\quad \operatorname{TypeModalState}(\mathsf{AsyncRef},\ \texttt{@Failed}) \\[0.16em]
+\quad ]), \\[0.16em]
+\quad \bot , \\[0.16em]
+\quad \bot , \\[0.16em]
+\quad \bot , \\[0.16em]
+\quad \bot  \\[0.16em]
+\ ) \\[0.16em]
+] \\[0.16em]
+\mathsf{AsyncCompletedMembers}\ =\ [ \\[0.16em]
+\ \operatorname{StateFieldDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{value},\ \operatorname{TypePath}([\texttt{"Result"}]),\ \bot ,\ \bot ) \\[0.16em]
+] \\[0.16em]
+\mathsf{AsyncFailedMembers}\ =\ [ \\[0.16em]
+\ \operatorname{StateFieldDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{error},\ \operatorname{TypePath}([\texttt{"E"}]),\ \bot ,\ \bot ) \\[0.16em]
+] \\[0.16em]
+\mathsf{AsyncStates}\ =\ [ \\[0.16em]
+\ \operatorname{StateBlock}(\texttt{@Suspended},\ \mathsf{AsyncSuspendedMembers},\ \bot ,\ \bot ), \\[0.16em]
+\ \operatorname{StateBlock}(\texttt{@Completed},\ \mathsf{AsyncCompletedMembers},\ \bot ,\ \bot ), \\[0.16em]
+\ \operatorname{StateBlock}(\texttt{@Failed},\ \mathsf{AsyncFailedMembers},\ \bot ,\ \bot ) \\[0.16em]
+] \\[0.16em]
 \mathsf{AsyncDecl}\ =\ \operatorname{ModalDecl}(\bot ,\ \texttt{public},\ \texttt{Async},\ \mathsf{AsyncParams},\ \bot ,\ [],\ \mathsf{AsyncStates},\ \bot ,\ \bot ,\ \bot )
 \end{array}
 $$
@@ -105,10 +103,10 @@ The following built-in aliases are defined:
 
 $$
 \begin{array}{l}
-\mathsf{SequenceDecl}\ =\ \operatorname{TypeAliasDecl}(\bot ,\ \texttt{public},\ \texttt{Sequence},\ [\langle \texttt{T},\ [],\ \bot ,\ \bot \rangle ],\ \bot ,\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\operatorname{TypePath}([\texttt{"T"}]),\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"!"})]),\ \bot ,\ \bot ) \\
-\mathsf{FutureDecl}\ =\ \operatorname{TypeAliasDecl}(\bot ,\ \texttt{public},\ \texttt{Future},\ [\langle \texttt{T},\ [],\ \bot ,\ \bot \rangle ,\ \langle \texttt{E},\ [],\ \operatorname{TypePrim}(\texttt{"!"}),\ \bot \rangle ],\ \bot ,\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePath}([\texttt{"T"}]),\ \operatorname{TypePath}([\texttt{"E"}])]),\ \bot ,\ \bot ) \\
-\mathsf{StreamDecl}\ =\ \operatorname{TypeAliasDecl}(\bot ,\ \texttt{public},\ \texttt{Stream},\ [\langle \texttt{T},\ [],\ \bot ,\ \bot \rangle ,\ \langle \texttt{E},\ [],\ \bot ,\ \bot \rangle ],\ \bot ,\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\operatorname{TypePath}([\texttt{"T"}]),\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePath}([\texttt{"E"}])]),\ \bot ,\ \bot ) \\
-\mathsf{PipeDecl}\ =\ \operatorname{TypeAliasDecl}(\bot ,\ \texttt{public},\ \texttt{Pipe},\ [\langle \texttt{In},\ [],\ \bot ,\ \bot \rangle ,\ \langle \texttt{Out},\ [],\ \bot ,\ \bot \rangle ],\ \bot ,\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\operatorname{TypePath}([\texttt{"Out"}]),\ \operatorname{TypePath}([\texttt{"In"}]),\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"!"})]),\ \bot ,\ \bot ) \\
+\mathsf{SequenceDecl}\ =\ \operatorname{TypeAliasDecl}(\bot ,\ \texttt{public},\ \texttt{Sequence},\ [\langle \texttt{T},\ [],\ \bot ,\ \bot \rangle ],\ \bot ,\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\operatorname{TypePath}([\texttt{"T"}]),\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"!"})]),\ \bot ,\ \bot ) \\[0.16em]
+\mathsf{FutureDecl}\ =\ \operatorname{TypeAliasDecl}(\bot ,\ \texttt{public},\ \texttt{Future},\ [\langle \texttt{T},\ [],\ \bot ,\ \bot \rangle ,\ \langle \texttt{E},\ [],\ \operatorname{TypePrim}(\texttt{"!"}),\ \bot \rangle ],\ \bot ,\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePath}([\texttt{"T"}]),\ \operatorname{TypePath}([\texttt{"E"}])]),\ \bot ,\ \bot ) \\[0.16em]
+\mathsf{StreamDecl}\ =\ \operatorname{TypeAliasDecl}(\bot ,\ \texttt{public},\ \texttt{Stream},\ [\langle \texttt{T},\ [],\ \bot ,\ \bot \rangle ,\ \langle \texttt{E},\ [],\ \bot ,\ \bot \rangle ],\ \bot ,\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\operatorname{TypePath}([\texttt{"T"}]),\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePath}([\texttt{"E"}])]),\ \bot ,\ \bot ) \\[0.16em]
+\mathsf{PipeDecl}\ =\ \operatorname{TypeAliasDecl}(\bot ,\ \texttt{public},\ \texttt{Pipe},\ [\langle \texttt{In},\ [],\ \bot ,\ \bot \rangle ,\ \langle \texttt{Out},\ [],\ \bot ,\ \bot \rangle ],\ \bot ,\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\operatorname{TypePath}([\texttt{"Out"}]),\ \operatorname{TypePath}([\texttt{"In"}]),\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"!"})]),\ \bot ,\ \bot ) \\[0.16em]
 \mathsf{ExchangeDecl}\ =\ \operatorname{TypeAliasDecl}(\bot ,\ \texttt{public},\ \texttt{Exchange},\ [\langle \texttt{T},\ [],\ \bot ,\ \bot \rangle ],\ \bot ,\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\operatorname{TypePath}([\texttt{"T"}]),\ \operatorname{TypePath}([\texttt{"T"}]),\ \operatorname{TypePath}([\texttt{"T"}]),\ \operatorname{TypePrim}(\texttt{"!"})]),\ \bot ,\ \bot )
 \end{array}
 $$
@@ -117,7 +115,7 @@ The built-in async combinator member set is:
 
 $$
 \begin{array}{l}
-\mathsf{AsyncCombinatorNames}\ =\ \{\texttt{map},\ \texttt{filter},\ \texttt{take},\ \texttt{fold},\ \texttt{chain}\} \\
+\mathsf{AsyncCombinatorNames}\ =\ \{\texttt{map},\ \texttt{filter},\ \texttt{take},\ \texttt{fold},\ \texttt{chain}\} \\[0.16em]
 \operatorname{BuiltinModalGeneralMember}(\mathsf{modal}_{\mathsf{ref}},\ \mathsf{name})\ \Leftrightarrow \ \operatorname{ModalRefPath}(\mathsf{modal}_{\mathsf{ref}})\ =\ [\texttt{"Async"}]\ \land \ \mathsf{name}\ \in \ \mathsf{AsyncCombinatorNames}
 \end{array}
 $$
@@ -128,12 +126,12 @@ Alias normalization over built-in async aliases is defined by:
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(T)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \ \Leftrightarrow  \\
-\ \operatorname{AliasNorm}(T)\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ \mathsf{args})\ \land  \\
-\ \operatorname{DefaultArgs}(\mathsf{AsyncParams},\ \mathsf{args})\ =\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E] \\
-\operatorname{AsyncSig}(T)\ =\ \bot \quad \mathsf{otherwise} \\
-\operatorname{BodyReturnType}(R)\ = \\
-\ \{\ \mathsf{Result}\quad \mathsf{if}\ \operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle  \\
+\operatorname{AsyncSig}(T)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \ \Leftrightarrow  \\[0.16em]
+\ \operatorname{AliasNorm}(T)\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ \mathsf{args})\ \land  \\[0.16em]
+\ \operatorname{DefaultArgs}(\mathsf{AsyncParams},\ \mathsf{args})\ =\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E] \\[0.16em]
+\operatorname{AsyncSig}(T)\ =\ \bot \quad \mathsf{otherwise} \\[0.16em]
+\operatorname{BodyReturnType}(R)\ = \\[0.16em]
+\ \{\ \mathsf{Result}\quad \mathsf{if}\ \operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle  \\[0.16em]
 \quad R\quad \mathsf{otherwise}\ \}
 \end{array}
 $$
@@ -144,9 +142,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(T)\ =\ \langle \mathsf{Out}_{1},\ \mathsf{In}_{1},\ \mathsf{Result}_{1},\ E_{1}\rangle \quad \operatorname{AsyncSig}(U)\ =\ \langle \mathsf{Out}_{2},\ \mathsf{In}_{2},\ \mathsf{Result}_{2},\ E_{2}\rangle  \\
-\Gamma \ \vdash \ \mathsf{Out}_{1}\ \mathrel{<:} \ \mathsf{Out}_{2}\quad \Gamma \ \vdash \ \mathsf{In}_{2}\ \mathrel{<:} \ \mathsf{In}_{1}\quad \Gamma \ \vdash \ \mathsf{Result}_{1}\ \mathrel{<:} \ \mathsf{Result}_{2}\quad \Gamma \ \vdash \ E_{1}\ \mathrel{<:} \ E_{2} \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(T)\ =\ \langle \mathsf{Out}_{1},\ \mathsf{In}_{1},\ \mathsf{Result}_{1},\ E_{1}\rangle \quad \operatorname{AsyncSig}(U)\ =\ \langle \mathsf{Out}_{2},\ \mathsf{In}_{2},\ \mathsf{Result}_{2},\ E_{2}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \mathsf{Out}_{1}\ \mathrel{<:} \ \mathsf{Out}_{2}\quad \Gamma \ \vdash \ \mathsf{In}_{2}\ \mathrel{<:} \ \mathsf{In}_{1}\quad \Gamma \ \vdash \ \mathsf{Result}_{1}\ \mathrel{<:} \ \mathsf{Result}_{2}\quad \Gamma \ \vdash \ E_{1}\ \mathrel{<:} \ E_{2} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U
 \end{array}
 $$
@@ -157,8 +155,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ \mathsf{args})\quad \operatorname{DefaultArgs}(\mathsf{AsyncParams},\ \mathsf{args})\ =\ \mathsf{args}'\quad \forall \ i,\ \Gamma \ \vdash \ \mathsf{args}'\_i\ \mathsf{wf} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ \mathsf{args})\quad \operatorname{DefaultArgs}(\mathsf{AsyncParams},\ \mathsf{args})\ =\ \mathsf{args}'\quad \forall \ i,\ \Gamma \ \vdash \ \mathsf{args}'\_i\ \mathsf{wf} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathsf{wf}
 \end{array}
 $$
@@ -167,8 +165,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ \mathsf{args})\quad \operatorname{DefaultArgs}(\mathsf{AsyncParams},\ \mathsf{args})\ =\ \bot  \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ \mathsf{args})\quad \operatorname{DefaultArgs}(\mathsf{AsyncParams},\ \mathsf{args})\ =\ \bot  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathsf{wf}\ \Uparrow 
 \end{array}
 $$
@@ -177,8 +175,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ \mathsf{args})\quad \operatorname{DefaultArgs}(\mathsf{AsyncParams},\ \mathsf{args})\ =\ \mathsf{args}'\quad \exists \ i.\ \Gamma \ \vdash \ \mathsf{args}'\_i\ \mathsf{wf}\ \Uparrow  \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ \mathsf{args})\quad \operatorname{DefaultArgs}(\mathsf{AsyncParams},\ \mathsf{args})\ =\ \mathsf{args}'\quad \exists \ i.\ \Gamma \ \vdash \ \mathsf{args}'\_i\ \mathsf{wf}\ \Uparrow  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathsf{wf}\ \Uparrow 
 \end{array}
 $$
@@ -187,15 +185,13 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}([\texttt{"Async"}]) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePath}([\texttt{"Async"}]) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathsf{wf}\ \Uparrow 
 \end{array}
 $$
 
-$$
-\mathsf{When}\ \texttt{E = !},\ \mathsf{values}\ \mathsf{of}\ \texttt{Async@Failed}\ \mathsf{are}\ \mathsf{uninhabited}.
-$$
+When `E = !`, values of `Async@Failed` are uninhabited.
 
 ### 21.1.5 Dynamic Semantics
 
@@ -211,32 +207,30 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncLoweredStates}(\langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ \operatorname{TypePrim}(\texttt{"!"})\rangle )\ =\ [\texttt{@Suspended},\ \texttt{@Completed}] \\
-\operatorname{AsyncLoweredStates}(\langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle )\ =\ [\texttt{@Suspended},\ \texttt{@Completed},\ \texttt{@Failed}]\quad \mathsf{if}\ E\ \ne \ \operatorname{TypePrim}(\texttt{"!"}) \\
-\operatorname{AsyncResumeType}(\langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ \operatorname{TypePrim}(\texttt{"!"})\rangle )\ = \\
-\ \operatorname{TypeUnion}([ \\
-\quad \operatorname{TypeModalState}(\operatorname{TypeApply}([\texttt{"Async"}],\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ \operatorname{TypePrim}(\texttt{"!"})]),\ \texttt{@Suspended}), \\
-\quad \operatorname{TypeModalState}(\operatorname{TypeApply}([\texttt{"Async"}],\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ \operatorname{TypePrim}(\texttt{"!"})]),\ \texttt{@Completed}) \\
-\ ]) \\
-\operatorname{AsyncResumeType}(\langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle )\ = \\
-\ \operatorname{TypeUnion}([ \\
-\quad \operatorname{TypeModalState}(\operatorname{TypeApply}([\texttt{"Async"}],\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E]),\ \texttt{@Suspended}), \\
-\quad \operatorname{TypeModalState}(\operatorname{TypeApply}([\texttt{"Async"}],\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E]),\ \texttt{@Completed}), \\
-\quad \operatorname{TypeModalState}(\operatorname{TypeApply}([\texttt{"Async"}],\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E]),\ \texttt{@Failed}) \\
+\operatorname{AsyncLoweredStates}(\langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ \operatorname{TypePrim}(\texttt{"!"})\rangle )\ =\ [\texttt{@Suspended},\ \texttt{@Completed}] \\[0.16em]
+\operatorname{AsyncLoweredStates}(\langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle )\ =\ [\texttt{@Suspended},\ \texttt{@Completed},\ \texttt{@Failed}]\quad \mathsf{if}\ E\ \ne \ \operatorname{TypePrim}(\texttt{"!"}) \\[0.16em]
+\operatorname{AsyncResumeType}(\langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ \operatorname{TypePrim}(\texttt{"!"})\rangle )\ = \\[0.16em]
+\ \operatorname{TypeUnion}([ \\[0.16em]
+\quad \operatorname{TypeModalState}(\operatorname{TypeApply}([\texttt{"Async"}],\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ \operatorname{TypePrim}(\texttt{"!"})]),\ \texttt{@Suspended}), \\[0.16em]
+\quad \operatorname{TypeModalState}(\operatorname{TypeApply}([\texttt{"Async"}],\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ \operatorname{TypePrim}(\texttt{"!"})]),\ \texttt{@Completed}) \\[0.16em]
+\ ]) \\[0.16em]
+\operatorname{AsyncResumeType}(\langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle )\ = \\[0.16em]
+\ \operatorname{TypeUnion}([ \\[0.16em]
+\quad \operatorname{TypeModalState}(\operatorname{TypeApply}([\texttt{"Async"}],\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E]),\ \texttt{@Suspended}), \\[0.16em]
+\quad \operatorname{TypeModalState}(\operatorname{TypeApply}([\texttt{"Async"}],\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E]),\ \texttt{@Completed}), \\[0.16em]
+\quad \operatorname{TypeModalState}(\operatorname{TypeApply}([\texttt{"Async"}],\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E]),\ \texttt{@Failed}) \\[0.16em]
 \ ])\quad \mathsf{if}\ E\ \ne \ \operatorname{TypePrim}(\texttt{"!"})
 \end{array}
 $$
 
-$$
-\mathsf{When}\ \texttt{E = !},\ \mathsf{lowering}\ \mathsf{MUST}\ \mathsf{omit}\ \mathsf{the}\ \texttt{@Failed}\ \mathsf{state}\ \mathsf{from}\ \mathsf{concrete}\ \mathsf{storage}\ \mathsf{layouts}\ \mathsf{and}\ \mathsf{from}\ \mathsf{the}\ \mathsf{concrete}\ \mathsf{resume}-\mathsf{result}\ \mathsf{tag}\ \mathsf{space}.\ \mathsf{The}\ \mathsf{semantic}\ \mathsf{state}\ \texttt{@Failed}\ \mathsf{remains}\ \mathsf{uninhabited}\ \mathsf{and}\ \mathsf{lowering}\ \mathsf{MUST}\ \mathsf{emit}\ \mathsf{no}\ \mathsf{failed}-\mathsf{state}\ \mathsf{variant}.
-$$
+When `E = !`, lowering MUST omit the `@Failed` state from concrete storage layouts and from the concrete resume-result tag space. The semantic state `@Failed` remains uninhabited and lowering MUST emit no failed-state variant.
 
 **(Lower-Async-Type)**
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(T)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \mathsf{sig}\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \mathsf{states}\ =\ \operatorname{AsyncLoweredStates}(\mathsf{sig})\quad \mathsf{resume}_{\mathsf{ty}}\ =\ \operatorname{AsyncResumeType}(\mathsf{sig}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(T)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \mathsf{sig}\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \mathsf{states}\ =\ \operatorname{AsyncLoweredStates}(\mathsf{sig})\quad \mathsf{resume}_{\mathsf{ty}}\ =\ \operatorname{AsyncResumeType}(\mathsf{sig}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerAsyncType}(T)\ \Downarrow \ \langle \operatorname{AsyncStateTagIR}(\mathsf{states}),\ \operatorname{AsyncResumeSigIR}(\mathsf{In},\ \mathsf{resume}_{\mathsf{ty}})\rangle 
 \end{array}
 $$
@@ -247,8 +241,8 @@ Built-in aliases lower through their normalized `Async` body:
 
 $$
 \begin{array}{l}
-\operatorname{AliasNorm}(T)\ =\ T'\quad \operatorname{AsyncSig}(T')\ =\ \mathsf{sig}\quad \Gamma \ \vdash \ \operatorname{LowerAsyncType}(T')\ \Downarrow \ \mathsf{out} \\
-\rule{18em}{0.4pt} \\
+\operatorname{AliasNorm}(T)\ =\ T'\quad \operatorname{AsyncSig}(T')\ =\ \mathsf{sig}\quad \Gamma \ \vdash \ \operatorname{LowerAsyncType}(T')\ \Downarrow \ \mathsf{out} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerAsyncType}(T)\ \Downarrow \ \mathsf{out}
 \end{array}
 $$
@@ -279,8 +273,8 @@ yield_from_expr ::= "yield" "release"? "from" expression
 
 $$
 \begin{array}{l}
-\operatorname{IsIdent}(\operatorname{Tok}(P))\quad \operatorname{Lexeme}(\operatorname{Tok}(P))\ =\ \texttt{wait}\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{handle}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsIdent}(\operatorname{Tok}(P))\quad \operatorname{Lexeme}(\operatorname{Tok}(P))\ =\ \texttt{wait}\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{handle}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (P_{1},\ \operatorname{WaitExpr}(\mathsf{handle}))
 \end{array}
 $$
@@ -291,11 +285,11 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{yield})\quad P_{1}\ =\ \operatorname{Advance}(P) \\
-(\operatorname{IsIdent}(\operatorname{Tok}(P_{1}))\ \land \ \operatorname{Lexeme}(\operatorname{Tok}(P_{1}))\ =\ \texttt{release}\ \Rightarrow \ \mathsf{release}_{\mathsf{opt}}\ =\ \mathsf{Release}\ \land \ P_{2}\ =\ \operatorname{Advance}(P_{1})) \\
-(\lnot (\operatorname{IsIdent}(\operatorname{Tok}(P_{1}))\ \land \ \operatorname{Lexeme}(\operatorname{Tok}(P_{1}))\ =\ \texttt{release})\ \Rightarrow \ \mathsf{release}_{\mathsf{opt}}\ =\ \bot \ \land \ P_{2}\ =\ P_{1}) \\
-\operatorname{IsKw}(\operatorname{Tok}(P_{2}),\ \texttt{from})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P_{2}))\ \Downarrow \ (P_{3},\ e) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{yield})\quad P_{1}\ =\ \operatorname{Advance}(P) \\[0.16em]
+(\operatorname{IsIdent}(\operatorname{Tok}(P_{1}))\ \land \ \operatorname{Lexeme}(\operatorname{Tok}(P_{1}))\ =\ \texttt{release}\ \Rightarrow \ \mathsf{release}_{\mathsf{opt}}\ =\ \mathsf{Release}\ \land \ P_{2}\ =\ \operatorname{Advance}(P_{1})) \\[0.16em]
+(\lnot (\operatorname{IsIdent}(\operatorname{Tok}(P_{1}))\ \land \ \operatorname{Lexeme}(\operatorname{Tok}(P_{1}))\ =\ \texttt{release})\ \Rightarrow \ \mathsf{release}_{\mathsf{opt}}\ =\ \bot \ \land \ P_{2}\ =\ P_{1}) \\[0.16em]
+\operatorname{IsKw}(\operatorname{Tok}(P_{2}),\ \texttt{from})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P_{2}))\ \Downarrow \ (P_{3},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (P_{3},\ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e))
 \end{array}
 $$
@@ -306,11 +300,11 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{yield})\quad P_{1}\ =\ \operatorname{Advance}(P) \\
-(\operatorname{IsIdent}(\operatorname{Tok}(P_{1}))\ \land \ \operatorname{Lexeme}(\operatorname{Tok}(P_{1}))\ =\ \texttt{release}\ \Rightarrow \ \mathsf{release}_{\mathsf{opt}}\ =\ \mathsf{Release}\ \land \ P_{2}\ =\ \operatorname{Advance}(P_{1})) \\
-(\lnot (\operatorname{IsIdent}(\operatorname{Tok}(P_{1}))\ \land \ \operatorname{Lexeme}(\operatorname{Tok}(P_{1}))\ =\ \texttt{release})\ \Rightarrow \ \mathsf{release}_{\mathsf{opt}}\ =\ \bot \ \land \ P_{2}\ =\ P_{1}) \\
-\lnot \ \operatorname{IsKw}(\operatorname{Tok}(P_{2}),\ \texttt{from})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(P_{2})\ \Downarrow \ (P_{3},\ e) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{yield})\quad P_{1}\ =\ \operatorname{Advance}(P) \\[0.16em]
+(\operatorname{IsIdent}(\operatorname{Tok}(P_{1}))\ \land \ \operatorname{Lexeme}(\operatorname{Tok}(P_{1}))\ =\ \texttt{release}\ \Rightarrow \ \mathsf{release}_{\mathsf{opt}}\ =\ \mathsf{Release}\ \land \ P_{2}\ =\ \operatorname{Advance}(P_{1})) \\[0.16em]
+(\lnot (\operatorname{IsIdent}(\operatorname{Tok}(P_{1}))\ \land \ \operatorname{Lexeme}(\operatorname{Tok}(P_{1}))\ =\ \texttt{release})\ \Rightarrow \ \mathsf{release}_{\mathsf{opt}}\ =\ \bot \ \land \ P_{2}\ =\ P_{1}) \\[0.16em]
+\lnot \ \operatorname{IsKw}(\operatorname{Tok}(P_{2}),\ \texttt{from})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(P_{2})\ \Downarrow \ (P_{3},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (P_{3},\ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e))
 \end{array}
 $$
@@ -319,10 +313,10 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{YieldReleaseOpt}\ \in \ \{\bot \}\ \cup \ \{\mathsf{Release}\} \\
-\mathsf{Expr}\ \mathsf{includes}: \\
-\ \operatorname{WaitExpr}(\mathsf{handle}) \\
-\ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ \mathsf{expr}) \\
+\mathsf{YieldReleaseOpt}\ \in \ \{\bot \}\ \cup \ \{\mathsf{Release}\} \\[0.16em]
+\mathsf{Expr}\ \mathsf{includes}: \\[0.16em]
+\ \operatorname{WaitExpr}(\mathsf{handle}) \\[0.16em]
+\ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ \mathsf{expr}) \\[0.16em]
 \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ \mathsf{expr})
 \end{array}
 $$
@@ -331,8 +325,8 @@ Name resolution preserves these forms:
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{WaitExpr}(\mathsf{handle}))\ \Downarrow \ \operatorname{WaitExpr}(\mathsf{handle}') \\
-\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e))\ \Downarrow \ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e') \\
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{WaitExpr}(\mathsf{handle}))\ \Downarrow \ \operatorname{WaitExpr}(\mathsf{handle}') \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e))\ \Downarrow \ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e') \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e))\ \Downarrow \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e')
 \end{array}
 $$
@@ -341,8 +335,8 @@ Evaluation order is:
 
 $$
 \begin{array}{l}
-\operatorname{Children_LTR}(\operatorname{WaitExpr}(\mathsf{handle}))\ =\ [\mathsf{handle}] \\
-\operatorname{Children_LTR}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e))\ =\ [e] \\
+\operatorname{Children_LTR}(\operatorname{WaitExpr}(\mathsf{handle}))\ =\ [\mathsf{handle}] \\[0.16em]
+\operatorname{Children_LTR}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e))\ =\ [e] \\[0.16em]
 \operatorname{Children_LTR}(\operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e))\ =\ [e]
 \end{array}
 $$
@@ -355,8 +349,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ h\ :\ \operatorname{TypeApply}([\texttt{"Spawned"}],\ [T]) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ h\ :\ \operatorname{TypeApply}([\texttt{"Spawned"}],\ [T]) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \texttt{wait}\ h\ :\ T
 \end{array}
 $$
@@ -365,8 +359,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ h\ :\ \operatorname{TypeApply}([\texttt{"Tracked"}],\ [T,\ E]) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ h\ :\ \operatorname{TypeApply}([\texttt{"Tracked"}],\ [T,\ E]) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \texttt{wait}\ h\ :\ \operatorname{TypeUnion}([T,\ E])
 \end{array}
 $$
@@ -375,8 +369,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ h\ :\ T_{h}\quad \operatorname{StripPerm}(T_{h})\ \notin \ \{\operatorname{TypeApply}([\texttt{"Spawned"}],\ [\_]),\ \operatorname{TypeApply}([\texttt{"Tracked"}],\ [\_,\ \_])\} \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ h\ :\ T_{h}\quad \operatorname{StripPerm}(T_{h})\ \notin \ \{\operatorname{TypeApply}([\texttt{"Spawned"}],\ [\_]),\ \operatorname{TypeApply}([\texttt{"Tracked"}],\ [\_,\ \_])\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \texttt{wait}\ h\ \Uparrow 
 \end{array}
 $$
@@ -387,8 +381,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T\quad \Gamma \ \vdash \ T\ \mathrel{<:} \ \mathsf{Out} \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T\quad \Gamma \ \vdash \ T\ \mathrel{<:} \ \mathsf{Out} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ :\ \mathsf{In}
 \end{array}
 $$
@@ -397,8 +391,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \bot  \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \bot  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow 
 \end{array}
 $$
@@ -407,8 +401,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T\quad \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ \mathsf{Out}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T\quad \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ \mathsf{Out}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow 
 \end{array}
 $$
@@ -419,8 +413,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E_{1}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out}_{e},\ \mathsf{In}_{e},\ \mathsf{Result}_{e},\ E_{2}\rangle \quad \Gamma \ \vdash \ \mathsf{Out}_{e}\ \equiv \ \mathsf{Out}\quad \Gamma \ \vdash \ \mathsf{In}_{e}\ \equiv \ \mathsf{In}\quad \Gamma \ \vdash \ E_{2}\ \mathrel{<:} \ E_{1} \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E_{1}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out}_{e},\ \mathsf{In}_{e},\ \mathsf{Result}_{e},\ E_{2}\rangle \quad \Gamma \ \vdash \ \mathsf{Out}_{e}\ \equiv \ \mathsf{Out}\quad \Gamma \ \vdash \ \mathsf{In}_{e}\ \equiv \ \mathsf{In}\quad \Gamma \ \vdash \ E_{2}\ \mathrel{<:} \ E_{1} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ :\ \mathsf{Result}_{e}
 \end{array}
 $$
@@ -429,8 +423,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \bot  \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \bot  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow 
 \end{array}
 $$
@@ -439,9 +433,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E_{1}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e} \\
-(\operatorname{AsyncSig}(T_{e})\ =\ \bot \ \lor \ (\operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out}_{e},\ \mathsf{In}_{e},\ \mathsf{Result}_{e},\ E_{2}\rangle \ \land \ \lnot (\Gamma \ \vdash \ \mathsf{Out}_{e}\ \equiv \ \mathsf{Out}))) \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E_{1}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e} \\[0.16em]
+(\operatorname{AsyncSig}(T_{e})\ =\ \bot \ \lor \ (\operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out}_{e},\ \mathsf{In}_{e},\ \mathsf{Result}_{e},\ E_{2}\rangle \ \land \ \lnot (\Gamma \ \vdash \ \mathsf{Out}_{e}\ \equiv \ \mathsf{Out}))) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow 
 \end{array}
 $$
@@ -450,8 +444,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E_{1}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out}_{e},\ \mathsf{In}_{e},\ \mathsf{Result}_{e},\ E_{2}\rangle \quad \Gamma \ \vdash \ \mathsf{Out}_{e}\ \equiv \ \mathsf{Out}\quad \lnot (\Gamma \ \vdash \ \mathsf{In}_{e}\ \equiv \ \mathsf{In}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E_{1}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out}_{e},\ \mathsf{In}_{e},\ \mathsf{Result}_{e},\ E_{2}\rangle \quad \Gamma \ \vdash \ \mathsf{Out}_{e}\ \equiv \ \mathsf{Out}\quad \lnot (\Gamma \ \vdash \ \mathsf{In}_{e}\ \equiv \ \mathsf{In}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow 
 \end{array}
 $$
@@ -460,8 +454,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E_{1}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out}_{e},\ \mathsf{In}_{e},\ \mathsf{Result}_{e},\ E_{2}\rangle \quad \Gamma \ \vdash \ \mathsf{Out}_{e}\ \equiv \ \mathsf{Out}\quad \Gamma \ \vdash \ \mathsf{In}_{e}\ \equiv \ \mathsf{In}\quad \lnot (\Gamma \ \vdash \ E_{2}\ \mathrel{<:} \ E_{1}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E_{1}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out}_{e},\ \mathsf{In}_{e},\ \mathsf{Result}_{e},\ E_{2}\rangle \quad \Gamma \ \vdash \ \mathsf{Out}_{e}\ \equiv \ \mathsf{Out}\quad \Gamma \ \vdash \ \mathsf{In}_{e}\ \equiv \ \mathsf{In}\quad \lnot (\Gamma \ \vdash \ E_{2}\ \mathrel{<:} \ E_{1}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow 
 \end{array}
 $$
@@ -483,13 +477,13 @@ Formal `wait` rules:
 
 $$
 \begin{array}{l}
-\operatorname{SpawnHandleState}(\operatorname{SpawnedVal}(@\mathsf{Ready}\ \{\ \mathsf{value}\ \},\ \_))\ =\ \operatorname{Ready}(\mathsf{value}) \\
-\operatorname{SpawnHandleState}(\operatorname{SpawnedVal}(@\mathsf{Pending},\ \_))\ =\ \mathsf{Pending} \\
-\operatorname{TrackedHandleState}(\operatorname{TrackedVal}(@\mathsf{Ready}\ \{\ \mathsf{value}\ \},\ \_))\ =\ \operatorname{Ready}(\mathsf{value}) \\
-\operatorname{TrackedHandleState}(\operatorname{TrackedVal}(@\mathsf{Pending},\ \_))\ =\ \mathsf{Pending} \\
-\operatorname{BlockUntilSettledSpawned}(\mathsf{handle},\ \sigma )\ \Downarrow \ (\mathsf{handle}',\ \sigma ')\ \Leftrightarrow  \\
-\ \sigma '\ \mathsf{extends}\ \sigma \ \mathsf{by}\ \mathsf{abstract}\ \mathsf{scheduler}\ \mathsf{progress}\ \mathsf{until}\ \operatorname{SpawnHandleState}(\mathsf{handle}')\ \in \ \{\operatorname{Ready}(\_),\ \operatorname{Failed}(\_)\} \\
-\operatorname{BlockUntilSettledTracked}(\mathsf{handle},\ \sigma )\ \Downarrow \ (\mathsf{handle}',\ \sigma ')\ \Leftrightarrow  \\
+\operatorname{SpawnHandleState}(\operatorname{SpawnedVal}(@\mathsf{Ready}\ \{\ \mathsf{value}\ \},\ \_))\ =\ \operatorname{Ready}(\mathsf{value}) \\[0.16em]
+\operatorname{SpawnHandleState}(\operatorname{SpawnedVal}(@\mathsf{Pending},\ \_))\ =\ \mathsf{Pending} \\[0.16em]
+\operatorname{TrackedHandleState}(\operatorname{TrackedVal}(@\mathsf{Ready}\ \{\ \mathsf{value}\ \},\ \_))\ =\ \operatorname{Ready}(\mathsf{value}) \\[0.16em]
+\operatorname{TrackedHandleState}(\operatorname{TrackedVal}(@\mathsf{Pending},\ \_))\ =\ \mathsf{Pending} \\[0.16em]
+\operatorname{BlockUntilSettledSpawned}(\mathsf{handle},\ \sigma )\ \Downarrow \ (\mathsf{handle}',\ \sigma ')\ \Leftrightarrow  \\[0.16em]
+\ \sigma '\ \mathsf{extends}\ \sigma \ \mathsf{by}\ \mathsf{abstract}\ \mathsf{scheduler}\ \mathsf{progress}\ \mathsf{until}\ \operatorname{SpawnHandleState}(\mathsf{handle}')\ \in \ \{\operatorname{Ready}(\_),\ \operatorname{Failed}(\_)\} \\[0.16em]
+\operatorname{BlockUntilSettledTracked}(\mathsf{handle},\ \sigma )\ \Downarrow \ (\mathsf{handle}',\ \sigma ')\ \Leftrightarrow  \\[0.16em]
 \ \sigma '\ \mathsf{extends}\ \sigma \ \mathsf{by}\ \mathsf{abstract}\ \mathsf{scheduler}\ \mathsf{progress}\ \mathsf{until}\ \operatorname{TrackedHandleState}(\mathsf{handle}')\ =\ \operatorname{Ready}(\_)
 \end{array}
 $$
@@ -498,8 +492,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(h,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{handle}),\ \sigma_{1} )\quad \operatorname{SpawnHandleState}(\mathsf{handle})\ =\ \operatorname{Ready}(v) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(h,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{handle}),\ \sigma_{1} )\quad \operatorname{SpawnHandleState}(\mathsf{handle})\ =\ \operatorname{Ready}(v) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{WaitExpr}(h),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )
 \end{array}
 $$
@@ -508,9 +502,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(h,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{handle}),\ \sigma_{1} )\quad \operatorname{SpawnHandleState}(\mathsf{handle})\ =\ \mathsf{Pending} \\
-\operatorname{BlockUntilSettledSpawned}(\mathsf{handle},\ \sigma_{1} )\ \Downarrow \ (\mathsf{handle}',\ \sigma_{2} )\quad \operatorname{SpawnHandleState}(\mathsf{handle}')\ =\ \operatorname{Ready}(v) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(h,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{handle}),\ \sigma_{1} )\quad \operatorname{SpawnHandleState}(\mathsf{handle})\ =\ \mathsf{Pending} \\[0.16em]
+\operatorname{BlockUntilSettledSpawned}(\mathsf{handle},\ \sigma_{1} )\ \Downarrow \ (\mathsf{handle}',\ \sigma_{2} )\quad \operatorname{SpawnHandleState}(\mathsf{handle}')\ =\ \operatorname{Ready}(v) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{WaitExpr}(h),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{2} )
 \end{array}
 $$
@@ -521,8 +515,8 @@ Failed `Spawned<T>` settlement is not independently observed by `wait`; it is co
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(h,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{handle}),\ \sigma_{1} )\quad \operatorname{TrackedHandleState}(\mathsf{handle})\ =\ \operatorname{Ready}(v) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(h,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{handle}),\ \sigma_{1} )\quad \operatorname{TrackedHandleState}(\mathsf{handle})\ =\ \operatorname{Ready}(v) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{WaitExpr}(h),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )
 \end{array}
 $$
@@ -531,9 +525,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(h,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{handle}),\ \sigma_{1} )\quad \operatorname{TrackedHandleState}(\mathsf{handle})\ =\ \mathsf{Pending} \\
-\operatorname{BlockUntilSettledTracked}(\mathsf{handle},\ \sigma_{1} )\ \Downarrow \ (\mathsf{handle}',\ \sigma_{2} )\quad \operatorname{TrackedHandleState}(\mathsf{handle}')\ =\ \operatorname{Ready}(v) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(h,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{handle}),\ \sigma_{1} )\quad \operatorname{TrackedHandleState}(\mathsf{handle})\ =\ \mathsf{Pending} \\[0.16em]
+\operatorname{BlockUntilSettledTracked}(\mathsf{handle},\ \sigma_{1} )\ \Downarrow \ (\mathsf{handle}',\ \sigma_{2} )\quad \operatorname{TrackedHandleState}(\mathsf{handle}')\ =\ \operatorname{Ready}(v) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{WaitExpr}(h),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{2} )
 \end{array}
 $$
@@ -542,8 +536,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(h,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(h,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{WaitExpr}(h),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -559,20 +553,20 @@ Resumption helpers are:
 
 $$
 \begin{array}{l}
-\mathsf{ResumptionPoint}\ =\ \langle \mathsf{scope}_{\mathsf{stack}},\ \mathsf{region}_{\mathsf{stack}},\ \mathsf{continuation}\rangle  \\
-\operatorname{ReleaseKeys}(\sigma ,\ \mathsf{keys})\ \Downarrow \ \sigma '\ \Leftrightarrow  \\
-\ \mathsf{rev}\ =\ \operatorname{CanonicalOrder}(\mathsf{keys})\ \land  \\
-\ \forall \ k\ \in \ \operatorname{Reverse}(\mathsf{rev}).\ \operatorname{ReleaseLock}(\sigma ,\ k)\ \land  \\
-\ \sigma '\ =\ \sigma [\mathsf{held}_{\mathsf{keys}}\ :=\ \sigma .\mathsf{held}_{\mathsf{keys}}\ \setminus \ \mathsf{keys}] \\
-\operatorname{ReacquireKeys}(\sigma ,\ \mathsf{keys})\ \Downarrow \ \sigma '\ \Leftrightarrow  \\
-\ \mathsf{sorted}\ =\ \operatorname{CanonicalOrder}(\mathsf{keys})\ \land  \\
-\ \forall \ k\ \in \ \mathsf{sorted}.\ \operatorname{AcquireLock}(\sigma ,\ k,\ \operatorname{ModeOf}(k))\ \land  \\
-\ \sigma '\ =\ \sigma [\mathsf{held}_{\mathsf{keys}}\ :=\ \sigma .\mathsf{held}_{\mathsf{keys}}\ \cup \ \mathsf{keys}] \\
-\operatorname{RestoreResumptionPoint}(\mathsf{rp})\ \Downarrow \ \sigma \ \Leftrightarrow  \\
-\ \mathsf{rp}\ =\ \langle \mathsf{scope}_{\mathsf{stack}},\ \mathsf{region}_{\mathsf{stack}},\ \mathsf{continuation}\rangle \ \land  \\
-\ \sigma .\mathsf{scope}_{\mathsf{stack}}\ =\ \mathsf{scope}_{\mathsf{stack}}\ \land  \\
-\ \sigma .\mathsf{region}_{\mathsf{stack}}\ =\ \mathsf{region}_{\mathsf{stack}}\ \land  \\
-\ \sigma .\mathsf{continuation}\ =\ \mathsf{continuation} \\
+\mathsf{ResumptionPoint}\ =\ \langle \mathsf{scope}_{\mathsf{stack}},\ \mathsf{region}_{\mathsf{stack}},\ \mathsf{continuation}\rangle  \\[0.16em]
+\operatorname{ReleaseKeys}(\sigma ,\ \mathsf{keys})\ \Downarrow \ \sigma '\ \Leftrightarrow  \\[0.16em]
+\ \mathsf{rev}\ =\ \operatorname{CanonicalOrder}(\mathsf{keys})\ \land  \\[0.16em]
+\ \forall \ k\ \in \ \operatorname{Reverse}(\mathsf{rev}).\ \operatorname{ReleaseLock}(\sigma ,\ k)\ \land  \\[0.16em]
+\ \sigma '\ =\ \sigma [\mathsf{held}_{\mathsf{keys}}\ :=\ \sigma .\mathsf{held}_{\mathsf{keys}}\ \setminus \ \mathsf{keys}] \\[0.16em]
+\operatorname{ReacquireKeys}(\sigma ,\ \mathsf{keys})\ \Downarrow \ \sigma '\ \Leftrightarrow  \\[0.16em]
+\ \mathsf{sorted}\ =\ \operatorname{CanonicalOrder}(\mathsf{keys})\ \land  \\[0.16em]
+\ \forall \ k\ \in \ \mathsf{sorted}.\ \operatorname{AcquireLock}(\sigma ,\ k,\ \operatorname{ModeOf}(k))\ \land  \\[0.16em]
+\ \sigma '\ =\ \sigma [\mathsf{held}_{\mathsf{keys}}\ :=\ \sigma .\mathsf{held}_{\mathsf{keys}}\ \cup \ \mathsf{keys}] \\[0.16em]
+\operatorname{RestoreResumptionPoint}(\mathsf{rp})\ \Downarrow \ \sigma \ \Leftrightarrow  \\[0.16em]
+\ \mathsf{rp}\ =\ \langle \mathsf{scope}_{\mathsf{stack}},\ \mathsf{region}_{\mathsf{stack}},\ \mathsf{continuation}\rangle \ \land  \\[0.16em]
+\ \sigma .\mathsf{scope}_{\mathsf{stack}}\ =\ \mathsf{scope}_{\mathsf{stack}}\ \land  \\[0.16em]
+\ \sigma .\mathsf{region}_{\mathsf{stack}}\ =\ \mathsf{region}_{\mathsf{stack}}\ \land  \\[0.16em]
+\ \sigma .\mathsf{continuation}\ =\ \mathsf{continuation} \\[0.16em]
 \Gamma_{\mathsf{keys}} (\sigma )\ =\ \sigma .\mathsf{held}_{\mathsf{keys}}
 \end{array}
 $$
@@ -583,9 +577,9 @@ Formal `yield` rules:
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \mathsf{release}_{\mathsf{opt}}\ =\ \bot \quad \Gamma_{\mathsf{keys}} (\sigma_{1} )\ =\ \emptyset  \\
-\mathsf{async}_{\mathsf{state}}\ =\ \operatorname{AsyncSuspended}(v,\ \sigma_{1} .\mathsf{resumption}_{\mathsf{point}}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \mathsf{release}_{\mathsf{opt}}\ =\ \bot \quad \Gamma_{\mathsf{keys}} (\sigma_{1} )\ =\ \emptyset  \\[0.16em]
+\mathsf{async}_{\mathsf{state}}\ =\ \operatorname{AsyncSuspended}(v,\ \sigma_{1} .\mathsf{resumption}_{\mathsf{point}}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e),\ \sigma )\ \Downarrow \ (\operatorname{Suspend}(\mathsf{async}_{\mathsf{state}}),\ \sigma_{1} )
 \end{array}
 $$
@@ -594,9 +588,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \mathsf{release}_{\mathsf{opt}}\ =\ \mathsf{Release}\quad \mathsf{held}\ =\ \Gamma_{\mathsf{keys}} (\sigma_{1} )\quad \operatorname{ReleaseKeys}(\sigma_{1} ,\ \mathsf{held})\ \Downarrow \ \sigma_{2}  \\
-\mathsf{async}_{\mathsf{state}}\ =\ \operatorname{AsyncSuspended}(v,\ \sigma_{2} .\mathsf{resumption}_{\mathsf{point}},\ \mathsf{held}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \mathsf{release}_{\mathsf{opt}}\ =\ \mathsf{Release}\quad \mathsf{held}\ =\ \Gamma_{\mathsf{keys}} (\sigma_{1} )\quad \operatorname{ReleaseKeys}(\sigma_{1} ,\ \mathsf{held})\ \Downarrow \ \sigma_{2}  \\[0.16em]
+\mathsf{async}_{\mathsf{state}}\ =\ \operatorname{AsyncSuspended}(v,\ \sigma_{2} .\mathsf{resumption}_{\mathsf{point}},\ \mathsf{held}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e),\ \sigma )\ \Downarrow \ (\operatorname{Suspend}(\mathsf{async}_{\mathsf{state}}),\ \sigma_{2} )
 \end{array}
 $$
@@ -605,9 +599,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{async}_{\mathsf{state}}\ =\ \operatorname{AsyncSuspended}(\_,\ \mathsf{rp},\ \mathsf{held}_{\mathsf{opt}})\quad \mathsf{input}\ =\ i\quad \operatorname{RestoreResumptionPoint}(\mathsf{rp})\ \Downarrow \ \sigma_{0}  \\
-\sigma_{1} \ =\ (\mathsf{held}_{\mathsf{opt}}\ \ne \ \bot \ \land \ \operatorname{ReacquireKeys}(\sigma_{0} ,\ \mathsf{held}_{\mathsf{opt}})\ \Downarrow \ \sigma_{1} '\ \to \ \sigma_{1} '\ \mid \ \sigma_{0} ) \\
-\rule{18em}{0.4pt} \\
+\mathsf{async}_{\mathsf{state}}\ =\ \operatorname{AsyncSuspended}(\_,\ \mathsf{rp},\ \mathsf{held}_{\mathsf{opt}})\quad \mathsf{input}\ =\ i\quad \operatorname{RestoreResumptionPoint}(\mathsf{rp})\ \Downarrow \ \sigma_{0}  \\[0.16em]
+\sigma_{1} \ =\ (\mathsf{held}_{\mathsf{opt}}\ \ne \ \bot \ \land \ \operatorname{ReacquireKeys}(\sigma_{0} ,\ \mathsf{held}_{\mathsf{opt}})\ \Downarrow \ \sigma_{1} '\ \to \ \sigma_{1} '\ \mid \ \sigma_{0} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(\mathsf{async}_{\mathsf{state}},\ i),\ \sigma )\ \Downarrow \ (\operatorname{Val}(i),\ \sigma_{1} )
 \end{array}
 $$
@@ -625,10 +619,10 @@ Formal `yield from` rules:
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{source},\ \sigma )\ \Downarrow \ (\operatorname{Val}(s),\ \sigma_{1} )\quad \operatorname{ModalState}(s)\ =\ @\mathsf{Suspended}\quad s.\mathsf{output}\ =\ v \\
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ v),\ \sigma_{1} )\ \Downarrow \ (\operatorname{Suspend}(\mathsf{outer}_{\mathsf{state}}),\ \sigma_{2} ) \\
-\mathsf{outer}_{\mathsf{state}}'\ =\ \mathsf{outer}_{\mathsf{state}}[\mathsf{inner}_{\mathsf{async}}\ \mapsto \ s] \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{source},\ \sigma )\ \Downarrow \ (\operatorname{Val}(s),\ \sigma_{1} )\quad \operatorname{ModalState}(s)\ =\ @\mathsf{Suspended}\quad s.\mathsf{output}\ =\ v \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ v),\ \sigma_{1} )\ \Downarrow \ (\operatorname{Suspend}(\mathsf{outer}_{\mathsf{state}}),\ \sigma_{2} ) \\[0.16em]
+\mathsf{outer}_{\mathsf{state}}'\ =\ \mathsf{outer}_{\mathsf{state}}[\mathsf{inner}_{\mathsf{async}}\ \mapsto \ s] \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ \mathsf{source}),\ \sigma )\ \Downarrow \ (\operatorname{Suspend}(\mathsf{outer}_{\mathsf{state}}'),\ \sigma_{2} )
 \end{array}
 $$
@@ -637,8 +631,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{source},\ \sigma )\ \Downarrow \ (\operatorname{Val}(s),\ \sigma_{1} )\quad \operatorname{ModalState}(s)\ =\ @\mathsf{Completed}\quad s.\mathsf{value}\ =\ v \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{source},\ \sigma )\ \Downarrow \ (\operatorname{Val}(s),\ \sigma_{1} )\quad \operatorname{ModalState}(s)\ =\ @\mathsf{Completed}\quad s.\mathsf{value}\ =\ v \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ \mathsf{source}),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )
 \end{array}
 $$
@@ -647,8 +641,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{source},\ \sigma )\ \Downarrow \ (\operatorname{Val}(s),\ \sigma_{1} )\quad \operatorname{ModalState}(s)\ =\ @\mathsf{Failed}\quad s.\mathsf{error}\ =\ e \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{source},\ \sigma )\ \Downarrow \ (\operatorname{Val}(s),\ \sigma_{1} )\quad \operatorname{ModalState}(s)\ =\ @\mathsf{Failed}\quad s.\mathsf{error}\ =\ e \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ \mathsf{source}),\ \sigma )\ \Downarrow \ (\operatorname{Propagate}(e),\ \sigma_{1} )
 \end{array}
 $$
@@ -657,9 +651,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{outer}_{\mathsf{state}}.\mathsf{inner}_{\mathsf{async}}\ =\ s\quad \mathsf{input}\ =\ i\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(s,\ i),\ \sigma )\ \Downarrow \ (\operatorname{Val}(s'),\ \sigma_{1} ) \\
-\Gamma \ \vdash \ \operatorname{EvalYieldFromContinue}(\mathsf{release}_{\mathsf{opt}},\ s',\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\mathsf{outer}_{\mathsf{state}}.\mathsf{inner}_{\mathsf{async}}\ =\ s\quad \mathsf{input}\ =\ i\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(s,\ i),\ \sigma )\ \Downarrow \ (\operatorname{Val}(s'),\ \sigma_{1} ) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalYieldFromContinue}(\mathsf{release}_{\mathsf{opt}},\ s',\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(\mathsf{outer}_{\mathsf{state}},\ i),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -672,10 +666,10 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ModalState}(s)\ =\ @\mathsf{Suspended}\quad s.\mathsf{output}\ =\ v \\
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ v),\ \sigma )\ \Downarrow \ (\operatorname{Suspend}(\mathsf{outer}_{\mathsf{state}}),\ \sigma_{1} ) \\
-\mathsf{outer}_{\mathsf{state}}'\ =\ \mathsf{outer}_{\mathsf{state}}[\mathsf{inner}_{\mathsf{async}}\ \mapsto \ s] \\
-\rule{18em}{0.4pt} \\
+\operatorname{ModalState}(s)\ =\ @\mathsf{Suspended}\quad s.\mathsf{output}\ =\ v \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ v),\ \sigma )\ \Downarrow \ (\operatorname{Suspend}(\mathsf{outer}_{\mathsf{state}}),\ \sigma_{1} ) \\[0.16em]
+\mathsf{outer}_{\mathsf{state}}'\ =\ \mathsf{outer}_{\mathsf{state}}[\mathsf{inner}_{\mathsf{async}}\ \mapsto \ s] \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalYieldFromContinue}(\mathsf{release}_{\mathsf{opt}},\ s,\ \sigma )\ \Downarrow \ (\operatorname{Suspend}(\mathsf{outer}_{\mathsf{state}}'),\ \sigma_{1} )
 \end{array}
 $$
@@ -684,8 +678,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ModalState}(s)\ =\ @\mathsf{Completed}\quad s.\mathsf{value}\ =\ v \\
-\rule{18em}{0.4pt} \\
+\operatorname{ModalState}(s)\ =\ @\mathsf{Completed}\quad s.\mathsf{value}\ =\ v \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalYieldFromContinue}(\mathsf{release}_{\mathsf{opt}},\ s,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma )
 \end{array}
 $$
@@ -694,8 +688,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ModalState}(s)\ =\ @\mathsf{Failed}\quad s.\mathsf{error}\ =\ e \\
-\rule{18em}{0.4pt} \\
+\operatorname{ModalState}(s)\ =\ @\mathsf{Failed}\quad s.\mathsf{error}\ =\ e \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalYieldFromContinue}(\mathsf{release}_{\mathsf{opt}},\ s,\ \sigma )\ \Downarrow \ (\operatorname{Propagate}(e),\ \sigma )
 \end{array}
 $$
@@ -708,10 +702,10 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f \\
-\operatorname{CurrentGenPoint}(\Gamma )\ =\ g \\
-\operatorname{ResumeLabel}(\Gamma ,\ g)\ =\ L \\
-\operatorname{WaitResult}(v_{h})\ =\ v_{r}\quad \mathsf{where}\ v_{r}\ \mathsf{is}\ \mathsf{the}\ \mathsf{result}\ \mathsf{value}\ \mathsf{produced}\ \mathsf{by}\ \operatorname{WaitIR}(v_{h}) \\
+\operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f \\[0.16em]
+\operatorname{CurrentGenPoint}(\Gamma )\ =\ g \\[0.16em]
+\operatorname{ResumeLabel}(\Gamma ,\ g)\ =\ L \\[0.16em]
+\operatorname{WaitResult}(v_{h})\ =\ v_{r}\quad \mathsf{where}\ v_{r}\ \mathsf{is}\ \mathsf{the}\ \mathsf{result}\ \mathsf{value}\ \mathsf{produced}\ \mathsf{by}\ \operatorname{WaitIR}(v_{h}) \\[0.16em]
 \operatorname{ResumeInput}(f,\ g)\ =\ v_{i}\ \mathsf{where}\ v_{i}\ \mathsf{is}\ \mathsf{the}\ \mathsf{resume}-\mathsf{input}\ \mathsf{value}\ \mathsf{bound}\ \mathsf{at}\ \operatorname{ResumeLabel}(\Gamma ,\ g)
 \end{array}
 $$
@@ -720,8 +714,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(h)\ \Downarrow \ \langle \mathsf{IR}_{h},\ v_{h}\rangle \quad \operatorname{StripPerm}(\operatorname{ExprType}(h))\ =\ \operatorname{TypeApply}([\texttt{"Spawned"}],\ [T]) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(h)\ \Downarrow \ \langle \mathsf{IR}_{h},\ v_{h}\rangle \quad \operatorname{StripPerm}(\operatorname{ExprType}(h))\ =\ \operatorname{TypeApply}([\texttt{"Spawned"}],\ [T]) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{WaitExpr}(h))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{h},\ \operatorname{WaitIR}(v_{h})),\ \operatorname{WaitResult}(v_{h})\rangle 
 \end{array}
 $$
@@ -730,8 +724,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(h)\ \Downarrow \ \langle \mathsf{IR}_{h},\ v_{h}\rangle \quad \operatorname{StripPerm}(\operatorname{ExprType}(h))\ =\ \operatorname{TypeApply}([\texttt{"Tracked"}],\ [T,\ E]) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(h)\ \Downarrow \ \langle \mathsf{IR}_{h},\ v_{h}\rangle \quad \operatorname{StripPerm}(\operatorname{ExprType}(h))\ =\ \operatorname{TypeApply}([\texttt{"Tracked"}],\ [T,\ E]) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{WaitExpr}(h))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{h},\ \operatorname{WaitIR}(v_{h})),\ \operatorname{WaitResult}(v_{h})\rangle 
 \end{array}
 $$
@@ -740,8 +734,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f\quad \operatorname{CurrentGenPoint}(\Gamma )\ =\ g \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f\quad \operatorname{CurrentGenPoint}(\Gamma )\ =\ g \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{YieldExpr}(\bot ,\ e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{YieldIR}(f,\ g,\ v)),\ \operatorname{ResumeInput}(f,\ g)\rangle 
 \end{array}
 $$
@@ -750,8 +744,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f\quad \operatorname{CurrentGenPoint}(\Gamma )\ =\ g\quad \operatorname{ResumeLabel}(\Gamma ,\ g)\ =\ L \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f\quad \operatorname{CurrentGenPoint}(\Gamma )\ =\ g\quad \operatorname{ResumeLabel}(\Gamma ,\ g)\ =\ L \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{YieldExpr}(\mathsf{Release},\ e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{SeqIR}(\operatorname{SnapshotHeldKeysIR}(f),\ \operatorname{SeqIR}(\operatorname{ReleaseHeldKeysIR}(f),\ \operatorname{YieldIR}(f,\ g,\ v)))),\ \operatorname{ResumeInput}(f,\ g)\rangle 
 \end{array}
 $$
@@ -762,8 +756,8 @@ For **(Lower-Yield-Release)**, the resumption target `L` MUST begin by executing
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{source})\ \Downarrow \ \langle \mathsf{IR}_{s},\ v_{s}\rangle \quad \operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f\quad \operatorname{CurrentGenPoint}(\Gamma )\ =\ g \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{source})\ \Downarrow \ \langle \mathsf{IR}_{s},\ v_{s}\rangle \quad \operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f\quad \operatorname{CurrentGenPoint}(\Gamma )\ =\ g \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ \mathsf{source}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{s},\ \operatorname{YieldFromEnterIR}(f,\ g,\ \mathsf{release}_{\mathsf{opt}},\ v_{s})),\ \operatorname{YieldFromResumeIR}(f,\ g)\rangle 
 \end{array}
 $$
@@ -822,8 +816,8 @@ This section defines the following method-call surfaces:
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{sync})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{sync})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (P_{1},\ \operatorname{SyncExpr}(e))
 \end{array}
 $$
@@ -834,8 +828,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{race})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseRaceArms}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ \mathsf{arms})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\}"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{race})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseRaceArms}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ \mathsf{arms})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\}"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{RaceExpr}(\mathsf{arms}))
 \end{array}
 $$
@@ -846,8 +840,8 @@ Race-arm parsing is:
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseRaceArm}(P)\ \Downarrow \ (P_{1},\ a)\quad \Gamma \ \vdash \ \operatorname{ParseRaceArmsTail}(P_{1},\ [a])\ \Downarrow \ (P_{2},\ \mathsf{arms}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseRaceArm}(P)\ \Downarrow \ (P_{1},\ a)\quad \Gamma \ \vdash \ \operatorname{ParseRaceArmsTail}(P_{1},\ [a])\ \Downarrow \ (P_{2},\ \mathsf{arms}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseRaceArms}(P)\ \Downarrow \ (P_{2},\ \mathsf{arms})
 \end{array}
 $$
@@ -856,10 +850,10 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseExpr}(P)\ \Downarrow \ (P_{1},\ e)\quad \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"->"})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P_{1})),\ \texttt{"|"}) \\
-\Gamma \ \vdash \ \operatorname{ParsePattern}(\operatorname{Advance}(\operatorname{Advance}(P_{1})))\ \Downarrow \ (P_{2},\ \mathsf{pat})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{"|"}) \\
-\Gamma \ \vdash \ \operatorname{ParseRaceHandler}(\operatorname{Advance}(P_{2}))\ \Downarrow \ (P_{3},\ \mathsf{handler}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseExpr}(P)\ \Downarrow \ (P_{1},\ e)\quad \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"->"})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P_{1})),\ \texttt{"|"}) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParsePattern}(\operatorname{Advance}(\operatorname{Advance}(P_{1})))\ \Downarrow \ (P_{2},\ \mathsf{pat})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{"|"}) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseRaceHandler}(\operatorname{Advance}(P_{2}))\ \Downarrow \ (P_{3},\ \mathsf{handler}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseRaceArm}(P)\ \Downarrow \ (P_{3},\ \langle e,\ \mathsf{pat},\ \mathsf{handler}\rangle )
 \end{array}
 $$
@@ -868,8 +862,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseRaceArmsTail}(P,\ \mathsf{xs})\ \Downarrow \ (P,\ \mathsf{xs})
 \end{array}
 $$
@@ -878,8 +872,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"\}"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"\}"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseRaceArmsTail}(P,\ \mathsf{xs})\ \Downarrow \ (\operatorname{Advance}(P),\ \mathsf{xs})
 \end{array}
 $$
@@ -888,8 +882,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \Gamma \ \vdash \ \operatorname{ParseRaceArm}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ a)\quad \Gamma \ \vdash \ \operatorname{ParseRaceArmsTail}(P_{1},\ \mathsf{xs}\ \mathbin{++} \ [a])\ \Downarrow \ (P_{2},\ \mathsf{ys}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \Gamma \ \vdash \ \operatorname{ParseRaceArm}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ a)\quad \Gamma \ \vdash \ \operatorname{ParseRaceArmsTail}(P_{1},\ \mathsf{xs}\ \mathbin{++} \ [a])\ \Downarrow \ (P_{2},\ \mathsf{ys}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseRaceArmsTail}(P,\ \mathsf{xs})\ \Downarrow \ (P_{2},\ \mathsf{ys})
 \end{array}
 $$
@@ -898,8 +892,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{yield})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{yield})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseRaceHandler}(P)\ \Downarrow \ (P_{1},\ \operatorname{RaceYield}(e))
 \end{array}
 $$
@@ -908,8 +902,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseExpr}(P)\ \Downarrow \ (P_{1},\ e) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseExpr}(P)\ \Downarrow \ (P_{1},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseRaceHandler}(P)\ \Downarrow \ (P_{1},\ \operatorname{RaceReturn}(e))
 \end{array}
 $$
@@ -920,8 +914,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{all})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseAllExprList}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ \mathsf{es})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\}"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{all})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseAllExprList}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ \mathsf{es})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\}"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{AllExpr}(\mathsf{es}))
 \end{array}
 $$
@@ -932,12 +926,12 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{RaceHandler}\ =\ \{\operatorname{RaceReturn}(\mathsf{expr}),\ \operatorname{RaceYield}(\mathsf{expr})\} \\
-\mathsf{RaceArm}\ =\ \langle \mathsf{expr},\ \mathsf{pat},\ \mathsf{handler}\rangle \quad \mathsf{handler}\ \in \ \mathsf{RaceHandler} \\
-\mathsf{RaceArms}\ =\ [\mathsf{RaceArm}] \\
-\mathsf{Expr}\ \mathsf{includes}: \\
-\ \operatorname{SyncExpr}(\mathsf{expr}) \\
-\ \operatorname{RaceExpr}(\mathsf{arms}) \\
+\mathsf{RaceHandler}\ =\ \{\operatorname{RaceReturn}(\mathsf{expr}),\ \operatorname{RaceYield}(\mathsf{expr})\} \\[0.16em]
+\mathsf{RaceArm}\ =\ \langle \mathsf{expr},\ \mathsf{pat},\ \mathsf{handler}\rangle \quad \mathsf{handler}\ \in \ \mathsf{RaceHandler} \\[0.16em]
+\mathsf{RaceArms}\ =\ [\mathsf{RaceArm}] \\[0.16em]
+\mathsf{Expr}\ \mathsf{includes}: \\[0.16em]
+\ \operatorname{SyncExpr}(\mathsf{expr}) \\[0.16em]
+\ \operatorname{RaceExpr}(\mathsf{arms}) \\[0.16em]
 \ \operatorname{AllExpr}(\mathsf{exprs})
 \end{array}
 $$
@@ -956,17 +950,17 @@ Resolution is:
 
 $$
 \begin{array}{l}
-\mathsf{ResolveRaceJudg}\ =\ \{\mathsf{ResolveRaceArm},\ \mathsf{ResolveRaceArms},\ \mathsf{ResolveRaceHandler}\} \\
-\mathsf{ResolveAllExprListJudg}\ =\ \{\mathsf{ResolveAllExprList}\} \\
-\Gamma \ \vdash \ \operatorname{ResolveRaceHandler}(\operatorname{RaceReturn}(e))\ \Downarrow \ \operatorname{RaceReturn}(e') \\
-\Gamma \ \vdash \ \operatorname{ResolveRaceHandler}(\operatorname{RaceYield}(e))\ \Downarrow \ \operatorname{RaceYield}(e') \\
-\Gamma \ \vdash \ \operatorname{ResolveRaceArm}(\langle e,\ \mathsf{pat},\ \mathsf{handler}\rangle )\ \Downarrow \ \langle e',\ \mathsf{pat}',\ \mathsf{handler}'\rangle  \\
-\Gamma \ \vdash \ \operatorname{ResolveRaceArms}([])\ \Downarrow \ [] \\
-\Gamma \ \vdash \ \operatorname{ResolveRaceArms}(a\ \mathbin{::} \ \mathsf{as})\ \Downarrow \ a'\ \mathbin{::} \ \mathsf{as}' \\
-\Gamma \ \vdash \ \operatorname{ResolveAllExprList}([])\ \Downarrow \ [] \\
-\Gamma \ \vdash \ \operatorname{ResolveAllExprList}(e\ \mathbin{::} \ \mathsf{es})\ \Downarrow \ e'\ \mathbin{::} \ \mathsf{es}' \\
-\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{SyncExpr}(e))\ \Downarrow \ \operatorname{SyncExpr}(e') \\
-\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{RaceExpr}(\mathsf{arms}))\ \Downarrow \ \operatorname{RaceExpr}(\mathsf{arms}') \\
+\mathsf{ResolveRaceJudg}\ =\ \{\mathsf{ResolveRaceArm},\ \mathsf{ResolveRaceArms},\ \mathsf{ResolveRaceHandler}\} \\[0.16em]
+\mathsf{ResolveAllExprListJudg}\ =\ \{\mathsf{ResolveAllExprList}\} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveRaceHandler}(\operatorname{RaceReturn}(e))\ \Downarrow \ \operatorname{RaceReturn}(e') \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveRaceHandler}(\operatorname{RaceYield}(e))\ \Downarrow \ \operatorname{RaceYield}(e') \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveRaceArm}(\langle e,\ \mathsf{pat},\ \mathsf{handler}\rangle )\ \Downarrow \ \langle e',\ \mathsf{pat}',\ \mathsf{handler}'\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveRaceArms}([])\ \Downarrow \ [] \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveRaceArms}(a\ \mathbin{::} \ \mathsf{as})\ \Downarrow \ a'\ \mathbin{::} \ \mathsf{as}' \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveAllExprList}([])\ \Downarrow \ [] \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveAllExprList}(e\ \mathbin{::} \ \mathsf{es})\ \Downarrow \ e'\ \mathbin{::} \ \mathsf{es}' \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{SyncExpr}(e))\ \Downarrow \ \operatorname{SyncExpr}(e') \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{RaceExpr}(\mathsf{arms}))\ \Downarrow \ \operatorname{RaceExpr}(\mathsf{arms}') \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{AllExpr}(\mathsf{es}))\ \Downarrow \ \operatorname{AllExpr}(\mathsf{es}')
 \end{array}
 $$
@@ -975,10 +969,10 @@ Evaluation order is:
 
 $$
 \begin{array}{l}
-\operatorname{RaceArmExprs}([])\ =\ [] \\
-\operatorname{RaceArmExprs}(\langle e,\ \_,\ \_\rangle \ \mathbin{::} \ \mathsf{as})\ =\ [e]\ \mathbin{++} \ \operatorname{RaceArmExprs}(\mathsf{as}) \\
-\operatorname{Children_LTR}(\operatorname{SyncExpr}(e))\ =\ [e] \\
-\operatorname{Children_LTR}(\operatorname{RaceExpr}(\mathsf{arms}))\ =\ \operatorname{RaceArmExprs}(\mathsf{arms}) \\
+\operatorname{RaceArmExprs}([])\ =\ [] \\[0.16em]
+\operatorname{RaceArmExprs}(\langle e,\ \_,\ \_\rangle \ \mathbin{::} \ \mathsf{as})\ =\ [e]\ \mathbin{++} \ \operatorname{RaceArmExprs}(\mathsf{as}) \\[0.16em]
+\operatorname{Children_LTR}(\operatorname{SyncExpr}(e))\ =\ [e] \\[0.16em]
+\operatorname{Children_LTR}(\operatorname{RaceExpr}(\mathsf{arms}))\ =\ \operatorname{RaceArmExprs}(\mathsf{arms}) \\[0.16em]
 \operatorname{Children_LTR}(\operatorname{AllExpr}(\mathsf{es}))\ =\ \mathsf{es}
 \end{array}
 $$
@@ -991,12 +985,12 @@ Async iteration over `loop pat in e { body }` is:
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out}_{r},\ \mathsf{In}_{r},\ \mathsf{Result}_{r},\ E_{r}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{iter}\ :\ T_{\mathsf{iter}}\quad \operatorname{AsyncSig}(T_{\mathsf{iter}})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \quad \mathsf{In}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \Gamma \ \vdash \ E_{i}\ \mathrel{<:} \ E_{r} \\
-(\mathsf{ty}_{\mathsf{opt}}\ =\ \bot \ \Rightarrow \ T_{p}\ =\ \mathsf{Out}_{i})\quad (\mathsf{ty}_{\mathsf{opt}}\ =\ T_{a}\ \Rightarrow \ \Gamma \ \vdash \ \mathsf{Out}_{i}\ \mathrel{<:} \ T_{a}\ \land \ T_{p}\ =\ T_{a}) \\
-\Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ T_{p}\ \dashv \ B\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}))\quad \operatorname{LoopInvOk}(\mathsf{inv}_{\mathsf{opt}}) \\
-\Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \operatorname{IntroAll}(\Gamma_{0} ,\ B)\ \Downarrow \ \Gamma_{1}  \\
-\Gamma_{1} ;\ R;\ \texttt{loop}\ \vdash \ \operatorname{BlockInfo}(\mathsf{body})\ \Downarrow \ \langle T_{b},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \operatorname{LoopTypeFin}(\mathsf{Brk},\ \mathsf{BrkVoid})\ =\ T_{r} \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out}_{r},\ \mathsf{In}_{r},\ \mathsf{Result}_{r},\ E_{r}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{iter}\ :\ T_{\mathsf{iter}}\quad \operatorname{AsyncSig}(T_{\mathsf{iter}})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \quad \mathsf{In}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \Gamma \ \vdash \ E_{i}\ \mathrel{<:} \ E_{r} \\[0.16em]
+(\mathsf{ty}_{\mathsf{opt}}\ =\ \bot \ \Rightarrow \ T_{p}\ =\ \mathsf{Out}_{i})\quad (\mathsf{ty}_{\mathsf{opt}}\ =\ T_{a}\ \Rightarrow \ \Gamma \ \vdash \ \mathsf{Out}_{i}\ \mathrel{<:} \ T_{a}\ \land \ T_{p}\ =\ T_{a}) \\[0.16em]
+\Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ T_{p}\ \dashv \ B\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}))\quad \operatorname{LoopInvOk}(\mathsf{inv}_{\mathsf{opt}}) \\[0.16em]
+\Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \operatorname{IntroAll}(\Gamma_{0} ,\ B)\ \Downarrow \ \Gamma_{1}  \\[0.16em]
+\Gamma_{1} ;\ R;\ \texttt{loop}\ \vdash \ \operatorname{BlockInfo}(\mathsf{body})\ \Downarrow \ \langle T_{b},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \operatorname{LoopTypeFin}(\mathsf{Brk},\ \mathsf{BrkVoid})\ =\ T_{r} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{LoopIter}(\mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{iter},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body})\ :\ T_{r}
 \end{array}
 $$
@@ -1005,21 +999,19 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{iter}\ :\ T_{\mathsf{iter}}\quad \operatorname{AsyncSig}(T_{\mathsf{iter}})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \quad (\operatorname{AsyncSig}(R)\ =\ \bot \ \lor \ \mathsf{In}_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{iter}\ :\ T_{\mathsf{iter}}\quad \operatorname{AsyncSig}(T_{\mathsf{iter}})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \quad (\operatorname{AsyncSig}(R)\ =\ \bot \ \lor \ \mathsf{In}_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{LoopIter}(\mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{iter},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body})\ \Uparrow 
 \end{array}
 $$
 
-$$
-\mathsf{Manual}\ \mathsf{stepping}\ \mathsf{is}\ \mathsf{permitted}\ \mathsf{by}\ \mathsf{ordinary}\ \mathsf{modal}-\mathsf{state}\ \mathsf{inspection}\ \mathsf{and}\ \texttt{a\~{}>resume(input)}.\ \mathsf{It}\ \mathsf{is}\ \mathsf{required}\ \mathsf{when}\ \mathsf{an}\ \mathsf{async}\ \mathsf{value}\ \mathsf{has}\ \texttt{In != ()}.
-$$
+Manual stepping is permitted by ordinary modal-state inspection and `a~>resume(input)`. It is required when an async value has `In ≠ ()`.
 
 `sync` typing is:
 
 $$
 \begin{array}{l}
-\operatorname{YieldInExpr}(e)\ \Leftrightarrow \ \exists \ e'\ \in \ \operatorname{SubExprsList}([e]).\ e'\ =\ \operatorname{YieldExpr}(\_,\ \_) \\
+\operatorname{YieldInExpr}(e)\ \Leftrightarrow \ \exists \ e'\ \in \ \operatorname{SubExprsList}([e]).\ e'\ =\ \operatorname{YieldExpr}(\_,\ \_) \\[0.16em]
 \operatorname{YieldFromInExpr}(e)\ \Leftrightarrow \ \exists \ e'\ \in \ \operatorname{SubExprsList}([e]).\ e'\ =\ \operatorname{YieldFromExpr}(\_,\ \_)
 \end{array}
 $$
@@ -1028,8 +1020,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{YieldInExpr}(e) \\
-\rule{18em}{0.4pt} \\
+\operatorname{YieldInExpr}(e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{SyncExpr}(e)\ \Uparrow 
 \end{array}
 $$
@@ -1038,8 +1030,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{YieldFromInExpr}(e) \\
-\rule{18em}{0.4pt} \\
+\operatorname{YieldFromInExpr}(e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{SyncExpr}(e)\ \Uparrow 
 \end{array}
 $$
@@ -1048,8 +1040,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \mathsf{Out}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \mathsf{In}\ =\ \operatorname{TypePrim}(\texttt{"()"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \mathsf{Out}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \mathsf{In}\ =\ \operatorname{TypePrim}(\texttt{"()"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{SyncExpr}(e)\ :\ \operatorname{TypeUnion}([\mathsf{Result},\ E])
 \end{array}
 $$
@@ -1058,8 +1050,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ \ne \ \bot  \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ \ne \ \bot  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{SyncExpr}(e)\ \Uparrow 
 \end{array}
 $$
@@ -1068,9 +1060,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e} \\
-(\operatorname{AsyncSig}(T_{e})\ =\ \bot \ \lor \ (\operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \ \land \ \mathsf{Out}\ \ne \ \operatorname{TypePrim}(\texttt{"()"}))) \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e} \\[0.16em]
+(\operatorname{AsyncSig}(T_{e})\ =\ \bot \ \lor \ (\operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \ \land \ \mathsf{Out}\ \ne \ \operatorname{TypePrim}(\texttt{"()"}))) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{SyncExpr}(e)\ \Uparrow 
 \end{array}
 $$
@@ -1079,8 +1071,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \mathsf{Out}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \mathsf{In}\ \ne \ \operatorname{TypePrim}(\texttt{"()"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \mathsf{Out}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \mathsf{In}\ \ne \ \operatorname{TypePrim}(\texttt{"()"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{SyncExpr}(e)\ \Uparrow 
 \end{array}
 $$
@@ -1089,9 +1081,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RaceMode}(\mathsf{arms})\ = \\
-\ \{\ \texttt{return}\quad \mathsf{if}\ \forall \ \mathsf{arm}\ \in \ \mathsf{arms}.\ \mathsf{arm}.\mathsf{handler}\ =\ \operatorname{RaceReturn}(\_) \\
-\quad \texttt{yield}\quad \mathsf{if}\ \forall \ \mathsf{arm}\ \in \ \mathsf{arms}.\ \mathsf{arm}.\mathsf{handler}\ =\ \operatorname{RaceYield}(\_) \\
+\operatorname{RaceMode}(\mathsf{arms})\ = \\[0.16em]
+\ \{\ \texttt{return}\quad \mathsf{if}\ \forall \ \mathsf{arm}\ \in \ \mathsf{arms}.\ \mathsf{arm}.\mathsf{handler}\ =\ \operatorname{RaceReturn}(\_) \\[0.16em]
+\quad \texttt{yield}\quad \mathsf{if}\ \forall \ \mathsf{arm}\ \in \ \mathsf{arms}.\ \mathsf{arm}.\mathsf{handler}\ =\ \operatorname{RaceYield}(\_) \\[0.16em]
 \quad \bot \quad \mathsf{otherwise}\ \}
 \end{array}
 $$
@@ -1100,11 +1092,11 @@ $$
 
 $$
 \begin{array}{l}
-n\ =\ \mid \mathsf{arms}\mid \quad n\ \ge \ 2\quad \operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{return} \\
-\forall \ i,\ \mathsf{arm}_{i}\ =\ \langle e_{i},\ \mathsf{pat}_{i},\ \operatorname{RaceReturn}(r_{i})\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\quad \operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle  \\
-\mathsf{Out}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \mathsf{In}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \Gamma \ \vdash \ \mathsf{pat}_{i}\ \Leftarrow \ \mathsf{Result}_{i}\ \dashv \ B_{i}\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}_{i})) \\
-\Gamma_{i} \ =\ \operatorname{IntroAll}(\Gamma ,\ B_{i})\quad \Gamma_{i} ;\ R;\ L\ \vdash \ r_{i}\ :\ T_{i}^r\quad \mathsf{AllEq}\_\Gamma ([T_{1}^r,\ \ldots ,\ T_{n}^r])\quad T_{r}\ =\ T_{1}^r \\
-\rule{18em}{0.4pt} \\
+n\ =\ \mid \mathsf{arms}\mid \quad n\ \ge \ 2\quad \operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{return} \\[0.16em]
+\forall \ i,\ \mathsf{arm}_{i}\ =\ \langle e_{i},\ \mathsf{pat}_{i},\ \operatorname{RaceReturn}(r_{i})\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\quad \operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle  \\[0.16em]
+\mathsf{Out}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \mathsf{In}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \Gamma \ \vdash \ \mathsf{pat}_{i}\ \Leftarrow \ \mathsf{Result}_{i}\ \dashv \ B_{i}\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}_{i})) \\[0.16em]
+\Gamma_{i} \ =\ \operatorname{IntroAll}(\Gamma ,\ B_{i})\quad \Gamma_{i} ;\ R;\ L\ \vdash \ r_{i}\ :\ T_{i}^r\quad \mathsf{AllEq}\_\Gamma ([T_{1}^r,\ \ldots ,\ T_{n}^r])\quad T_{r}\ =\ T_{1}^r \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{RaceExpr}(\mathsf{arms})\ :\ \operatorname{TypeUnion}([T_{r},\ E_{1},\ \ldots ,\ E_{n}])
 \end{array}
 $$
@@ -1113,11 +1105,11 @@ $$
 
 $$
 \begin{array}{l}
-n\ =\ \mid \mathsf{arms}\mid \quad n\ \ge \ 2\quad \operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{yield} \\
-\forall \ i,\ \mathsf{arm}_{i}\ =\ \langle e_{i},\ \mathsf{pat}_{i},\ \operatorname{RaceYield}(r_{i})\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\quad \operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle  \\
-\mathsf{In}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \Gamma \ \vdash \ \mathsf{pat}_{i}\ \Leftarrow \ \mathsf{Out}_{i}\ \dashv \ B_{i}\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}_{i})) \\
-\Gamma_{i} \ =\ \operatorname{IntroAll}(\Gamma ,\ B_{i})\quad \Gamma_{i} ;\ R;\ L\ \vdash \ r_{i}\ :\ U_{i}\quad \mathsf{AllEq}\_\Gamma ([U_{1},\ \ldots ,\ U_{n}])\quad U\ =\ U_{1} \\
-\rule{18em}{0.4pt} \\
+n\ =\ \mid \mathsf{arms}\mid \quad n\ \ge \ 2\quad \operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{yield} \\[0.16em]
+\forall \ i,\ \mathsf{arm}_{i}\ =\ \langle e_{i},\ \mathsf{pat}_{i},\ \operatorname{RaceYield}(r_{i})\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\quad \operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle  \\[0.16em]
+\mathsf{In}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \Gamma \ \vdash \ \mathsf{pat}_{i}\ \Leftarrow \ \mathsf{Out}_{i}\ \dashv \ B_{i}\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}_{i})) \\[0.16em]
+\Gamma_{i} \ =\ \operatorname{IntroAll}(\Gamma ,\ B_{i})\quad \Gamma_{i} ;\ R;\ L\ \vdash \ r_{i}\ :\ U_{i}\quad \mathsf{AllEq}\_\Gamma ([U_{1},\ \ldots ,\ U_{n}])\quad U\ =\ U_{1} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{RaceExpr}(\mathsf{arms})\ :\ \operatorname{TypeApply}([\texttt{"Stream"}],\ [U,\ \operatorname{TypeUnion}([E_{1},\ \ldots ,\ E_{n}])])
 \end{array}
 $$
@@ -1126,8 +1118,8 @@ $$
 
 $$
 \begin{array}{l}
-n\ =\ \mid \mathsf{arms}\mid \quad n\ <\ 2 \\
-\rule{18em}{0.4pt} \\
+n\ =\ \mid \mathsf{arms}\mid \quad n\ <\ 2 \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{RaceExpr}(\mathsf{arms})\ \Uparrow 
 \end{array}
 $$
@@ -1136,8 +1128,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RaceMode}(\mathsf{arms})\ =\ \bot  \\
-\rule{18em}{0.4pt} \\
+\operatorname{RaceMode}(\mathsf{arms})\ =\ \bot  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{RaceExpr}(\mathsf{arms})\ \Uparrow 
 \end{array}
 $$
@@ -1146,9 +1138,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{return} \\
-\exists \ i.\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\ \land \ (\operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \ \land \ \mathsf{Out}_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})) \\
-\rule{18em}{0.4pt} \\
+\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{return} \\[0.16em]
+\exists \ i.\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\ \land \ (\operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \ \land \ \mathsf{Out}_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{RaceExpr}(\mathsf{arms})\ \Uparrow 
 \end{array}
 $$
@@ -1157,9 +1149,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{return} \\
-\exists \ i.\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\ \land \ (\operatorname{AsyncSig}(T_{i})\ =\ \bot \ \lor \ (\operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \ \land \ \mathsf{Out}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\ \land \ \mathsf{In}_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"()"}))) \\
-\rule{18em}{0.4pt} \\
+\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{return} \\[0.16em]
+\exists \ i.\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\ \land \ (\operatorname{AsyncSig}(T_{i})\ =\ \bot \ \lor \ (\operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \ \land \ \mathsf{Out}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\ \land \ \mathsf{In}_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"()"}))) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{RaceExpr}(\mathsf{arms})\ \Uparrow 
 \end{array}
 $$
@@ -1168,9 +1160,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{yield} \\
-\exists \ i.\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\ \land \ (\operatorname{AsyncSig}(T_{i})\ =\ \bot \ \lor \ (\operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \ \land \ \mathsf{In}_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"()"}))) \\
-\rule{18em}{0.4pt} \\
+\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{yield} \\[0.16em]
+\exists \ i.\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\ \land \ (\operatorname{AsyncSig}(T_{i})\ =\ \bot \ \lor \ (\operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \ \land \ \mathsf{In}_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"()"}))) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{RaceExpr}(\mathsf{arms})\ \Uparrow 
 \end{array}
 $$
@@ -1179,11 +1171,11 @@ $$
 
 $$
 \begin{array}{l}
-n\ =\ \mid \mathsf{arms}\mid \quad n\ \ge \ 2\quad \operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{return} \\
-\forall \ i,\ \mathsf{arm}_{i}\ =\ \langle e_{i},\ \mathsf{pat}_{i},\ \operatorname{RaceReturn}(r_{i})\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\quad \operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle  \\
-\mathsf{Out}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \mathsf{In}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \Gamma \ \vdash \ \mathsf{pat}_{i}\ \Leftarrow \ \mathsf{Result}_{i}\ \dashv \ B_{i}\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}_{i})) \\
-\Gamma_{i} \ =\ \operatorname{IntroAll}(\Gamma ,\ B_{i})\quad \Gamma_{i} ;\ R;\ L\ \vdash \ r_{i}\ :\ T_{i}^r\quad \lnot \ \mathsf{AllEq}\_\Gamma ([T_{1}^r,\ \ldots ,\ T_{n}^r]) \\
-\rule{18em}{0.4pt} \\
+n\ =\ \mid \mathsf{arms}\mid \quad n\ \ge \ 2\quad \operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{return} \\[0.16em]
+\forall \ i,\ \mathsf{arm}_{i}\ =\ \langle e_{i},\ \mathsf{pat}_{i},\ \operatorname{RaceReturn}(r_{i})\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\quad \operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle  \\[0.16em]
+\mathsf{Out}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \mathsf{In}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \Gamma \ \vdash \ \mathsf{pat}_{i}\ \Leftarrow \ \mathsf{Result}_{i}\ \dashv \ B_{i}\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}_{i})) \\[0.16em]
+\Gamma_{i} \ =\ \operatorname{IntroAll}(\Gamma ,\ B_{i})\quad \Gamma_{i} ;\ R;\ L\ \vdash \ r_{i}\ :\ T_{i}^r\quad \lnot \ \mathsf{AllEq}\_\Gamma ([T_{1}^r,\ \ldots ,\ T_{n}^r]) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{RaceExpr}(\mathsf{arms})\ \Uparrow 
 \end{array}
 $$
@@ -1192,11 +1184,11 @@ $$
 
 $$
 \begin{array}{l}
-n\ =\ \mid \mathsf{arms}\mid \quad n\ \ge \ 2\quad \operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{yield} \\
-\forall \ i,\ \mathsf{arm}_{i}\ =\ \langle e_{i},\ \mathsf{pat}_{i},\ \operatorname{RaceYield}(r_{i})\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\quad \operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle  \\
-\mathsf{In}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \Gamma \ \vdash \ \mathsf{pat}_{i}\ \Leftarrow \ \mathsf{Out}_{i}\ \dashv \ B_{i}\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}_{i})) \\
-\Gamma_{i} \ =\ \operatorname{IntroAll}(\Gamma ,\ B_{i})\quad \Gamma_{i} ;\ R;\ L\ \vdash \ r_{i}\ :\ U_{i}\quad \lnot \ \mathsf{AllEq}\_\Gamma ([U_{1},\ \ldots ,\ U_{n}]) \\
-\rule{18em}{0.4pt} \\
+n\ =\ \mid \mathsf{arms}\mid \quad n\ \ge \ 2\quad \operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{yield} \\[0.16em]
+\forall \ i,\ \mathsf{arm}_{i}\ =\ \langle e_{i},\ \mathsf{pat}_{i},\ \operatorname{RaceYield}(r_{i})\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\quad \operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle  \\[0.16em]
+\mathsf{In}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \Gamma \ \vdash \ \mathsf{pat}_{i}\ \Leftarrow \ \mathsf{Out}_{i}\ \dashv \ B_{i}\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}_{i})) \\[0.16em]
+\Gamma_{i} \ =\ \operatorname{IntroAll}(\Gamma ,\ B_{i})\quad \Gamma_{i} ;\ R;\ L\ \vdash \ r_{i}\ :\ U_{i}\quad \lnot \ \mathsf{AllEq}\_\Gamma ([U_{1},\ \ldots ,\ U_{n}]) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{RaceExpr}(\mathsf{arms})\ \Uparrow 
 \end{array}
 $$
@@ -1207,9 +1199,9 @@ $$
 
 $$
 \begin{array}{l}
-n\ =\ \mid \mathsf{exprs}\mid \quad \forall \ i,\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\quad \operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle  \\
-\mathsf{Out}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \mathsf{In}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad T_{\mathsf{tuple}}\ =\ \operatorname{TypeTuple}([\mathsf{Result}_{1},\ \ldots ,\ \mathsf{Result}_{n}]) \\
-\rule{18em}{0.4pt} \\
+n\ =\ \mid \mathsf{exprs}\mid \quad \forall \ i,\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\quad \operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle  \\[0.16em]
+\mathsf{Out}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \mathsf{In}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad T_{\mathsf{tuple}}\ =\ \operatorname{TypeTuple}([\mathsf{Result}_{1},\ \ldots ,\ \mathsf{Result}_{n}]) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{AllExpr}([e_{1},\ \ldots ,\ e_{n}])\ :\ \operatorname{TypeUnion}([T_{\mathsf{tuple}},\ E_{1},\ \ldots ,\ E_{n}])
 \end{array}
 $$
@@ -1218,8 +1210,8 @@ $$
 
 $$
 \begin{array}{l}
-\exists \ i.\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\ \land \ (\operatorname{AsyncSig}(T_{i})\ =\ \bot \ \lor \ (\operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \ \land \ \mathsf{Out}_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"()"}))) \\
-\rule{18em}{0.4pt} \\
+\exists \ i.\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\ \land \ (\operatorname{AsyncSig}(T_{i})\ =\ \bot \ \lor \ (\operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \ \land \ \mathsf{Out}_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"()"}))) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{AllExpr}(\mathsf{exprs})\ \Uparrow 
 \end{array}
 $$
@@ -1228,8 +1220,8 @@ $$
 
 $$
 \begin{array}{l}
-\exists \ i.\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\ \land \ (\operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \ \land \ \mathsf{Out}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\ \land \ \mathsf{In}_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})) \\
-\rule{18em}{0.4pt} \\
+\exists \ i.\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ :\ T_{i}\ \land \ (\operatorname{AsyncSig}(T_{i})\ =\ \langle \mathsf{Out}_{i},\ \mathsf{In}_{i},\ \mathsf{Result}_{i},\ E_{i}\rangle \ \land \ \mathsf{Out}_{i}\ =\ \operatorname{TypePrim}(\texttt{"()"})\ \land \ \mathsf{In}_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{AllExpr}(\mathsf{exprs})\ \Uparrow 
 \end{array}
 $$
@@ -1244,17 +1236,15 @@ Async combinator typing is:
 
 $$
 \begin{array}{l}
-\mathsf{map}\quad :\ \mathsf{Async}<\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E>\ \times \ \operatorname{procedure}(\mathsf{Out})\ \to \ U\ \to \ \mathsf{Async}<U,\ \mathsf{In},\ \mathsf{Result},\ E> \\
-\mathsf{filter}\ :\ \mathsf{Async}<T,\ (),\ (),\ E>\ \times \ \operatorname{procedure}(\mathsf{const}\ T)\ \to \ \mathsf{bool}\ \to \ \mathsf{Async}<T,\ (),\ (),\ E> \\
-\mathsf{take}\ :\ \mathsf{Async}<T,\ (),\ (),\ E>\ \times \ \mathsf{usize}\ \to \ \mathsf{Async}<T,\ (),\ (),\ E> \\
-\mathsf{fold}\ :\ \mathsf{Async}<T,\ (),\ (),\ E>\ \times \ A\ \times \ \operatorname{procedure}(A,\ T)\ \to \ A\ \to \ \mathsf{Future}<A,\ E> \\
+\mathsf{map}\quad :\ \mathsf{Async}<\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E>\ \times \ \operatorname{procedure}(\mathsf{Out})\ \to \ U\ \to \ \mathsf{Async}<U,\ \mathsf{In},\ \mathsf{Result},\ E> \\[0.16em]
+\mathsf{filter}\ :\ \mathsf{Async}<T,\ (),\ (),\ E>\ \times \ \operatorname{procedure}(\mathsf{const}\ T)\ \to \ \mathsf{bool}\ \to \ \mathsf{Async}<T,\ (),\ (),\ E> \\[0.16em]
+\mathsf{take}\ :\ \mathsf{Async}<T,\ (),\ (),\ E>\ \times \ \mathsf{usize}\ \to \ \mathsf{Async}<T,\ (),\ (),\ E> \\[0.16em]
+\mathsf{fold}\ :\ \mathsf{Async}<T,\ (),\ (),\ E>\ \times \ A\ \times \ \operatorname{procedure}(A,\ T)\ \to \ A\ \to \ \mathsf{Future}<A,\ E> \\[0.16em]
 \mathsf{chain}\ :\ \mathsf{Future}<T,\ E>\ \times \ \operatorname{procedure}(T)\ \to \ \mathsf{Future}<U,\ E>\ \to \ \mathsf{Future}<U,\ E>
 \end{array}
 $$
 
-$$
-\mathsf{For}\ \texttt{e\~{}>name(args)},\ \mathsf{if}\ \texttt{StripPerm(ExprType(e)) = ModalRefType(modal\_ref)}\ \mathsf{and}\ \texttt{BuiltinModalGeneralMember(modal\_ref, name)},\ \mathsf{typing}\ \mathsf{MUST}\ \mathsf{be}\ \mathsf{derived}\ \mathsf{by}\ \mathsf{the}\ \mathsf{async}\ \mathsf{combinator}\ \mathsf{rules}\ \mathsf{in}\ \mathsf{this}\ \mathsf{section}.
-$$
+For `e~>name(args)`, if `StripPerm(ExprType(e)) = ModalRefType(modal_ref)` and `BuiltinModalGeneralMember(modal_ref, name)`, typing MUST be derived by the async combinator rules in this section.
 
 A conforming implementation MUST resolve `AsyncCombinatorNames` through built-in modal member lookup on `Async` (including aliases normalized via `AsyncSig`) and MUST NOT treat these members as non-modal ad hoc method-call exceptions.
 
@@ -1262,8 +1252,8 @@ A conforming implementation MUST resolve `AsyncCombinatorNames` through built-in
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ a\ :\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E])\quad \Gamma ;\ R;\ L\ \vdash \ f\ :\ (\mathsf{Out})\ \to \ U \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ a\ :\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E])\quad \Gamma ;\ R;\ L\ \vdash \ f\ :\ (\mathsf{Out})\ \to \ U \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ a\sim{}>\operatorname{map}(f)\ :\ \operatorname{TypeApply}([\texttt{"Async"}],\ [U,\ \mathsf{In},\ \mathsf{Result},\ E])
 \end{array}
 $$
@@ -1272,8 +1262,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ a\ :\ \operatorname{TypeApply}([\texttt{"Async"}],\ [T,\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ E])\quad \Gamma ;\ R;\ L\ \vdash \ p\ :\ (\operatorname{TypePerm}(\texttt{const},\ T))\ \to \ \operatorname{TypePrim}(\texttt{"bool"}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ a\ :\ \operatorname{TypeApply}([\texttt{"Async"}],\ [T,\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ E])\quad \Gamma ;\ R;\ L\ \vdash \ p\ :\ (\operatorname{TypePerm}(\texttt{const},\ T))\ \to \ \operatorname{TypePrim}(\texttt{"bool"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ a\sim{}>\operatorname{filter}(p)\ :\ \operatorname{TypeApply}([\texttt{"Async"}],\ [T,\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ E])
 \end{array}
 $$
@@ -1282,8 +1272,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ a\ :\ \operatorname{TypeApply}([\texttt{"Async"}],\ [T,\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ E])\quad \Gamma ;\ R;\ L\ \vdash \ n\ :\ \operatorname{TypePrim}(\texttt{"usize"}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ a\ :\ \operatorname{TypeApply}([\texttt{"Async"}],\ [T,\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ E])\quad \Gamma ;\ R;\ L\ \vdash \ n\ :\ \operatorname{TypePrim}(\texttt{"usize"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ a\sim{}>\operatorname{take}(n)\ :\ \operatorname{TypeApply}([\texttt{"Async"}],\ [T,\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ E])
 \end{array}
 $$
@@ -1292,8 +1282,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ a\ :\ \operatorname{TypeApply}([\texttt{"Async"}],\ [T,\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ E])\quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{init}\ :\ A\quad \Gamma ;\ R;\ L\ \vdash \ f\ :\ (A,\ T)\ \to \ A \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ a\ :\ \operatorname{TypeApply}([\texttt{"Async"}],\ [T,\ \operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePrim}(\texttt{"()"}),\ E])\quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{init}\ :\ A\quad \Gamma ;\ R;\ L\ \vdash \ f\ :\ (A,\ T)\ \to \ A \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ a\sim{}>\operatorname{fold}(\mathsf{init},\ f)\ :\ \operatorname{TypeApply}([\texttt{"Future"}],\ [A,\ E])
 \end{array}
 $$
@@ -1302,8 +1292,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ a\ :\ \operatorname{TypeApply}([\texttt{"Future"}],\ [T,\ E])\quad \Gamma ;\ R;\ L\ \vdash \ f\ :\ (T)\ \to \ \operatorname{TypeApply}([\texttt{"Future"}],\ [U,\ E]) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ a\ :\ \operatorname{TypeApply}([\texttt{"Future"}],\ [T,\ E])\quad \Gamma ;\ R;\ L\ \vdash \ f\ :\ (T)\ \to \ \operatorname{TypeApply}([\texttt{"Future"}],\ [U,\ E]) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ a\sim{}>\operatorname{chain}(f)\ :\ \operatorname{TypeApply}([\texttt{"Future"}],\ [U,\ E])
 \end{array}
 $$
@@ -1336,8 +1326,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ModalState}(a)\ =\ @\mathsf{Suspended}\quad a.\mathsf{output}\ =\ ()\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(a,\ ()),\ \sigma )\ \Downarrow \ (\operatorname{Val}(a'),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\operatorname{ModalState}(a)\ =\ @\mathsf{Suspended}\quad a.\mathsf{output}\ =\ ()\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(a,\ ()),\ \sigma )\ \Downarrow \ (\operatorname{Val}(a'),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{SyncStep}(a,\ \sigma )\ \Downarrow \ (a',\ \sigma_{1} )
 \end{array}
 $$
@@ -1346,9 +1336,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(a),\ \sigma_{1} )\quad \operatorname{ModalState}(a)\ =\ @\mathsf{Suspended}\quad \Gamma \ \vdash \ \operatorname{SyncStep}(a,\ \sigma_{1} )\ \Downarrow \ (a',\ \sigma_{2} ) \\
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{SyncExpr}(a'),\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(a),\ \sigma_{1} )\quad \operatorname{ModalState}(a)\ =\ @\mathsf{Suspended}\quad \Gamma \ \vdash \ \operatorname{SyncStep}(a,\ \sigma_{1} )\ \Downarrow \ (a',\ \sigma_{2} ) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{SyncExpr}(a'),\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{SyncExpr}(e),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} )
 \end{array}
 $$
@@ -1357,8 +1347,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(a),\ \sigma_{1} )\quad \operatorname{ModalState}(a)\ =\ @\mathsf{Completed}\quad a.\mathsf{value}\ =\ v \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(a),\ \sigma_{1} )\quad \operatorname{ModalState}(a)\ =\ @\mathsf{Completed}\quad a.\mathsf{value}\ =\ v \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{SyncExpr}(e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )
 \end{array}
 $$
@@ -1367,8 +1357,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(a),\ \sigma_{1} )\quad \operatorname{ModalState}(a)\ =\ @\mathsf{Failed}\quad a.\mathsf{error}\ =\ \mathsf{err} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(a),\ \sigma_{1} )\quad \operatorname{ModalState}(a)\ =\ @\mathsf{Failed}\quad a.\mathsf{error}\ =\ \mathsf{err} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{SyncExpr}(e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{err}),\ \sigma_{1} )
 \end{array}
 $$
@@ -1392,19 +1382,19 @@ Formal `race` rules:
 
 $$
 \begin{array}{l}
-\operatorname{SelectReady}(\mathsf{asyncs})\ =\ (\mathsf{index},\ \mathsf{async}_{\mathsf{value}})\ \Leftrightarrow  \\
-\ \mathsf{asyncs}\ =\ [a_{1},\ \ldots ,\ a_{n}]\ \land  \\
-\ \exists \ i\ \in \ [1..n].\ \operatorname{ModalState}(a_{i})\ =\ @\mathsf{Suspended}\ \land \ \operatorname{IsReady}(a_{i})\ \land  \\
-\ (\forall \ j\ <\ i.\ \lnot \operatorname{IsReady}(a_{j})\ \lor \ \operatorname{ModalState}(a_{j})\ \ne \ @\mathsf{Suspended})\ \land  \\
-\ \mathsf{index}\ =\ i\ \land  \\
-\ \mathsf{async}_{\mathsf{value}}\ =\ a_{i} \\
-\operatorname{SelectReadyAny}(\mathsf{asyncs})\ =\ (\mathsf{index},\ \mathsf{async}_{\mathsf{value}})\ \Leftrightarrow  \\
-\ \mathsf{asyncs}\ =\ [a_{1},\ \ldots ,\ a_{n}]\ \land  \\
-\ \exists \ i\ \in \ [1..n].\ (\operatorname{ModalState}(a_{i})\ =\ @\mathsf{Completed}\ \lor \ \operatorname{ModalState}(a_{i})\ =\ @\mathsf{Failed}\ \lor \ (\operatorname{ModalState}(a_{i})\ =\ @\mathsf{Suspended}\ \land \ \operatorname{IsReady}(a_{i})))\ \land  \\
-\ (\forall \ j\ <\ i.\ \operatorname{ModalState}(a_{j})\ =\ @\mathsf{Suspended}\ \land \ \lnot \operatorname{IsReady}(a_{j}))\ \land  \\
-\ \mathsf{index}\ =\ i\ \land  \\
-\ \mathsf{async}_{\mathsf{value}}\ =\ a_{i} \\
-\mathsf{RaceState}\ =\ \{\ \mathsf{active}:\ [\mathsf{AsyncValue}],\ \mathsf{completed}:\ \mathsf{Option}<(\mathsf{Index},\ \mathsf{AsyncValue})>,\ \mathsf{mode}:\ \texttt{return}\ \mid \ \texttt{yield}\ \} \\
+\operatorname{SelectReady}(\mathsf{asyncs})\ =\ (\mathsf{index},\ \mathsf{async}_{\mathsf{value}})\ \Leftrightarrow  \\[0.16em]
+\ \mathsf{asyncs}\ =\ [a_{1},\ \ldots ,\ a_{n}]\ \land  \\[0.16em]
+\ \exists \ i\ \in \ [1..n].\ \operatorname{ModalState}(a_{i})\ =\ @\mathsf{Suspended}\ \land \ \operatorname{IsReady}(a_{i})\ \land  \\[0.16em]
+\ (\forall \ j\ <\ i.\ \lnot \operatorname{IsReady}(a_{j})\ \lor \ \operatorname{ModalState}(a_{j})\ \ne \ @\mathsf{Suspended})\ \land  \\[0.16em]
+\ \mathsf{index}\ =\ i\ \land  \\[0.16em]
+\ \mathsf{async}_{\mathsf{value}}\ =\ a_{i} \\[0.16em]
+\operatorname{SelectReadyAny}(\mathsf{asyncs})\ =\ (\mathsf{index},\ \mathsf{async}_{\mathsf{value}})\ \Leftrightarrow  \\[0.16em]
+\ \mathsf{asyncs}\ =\ [a_{1},\ \ldots ,\ a_{n}]\ \land  \\[0.16em]
+\ \exists \ i\ \in \ [1..n].\ (\operatorname{ModalState}(a_{i})\ =\ @\mathsf{Completed}\ \lor \ \operatorname{ModalState}(a_{i})\ =\ @\mathsf{Failed}\ \lor \ (\operatorname{ModalState}(a_{i})\ =\ @\mathsf{Suspended}\ \land \ \operatorname{IsReady}(a_{i})))\ \land  \\[0.16em]
+\ (\forall \ j\ <\ i.\ \operatorname{ModalState}(a_{j})\ =\ @\mathsf{Suspended}\ \land \ \lnot \operatorname{IsReady}(a_{j}))\ \land  \\[0.16em]
+\ \mathsf{index}\ =\ i\ \land  \\[0.16em]
+\ \mathsf{async}_{\mathsf{value}}\ =\ a_{i} \\[0.16em]
+\mathsf{RaceState}\ =\ \{\ \mathsf{active}:\ [\mathsf{AsyncValue}],\ \mathsf{completed}:\ \mathsf{Option}<(\mathsf{Index},\ \mathsf{AsyncValue})>,\ \mathsf{mode}:\ \texttt{return}\ \mid \ \texttt{yield}\ \} \\[0.16em]
 \mathsf{InitRace}\ :\ [\mathsf{RaceArm}]\ \times \ \mathsf{State}\ \to \ \mathsf{RaceState}\ \times \ \mathsf{State}
 \end{array}
 $$
@@ -1413,9 +1403,9 @@ $$
 
 $$
 \begin{array}{l}
-\forall \ i,\ \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{arm}_{i}.\mathsf{expr},\ \sigma_{i} )\ \Downarrow \ (\operatorname{Val}(a_{i}),\ \sigma \_\{i+1\})\quad \mathsf{mode}\ =\ \operatorname{RaceMode}(\mathsf{arms}) \\
-\mathsf{race}_{\mathsf{state}}\ =\ \{\ \mathsf{active}:\ [a_{1},\ \ldots ,\ a_{n}],\ \mathsf{completed}:\ \bot ,\ \mathsf{mode}:\ \mathsf{mode}\ \} \\
-\rule{18em}{0.4pt} \\
+\forall \ i,\ \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{arm}_{i}.\mathsf{expr},\ \sigma_{i} )\ \Downarrow \ (\operatorname{Val}(a_{i}),\ \sigma \_\{i+1\})\quad \mathsf{mode}\ =\ \operatorname{RaceMode}(\mathsf{arms}) \\[0.16em]
+\mathsf{race}_{\mathsf{state}}\ =\ \{\ \mathsf{active}:\ [a_{1},\ \ldots ,\ a_{n}],\ \mathsf{completed}:\ \bot ,\ \mathsf{mode}:\ \mathsf{mode}\ \} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{InitRace}(\mathsf{arms},\ \sigma_{0} )\ \Downarrow \ (\mathsf{race}_{\mathsf{state}},\ \sigma_{n} )
 \end{array}
 $$
@@ -1428,10 +1418,10 @@ $$
 
 $$
 \begin{array}{l}
-\exists \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Completed}\quad a_{i}\ =\ \mathsf{race}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{value}\ =\ v \\
-\mathsf{arm}_{i}\ =\ \mathsf{arms}[i]\quad \Gamma \ \vdash \ \operatorname{BindPattern}(\mathsf{arm}_{i}.\mathsf{pat},\ v)\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} \ \vdash \ \operatorname{EvalSigma}(\mathsf{arm}_{i}.\mathsf{handler}.\mathsf{expr},\ \sigma )\ \Downarrow \ (\operatorname{Val}(r),\ \sigma_{1} ) \\
-\operatorname{CancelAll}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}\ \setminus \ \{a_{i}\},\ \sigma_{1} )\ \Downarrow \ \sigma_{2}  \\
-\rule{18em}{0.4pt} \\
+\exists \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Completed}\quad a_{i}\ =\ \mathsf{race}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{value}\ =\ v \\[0.16em]
+\mathsf{arm}_{i}\ =\ \mathsf{arms}[i]\quad \Gamma \ \vdash \ \operatorname{BindPattern}(\mathsf{arm}_{i}.\mathsf{pat},\ v)\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} \ \vdash \ \operatorname{EvalSigma}(\mathsf{arm}_{i}.\mathsf{handler}.\mathsf{expr},\ \sigma )\ \Downarrow \ (\operatorname{Val}(r),\ \sigma_{1} ) \\[0.16em]
+\operatorname{CancelAll}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}\ \setminus \ \{a_{i}\},\ \sigma_{1} )\ \Downarrow \ \sigma_{2}  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{RaceStepReturn}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma )\ \Downarrow \ (\operatorname{Val}(r),\ \sigma_{2} )
 \end{array}
 $$
@@ -1440,9 +1430,9 @@ $$
 
 $$
 \begin{array}{l}
-\exists \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Failed}\quad a_{i}\ =\ \mathsf{race}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{error}\ =\ e \\
-\operatorname{CancelAll}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}\ \setminus \ \{a_{i}\},\ \sigma )\ \Downarrow \ \sigma_{1}  \\
-\rule{18em}{0.4pt} \\
+\exists \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Failed}\quad a_{i}\ =\ \mathsf{race}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{error}\ =\ e \\[0.16em]
+\operatorname{CancelAll}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}\ \setminus \ \{a_{i}\},\ \sigma )\ \Downarrow \ \sigma_{1}  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{RaceStepReturn}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma )\ \Downarrow \ (\operatorname{Val}(e),\ \sigma_{1} )
 \end{array}
 $$
@@ -1451,10 +1441,10 @@ $$
 
 $$
 \begin{array}{l}
-\forall \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Suspended} \\
-\operatorname{SelectReady}(\mathsf{race}_{\mathsf{state}}.\mathsf{active})\ =\ (j,\ a_{j})\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(a_{j},\ ()),\ \sigma )\ \Downarrow \ (\operatorname{Val}(a_{j}'),\ \sigma_{1} ) \\
-\mathsf{race}_{\mathsf{state}}'\ =\ \mathsf{race}_{\mathsf{state}}[\mathsf{active}[j]\ \mapsto \ a_{j}']\quad \Gamma \ \vdash \ \operatorname{RaceStepReturn}(\mathsf{race}_{\mathsf{state}}',\ \mathsf{arms},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\forall \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Suspended} \\[0.16em]
+\operatorname{SelectReady}(\mathsf{race}_{\mathsf{state}}.\mathsf{active})\ =\ (j,\ a_{j})\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(a_{j},\ ()),\ \sigma )\ \Downarrow \ (\operatorname{Val}(a_{j}'),\ \sigma_{1} ) \\[0.16em]
+\mathsf{race}_{\mathsf{state}}'\ =\ \mathsf{race}_{\mathsf{state}}[\mathsf{active}[j]\ \mapsto \ a_{j}']\quad \Gamma \ \vdash \ \operatorname{RaceStepReturn}(\mathsf{race}_{\mathsf{state}}',\ \mathsf{arms},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{RaceStepReturn}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -1463,9 +1453,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{return}\quad \Gamma \ \vdash \ \operatorname{InitRace}(\mathsf{arms},\ \sigma )\ \Downarrow \ (\mathsf{race}_{\mathsf{state}},\ \sigma_{1} ) \\
-\Gamma \ \vdash \ \operatorname{RaceStepReturn}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{return}\quad \Gamma \ \vdash \ \operatorname{InitRace}(\mathsf{arms},\ \sigma )\ \Downarrow \ (\mathsf{race}_{\mathsf{state}},\ \sigma_{1} ) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{RaceStepReturn}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{RaceExpr}(\mathsf{arms}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -1478,10 +1468,10 @@ $$
 
 $$
 \begin{array}{l}
-\exists \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Suspended}\quad a_{i}\ =\ \mathsf{race}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{output}\ =\ v \\
-\mathsf{arm}_{i}\ =\ \mathsf{arms}[i]\quad \Gamma \ \vdash \ \operatorname{BindPattern}(\mathsf{arm}_{i}.\mathsf{pat},\ v)\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} \ \vdash \ \operatorname{EvalSigma}(\mathsf{arm}_{i}.\mathsf{handler}.\mathsf{expr},\ \sigma )\ \Downarrow \ (\operatorname{Val}(u),\ \sigma_{1} ) \\
-\mathsf{stream}_{\mathsf{state}}\ =\ \{\ \mathsf{race}_{\mathsf{state}}:\ \mathsf{race}_{\mathsf{state}},\ \mathsf{pending}_{\mathsf{yield}}:\ (i,\ u)\ \} \\
-\rule{18em}{0.4pt} \\
+\exists \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Suspended}\quad a_{i}\ =\ \mathsf{race}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{output}\ =\ v \\[0.16em]
+\mathsf{arm}_{i}\ =\ \mathsf{arms}[i]\quad \Gamma \ \vdash \ \operatorname{BindPattern}(\mathsf{arm}_{i}.\mathsf{pat},\ v)\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} \ \vdash \ \operatorname{EvalSigma}(\mathsf{arm}_{i}.\mathsf{handler}.\mathsf{expr},\ \sigma )\ \Downarrow \ (\operatorname{Val}(u),\ \sigma_{1} ) \\[0.16em]
+\mathsf{stream}_{\mathsf{state}}\ =\ \{\ \mathsf{race}_{\mathsf{state}}:\ \mathsf{race}_{\mathsf{state}},\ \mathsf{pending}_{\mathsf{yield}}:\ (i,\ u)\ \} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{RaceStepStream}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma )\ \Downarrow \ (\operatorname{Suspend}(\operatorname{AsyncSuspended}(u,\ \mathsf{stream}_{\mathsf{state}})),\ \sigma_{1} )
 \end{array}
 $$
@@ -1490,8 +1480,8 @@ $$
 
 $$
 \begin{array}{l}
-\forall \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Completed} \\
-\rule{18em}{0.4pt} \\
+\forall \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Completed} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{RaceStepStream}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{AsyncCompleted}(())),\ \sigma )
 \end{array}
 $$
@@ -1500,9 +1490,9 @@ $$
 
 $$
 \begin{array}{l}
-\exists \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Failed}\quad a_{i}\ =\ \mathsf{race}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{error}\ =\ e \\
-\operatorname{CancelAll}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}\ \setminus \ \{a_{i}\},\ \sigma )\ \Downarrow \ \sigma_{1}  \\
-\rule{18em}{0.4pt} \\
+\exists \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Failed}\quad a_{i}\ =\ \mathsf{race}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{error}\ =\ e \\[0.16em]
+\operatorname{CancelAll}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}\ \setminus \ \{a_{i}\},\ \sigma )\ \Downarrow \ \sigma_{1}  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{RaceStepStream}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{AsyncFailed}(e)),\ \sigma_{1} )
 \end{array}
 $$
@@ -1511,9 +1501,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{yield}\quad \Gamma \ \vdash \ \operatorname{InitRace}(\mathsf{arms},\ \sigma )\ \Downarrow \ (\mathsf{race}_{\mathsf{state}},\ \sigma_{1} ) \\
-\Gamma \ \vdash \ \operatorname{RaceStepStream}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{yield}\quad \Gamma \ \vdash \ \operatorname{InitRace}(\mathsf{arms},\ \sigma )\ \Downarrow \ (\mathsf{race}_{\mathsf{state}},\ \sigma_{1} ) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{RaceStepStream}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{RaceExpr}(\mathsf{arms}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -1526,8 +1516,8 @@ $$
 
 $$
 \begin{array}{l}
-\forall \ a\ \in \ \mathsf{asyncs}.\ \operatorname{Cancel}(a)\ \Downarrow \ () \\
-\rule{18em}{0.4pt} \\
+\forall \ a\ \in \ \mathsf{asyncs}.\ \operatorname{Cancel}(a)\ \Downarrow \ () \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{CancelAll}(\mathsf{asyncs},\ \sigma )\ \Downarrow \ \sigma 
 \end{array}
 $$
@@ -1536,9 +1526,9 @@ Streaming-race suspension state is:
 
 $$
 \begin{array}{l}
-\mathsf{RaceStreamState}\ =\ \{\ \mathsf{race}_{\mathsf{state}}:\ \mathsf{RaceState},\ \mathsf{yielded}_{\mathsf{arm}}:\ \mathsf{Index}\ \} \\
-\operatorname{RaceResumeOrder}(\mathsf{state},\ \mathsf{arms})\ =\ [\mathsf{state}.\mathsf{yielded}_{\mathsf{arm}}]\ \mathbin{++} \ [j\ \mid \ 1\ \le \ j\ \le \ \mid \mathsf{arms}\mid \ \land \ j\ \ne \ \mathsf{state}.\mathsf{yielded}_{\mathsf{arm}}\ \land \ \operatorname{ModalState}(\mathsf{state}.\mathsf{race}_{\mathsf{state}}.\mathsf{active}[j])\ \ne \ @\mathsf{Completed}] \\
-\operatorname{ResumeRaceArm}(a,\ \sigma )\ \Downarrow \ (a',\ \sigma ')\ \Leftrightarrow \ \operatorname{ModalState}(a)\ =\ @\mathsf{Suspended}\ \land \ \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(a,\ ()),\ \sigma )\ \Downarrow \ (\operatorname{Val}(a'),\ \sigma ') \\
+\mathsf{RaceStreamState}\ =\ \{\ \mathsf{race}_{\mathsf{state}}:\ \mathsf{RaceState},\ \mathsf{yielded}_{\mathsf{arm}}:\ \mathsf{Index}\ \} \\[0.16em]
+\operatorname{RaceResumeOrder}(\mathsf{state},\ \mathsf{arms})\ =\ [\mathsf{state}.\mathsf{yielded}_{\mathsf{arm}}]\ \mathbin{++} \ [j\ \mid \ 1\ \le \ j\ \le \ \mid \mathsf{arms}\mid \ \land \ j\ \ne \ \mathsf{state}.\mathsf{yielded}_{\mathsf{arm}}\ \land \ \operatorname{ModalState}(\mathsf{state}.\mathsf{race}_{\mathsf{state}}.\mathsf{active}[j])\ \ne \ @\mathsf{Completed}] \\[0.16em]
+\operatorname{ResumeRaceArm}(a,\ \sigma )\ \Downarrow \ (a',\ \sigma ')\ \Leftrightarrow \ \operatorname{ModalState}(a)\ =\ @\mathsf{Suspended}\ \land \ \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(a,\ ()),\ \sigma )\ \Downarrow \ (\operatorname{Val}(a'),\ \sigma ') \\[0.16em]
 \operatorname{ResumeRaceArm}(a,\ \sigma )\ \Downarrow \ (a,\ \sigma )\ \Leftrightarrow \ \operatorname{ModalState}(a)\ =\ @\mathsf{Completed}
 \end{array}
 $$
@@ -1547,10 +1537,10 @@ $$
 
 $$
 \begin{array}{l}
-\exists \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Suspended}\quad a_{i}\ =\ \mathsf{race}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{output}\ =\ v \\
-\mathsf{arm}_{i}\ =\ \mathsf{arms}[i]\quad \Gamma \ \vdash \ \operatorname{BindPattern}(\mathsf{arm}_{i}.\mathsf{pat},\ v)\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} \ \vdash \ \operatorname{EvalSigma}(\mathsf{arm}_{i}.\mathsf{handler}.\mathsf{expr},\ \sigma )\ \Downarrow \ (\operatorname{Val}(u),\ \sigma_{1} ) \\
-\mathsf{stream}_{\mathsf{state}}\ =\ \{\ \mathsf{race}_{\mathsf{state}}:\ \mathsf{race}_{\mathsf{state}},\ \mathsf{yielded}_{\mathsf{arm}}:\ i\ \} \\
-\rule{18em}{0.4pt} \\
+\exists \ i.\ \operatorname{ModalState}(\mathsf{race}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Suspended}\quad a_{i}\ =\ \mathsf{race}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{output}\ =\ v \\[0.16em]
+\mathsf{arm}_{i}\ =\ \mathsf{arms}[i]\quad \Gamma \ \vdash \ \operatorname{BindPattern}(\mathsf{arm}_{i}.\mathsf{pat},\ v)\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} \ \vdash \ \operatorname{EvalSigma}(\mathsf{arm}_{i}.\mathsf{handler}.\mathsf{expr},\ \sigma )\ \Downarrow \ (\operatorname{Val}(u),\ \sigma_{1} ) \\[0.16em]
+\mathsf{stream}_{\mathsf{state}}\ =\ \{\ \mathsf{race}_{\mathsf{state}}:\ \mathsf{race}_{\mathsf{state}},\ \mathsf{yielded}_{\mathsf{arm}}:\ i\ \} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{RaceStepStream}(\mathsf{race}_{\mathsf{state}},\ \mathsf{arms},\ \sigma )\ \Downarrow \ (\operatorname{Suspend}(\operatorname{AsyncSuspended}(u,\ \mathsf{stream}_{\mathsf{state}})),\ \sigma_{1} )
 \end{array}
 $$
@@ -1559,9 +1549,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{order}\ =\ [i]\ \mathbin{++} \ \mathsf{rest}\quad a_{i}\ =\ \mathsf{state}.\mathsf{active}[i]\quad \operatorname{ResumeRaceArm}(a_{i},\ \sigma )\ \Downarrow \ (a_{i}',\ \sigma_{1} ) \\
-\mathsf{state}'\ =\ \mathsf{state}[\mathsf{active}[i]\ \mapsto \ a_{i}']\quad \Gamma \ \vdash \ \operatorname{ResumeRaceState}(\mathsf{state}',\ \mathsf{rest},\ \sigma_{1} )\ \Downarrow \ (\mathsf{state}'',\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\mathsf{order}\ =\ [i]\ \mathbin{++} \ \mathsf{rest}\quad a_{i}\ =\ \mathsf{state}.\mathsf{active}[i]\quad \operatorname{ResumeRaceArm}(a_{i},\ \sigma )\ \Downarrow \ (a_{i}',\ \sigma_{1} ) \\[0.16em]
+\mathsf{state}'\ =\ \mathsf{state}[\mathsf{active}[i]\ \mapsto \ a_{i}']\quad \Gamma \ \vdash \ \operatorname{ResumeRaceState}(\mathsf{state}',\ \mathsf{rest},\ \sigma_{1} )\ \Downarrow \ (\mathsf{state}'',\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ResumeRaceState}(\mathsf{state},\ \mathsf{order},\ \sigma )\ \Downarrow \ (\mathsf{state}'',\ \sigma_{2} )
 \end{array}
 $$
@@ -1570,7 +1560,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ResumeRaceState}(\mathsf{state},\ [],\ \sigma )\ \Downarrow \ (\mathsf{state},\ \sigma )
 \end{array}
 $$
@@ -1579,10 +1569,10 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{async}_{\mathsf{state}}\ =\ \operatorname{AsyncSuspended}(\_,\ \mathsf{stream}_{\mathsf{state}})\quad \mathsf{input}\ =\ ()\quad \mathsf{order}\ =\ \operatorname{RaceResumeOrder}(\mathsf{stream}_{\mathsf{state}},\ \mathsf{arms}) \\
-\Gamma \ \vdash \ \operatorname{ResumeRaceState}(\mathsf{stream}_{\mathsf{state}}.\mathsf{race}_{\mathsf{state}},\ \mathsf{order},\ \sigma )\ \Downarrow \ (\mathsf{race}_{\mathsf{state}}',\ \sigma_{1} ) \\
-\Gamma \ \vdash \ \operatorname{RaceStepStream}(\mathsf{race}_{\mathsf{state}}',\ \mathsf{arms},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\mathsf{async}_{\mathsf{state}}\ =\ \operatorname{AsyncSuspended}(\_,\ \mathsf{stream}_{\mathsf{state}})\quad \mathsf{input}\ =\ ()\quad \mathsf{order}\ =\ \operatorname{RaceResumeOrder}(\mathsf{stream}_{\mathsf{state}},\ \mathsf{arms}) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResumeRaceState}(\mathsf{stream}_{\mathsf{state}}.\mathsf{race}_{\mathsf{state}},\ \mathsf{order},\ \sigma )\ \Downarrow \ (\mathsf{race}_{\mathsf{state}}',\ \sigma_{1} ) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{RaceStepStream}(\mathsf{race}_{\mathsf{state}}',\ \mathsf{arms},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(\mathsf{async}_{\mathsf{state}},\ \mathsf{input}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -1600,7 +1590,7 @@ Formal `all` rules:
 
 $$
 \begin{array}{l}
-\mathsf{AllState}\ =\ \{\ \mathsf{active}:\ [\mathsf{AsyncValue}],\ \mathsf{results}:\ [\mathsf{Option}<\mathsf{Value}>],\ \mathsf{failed}:\ \mathsf{Option}<\mathsf{Error}>\ \} \\
+\mathsf{AllState}\ =\ \{\ \mathsf{active}:\ [\mathsf{AsyncValue}],\ \mathsf{results}:\ [\mathsf{Option}<\mathsf{Value}>],\ \mathsf{failed}:\ \mathsf{Option}<\mathsf{Error}>\ \} \\[0.16em]
 \mathsf{InitAll}\ :\ [\mathsf{Expr}]\ \times \ \mathsf{State}\ \to \ \mathsf{AllState}\ \times \ \mathsf{State}
 \end{array}
 $$
@@ -1609,9 +1599,9 @@ $$
 
 $$
 \begin{array}{l}
-\forall \ i,\ \Gamma \ \vdash \ \operatorname{EvalSigma}(e_{i},\ \sigma_{i} )\ \Downarrow \ (\operatorname{Val}(a_{i}),\ \sigma \_\{i+1\}) \\
-\mathsf{all}_{\mathsf{state}}\ =\ \{\ \mathsf{active}:\ [a_{1},\ \ldots ,\ a_{n}],\ \mathsf{results}:\ [\bot ,\ \ldots ,\ \bot ],\ \mathsf{failed}:\ \bot \ \} \\
-\rule{18em}{0.4pt} \\
+\forall \ i,\ \Gamma \ \vdash \ \operatorname{EvalSigma}(e_{i},\ \sigma_{i} )\ \Downarrow \ (\operatorname{Val}(a_{i}),\ \sigma \_\{i+1\}) \\[0.16em]
+\mathsf{all}_{\mathsf{state}}\ =\ \{\ \mathsf{active}:\ [a_{1},\ \ldots ,\ a_{n}],\ \mathsf{results}:\ [\bot ,\ \ldots ,\ \bot ],\ \mathsf{failed}:\ \bot \ \} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{InitAll}([e_{1},\ \ldots ,\ e_{n}],\ \sigma_{0} )\ \Downarrow \ (\mathsf{all}_{\mathsf{state}},\ \sigma_{n} )
 \end{array}
 $$
@@ -1624,9 +1614,9 @@ $$
 
 $$
 \begin{array}{l}
-\exists \ i.\ \operatorname{ModalState}(\mathsf{all}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Completed}\quad a_{i}\ =\ \mathsf{all}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{value}\ =\ v \\
-\mathsf{all}_{\mathsf{state}}'\ =\ \mathsf{all}_{\mathsf{state}}[\mathsf{results}[i]\ \mapsto \ v] \\
-\rule{18em}{0.4pt} \\
+\exists \ i.\ \operatorname{ModalState}(\mathsf{all}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Completed}\quad a_{i}\ =\ \mathsf{all}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{value}\ =\ v \\[0.16em]
+\mathsf{all}_{\mathsf{state}}'\ =\ \mathsf{all}_{\mathsf{state}}[\mathsf{results}[i]\ \mapsto \ v] \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{AllStep}(\mathsf{all}_{\mathsf{state}},\ \sigma )\ \Downarrow \ (\mathsf{all}_{\mathsf{state}}',\ \sigma )
 \end{array}
 $$
@@ -1635,10 +1625,10 @@ $$
 
 $$
 \begin{array}{l}
-\exists \ i.\ \operatorname{ModalState}(\mathsf{all}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Failed}\quad a_{i}\ =\ \mathsf{all}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{error}\ =\ e\quad \mathsf{all}_{\mathsf{state}}.\mathsf{failed}\ =\ \bot  \\
-\mathsf{remaining}\ =\ \{\ a_{j}\ \mid \ j\ \ne \ i\ \land \ \operatorname{ModalState}(a_{j})\ \ne \ @\mathsf{Completed}\ \}\quad \operatorname{CancelAll}(\mathsf{remaining},\ \sigma )\ \Downarrow \ \sigma_{1}  \\
-\mathsf{all}_{\mathsf{state}}'\ =\ \mathsf{all}_{\mathsf{state}}[\mathsf{failed}\ \mapsto \ e] \\
-\rule{18em}{0.4pt} \\
+\exists \ i.\ \operatorname{ModalState}(\mathsf{all}_{\mathsf{state}}.\mathsf{active}[i])\ =\ @\mathsf{Failed}\quad a_{i}\ =\ \mathsf{all}_{\mathsf{state}}.\mathsf{active}[i]\quad a_{i}.\mathsf{error}\ =\ e\quad \mathsf{all}_{\mathsf{state}}.\mathsf{failed}\ =\ \bot  \\[0.16em]
+\mathsf{remaining}\ =\ \{\ a_{j}\ \mid \ j\ \ne \ i\ \land \ \operatorname{ModalState}(a_{j})\ \ne \ @\mathsf{Completed}\ \}\quad \operatorname{CancelAll}(\mathsf{remaining},\ \sigma )\ \Downarrow \ \sigma_{1}  \\[0.16em]
+\mathsf{all}_{\mathsf{state}}'\ =\ \mathsf{all}_{\mathsf{state}}[\mathsf{failed}\ \mapsto \ e] \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{AllStep}(\mathsf{all}_{\mathsf{state}},\ \sigma )\ \Downarrow \ (\mathsf{all}_{\mathsf{state}}',\ \sigma_{1} )
 \end{array}
 $$
@@ -1647,10 +1637,10 @@ $$
 
 $$
 \begin{array}{l}
-\forall \ i.\ \operatorname{ModalState}(\mathsf{all}_{\mathsf{state}}.\mathsf{active}[i])\ \ne \ @\mathsf{Failed}\quad \exists \ j.\ \mathsf{all}_{\mathsf{state}}.\mathsf{results}[j]\ =\ \bot \ \land \ \operatorname{ModalState}(\mathsf{all}_{\mathsf{state}}.\mathsf{active}[j])\ =\ @\mathsf{Suspended} \\
-\operatorname{SelectReady}(\mathsf{all}_{\mathsf{state}}.\mathsf{active})\ =\ (j,\ a_{j})\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(a_{j},\ ()),\ \sigma )\ \Downarrow \ (\operatorname{Val}(a_{j}'),\ \sigma_{1} ) \\
-\mathsf{all}_{\mathsf{state}}'\ =\ \mathsf{all}_{\mathsf{state}}[\mathsf{active}[j]\ \mapsto \ a_{j}'] \\
-\rule{18em}{0.4pt} \\
+\forall \ i.\ \operatorname{ModalState}(\mathsf{all}_{\mathsf{state}}.\mathsf{active}[i])\ \ne \ @\mathsf{Failed}\quad \exists \ j.\ \mathsf{all}_{\mathsf{state}}.\mathsf{results}[j]\ =\ \bot \ \land \ \operatorname{ModalState}(\mathsf{all}_{\mathsf{state}}.\mathsf{active}[j])\ =\ @\mathsf{Suspended} \\[0.16em]
+\operatorname{SelectReady}(\mathsf{all}_{\mathsf{state}}.\mathsf{active})\ =\ (j,\ a_{j})\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(a_{j},\ ()),\ \sigma )\ \Downarrow \ (\operatorname{Val}(a_{j}'),\ \sigma_{1} ) \\[0.16em]
+\mathsf{all}_{\mathsf{state}}'\ =\ \mathsf{all}_{\mathsf{state}}[\mathsf{active}[j]\ \mapsto \ a_{j}'] \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{AllStep}(\mathsf{all}_{\mathsf{state}},\ \sigma )\ \Downarrow \ (\mathsf{all}_{\mathsf{state}}',\ \sigma_{1} )
 \end{array}
 $$
@@ -1663,8 +1653,8 @@ $$
 
 $$
 \begin{array}{l}
-\forall \ i.\ \mathsf{all}_{\mathsf{state}}.\mathsf{results}[i]\ \ne \ \bot \quad \mathsf{all}_{\mathsf{state}}.\mathsf{failed}\ =\ \bot \quad \mathsf{tuple}\ =\ (\mathsf{all}_{\mathsf{state}}.\mathsf{results}[1],\ \ldots ,\ \mathsf{all}_{\mathsf{state}}.\mathsf{results}[n]) \\
-\rule{18em}{0.4pt} \\
+\forall \ i.\ \mathsf{all}_{\mathsf{state}}.\mathsf{results}[i]\ \ne \ \bot \quad \mathsf{all}_{\mathsf{state}}.\mathsf{failed}\ =\ \bot \quad \mathsf{tuple}\ =\ (\mathsf{all}_{\mathsf{state}}.\mathsf{results}[1],\ \ldots ,\ \mathsf{all}_{\mathsf{state}}.\mathsf{results}[n]) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{AllLoop}(\mathsf{all}_{\mathsf{state}},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{tuple}),\ \sigma )
 \end{array}
 $$
@@ -1673,8 +1663,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{all}_{\mathsf{state}}.\mathsf{failed}\ =\ e\quad e\ \ne \ \bot  \\
-\rule{18em}{0.4pt} \\
+\mathsf{all}_{\mathsf{state}}.\mathsf{failed}\ =\ e\quad e\ \ne \ \bot  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{AllLoop}(\mathsf{all}_{\mathsf{state}},\ \sigma )\ \Downarrow \ (\operatorname{Val}(e),\ \sigma )
 \end{array}
 $$
@@ -1683,9 +1673,9 @@ $$
 
 $$
 \begin{array}{l}
-\exists \ i.\ \mathsf{all}_{\mathsf{state}}.\mathsf{results}[i]\ =\ \bot \quad \mathsf{all}_{\mathsf{state}}.\mathsf{failed}\ =\ \bot \quad \Gamma \ \vdash \ \operatorname{AllStep}(\mathsf{all}_{\mathsf{state}},\ \sigma )\ \Downarrow \ (\mathsf{all}_{\mathsf{state}}',\ \sigma_{1} ) \\
-\Gamma \ \vdash \ \operatorname{AllLoop}(\mathsf{all}_{\mathsf{state}}',\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\exists \ i.\ \mathsf{all}_{\mathsf{state}}.\mathsf{results}[i]\ =\ \bot \quad \mathsf{all}_{\mathsf{state}}.\mathsf{failed}\ =\ \bot \quad \Gamma \ \vdash \ \operatorname{AllStep}(\mathsf{all}_{\mathsf{state}},\ \sigma )\ \Downarrow \ (\mathsf{all}_{\mathsf{state}}',\ \sigma_{1} ) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{AllLoop}(\mathsf{all}_{\mathsf{state}}',\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{AllLoop}(\mathsf{all}_{\mathsf{state}},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -1694,8 +1684,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{InitAll}(\mathsf{exprs},\ \sigma )\ \Downarrow \ (\mathsf{all}_{\mathsf{state}},\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{AllLoop}(\mathsf{all}_{\mathsf{state}},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{InitAll}(\mathsf{exprs},\ \sigma )\ \Downarrow \ (\mathsf{all}_{\mathsf{state}},\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{AllLoop}(\mathsf{all}_{\mathsf{state}},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{AllExpr}(\mathsf{exprs}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -1710,10 +1700,10 @@ Async combinators create wrapper async values:
 
 $$
 \begin{array}{l}
-\mathsf{MappedAsync}\ =\ \langle \mathsf{source},\ f\rangle  \\
-\mathsf{FilteredAsync}\ =\ \langle \mathsf{source},\ \mathsf{pred},\ \mathsf{state}\rangle \quad \mathsf{state}\ \in \ \{\mathsf{Pending},\ \mathsf{Done}\} \\
-\mathsf{TakeAsync}\ =\ \langle \mathsf{source},\ \mathsf{remaining}\rangle  \\
-\mathsf{FoldAsync}\ =\ \langle \mathsf{source},\ \mathsf{acc},\ f\rangle  \\
+\mathsf{MappedAsync}\ =\ \langle \mathsf{source},\ f\rangle  \\[0.16em]
+\mathsf{FilteredAsync}\ =\ \langle \mathsf{source},\ \mathsf{pred},\ \mathsf{state}\rangle \quad \mathsf{state}\ \in \ \{\mathsf{Pending},\ \mathsf{Done}\} \\[0.16em]
+\mathsf{TakeAsync}\ =\ \langle \mathsf{source},\ \mathsf{remaining}\rangle  \\[0.16em]
+\mathsf{FoldAsync}\ =\ \langle \mathsf{source},\ \mathsf{acc},\ f\rangle  \\[0.16em]
 \mathsf{ChainAsync}\ =\ \langle \mathsf{source},\ f,\ \mathsf{state}\rangle \quad \mathsf{state}\ \in \ \{\mathsf{WaitingSource},\ \operatorname{WaitingChained}(\mathsf{inner})\}
 \end{array}
 $$
@@ -1724,8 +1714,8 @@ Formal combinator rules:
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(a,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{src}),\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(f,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{fn}),\ \sigma '') \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(a,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{src}),\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(f,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{fn}),\ \sigma '') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(a\sim{}>\operatorname{map}(f),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{MappedAsync}(\mathsf{src},\ \mathsf{fn})),\ \sigma '')
 \end{array}
 $$
@@ -1734,8 +1724,8 @@ $$
 
 $$
 \begin{array}{l}
-a\ =\ \operatorname{MappedAsync}(\mathsf{src},\ f)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ \mathsf{input},\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{Apply}(f,\ v,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(v'),\ \sigma '') \\
-\rule{18em}{0.4pt} \\
+a\ =\ \operatorname{MappedAsync}(\mathsf{src},\ f)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ \mathsf{input},\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{Apply}(f,\ v,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(v'),\ \sigma '') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Resume}(a,\ \mathsf{input},\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v'\},\ \sigma '')
 \end{array}
 $$
@@ -1744,8 +1734,8 @@ $$
 
 $$
 \begin{array}{l}
-a\ =\ \operatorname{MappedAsync}(\mathsf{src},\ f)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ \mathsf{input},\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ v\},\ \sigma ') \\
-\rule{18em}{0.4pt} \\
+a\ =\ \operatorname{MappedAsync}(\mathsf{src},\ f)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ \mathsf{input},\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ v\},\ \sigma ') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Resume}(a,\ \mathsf{input},\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ v\},\ \sigma ')
 \end{array}
 $$
@@ -1754,8 +1744,8 @@ $$
 
 $$
 \begin{array}{l}
-a\ =\ \operatorname{MappedAsync}(\mathsf{src},\ f)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ \mathsf{input},\ \sigma )\ \Downarrow \ (@\mathsf{Failed}\{\mathsf{error}:\ e\},\ \sigma ') \\
-\rule{18em}{0.4pt} \\
+a\ =\ \operatorname{MappedAsync}(\mathsf{src},\ f)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ \mathsf{input},\ \sigma )\ \Downarrow \ (@\mathsf{Failed}\{\mathsf{error}:\ e\},\ \sigma ') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Resume}(a,\ \mathsf{input},\ \sigma )\ \Downarrow \ (@\mathsf{Failed}\{\mathsf{error}:\ e\},\ \sigma ')
 \end{array}
 $$
@@ -1764,8 +1754,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(a,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{src}),\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(p,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{pred}),\ \sigma '') \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(a,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{src}),\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(p,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{pred}),\ \sigma '') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(a\sim{}>\operatorname{filter}(p),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{FilteredAsync}(\mathsf{src},\ \mathsf{pred},\ \mathsf{Pending})),\ \sigma '')
 \end{array}
 $$
@@ -1774,8 +1764,8 @@ $$
 
 $$
 \begin{array}{l}
-a\ =\ \operatorname{FilteredAsync}(\mathsf{src},\ \mathsf{pred},\ \mathsf{Pending})\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{Apply}(\mathsf{pred},\ v,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma '') \\
-\rule{18em}{0.4pt} \\
+a\ =\ \operatorname{FilteredAsync}(\mathsf{src},\ \mathsf{pred},\ \mathsf{Pending})\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{Apply}(\mathsf{pred},\ v,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma '') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma '')
 \end{array}
 $$
@@ -1784,9 +1774,9 @@ $$
 
 $$
 \begin{array}{l}
-a\ =\ \operatorname{FilteredAsync}(\mathsf{src},\ \mathsf{pred},\ \mathsf{Pending})\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{Apply}(\mathsf{pred},\ v,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{false}),\ \sigma '') \\
-\Gamma \ \vdash \ \operatorname{Resume}(\operatorname{FilteredAsync}(\mathsf{src},\ \mathsf{pred},\ \mathsf{Pending}),\ (),\ \sigma '')\ \Downarrow \ (\mathsf{out},\ \sigma ''') \\
-\rule{18em}{0.4pt} \\
+a\ =\ \operatorname{FilteredAsync}(\mathsf{src},\ \mathsf{pred},\ \mathsf{Pending})\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{Apply}(\mathsf{pred},\ v,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{false}),\ \sigma '') \\[0.16em]
+\Gamma \ \vdash \ \operatorname{Resume}(\operatorname{FilteredAsync}(\mathsf{src},\ \mathsf{pred},\ \mathsf{Pending}),\ (),\ \sigma '')\ \Downarrow \ (\mathsf{out},\ \sigma ''') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ''')
 \end{array}
 $$
@@ -1795,8 +1785,8 @@ $$
 
 $$
 \begin{array}{l}
-a\ =\ \operatorname{FilteredAsync}(\mathsf{src},\ \mathsf{pred},\ \_)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ v\},\ \sigma ') \\
-\rule{18em}{0.4pt} \\
+a\ =\ \operatorname{FilteredAsync}(\mathsf{src},\ \mathsf{pred},\ \_)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ v\},\ \sigma ') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ v\},\ \sigma ')
 \end{array}
 $$
@@ -1805,8 +1795,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(a,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{src}),\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(n,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{count}),\ \sigma '') \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(a,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{src}),\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(n,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{count}),\ \sigma '') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(a\sim{}>\operatorname{take}(n),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{TakeAsync}(\mathsf{src},\ \mathsf{count})),\ \sigma '')
 \end{array}
 $$
@@ -1815,8 +1805,8 @@ $$
 
 $$
 \begin{array}{l}
-a\ =\ \operatorname{TakeAsync}(\mathsf{src},\ n)\quad n\ >\ 0\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma ') \\
-\rule{18em}{0.4pt} \\
+a\ =\ \operatorname{TakeAsync}(\mathsf{src},\ n)\quad n\ >\ 0\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma ') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma ')\quad \land \ a'\ =\ \operatorname{TakeAsync}(\mathsf{src},\ n\ -\ 1)
 \end{array}
 $$
@@ -1825,8 +1815,8 @@ $$
 
 $$
 \begin{array}{l}
-a\ =\ \operatorname{TakeAsync}(\mathsf{src},\ 0) \\
-\rule{18em}{0.4pt} \\
+a\ =\ \operatorname{TakeAsync}(\mathsf{src},\ 0) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ ()\},\ \sigma )
 \end{array}
 $$
@@ -1835,8 +1825,8 @@ $$
 
 $$
 \begin{array}{l}
-a\ =\ \operatorname{TakeAsync}(\mathsf{src},\ n)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ v\},\ \sigma ') \\
-\rule{18em}{0.4pt} \\
+a\ =\ \operatorname{TakeAsync}(\mathsf{src},\ n)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ v\},\ \sigma ') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ ()\},\ \sigma ')
 \end{array}
 $$
@@ -1845,8 +1835,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(a,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{src}),\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{init},\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{acc}),\ \sigma '')\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(f,\ \sigma '')\ \Downarrow \ (\operatorname{Val}(\mathsf{fn}),\ \sigma ''') \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(a,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{src}),\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{init},\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{acc}),\ \sigma '')\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(f,\ \sigma '')\ \Downarrow \ (\operatorname{Val}(\mathsf{fn}),\ \sigma ''') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(a\sim{}>\operatorname{fold}(\mathsf{init},\ f),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{FoldAsync}(\mathsf{src},\ \mathsf{acc},\ \mathsf{fn})),\ \sigma ''')
 \end{array}
 $$
@@ -1855,8 +1845,8 @@ $$
 
 $$
 \begin{array}{l}
-a\ =\ \operatorname{FoldAsync}(\mathsf{src},\ \mathsf{acc},\ f)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{Apply}(f,\ (\mathsf{acc},\ v),\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{acc}'),\ \sigma '') \\
-\rule{18em}{0.4pt} \\
+a\ =\ \operatorname{FoldAsync}(\mathsf{src},\ \mathsf{acc},\ f)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ v\},\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{Apply}(f,\ (\mathsf{acc},\ v),\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{acc}'),\ \sigma '') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ ()\},\ \sigma '')\quad \land \ a'\ =\ \operatorname{FoldAsync}(\mathsf{src},\ \mathsf{acc}',\ f)
 \end{array}
 $$
@@ -1865,8 +1855,8 @@ $$
 
 $$
 \begin{array}{l}
-a\ =\ \operatorname{FoldAsync}(\mathsf{src},\ \mathsf{acc},\ f)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ \_\},\ \sigma ') \\
-\rule{18em}{0.4pt} \\
+a\ =\ \operatorname{FoldAsync}(\mathsf{src},\ \mathsf{acc},\ f)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ \_\},\ \sigma ') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ \mathsf{acc}\},\ \sigma ')
 \end{array}
 $$
@@ -1875,8 +1865,8 @@ $$
 
 $$
 \begin{array}{l}
-a\ =\ \operatorname{FoldAsync}(\mathsf{src},\ \mathsf{acc},\ f)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Failed}\{\mathsf{error}:\ e\},\ \sigma ') \\
-\rule{18em}{0.4pt} \\
+a\ =\ \operatorname{FoldAsync}(\mathsf{src},\ \mathsf{acc},\ f)\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Failed}\{\mathsf{error}:\ e\},\ \sigma ') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Failed}\{\mathsf{error}:\ e\},\ \sigma ')
 \end{array}
 $$
@@ -1885,8 +1875,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(a,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{src}),\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(f,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{fn}),\ \sigma '') \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(a,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{src}),\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(f,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{fn}),\ \sigma '') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(a\sim{}>\operatorname{chain}(f),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{ChainAsync}(\mathsf{src},\ \mathsf{fn},\ \mathsf{WaitingSource})),\ \sigma '')
 \end{array}
 $$
@@ -1895,8 +1885,8 @@ $$
 
 $$
 \begin{array}{l}
-a\ =\ \operatorname{ChainAsync}(\mathsf{src},\ f,\ \mathsf{WaitingSource})\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ v\},\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{Apply}(f,\ v,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{inner}),\ \sigma '') \\
-\rule{18em}{0.4pt} \\
+a\ =\ \operatorname{ChainAsync}(\mathsf{src},\ f,\ \mathsf{WaitingSource})\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Completed}\{\mathsf{value}:\ v\},\ \sigma ')\quad \Gamma \ \vdash \ \operatorname{Apply}(f,\ v,\ \sigma ')\ \Downarrow \ (\operatorname{Val}(\mathsf{inner}),\ \sigma '') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Suspended}\{\mathsf{output}:\ ()\},\ \sigma '')\quad \land \ a'\ =\ \operatorname{ChainAsync}(\mathsf{src},\ f,\ \operatorname{WaitingChained}(\mathsf{inner}))
 \end{array}
 $$
@@ -1905,8 +1895,8 @@ $$
 
 $$
 \begin{array}{l}
-a\ =\ \operatorname{ChainAsync}(\_,\ \_,\ \operatorname{WaitingChained}(\mathsf{inner}))\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{inner},\ (),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ') \\
-\rule{18em}{0.4pt} \\
+a\ =\ \operatorname{ChainAsync}(\_,\ \_,\ \operatorname{WaitingChained}(\mathsf{inner}))\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{inner},\ (),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')
 \end{array}
 $$
@@ -1915,8 +1905,8 @@ $$
 
 $$
 \begin{array}{l}
-a\ =\ \operatorname{ChainAsync}(\mathsf{src},\ f,\ \mathsf{WaitingSource})\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Failed}\{\mathsf{error}:\ e\},\ \sigma ') \\
-\rule{18em}{0.4pt} \\
+a\ =\ \operatorname{ChainAsync}(\mathsf{src},\ f,\ \mathsf{WaitingSource})\quad \Gamma \ \vdash \ \operatorname{Resume}(\mathsf{src},\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Failed}\{\mathsf{error}:\ e\},\ \sigma ') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Resume}(a,\ (),\ \sigma )\ \Downarrow \ (@\mathsf{Failed}\{\mathsf{error}:\ e\},\ \sigma ')
 \end{array}
 $$
@@ -1931,8 +1921,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v_{e}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v_{e}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{SyncExpr}(e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{SyncLoopIR}(v_{e})),\ \operatorname{SyncResult}(v_{e})\rangle 
 \end{array}
 $$
@@ -1943,8 +1933,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{return} \\
-\rule{18em}{0.4pt} \\
+\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{return} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{RaceExpr}(\mathsf{arms}))\ \Downarrow \ \langle \operatorname{RaceInitIR}(\mathsf{arms},\ \texttt{return}),\ \operatorname{RaceSelectIR}(\texttt{return})\rangle 
 \end{array}
 $$
@@ -1953,15 +1943,13 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{yield} \\
-\rule{18em}{0.4pt} \\
+\operatorname{RaceMode}(\mathsf{arms})\ =\ \texttt{yield} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{RaceExpr}(\mathsf{arms}))\ \Downarrow \ \langle \operatorname{RaceInitIR}(\mathsf{arms},\ \texttt{yield}),\ \operatorname{RaceSelectIR}(\texttt{yield})\rangle 
 \end{array}
 $$
 
-$$
-\mathsf{For}\ \texttt{RaceInitIR(arms, mode)},\ \mathsf{lowering}\ \mathsf{MUST}:
-$$
+For `RaceInitIR(arms, mode)`, lowering MUST:
 1. evaluate all arm expressions left-to-right,
 2. store the live arm states in declaration order,
 3. for streaming mode, allocate race-stream suspension state containing the live arm vector and the yielded-arm index.
@@ -2033,9 +2021,7 @@ Each wrapper lowering MUST delegate to the source async via `resume`, store its 
 
 This section introduces no additional surface syntax beyond ordinary procedure declarations, calls, and `resume` method calls on `Async@Suspended`.
 
-$$
-\mathsf{An}\ \mathsf{async}\ \mathsf{procedure}\ \mathsf{is}\ \mathsf{any}\ \mathsf{procedure}\ \mathsf{whose}\ \mathsf{declared}\ \mathsf{return}\ \mathsf{type}\ \texttt{R}\ \mathsf{satisfies}\ \texttt{AsyncSig(R) != bottom}.
-$$
+An async procedure is any procedure whose declared return type `R` satisfies `AsyncSig(R) ≠ ⊥`.
 
 ### 21.4.2 Parsing
 
@@ -2047,17 +2033,17 @@ Async-state-machine analysis uses the following helper forms:
 
 $$
 \begin{array}{l}
-\operatorname{SuspendExpr}(e)\ \Leftrightarrow \ e\ =\ \operatorname{YieldExpr}(\_,\ \_)\ \lor \ e\ =\ \operatorname{YieldFromExpr}(\_,\ \_) \\
-\operatorname{AsyncCreateExpr}(\operatorname{Call}(\_,\ \_))\ \Leftrightarrow \ \operatorname{AsyncSig}(\operatorname{ExprType}(\operatorname{Call}(\_,\ \_)))\ \ne \ \bot  \\
-\operatorname{AsyncCreateExpr}(\operatorname{MethodCall}(\_,\ \_,\ \_))\ \Leftrightarrow \ \operatorname{AsyncSig}(\operatorname{ExprType}(\operatorname{MethodCall}(\_,\ \_,\ \_)))\ \ne \ \bot  \\
-\operatorname{AsyncCreateExpr}(\operatorname{RaceExpr}(\_))\ \Leftrightarrow \ \operatorname{AsyncSig}(\operatorname{ExprType}(\operatorname{RaceExpr}(\_)))\ \ne \ \bot  \\
-\operatorname{AsyncCreateExpr}(\_)\ \Leftrightarrow \ \mathsf{false} \\
-\operatorname{AsyncCaptureArgs}(\operatorname{Call}(\_,\ \mathsf{args}))\ =\ [e\ \mid \ \langle \_,\ e,\ \_\rangle \ \in \ \mathsf{args}] \\
-\operatorname{AsyncCaptureArgs}(\operatorname{MethodCall}(\mathsf{base},\ \_,\ \mathsf{args}))\ =\ [\mathsf{base}]\ \mathbin{++} \ [e\ \mid \ \langle \_,\ e,\ \_\rangle \ \in \ \mathsf{args}] \\
-\operatorname{AsyncCaptureArgs}(\operatorname{RaceExpr}(\mathsf{arms}))\ =\ [e\ \mid \ \langle e,\ \_,\ \_\rangle \ \in \ \mathsf{arms}] \\
-\operatorname{AsyncCaptureArgs}(\_)\ =\ [] \\
-\mathsf{ASYNC}_{\mathsf{LARGE}\_\mathsf{CAPTURE}\_\mathsf{THRESHOLD}\_\mathsf{BYTES}}\ =\ \mathsf{WIDEN}_{\mathsf{LARGE}\_\mathsf{PAYLOAD}\_\mathsf{THRESHOLD}\_\mathsf{BYTES}} \\
-\operatorname{AsyncCaptureSize}(\mathsf{args})\ =\ \Sigma \_\{e\ \in \ \mathsf{args}\}\ \operatorname{sizeof}(\operatorname{ExprType}(e)) \\
+\operatorname{SuspendExpr}(e)\ \Leftrightarrow \ e\ =\ \operatorname{YieldExpr}(\_,\ \_)\ \lor \ e\ =\ \operatorname{YieldFromExpr}(\_,\ \_) \\[0.16em]
+\operatorname{AsyncCreateExpr}(\operatorname{Call}(\_,\ \_))\ \Leftrightarrow \ \operatorname{AsyncSig}(\operatorname{ExprType}(\operatorname{Call}(\_,\ \_)))\ \ne \ \bot  \\[0.16em]
+\operatorname{AsyncCreateExpr}(\operatorname{MethodCall}(\_,\ \_,\ \_))\ \Leftrightarrow \ \operatorname{AsyncSig}(\operatorname{ExprType}(\operatorname{MethodCall}(\_,\ \_,\ \_)))\ \ne \ \bot  \\[0.16em]
+\operatorname{AsyncCreateExpr}(\operatorname{RaceExpr}(\_))\ \Leftrightarrow \ \operatorname{AsyncSig}(\operatorname{ExprType}(\operatorname{RaceExpr}(\_)))\ \ne \ \bot  \\[0.16em]
+\operatorname{AsyncCreateExpr}(\_)\ \Leftrightarrow \ \mathsf{false} \\[0.16em]
+\operatorname{AsyncCaptureArgs}(\operatorname{Call}(\_,\ \mathsf{args}))\ =\ [e\ \mid \ \langle \_,\ e,\ \_\rangle \ \in \ \mathsf{args}] \\[0.16em]
+\operatorname{AsyncCaptureArgs}(\operatorname{MethodCall}(\mathsf{base},\ \_,\ \mathsf{args}))\ =\ [\mathsf{base}]\ \mathbin{++} \ [e\ \mid \ \langle \_,\ e,\ \_\rangle \ \in \ \mathsf{args}] \\[0.16em]
+\operatorname{AsyncCaptureArgs}(\operatorname{RaceExpr}(\mathsf{arms}))\ =\ [e\ \mid \ \langle e,\ \_,\ \_\rangle \ \in \ \mathsf{arms}] \\[0.16em]
+\operatorname{AsyncCaptureArgs}(\_)\ =\ [] \\[0.16em]
+\mathsf{ASYNC}_{\mathsf{LARGE}\_\mathsf{CAPTURE}\_\mathsf{THRESHOLD}\_\mathsf{BYTES}}\ =\ \mathsf{WIDEN}_{\mathsf{LARGE}\_\mathsf{PAYLOAD}\_\mathsf{THRESHOLD}\_\mathsf{BYTES}} \\[0.16em]
+\operatorname{AsyncCaptureSize}(\mathsf{args})\ =\ \Sigma \_\{e\ \in \ \mathsf{args}\}\ \operatorname{sizeof}(\operatorname{ExprType}(e)) \\[0.16em]
 \operatorname{AsyncCaptureWarnCond}(e)\ \Leftrightarrow \ \operatorname{AsyncCreateExpr}(e)\ \land \ \operatorname{AsyncCaptureSize}(\operatorname{AsyncCaptureArgs}(e))\ >\ \mathsf{ASYNC}_{\mathsf{LARGE}\_\mathsf{CAPTURE}\_\mathsf{THRESHOLD}\_\mathsf{BYTES}}
 \end{array}
 $$
@@ -2078,8 +2064,8 @@ Large capture warning and capture/escape provenance rules are:
 
 $$
 \begin{array}{l}
-\operatorname{AsyncCaptureWarnCond}(e) \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncCaptureWarnCond}(e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{WarnAsyncCapture}(e)\ \Downarrow \ \mathsf{ok}
 \end{array}
 $$
@@ -2088,8 +2074,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{AsyncCaptureWarnCond}(e) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{AsyncCaptureWarnCond}(e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{WarnAsyncCapture}(e)\ \Downarrow \ \mathsf{ok}
 \end{array}
 $$
@@ -2100,8 +2086,8 @@ When **(Warn-Async-LargeCapture)** applies, emit the warning defined in §21.4.7
 
 $$
 \begin{array}{l}
-\operatorname{AsyncCreateExpr}(e)\quad \operatorname{AsyncCaptureArgs}(e)\ =\ \mathsf{args}\quad \exists \ e_{i}\ \in \ \mathsf{args}.\ \Gamma ;\ \Omega \ \vdash \ e_{i}\ \Downarrow \ \pi_{i} \ \land \ \pi_{i} \ <\ \operatorname{FrameProv}(\Gamma ,\ \Omega ) \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncCreateExpr}(e)\quad \operatorname{AsyncCaptureArgs}(e)\ =\ \mathsf{args}\quad \exists \ e_{i}\ \in \ \mathsf{args}.\ \Gamma ;\ \Omega \ \vdash \ e_{i}\ \Downarrow \ \pi_{i} \ \land \ \pi_{i} \ <\ \operatorname{FrameProv}(\Gamma ,\ \Omega ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ \Omega \ \vdash \ e\ \Uparrow 
 \end{array}
 $$
@@ -2110,9 +2096,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncCreateExpr}(e)\quad \operatorname{AsyncCaptureArgs}(e)\ =\ \mathsf{args}\quad \forall \ e_{i}\ \in \ \mathsf{args},\ \Gamma ;\ \Omega \ \vdash \ e_{i}\ \Downarrow \ \pi_{i}  \\
-\forall \ e_{i}\ \in \ \mathsf{args},\ \lnot (\pi_{i} \ <\ \operatorname{FrameProv}(\Gamma ,\ \Omega ))\quad \Gamma \ \vdash \ \operatorname{WarnAsyncCapture}(e)\ \Downarrow \ \mathsf{ok} \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncCreateExpr}(e)\quad \operatorname{AsyncCaptureArgs}(e)\ =\ \mathsf{args}\quad \forall \ e_{i}\ \in \ \mathsf{args},\ \Gamma ;\ \Omega \ \vdash \ e_{i}\ \Downarrow \ \pi_{i}  \\[0.16em]
+\forall \ e_{i}\ \in \ \mathsf{args},\ \lnot (\pi_{i} \ <\ \operatorname{FrameProv}(\Gamma ,\ \Omega ))\quad \Gamma \ \vdash \ \operatorname{WarnAsyncCapture}(e)\ \Downarrow \ \mathsf{ok} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ \Omega \ \vdash \ e\ \Downarrow \ \operatorname{FrameProv}(\Gamma ,\ \Omega )
 \end{array}
 $$
@@ -2121,9 +2107,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{stmt}\ \in \ \{\operatorname{AssignStmt}(p,\ e),\ \operatorname{CompoundAssignStmt}(p,\ \_,\ e)\}\quad \Gamma ;\ \Omega \ \vdash \ p\ \Downarrow \ \pi_{x} \quad \Gamma ;\ \Omega \ \vdash \ e\ \Downarrow \ \pi_{e}  \\
-\pi_{e} \ <\ \pi_{x} \quad \operatorname{AsyncSig}(\operatorname{ExprType}(e))\ \ne \ \bot  \\
-\rule{18em}{0.4pt} \\
+\mathsf{stmt}\ \in \ \{\operatorname{AssignStmt}(p,\ e),\ \operatorname{CompoundAssignStmt}(p,\ \_,\ e)\}\quad \Gamma ;\ \Omega \ \vdash \ p\ \Downarrow \ \pi_{x} \quad \Gamma ;\ \Omega \ \vdash \ e\ \Downarrow \ \pi_{e}  \\[0.16em]
+\pi_{e} \ <\ \pi_{x} \quad \operatorname{AsyncSig}(\operatorname{ExprType}(e))\ \ne \ \bot  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ \Omega \ \vdash \ \mathsf{stmt}\ \Uparrow 
 \end{array}
 $$
@@ -2145,9 +2131,7 @@ Settlement rules are:
 - `return` produces `Async@Completed { value = v }`.
 - error propagation via `?` produces `Async@Failed { error = e }`.
 
-$$
-\mathsf{Evaluation}\ \mathsf{of}\ \texttt{a\~{}>resume(input)}\ \mathsf{for}\ \texttt{a : Async@Suspended}:
-$$
+Evaluation of `a~>resume(input)` for `a : Async@Suspended`:
 
 1. Resume execution at the stored resumption point with the yielded input value bound to the suspended `yield` expression.
 2. Run until the next suspension, completion, or failure, and return the resulting `Async` state.
@@ -2163,14 +2147,14 @@ When an async computation fails:
 
 $$
 \begin{array}{l}
-\mathsf{AsyncStateMachineJudg}\ =\ \{\mathsf{LowerAsyncProc},\ \mathsf{LowerAsyncResume}\} \\
+\mathsf{AsyncStateMachineJudg}\ =\ \{\mathsf{LowerAsyncProc},\ \mathsf{LowerAsyncResume}\} \\[0.16em]
 \mathsf{AsyncProcIR}\ =\ \{\mathsf{AsyncFrameInitIR},\ \mathsf{AsyncResumeSwitchIR},\ \mathsf{AsyncSuspendStateIR},\ \mathsf{AsyncCompleteStateIR},\ \mathsf{AsyncFailStateIR}\}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{GenPoints}(\mathsf{proc})\ =\ [g_{0},\ \ldots ,\ g_{n}]\quad \mathsf{where}\ \mathsf{the}\ \mathsf{suspension}\ \mathsf{expressions}\ \mathsf{of}\ \mathsf{proc}\ \mathsf{are}\ \mathsf{listed}\ \mathsf{in}\ \mathsf{source}\ \mathsf{order} \\
+\operatorname{GenPoints}(\mathsf{proc})\ =\ [g_{0},\ \ldots ,\ g_{n}]\quad \mathsf{where}\ \mathsf{the}\ \mathsf{suspension}\ \mathsf{expressions}\ \mathsf{of}\ \mathsf{proc}\ \mathsf{are}\ \mathsf{listed}\ \mathsf{in}\ \mathsf{source}\ \mathsf{order} \\[0.16em]
 \operatorname{FrameSlots}(\mathsf{proc})\ =\ \operatorname{CaptureSet}(\mathsf{proc})\ \cup \ \operatorname{LiveAcrossSuspend}(\mathsf{proc})
 \end{array}
 $$
@@ -2179,9 +2163,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ProcedureDecl}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \mathsf{body},\ \_,\ \_)\ =\ \mathsf{proc}\quad \operatorname{AsyncSig}(\operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}}))\ =\ \mathsf{sig} \\
-\mathsf{slots}\ =\ \operatorname{FrameSlots}(\mathsf{proc})\quad \mathsf{gen}_{\mathsf{points}}\ =\ \operatorname{GenPoints}(\mathsf{proc}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{ProcedureDecl}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \mathsf{body},\ \_,\ \_)\ =\ \mathsf{proc}\quad \operatorname{AsyncSig}(\operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}}))\ =\ \mathsf{sig} \\[0.16em]
+\mathsf{slots}\ =\ \operatorname{FrameSlots}(\mathsf{proc})\quad \mathsf{gen}_{\mathsf{points}}\ =\ \operatorname{GenPoints}(\mathsf{proc}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerAsyncProc}(\mathsf{proc})\ \Downarrow \ \operatorname{ProcIR}(\operatorname{Mangle}(\mathsf{proc}),\ \mathsf{params},\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}}),\ \operatorname{AsyncFrameInitIR}(\mathsf{name},\ \mathsf{sig},\ \mathsf{slots},\ \mathsf{gen}_{\mathsf{points}}))
 \end{array}
 $$
@@ -2197,8 +2181,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(\operatorname{ExprType}(a))\ =\ \mathsf{sig}\quad \operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f\quad \operatorname{CurrentProcedure}(\Gamma )\ =\ \mathsf{proc} \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(\operatorname{ExprType}(a))\ =\ \mathsf{sig}\quad \operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f\quad \operatorname{CurrentProcedure}(\Gamma )\ =\ \mathsf{proc} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerAsyncResume}(a)\ \Downarrow \ \operatorname{AsyncResumeSwitchIR}(f,\ \operatorname{GenPoints}(\mathsf{proc}))
 \end{array}
 $$
@@ -2209,8 +2193,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f\quad \operatorname{CurrentGenPoint}(\Gamma )\ =\ g \\
-\rule{18em}{0.4pt} \\
+\operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f\quad \operatorname{CurrentGenPoint}(\Gamma )\ =\ g \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{Suspend}(\mathsf{async}_{\mathsf{state}})\ \mathsf{lowers}\ \mathsf{through}\ \operatorname{AsyncSuspendStateIR}(f,\ g)
 \end{array}
 $$
@@ -2219,8 +2203,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f \\
-\rule{18em}{0.4pt} \\
+\operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \mathsf{Return}\ \mathsf{from}\ \mathsf{an}\ \mathsf{async}\ \mathsf{procedure}\ \mathsf{lowers}\ \mathsf{through}\ \operatorname{AsyncCompleteStateIR}(f)
 \end{array}
 $$
@@ -2229,15 +2213,13 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f \\
-\rule{18em}{0.4pt} \\
+\operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \mathsf{Async}\ \mathsf{failure}\ \mathsf{lowers}\ \mathsf{through}\ \operatorname{AsyncFailStateIR}(f)
 \end{array}
 $$
 
-$$
-\texttt{AsyncFailStateIR(f)}\ \mathsf{MUST}\ \mathsf{execute}\ \texttt{defer}\ \mathsf{blocks}\ \mathsf{and}\ \mathsf{drop}\ \mathsf{live}\ \mathsf{frame}\ \mathsf{slots}\ \mathsf{in}\ \mathsf{reverse}\ \mathsf{cleanup}\ \mathsf{order}\ \mathsf{before}\ \mathsf{materializing}\ \texttt{@Failed \{ error \}}.\ \mathsf{If}\ \texttt{AsyncSig(ProcReturn(ret\_opt)).4 = TypePrim("!")},\ \texttt{AsyncFailStateIR(f)}\ \mathsf{is}\ \mathsf{unreachable}\ \mathsf{and}\ \mathsf{MUST}\ \mathsf{NOT}\ \mathsf{be}\ \mathsf{emitted}.
-$$
+`AsyncFailStateIR(f)` MUST execute `defer` blocks and drop live frame slots in reverse cleanup order before materializing `@Failed { error }`. If `AsyncSig(ProcReturn(ret_opt)).4 = TypePrim("!")`, `AsyncFailStateIR(f)` is unreachable and MUST NOT be emitted.
 
 ### 21.4.7 Diagnostics
 
@@ -2282,9 +2264,9 @@ Shared-capturing closures that contain `yield` are additionally constrained:
 
 $$
 \begin{array}{l}
-C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{YieldExpr}(\_,\ \_)\ \in \ \mathsf{body}\quad \operatorname{SharedCaptures}(C)\ \ne \ \emptyset  \\
-\operatorname{YieldExpr}(\bot ,\ \_)\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\ \mathsf{within}\ \mathsf{body}\quad \Gamma_{\mathsf{keys}} (p)\ \ne \ \emptyset  \\
-\rule{18em}{0.4pt} \\
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{YieldExpr}(\_,\ \_)\ \in \ \mathsf{body}\quad \operatorname{SharedCaptures}(C)\ \ne \ \emptyset  \\[0.16em]
+\operatorname{YieldExpr}(\bot ,\ \_)\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\ \mathsf{within}\ \mathsf{body}\quad \Gamma_{\mathsf{keys}} (p)\ \ne \ \emptyset  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ C\ \Uparrow 
 \end{array}
 $$
@@ -2320,8 +2302,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{WaitExpr}(h)\ \mathsf{occurs}\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\quad \Gamma_{\mathsf{keys}} (p)\ \ne \ \emptyset  \\
-\rule{18em}{0.4pt} \\
+\operatorname{WaitExpr}(h)\ \mathsf{occurs}\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\quad \Gamma_{\mathsf{keys}} (p)\ \ne \ \emptyset  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{WaitExpr}(h))\ \Uparrow 
 \end{array}
 $$
@@ -2330,8 +2312,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{YieldExpr}(\mathsf{Release},\ e)\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\quad \Gamma_{\mathsf{keys}} (p)\ =\ \mathsf{keys}\quad \mathsf{keys}\ \ne \ \emptyset  \\
-\rule{18em}{0.4pt} \\
+\operatorname{YieldExpr}(\mathsf{Release},\ e)\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\quad \Gamma_{\mathsf{keys}} (p)\ =\ \mathsf{keys}\quad \mathsf{keys}\ \ne \ \emptyset  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \mathsf{Lowering}\ \mathsf{MUST}\ \mathsf{emit}\ \operatorname{SnapshotHeldKeysIR}(\operatorname{CurrentAsyncFrame}(\Gamma )),\ \mathsf{then}\ \operatorname{ReleaseHeldKeysIR}(\operatorname{CurrentAsyncFrame}(\Gamma )),\ \mathsf{then}\ \mathsf{the}\ \mathsf{ordinary}\ \mathsf{yield}\ \mathsf{lowering},\ \mathsf{and}\ \mathsf{MUST}\ \mathsf{prepend}\ \operatorname{ReacquireHeldKeysIR}(\operatorname{CurrentAsyncFrame}(\Gamma ))\ \mathsf{to}\ \mathsf{the}\ \mathsf{resumption}\ \mathsf{target}.
 \end{array}
 $$
@@ -2340,8 +2322,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{YieldFromExpr}(\mathsf{Release},\ e)\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\quad \Gamma_{\mathsf{keys}} (p)\ =\ \mathsf{keys}\quad \mathsf{keys}\ \ne \ \emptyset  \\
-\rule{18em}{0.4pt} \\
+\operatorname{YieldFromExpr}(\mathsf{Release},\ e)\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\quad \Gamma_{\mathsf{keys}} (p)\ =\ \mathsf{keys}\quad \mathsf{keys}\ \ne \ \emptyset  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \mathsf{Lowering}\ \mathsf{MUST}\ \mathsf{use}\ \mathsf{the}\ \mathsf{same}\ \mathsf{key}\ \mathsf{snapshot},\ \mathsf{release},\ \mathsf{and}\ \mathsf{reacquisition}\ \mathsf{sequence}\ \mathsf{as}\ **(\mathsf{Lower}-\mathsf{Yield}-\mathsf{Release}-\mathsf{Keys})**\ \mathsf{around}\ \mathsf{the}\ \mathsf{delegated}\ \mathsf{async}\ \mathsf{state}\ \mathsf{machine}.
 \end{array}
 $$
@@ -2350,8 +2332,8 @@ $$
 
 $$
 \begin{array}{l}
-C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{SharedCaptures}(C)\ \ne \ \emptyset \quad \operatorname{YieldExpr}(\mathsf{Release},\ \_)\ \in \ \mathsf{body}\ \lor \ \operatorname{YieldFromExpr}(\mathsf{Release},\ \_)\ \in \ \mathsf{body} \\
-\rule{18em}{0.4pt} \\
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{SharedCaptures}(C)\ \ne \ \emptyset \quad \operatorname{YieldExpr}(\mathsf{Release},\ \_)\ \in \ \mathsf{body}\ \lor \ \operatorname{YieldFromExpr}(\mathsf{Release},\ \_)\ \in \ \mathsf{body} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \mathsf{Lowering}\ \mathsf{MUST}\ \mathsf{attach}\ \mathsf{the}\ \mathsf{captured}-\mathsf{key}\ \mathsf{snapshot}\ \mathsf{to}\ \mathsf{the}\ \mathsf{generated}\ \mathsf{closure}\ \mathsf{async}\ \mathsf{frame}\ \mathsf{and}\ \mathsf{MUST}\ \mathsf{emit}\ \mathsf{StaleValueMarkIR}\ \mathsf{for}\ \mathsf{bindings}\ \mathsf{derived}\ \mathsf{from}\ \mathsf{shared}\ \mathsf{captures}\ \mathsf{across}\ \mathsf{the}\ \mathsf{suspension}\ \mathsf{boundary}.
 \end{array}
 $$

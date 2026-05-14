@@ -18,7 +18,7 @@ The language is designed to make generated code performant, safe, and auditable,
 - [Quickstart](/docs/quickstart/) introduces the repository, manifest, first source file, and current command surface.
 - [First program](/docs/first-program/) walks through the executable entrypoint and `Context`.
 - [Build the compiler](/docs/build-the-compiler/) summarizes the alpha bootstrap path.
-- [Specification](/docs/specification/) publishes the full generated website edition of the language specification.
+- [Specification](/docs/specification/) publishes the generated website edition of the language specification, including the complete chapter and section outline.
 
 ## Main surfaces
 
@@ -56,10 +56,12 @@ Ultraviolet's review model is built from a few connected facts. Permissions dete
 ## Documentation map
 
 - [AI-Written Code Review](/docs/ai-written-code-review/) covers the review model for AI-written source.
+- [Specification](/docs/specification/) is the generated normative language reference.
+- [Specification Reading Guide](/docs/reference/specification-reading-guide/) explains how to use the generated spec pages.
 - [Modal Programming](/docs/modal-programming/) covers the primary programming style.
 - [Core Language Surfaces](/docs/core-language/) covers contracts, permissions, keys, structured concurrency, CPU/GPU programming, and explicit effects.
 - [Using the Toolchain](/docs/toolchain/) covers manifests, commands, diagnostics, tests, and build notes.
-- [Reference](/docs/reference/) links to the generated specification, grammar, diagnostic index, runtime surface, ABI notes, and compiler architecture.
+- [Reference](/docs/reference/) links to runtime surface, ABI notes, compiler architecture, and public documentation traceability.
 
 <section class="newsletter-card docs-newsletter newsletter-card-compact" aria-labelledby="docs-updates-heading">
   <div class="newsletter-copy">

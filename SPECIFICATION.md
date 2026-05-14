@@ -2130,7 +2130,7 @@ ReservedIdentPrefix = {`gen_`}
 ReservedNamespacePhase = Phase3
 
 **Universe-Protected Bindings.**
-UniverseProtected = {`i8`, `i16`, `i32`, `i64`, `i128`, `u8`, `u16`, `u32`, `u64`, `u128`, `f16`, `f32`, `f64`, `bool`, `char`, `usize`, `isize`, `Self`, `Drop`, `Bitcopy`, `Clone`, `Eq`, `Hash`, `Hasher`, `Iterator`, `Step`, `FfiSafe`, `string`, `bytes`, `Modal`, `Region`, `RegionOptions`, `CancelToken`, `Context`, `System`, `Network`, `ExecutionDomain`, `Reactor`, `CpuSet`, `Priority`, `Async`, `Future`, `Sequence`, `Stream`, `Pipe`, `Exchange`, `Tracked`, `Spawned`}
+UniverseProtected = {`i8`, `i16`, `i32`, `i64`, `i128`, `u8`, `u16`, `u32`, `u64`, `u128`, `f16`, `f32`, `f64`, `bool`, `char`, `usize`, `isize`, `Self`, `Drop`, `Bitcopy`, `Clone`, `Eq`, `Hash`, `Hasher`, `Iterator`, `Step`, `FfiSafe`, `string`, `bytes`, `Modal`, `Region`, `RegionOptions`, `CancelToken`, `Context`, `System`, `Network`, `ExecutionDomain`, `Reactor`, `Time`, `MonotonicTime`, `WallTime`, `Duration`, `MonotonicInstant`, `UtcInstant`, `TimeError`, `CpuSet`, `Priority`, `Async`, `Future`, `Sequence`, `Stream`, `Pipe`, `Exchange`, `Tracked`, `Spawned`}
 UniverseProtectedPhase = Phase3
 
 `Drop`, `Bitcopy`, `Clone`, and `FfiSafe` are reserved predicate names. They MUST NOT be declared as classes or used as user-defined type/value bindings.
@@ -3131,17 +3131,20 @@ The language adopts a no ambient authority discipline: observable external effec
 
 #### 6.1.1 Capability Universe
 
-CapToken = {FileSystem, Network, HeapAllocator, Reactor, ExecutionDomain, System}
+CapToken = {FileSystem, Network, HeapAllocator, Reactor, ExecutionDomain, System, Time}
 
 CapInType : Type → 𝒫(CapToken)
 
-CapInType(TypePath([`Context`])) = {FileSystem, Network, HeapAllocator, Reactor, ExecutionDomain, System}
+CapInType(TypePath([`Context`])) = {FileSystem, Network, HeapAllocator, Reactor, ExecutionDomain, System, Time}
 CapInType(TypePath([`System`])) = {System}
 CapInType(TypeDynamic([`FileSystem`])) = {FileSystem}
 CapInType(TypeDynamic([`Network`])) = {Network}
 CapInType(TypeDynamic([`HeapAllocator`])) = {HeapAllocator}
 CapInType(TypeDynamic([`Reactor`])) = {Reactor}
 CapInType(TypeDynamic([`ExecutionDomain`])) = {ExecutionDomain}
+CapInType(TypeDynamic([`Time`])) = {Time}
+CapInType(TypeDynamic([`MonotonicTime`])) = {Time}
+CapInType(TypeDynamic([`WallTime`])) = {Time}
 CapInType(TypePerm(_, T)) = CapInType(T)
 CapInType(TypeTuple(Ts)) = ⋃{CapInType(T) | T ∈ Ts}
 CapInType(TypeArray(T, _)) = CapInType(T)
@@ -3176,6 +3179,10 @@ The following operations are attenuation operations:
 - `Context::cpu()`
 - `Context::gpu()`
 - `Context::inline()`
+- `$Time::monotonic()`
+- `$Time::wall()`
+- `$MonotonicTime::coarsen(resolution)`
+- `$WallTime::coarsen(resolution)`
 
 A conforming implementation MUST ensure attenuation is monotone: a derived capability MUST NOT grant authority beyond the source capability from which it was derived.
 
@@ -3250,11 +3257,12 @@ SystemPrim = {SystemGetEnv, SystemExit, SystemRun}
 NetworkPrim = {NetRestrictHost}
 HeapPrim = {HeapWithQuota, HeapAllocRaw, HeapDeallocRaw}
 ReactorPrim = {ReactorRun, ReactorRegister}
+TimePrim = {TimeMonotonic, TimeWall, MonotonicTimeNow, MonotonicTimeResolution, MonotonicTimeElapsed, MonotonicTimeCoarsen, WallTimeNowUtc, WallTimeResolution, WallTimeCoarsen}
 CancelPrim = {CancelNew, CancelChild, CancelDoCancel, CancelIsCancelled, CancelWaitCancelled}
 
-HostPrim = {ParseTOML, ReadBytes, WriteFile, ResolveTool, ResolveRuntimeLib, Invoke, AssembleIR, InvokeLinker, InvokeArchiver, ArchiveMembers} ∪ FSPrim ∪ FilePrim ∪ DirPrim ∪ SystemPrim ∪ NetworkPrim ∪ HeapPrim ∪ ReactorPrim ∪ CancelPrim
+HostPrim = {ParseTOML, ReadBytes, WriteFile, ResolveTool, ResolveRuntimeLib, Invoke, AssembleIR, InvokeLinker, InvokeArchiver, ArchiveMembers} ∪ FSPrim ∪ FilePrim ∪ DirPrim ∪ SystemPrim ∪ NetworkPrim ∪ HeapPrim ∪ ReactorPrim ∪ TimePrim ∪ CancelPrim
 HostPrimDiag = {ParseTOML, ReadBytes, WriteFile, ResolveTool, ResolveRuntimeLib, Invoke, AssembleIR, InvokeLinker, InvokeArchiver, ArchiveMembers}
-HostPrimRuntime = FSPrim ∪ FilePrim ∪ DirPrim ∪ SystemPrim ∪ NetworkPrim ∪ HeapPrim ∪ ReactorPrim ∪ CancelPrim
+HostPrimRuntime = FSPrim ∪ FilePrim ∪ DirPrim ∪ SystemPrim ∪ NetworkPrim ∪ HeapPrim ∪ ReactorPrim ∪ TimePrim ∪ CancelPrim
 
 MapsToDiagOrRuntime(p) ⇔ p ∈ HostPrimDiag ∪ HostPrimRuntime
 HostPrimFail(p) ⇔ p ∈ HostPrim ∧ ∃ args. Γ ⊢ p(args) ⇑
@@ -3485,7 +3493,32 @@ HostRun(command) ⇓ code
 ──────────────────────────────────────────────
 SystemRun(command, sys) ⇓ (code, sys)
 
-#### 6.2.3 Network Primitive Relations
+#### 6.2.3 Time Primitive Relations
+
+TimeJudg = {TimeMonotonic(v_time) ⇓ v_mono, TimeWall(v_time) ⇓ v_wall, MonotonicTimeNow(v_mono) ⇓ t, MonotonicTimeResolution(v_mono) ⇓ d, MonotonicTimeElapsed(v_mono, start, end) ⇓ r, MonotonicTimeCoarsen(v_mono, resolution) ⇓ r, WallTimeNowUtc(v_wall) ⇓ r, WallTimeResolution(v_wall) ⇓ r, WallTimeCoarsen(v_wall, resolution) ⇓ r}
+
+DurationVal(n) = RecordValue(TypePath(["Duration"]), [⟨`nanoseconds`, IntVal("u128", n)⟩])
+MonotonicInstantVal(domain, ticks) = RecordValue(TypePath(["MonotonicInstant"]), [⟨`domain`, IntVal("usize", domain)⟩, ⟨`ticks`, IntVal("u128", ticks)⟩])
+UtcInstantVal(n) = RecordValue(TypePath(["UtcInstant"]), [⟨`unix_nanoseconds`, IntVal("i128", n)⟩])
+TimeErrorVal(name) = EnumValue(["TimeError", name], ⊥)
+TimeOk(T, v) = `Outcome<T, TimeError>@Value`{`value`: v}
+TimeErr(T, name) = `Outcome<T, TimeError>@Error`{`error`: TimeErrorVal(name)}
+
+`TimeMonotonic` and `TimeWall` are attenuation relations from the process time root. `MonotonicTimeCoarsen` and `WallTimeCoarsen` are attenuation relations from an existing clock capability.
+
+A conforming implementation MUST satisfy all of the following:
+1. `TimeMonotonic(v_time) ⇓ v_mono` implies `v_mono` denotes a monotonic-clock capability whose authority is a subset of `v_time`.
+2. `TimeWall(v_time) ⇓ v_wall` implies `v_wall` denotes a wall-clock capability whose authority is a subset of `v_time`.
+3. `MonotonicTimeNow(v_mono) ⇓ MonotonicInstantVal(domain, ticks)` MUST read a monotonic clock. For two successful reads through capabilities in the same clock domain, if read A happens-before read B, then `ticks_A <= ticks_B`.
+4. `MonotonicTimeResolution(v_mono) ⇓ DurationVal(n)` MUST return the advertised monotonic-clock resolution for `v_mono`, with `n > 0`.
+5. `MonotonicTimeElapsed(v_mono, start, end) ⇓ TimeOk(TypePath(["Duration"]), DurationVal(n))` only if `start` and `end` are monotonic instants from the clock domain authorized by `v_mono`, `end` does not precede `start`, and the elapsed duration is representable in nanoseconds. Otherwise it MUST return `TimeErr(TypePath(["Duration"]), ClockMismatch)` or `TimeErr(TypePath(["Duration"]), OutOfRange)` without reading wall-clock time.
+6. `MonotonicTimeCoarsen(v_mono, resolution) ⇓ TimeOk(TypeDynamic(`MonotonicTime`), v_mono')` only if `resolution` denotes `DurationVal(n)` with `n > 0`; the resulting capability MUST NOT expose timing precision finer than `max(n, resolution(v_mono))`. If `resolution` is zero or not a valid duration value, it MUST return `TimeErr(TypeDynamic(`MonotonicTime`), InvalidResolution)`.
+7. `WallTimeNowUtc(v_wall) ⇓ TimeOk(TypePath(["UtcInstant"]), UtcInstantVal(n))` MUST read the host wall clock as UTC nanoseconds relative to the Unix epoch. If the host wall clock is unavailable or the value is not representable, it MUST return `TimeErr(TypePath(["UtcInstant"]), ClockUnavailable)` or `TimeErr(TypePath(["UtcInstant"]), OutOfRange)`.
+8. `WallTimeResolution(v_wall) ⇓ TimeOk(TypePath(["Duration"]), DurationVal(n))` MUST return the advertised wall-clock resolution for `v_wall`, with `n > 0`, or a `TimeErr(TypePath(["Duration"]), ClockUnavailable)` value when the host cannot report a wall-clock resolution.
+9. `WallTimeCoarsen(v_wall, resolution) ⇓ TimeOk(TypeDynamic(`WallTime`), v_wall')` only if `resolution` denotes `DurationVal(n)` with `n > 0`; the resulting capability MUST NOT expose timing precision finer than `max(n, resolution(v_wall))`. If `resolution` is zero or not a valid duration value, it MUST return `TimeErr(TypeDynamic(`WallTime`), InvalidResolution)`.
+10. Coarsened clock capabilities MUST NOT invalidate the source capability, mutate unrelated capability state, or introduce authority outside the source capability.
+
+#### 6.2.4 Network Primitive Relations
 
 NetworkJudg = {NetRestrictHost(v_net, host) ⇓ v_net'}
 
@@ -3497,7 +3530,7 @@ A conforming implementation MUST satisfy all of the following:
 3. Rejection under rule 2 MUST occur before any externally observable network effect is performed.
 4. `NetRestrictHost` MUST NOT invalidate `v_net` and MUST NOT mutate unrelated capability state.
 
-#### 6.2.4 Primitive Method Application
+#### 6.2.5 Primitive Method Application
 
 HandleOf(v) = h ⇔ v = `File@Read`{`handle`: h} ∨ v = `File@Write`{`handle`: h} ∨ v = `File@Append`{`handle`: h}
 DirHandleOf(v) = h ⇔ v = `DirIter@Open`{`handle`: h}
@@ -3679,6 +3712,51 @@ DirHandleOf(v) = h    Γ ⊢ DirClose(h) ⇓ ok
 Γ ⊢ SystemRun(command) ⇓ code
 ──────────────────────────────────────────────────────────────────
 Γ ⊢ PrimCall(`System`, `run`, v_sys, [command]) ⇓ Val(code)
+
+**(Prim-Time-Monotonic)**
+Γ ⊢ TimeMonotonic(v_time) ⇓ v_mono
+──────────────────────────────────────────────────────────────────
+Γ ⊢ PrimCall(`Time`, `monotonic`, v_time, []) ⇓ Val(v_mono)
+
+**(Prim-Time-Wall)**
+Γ ⊢ TimeWall(v_time) ⇓ v_wall
+────────────────────────────────────────────────────────────
+Γ ⊢ PrimCall(`Time`, `wall`, v_time, []) ⇓ Val(v_wall)
+
+**(Prim-MonotonicTime-Now)**
+Γ ⊢ MonotonicTimeNow(v_mono) ⇓ t
+──────────────────────────────────────────────────────────────────────
+Γ ⊢ PrimCall(`MonotonicTime`, `now`, v_mono, []) ⇓ Val(t)
+
+**(Prim-MonotonicTime-Resolution)**
+Γ ⊢ MonotonicTimeResolution(v_mono) ⇓ d
+─────────────────────────────────────────────────────────────────────────────
+Γ ⊢ PrimCall(`MonotonicTime`, `resolution`, v_mono, []) ⇓ Val(d)
+
+**(Prim-MonotonicTime-Elapsed)**
+Γ ⊢ MonotonicTimeElapsed(v_mono, start, end) ⇓ r
+────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ PrimCall(`MonotonicTime`, `elapsed`, v_mono, [start, end]) ⇓ Val(r)
+
+**(Prim-MonotonicTime-Coarsen)**
+Γ ⊢ MonotonicTimeCoarsen(v_mono, resolution) ⇓ r
+────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ PrimCall(`MonotonicTime`, `coarsen`, v_mono, [resolution]) ⇓ Val(r)
+
+**(Prim-WallTime-NowUtc)**
+Γ ⊢ WallTimeNowUtc(v_wall) ⇓ r
+───────────────────────────────────────────────────────────────────
+Γ ⊢ PrimCall(`WallTime`, `now_utc`, v_wall, []) ⇓ Val(r)
+
+**(Prim-WallTime-Resolution)**
+Γ ⊢ WallTimeResolution(v_wall) ⇓ r
+───────────────────────────────────────────────────────────────────────
+Γ ⊢ PrimCall(`WallTime`, `resolution`, v_wall, []) ⇓ Val(r)
+
+**(Prim-WallTime-Coarsen)**
+Γ ⊢ WallTimeCoarsen(v_wall, resolution) ⇓ r
+────────────────────────────────────────────────────────────────────────────
+Γ ⊢ PrimCall(`WallTime`, `coarsen`, v_wall, [resolution]) ⇓ Val(r)
 
 **(Prim-Network-RestrictHost)**
 Γ ⊢ NetRestrictHost(v_net, host) ⇓ v_net'
@@ -4614,7 +4692,7 @@ ReservedModulePath(path) ⇔ (|path| ≥ 1 ∧ IdEq(path[0], `ultraviolet`)) ∨
 <!-- Source: "The `ultraviolet::...` namespace prefix is reserved for specification-defined features. User programs and vendor extensions MUST NOT use this namespace." -->
 
 PrimTypeNames = {`i8`, `i16`, `i32`, `i64`, `i128`, `u8`, `u16`, `u32`, `u64`, `u128`, `f16`, `f32`, `f64`, `bool`, `char`, `usize`, `isize`}
-SpecialTypeNames = {`Self`, `Drop`, `Bitcopy`, `Clone`, `Eq`, `Hash`, `Hasher`, `Iterator`, `Step`, `FfiSafe`, `string`, `bytes`, `Modal`, `Region`, `RegionOptions`, `CancelToken`, `Context`, `System`, `Network`, `ExecutionDomain`, `CpuSet`, `Priority`, `Reactor`}
+SpecialTypeNames = {`Self`, `Drop`, `Bitcopy`, `Clone`, `Eq`, `Hash`, `Hasher`, `Iterator`, `Step`, `FfiSafe`, `string`, `bytes`, `Modal`, `Region`, `RegionOptions`, `CancelToken`, `Context`, `System`, `Network`, `ExecutionDomain`, `CpuSet`, `Priority`, `Reactor`, `Time`, `MonotonicTime`, `WallTime`, `Duration`, `MonotonicInstant`, `UtcInstant`, `TimeError`}
 AsyncTypeNames = {`Async`, `Future`, `Sequence`, `Stream`, `Pipe`, `Exchange`, `Tracked`}
 
 `Drop`, `Bitcopy`, `Clone`, and `FfiSafe` are reserved predicate names and are included in `SpecialTypeNames`. Reuse of these names at any scope is an error via `(Intro-Outer-Err)` (§7.2), since `UniverseBindings` is the outermost scope and contains these names.
@@ -4825,6 +4903,8 @@ ClassMap(m) = { n ↦ origin | NameMap(P, m)[n].kind = Class }
 Γ ⊢ PatNames(IdentifierPattern(x)) ⇓ [x]
 Γ ⊢ PatNames(WildcardPattern) ⇓ []
 Γ ⊢ PatNames(LiteralPattern(lit)) ⇓ []
+Γ ⊢ PatNames(TypedPattern("_", T)) ⇓ []
+Γ ⊢ PatNames(TypedPattern(x, T)) ⇓ [x] ⇔ x ≠ "_"
 
 ∀ i, Γ ⊢ PatNames(p_i) ⇓ N_i
 ──────────────────────────────────────────────────────────────────────────────
@@ -8454,6 +8534,11 @@ NoSpecificTypeRefsExpr(e)    Children_LTR(e) = [e_1, …, e_n]    ∀ i, Γ ⊢ 
 ───────────────────────────────────────────────────────────────
 Γ ⊢ TypeRefsPat(IdentifierPattern(_), env) ⇓ ∅
 
+**(TypeRef-TypedPattern)**
+Γ ⊢ TypeRefsTy(T, env) ⇓ T_refs
+──────────────────────────────────────────────────────────────
+Γ ⊢ TypeRefsPat(TypedPattern(_, T), env) ⇓ T_refs
+
 **(TypeRef-TuplePattern)**
 ∀ i, Γ ⊢ TypeRefsPat(p_i, env) ⇓ T_i
 ────────────────────────────────────────────────────────────────────────────────────────────
@@ -8693,7 +8778,7 @@ Static initialization ordering, deinitialization ordering, and project lifecycle
 | `E-MOD-1105` | Error    | Compile-time | Module path component is a reserved keyword                    |
 | `E-MOD-1106` | Error    | Compile-time | Module path component is not a valid identifier                |
 | `E-MOD-1201` | Error    | Compile-time | External `using` path without required `import`                |
-| `E-MOD-1304` | Error    | Compile-time | Unresolved module: path prefix did not resolve to a module     |
+| `E-MOD-1107` | Error    | Compile-time | Unresolved module: path prefix did not resolve to a module     |
 | `W-MOD-1101` | Warning  | Compile-time | Potential module path collision on case-insensitive filesystem |
 | `E-MOD-1401` | Error    | Compile-time | Cyclic module dependency detected in eager initializers        |
 
@@ -13623,7 +13708,7 @@ Capability classes have no feature-specific parser beyond ordinary class parsing
 
 #### 14.9.3 AST Representation / Form
 
-CapClass = {`FileSystem`, `Network`, `HeapAllocator`, `ExecutionDomain`, `Reactor`}
+CapClass = {`FileSystem`, `Network`, `HeapAllocator`, `ExecutionDomain`, `Reactor`, `Time`, `MonotonicTime`, `WallTime`}
 CapType(Cl) = TypeDynamic(Cl)
 
 FileSystemInterface =
@@ -13658,6 +13743,27 @@ HeapAllocatorInterface =
  ⟨"dealloc_raw", `const`, [⟨⊥, `ptr`, TypeRawPtr(`mut`, TypePrim("u8"))⟩, ⟨⊥, `count`, TypePrim("usize")⟩], TypePrim("()")⟩
 }
 
+TimeInterface =
+{
+ ⟨"monotonic", `const`, [], TypeDynamic(`MonotonicTime`)⟩,
+ ⟨"wall", `const`, [], TypeDynamic(`WallTime`)⟩
+}
+
+MonotonicTimeInterface =
+{
+ ⟨"now", `const`, [], TypePath(["MonotonicInstant"])⟩,
+ ⟨"resolution", `const`, [], TypePath(["Duration"])⟩,
+ ⟨"elapsed", `const`, [⟨⊥, `start`, TypePath(["MonotonicInstant"])⟩, ⟨⊥, `end`, TypePath(["MonotonicInstant"])⟩], TypeApply(["Outcome"], [TypePath(["Duration"]), TypePath(["TimeError"])])⟩,
+ ⟨"coarsen", `const`, [⟨⊥, `resolution`, TypePath(["Duration"])⟩], TypeApply(["Outcome"], [TypeDynamic(`MonotonicTime`), TypePath(["TimeError"])])⟩
+}
+
+WallTimeInterface =
+{
+ ⟨"now_utc", `const`, [], TypeApply(["Outcome"], [TypePath(["UtcInstant"]), TypePath(["TimeError"])])⟩,
+ ⟨"resolution", `const`, [], TypeApply(["Outcome"], [TypePath(["Duration"]), TypePath(["TimeError"])])⟩,
+ ⟨"coarsen", `const`, [⟨⊥, `resolution`, TypePath(["Duration"])⟩], TypeApply(["Outcome"], [TypeDynamic(`WallTime`), TypePath(["TimeError"])])⟩
+}
+
 FileKindVariants = [
   VariantDecl(`File`, ⊥, ⊥, ⊥, ⊥),
   VariantDecl(`Dir`, ⊥, ⊥, ⊥, ⊥),
@@ -13688,12 +13794,38 @@ AllocationErrorVariants = [
 ]
 AllocationErrorDecl = EnumDecl(⊥, `public`, `AllocationError`, ⊥, ⊥, [], AllocationErrorVariants, ⊥, ⊥, ⊥)
 
+TimeErrorVariants = [
+  VariantDecl(`Unsupported`, ⊥, ⊥, ⊥, ⊥),
+  VariantDecl(`ClockUnavailable`, ⊥, ⊥, ⊥, ⊥),
+  VariantDecl(`OutOfRange`, ⊥, ⊥, ⊥, ⊥),
+  VariantDecl(`InvalidResolution`, ⊥, ⊥, ⊥, ⊥),
+  VariantDecl(`ClockMismatch`, ⊥, ⊥, ⊥, ⊥)
+]
+TimeErrorDecl = EnumDecl(⊥, `public`, `TimeError`, ⊥, ⊥, [], TimeErrorVariants, ⊥, ⊥, ⊥)
+
+DurationFields = [
+  ⟨⊥, `public`, false, `nanoseconds`, TypePrim("u128"), ⊥, ⊥, ⊥⟩
+]
+DurationDecl = RecordDecl(⊥, `public`, `Duration`, ⊥, ⊥, [], DurationFields, ⊥, ⊥, ⊥)
+
+MonotonicInstantFields = [
+  ⟨⊥, `private`, false, `domain`, TypePrim("usize"), ⊥, ⊥, ⊥⟩,
+  ⟨⊥, `private`, false, `ticks`, TypePrim("u128"), ⊥, ⊥, ⊥⟩
+]
+MonotonicInstantDecl = RecordDecl(⊥, `public`, `MonotonicInstant`, ⊥, ⊥, [], MonotonicInstantFields, ⊥, ⊥, ⊥)
+
+UtcInstantFields = [
+  ⟨⊥, `public`, false, `unix_nanoseconds`, TypePrim("i128"), ⊥, ⊥, ⊥⟩
+]
+UtcInstantDecl = RecordDecl(⊥, `public`, `UtcInstant`, ⊥, ⊥, [], UtcInstantFields, ⊥, ⊥, ⊥)
+
 ContextFields = [
   ⟨⊥, `public`, false, `fs`, TypeDynamic(`FileSystem`), ⊥, ⊥, ⊥⟩,
   ⟨⊥, `public`, false, `net`, TypeDynamic(`Network`), ⊥, ⊥, ⊥⟩,
   ⟨⊥, `public`, false, `heap`, TypeDynamic(`HeapAllocator`), ⊥, ⊥, ⊥⟩,
   ⟨⊥, `public`, false, `sys`, TypePath(["System"]), ⊥, ⊥, ⊥⟩,
-  ⟨⊥, `public`, false, `reactor`, TypeDynamic(`Reactor`), ⊥, ⊥, ⊥⟩
+  ⟨⊥, `public`, false, `reactor`, TypeDynamic(`Reactor`), ⊥, ⊥, ⊥⟩,
+  ⟨⊥, `public`, false, `time`, TypeDynamic(`Time`), ⊥, ⊥, ⊥⟩
 ]
 ContextMethods = [
   MethodDecl(⊥, `public`, false, "cpu", ⊥, ReceiverShorthand(`const`), [], TypeDynamic(`ExecutionDomain`), ⊥, ⊥, ⊥, ⊥),
@@ -13745,16 +13877,22 @@ CapMethodSig(`FileSystem`, name) = ⟨params, ret⟩ ⇔ ⟨name, recv, params, 
 CapMethodSig(`Network`, name) = ⟨params, ret⟩ ⇔ ⟨name, recv, params, ret⟩ ∈ NetworkInterface
 CapMethodSig(`HeapAllocator`, name) = ⟨params, ret⟩ ⇔ ⟨name, recv, params, ret⟩ ∈ HeapAllocatorInterface
 CapMethodSig(`Reactor`, name) = ⟨params, ret⟩ ⇔ LookupClassMethod(`Reactor`, name) = m ∧ Sig_T(SelfVar, m) = ⟨_, params, ret⟩
+CapMethodSig(`Time`, name) = ⟨params, ret⟩ ⇔ ⟨name, recv, params, ret⟩ ∈ TimeInterface
+CapMethodSig(`MonotonicTime`, name) = ⟨params, ret⟩ ⇔ ⟨name, recv, params, ret⟩ ∈ MonotonicTimeInterface
+CapMethodSig(`WallTime`, name) = ⟨params, ret⟩ ⇔ ⟨name, recv, params, ret⟩ ∈ WallTimeInterface
 SystemMethodSig(name) = ⟨params, ret⟩ ⇔ ⟨name, params, ret⟩ ∈ SystemInterface
 
 CapRecv(`FileSystem`, name) = recv ⇔ ⟨name, recv, params, ret⟩ ∈ FileSystemInterface
 CapRecv(`Network`, name) = recv ⇔ ⟨name, recv, params, ret⟩ ∈ NetworkInterface
 CapRecv(`HeapAllocator`, name) = recv ⇔ ⟨name, recv, params, ret⟩ ∈ HeapAllocatorInterface
 CapRecv(`Reactor`, name) = recv ⇔ LookupClassMethod(`Reactor`, name) = m ∧ RecvPerm(SelfVar, m.receiver) = recv
+CapRecv(`Time`, name) = recv ⇔ ⟨name, recv, params, ret⟩ ∈ TimeInterface
+CapRecv(`MonotonicTime`, name) = recv ⇔ ⟨name, recv, params, ret⟩ ∈ MonotonicTimeInterface
+CapRecv(`WallTime`, name) = recv ⇔ ⟨name, recv, params, ret⟩ ∈ WallTimeInterface
 
 LowerCallJudg = {MethodSymbol, BuiltinMethodSym, LowerMethodCall, LowerArgs, LowerRecvArg}
 ModalStateOf(T) = TypeModalState(modal_ref, S) ⇔ StripPerm(T) = TypeModalState(modal_ref, S)
-BuiltinCapClass = {`FileSystem`, `Network`, `HeapAllocator`, `Reactor`}
+BuiltinCapClass = {`FileSystem`, `Network`, `HeapAllocator`, `Reactor`, `Time`, `MonotonicTime`, `WallTime`}
 
 #### 14.9.4 Static Semantics
 
@@ -13762,7 +13900,7 @@ Capability classes are ordinary classes in the type system. A parameter of type 
 
 Capability classes MAY be used as generic bounds exactly like any other class bound.
 
-The built-in capability class names `FileSystem`, `Network`, `HeapAllocator`, `ExecutionDomain`, and `Reactor` are reserved. Type-system use of those names is via `CapType(Cl) = TypeDynamic(Cl)`.
+The built-in capability class names `FileSystem`, `Network`, `HeapAllocator`, `ExecutionDomain`, `Reactor`, `Time`, `MonotonicTime`, and `WallTime` are reserved. Type-system use of those names is via `CapType(Cl) = TypeDynamic(Cl)`.
 
 Calls to `HeapAllocator.alloc_raw` and `HeapAllocator.dealloc_raw` require `unsafe` context.
 
@@ -13777,19 +13915,28 @@ Calls to `HeapAllocator.alloc_raw` and `HeapAllocator.dealloc_raw` require `unsa
 Γ; R; L ⊢ MethodCall(base, "dealloc_raw", args) ⇑ c
 
 BuiltinTypes_FS = {`File`, `DirIter`, `DirEntry`, `FileKind`, `IoError`}
+BuiltinTypes_Time = {`Duration`, `MonotonicInstant`, `UtcInstant`, `TimeError`}
 
 RecordDecl(["DirEntry"]) = DirEntryDecl
+RecordDecl(["Duration"]) = DurationDecl
+RecordDecl(["MonotonicInstant"]) = MonotonicInstantDecl
+RecordDecl(["UtcInstant"]) = UtcInstantDecl
 RecordDecl(["Context"]) = ContextDecl
 RecordDecl(["System"]) = SystemDecl
 EnumDecl(["FileKind"]) = FileKindDecl
 EnumDecl(["IoError"]) = IoErrorDecl
 EnumDecl(["AllocationError"]) = AllocationErrorDecl
+EnumDecl(["TimeError"]) = TimeErrorDecl
 EnumDecl(["Priority"]) = PriorityDecl
 
 Σ.Types["DirEntry"] = DirEntryDecl
+Σ.Types["Duration"] = DurationDecl
+Σ.Types["MonotonicInstant"] = MonotonicInstantDecl
+Σ.Types["UtcInstant"] = UtcInstantDecl
 Σ.Types["FileKind"] = FileKindDecl
 Σ.Types["IoError"] = IoErrorDecl
 Σ.Types["AllocationError"] = AllocationErrorDecl
+Σ.Types["TimeError"] = TimeErrorDecl
 Σ.Types["Context"] = ContextDecl
 Σ.Types["System"] = SystemDecl
 Σ.Types["CpuSet"] = CpuSetDecl
@@ -13802,6 +13949,7 @@ ContextBundleFieldType(`net`) = TypeDynamic(`Network`)
 ContextBundleFieldType(`heap`) = TypeDynamic(`HeapAllocator`)
 ContextBundleFieldType(`sys`) = TypePath(["System"])
 ContextBundleFieldType(`reactor`) = TypeDynamic(`Reactor`)
+ContextBundleFieldType(`time`) = TypeDynamic(`Time`)
 ContextBundleFieldType(`cpu`) = TypeDynamic(`ExecutionDomain`)
 ContextBundleFieldType(`gpu`) = TypeDynamic(`ExecutionDomain`)
 ContextBundleFieldType(`inline`) = TypeDynamic(`ExecutionDomain`)
@@ -13814,6 +13962,7 @@ ContextBundleFieldValue(v_ctx, `net`) ⇓ v ⇔ FieldValue(v_ctx, `net`) = v
 ContextBundleFieldValue(v_ctx, `heap`) ⇓ v ⇔ FieldValue(v_ctx, `heap`) = v
 ContextBundleFieldValue(v_ctx, `sys`) ⇓ v ⇔ FieldValue(v_ctx, `sys`) = v
 ContextBundleFieldValue(v_ctx, `reactor`) ⇓ v ⇔ FieldValue(v_ctx, `reactor`) = v
+ContextBundleFieldValue(v_ctx, `time`) ⇓ v ⇔ FieldValue(v_ctx, `time`) = v
 ContextBundleFieldValue(v_ctx, `cpu`) ⇓ v ⇔ ContextDomainValue(v_ctx, `cpu`) ⇓ v
 ContextBundleFieldValue(v_ctx, `gpu`) ⇓ v ⇔ ContextDomainValue(v_ctx, `gpu`) ⇓ v
 ContextBundleFieldValue(v_ctx, `inline`) ⇓ v ⇔ ContextDomainValue(v_ctx, `inline`) ⇓ v
@@ -13833,7 +13982,7 @@ Capability classes introduce no separate dispatch model. Built-in capability ope
 
 #### 14.9.6 Lowering
 
-Calls on dynamic receivers of builtin capability classes `FileSystem`, `Network`, `HeapAllocator`, and `Reactor` lower to builtin method symbols rather than emitted vtable-call sequences. Other capability classes lower through the ordinary dynamic-dispatch path of §14.6.
+Calls on dynamic receivers of builtin capability classes `FileSystem`, `Network`, `HeapAllocator`, `Reactor`, `Time`, `MonotonicTime`, and `WallTime` lower to builtin method symbols rather than emitted vtable-call sequences. Other capability classes lower through the ordinary dynamic-dispatch path of §14.6.
 
 #### 14.9.7 Diagnostics
 
@@ -16757,9 +16906,10 @@ Diagnostics are defined for duplicate record-field initializers, missing record-
 ```ebnf
 if_expr        ::= "if" expression if_tail
 if_tail        ::= block_expr ("else" (block_expr | if_expr))?
-                 | "is" pattern block_expr ("else" (block_expr | if_expr))?
+                 | "is" if_case_pattern block_expr ("else" (block_expr | if_expr))?
                  | "is" "{" if_case+ if_case_else? "}"
-if_case        ::= pattern block_expr
+if_case        ::= if_case_pattern block_expr
+if_case_pattern ::= pattern | ":" type
 if_case_else   ::= "else" block_expr
 loop_expr      ::= "loop" loop_condition? loop_invariant? block_expr
 loop_condition ::= expression | pattern (":" type)? "in" expression
@@ -16767,7 +16917,7 @@ loop_invariant ::= "|:" "{" predicate_expr "}"
 block_expr     ::= "{" statement* expression? "}"
 ```
 
-Pattern forms, case-clause parsing, and exhaustiveness notions are owned by Chapter 17. Loop-invariant obligations are owned by §15.7.
+Pattern forms, case-clause parsing, and exhaustiveness notions are owned by Chapter 17. In an `if ... is` case position, `: T` is a type-test pattern shorthand and elaborates to the discard typed pattern `_: T`; it is not general pattern syntax outside `if_case_pattern`. Loop-invariant obligations are owned by §15.7.
 Block structure, statement sequencing, terminator handling, and block-local typing are owned by §18.1.
 
 #### 16.7.2 Parsing
@@ -16778,9 +16928,14 @@ IsKw(Tok(P), `if`)    Γ ⊢ ParseExpr_NoBrace(Advance(P)) ⇓ (P_1, c)    ¬ Is
 Γ ⊢ ParsePrimary(P) ⇓ (P_3, IfExpr(c, b1, b2))
 
 **(Parse-If-Is-Single)**
-IsKw(Tok(P), `if`)    Γ ⊢ ParseExpr_NoBrace(Advance(P)) ⇓ (P_1, e)    IsKw(Tok(P_1), `is`)    ¬ IsPunc(Tok(Advance(P_1)), "{")    Γ ⊢ ParsePattern(Advance(P_1)) ⇓ (P_2, pat)    Γ ⊢ ParseBlock(P_2) ⇓ (P_3, b1)    Γ ⊢ ParseElseOpt(P_3) ⇓ (P_4, b2)
+IsKw(Tok(P), `if`)    Γ ⊢ ParseExpr_NoBrace(Advance(P)) ⇓ (P_1, e)    IsKw(Tok(P_1), `is`)    ¬ IsPunc(Tok(Advance(P_1)), "{")    Γ ⊢ ParseIfCasePattern(Advance(P_1)) ⇓ (P_2, pat)    Γ ⊢ ParseBlock(P_2) ⇓ (P_3, b1)    Γ ⊢ ParseElseOpt(P_3) ⇓ (P_4, b2)
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Γ ⊢ ParsePrimary(P) ⇓ (P_4, IfIsExpr(e, pat, b1, b2))
+
+**(Parse-If-Is-TypeTest)**
+IsPunc(Tok(P), ":")    Γ ⊢ ParseType(Advance(P)) ⇓ (P_1, T)
+────────────────────────────────────────────────────────────────
+Γ ⊢ ParseIfCasePattern(P) ⇓ (P_1, TypedPattern("_", T))
 
 **(Parse-If-Is-CaseList)**
 IsKw(Tok(P), `if`)    Γ ⊢ ParseExpr_NoBrace(Advance(P)) ⇓ (P_1, e)    IsKw(Tok(P_1), `is`)    IsPunc(Tok(Advance(P_1)), "{")    Γ ⊢ ParseIfCases(Advance(Advance(P_1))) ⇓ (P_2, cases, else_opt)    IsPunc(Tok(P_2), "}")
@@ -16805,6 +16960,8 @@ Expr = IfExpr(cond, then_block, else_opt) | IfIsExpr(scrutinee, pattern, then_bl
 
 LoopInvariantOpt ∈ {⊥} ∪ Expr
 IfCase = ⟨pattern, body⟩
+
+`if_case_pattern` does not add a distinct AST node. `: T` MUST be represented as `TypedPattern("_", T)` before semantic analysis.
 
 LoopTypeInf(Brk, BrkVoid) =
   { TypePrim(`!`)    if Brk = [] ∧ BrkVoid = false
@@ -16846,7 +17003,7 @@ Pattern typing uses Chapter 17 pattern judgments:
 - `HasIrrefutableCase(cases, T)` and the exhaustiveness conditions from §17.6
 
 **(T-If-Is)**
-Γ; R; L ⊢ e : T_s    CaseScope(Γ, e, pat, T_s) ⇓ Γ_1    Γ_1; R; L ⊢ b_t : T    Γ; R; L ⊢ b_f : T
+Γ; R; L ⊢ e : T_s    CaseScope(Γ, e, pat, T_s) ⇓ Γ_1    ElseScope(Γ, e, pat, T_s) ⇓ Γ_2    Γ_1; R; L ⊢ b_t : T    Γ_2; R; L ⊢ b_f : T
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Γ; R; L ⊢ IfIsExpr(e, pat, b_t, b_f) : T
 
@@ -17898,7 +18055,8 @@ This section owns diagnostics for general expression typing, calls, indexing res
 #### 17.1.1 Syntax
 
 ```ebnf
-basic_pattern ::= literal | "_" | identifier
+basic_pattern ::= literal | "_" | identifier | typed_pattern
+typed_pattern ::= ("_" | identifier) ":" type
 ```
 
 #### 17.1.2 Parsing
@@ -17918,9 +18076,14 @@ IsIdent(Tok(P))
 ────────────────────────────────────────────────────────────────────
 Γ ⊢ ParsePatternAtom(P) ⇓ (Advance(P), IdentifierPattern(Lexeme(Tok(P))))
 
+**(Parse-Pattern-Typed)**
+IsIdent(Tok(P))    IsPunc(Tok(Advance(P)), ":")    Γ ⊢ ParseType(Advance(Advance(P))) ⇓ (P_1, T)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ ParsePatternAtom(P) ⇓ (P_1, TypedPattern(Lexeme(Tok(P)), T))
+
 #### 17.1.3 AST Representation / Form
 
-Pattern = {LiteralPattern(lit), WildcardPattern, IdentifierPattern(name), TuplePattern(elems), RecordPattern(type_path, fields), EnumPattern(type_path, name, payload_opt), ModalPattern(state_name, fields_opt), RangePattern(kind, lo, hi)}
+Pattern = {LiteralPattern(lit), WildcardPattern, IdentifierPattern(name), TypedPattern(name, type), TuplePattern(elems), RecordPattern(type_path, fields), EnumPattern(type_path, name, payload_opt), ModalPattern(state_name, fields_opt), RangePattern(kind, lo, hi)}
 PatternSpan : Pattern → Span
 
 #### 17.1.4 Static Semantics
@@ -17949,6 +18112,15 @@ PermWrap(T, B) =
 ──────────────────────────────────────────────
 Γ ⊢ PatNames(LiteralPattern(lit)) ⇓ []
 
+**(Pat-Typed-Discard)**
+──────────────────────────────────────────────
+Γ ⊢ PatNames(TypedPattern("_", T)) ⇓ []
+
+**(Pat-Typed-Ident)**
+x ≠ "_"
+──────────────────────────────────────────────
+Γ ⊢ PatNames(TypedPattern(x, T)) ⇓ [x]
+
 **(Pat-Dup-R-Err)**
 PatJudg = {Γ ⊢ pat ⇐ T ⊣ B}
 
@@ -17968,6 +18140,16 @@ PatJudg = {Γ ⊢ pat ⇐ T ⊣ B}
 Γ ⊢ Literal(lit) : T_l    Γ ⊢ T_l <: T
 ────────────────────────────────────────────────────────────────
 Γ ⊢ LiteralPattern(lit) ◁ T ⊣ ∅
+
+**(Pat-Typed-Exact-R)**
+Γ ⊢ T_a type    Γ ⊢ T_a ≡ StripPerm(T)    B = ({x ↦ T_a} if x ≠ "_" else ∅)
+────────────────────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ TypedPattern(x, T_a) ◁ T ⊣ B
+
+**(Pat-Typed-Union-R)**
+Γ ⊢ T_a type    StripPerm(T) = TypeUnion([T_1, …, T_n])    ∃ i. Γ ⊢ T_a ≡ StripPerm(T_i)    B = ({x ↦ T_a} if x ≠ "_" else ∅)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ TypedPattern(x, T_a) ◁ T ⊣ B
 
 #### 17.1.5 Dynamic Semantics
 
@@ -17998,6 +18180,16 @@ PatType(LiteralPattern(lit)) =
 T = PatType(ℓ)    LiteralValue(ℓ, T) = v
 ──────────────────────────────────────────────────────────────
 Γ ⊢ MatchPattern(ℓ, v) ⇓ ∅
+
+**(Match-Typed-Discard)**
+RuntimeTypeMember(v, T)
+──────────────────────────────────────────────
+Γ ⊢ MatchPattern(TypedPattern("_", T), v) ⇓ ∅
+
+**(Match-Typed-Ident)**
+x ≠ "_"    RuntimeTypeMember(v, T)
+──────────────────────────────────────────────
+Γ ⊢ MatchPattern(TypedPattern(x, T), v) ⇓ {x ↦ v}
 
 #### 17.1.6 Lowering
 
@@ -18421,7 +18613,8 @@ Diagnostics are defined for range-pattern bounds that are not compile-time const
 #### 17.5.1 Syntax
 
 ```ebnf
-if_case      ::= pattern block_expr
+if_case      ::= if_case_pattern block_expr
+if_case_pattern ::= pattern | ":" type
 if_case_else ::= "else" block_expr
 ```
 
@@ -18435,9 +18628,14 @@ if_case_else ::= "else" block_expr
 Γ ⊢ ParseIfCases(P) ⇓ (P_2, cases, else_opt)
 
 **(Parse-IfCase)**
-Γ ⊢ ParsePattern(P) ⇓ (P_1, pat)    Γ ⊢ ParseBlock(P_1) ⇓ (P_2, body)
+Γ ⊢ ParseIfCasePattern(P) ⇓ (P_1, pat)    Γ ⊢ ParseBlock(P_1) ⇓ (P_2, body)
 ────────────────────────────────────────────────────────────────────────────────────────────
 Γ ⊢ ParseIfCase(P) ⇓ (P_2, ⟨pat, body⟩)
+
+**(Parse-IfCase-Pattern)**
+¬ IsPunc(Tok(P), ":")    Γ ⊢ ParsePattern(P) ⇓ (P_1, pat)
+────────────────────────────────────────────────────────────────
+Γ ⊢ ParseIfCasePattern(P) ⇓ (P_1, pat)
 
 **(Parse-IfCasesTail-End)**
 Tok(P) = Punctuator("}")
@@ -18462,8 +18660,9 @@ BindOrder(p, B) = [⟨x, B[x]⟩ | x ∈ PatNames(p)]
 
 #### 17.5.4 Static Semantics
 
-CaseScopeJudg = {CaseScope(Γ, e, pat, T) ⇓ Γ_case}
+CaseScopeJudg = {CaseScope(Γ, e, pat, T) ⇓ Γ_case, ElseScope(Γ, e, pat, T) ⇓ Γ_else, CasesElseScope(Γ, e, cases, T) ⇓ Γ_else}
 PatternNarrowJudg = {PatternNarrow(Γ, pat, T) ⇓ T_n}
+PatternRejectNarrowJudg = {PatternRejectNarrow(Γ, pat, T) ⇓ T_r}
 
 ScrutineeBinding(Identifier(x)) = x
 ScrutineeBinding(e) = ⊥ ⇔ e ≠ Identifier(_)
@@ -18492,6 +18691,16 @@ T = TypeUnion([T_1, …, T_n])    Ns = [N_i | 1 ≤ i ≤ n ∧ PatternNarrow(Γ
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 PatternNarrow(Γ, pat, T) ⇓ T_n
 
+**(PatternNarrow-Typed)**
+Γ ⊢ TypedPattern(x, T_a) ◁ T ⊣ B
+──────────────────────────────────────────────
+PatternNarrow(Γ, TypedPattern(x, T_a), T) ⇓ T_a
+
+**(PatternRejectNarrow-Union)**
+T = TypeUnion([T_1, …, T_n])    Rs = [T_i | 1 ≤ i ≤ n ∧ PatternNarrow(Γ, pat, T_i) undefined]    1 ≤ |Rs| < n    UnionOrSingle(Rs) = T_r
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+PatternRejectNarrow(Γ, pat, T) ⇓ T_r
+
 **(CaseScope-Narrow)**
 Γ ⊢ pat ◁ T_s ⊣ B    Distinct(PatNames(pat))    ScrutineeBinding(e) = x    PatternNarrow(Γ, pat, T_s) ⇓ T_n    RefineBinding(Γ, x, T_n) ⇓ Γ_r    Γ_0 = PushScope(Γ_r)    IntroAll(Γ_0, B) ⇓ Γ_case
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -18501,6 +18710,30 @@ CaseScope(Γ, e, pat, T_s) ⇓ Γ_case
 Γ ⊢ pat ◁ T_s ⊣ B    Distinct(PatNames(pat))    (ScrutineeBinding(e) = ⊥ ∨ PatternNarrow(Γ, pat, T_s) undefined)    Γ_0 = PushScope(Γ)    IntroAll(Γ_0, B) ⇓ Γ_case
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 CaseScope(Γ, e, pat, T_s) ⇓ Γ_case
+
+**(ElseScope-Narrow)**
+ScrutineeBinding(e) = x    PatternRejectNarrow(Γ, pat, T_s) ⇓ T_r    RefineBinding(Γ, x, T_r) ⇓ Γ_else
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ElseScope(Γ, e, pat, T_s) ⇓ Γ_else
+
+**(ElseScope-Original)**
+ScrutineeBinding(e) = ⊥ ∨ PatternRejectNarrow(Γ, pat, T_s) undefined
+──────────────────────────────────────────────────────────────────────────────
+ElseScope(Γ, e, pat, T_s) ⇓ Γ
+
+**(CasesElseScope-Empty)**
+──────────────────────────────────────────────
+CasesElseScope(Γ, e, [], T) ⇓ Γ
+
+**(CasesElseScope-Cons-Narrow)**
+PatternRejectNarrow(Γ, pat, T) ⇓ T_r    ElseScope(Γ, e, pat, T) ⇓ Γ_1    CasesElseScope(Γ_1, e, cases, T_r) ⇓ Γ_2
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+CasesElseScope(Γ, e, ⟨pat, body⟩ :: cases, T) ⇓ Γ_2
+
+**(CasesElseScope-Cons-Original)**
+PatternRejectNarrow(Γ, pat, T) undefined    ElseScope(Γ, e, pat, T) ⇓ Γ_1    CasesElseScope(Γ_1, e, cases, T) ⇓ Γ_2
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+CasesElseScope(Γ, e, ⟨pat, body⟩ :: cases, T) ⇓ Γ_2
 
 #### 17.5.5 Dynamic Semantics
 
@@ -18609,11 +18842,11 @@ Exhaustiveness and reachability are not parser-owned.
 #### 17.6.3 AST Representation / Form
 
 AllEq_Γ([T_1, …, T_n]) ⇔ ∀ i. Γ ⊢ T_i ≡ T_1
-Irrefutable(pat, T) ⇔ pat = WildcardPattern ∨ pat = IdentifierPattern(_) ∨ (pat = TuplePattern([p_1, …, p_n]) ∧ StripPerm(T) = TypeTuple([T_1, …, T_n]) ∧ ∀ i. Irrefutable(p_i, T_i)) ∨ (pat = RecordPattern(p, fs) ∧ StripPerm(T) = TypePath(p) ∧ RecordDecl(p) = R ∧ ∀ fp ∈ fs. Irrefutable(PatOf(fp), FieldType(R, FieldName(fp))))
+Irrefutable(pat, T) ⇔ pat = WildcardPattern ∨ pat = IdentifierPattern(_) ∨ (pat = TypedPattern(_, T_a) ∧ T_a = StripPerm(T)) ∨ (pat = TuplePattern([p_1, …, p_n]) ∧ StripPerm(T) = TypeTuple([T_1, …, T_n]) ∧ ∀ i. Irrefutable(p_i, T_i)) ∨ (pat = RecordPattern(p, fs) ∧ StripPerm(T) = TypePath(p) ∧ RecordDecl(p) = R ∧ ∀ fp ∈ fs. Irrefutable(PatOf(fp), FieldType(R, FieldName(fp))))
 HasIrrefutableCase(cases, T) ⇔ ∃ case ∈ cases. ∃ p, b. case = ⟨p, b⟩ ∧ Irrefutable(p, T)
 CaseLabel(EnumPattern(path, v, _)) = ⟨`enum`, path, v⟩
 CaseLabel(ModalPattern(s, _)) = ⟨`modal`, s⟩
-CaseLabel(Pat-Union(T, _)) = ⟨`union`, T⟩
+CaseLabel(TypedPattern(_, T)) = ⟨`union`, T⟩
 CaseLabel(_) = ⊥
 CaseUnreachable(T, cases, i) ⇔
   (∃ j. 1 ≤ j < i ∧ Irrefutable(cases[j].pat, T)) ∨
@@ -18625,22 +18858,23 @@ CaseVariants(cases) = { v | ∃ p, b. ⟨p, b⟩ ∈ cases ∧ p = EnumPattern(_
 CaseStates(cases) = { s | ∃ p, b. ⟨p, b⟩ ∈ cases ∧ p = ModalPattern(_, s) }
 
 UnionTypes(U) = [T_1, …, T_n] ⇔ U = TypeUnion([T_1, …, T_n])
-CaseUnionTypes(cases) = { T | ∃ p, b. ⟨p, b⟩ ∈ cases ∧ p = Pat-Union(T, _) }
-UnionTypesExhaustive(cases, types) ⇔ ∀ T ∈ types. ∃ case ∈ cases. ∃ p, b. case = ⟨p, b⟩ ∧ p = Pat-Union(T, _)
+CaseUnionTypes(cases) = { T | ∃ p, b. ⟨p, b⟩ ∈ cases ∧ p = TypedPattern(_, T) }
+PatternMayMatchType(Γ, p, T) ⇔ ∃ B. Γ ⊢ p ◁ T ⊣ B
+UnionTypesExhaustive(cases, types) ⇔ ∀ T ∈ types. ∃ case ∈ cases. ∃ p, b. case = ⟨p, b⟩ ∧ PatternMayMatchType(Γ, p, T)
 
 #### 17.6.4 Static Semantics
 
 **Enum Case Analysis**
 
 **(T-IfCase-Enum)**
-Γ; R; L ⊢ e : TypePath(p)    EnumDecl(p) = E    ∀ i, case_i = ⟨p_i, b_i⟩    ∀ i, CaseScope(Γ, e, p_i, TypePath(p)) ⇓ Γ_i    ∀ i, Γ_i; R; L ⊢ b_i : T_r    (else_opt = ⊥ ∨ Γ; R; L ⊢ else_opt : T_r)    (else_opt ≠ ⊥ ∨ HasIrrefutableCase(cases, TypePath(p)) ∨ CaseVariants(cases) = VariantNames(E))
+Γ; R; L ⊢ e : TypePath(p)    EnumDecl(p) = E    ∀ i, case_i = ⟨p_i, b_i⟩    ∀ i, CaseScope(Γ, e, p_i, TypePath(p)) ⇓ Γ_i    ∀ i, Γ_i; R; L ⊢ b_i : T_r    (else_opt = ⊥ ∨ (CasesElseScope(Γ, e, cases, TypePath(p)) ⇓ Γ_e ∧ Γ_e; R; L ⊢ else_opt : T_r))    (else_opt ≠ ⊥ ∨ HasIrrefutableCase(cases, TypePath(p)) ∨ CaseVariants(cases) = VariantNames(E))
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Γ; R; L ⊢ IfCaseExpr(e, cases, else_opt) : T_r
 
 **Modal Case Analysis**
 
 **(T-IfCase-Modal)**
-Γ; R; L ⊢ e : ModalRefType(modal_ref)    ModalDeclOf(modal_ref) = M    ∀ i, case_i = ⟨p_i, b_i⟩    ∀ i, CaseScope(Γ, e, p_i, ModalRefType(modal_ref)) ⇓ Γ_i    ∀ i, Γ_i; R; L ⊢ b_i : T_r    (else_opt = ⊥ ∨ Γ; R; L ⊢ else_opt : T_r)    (else_opt ≠ ⊥ ∨ HasIrrefutableCase(cases, ModalRefType(modal_ref)) ∨ CaseStates(cases) = States(M))
+Γ; R; L ⊢ e : ModalRefType(modal_ref)    ModalDeclOf(modal_ref) = M    ∀ i, case_i = ⟨p_i, b_i⟩    ∀ i, CaseScope(Γ, e, p_i, ModalRefType(modal_ref)) ⇓ Γ_i    ∀ i, Γ_i; R; L ⊢ b_i : T_r    (else_opt = ⊥ ∨ (CasesElseScope(Γ, e, cases, ModalRefType(modal_ref)) ⇓ Γ_e ∧ Γ_e; R; L ⊢ else_opt : T_r))    (else_opt ≠ ⊥ ∨ HasIrrefutableCase(cases, ModalRefType(modal_ref)) ∨ CaseStates(cases) = States(M))
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Γ; R; L ⊢ IfCaseExpr(e, cases, else_opt) : T_r
 
@@ -18652,7 +18886,7 @@ UnionTypesExhaustive(cases, types) ⇔ ∀ T ∈ types. ∃ case ∈ cases. ∃ 
 **Union Case Analysis**
 
 **(T-IfCase-Union)**
-Γ; R; L ⊢ e : TypeUnion([T_1, …, T_n])    ∀ i, case_i = ⟨p_i, b_i⟩    ∀ i, CaseScope(Γ, e, p_i, TypeUnion([T_1, …, T_n])) ⇓ Γ_i    ∀ i, Γ_i; R; L ⊢ b_i : T_r    (else_opt = ⊥ ∨ Γ; R; L ⊢ else_opt : T_r)    (else_opt ≠ ⊥ ∨ HasIrrefutableCase(cases, TypeUnion([T_1, …, T_n])) ∨ UnionTypesExhaustive(cases, [T_1, …, T_n]))
+Γ; R; L ⊢ e : TypeUnion([T_1, …, T_n])    ∀ i, case_i = ⟨p_i, b_i⟩    ∀ i, CaseScope(Γ, e, p_i, TypeUnion([T_1, …, T_n])) ⇓ Γ_i    ∀ i, Γ_i; R; L ⊢ b_i : T_r    (else_opt = ⊥ ∨ (CasesElseScope(Γ, e, cases, TypeUnion([T_1, …, T_n])) ⇓ Γ_e ∧ Γ_e; R; L ⊢ else_opt : T_r))    (else_opt ≠ ⊥ ∨ HasIrrefutableCase(cases, TypeUnion([T_1, …, T_n])) ∨ UnionTypesExhaustive(cases, [T_1, …, T_n]))
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Γ; R; L ⊢ IfCaseExpr(e, cases, else_opt) : T_r
 
@@ -18662,19 +18896,19 @@ UnionTypesExhaustive(cases, types) ⇔ ∀ T ∈ types. ∃ case ∈ cases. ∃ 
 Γ; R; L ⊢ IfCaseExpr(e, cases, else_opt) ⇑ c
 
 **(Chk-IfCase-Union)**
-Γ; R; L ⊢ e : TypeUnion([T_1, …, T_n])    ∀ i, case_i = ⟨p_i, b_i⟩    ∀ i, CaseScope(Γ, e, p_i, TypeUnion([T_1, …, T_n])) ⇓ Γ_i    ∀ i, Γ_i; R; L ⊢ b_i ⇐ T    (else_opt = ⊥ ∨ Γ; R; L ⊢ else_opt ⇐ T ⊣ ∅)    (else_opt ≠ ⊥ ∨ HasIrrefutableCase(cases, TypeUnion([T_1, …, T_n])) ∨ UnionTypesExhaustive(cases, [T_1, …, T_n]))
+Γ; R; L ⊢ e : TypeUnion([T_1, …, T_n])    ∀ i, case_i = ⟨p_i, b_i⟩    ∀ i, CaseScope(Γ, e, p_i, TypeUnion([T_1, …, T_n])) ⇓ Γ_i    ∀ i, Γ_i; R; L ⊢ b_i ⇐ T    (else_opt = ⊥ ∨ (CasesElseScope(Γ, e, cases, TypeUnion([T_1, …, T_n])) ⇓ Γ_e ∧ Γ_e; R; L ⊢ else_opt ⇐ T ⊣ ∅))    (else_opt ≠ ⊥ ∨ HasIrrefutableCase(cases, TypeUnion([T_1, …, T_n])) ∨ UnionTypesExhaustive(cases, [T_1, …, T_n]))
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Γ; R; L ⊢ IfCaseExpr(e, cases, else_opt) ⇐ T ⊣ ∅
 
 **Other Case Analysis**
 
 **(T-IfCase-Other)**
-Γ; R; L ⊢ e : T_s    ∀ i, case_i = ⟨p_i, b_i⟩    ∀ i, CaseScope(Γ, e, p_i, T_s) ⇓ Γ_i    ∀ i, Γ_i; R; L ⊢ b_i : T_r    (else_opt = ⊥ ∨ Γ; R; L ⊢ else_opt : T_r)    (else_opt ≠ ⊥ ∨ HasIrrefutableCase(cases, T_s))
+Γ; R; L ⊢ e : T_s    ∀ i, case_i = ⟨p_i, b_i⟩    ∀ i, CaseScope(Γ, e, p_i, T_s) ⇓ Γ_i    ∀ i, Γ_i; R; L ⊢ b_i : T_r    (else_opt = ⊥ ∨ (CasesElseScope(Γ, e, cases, T_s) ⇓ Γ_e ∧ Γ_e; R; L ⊢ else_opt : T_r))    (else_opt ≠ ⊥ ∨ HasIrrefutableCase(cases, T_s))
 ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Γ; R; L ⊢ IfCaseExpr(e, cases, else_opt) : T_r
 
 **(Chk-IfCase-Enum)**
-Γ; R; L ⊢ e : TypePath(p)    EnumDecl(p) = E    ∀ i, case_i = ⟨p_i, b_i⟩    ∀ i, CaseScope(Γ, e, p_i, TypePath(p)) ⇓ Γ_i    ∀ i, Γ_i; R; L ⊢ b_i ⇐ T    (else_opt = ⊥ ∨ Γ; R; L ⊢ else_opt ⇐ T ⊣ ∅)    (else_opt ≠ ⊥ ∨ HasIrrefutableCase(cases, TypePath(p)) ∨ CaseVariants(cases) = VariantNames(E))
+Γ; R; L ⊢ e : TypePath(p)    EnumDecl(p) = E    ∀ i, case_i = ⟨p_i, b_i⟩    ∀ i, CaseScope(Γ, e, p_i, TypePath(p)) ⇓ Γ_i    ∀ i, Γ_i; R; L ⊢ b_i ⇐ T    (else_opt = ⊥ ∨ (CasesElseScope(Γ, e, cases, TypePath(p)) ⇓ Γ_e ∧ Γ_e; R; L ⊢ else_opt ⇐ T ⊣ ∅))    (else_opt ≠ ⊥ ∨ HasIrrefutableCase(cases, TypePath(p)) ∨ CaseVariants(cases) = VariantNames(E))
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Γ; R; L ⊢ IfCaseExpr(e, cases, else_opt) ⇐ T ⊣ ∅
 
@@ -18684,17 +18918,17 @@ UnionTypesExhaustive(cases, types) ⇔ ∀ T ∈ types. ∃ case ∈ cases. ∃ 
 Γ; R; L ⊢ IfCaseExpr(e, cases, else_opt) ⇑ c
 
 **(Chk-IfCase-Modal)**
-Γ; R; L ⊢ e : ModalRefType(modal_ref)    ModalDeclOf(modal_ref) = M    ∀ i, case_i = ⟨p_i, b_i⟩    ∀ i, CaseScope(Γ, e, p_i, ModalRefType(modal_ref)) ⇓ Γ_i    ∀ i, Γ_i; R; L ⊢ b_i ⇐ T    (else_opt = ⊥ ∨ Γ; R; L ⊢ else_opt ⇐ T ⊣ ∅)    (else_opt ≠ ⊥ ∨ HasIrrefutableCase(cases, ModalRefType(modal_ref)) ∨ CaseStates(cases) = States(M))
+Γ; R; L ⊢ e : ModalRefType(modal_ref)    ModalDeclOf(modal_ref) = M    ∀ i, case_i = ⟨p_i, b_i⟩    ∀ i, CaseScope(Γ, e, p_i, ModalRefType(modal_ref)) ⇓ Γ_i    ∀ i, Γ_i; R; L ⊢ b_i ⇐ T    (else_opt = ⊥ ∨ (CasesElseScope(Γ, e, cases, ModalRefType(modal_ref)) ⇓ Γ_e ∧ Γ_e; R; L ⊢ else_opt ⇐ T ⊣ ∅))    (else_opt ≠ ⊥ ∨ HasIrrefutableCase(cases, ModalRefType(modal_ref)) ∨ CaseStates(cases) = States(M))
 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Γ; R; L ⊢ IfCaseExpr(e, cases, else_opt) ⇐ T ⊣ ∅
 
 **(Chk-IfCase-Other)**
-Γ; R; L ⊢ e : T_s    ∀ i, case_i = ⟨p_i, b_i⟩    ∀ i, CaseScope(Γ, e, p_i, T_s) ⇓ Γ_i    ∀ i, Γ_i; R; L ⊢ b_i ⇐ T    (else_opt = ⊥ ∨ Γ; R; L ⊢ else_opt ⇐ T ⊣ ∅)    (else_opt ≠ ⊥ ∨ HasIrrefutableCase(cases, T_s))
+Γ; R; L ⊢ e : T_s    ∀ i, case_i = ⟨p_i, b_i⟩    ∀ i, CaseScope(Γ, e, p_i, T_s) ⇓ Γ_i    ∀ i, Γ_i; R; L ⊢ b_i ⇐ T    (else_opt = ⊥ ∨ (CasesElseScope(Γ, e, cases, T_s) ⇓ Γ_e ∧ Γ_e; R; L ⊢ else_opt ⇐ T ⊣ ∅))    (else_opt ≠ ⊥ ∨ HasIrrefutableCase(cases, T_s))
 ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Γ; R; L ⊢ IfCaseExpr(e, cases, else_opt) ⇐ T ⊣ ∅
 
 **(Chk-IfIs)**
-Γ; R; L ⊢ e : T_s    CaseScope(Γ, e, pat, T_s) ⇓ Γ_1    Γ_1; R; L ⊢ b_t ⇐ T ⊣ ∅    Γ; R; L ⊢ b_f ⇐ T ⊣ ∅
+Γ; R; L ⊢ e : T_s    CaseScope(Γ, e, pat, T_s) ⇓ Γ_1    ElseScope(Γ, e, pat, T_s) ⇓ Γ_2    Γ_1; R; L ⊢ b_t ⇐ T ⊣ ∅    Γ_2; R; L ⊢ b_f ⇐ T ⊣ ∅
 ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Γ; R; L ⊢ IfIsExpr(e, pat, b_t, b_f) ⇐ T ⊣ ∅
 
@@ -18724,6 +18958,16 @@ Diagnostics are defined for non-exhaustive `if ... is { ... }` case analysis on 
 
 This section owns diagnostics for pattern exhaustiveness, irrefutability, and pattern-shape validity.
 
+**(IfIs-BareTypePattern-Err)**
+`if ... is` case position contains IdentifierPattern(x)    ResolveTypeName(Γ, x) defined    c = Code(IfIs-BareTypePattern-Err)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ IfIsCasePattern(IdentifierPattern(x)) ⇑ c
+
+**(IfIs-TypedPattern-Incompatible)**
+`if ... is` case position contains TypedPattern(x, T_a)    Γ ⊢ TypedPattern(x, T_a) ◁ T_s undefined    c = Code(IfIs-TypedPattern-Incompatible)
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ IfIsCasePattern(TypedPattern(x, T_a), T_s) ⇑ c
+
 | Code         | Severity | Detection    | Condition                                                          |
 | ------------ | -------- | ------------ | ------------------------------------------------------------------ |
 | `E-SEM-2705` | Error    | Compile-time | `if ... is { ... }` case analysis is not exhaustive for union type |
@@ -18734,6 +18978,8 @@ This section owns diagnostics for pattern exhaustiveness, irrefutability, and pa
 | `E-SEM-2731` | Error    | Compile-time | Record pattern references non-existent field                       |
 | `E-SEM-2741` | Error    | Compile-time | `if ... is { ... }` case analysis is not exhaustive                |
 | `E-SEM-2751` | Error    | Compile-time | Case clause is unreachable                                         |
+| `E-SEM-2761` | Error    | Compile-time | Bare type name in `if ... is` pattern; use `: T` or `_: T`         |
+| `E-SEM-2762` | Error    | Compile-time | Typed `if ... is` pattern is incompatible with the scrutinee type  |
 
 ## 18. Statements and Blocks
 
@@ -28657,6 +28903,42 @@ BuiltinModalSymMap = [
 ───────────────────────────────────────────────────────────────────────────────────────────────
 Γ ⊢ BuiltinSym(`Reactor::register`) ⇓ PathSig(["ultraviolet", "runtime", "reactor", "register"])
 
+**(BuiltinSym-Time-Monotonic)**
+──────────────────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ BuiltinSym(`Time::monotonic`) ⇓ PathSig(["ultraviolet", "runtime", "time", "monotonic"])
+
+**(BuiltinSym-Time-Wall)**
+────────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ BuiltinSym(`Time::wall`) ⇓ PathSig(["ultraviolet", "runtime", "time", "wall"])
+
+**(BuiltinSym-MonotonicTime-Now)**
+──────────────────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ BuiltinSym(`MonotonicTime::now`) ⇓ PathSig(["ultraviolet", "runtime", "time", "monotonic_now"])
+
+**(BuiltinSym-MonotonicTime-Resolution)**
+────────────────────────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ BuiltinSym(`MonotonicTime::resolution`) ⇓ PathSig(["ultraviolet", "runtime", "time", "monotonic_resolution"])
+
+**(BuiltinSym-MonotonicTime-Elapsed)**
+────────────────────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ BuiltinSym(`MonotonicTime::elapsed`) ⇓ PathSig(["ultraviolet", "runtime", "time", "monotonic_elapsed"])
+
+**(BuiltinSym-MonotonicTime-Coarsen)**
+────────────────────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ BuiltinSym(`MonotonicTime::coarsen`) ⇓ PathSig(["ultraviolet", "runtime", "time", "monotonic_coarsen"])
+
+**(BuiltinSym-WallTime-NowUtc)**
+────────────────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ BuiltinSym(`WallTime::now_utc`) ⇓ PathSig(["ultraviolet", "runtime", "time", "wall_now_utc"])
+
+**(BuiltinSym-WallTime-Resolution)**
+──────────────────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ BuiltinSym(`WallTime::resolution`) ⇓ PathSig(["ultraviolet", "runtime", "time", "wall_resolution"])
+
+**(BuiltinSym-WallTime-Coarsen)**
+──────────────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ BuiltinSym(`WallTime::coarsen`) ⇓ PathSig(["ultraviolet", "runtime", "time", "wall_coarsen"])
+
 **(BuiltinSym-System-Exit)**
 ──────────────────────────────────────────────────────────────────────────────────────────────
 Γ ⊢ BuiltinSym(`System::exit`) ⇓ PathSig(["ultraviolet", "runtime", "system", "exit"])
@@ -28753,7 +29035,8 @@ NetworkBuiltinMethods = {`Network::restrict_to_host`}
 HeapAllocatorBuiltinMethods = {`HeapAllocator::with_quota`, `HeapAllocator::alloc_raw`, `HeapAllocator::dealloc_raw`}
 SystemBuiltinMethods = {`System::name` | ⟨name, params, ret⟩ ∈ SystemInterface}
 ReactorBuiltinMethods = {`Reactor::run`, `Reactor::register`}
-BuiltinMethods = StringBuiltins ∪ BytesBuiltins ∪ FileSystemBuiltinMethods ∪ NetworkBuiltinMethods ∪ HeapAllocatorBuiltinMethods ∪ SystemBuiltinMethods ∪ ReactorBuiltinMethods
+TimeBuiltinMethods = {`Time::monotonic`, `Time::wall`, `MonotonicTime::now`, `MonotonicTime::resolution`, `MonotonicTime::elapsed`, `MonotonicTime::coarsen`, `WallTime::now_utc`, `WallTime::resolution`, `WallTime::coarsen`}
+BuiltinMethods = StringBuiltins ∪ BytesBuiltins ∪ FileSystemBuiltinMethods ∪ NetworkBuiltinMethods ∪ HeapAllocatorBuiltinMethods ∪ SystemBuiltinMethods ∪ ReactorBuiltinMethods ∪ TimeBuiltinMethods
 RuntimeSyms = {PanicSym, StringDropSym, BytesDropSym, ContextInitSym} ∪ {BuiltinModalSym(proc) | proc ∈ dom(BuiltinModalSymMap)} ∪ {RegionAddrIsActiveSym, RegionAddrTagFromSym} ∪ {BuiltinSym(method) | method ∈ BuiltinMethods}
 
 BuiltinSig(`FileSystem`::name) = ⟨[⟨⊥, `self`, TypePerm(CapRecv(`FileSystem`, name), TypeDynamic(`FileSystem`))⟩] ++ params, ret⟩ ⇔ CapMethodSig(`FileSystem`, name) = ⟨params, ret⟩
@@ -28761,6 +29044,9 @@ BuiltinSig(`Network`::name) = ⟨[⟨⊥, `self`, TypePerm(CapRecv(`Network`, na
 BuiltinSig(`HeapAllocator`::name) = ⟨[⟨⊥, `self`, TypePerm(CapRecv(`HeapAllocator`, name), TypeDynamic(`HeapAllocator`))⟩] ++ params, ret⟩ ⇔ CapMethodSig(`HeapAllocator`, name) = ⟨params, ret⟩
 BuiltinSig(`System`::name) = ⟨[⟨⊥, `self`, TypePerm(`const`, TypePath(["System"]))⟩] ++ params, ret⟩ ⇔ SystemMethodSig(name) = ⟨params, ret⟩
 BuiltinSig(`Reactor`::name) = ⟨[⟨⊥, `self`, TypePerm(CapRecv(`Reactor`, name), TypeDynamic(`Reactor`))⟩] ++ params, ret⟩ ⇔ CapMethodSig(`Reactor`, name) = ⟨params, ret⟩
+BuiltinSig(`Time`::name) = ⟨[⟨⊥, `self`, TypePerm(CapRecv(`Time`, name), TypeDynamic(`Time`))⟩] ++ params, ret⟩ ⇔ CapMethodSig(`Time`, name) = ⟨params, ret⟩
+BuiltinSig(`MonotonicTime`::name) = ⟨[⟨⊥, `self`, TypePerm(CapRecv(`MonotonicTime`, name), TypeDynamic(`MonotonicTime`))⟩] ++ params, ret⟩ ⇔ CapMethodSig(`MonotonicTime`, name) = ⟨params, ret⟩
+BuiltinSig(`WallTime`::name) = ⟨[⟨⊥, `self`, TypePerm(CapRecv(`WallTime`, name), TypeDynamic(`WallTime`))⟩] ++ params, ret⟩ ⇔ CapMethodSig(`WallTime`, name) = ⟨params, ret⟩
 BuiltinSig(method) = ⟨params, ret⟩ ⇔ StringBytesBuiltinSig(method) = ⟨params, ret⟩
 
 RuntimeSig(PanicSym) = ⟨[⟨⊥, `code`, TypePrim("u32")⟩], TypePrim("!")⟩
@@ -28794,7 +29080,7 @@ DeclAttrsOk(sym) ⇔ (sym = PanicSym ⇒ {`noreturn`, `nounwind`} ⊆ DeclAttrs(
 RuntimeDeclsOk(decls) ⇔ ∀ sym ∈ DeclSyms(decls). DeclAttrsOk(sym)
 RuntimeDeclsCover(LLVMIR, IR) ⇔ RuntimeRefs(IR) ⊆ DeclSyms(LLVMIR)
 
-#### 24.6.4 Network, Heap, and Reactor Host-Primitives
+#### 24.6.4 Network, Heap, Reactor, and Time Host-Primitives
 
 **(Prim-Network-RestrictHost-Runtime)**
 Γ ⊢ NetRestrictHost(v_net, host) ⇓ v_net'
@@ -28852,6 +29138,53 @@ ReactorJudg = {ReactorRun(v_reactor, f) ⇓ r, ReactorRegister(v_reactor, f) ⇓
 Γ ⊢ ReactorRegister(v_reactor, f) ⇓ h
 ────────────────────────────────────────────────────────────────────────────
 Γ ⊢ PrimCall(`Reactor`, `register`, v_reactor, [f]) ⇓ Val(h)
+
+Time host-primitives are defined in §6.2.3.
+
+**(Prim-Time-Monotonic-Runtime)**
+Γ ⊢ TimeMonotonic(v_time) ⇓ v_mono
+────────────────────────────────────────────────────────────────────────────
+Γ ⊢ PrimCall(`Time`, `monotonic`, v_time, []) ⇓ Val(v_mono)
+
+**(Prim-Time-Wall-Runtime)**
+Γ ⊢ TimeWall(v_time) ⇓ v_wall
+──────────────────────────────────────────────────────────────────────
+Γ ⊢ PrimCall(`Time`, `wall`, v_time, []) ⇓ Val(v_wall)
+
+**(Prim-MonotonicTime-Now-Runtime)**
+Γ ⊢ MonotonicTimeNow(v_mono) ⇓ t
+────────────────────────────────────────────────────────────────────────────
+Γ ⊢ PrimCall(`MonotonicTime`, `now`, v_mono, []) ⇓ Val(t)
+
+**(Prim-MonotonicTime-Resolution-Runtime)**
+Γ ⊢ MonotonicTimeResolution(v_mono) ⇓ d
+───────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ PrimCall(`MonotonicTime`, `resolution`, v_mono, []) ⇓ Val(d)
+
+**(Prim-MonotonicTime-Elapsed-Runtime)**
+Γ ⊢ MonotonicTimeElapsed(v_mono, start, end) ⇓ r
+────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ PrimCall(`MonotonicTime`, `elapsed`, v_mono, [start, end]) ⇓ Val(r)
+
+**(Prim-MonotonicTime-Coarsen-Runtime)**
+Γ ⊢ MonotonicTimeCoarsen(v_mono, resolution) ⇓ r
+────────────────────────────────────────────────────────────────────────────────
+Γ ⊢ PrimCall(`MonotonicTime`, `coarsen`, v_mono, [resolution]) ⇓ Val(r)
+
+**(Prim-WallTime-NowUtc-Runtime)**
+Γ ⊢ WallTimeNowUtc(v_wall) ⇓ r
+────────────────────────────────────────────────────────────────────────
+Γ ⊢ PrimCall(`WallTime`, `now_utc`, v_wall, []) ⇓ Val(r)
+
+**(Prim-WallTime-Resolution-Runtime)**
+Γ ⊢ WallTimeResolution(v_wall) ⇓ r
+────────────────────────────────────────────────────────────────────────────
+Γ ⊢ PrimCall(`WallTime`, `resolution`, v_wall, []) ⇓ Val(r)
+
+**(Prim-WallTime-Coarsen-Runtime)**
+Γ ⊢ WallTimeCoarsen(v_wall, resolution) ⇓ r
+────────────────────────────────────────────────────────────────────────────
+Γ ⊢ PrimCall(`WallTime`, `coarsen`, v_wall, [resolution]) ⇓ Val(r)
 
 ### 24.7 Backend Requirements
 
@@ -29919,7 +30252,7 @@ Only sections that define named diagnostics are listed below.
 - `§11.1.7 Import Declarations`: `E-MOD-1202`
 - `§11.2.7 Using Declarations`: `E-MOD-1204`, `E-MOD-1205`, `E-MOD-1206`, `W-MOD-1201`
 - `§11.3.7 Static Declarations`: `E-TYP-1505`, `E-MOD-2402`, `E-MOD-2433`
-- `§11.5.7 Module and File Aggregation`: `E-MOD-1104`, `E-MOD-1105`, `E-MOD-1106`, `W-MOD-1101`, `E-MOD-1201`, `E-MOD-1304`, `E-MOD-1401`
+- `§11.5.7 Module and File Aggregation`: `E-MOD-1104`, `E-MOD-1105`, `E-MOD-1106`, `E-MOD-1107`, `W-MOD-1101`, `E-MOD-1201`, `E-MOD-1401`
 - `§12.2.7 Tuples`: `E-TYP-1801`, `E-TYP-1802`, `E-TYP-1803`, `E-SEM-2524`
 - `§12.6.7 Records`: `E-TYP-1901`, `E-TYP-1902`, `E-TYP-1903`, `E-TYP-1904`, `E-TYP-1905`, `E-TYP-1906`, `E-TYP-1907`, `E-TYP-1911`
 - `§12.7.7 Enums`: `E-TYP-1920`, `E-TYP-1921`, `E-TYP-1922`, `E-TYP-1923`
@@ -29928,7 +30261,7 @@ Only sections that define named diagnostics are listed below.
 - `§14.11 Refinement and Polymorphism Diagnostics Supplement`: `E-TYP-1953`, `E-TYP-1954`, `E-TYP-1955`, `E-TYP-1956`, `E-TYP-1957`, `P-TYP-1953`, `E-TYP-2301`, `E-TYP-2302`, `E-TYP-2303`, `E-TYP-2304`, `E-TYP-2305`, `E-TYP-2307`, `E-TYP-2308`, `E-TYP-2401`, `E-TYP-2402`, `E-TYP-2403`, `E-TYP-2404`, `E-TYP-2405`, `E-TYP-2406`, `E-TYP-2407`, `E-TYP-2408`, `E-TYP-2409`, `E-TYP-2500`, `E-TYP-2501`, `E-TYP-2502`, `E-TYP-2503`, `E-TYP-2504`, `E-TYP-2505`, `E-TYP-2506`, `E-TYP-2507`, `E-TYP-2508`, `E-TYP-2509`, `E-TYP-2510`, `E-TYP-2511`, `E-TYP-2512`, `E-TYP-2530`, `E-TYP-2531`, `E-TYP-2540`, `E-TYP-2541`, `E-TYP-2542`, `E-TYP-2621`, `E-TYP-2622`, `E-UNS-0105`, `E-UNS-0106`
 - `§15.10 Procedure, Contract, and Entry Diagnostics Supplement`: `E-TYP-1507`, `E-TYP-1912`, `E-MOD-2411`, `E-MOD-2430`, `E-MOD-2431`, `E-MOD-2432`, `E-MOD-2434`, `E-CON-0415`, `E-CON-0416`, `P-SEM-2850`, `E-SEM-2801`, `E-SEM-2802`, `E-SEM-2803`, `E-SEM-2804`, `E-SEM-2805`, `E-SEM-2806`, `E-SEM-2807`, `E-SEM-2820`, `E-SEM-2821`, `E-SEM-2822`, `E-SEM-2823`, `E-SEM-2824`, `E-SEM-2830`, `E-SEM-2831`, `E-SEM-3004`
 - `§16.10 Expression Diagnostics Supplement`: `E-SEM-2527`, `E-SEM-2528`, `E-SEM-2531`, `E-SEM-2532`, `E-SEM-2533`, `E-SEM-2534`, `E-SEM-2535`, `E-SEM-2536`, `E-SEM-2538`, `E-SEM-2539`, `E-SEM-2591`, `E-MEM-3031`, `E-UNS-0102`, `E-UNS-0103`, `E-UNS-0104`, `E-UNS-0107`, `W-SAFE-0100`
-- `§17.7 Pattern Diagnostics Supplement`: `E-SEM-2705`, `E-SEM-2711`, `E-SEM-2713`, `E-SEM-2721`, `E-SEM-2722`, `E-SEM-2731`
+- `§17.7 Pattern Diagnostics Supplement`: `E-SEM-2705`, `E-SEM-2711`, `E-SEM-2713`, `E-SEM-2721`, `E-SEM-2722`, `E-SEM-2731`, `E-SEM-2741`, `E-SEM-2751`, `E-SEM-2761`, `E-SEM-2762`
 - `§18.11 Statement Diagnostics Supplement`: `E-MOD-2401`, `E-SEM-3011`, `E-SEM-3012`, `E-SEM-3131`, `E-SEM-3132`, `E-SEM-3133`, `E-SEM-3151`, `E-SEM-3152`, `E-SEM-3161`, `E-SEM-3162`, `E-SEM-3163`, `E-SEM-3165`
 - `§19.1.7 Key Paths`: `E-CON-0002`, `E-CON-0003`, `E-CON-0030`, `E-CON-0033`, `E-CON-0034`, `E-CON-0083`
 - `§19.2.7 Key Acquisition Blocks`: `E-CON-0001`, `E-CON-0004`, `E-CON-0006`, `E-CON-0031`, `E-CON-0032`, `E-CON-0070`, `E-CON-0085`, `E-CON-0086`, `W-CON-0001`, `W-CON-0002`, `W-CON-0003`, `W-CON-0009`
@@ -30145,9 +30478,10 @@ Within `closure_expr`, a typed parameter annotation whose outermost constructor 
 
 if_expr        ::= "if" expression if_tail
 if_tail        ::= block_expr ("else" (block_expr | if_expr))?
-                 | "is" pattern block_expr ("else" (block_expr | if_expr))?
+                 | "is" if_case_pattern block_expr ("else" (block_expr | if_expr))?
                  | "is" "{" if_case+ if_case_else? "}"
-if_case        ::= pattern block_expr
+if_case        ::= if_case_pattern block_expr
+if_case_pattern ::= pattern | ":" type
 if_case_else   ::= "else" block_expr
 loop_expr      ::= "loop" loop_condition? loop_invariant? block_expr
 loop_condition ::= expression | pattern (":" type)? "in" expression
@@ -30166,10 +30500,11 @@ transmute_expr   ::= "transmute" "<" type "," type ">" "(" expression ")"
 ### B.4 Pattern Grammar
 
 ```ebnf
-pattern                ::= literal_pattern | wildcard_pattern | identifier_pattern | tuple_pattern | record_pattern | enum_pattern | modal_pattern | range_pattern
+pattern                ::= literal_pattern | wildcard_pattern | identifier_pattern | typed_pattern | tuple_pattern | record_pattern | enum_pattern | modal_pattern | range_pattern
 literal_pattern        ::= literal
 wildcard_pattern       ::= "_"
 identifier_pattern     ::= identifier
+typed_pattern          ::= ("_" | identifier) ":" type
 tuple_pattern          ::= "(" tuple_pattern_elements? ")"
 tuple_pattern_elements ::= pattern ";" | pattern ("," pattern)+ ","?
 record_pattern         ::= type_path "{" field_pattern_list? "}"
@@ -30517,7 +30852,7 @@ Informative. Appendix D cross-indexes layout, ABI, and runtime ownership after r
 | Modal, string, and bytes layout                                  | `§13.1.5`, `§13.6.5`, `§13.7.5`, `§24.6.1`, `§24.7.7`              | `ModalLayout`, `ModalBits`, `BuiltinModalLayout`, `LLVMTy`                   |
 | Safe pointers, raw pointers, and function/closure representation | `§13.8.5`, `§13.9.5`, `§13.10.5`, `§13.11.5`, `§24.2.2`, `§24.7.7` | `ValueBits`, `LLVMPtrTy`, `LLVMArgAttrs`, `LLVMTy`                           |
 | Dynamic class objects and vtables                                | `§14.6.5`, `§14.6.6`, `§24.3`, `§24.7.7`                           | `DynLayout`, `VTable`, `EmitVTable`, `Mangle`, `Linkage`                     |
-| Filesystem, network, and system runtime behavior                 | `§6.2.1`, `§6.2.2`, `§6.2.3`, `§6.2.4`                             | `FSJudg`, `FileJudg_ω`, `DirJudg_ω`, `SystemJudg`, `NetworkJudg`, `PrimCall` |
+| Filesystem, system, time, and network runtime behavior           | `§6.2.1`, `§6.2.2`, `§6.2.3`, `§6.2.4`, `§6.2.5`                    | `FSJudg`, `FileJudg_ω`, `DirJudg_ω`, `SystemJudg`, `TimeJudg`, `NetworkJudg`, `PrimCall` |
 | Program lifecycle and initialization                             | `§24.4`                                                            | `EmitGlobal`, `InitFn`, `DeinitFn`, `ContextInitSym`, `InterpretProject`     |
 | Cleanup, drop, and unwinding                                     | `§24.5`                                                            | `CleanupPlan`, `CleanupScope`, `Destroy`, `Unwind`                           |
 | Runtime symbol surface                                           | `§24.6`                                                            | `BuiltinModalSym`, `BuiltinSym`, `RuntimeSig`, `RuntimeDecls`                |

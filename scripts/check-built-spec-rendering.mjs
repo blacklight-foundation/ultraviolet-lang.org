@@ -34,6 +34,12 @@ if (!existsSync(distSpecDir)) {
     if (hasMath && !output.includes('katex-display')) {
       errors.push(`${outputPath} does not contain rendered KaTeX display markup.`);
     }
+    if (/\\mathsf\{(?:For|The|This|These|Those|If|When|While|Every|Each|Calls|Executables|Libraries)\}/.test(output)) {
+      errors.push(`${outputPath} appears to render prose inside KaTeX output.`);
+    }
+    if (output.includes('&lt;!--') || output.includes('<!-- Source:')) {
+      errors.push(`${outputPath} contains an HTML comment in rendered content.`);
+    }
   }
 
   if (expectedWithMath > 0 && renderedWithKatex !== expectedWithMath) {

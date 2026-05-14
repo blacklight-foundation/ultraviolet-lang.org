@@ -100,6 +100,7 @@ for (const [char, symbol] of [
   ['\u2211', '\\sum'],
   ['\u22ef', '\\cdots'],
   ['\u2124', '\\mathbb{Z}'],
+  ['\u211d', '\\mathbb{R}'],
   ['\u2113', '\\ell'],
   ['\u2118', '\\wp'],
   ['\ud835\udcab', '\\mathcal{P}'],
@@ -183,6 +184,7 @@ const TEXT_REPLACEMENTS = new Map([
   ['\u22ef', '...'],
   ['\u2115', 'N'],
   ['\u2124', 'Z'],
+  ['\u211d', 'R'],
   ['\u2113', 'ell'],
   ['\u2118', 'wp'],
   ['\ud835\udcab', 'P'],
@@ -213,6 +215,7 @@ const TEXT_REPLACEMENTS = new Map([
   ['\u00b1', '+/-'],
   ['\u00a7', 'section'],
   ['\u2013', '-'],
+  ['\u2014', '-'],
   ['\ud835\udd05', 'B'],
   ['\u2080', '_0'],
   ['\u2081', '_1'],
@@ -413,6 +416,45 @@ export function groupedChapters() {
   return groups;
 }
 
+export function chapterNumber(heading) {
+  return heading.replace(/ .+$/, '');
+}
+
+export function extractChapterSections(body) {
+  const sections = [];
+  let current = null;
+  const slugCounts = new Map();
+
+  for (const match of body.matchAll(/^(#{3,4})\s+(.+)$/gm)) {
+    const level = match[1].length;
+    const title = match[2].trim();
+    const entry = {
+      title,
+      anchor: slugifyHeading(title, slugCounts),
+    };
+
+    if (level === 3) {
+      current = {
+        ...entry,
+        subsections: [],
+      };
+      sections.push(current);
+    } else if (level === 4) {
+      if (!current) {
+        current = {
+          title: 'Chapter Details',
+          anchor: '',
+          subsections: [],
+        };
+        sections.push(current);
+      }
+      current.subsections.push(entry);
+    }
+  }
+
+  return sections;
+}
+
 export function readSpec() {
   const raw = readFileSync(SPEC_SOURCE_PATH, 'utf8');
   return {
@@ -510,6 +552,7 @@ export function normalizeChapterBody(body) {
   const lines = body.split(/\r?\n/);
   const out = [];
   let inSourceFence = false;
+  let inHtmlComment = false;
   let sourceFenceLang = '';
   let sourceFenceLines = [];
   let formalLines = [];
@@ -571,7 +614,22 @@ export function normalizeChapterBody(body) {
       continue;
     }
 
+    if (inHtmlComment) {
+      if (line.includes('-->')) {
+        inHtmlComment = false;
+      }
+      continue;
+    }
+
     if (lineIndex === 0 && line.startsWith('## ')) {
+      continue;
+    }
+
+    if (line.trimStart().startsWith('<!--')) {
+      flushFormalBlock();
+      if (!line.includes('-->')) {
+        inHtmlComment = true;
+      }
       continue;
     }
 
@@ -610,6 +668,7 @@ function renderTextFenceLine(line) {
 function isFormalLine(line) {
   const trimmed = line.trim();
   if (!trimmed) return false;
+  if (isMarkdownProseLine(trimmed)) return false;
   if (trimmed.startsWith('|')) return false;
   if (/^#{1,6}\s/.test(trimmed)) return false;
   if (/^\*\*.*\*\*$/.test(trimmed)) return false;
@@ -617,9 +676,17 @@ function isFormalLine(line) {
   if (/^\d+\.\s/.test(trimmed)) return false;
   if (/^\$\$/.test(trimmed)) return false;
   if (trimmed === RULE_BAR || /^(?:-|\u2500){12,}$/u.test(trimmed)) return true;
-  if (hasFormalNotation(trimmed)) {
+  if (/^[A-Z][A-Za-z0-9_]*(?:\([^)]*\))?\s*:\s*[A-Z][A-Za-z0-9_]*(?:\s*(?:\u2192|->)\s*.+)?$/.test(trimmed)) {
     return true;
   }
+  if (/^[A-Za-z_][A-Za-z0-9_]*\s*:\s*\{.*\}$/.test(trimmed)) return true;
+  if (/^[A-Za-z_][A-Za-z0-9_]*\s*=\s*\{.*\}$/.test(trimmed)) return true;
+  if (/^[A-Za-z_][A-Za-z0-9_]*\s*=\s*\[.*\]$/.test(trimmed)) return true;
+  if (/^[A-Za-z_][A-Za-z0-9_]*\s*=\s*[A-Za-z_][A-Za-z0-9_]*(?:\(.*\))?$/.test(trimmed)) return true;
+  if (/^[A-Za-z_][A-Za-z0-9_]*\(.*\)\s*(?:=|\u21d4|=>|->|\u21d3|\u21d1)/u.test(trimmed)) return true;
+  if (/^[\u2200\u2203\u0393\u03a3\u039e\u03a9\u0394\u03a0\u03a6\u03c0\u03c3\u03b8\u03bb\u03b5\u03ba\u03b1\u03b2\u03b3\u03b4\u03b7\u03bc\u03c1\u03c4\u03c9\u03c6\u03c7\u03c8\u{1D4AB}\u{1D4AF}\u{1D505}]/u.test(trimmed)) return true;
+  if (/(?:\u22a2|\u21d3|\u21d1|\u21d4|\u21d2|\u21d0|\u22a8|\u22a3|\u21a6|\u2192)/u.test(trimmed)) return true;
+  if (hasFormalNotation(trimmed)) return true;
   if (/^#\S/.test(trimmed)) return true;
   if (/[A-Za-z_][A-Za-z0-9_]*\([^)]*\)/.test(trimmed) && /[=:[\]{}|]/.test(trimmed)) {
     return true;
@@ -636,6 +703,7 @@ function isFormalContinuationLine(line, formalLines) {
 
   const trimmed = line.trim();
   if (!trimmed) return false;
+  if (isMarkdownProseLine(trimmed)) return false;
   if (trimmed.startsWith('|')) return false;
   if (/^#{1,6}\s/.test(trimmed)) return false;
   if (/^\*\*.*\*\*$/.test(trimmed)) return false;
@@ -651,8 +719,25 @@ function isFormalContinuationLine(line, formalLines) {
   return false;
 }
 
+function isMarkdownProseLine(trimmed) {
+  if (trimmed.startsWith('<!--')) return true;
+  if (/^<\/?[A-Za-z][^>]*>/.test(trimmed)) return true;
+  if (/^\[[^\]]+\]:\s/.test(trimmed)) return true;
+  if (/^\*\*.+\*\*/.test(trimmed) && /[.!?:](?:\s|$)/.test(trimmed)) return true;
+  if (/\b(?:MUST|SHOULD|MAY|MUST NOT|SHOULD NOT)\b/.test(trimmed) && /[.!?:](?:\s|$)/.test(trimmed)) return true;
+  if (/\.\s+(?:When|The|This|These|Those|If|For|A|An|Every|Each)\b/.test(trimmed)) return true;
+  if (/^(?:The|This|These|Those|A|An|For|If|When|Where|While|Every|Each|Let|Calls|Static|Dynamic|Lowering|Typing|Parsing|Evaluation|Source|User|Foreign|Executables|Libraries)\b/.test(trimmed)) {
+    if (/[a-z][a-z-]+\s+[a-z][a-z-]+/.test(trimmed)) return true;
+    return /[.!?:](?:\s|$)/.test(trimmed) || trimmed.includes(' MUST ') || trimmed.includes(' SHOULD ');
+  }
+  if (/^[A-Z][A-Za-z-]+(?:\s+[a-z][A-Za-z-]+){2,}/.test(trimmed) && /[.!?](?:\s|$)/.test(trimmed)) {
+    return true;
+  }
+  return false;
+}
+
 function hasFormalNotation(text) {
-  return /[ΓΣΞΩΔΠΦπσθλεκαβγδημρτωφχψ⊢⊣⊬⇓⇑⇔⇒⇐→↔↦⇀↑∀∃∈∉∋⊆⊂⊄⊈⊥⊤⊨≠≤≥≡≈≺⟨⟩∧∨¬∪∩∅∞ℕℤℓ℘𝒫𝒯⋃⋀⋯×∖▷◁±⊎⊕⌊⌋⌈⌉∘]/u.test(text);
+  return /[\u00ac\u00b1\u00b7\u00d7\u0393\u0394\u039e\u03a0\u03a3\u03a6\u03a9\u03b1\u03b2\u03b3\u03b4\u03b5\u03b8\u03ba\u03bb\u03c0\u03c1\u03c3\u03c4\u03c7\u03c9\u2113\u2115\u2118\u211d\u2124\u2191\u2192\u2194\u21a6\u21c0\u21d0\u21d1\u21d2\u21d3\u21d4\u2200\u2203\u2205\u2208\u2209\u220b\u2211\u2216\u2218\u221e\u2227\u2228\u2229\u222a\u2260\u2261\u2264\u2265\u227a\u2282\u2284\u2286\u2288\u228e\u2295\u22a2\u22a3\u22a5\u22a8\u22ac\u22c0\u22c3\u22ef\u2308\u2309\u230a\u230b\u25b7\u25c1\u27e8\u27e9\u{1D4AB}\u{1D4AF}\u{1D505}]/u.test(text);
 }
 
 function renderLatexBlock(lines) {
@@ -664,7 +749,7 @@ function renderLatexBlock(lines) {
     return latexLines[0];
   }
 
-  return `\\begin{array}{l}\n${latexLines.join(' \\\\\n')}\n\\end{array}`;
+  return `\\begin{array}{l}\n${latexLines.join(' \\\\[0.16em]\n')}\n\\end{array}`;
 }
 
 function renderLatexLine(line) {
@@ -678,7 +763,8 @@ function renderLatexLine(line) {
 
   while (index < line.length) {
     const rest = line.slice(index);
-    const char = line[index];
+    const char = [...rest][0];
+    const charLength = char.length;
 
     if (char === '`') {
       const end = line.indexOf('`', index + 1);
@@ -738,29 +824,30 @@ function renderLatexLine(line) {
     const symbol = LATEX_SYMBOLS.get(char);
     if (symbol) {
       out += renderSymbol(symbol);
-      index += 1;
+      index += charLength;
       continue;
     }
 
     const subscriptDigit = SUBSCRIPT_DIGITS.get(char);
     if (subscriptDigit) {
       out += `_{${subscriptDigit}}`;
-      index += 1;
+      index += charLength;
       continue;
     }
 
     out += renderAsciiPunctuation(char);
-    index += 1;
+    index += charLength;
   }
 
   return out;
 }
 
 function renderGreekIdentifier(line, index) {
-  const symbol = LATEX_SYMBOLS.get(line[index]);
+  const char = [...line.slice(index)][0];
+  const symbol = LATEX_SYMBOLS.get(char);
   if (!symbol) return null;
 
-  let next = index + 1;
+  let next = index + char.length;
   let latex = symbol;
   if (line[next] === '_') {
     const subscript = line.slice(next + 1).match(/^[A-Za-z0-9]+/);
@@ -879,4 +966,20 @@ export function docsPathForSlug(slug) {
   return slug === 'index'
     ? `${SPEC_OUTPUT_DIR}/index.md`
     : `${SPEC_OUTPUT_DIR}/${slug}.md`;
+}
+
+export function slugifyHeading(value, slugCounts = new Map()) {
+  const base =
+    value
+      .replace(/`([^`]+)`/g, '$1')
+      .replace(/<[^>]+>/g, '')
+      .toLowerCase()
+      .replace(/&[a-z0-9#]+;/g, '')
+      .replace(/[^a-z0-9\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-') || 'section';
+
+  const count = slugCounts.get(base) ?? 0;
+  slugCounts.set(base, count + 1);
+  return count === 0 ? base : `${base}-${count}`;
 }

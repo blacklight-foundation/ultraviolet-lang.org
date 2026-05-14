@@ -2,14 +2,14 @@
 title: "Complete Grammar Reference"
 description: "Appendix B. Complete Grammar Reference of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T19:35:24.518Z"
+specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+generatedAt: "2026-05-14T00:55:03.609Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e</code></span>
+  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
 </div>
 
 
@@ -197,9 +197,10 @@ Within `closure_expr`, a typed parameter annotation whose outermost constructor 
 
 if_expr        ::= "if" expression if_tail
 if_tail        ::= block_expr ("else" (block_expr | if_expr))?
-                 | "is" pattern block_expr ("else" (block_expr | if_expr))?
+                 | "is" if_case_pattern block_expr ("else" (block_expr | if_expr))?
                  | "is" "{" if_case+ if_case_else? "}"
-if_case        ::= pattern block_expr
+if_case        ::= if_case_pattern block_expr
+if_case_pattern ::= pattern | ":" type
 if_case_else   ::= "else" block_expr
 loop_expr      ::= "loop" loop_condition? loop_invariant? block_expr
 loop_condition ::= expression | pattern (":" type)? "in" expression
@@ -218,10 +219,11 @@ transmute_expr   ::= "transmute" "<" type "," type ">" "(" expression ")"
 ## B.4 Pattern Grammar
 
 ```text
-pattern                ::= literal_pattern | wildcard_pattern | identifier_pattern | tuple_pattern | record_pattern | enum_pattern | modal_pattern | range_pattern
+pattern                ::= literal_pattern | wildcard_pattern | identifier_pattern | typed_pattern | tuple_pattern | record_pattern | enum_pattern | modal_pattern | range_pattern
 literal_pattern        ::= literal
 wildcard_pattern       ::= "_"
 identifier_pattern     ::= identifier
+typed_pattern          ::= ("_" | identifier) ":" type
 tuple_pattern          ::= "(" tuple_pattern_elements? ")"
 tuple_pattern_elements ::= pattern ";" | pattern ("," pattern)+ ","?
 record_pattern         ::= type_path "{" field_pattern_list? "}"

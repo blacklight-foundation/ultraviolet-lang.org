@@ -2,14 +2,14 @@
 title: "Type System Core"
 description: "8. Type System Core of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T19:35:24.518Z"
+specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+generatedAt: "2026-05-14T00:55:03.609Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e</code></span>
+  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
 </div>
 
 
@@ -17,7 +17,7 @@ generated: true
 
 $$
 \begin{array}{l}
-\mathsf{TypeEqJudg}\ =\ \{\equiv \} \\
+\mathsf{TypeEqJudg}\ =\ \{\equiv \} \\[0.16em]
 \mathsf{ConstLenJudg}\ =\ \{\mathsf{ConstLen}\}
 \end{array}
 $$
@@ -26,8 +26,8 @@ $$
 
 $$
 \begin{array}{l}
-e\ =\ \operatorname{Literal}(\mathsf{lit})\quad \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\quad \operatorname{InRange}(\operatorname{IntValue}(\mathsf{lit}),\ \texttt{"usize"})\quad n\ =\ \operatorname{IntValue}(\mathsf{lit}) \\
-\rule{18em}{0.4pt} \\
+e\ =\ \operatorname{Literal}(\mathsf{lit})\quad \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\quad \operatorname{InRange}(\operatorname{IntValue}(\mathsf{lit}),\ \texttt{"usize"})\quad n\ =\ \operatorname{IntValue}(\mathsf{lit}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ConstLen}(e)\ \Downarrow \ n
 \end{array}
 $$
@@ -36,8 +36,8 @@ $$
 
 $$
 \begin{array}{l}
-e\ =\ \operatorname{Path}(\mathsf{path},\ \mathsf{name})\quad \operatorname{ValuePathType}(\mathsf{path},\ \mathsf{name})\ =\ T\quad \operatorname{StaticDecl}(\_,\ \_,\ \_,\ \langle \operatorname{IdentPattern}(\mathsf{name}),\ \_,\ \texttt{"="},\ \mathsf{init},\ \_\rangle ,\ \_,\ \_)\ \in \ \Gamma \quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{init})\ \Downarrow \ n \\
-\rule{18em}{0.4pt} \\
+e\ =\ \operatorname{Path}(\mathsf{path},\ \mathsf{name})\quad \operatorname{ValuePathType}(\mathsf{path},\ \mathsf{name})\ =\ T\quad \operatorname{StaticDecl}(\_,\ \_,\ \_,\ \langle \operatorname{IdentPattern}(\mathsf{name}),\ \_,\ \texttt{"="},\ \mathsf{init},\ \_\rangle ,\ \_,\ \_)\ \in \ \Gamma \quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{init})\ \Downarrow \ n \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ConstLen}(e)\ \Downarrow \ n
 \end{array}
 $$
@@ -46,8 +46,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \exists \ n.\ \Gamma \ \vdash \ \operatorname{ConstLen}(e)\ \Downarrow \ n\quad c\ =\ \operatorname{Code}(\mathsf{ConstLen}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \exists \ n.\ \Gamma \ \vdash \ \operatorname{ConstLen}(e)\ \Downarrow \ n\quad c\ =\ \operatorname{Code}(\mathsf{ConstLen}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ConstLen}(e)\ \Uparrow \ c
 \end{array}
 $$
@@ -60,8 +60,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePrim}(n)\quad U\ =\ \operatorname{TypePrim}(n) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePrim}(n)\quad U\ =\ \operatorname{TypePrim}(n) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -70,8 +70,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePerm}(p,\ T_{0})\quad U\ =\ \operatorname{TypePerm}(p,\ U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePerm}(p,\ T_{0})\quad U\ =\ \operatorname{TypePerm}(p,\ U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -80,8 +80,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeTuple}([U_{1},\ \ldots ,\ U_{n}])\quad \forall \ i,\ \Gamma \ \vdash \ T_{i}\ \equiv \ U_{i} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeTuple}([U_{1},\ \ldots ,\ U_{n}])\quad \forall \ i,\ \Gamma \ \vdash \ T_{i}\ \equiv \ U_{i} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -90,8 +90,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeArray}(T_{0},\ e_{0})\quad U\ =\ \operatorname{TypeArray}(U_{0},\ e_{1})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{0})\ \Downarrow \ n\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{1})\ \Downarrow \ n\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeArray}(T_{0},\ e_{0})\quad U\ =\ \operatorname{TypeArray}(U_{0},\ e_{1})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{0})\ \Downarrow \ n\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{1})\ \Downarrow \ n\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -100,8 +100,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeSlice}(T_{0})\quad U\ =\ \operatorname{TypeSlice}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeSlice}(T_{0})\quad U\ =\ \operatorname{TypeSlice}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -110,8 +110,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeFunc}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R)\quad U\ =\ \operatorname{TypeFunc}([\langle m_{1},\ U_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ U_{n}\rangle ],\ S)\quad \forall \ i,\ \Gamma \ \vdash \ T_{i}\ \equiv \ U_{i}\quad \Gamma \ \vdash \ R\ \equiv \ S \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeFunc}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R)\quad U\ =\ \operatorname{TypeFunc}([\langle m_{1},\ U_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ U_{n}\rangle ],\ S)\quad \forall \ i,\ \Gamma \ \vdash \ T_{i}\ \equiv \ U_{i}\quad \Gamma \ \vdash \ R\ \equiv \ S \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -120,8 +120,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeClosure}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R,\ D)\quad U\ =\ \operatorname{TypeClosure}([\langle m_{1},\ U_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ U_{n}\rangle ],\ S,\ D)\quad \forall \ i,\ \Gamma \ \vdash \ T_{i}\ \equiv \ U_{i}\quad \Gamma \ \vdash \ R\ \equiv \ S \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeClosure}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R,\ D)\quad U\ =\ \operatorname{TypeClosure}([\langle m_{1},\ U_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ U_{n}\rangle ],\ S,\ D)\quad \forall \ i,\ \Gamma \ \vdash \ T_{i}\ \equiv \ U_{i}\quad \Gamma \ \vdash \ R\ \equiv \ S \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -130,8 +130,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeUnion}([T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeUnion}([U_{1},\ \ldots ,\ U_{n}])\quad \operatorname{MembersEq}([T_{1},\ \ldots ,\ T_{n}],\ [U_{1},\ \ldots ,\ U_{n}]) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeUnion}([T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeUnion}([U_{1},\ \ldots ,\ U_{n}])\quad \operatorname{MembersEq}([T_{1},\ \ldots ,\ T_{n}],\ [U_{1},\ \ldots ,\ U_{n}]) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -140,8 +140,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}(p)\quad U\ =\ \operatorname{TypePath}(p) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePath}(p)\quad U\ =\ \operatorname{TypePath}(p) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -150,8 +150,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)\quad U\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)\quad U\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -160,8 +160,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeString}(\mathsf{st})\quad U\ =\ \operatorname{TypeString}(\mathsf{st}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeString}(\mathsf{st})\quad U\ =\ \operatorname{TypeString}(\mathsf{st}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -170,8 +170,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeBytes}(\mathsf{st})\quad U\ =\ \operatorname{TypeBytes}(\mathsf{st}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeBytes}(\mathsf{st})\quad U\ =\ \operatorname{TypeBytes}(\mathsf{st}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -180,8 +180,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRange}(T_{0})\quad U\ =\ \operatorname{TypeRange}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRange}(T_{0})\quad U\ =\ \operatorname{TypeRange}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -190,8 +190,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRangeInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeInclusive}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRangeInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeInclusive}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -200,8 +200,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRangeFrom}(T_{0})\quad U\ =\ \operatorname{TypeRangeFrom}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRangeFrom}(T_{0})\quad U\ =\ \operatorname{TypeRangeFrom}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -210,8 +210,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRangeTo}(T_{0})\quad U\ =\ \operatorname{TypeRangeTo}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRangeTo}(T_{0})\quad U\ =\ \operatorname{TypeRangeTo}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -220,8 +220,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRangeToInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeToInclusive}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRangeToInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeToInclusive}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -231,7 +231,7 @@ T = TypeRangeFull    U = TypeRangeFull
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -240,8 +240,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePtr}(T_{0},\ s)\quad U\ =\ \operatorname{TypePtr}(U_{0},\ s)\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePtr}(T_{0},\ s)\quad U\ =\ \operatorname{TypePtr}(U_{0},\ s)\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -250,8 +250,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRawPtr}(q,\ T_{0})\quad U\ =\ \operatorname{TypeRawPtr}(q,\ U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRawPtr}(q,\ T_{0})\quad U\ =\ \operatorname{TypeRawPtr}(q,\ U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -260,8 +260,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeDynamic}(p)\quad U\ =\ \operatorname{TypeDynamic}(p) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeDynamic}(p)\quad U\ =\ \operatorname{TypeDynamic}(p) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -270,8 +270,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}])\quad \forall \ i,\ \Gamma \ \vdash \ T_{i}\ \equiv \ U_{i} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}])\quad \forall \ i,\ \Gamma \ \vdash \ T_{i}\ \equiv \ U_{i} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -280,8 +280,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeOpaque}(\mathsf{path})\quad U\ =\ \operatorname{TypeOpaque}(\mathsf{path}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeOpaque}(\mathsf{path})\quad U\ =\ \operatorname{TypeOpaque}(\mathsf{path}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -290,8 +290,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRefine}(T_{0},\ P_{1})\quad U\ =\ \operatorname{TypeRefine}(U_{0},\ P_{2})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0}\quad \operatorname{PredicateEquiv}(P_{1},\ P_{2}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRefine}(T_{0},\ P_{1})\quad U\ =\ \operatorname{TypeRefine}(U_{0},\ P_{2})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0}\quad \operatorname{PredicateEquiv}(P_{1},\ P_{2}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -304,8 +304,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRefine}(\operatorname{TypeRefine}(T_{0},\ P_{1}),\ P_{2})\quad U\ =\ \operatorname{TypeRefine}(T_{0},\ P_{1}\ \land \ P_{2}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRefine}(\operatorname{TypeRefine}(T_{0},\ P_{1}),\ P_{2})\quad U\ =\ \operatorname{TypeRefine}(T_{0},\ P_{1}\ \land \ P_{2}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ U
 \end{array}
 $$
@@ -314,8 +314,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ \in \ 𝒯 \\
-\rule{18em}{0.4pt} \\
+T\ \in \ \mathcal{T}  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ T
 \end{array}
 $$
@@ -324,8 +324,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ T\ \equiv \ U \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ U\ \equiv \ T
 \end{array}
 $$
@@ -334,8 +334,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ T\ \equiv \ U\quad \Gamma \ \vdash \ U\ \equiv \ V \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \equiv \ U\quad \Gamma \ \vdash \ U\ \equiv \ V \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \equiv \ V
 \end{array}
 $$
@@ -348,7 +348,7 @@ $$
 
 $$
 \begin{array}{l}
-\forall \ T,\ U\ \in \ \mathsf{IntTypes}.\ T\ \ne \ U\ \Rightarrow \ \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ U) \\
+\forall \ T,\ U\ \in \ \mathsf{IntTypes}.\ T\ \ne \ U\ \Rightarrow \ \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ U) \\[0.16em]
 \forall \ T,\ U\ \in \ \mathsf{FloatTypes}.\ T\ \ne \ U\ \Rightarrow \ \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ U)
 \end{array}
 $$
@@ -359,8 +359,8 @@ Permission admissibility is defined by Chapter 10. This chapter defines only typ
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePerm}(p,\ T_{0})\quad U\ =\ \operatorname{TypePerm}(q,\ U_{0})\quad p\ =\ q\quad \Gamma \ \vdash \ T_{0}\ \mathrel{<:} \ U_{0} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePerm}(p,\ T_{0})\quad U\ =\ \operatorname{TypePerm}(q,\ U_{0})\quad p\ =\ q\quad \Gamma \ \vdash \ T_{0}\ \mathrel{<:} \ U_{0} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U
 \end{array}
 $$
@@ -369,8 +369,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ \in \ 𝒯 \\
-\rule{18em}{0.4pt} \\
+T\ \in \ \mathcal{T}  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{TypePrim}(\texttt{"!"})\ \mathrel{<:} \ T
 \end{array}
 $$
@@ -379,8 +379,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeTuple}([U_{1},\ \ldots ,\ U_{n}])\quad \forall \ i,\ \Gamma \ \vdash \ T_{i}\ \mathrel{<:} \ U_{i} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeTuple}([U_{1},\ \ldots ,\ U_{n}])\quad \forall \ i,\ \Gamma \ \vdash \ T_{i}\ \mathrel{<:} \ U_{i} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U
 \end{array}
 $$
@@ -389,8 +389,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeArray}(T_{0},\ e_{0})\quad U\ =\ \operatorname{TypeArray}(U_{0},\ e_{1})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{0})\ \Downarrow \ n\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{1})\ \Downarrow \ n\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeArray}(T_{0},\ e_{0})\quad U\ =\ \operatorname{TypeArray}(U_{0},\ e_{1})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{0})\ \Downarrow \ n\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{1})\ \Downarrow \ n\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U
 \end{array}
 $$
@@ -399,8 +399,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeSlice}(T_{0})\quad U\ =\ \operatorname{TypeSlice}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeSlice}(T_{0})\quad U\ =\ \operatorname{TypeSlice}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U
 \end{array}
 $$
@@ -409,8 +409,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRange}(T_{0})\quad U\ =\ \operatorname{TypeRange}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \mathrel{<:} \ U_{0} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRange}(T_{0})\quad U\ =\ \operatorname{TypeRange}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \mathrel{<:} \ U_{0} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U
 \end{array}
 $$
@@ -419,8 +419,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRangeInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeInclusive}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \mathrel{<:} \ U_{0} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRangeInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeInclusive}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \mathrel{<:} \ U_{0} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U
 \end{array}
 $$
@@ -429,8 +429,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRangeFrom}(T_{0})\quad U\ =\ \operatorname{TypeRangeFrom}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \mathrel{<:} \ U_{0} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRangeFrom}(T_{0})\quad U\ =\ \operatorname{TypeRangeFrom}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \mathrel{<:} \ U_{0} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U
 \end{array}
 $$
@@ -439,8 +439,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRangeTo}(T_{0})\quad U\ =\ \operatorname{TypeRangeTo}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \mathrel{<:} \ U_{0} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRangeTo}(T_{0})\quad U\ =\ \operatorname{TypeRangeTo}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \mathrel{<:} \ U_{0} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U
 \end{array}
 $$
@@ -449,8 +449,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRangeToInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeToInclusive}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \mathrel{<:} \ U_{0} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRangeToInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeToInclusive}(U_{0})\quad \Gamma \ \vdash \ T_{0}\ \mathrel{<:} \ U_{0} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U
 \end{array}
 $$
@@ -460,7 +460,7 @@ T = TypeRangeFull    U = TypeRangeFull
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U
 \end{array}
 $$
@@ -469,8 +469,8 @@ $$
 
 $$
 \begin{array}{l}
-s\ \in \ \{\texttt{Valid},\ \texttt{Null}\} \\
-\rule{18em}{0.4pt} \\
+s\ \in \ \{\texttt{Valid},\ \texttt{Null}\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{TypePtr}(T,\ s)\ \mathrel{<:} \ \operatorname{TypePtr}(T,\ \bot )
 \end{array}
 $$
@@ -479,8 +479,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad S\ \in \ \operatorname{States}(M)\quad \operatorname{NicheCompatible}(\mathsf{modal}_{\mathsf{ref}},\ S) \\
-\rule{18em}{0.4pt} \\
+\operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad S\ \in \ \operatorname{States}(M)\quad \operatorname{NicheCompatible}(\mathsf{modal}_{\mathsf{ref}},\ S) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)\ \mathrel{<:} \ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})
 \end{array}
 $$
@@ -489,8 +489,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeFunc}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R)\quad U\ =\ \operatorname{TypeFunc}([\langle m_{1},\ U_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ U_{n}\rangle ],\ S)\quad \forall \ i,\ \Gamma \ \vdash \ U_{i}\ \mathrel{<:} \ T_{i}\quad \Gamma \ \vdash \ R\ \mathrel{<:} \ S \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeFunc}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R)\quad U\ =\ \operatorname{TypeFunc}([\langle m_{1},\ U_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ U_{n}\rangle ],\ S)\quad \forall \ i,\ \Gamma \ \vdash \ U_{i}\ \mathrel{<:} \ T_{i}\quad \Gamma \ \vdash \ R\ \mathrel{<:} \ S \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U
 \end{array}
 $$
@@ -499,8 +499,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeClosure}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R,\ D)\quad U\ =\ \operatorname{TypeClosure}([\langle m_{1},\ U_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ U_{n}\rangle ],\ S,\ D)\quad \forall \ i,\ \Gamma \ \vdash \ U_{i}\ \mathrel{<:} \ T_{i}\quad \Gamma \ \vdash \ R\ \mathrel{<:} \ S \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeClosure}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R,\ D)\quad U\ =\ \operatorname{TypeClosure}([\langle m_{1},\ U_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ U_{n}\rangle ],\ S,\ D)\quad \forall \ i,\ \Gamma \ \vdash \ U_{i}\ \mathrel{<:} \ T_{i}\quad \Gamma \ \vdash \ R\ \mathrel{<:} \ S \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U
 \end{array}
 $$
@@ -509,9 +509,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(T)\ =\ \langle \mathsf{Out}_{1},\ \mathsf{In}_{1},\ \mathsf{Result}_{1},\ E_{1}\rangle \quad \operatorname{AsyncSig}(U)\ =\ \langle \mathsf{Out}_{2},\ \mathsf{In}_{2},\ \mathsf{Result}_{2},\ E_{2}\rangle  \\
-\Gamma \ \vdash \ \mathsf{Out}_{1}\ \mathrel{<:} \ \mathsf{Out}_{2}\quad \Gamma \ \vdash \ \mathsf{In}_{2}\ \mathrel{<:} \ \mathsf{In}_{1}\quad \Gamma \ \vdash \ \mathsf{Result}_{1}\ \mathrel{<:} \ \mathsf{Result}_{2}\quad \Gamma \ \vdash \ E_{1}\ \mathrel{<:} \ E_{2} \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(T)\ =\ \langle \mathsf{Out}_{1},\ \mathsf{In}_{1},\ \mathsf{Result}_{1},\ E_{1}\rangle \quad \operatorname{AsyncSig}(U)\ =\ \langle \mathsf{Out}_{2},\ \mathsf{In}_{2},\ \mathsf{Result}_{2},\ E_{2}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \mathsf{Out}_{1}\ \mathrel{<:} \ \mathsf{Out}_{2}\quad \Gamma \ \vdash \ \mathsf{In}_{2}\ \mathrel{<:} \ \mathsf{In}_{1}\quad \Gamma \ \vdash \ \mathsf{Result}_{1}\ \mathrel{<:} \ \mathsf{Result}_{2}\quad \Gamma \ \vdash \ E_{1}\ \mathrel{<:} \ E_{2} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U
 \end{array}
 $$
@@ -525,7 +525,7 @@ Member(T, U)
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U
 \end{array}
 $$
@@ -534,26 +534,26 @@ $$
 
 $$
 \begin{array}{l}
-U_{1}\ =\ \operatorname{TypeUnion}([T_{1},\ \ldots ,\ T_{n}])\quad U_{2}\ =\ \operatorname{TypeUnion}([U_{1}',\ \ldots ,\ U_{m}'])\quad \forall \ i,\ \operatorname{Member}(T_{i},\ U_{2}) \\
-\rule{18em}{0.4pt} \\
+U_{1}\ =\ \operatorname{TypeUnion}([T_{1},\ \ldots ,\ T_{n}])\quad U_{2}\ =\ \operatorname{TypeUnion}([U_{1}',\ \ldots ,\ U_{m}'])\quad \forall \ i,\ \operatorname{Member}(T_{i},\ U_{2}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ U_{1}\ \mathrel{<:} \ U_{2}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\mathsf{Variance}\ =\ \{\texttt{+},\ \texttt{-},\ \texttt{=},\ \texttt{+/-}\} \\
-\mathsf{VarianceOf}\ :\ \mathsf{TypePath}\ \times \ \mathbb{N} \ \to \ \mathsf{Variance} \\
+\mathsf{Variance}\ =\ \{\texttt{+},\ \texttt{-},\ \texttt{=},\ \texttt{+/-}\} \\[0.16em]
+\mathsf{VarianceOf}\ :\ \mathsf{TypePath}\ \times \ \mathbb{N} \ \to \ \mathsf{Variance} \\[0.16em]
 \operatorname{VarianceOf}(\mathsf{path},\ i)\ =\ v\ \Leftrightarrow \ \operatorname{GenericDecl}(\mathsf{path})\ =\ \langle \mathsf{params},\ \_\rangle \ \land \ \mathsf{params}[i].\mathsf{variance}\ =\ v
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{VarianceSatisfied}(v,\ T,\ U)\ \Leftrightarrow  \\
-\ (v\ =\ \texttt{+}\ \land \ \Gamma \ \vdash \ T\ \mathrel{<:} \ U)\ \lor  \\
-\ (v\ =\ \texttt{-}\ \land \ \Gamma \ \vdash \ U\ \mathrel{<:} \ T)\ \lor  \\
-\ (v\ =\ \texttt{=}\ \land \ \Gamma \ \vdash \ T\ \equiv \ U)\ \lor  \\
+\operatorname{VarianceSatisfied}(v,\ T,\ U)\ \Leftrightarrow  \\[0.16em]
+\ (v\ =\ \texttt{+}\ \land \ \Gamma \ \vdash \ T\ \mathrel{<:} \ U)\ \lor  \\[0.16em]
+\ (v\ =\ \texttt{-}\ \land \ \Gamma \ \vdash \ U\ \mathrel{<:} \ T)\ \lor  \\[0.16em]
+\ (v\ =\ \texttt{=}\ \land \ \Gamma \ \vdash \ T\ \equiv \ U)\ \lor  \\[0.16em]
 \ (v\ =\ \texttt{+/-})
 \end{array}
 $$
@@ -562,8 +562,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}])\quad \forall \ i,\ \operatorname{VarianceSatisfied}(\operatorname{VarianceOf}(\mathsf{path},\ i),\ T_{i},\ U_{i}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}])\quad \forall \ i,\ \operatorname{VarianceSatisfied}(\operatorname{VarianceOf}(\mathsf{path},\ i),\ T_{i},\ U_{i}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U
 \end{array}
 $$
@@ -572,8 +572,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}])\quad \exists \ i,\ \operatorname{VarianceOf}(\mathsf{path},\ i)\ =\ \texttt{=}\ \land \ \lnot (\Gamma \ \vdash \ T_{i}\ \equiv \ U_{i})\quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-1520) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}])\quad \exists \ i,\ \operatorname{VarianceOf}(\mathsf{path},\ i)\ =\ \texttt{=}\ \land \ \lnot (\Gamma \ \vdash \ T_{i}\ \equiv \ U_{i})\quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-1520) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U\ \Uparrow \ c
 \end{array}
 $$
@@ -582,8 +582,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}])\quad \exists \ i,\ \operatorname{VarianceOf}(\mathsf{path},\ i)\ =\ \texttt{+}\ \land \ \lnot (\Gamma \ \vdash \ T_{i}\ \mathrel{<:} \ U_{i})\quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-1521) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}])\quad \exists \ i,\ \operatorname{VarianceOf}(\mathsf{path},\ i)\ =\ \texttt{+}\ \land \ \lnot (\Gamma \ \vdash \ T_{i}\ \mathrel{<:} \ U_{i})\quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-1521) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U\ \Uparrow \ c
 \end{array}
 $$
@@ -592,8 +592,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}])\quad \exists \ i,\ \operatorname{VarianceOf}(\mathsf{path},\ i)\ =\ \texttt{-}\ \land \ \lnot (\Gamma \ \vdash \ U_{i}\ \mathrel{<:} \ T_{i})\quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-1521) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}])\quad \exists \ i,\ \operatorname{VarianceOf}(\mathsf{path},\ i)\ =\ \texttt{-}\ \land \ \lnot (\Gamma \ \vdash \ U_{i}\ \mathrel{<:} \ T_{i})\quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-1521) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U\ \Uparrow \ c
 \end{array}
 $$
@@ -602,8 +602,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ \in \ 𝒯 \\
-\rule{18em}{0.4pt} \\
+T\ \in \ \mathcal{T}  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ T
 \end{array}
 $$
@@ -612,8 +612,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ T\ \mathrel{<:} \ U\quad \Gamma \ \vdash \ U\ \mathrel{<:} \ V \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ T\ \mathrel{<:} \ U\quad \Gamma \ \vdash \ U\ \mathrel{<:} \ V \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ V
 \end{array}
 $$
@@ -626,42 +626,40 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{Constraint}\ =\ \mathsf{Type}\ \times \ \mathsf{Type} \\
+\mathsf{Constraint}\ =\ \mathsf{Type}\ \times \ \mathsf{Type} \\[0.16em]
 \mathsf{ConstraintSet}\ =\ \wp (\mathsf{Constraint})
 \end{array}
 $$
 
-$$
-\mathsf{Constraint}\ \mathsf{generation}\ \mathsf{is}\ \mathsf{feature}-\mathsf{local}.\ \mathsf{This}\ \mathsf{chapter}\ \mathsf{defines}\ \mathsf{only}\ \mathsf{the}\ \mathsf{shared}\ \mathsf{equality}-\mathsf{constraint}\ \mathsf{domain},\ \mathsf{substitution}\ \mathsf{machinery},\ \mathsf{and}\ \mathsf{solver}\ \mathsf{consumed}\ \mathsf{by}\ \mathsf{those}\ \mathsf{rules}.\ \mathsf{Rules}\ \mathsf{that}\ \mathsf{generate}\ \mathsf{no}\ \mathsf{additional}\ \mathsf{equalities}\ \mathsf{yield}\ \texttt{emptyset}.
-$$
+Constraint generation is feature-local. This chapter defines only the shared equality-constraint domain, substitution machinery, and solver consumed by those rules. Rules that generate no additional equalities yield `∅`.
 
 $$
 \begin{array}{l}
-\mathsf{TVar}\ =\ \{\alpha ,\ \beta ,\ \gamma ,\ \ldots \} \\
+\mathsf{TVar}\ =\ \{\alpha ,\ \beta ,\ \gamma ,\ \ldots \} \\[0.16em]
 \operatorname{TVars}(T)\ =\ \mathsf{set}\ \mathsf{of}\ \mathsf{type}\ \mathsf{variables}\ \mathsf{occurring}\ \mathsf{in}\ T
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\mathsf{Subst}\ =\ \mathsf{TVar}\ \rightharpoonup \ \mathsf{Type} \\
-\operatorname{Dom}(\theta )\ =\ \{\alpha \ \mid \ \theta (\alpha )\ \mathsf{defined}\} \\
+\mathsf{Subst}\ =\ \mathsf{TVar}\ \rightharpoonup \ \mathsf{Type} \\[0.16em]
+\operatorname{Dom}(\theta )\ =\ \{\alpha \ \mid \ \theta (\alpha )\ \mathsf{defined}\} \\[0.16em]
 \mathsf{Id}\ =\ \emptyset 
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\theta (\operatorname{TypePrim}(p))\ =\ \operatorname{TypePrim}(p) \\
-\theta (\operatorname{TVar}(\alpha ))\ =\ \theta (\alpha )\ \mathsf{if}\ \alpha \ \in \ \operatorname{Dom}(\theta ),\ \mathsf{else}\ \operatorname{TVar}(\alpha ) \\
-\theta (\operatorname{TypeTuple}(\mathsf{Ts}))\ =\ \operatorname{TypeTuple}([\theta (T)\ \mid \ T\ \in \ \mathsf{Ts}]) \\
-\theta (\operatorname{TypeArray}(T,\ n))\ =\ \operatorname{TypeArray}(\theta (T),\ n) \\
-\theta (\operatorname{TypeSlice}(T))\ =\ \operatorname{TypeSlice}(\theta (T)) \\
-\theta (\operatorname{TypeUnion}(\mathsf{Ts}))\ =\ \operatorname{TypeUnion}([\theta (T)\ \mid \ T\ \in \ \mathsf{Ts}]) \\
-\theta (\operatorname{TypeFunc}(\mathsf{ps},\ R))\ =\ \operatorname{TypeFunc}([(m,\ \theta (T))\ \mid \ (m,\ T)\ \in \ \mathsf{ps}],\ \theta (R)) \\
-\theta (\operatorname{TypePtr}(T,\ s))\ =\ \operatorname{TypePtr}(\theta (T),\ s) \\
-\theta (\operatorname{TypePerm}(p,\ T))\ =\ \operatorname{TypePerm}(p,\ \theta (T)) \\
-\theta (\operatorname{TypeApply}(\mathsf{path},\ \mathsf{args}))\ =\ \operatorname{TypeApply}(\mathsf{path},\ [\theta (T)\ \mid \ T\ \in \ \mathsf{args}]) \\
+\theta (\operatorname{TypePrim}(p))\ =\ \operatorname{TypePrim}(p) \\[0.16em]
+\theta (\operatorname{TVar}(\alpha ))\ =\ \theta (\alpha )\ \mathsf{if}\ \alpha \ \in \ \operatorname{Dom}(\theta ),\ \mathsf{else}\ \operatorname{TVar}(\alpha ) \\[0.16em]
+\theta (\operatorname{TypeTuple}(\mathsf{Ts}))\ =\ \operatorname{TypeTuple}([\theta (T)\ \mid \ T\ \in \ \mathsf{Ts}]) \\[0.16em]
+\theta (\operatorname{TypeArray}(T,\ n))\ =\ \operatorname{TypeArray}(\theta (T),\ n) \\[0.16em]
+\theta (\operatorname{TypeSlice}(T))\ =\ \operatorname{TypeSlice}(\theta (T)) \\[0.16em]
+\theta (\operatorname{TypeUnion}(\mathsf{Ts}))\ =\ \operatorname{TypeUnion}([\theta (T)\ \mid \ T\ \in \ \mathsf{Ts}]) \\[0.16em]
+\theta (\operatorname{TypeFunc}(\mathsf{ps},\ R))\ =\ \operatorname{TypeFunc}([(m,\ \theta (T))\ \mid \ (m,\ T)\ \in \ \mathsf{ps}],\ \theta (R)) \\[0.16em]
+\theta (\operatorname{TypePtr}(T,\ s))\ =\ \operatorname{TypePtr}(\theta (T),\ s) \\[0.16em]
+\theta (\operatorname{TypePerm}(p,\ T))\ =\ \operatorname{TypePerm}(p,\ \theta (T)) \\[0.16em]
+\theta (\operatorname{TypeApply}(\mathsf{path},\ \mathsf{args}))\ =\ \operatorname{TypeApply}(\mathsf{path},\ [\theta (T)\ \mid \ T\ \in \ \mathsf{args}]) \\[0.16em]
 \theta \ \mathsf{distributes}\ \mathsf{over}\ \mathsf{all}\ \mathsf{remaining}\ \mathsf{type}\ \mathsf{constructors}.
 \end{array}
 $$
@@ -678,17 +676,17 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStart}(\emptyset )\rangle \ \to \ \langle \operatorname{UnifyDone}(\mathsf{Id})\rangle 
 \end{array}
 $$
 
 **(Unify-Eq)**
-T = U
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+T\ =\ U \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(C,\ \theta )\rangle 
 \end{array}
 $$
@@ -697,8 +695,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TVar}(\alpha )\quad \alpha \ \notin \ \operatorname{TVars}(U) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TVar}(\alpha )\quad \alpha \ \notin \ \operatorname{TVars}(U) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}([\alpha \ \mapsto \ U]C,\ [\alpha \ \mapsto \ U]\ \circ \ \theta )\rangle 
 \end{array}
 $$
@@ -707,8 +705,8 @@ $$
 
 $$
 \begin{array}{l}
-U\ =\ \operatorname{TVar}(\alpha )\quad \alpha \ \notin \ \operatorname{TVars}(T) \\
-\rule{18em}{0.4pt} \\
+U\ =\ \operatorname{TVar}(\alpha )\quad \alpha \ \notin \ \operatorname{TVars}(T) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}([\alpha \ \mapsto \ T]C,\ [\alpha \ \mapsto \ T]\ \circ \ \theta )\rangle 
 \end{array}
 $$
@@ -717,8 +715,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TVar}(\alpha )\quad \alpha \ \in \ \operatorname{TVars}(U)\quad T\ \ne \ U \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TVar}(\alpha )\quad \alpha \ \in \ \operatorname{TVars}(U)\quad T\ \ne \ U \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
 \end{array}
 $$
@@ -727,8 +725,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeTuple}([U_{1},\ \ldots ,\ U_{n}]) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeTuple}([U_{1},\ \ldots ,\ U_{n}]) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{1},\ U_{1}),\ \ldots ,\ (T_{n},\ U_{n})\}\ \cup \ C,\ \theta )\rangle 
 \end{array}
 $$
@@ -737,8 +735,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeTuple}([U_{1},\ \ldots ,\ U_{m}])\quad n\ \ne \ m \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeTuple}([U_{1},\ \ldots ,\ U_{m}])\quad n\ \ne \ m \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
 \end{array}
 $$
@@ -747,8 +745,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeArray}(T_{0},\ e_{0})\quad U\ =\ \operatorname{TypeArray}(U_{0},\ e_{1})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{0})\ \Downarrow \ n\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{1})\ \Downarrow \ n \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeArray}(T_{0},\ e_{0})\quad U\ =\ \operatorname{TypeArray}(U_{0},\ e_{1})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{0})\ \Downarrow \ n\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{1})\ \Downarrow \ n \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
 \end{array}
 $$
@@ -757,8 +755,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeArray}(T_{0},\ e_{0})\quad U\ =\ \operatorname{TypeArray}(U_{0},\ e_{1})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{0})\ \Downarrow \ n_{0}\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{1})\ \Downarrow \ n_{1}\quad n_{0}\ \ne \ n_{1} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeArray}(T_{0},\ e_{0})\quad U\ =\ \operatorname{TypeArray}(U_{0},\ e_{1})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{0})\ \Downarrow \ n_{0}\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{1})\ \Downarrow \ n_{1}\quad n_{0}\ \ne \ n_{1} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
 \end{array}
 $$
@@ -767,8 +765,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeSlice}(T_{0})\quad U\ =\ \operatorname{TypeSlice}(U_{0}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeSlice}(T_{0})\quad U\ =\ \operatorname{TypeSlice}(U_{0}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
 \end{array}
 $$
@@ -777,8 +775,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePerm}(p,\ T_{0})\quad U\ =\ \operatorname{TypePerm}(p,\ U_{0}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePerm}(p,\ T_{0})\quad U\ =\ \operatorname{TypePerm}(p,\ U_{0}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
 \end{array}
 $$
@@ -787,8 +785,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePerm}(p,\ T_{0})\quad U\ =\ \operatorname{TypePerm}(q,\ U_{0})\quad p\ \ne \ q \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePerm}(p,\ T_{0})\quad U\ =\ \operatorname{TypePerm}(q,\ U_{0})\quad p\ \ne \ q \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
 \end{array}
 $$
@@ -797,9 +795,9 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeFunc}([(m_{1},\ T_{1}),\ \ldots ,\ (m_{n},\ T_{n})],\ R_{T}) \\
-U\ =\ \operatorname{TypeFunc}([(m_{1},\ U_{1}),\ \ldots ,\ (m_{n},\ U_{n})],\ R_{U}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeFunc}([(m_{1},\ T_{1}),\ \ldots ,\ (m_{n},\ T_{n})],\ R_{T}) \\[0.16em]
+U\ =\ \operatorname{TypeFunc}([(m_{1},\ U_{1}),\ \ldots ,\ (m_{n},\ U_{n})],\ R_{U}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{1},\ U_{1}),\ \ldots ,\ (T_{n},\ U_{n}),\ (R_{T},\ R_{U})\}\ \cup \ C,\ \theta )\rangle 
 \end{array}
 $$
@@ -808,8 +806,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeFunc}(\mathsf{ps}_{T},\ R_{T})\quad U\ =\ \operatorname{TypeFunc}(\mathsf{ps}_{U},\ R_{U})\quad \lnot \ \exists \ n,\ \mathsf{vec}\{m\},\ \mathsf{vec}\{T\},\ \mathsf{vec}\{U\}.\ \mathsf{ps}_{T}\ =\ [(m_{1},\ T_{1}),\ \ldots ,\ (m_{n},\ T_{n})]\ \land \ \mathsf{ps}_{U}\ =\ [(m_{1},\ U_{1}),\ \ldots ,\ (m_{n},\ U_{n})] \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeFunc}(\mathsf{ps}_{T},\ R_{T})\quad U\ =\ \operatorname{TypeFunc}(\mathsf{ps}_{U},\ R_{U})\quad \lnot \ \exists \ n,\ \mathsf{vec}\{m\},\ \mathsf{vec}\{T\},\ \mathsf{vec}\{U\}.\ \mathsf{ps}_{T}\ =\ [(m_{1},\ T_{1}),\ \ldots ,\ (m_{n},\ T_{n})]\ \land \ \mathsf{ps}_{U}\ =\ [(m_{1},\ U_{1}),\ \ldots ,\ (m_{n},\ U_{n})] \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
 \end{array}
 $$
@@ -818,8 +816,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeClosure}([(m_{1},\ T_{1}),\ \ldots ,\ (m_{n},\ T_{n})],\ R_{T},\ D)\quad U\ =\ \operatorname{TypeClosure}([(m_{1},\ U_{1}),\ \ldots ,\ (m_{n},\ U_{n})],\ R_{U},\ D) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeClosure}([(m_{1},\ T_{1}),\ \ldots ,\ (m_{n},\ T_{n})],\ R_{T},\ D)\quad U\ =\ \operatorname{TypeClosure}([(m_{1},\ U_{1}),\ \ldots ,\ (m_{n},\ U_{n})],\ R_{U},\ D) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{1},\ U_{1}),\ \ldots ,\ (T_{n},\ U_{n}),\ (R_{T},\ R_{U})\}\ \cup \ C,\ \theta )\rangle 
 \end{array}
 $$
@@ -828,8 +826,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeClosure}(\mathsf{ps}_{T},\ R_{T},\ D_{T})\quad U\ =\ \operatorname{TypeClosure}(\mathsf{ps}_{U},\ R_{U},\ D_{U})\quad (D_{T}\ \ne \ D_{U}\ \lor \ \lnot \ \exists \ n,\ \mathsf{vec}\{m\},\ \mathsf{vec}\{T\},\ \mathsf{vec}\{U\}.\ \mathsf{ps}_{T}\ =\ [(m_{1},\ T_{1}),\ \ldots ,\ (m_{n},\ T_{n})]\ \land \ \mathsf{ps}_{U}\ =\ [(m_{1},\ U_{1}),\ \ldots ,\ (m_{n},\ U_{n})]) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeClosure}(\mathsf{ps}_{T},\ R_{T},\ D_{T})\quad U\ =\ \operatorname{TypeClosure}(\mathsf{ps}_{U},\ R_{U},\ D_{U})\quad (D_{T}\ \ne \ D_{U}\ \lor \ \lnot \ \exists \ n,\ \mathsf{vec}\{m\},\ \mathsf{vec}\{T\},\ \mathsf{vec}\{U\}.\ \mathsf{ps}_{T}\ =\ [(m_{1},\ T_{1}),\ \ldots ,\ (m_{n},\ T_{n})]\ \land \ \mathsf{ps}_{U}\ =\ [(m_{1},\ U_{1}),\ \ldots ,\ (m_{n},\ U_{n})]) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
 \end{array}
 $$
@@ -838,8 +836,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePtr}(T_{0},\ s)\quad U\ =\ \operatorname{TypePtr}(U_{0},\ s) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePtr}(T_{0},\ s)\quad U\ =\ \operatorname{TypePtr}(U_{0},\ s) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
 \end{array}
 $$
@@ -848,8 +846,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePtr}(T_{0},\ s_{0})\quad U\ =\ \operatorname{TypePtr}(U_{0},\ s_{1})\quad s_{0}\ \ne \ s_{1} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePtr}(T_{0},\ s_{0})\quad U\ =\ \operatorname{TypePtr}(U_{0},\ s_{1})\quad s_{0}\ \ne \ s_{1} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
 \end{array}
 $$
@@ -858,8 +856,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRawPtr}(q,\ T_{0})\quad U\ =\ \operatorname{TypeRawPtr}(q,\ U_{0}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRawPtr}(q,\ T_{0})\quad U\ =\ \operatorname{TypeRawPtr}(q,\ U_{0}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
 \end{array}
 $$
@@ -868,8 +866,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRawPtr}(q_{0},\ T_{0})\quad U\ =\ \operatorname{TypeRawPtr}(q_{1},\ U_{0})\quad q_{0}\ \ne \ q_{1} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRawPtr}(q_{0},\ T_{0})\quad U\ =\ \operatorname{TypeRawPtr}(q_{1},\ U_{0})\quad q_{0}\ \ne \ q_{1} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
 \end{array}
 $$
@@ -878,8 +876,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}]) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}]) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{1},\ U_{1}),\ \ldots ,\ (T_{n},\ U_{n})\}\ \cup \ C,\ \theta )\rangle 
 \end{array}
 $$
@@ -888,8 +886,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}(\mathsf{path}_{T},\ \mathsf{Ts})\quad U\ =\ \operatorname{TypeApply}(\mathsf{path}_{U},\ \mathsf{Us})\quad (\mathsf{path}_{T}\ \ne \ \mathsf{path}_{U}\ \lor \ \mid \mathsf{Ts}\mid \ \ne \ \mid \mathsf{Us}\mid ) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeApply}(\mathsf{path}_{T},\ \mathsf{Ts})\quad U\ =\ \operatorname{TypeApply}(\mathsf{path}_{U},\ \mathsf{Us})\quad (\mathsf{path}_{T}\ \ne \ \mathsf{path}_{U}\ \lor \ \mid \mathsf{Ts}\mid \ \ne \ \mid \mathsf{Us}\mid ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
 \end{array}
 $$
@@ -898,8 +896,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRange}(T_{0})\quad U\ =\ \operatorname{TypeRange}(U_{0}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRange}(T_{0})\quad U\ =\ \operatorname{TypeRange}(U_{0}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
 \end{array}
 $$
@@ -908,8 +906,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRangeInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeInclusive}(U_{0}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRangeInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeInclusive}(U_{0}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
 \end{array}
 $$
@@ -918,8 +916,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRangeFrom}(T_{0})\quad U\ =\ \operatorname{TypeRangeFrom}(U_{0}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRangeFrom}(T_{0})\quad U\ =\ \operatorname{TypeRangeFrom}(U_{0}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
 \end{array}
 $$
@@ -928,8 +926,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRangeTo}(T_{0})\quad U\ =\ \operatorname{TypeRangeTo}(U_{0}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRangeTo}(T_{0})\quad U\ =\ \operatorname{TypeRangeTo}(U_{0}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
 \end{array}
 $$
@@ -938,8 +936,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRangeToInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeToInclusive}(U_{0}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRangeToInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeToInclusive}(U_{0}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
 \end{array}
 $$
@@ -948,8 +946,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRefine}(T_{0},\ \mathsf{pred})\quad U\ =\ \operatorname{TypeRefine}(U_{0},\ \mathsf{pred}) \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRefine}(T_{0},\ \mathsf{pred})\quad U\ =\ \operatorname{TypeRefine}(U_{0},\ \mathsf{pred}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
 \end{array}
 $$
@@ -958,8 +956,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRefine}(T_{0},\ \mathsf{pred}_{T})\quad U\ =\ \operatorname{TypeRefine}(U_{0},\ \mathsf{pred}_{U})\quad \mathsf{pred}_{T}\ \ne \ \mathsf{pred}_{U} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypeRefine}(T_{0},\ \mathsf{pred}_{T})\quad U\ =\ \operatorname{TypeRefine}(U_{0},\ \mathsf{pred}_{U})\quad \mathsf{pred}_{T}\ \ne \ \mathsf{pred}_{U} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
 \end{array}
 $$
@@ -968,8 +966,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePrim}(p_{T})\quad U\ =\ \operatorname{TypePrim}(p_{U})\quad p_{T}\ \ne \ p_{U} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePrim}(p_{T})\quad U\ =\ \operatorname{TypePrim}(p_{U})\quad p_{T}\ \ne \ p_{U} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
 \end{array}
 $$
@@ -978,15 +976,15 @@ $$
 
 $$
 \begin{array}{l}
-((T\ =\ \operatorname{TypeUnion}(\_)\ \land \ U\ =\ \operatorname{TypeUnion}(\_))\ \lor  \\
-\ (T\ =\ \operatorname{TypePath}(\_)\ \land \ U\ =\ \operatorname{TypePath}(\_))\ \lor  \\
-\ (T\ =\ \operatorname{TypeString}(\_)\ \land \ U\ =\ \operatorname{TypeString}(\_))\ \lor  \\
-\ (T\ =\ \operatorname{TypeBytes}(\_)\ \land \ U\ =\ \operatorname{TypeBytes}(\_))\ \lor  \\
-\ (T\ =\ \operatorname{TypeDynamic}(\_)\ \land \ U\ =\ \operatorname{TypeDynamic}(\_))\ \lor  \\
-\ (T\ =\ \operatorname{TypeOpaque}(\_)\ \land \ U\ =\ \operatorname{TypeOpaque}(\_))\ \lor  \\
-\ (T\ =\ \operatorname{TypeModalState}(\_,\ \_)\ \land \ U\ =\ \operatorname{TypeModalState}(\_,\ \_))\ \lor  \\
-\ (T\ =\ \mathsf{TypeRangeFull}\ \land \ U\ =\ \mathsf{TypeRangeFull}))\quad T\ \ne \ U \\
-\rule{18em}{0.4pt} \\
+((T\ =\ \operatorname{TypeUnion}(\_)\ \land \ U\ =\ \operatorname{TypeUnion}(\_))\ \lor  \\[0.16em]
+\ (T\ =\ \operatorname{TypePath}(\_)\ \land \ U\ =\ \operatorname{TypePath}(\_))\ \lor  \\[0.16em]
+\ (T\ =\ \operatorname{TypeString}(\_)\ \land \ U\ =\ \operatorname{TypeString}(\_))\ \lor  \\[0.16em]
+\ (T\ =\ \operatorname{TypeBytes}(\_)\ \land \ U\ =\ \operatorname{TypeBytes}(\_))\ \lor  \\[0.16em]
+\ (T\ =\ \operatorname{TypeDynamic}(\_)\ \land \ U\ =\ \operatorname{TypeDynamic}(\_))\ \lor  \\[0.16em]
+\ (T\ =\ \operatorname{TypeOpaque}(\_)\ \land \ U\ =\ \operatorname{TypeOpaque}(\_))\ \lor  \\[0.16em]
+\ (T\ =\ \operatorname{TypeModalState}(\_,\ \_)\ \land \ U\ =\ \operatorname{TypeModalState}(\_,\ \_))\ \lor  \\[0.16em]
+\ (T\ =\ \mathsf{TypeRangeFull}\ \land \ U\ =\ \mathsf{TypeRangeFull}))\quad T\ \ne \ U \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
 \end{array}
 $$
@@ -995,8 +993,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{TypeCtor}(T)\ \ne \ \operatorname{TypeCtor}(U)\quad T\ \notin \ \mathsf{TVar}\quad U\ \notin \ \mathsf{TVar} \\
-\rule{18em}{0.4pt} \\
+\operatorname{TypeCtor}(T)\ \ne \ \operatorname{TypeCtor}(U)\quad T\ \notin \ \mathsf{TVar}\quad U\ \notin \ \mathsf{TVar} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
 \end{array}
 $$
@@ -1005,8 +1003,8 @@ $$
 
 $$
 \begin{array}{l}
-\langle \operatorname{UnifyStart}(C)\rangle \ \to *\ \langle \operatorname{UnifyDone}(\theta )\rangle  \\
-\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStart}(C)\rangle \ \to *\ \langle \operatorname{UnifyDone}(\theta )\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Unify}(C)\ \Downarrow \ \theta 
 \end{array}
 $$
@@ -1015,8 +1013,8 @@ $$
 
 $$
 \begin{array}{l}
-\langle \operatorname{UnifyStart}(C)\rangle \ \to *\ \langle \mathsf{UnifyFail}\rangle \quad c\ =\ \operatorname{Code}(\mathsf{Unify}-\mathsf{Fail}) \\
-\rule{18em}{0.4pt} \\
+\langle \operatorname{UnifyStart}(C)\rangle \ \to *\ \langle \mathsf{UnifyFail}\rangle \quad c\ =\ \operatorname{Code}(\mathsf{Unify}-\mathsf{Fail}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Unify}(C)\ \Uparrow \ c
 \end{array}
 $$
@@ -1025,8 +1023,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{Unify}(C)\ \Downarrow \ \theta  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Unify}(C)\ \Downarrow \ \theta  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Solve}(C)\ \Downarrow \ \theta 
 \end{array}
 $$
@@ -1035,8 +1033,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{Unify}(C)\ \Uparrow \ c \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Unify}(C)\ \Uparrow \ c \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Solve}(C)\ \Uparrow \ c
 \end{array}
 $$
@@ -1045,8 +1043,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ :\ T \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ :\ T \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ e\ \Rightarrow \ T\ \dashv \ \emptyset 
 \end{array}
 $$
@@ -1055,8 +1053,8 @@ $$
 
 $$
 \begin{array}{l}
-(x\ :\ T)\ \in \ \Gamma  \\
-\rule{18em}{0.4pt} \\
+(x\ :\ T)\ \in \ \Gamma  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Identifier}(x)\ \Rightarrow \ T\ \dashv \ \emptyset 
 \end{array}
 $$
@@ -1065,7 +1063,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{TupleExpr}([])\ \Rightarrow \ \operatorname{TypePrim}(\texttt{"()"})\ \dashv \ \emptyset 
 \end{array}
 $$
@@ -1074,8 +1072,8 @@ $$
 
 $$
 \begin{array}{l}
-n\ \ge \ 1\quad \forall \ i,\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ \Rightarrow \ T_{i}\ \dashv \ C_{i} \\
-\rule{18em}{0.4pt} \\
+n\ \ge \ 1\quad \forall \ i,\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ \Rightarrow \ T_{i}\ \dashv \ C_{i} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{TupleExpr}([e_{1},\ \ldots ,\ e_{n}])\ \Rightarrow \ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\ \dashv \ \bigcup_{i} \ C_{i}
 \end{array}
 $$
@@ -1084,8 +1082,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ \Rightarrow \ \operatorname{TypeFunc}(\mathsf{params},\ R_{c})\ \dashv \ C_{0}\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}(\mathsf{params},\ \mathsf{args}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ \Rightarrow \ \operatorname{TypeFunc}(\mathsf{params},\ R_{c})\ \dashv \ C_{0}\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}(\mathsf{params},\ \mathsf{args}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Rightarrow \ R_{c}\ \dashv \ C_{0}
 \end{array}
 $$
@@ -1094,8 +1092,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Uparrow \ c \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Uparrow \ c \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Rightarrow \ T\ \dashv \ C\ \Uparrow \ c
 \end{array}
 $$
@@ -1104,8 +1102,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ \Rightarrow \ S\ \dashv \ C\quad \operatorname{StripPerm}(S)\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S_{s})\quad \operatorname{StripPerm}(T)\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\quad \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad \lnot \ \operatorname{NicheCompatible}(\mathsf{modal}_{\mathsf{ref}},\ S_{s})\quad c\ =\ \operatorname{Code}(\mathsf{Chk}-\mathsf{Subsumption}-\mathsf{Modal}-\mathsf{NonNiche}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ \Rightarrow \ S\ \dashv \ C\quad \operatorname{StripPerm}(S)\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S_{s})\quad \operatorname{StripPerm}(T)\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\quad \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad \lnot \ \operatorname{NicheCompatible}(\mathsf{modal}_{\mathsf{ref}},\ S_{s})\quad c\ =\ \operatorname{Code}(\mathsf{Chk}-\mathsf{Subsumption}-\mathsf{Modal}-\mathsf{NonNiche}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ T\ \Uparrow \ c
 \end{array}
 $$
@@ -1114,8 +1112,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ \Rightarrow \ S\ \dashv \ C\quad \Gamma \ \vdash \ S\ \mathrel{<:} \ T \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ \Rightarrow \ S\ \dashv \ C\quad \Gamma \ \vdash \ S\ \mathrel{<:} \ T \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ T\ \dashv \ C
 \end{array}
 $$
@@ -1124,8 +1122,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePtr}(U,\ s)\quad s\ \in \ \{\texttt{Null},\ \bot \} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePtr}(U,\ s)\quad s\ \in \ \{\texttt{Null},\ \bot \} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \mathsf{PtrNullExpr}\ \Leftarrow \ T\ \dashv \ \emptyset 
 \end{array}
 $$
@@ -1138,8 +1136,8 @@ $$
 
 $$
 \begin{array}{l}
-c\ =\ \operatorname{Code}(\mathsf{PtrNull}-\mathsf{Infer}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+c\ =\ \operatorname{Code}(\mathsf{PtrNull}-\mathsf{Infer}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \mathsf{PtrNullExpr}\ \Rightarrow \ T\ \dashv \ C\ \Uparrow \ c
 \end{array}
 $$
@@ -1148,8 +1146,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{PtrNullExpected}(T)\quad c\ =\ \operatorname{Code}(\mathsf{PtrNull}-\mathsf{Infer}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{PtrNullExpected}(T)\quad c\ =\ \operatorname{Code}(\mathsf{PtrNull}-\mathsf{Infer}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \mathsf{PtrNullExpr}\ \Leftarrow \ T\ \dashv \ C\ \Uparrow \ c
 \end{array}
 $$
@@ -1161,34 +1159,22 @@ Feature-local synthesis and checking rules are owned by the corresponding featur
 This subsection states the key metatheoretic properties that the Ultraviolet type system is designed to satisfy. Formal proofs are deferred to supplementary materials.
 
 **(Progress)**
-
-$$
-\mathsf{If}\ \Gamma \ \vdash \ e\ :\ T\ \mathsf{and}\ \texttt{e}\ \mathsf{is}\ \mathsf{not}\ a\ \mathsf{value},\ \mathsf{then}\ \mathsf{either}:
-$$
+If Γ ⊢ e : T and `e` is not a value, then either:
 1. `e` can take a step.
 2. `e` is blocked on an external operation.
 3. `e` panics.
 
 **(Preservation)**
-
-$$
-\mathsf{If}\ \Gamma \ \vdash \ e\ :\ T\ \mathsf{and}\ \texttt{e -> e'},\ \mathsf{then}\ \Gamma \ \vdash \ e'\ :\ T.
-$$
+If Γ ⊢ e : T and `e → e'`, then Γ ⊢ e' : T.
 
 **(No-Use-After-Free)**
-
-$$
-A\ \mathsf{binding}\ \mathsf{in}\ \mathsf{state}\ \texttt{Moved}\ \mathsf{or}\ \texttt{PartiallyMoved(F)}\ \mathsf{where}\ \texttt{f in F}\ \mathsf{cannot}\ \mathsf{be}\ \mathsf{read}\ \mathsf{or}\ \mathsf{moved}\ \mathsf{from}.
-$$
+A binding in state `Moved` or `PartiallyMoved(F)` where `f ∈ F` cannot be read or moved from.
 
 **(No-Double-Free)**
 Each responsible binding is dropped exactly once when it goes out of scope.
 
 **(No-Dangling-Pointers)**
-
-$$
-A\ \mathsf{pointer}\ \texttt{Ptr<T>@Valid}\ \mathsf{always}\ \mathsf{references}\ \mathsf{valid}\ \mathsf{storage}.\ A\ \mathsf{pointer}\ \mathsf{with}\ \mathsf{provenance}\ \texttt{pi}\ \mathsf{cannot}\ \mathsf{escape}\ \mathsf{to}\ \mathsf{storage}\ \mathsf{with}\ \mathsf{longer}\ \mathsf{lifetime}\ \texttt{pi'}\ \mathsf{where}\ \texttt{pi < pi'}.
-$$
+A pointer `Ptr<T>@Valid` always references valid storage. A pointer with provenance `π` cannot escape to storage with longer lifetime `π'` where `π < π'`.
 
 **(Exclusivity-Invariant)**
 If a binding `x` has permission `unique` and is in state `Active`, then no other live path exists to the same storage location.
@@ -1197,10 +1183,7 @@ If a binding `x` has permission `unique` and is in state `Active`, then no other
 Permissions are preserved as permission regimes. Admissibility at a use site MUST NOT create a weaker alias or convert a `unique` binding into `shared` or `const`.
 
 **(State-Determinism)**
-
-$$
-\mathsf{At}\ \mathsf{each}\ \mathsf{program}\ \mathsf{point},\ \mathsf{every}\ \mathsf{binding}\ \mathsf{has}\ \mathsf{exactly}\ \mathsf{one}\ \mathsf{state}\ \mathsf{in}\ \texttt{\{Valid, Moved, PartiallyMoved(F)\}}.
-$$
+At each program point, every binding has exactly one state in `{Valid, Moved, PartiallyMoved(F)}`.
 
 **(No-Resurrection)**
 A binding in state `Moved` cannot transition back to `Valid` except through reassignment of a `var` binding.

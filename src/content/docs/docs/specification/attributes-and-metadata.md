@@ -2,14 +2,14 @@
 title: "Attributes and Metadata"
 description: "9. Attributes and Metadata of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T19:35:24.518Z"
+specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+generatedAt: "2026-05-14T00:55:03.609Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e</code></span>
+  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
 </div>
 
 
@@ -46,8 +46,8 @@ An attribute list MUST appear immediately before the declaration or expression i
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P,\ \bot )
 \end{array}
 $$
@@ -56,8 +56,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["})\quad \Gamma \ \vdash \ \operatorname{ParseAttrList}(P)\ \Downarrow \ (P_{1},\ \mathsf{attrs}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["})\quad \Gamma \ \vdash \ \operatorname{ParseAttrList}(P)\ \Downarrow \ (P_{1},\ \mathsf{attrs}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P_{1},\ \mathsf{attrs})
 \end{array}
 $$
@@ -66,8 +66,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseAttrBlock}(P)\ \Downarrow \ (P_{1},\ \mathsf{attrs}_{0})\quad \Gamma \ \vdash \ \operatorname{ParseAttrListTail}(P_{1},\ \mathsf{attrs}_{0})\ \Downarrow \ (P_{2},\ \mathsf{attrs}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrBlock}(P)\ \Downarrow \ (P_{1},\ \mathsf{attrs}_{0})\quad \Gamma \ \vdash \ \operatorname{ParseAttrListTail}(P_{1},\ \mathsf{attrs}_{0})\ \Downarrow \ (P_{2},\ \mathsf{attrs}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrList}(P)\ \Downarrow \ (P_{2},\ \mathsf{attrs})
 \end{array}
 $$
@@ -76,8 +76,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrListTail}(P,\ \mathsf{attrs})\ \Downarrow \ (P,\ \mathsf{attrs})
 \end{array}
 $$
@@ -86,8 +86,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["})\quad \Gamma \ \vdash \ \operatorname{ParseAttrBlock}(P)\ \Downarrow \ (P_{1},\ \mathsf{attrs}_{0})\quad \Gamma \ \vdash \ \operatorname{ParseAttrListTail}(P_{1},\ \mathsf{attrs}\ \mathbin{++} \ \mathsf{attrs}_{0})\ \Downarrow \ (P_{2},\ \mathsf{attrs}_{1}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["})\quad \Gamma \ \vdash \ \operatorname{ParseAttrBlock}(P)\ \Downarrow \ (P_{1},\ \mathsf{attrs}_{0})\quad \Gamma \ \vdash \ \operatorname{ParseAttrListTail}(P_{1},\ \mathsf{attrs}\ \mathbin{++} \ \mathsf{attrs}_{0})\ \Downarrow \ (P_{2},\ \mathsf{attrs}_{1}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrListTail}(P,\ \mathsf{attrs})\ \Downarrow \ (P_{2},\ \mathsf{attrs}_{1})
 \end{array}
 $$
@@ -96,8 +96,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["})\quad P_{0}\ =\ \operatorname{Advance}(P)\quad \Gamma \ \vdash \ \operatorname{ParseAttrSpecList}(P_{0})\ \Downarrow \ (P_{1},\ \mathsf{specs})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"]]"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["})\quad P_{0}\ =\ \operatorname{Advance}(P)\quad \Gamma \ \vdash \ \operatorname{ParseAttrSpecList}(P_{0})\ \Downarrow \ (P_{1},\ \mathsf{specs})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"]]"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrBlock}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \mathsf{specs})
 \end{array}
 $$
@@ -106,8 +106,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseAttrSpec}(P)\ \Downarrow \ (P_{1},\ s)\quad \Gamma \ \vdash \ \operatorname{ParseAttrSpecListTail}(P_{1},\ [s])\ \Downarrow \ (P_{2},\ \mathsf{specs}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrSpec}(P)\ \Downarrow \ (P_{1},\ s)\quad \Gamma \ \vdash \ \operatorname{ParseAttrSpecListTail}(P_{1},\ [s])\ \Downarrow \ (P_{2},\ \mathsf{specs}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrSpecList}(P)\ \Downarrow \ (P_{2},\ \mathsf{specs})
 \end{array}
 $$
@@ -116,8 +116,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrSpecListTail}(P,\ \mathsf{xs})\ \Downarrow \ (P,\ \mathsf{xs})
 \end{array}
 $$
@@ -126,8 +126,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"]]"})\quad \operatorname{TrailingCommaAllowed}(P_{0},\ P,\ \{\operatorname{Punctuator}(\texttt{"]]"})\}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"]]"})\quad \operatorname{TrailingCommaAllowed}(P_{0},\ P,\ \{\operatorname{Punctuator}(\texttt{"]]"})\}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrSpecListTail}(P,\ \mathsf{xs})\ \Downarrow \ (\operatorname{Advance}(P),\ \mathsf{xs})
 \end{array}
 $$
@@ -136,8 +136,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \Gamma \ \vdash \ \operatorname{ParseAttrSpec}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ s)\quad \Gamma \ \vdash \ \operatorname{ParseAttrSpecListTail}(P_{1},\ \mathsf{xs}\ \mathbin{++} \ [s])\ \Downarrow \ (P_{2},\ \mathsf{ys}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \Gamma \ \vdash \ \operatorname{ParseAttrSpec}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ s)\quad \Gamma \ \vdash \ \operatorname{ParseAttrSpecListTail}(P_{1},\ \mathsf{xs}\ \mathbin{++} \ [s])\ \Downarrow \ (P_{2},\ \mathsf{ys}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrSpecListTail}(P,\ \mathsf{xs})\ \Downarrow \ (P_{2},\ \mathsf{ys})
 \end{array}
 $$
@@ -146,8 +146,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseAttrName}(P)\ \Downarrow \ (P_{1},\ \mathsf{name})\quad \Gamma \ \vdash \ \operatorname{ParseAttrArgsOpt}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{args}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrName}(P)\ \Downarrow \ (P_{1},\ \mathsf{name})\quad \Gamma \ \vdash \ \operatorname{ParseAttrArgsOpt}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{args}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrSpec}(P)\ \Downarrow \ (P_{2},\ \operatorname{Attr}(\mathsf{name},\ \mathsf{args}))
 \end{array}
 $$
@@ -156,8 +156,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrArgsOpt}(P)\ \Downarrow \ (P,\ [])
 \end{array}
 $$
@@ -166,8 +166,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseAttrArgList}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{args})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseAttrArgList}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{args})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrArgsOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \mathsf{args})
 \end{array}
 $$
@@ -176,8 +176,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseAttrArg}(P)\ \Downarrow \ (P_{1},\ a)\quad \Gamma \ \vdash \ \operatorname{ParseAttrArgListTail}(P_{1},\ [a])\ \Downarrow \ (P_{2},\ \mathsf{args}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseAttrArg}(P)\ \Downarrow \ (P_{1},\ a)\quad \Gamma \ \vdash \ \operatorname{ParseAttrArgListTail}(P_{1},\ [a])\ \Downarrow \ (P_{2},\ \mathsf{args}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrArgList}(P)\ \Downarrow \ (P_{2},\ \mathsf{args})
 \end{array}
 $$
@@ -186,8 +186,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrArgListTail}(P,\ \mathsf{xs})\ \Downarrow \ (P,\ \mathsf{xs})
 \end{array}
 $$
@@ -196,8 +196,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{")"})\quad \operatorname{TrailingCommaAllowed}(P_{0},\ P,\ \{\operatorname{Punctuator}(\texttt{")"})\}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{")"})\quad \operatorname{TrailingCommaAllowed}(P_{0},\ P,\ \{\operatorname{Punctuator}(\texttt{")"})\}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrArgListTail}(P,\ \mathsf{xs})\ \Downarrow \ (\operatorname{Advance}(P),\ \mathsf{xs})
 \end{array}
 $$
@@ -206,8 +206,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \Gamma \ \vdash \ \operatorname{ParseAttrArg}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ a)\quad \Gamma \ \vdash \ \operatorname{ParseAttrArgListTail}(P_{1},\ \mathsf{xs}\ \mathbin{++} \ [a])\ \Downarrow \ (P_{2},\ \mathsf{ys}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \Gamma \ \vdash \ \operatorname{ParseAttrArg}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ a)\quad \Gamma \ \vdash \ \operatorname{ParseAttrArgListTail}(P_{1},\ \mathsf{xs}\ \mathbin{++} \ [a])\ \Downarrow \ (P_{2},\ \mathsf{ys}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrArgListTail}(P,\ \mathsf{xs})\ \Downarrow \ (P_{2},\ \mathsf{ys})
 \end{array}
 $$
@@ -216,8 +216,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{name})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{":"})\quad \operatorname{Tok}(\operatorname{Advance}(P_{1})).\mathsf{kind}\ \in \ \mathsf{LiteralKind} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{name})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{":"})\quad \operatorname{Tok}(\operatorname{Advance}(P_{1})).\mathsf{kind}\ \in \ \mathsf{LiteralKind} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrArg}(P)\ \Downarrow \ (\operatorname{Advance}(\operatorname{Advance}(P_{1})),\ \langle \mathsf{name},\ \operatorname{Tok}(\operatorname{Advance}(P_{1}))\rangle )
 \end{array}
 $$
@@ -226,8 +226,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{name})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{value}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{name})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{value}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrArg}(P)\ \Downarrow \ (P_{2},\ \langle \mathsf{name},\ \mathsf{value}\rangle )
 \end{array}
 $$
@@ -236,8 +236,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{name})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseAttrArgList}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{args})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{")"}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{name})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseAttrArgList}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{args})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{")"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrArg}(P)\ \Downarrow \ (\operatorname{Advance}(P_{2}),\ \langle \mathsf{name},\ \mathsf{args}\rangle )
 \end{array}
 $$
@@ -246,8 +246,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{Tok}(P).\mathsf{kind}\ \in \ \mathsf{LiteralKind} \\
-\rule{18em}{0.4pt} \\
+\operatorname{Tok}(P).\mathsf{kind}\ \in \ \mathsf{LiteralKind} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrArg}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \operatorname{Tok}(P))
 \end{array}
 $$
@@ -256,8 +256,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{name}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{name}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrArg}(P)\ \Downarrow \ (P_{1},\ \mathsf{name})
 \end{array}
 $$
@@ -275,10 +275,10 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{vendor}_{\mathsf{prefix}}\ \mathbin{::} =\ \mathsf{identifier}\ (\texttt{"::"}\ \mathsf{identifier})* \\
-\mathsf{AttrArg}\ \mathbin{::} =\ \mathsf{literal}\ \mid \ \mathsf{identifier}\ \mid \ \langle \mathsf{name},\ \mathsf{literal}\rangle \ \mid \ \langle \mathsf{name},\ \mathsf{identifier}\rangle \ \mid \ \langle \mathsf{name},\ \mathsf{args}\rangle  \\
-\mathsf{AttributeSpec}\ \mathbin{::} =\ \operatorname{Attr}(\mathsf{name}:\ \mathsf{AttrName},\ \mathsf{args}:\ [\mathsf{AttrArg}]) \\
-\mathsf{AttributeList}\ \mathbin{::} =\ [\mathsf{AttributeSpec}] \\
+\mathsf{vendor}_{\mathsf{prefix}}\ \mathbin{::} =\ \mathsf{identifier}\ (\texttt{"::"}\ \mathsf{identifier})* \\[0.16em]
+\mathsf{AttrArg}\ \mathbin{::} =\ \mathsf{literal}\ \mid \ \mathsf{identifier}\ \mid \ \langle \mathsf{name},\ \mathsf{literal}\rangle \ \mid \ \langle \mathsf{name},\ \mathsf{identifier}\rangle \ \mid \ \langle \mathsf{name},\ \mathsf{args}\rangle  \\[0.16em]
+\mathsf{AttributeSpec}\ \mathbin{::} =\ \operatorname{Attr}(\mathsf{name}:\ \mathsf{AttrName},\ \mathsf{args}:\ [\mathsf{AttrArg}]) \\[0.16em]
+\mathsf{AttributeList}\ \mathbin{::} =\ [\mathsf{AttributeSpec}] \\[0.16em]
 \mathsf{AttrOpt}\ \mathbin{::} =\ \{\bot \}\ \cup \ \mathsf{AttributeList}
 \end{array}
 $$
@@ -293,8 +293,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AttrListOf}(\mathsf{item})\ =\ \mathsf{attrs}\quad \mathsf{if}\ \mathsf{item}.\mathsf{attrs}_{\mathsf{opt}}\ =\ \mathsf{attrs} \\
-\operatorname{AttrListOf}(\mathsf{item})\ =\ []\quad \mathsf{if}\ \mathsf{item}.\mathsf{attrs}_{\mathsf{opt}}\ =\ \bot  \\
+\operatorname{AttrListOf}(\mathsf{item})\ =\ \mathsf{attrs}\quad \mathsf{if}\ \mathsf{item}.\mathsf{attrs}_{\mathsf{opt}}\ =\ \mathsf{attrs} \\[0.16em]
+\operatorname{AttrListOf}(\mathsf{item})\ =\ []\quad \mathsf{if}\ \mathsf{item}.\mathsf{attrs}_{\mathsf{opt}}\ =\ \bot  \\[0.16em]
 \operatorname{AttrByName}(\mathsf{item},\ n)\ =\ [a\ \mid \ a\ \in \ \operatorname{AttrListOf}(\mathsf{item})\ \land \ a.\mathsf{name}\ =\ n]
 \end{array}
 $$
@@ -309,50 +309,50 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{AttrRegistry}\ =\ R_{\mathsf{spec}}\ \uplus \ R_{\mathsf{vendor}} \\
+\mathsf{AttrRegistry}\ =\ R_{\mathsf{spec}}\ \uplus \ R_{\mathsf{vendor}} \\[0.16em]
 R_{\mathsf{vendor}}\ =\ \emptyset 
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-R_{\mathsf{spec}}\ =\ \{ \\
-\ \mathsf{layout},\ \mathsf{inline},\ \mathsf{cold},\ \mathsf{deprecated}, \\
-\ \mathsf{dynamic},\ \mathsf{stale}_{\mathsf{ok}}, \\
-\ \mathsf{relaxed},\ \mathsf{acquire},\ \mathsf{release},\ \mathsf{acqrel},\ \mathsf{seqcst}, \\
-\ \mathsf{static}, \\
-\ \mathsf{mangle},\ \mathsf{library},\ \mathsf{unwind}, \\
-\ \mathsf{reflect},\ \mathsf{derive},\ \mathsf{emit},\ \mathsf{files}, \\
-\ \mathsf{export},\ \mathsf{host}_{\mathsf{export}},\ \mathsf{ffi}_{\mathsf{pass}\_\mathsf{by}\_\mathsf{value}}, \\
-\ \mathsf{test} \\
+R_{\mathsf{spec}}\ =\ \{ \\[0.16em]
+\ \mathsf{layout},\ \mathsf{inline},\ \mathsf{cold},\ \mathsf{deprecated}, \\[0.16em]
+\ \mathsf{dynamic},\ \mathsf{stale}_{\mathsf{ok}}, \\[0.16em]
+\ \mathsf{relaxed},\ \mathsf{acquire},\ \mathsf{release},\ \mathsf{acqrel},\ \mathsf{seqcst}, \\[0.16em]
+\ \mathsf{static}, \\[0.16em]
+\ \mathsf{mangle},\ \mathsf{library},\ \mathsf{unwind}, \\[0.16em]
+\ \mathsf{reflect},\ \mathsf{derive},\ \mathsf{emit},\ \mathsf{files}, \\[0.16em]
+\ \mathsf{export},\ \mathsf{host}_{\mathsf{export}},\ \mathsf{ffi}_{\mathsf{pass}\_\mathsf{by}\_\mathsf{value}}, \\[0.16em]
+\ \mathsf{test} \\[0.16em]
 \}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{AttrTargets}(\mathsf{layout})\ =\ \{\mathsf{Record},\ \mathsf{Enum}\} \\
-\operatorname{AttrTargets}(\mathsf{inline})\ =\ \{\mathsf{Procedure},\ \mathsf{Method}\} \\
-\operatorname{AttrTargets}(\mathsf{cold})\ =\ \{\mathsf{Procedure},\ \mathsf{Method}\} \\
-\operatorname{AttrTargets}(\mathsf{deprecated})\ =\ \{\mathsf{Record},\ \mathsf{Enum},\ \mathsf{Modal},\ \mathsf{Procedure},\ \mathsf{Method},\ \mathsf{Field},\ \mathsf{Binding},\ \mathsf{TypeAlias}\} \\
-\operatorname{AttrTargets}(\mathsf{dynamic})\ =\ \{\mathsf{Record},\ \mathsf{Enum},\ \mathsf{Modal},\ \mathsf{Procedure},\ \mathsf{Method},\ \mathsf{Expression}\} \\
-\operatorname{AttrTargets}(\mathsf{stale}_{\mathsf{ok}})\ =\ \{\mathsf{Binding}\} \\
-\operatorname{AttrTargets}(\mathsf{relaxed})\ =\ \{\mathsf{Expression},\ \mathsf{KeyBlock}\} \\
-\operatorname{AttrTargets}(\mathsf{acquire})\ =\ \{\mathsf{Expression},\ \mathsf{KeyBlock}\} \\
-\operatorname{AttrTargets}(\mathsf{release})\ =\ \{\mathsf{Expression},\ \mathsf{KeyBlock}\} \\
-\operatorname{AttrTargets}(\mathsf{acqrel})\ =\ \{\mathsf{Expression},\ \mathsf{KeyBlock}\} \\
-\operatorname{AttrTargets}(\mathsf{seqcst})\ =\ \{\mathsf{Expression},\ \mathsf{KeyBlock}\} \\
-\operatorname{AttrTargets}(\mathsf{static})\ =\ \{\mathsf{Procedure}\} \\
-\operatorname{AttrTargets}(\mathsf{mangle})\ =\ \{\mathsf{Procedure}\} \\
-\operatorname{AttrTargets}(\mathsf{library})\ =\ \{\mathsf{ExternBlock}\} \\
-\operatorname{AttrTargets}(\mathsf{unwind})\ =\ \{\mathsf{Procedure}\} \\
-\operatorname{AttrTargets}(\mathsf{reflect})\ =\ \{\mathsf{Record},\ \mathsf{Enum},\ \mathsf{Modal}\} \\
-\operatorname{AttrTargets}(\mathsf{derive})\ =\ \{\mathsf{Record},\ \mathsf{Enum},\ \mathsf{Modal}\} \\
-\operatorname{AttrTargets}(\mathsf{emit})\ =\ \{\mathsf{Statement},\ \mathsf{Expression}\} \\
-\operatorname{AttrTargets}(\mathsf{files})\ =\ \{\mathsf{Statement},\ \mathsf{Expression}\} \\
-\operatorname{AttrTargets}(\mathsf{export})\ =\ \{\mathsf{Procedure}\} \\
-\operatorname{AttrTargets}(\mathsf{host}_{\mathsf{export}})\ =\ \{\mathsf{Procedure}\} \\
-\operatorname{AttrTargets}(\mathsf{ffi}_{\mathsf{pass}\_\mathsf{by}\_\mathsf{value}})\ =\ \{\mathsf{Record},\ \mathsf{Enum}\} \\
+\operatorname{AttrTargets}(\mathsf{layout})\ =\ \{\mathsf{Record},\ \mathsf{Enum}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{inline})\ =\ \{\mathsf{Procedure},\ \mathsf{Method}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{cold})\ =\ \{\mathsf{Procedure},\ \mathsf{Method}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{deprecated})\ =\ \{\mathsf{Record},\ \mathsf{Enum},\ \mathsf{Modal},\ \mathsf{Procedure},\ \mathsf{Method},\ \mathsf{Field},\ \mathsf{Binding},\ \mathsf{TypeAlias}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{dynamic})\ =\ \{\mathsf{Record},\ \mathsf{Enum},\ \mathsf{Modal},\ \mathsf{Procedure},\ \mathsf{Method},\ \mathsf{Expression}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{stale}_{\mathsf{ok}})\ =\ \{\mathsf{Binding}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{relaxed})\ =\ \{\mathsf{Expression},\ \mathsf{KeyBlock}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{acquire})\ =\ \{\mathsf{Expression},\ \mathsf{KeyBlock}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{release})\ =\ \{\mathsf{Expression},\ \mathsf{KeyBlock}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{acqrel})\ =\ \{\mathsf{Expression},\ \mathsf{KeyBlock}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{seqcst})\ =\ \{\mathsf{Expression},\ \mathsf{KeyBlock}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{static})\ =\ \{\mathsf{Procedure}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{mangle})\ =\ \{\mathsf{Procedure}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{library})\ =\ \{\mathsf{ExternBlock}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{unwind})\ =\ \{\mathsf{Procedure}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{reflect})\ =\ \{\mathsf{Record},\ \mathsf{Enum},\ \mathsf{Modal}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{derive})\ =\ \{\mathsf{Record},\ \mathsf{Enum},\ \mathsf{Modal}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{emit})\ =\ \{\mathsf{Statement},\ \mathsf{Expression}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{files})\ =\ \{\mathsf{Statement},\ \mathsf{Expression}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{export})\ =\ \{\mathsf{Procedure}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{host}_{\mathsf{export}})\ =\ \{\mathsf{Procedure}\} \\[0.16em]
+\operatorname{AttrTargets}(\mathsf{ffi}_{\mathsf{pass}\_\mathsf{by}\_\mathsf{value}})\ =\ \{\mathsf{Record},\ \mathsf{Enum}\} \\[0.16em]
 \operatorname{AttrTargets}(\mathsf{test})\ =\ \{\mathsf{Procedure}\}
 \end{array}
 $$
@@ -365,8 +365,8 @@ $$
 
 $$
 \begin{array}{l}
-A\ =\ [a_{1},\ \ldots ,\ a_{n}]\quad \forall \ i,\ a_{i}\ =\ \langle \mathsf{name}_{i},\ \mathsf{args}_{i}\rangle \quad \forall \ i,\ \mathsf{name}_{i}\ \in \ R_{\mathsf{spec}}\ \cup \ R_{\mathsf{vendor}}\quad \forall \ i,\ \tau \ \in \ \operatorname{AttrTargets}(\mathsf{name}_{i})\quad \forall \ i,\ \operatorname{AttrArgsOk}(\mathsf{name}_{i},\ \mathsf{args}_{i}) \\
-\rule{18em}{0.4pt} \\
+A\ =\ [a_{1},\ \ldots ,\ a_{n}]\quad \forall \ i,\ a_{i}\ =\ \langle \mathsf{name}_{i},\ \mathsf{args}_{i}\rangle \quad \forall \ i,\ \mathsf{name}_{i}\ \in \ R_{\mathsf{spec}}\ \cup \ R_{\mathsf{vendor}}\quad \forall \ i,\ \tau \ \in \ \operatorname{AttrTargets}(\mathsf{name}_{i})\quad \forall \ i,\ \operatorname{AttrArgsOk}(\mathsf{name}_{i},\ \mathsf{args}_{i}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{AttrListWf}(A,\ \tau )\ \Downarrow \ \mathsf{ok}
 \end{array}
 $$
@@ -375,8 +375,8 @@ $$
 
 $$
 \begin{array}{l}
-A\ =\ [a_{1},\ \ldots ,\ a_{n}]\quad \exists \ i,\ a_{i}\ =\ \langle \mathsf{name}_{i},\ \_\rangle \ \land \ \mathsf{name}_{i}\ \notin \ R_{\mathsf{spec}}\ \cup \ R_{\mathsf{vendor}} \\
-\rule{18em}{0.4pt} \\
+A\ =\ [a_{1},\ \ldots ,\ a_{n}]\quad \exists \ i,\ a_{i}\ =\ \langle \mathsf{name}_{i},\ \_\rangle \ \land \ \mathsf{name}_{i}\ \notin \ R_{\mathsf{spec}}\ \cup \ R_{\mathsf{vendor}} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{AttrListWf}(A,\ \tau )\ \Uparrow \ c\quad c\ =\ \operatorname{Code}(\mathsf{Attr}-\mathsf{Unknown})
 \end{array}
 $$
@@ -385,8 +385,8 @@ $$
 
 $$
 \begin{array}{l}
-A\ =\ [a_{1},\ \ldots ,\ a_{n}]\quad \exists \ i,\ a_{i}\ =\ \langle \mathsf{name}_{i},\ \_\rangle \ \land \ \mathsf{name}_{i}\ \in \ R_{\mathsf{spec}}\ \cup \ R_{\mathsf{vendor}}\ \land \ \tau \ \notin \ \operatorname{AttrTargets}(\mathsf{name}_{i}) \\
-\rule{18em}{0.4pt} \\
+A\ =\ [a_{1},\ \ldots ,\ a_{n}]\quad \exists \ i,\ a_{i}\ =\ \langle \mathsf{name}_{i},\ \_\rangle \ \land \ \mathsf{name}_{i}\ \in \ R_{\mathsf{spec}}\ \cup \ R_{\mathsf{vendor}}\ \land \ \tau \ \notin \ \operatorname{AttrTargets}(\mathsf{name}_{i}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{AttrListWf}(A,\ \tau )\ \Uparrow \ c\quad c\ =\ \operatorname{Code}(\mathsf{Attr}-\mathsf{Target}-\mathsf{Err})
 \end{array}
 $$
@@ -397,9 +397,7 @@ $$
 
 Memory-order attributes are well-formed only when attached to key blocks or expressions that contain key acquisition.
 
-$$
-\mathsf{For}\ \mathsf{every}\ \mathsf{declaration}\ \mathsf{or}\ \mathsf{expression}\ \mathsf{with}\ \mathsf{an}\ \mathsf{attribute}\ \mathsf{list}\ A\ \mathsf{and}\ \mathsf{target}\ \mathsf{kind}\ \tau ,\ \mathsf{the}\ \mathsf{implementation}\ \mathsf{MUST}\ \mathsf{check}\ \Gamma \ \vdash \ \operatorname{AttrListWf}(A,\ \tau )\ \Downarrow \ \mathsf{ok}.
-$$
+For every declaration or expression with an attribute list A and target kind τ, the implementation MUST check Γ ⊢ AttrListWf(A, τ) ⇓ ok.
 
 Multiple attribute lists on the same target are equivalent to a single list with concatenated entries in source order. Attribute application order is left-to-right in that concatenated list.
 
@@ -439,8 +437,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AttrLeafTok}(\operatorname{Tok}(P),\ \mathsf{id})\quad P_{1}\ =\ \operatorname{Advance}(P)\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"."})\quad \lnot \ \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"::"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{AttrLeafTok}(\operatorname{Tok}(P),\ \mathsf{id})\quad P_{1}\ =\ \operatorname{Advance}(P)\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"."})\quad \lnot \ \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"::"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrName}(P)\ \Downarrow \ (P_{1},\ \mathsf{id})
 \end{array}
 $$
@@ -449,8 +447,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{id}_{0})\quad \Gamma \ \vdash \ \operatorname{ParseVendorPrefixTail}(P_{1},\ [\mathsf{id}_{0}])\ \Downarrow \ (P_{2},\ \mathsf{pref})\quad \operatorname{IsOp}(\operatorname{Tok}(P_{2}),\ \texttt{"::"})\quad \operatorname{AttrLeafTok}(\operatorname{Tok}(\operatorname{Advance}(P_{2})),\ \mathsf{name})\quad P_{3}\ =\ \operatorname{Advance}(\operatorname{Advance}(P_{2})) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{id}_{0})\quad \Gamma \ \vdash \ \operatorname{ParseVendorPrefixTail}(P_{1},\ [\mathsf{id}_{0}])\ \Downarrow \ (P_{2},\ \mathsf{pref})\quad \operatorname{IsOp}(\operatorname{Tok}(P_{2}),\ \texttt{"::"})\quad \operatorname{AttrLeafTok}(\operatorname{Tok}(\operatorname{Advance}(P_{2})),\ \mathsf{name})\quad P_{3}\ =\ \operatorname{Advance}(\operatorname{Advance}(P_{2})) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrName}(P)\ \Downarrow \ (P_{3},\ \langle \mathsf{pref},\ \mathsf{name}\rangle )
 \end{array}
 $$
@@ -459,8 +457,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"::"}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"::"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseVendorPrefixTail}(P,\ \mathsf{xs})\ \Downarrow \ (P,\ \mathsf{xs})
 \end{array}
 $$
@@ -469,27 +467,21 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"::"})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{id})\quad \Gamma \ \vdash \ \operatorname{ParseVendorPrefixTail}(P_{1},\ \mathsf{xs}\ \mathbin{++} \ [\mathsf{id}])\ \Downarrow \ (P_{2},\ \mathsf{ys}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"::"})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{id})\quad \Gamma \ \vdash \ \operatorname{ParseVendorPrefixTail}(P_{1},\ \mathsf{xs}\ \mathbin{++} \ [\mathsf{id}])\ \Downarrow \ (P_{2},\ \mathsf{ys}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseVendorPrefixTail}(P,\ \mathsf{xs})\ \Downarrow \ (P_{2},\ \mathsf{ys})
 \end{array}
 $$
 
 ### 9.2.3 AST Representation / Form
 
-$$
-\mathsf{Vendor}-\mathsf{defined}\ \mathsf{attribute}\ \mathsf{names}\ \mathsf{use}\ \mathsf{the}\ \mathsf{scoped}\ \texttt{AttrName}\ \mathsf{form}\ \texttt{<vendor\_prefix, leaf>},\ \mathsf{where}\ \texttt{leaf}\ \mathsf{is}\ \mathsf{an}\ \texttt{identifier}\ \mathsf{or}\ \mathsf{one}\ \mathsf{of}\ \mathsf{the}\ \mathsf{reserved}\ \mathsf{verification}-\mathsf{mode}\ \mathsf{names}\ \texttt{dynamic}\ \mathsf{or}\ \texttt{static}.\ \texttt{vendor\_prefix}\ \mathsf{segments}\ \mathsf{are}\ \mathsf{always}\ \texttt{identifier}\ \mathsf{tokens}.
-$$
+Vendor-defined attribute names use the scoped `AttrName` form `⟨vendor_prefix, leaf⟩`, where `leaf` is an `identifier` or one of the reserved verification-mode names `dynamic` or `static`. `vendor_prefix` segments are always `identifier` tokens.
 
 ### 9.2.4 Static Semantics
 
-$$
-\mathsf{Vendor}-\mathsf{defined}\ \mathsf{attributes}\ \mathsf{in}\ \texttt{R\_vendor}\ \mathsf{MUST}\ \mathsf{use}\ \mathsf{scoped}\ \mathsf{prefixes}\ \mathsf{of}\ \mathsf{the}\ \mathsf{form}\ \texttt{vendor::name}\ \mathsf{or}\ \texttt{com::vendor::name}.
-$$
+Vendor-defined attributes in `R_vendor` MUST use scoped prefixes of the form `vendor::name` or `com::vendor::name`.
 
-$$
-\mathsf{The}\ \texttt{ultraviolet::...}\ \mathsf{namespace}\ \mathsf{is}\ \mathsf{reserved}\ \mathsf{for}\ \mathsf{specification}-\mathsf{defined}\ \mathsf{attributes}.
-$$
+The `ultraviolet::...` namespace is reserved for specification-defined attributes.
 
 $$
 \texttt{R\_vendor = emptyset}.\ \mathsf{Any}\ \mathsf{attribute}\ \mathsf{name}\ \mathsf{not}\ \mathsf{in}\ \texttt{R\_spec}\ \mathsf{is}\ \mathsf{rejected}\ \mathsf{as}\ \mathsf{unknown}.
@@ -532,9 +524,7 @@ Layout attributes are ordinary `AttributeSpec` entries attached to `RecordDecl` 
 
 ### 9.3.4 Static Semantics
 
-$$
-**\texttt{[[layout(C)]]}.**\ \mathsf{Specifies}\ C-\mathsf{compatible}\ \mathsf{memory}\ \mathsf{layout}.
-$$
+**`[[layout(C)]]`.** Specifies C-compatible memory layout.
 
 For `record` declarations:
 1. Fields MUST be laid out in declaration order.
@@ -546,29 +536,21 @@ For `enum` declarations:
 2. Default tag type is `DiscType(E)` as defined by §12.7.
 3. Layout MUST conform to a tagged union per the target C ABI.
 
-$$
-**\texttt{[[layout(IntType)]]}\ (\mathsf{explicit}\ \mathsf{discriminant}).**\ \mathsf{For}\ \mathsf{an}\ \texttt{enum}\ \mathsf{marked}\ \texttt{[[layout(IntType)]]}\ \mathsf{where}\ \texttt{IntType}\ \mathsf{is}\ \texttt{i8}- \texttt{i64}\ \mathsf{or}\ \texttt{u8}- \texttt{u64}:
-$$
+**`[[layout(IntType)]]` (explicit discriminant).** For an `enum` marked `[[layout(IntType)]]` where `IntType` is `i8`–`i64` or `u8`–`u64`:
 1. The discriminant MUST use the specified integer type.
 2. Each variant's discriminant value MUST be representable in that type.
 3. This form is valid only on `enum` declarations.
 
-$$
-**\texttt{[[layout(packed)]]}.**\ \mathsf{Removes}\ \mathsf{inter}-\mathsf{field}\ \mathsf{padding}.
-$$
+**`[[layout(packed)]]`.** Removes inter-field padding.
 
-$$
-\mathsf{For}\ a\ \texttt{record}\ \mathsf{marked}\ \texttt{[[layout(packed)]]}:
-$$
+For a `record` marked `[[layout(packed)]]`:
 1. All inter-field padding is removed.
 2. Each field MUST be laid out with alignment 1.
 3. The record's overall alignment becomes 1.
 
 Taking a reference to a packed field MUST occur within an `unsafe` block. Outside `unsafe`, the program is ill-formed.
 
-$$
-**\texttt{[[layout(align(N))]]}.**\ \mathsf{Sets}\ a\ \mathsf{minimum}\ \mathsf{alignment}.
-$$
+**`[[layout(align(N))]]`.** Sets a minimum alignment.
 
 1. N MUST be a positive integer that is a power of two.
 2. Effective alignment is max(N, natural alignment).
@@ -641,17 +623,11 @@ Optimization attributes are ordinary `AttributeSpec` entries attached to `Proced
 
 **`[[inline]]`.** The implementation SHOULD inline the procedure at call sites when feasible.
 
-$$
-**\texttt{[[inline(always)]]}.**\ \mathsf{The}\ \mathsf{implementation}\ \mathsf{SHOULD}\ \mathsf{inline}\ \mathsf{the}\ \mathsf{procedure}\ \mathsf{at}\ \mathsf{all}\ \mathsf{call}\ \mathsf{sites}.\ \mathsf{If}\ \mathsf{inlining}\ \mathsf{is}\ \mathsf{not}\ \mathsf{possible},\ \mathsf{such}\ \mathsf{as}\ \mathsf{for}\ \mathsf{reultraviolet}\ \mathsf{procedures}\ \mathsf{or}\ \mathsf{procedures}\ \mathsf{whose}\ \mathsf{address}\ \mathsf{is}\ \mathsf{taken},\ \mathsf{the}\ \mathsf{implementation}\ \mathsf{SHOULD}\ \mathsf{emit}\ a\ \mathsf{warning}.
-$$
+**`[[inline(always)]]`.** The implementation SHOULD inline the procedure at all call sites. If inlining is not possible, such as for reultraviolet procedures or procedures whose address is taken, the implementation SHOULD emit a warning.
 
-$$
-**\texttt{[[inline(default)]]}.**\ \mathsf{Equivalent}\ \mathsf{to}\ \mathsf{omitting}\ \mathsf{the}\ \mathsf{attribute}.
-$$
+**`[[inline(default)]]`.** Equivalent to omitting the attribute.
 
-$$
-**\texttt{[[inline(never)]]}.**\ \mathsf{The}\ \mathsf{implementation}\ \mathsf{MUST}\ \mathsf{NOT}\ \mathsf{inline}\ \mathsf{the}\ \mathsf{procedure}.\ \mathsf{The}\ \mathsf{procedure}\ \mathsf{body}\ \mathsf{MUST}\ \mathsf{be}\ \mathsf{emitted}\ \mathsf{as}\ a\ \mathsf{separate}\ \mathsf{callable}\ \mathsf{unit}.
-$$
+**`[[inline(never)]]`.** The implementation MUST NOT inline the procedure. The procedure body MUST be emitted as a separate callable unit.
 
 **`[[cold]]`.** Marks a procedure as unlikely to execute during typical runs. The implementation MAY use this as an optimization hint.
 
@@ -661,9 +637,7 @@ Optimization attributes do not change the language-level runtime semantics of th
 
 ### 9.4.6 Lowering
 
-$$
-\texttt{[[inline(always)]]}\ \mathsf{and}\ \texttt{[[inline(never)]]}\ \mathsf{constrain}\ \mathsf{procedure}\ \mathsf{inlining}\ \mathsf{decisions}\ \mathsf{during}\ \mathsf{lowering}.\ \texttt{[[inline(never)]]}\ \mathsf{requires}\ \mathsf{emission}\ \mathsf{of}\ a\ \mathsf{separate}\ \mathsf{callable}\ \mathsf{unit}.\ \texttt{[[cold]]}\ \mathsf{MAY}\ \mathsf{influence}\ \mathsf{code}\ \mathsf{layout}\ \mathsf{or}\ \mathsf{backend}\ \mathsf{optimization}\ \mathsf{heuristics}.
-$$
+`[[inline(always)]]` and `[[inline(never)]]` constrain procedure inlining decisions during lowering. `[[inline(never)]]` requires emission of a separate callable unit. `[[cold]]` MAY influence code layout or backend optimization heuristics.
 
 ### 9.4.7 Diagnostics
 
@@ -685,17 +659,17 @@ These attributes are parsed by the general attribute parser in §9.1.2.
 
 $$
 \begin{array}{l}
-\operatorname{ExprAttrList}(e)\ =\ A\quad \mathsf{if}\ \operatorname{ExprAttrs}(e)\ =\ A \\
-\operatorname{ExprAttrList}(e)\ =\ []\ \mathsf{if}\ \operatorname{ExprAttrs}(e)\ =\ \bot  \\
+\operatorname{ExprAttrList}(e)\ =\ A\quad \mathsf{if}\ \operatorname{ExprAttrs}(e)\ =\ A \\[0.16em]
+\operatorname{ExprAttrList}(e)\ =\ []\ \mathsf{if}\ \operatorname{ExprAttrs}(e)\ =\ \bot  \\[0.16em]
 \operatorname{ExprAttrByName}(e,\ n)\ =\ [a\ \mid \ a\ \in \ \operatorname{ExprAttrList}(e)\ \land \ a.\mathsf{name}\ =\ n]
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{DynamicDecl}(d)\ \Leftrightarrow \ \operatorname{AttrByName}(d,\ \texttt{"dynamic"})\ \ne \ [] \\
-\operatorname{DynamicExpr}(e)\ \Leftrightarrow \ \operatorname{ExprAttrByName}(e,\ \texttt{"dynamic"})\ \ne \ [] \\
-\operatorname{DynamicScope}(s)\ \Leftrightarrow \ (\exists \ d.\ \operatorname{DynamicDecl}(d)\ \land \ s\ \subseteq \ d.\mathsf{span})\ \lor \ (\exists \ e.\ \operatorname{DynamicExpr}(e)\ \land \ s\ \subseteq \ \operatorname{ExprSpan}(e)) \\
+\operatorname{DynamicDecl}(d)\ \Leftrightarrow \ \operatorname{AttrByName}(d,\ \texttt{"dynamic"})\ \ne \ [] \\[0.16em]
+\operatorname{DynamicExpr}(e)\ \Leftrightarrow \ \operatorname{ExprAttrByName}(e,\ \texttt{"dynamic"})\ \ne \ [] \\[0.16em]
+\operatorname{DynamicScope}(s)\ \Leftrightarrow \ (\exists \ d.\ \operatorname{DynamicDecl}(d)\ \land \ s\ \subseteq \ d.\mathsf{span})\ \lor \ (\exists \ e.\ \operatorname{DynamicExpr}(e)\ \land \ s\ \subseteq \ \operatorname{ExprSpan}(e)) \\[0.16em]
 \mathsf{InDynamicContext}\ \Leftrightarrow \ \operatorname{DynamicScope}(s)\ \mathsf{where}\ s\ \mathsf{is}\ \mathsf{the}\ \mathsf{span}\ \mathsf{of}\ \mathsf{the}\ \mathsf{syntactic}\ \mathsf{form}\ \mathsf{currently}\ \mathsf{being}\ \mathsf{verified}\ \mathsf{or}\ \mathsf{type}-\mathsf{checked}.
 \end{array}
 $$
@@ -716,11 +690,11 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ComputeDynamicContext}(s,\ \mathsf{ancestors})\ = \\
-\ \mathsf{let}\ \mathsf{enclosing}_{\mathsf{dynamic}}\ =\ \operatorname{FindInnermostDynamic}(s,\ \mathsf{ancestors}) \\
-\ \mathsf{match}\ \mathsf{enclosing}_{\mathsf{dynamic}}\ \{ \\
-\quad \bot \quad \to \ \mathsf{false} \\
-\quad \operatorname{Some}(\_)\quad \to \ \mathsf{true} \\
+\operatorname{ComputeDynamicContext}(s,\ \mathsf{ancestors})\ = \\[0.16em]
+\ \mathsf{let}\ \mathsf{enclosing}_{\mathsf{dynamic}}\ =\ \operatorname{FindInnermostDynamic}(s,\ \mathsf{ancestors}) \\[0.16em]
+\ \mathsf{match}\ \mathsf{enclosing}_{\mathsf{dynamic}}\ \{ \\[0.16em]
+\quad \bot \quad \to \ \mathsf{false} \\[0.16em]
+\quad \operatorname{Some}(\_)\quad \to \ \mathsf{true} \\[0.16em]
 \ \}
 \end{array}
 $$
@@ -731,9 +705,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{FindInnermostDynamic}(s,\ \mathsf{ancestors})\ = \\
-\ \mathsf{let}\ \mathsf{dynamic}_{\mathsf{ancestors}}\ =\ [a\ \mid \ a\ \in \ \mathsf{ancestors}\ \land \ (\operatorname{DynamicDecl}(a)\ \lor \ \operatorname{DynamicExpr}(a))\ \land \ s\ \subseteq \ a.\mathsf{span}] \\
-\ \mathsf{if}\ \mathsf{dynamic}_{\mathsf{ancestors}}\ =\ []\ \mathsf{then}\ \bot  \\
+\operatorname{FindInnermostDynamic}(s,\ \mathsf{ancestors})\ = \\[0.16em]
+\ \mathsf{let}\ \mathsf{dynamic}_{\mathsf{ancestors}}\ =\ [a\ \mid \ a\ \in \ \mathsf{ancestors}\ \land \ (\operatorname{DynamicDecl}(a)\ \lor \ \operatorname{DynamicExpr}(a))\ \land \ s\ \subseteq \ a.\mathsf{span}] \\[0.16em]
+\ \mathsf{if}\ \mathsf{dynamic}_{\mathsf{ancestors}}\ =\ []\ \mathsf{then}\ \bot  \\[0.16em]
 \ \mathsf{else}\ \operatorname{Some}(\operatorname{MinimalSpan}(\mathsf{dynamic}_{\mathsf{ancestors}}))
 \end{array}
 $$
@@ -750,8 +724,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ClassProc}(C,\ m)\ \mathsf{has}\ [[\mathsf{dynamic}]]\quad \operatorname{ClassImpl}(T,\ C)\ \mathsf{has}\ \mathsf{override}\ m \\
-\rule{18em}{0.4pt} \\
+\operatorname{ClassProc}(C,\ m)\ \mathsf{has}\ [[\mathsf{dynamic}]]\quad \operatorname{ClassImpl}(T,\ C)\ \mathsf{has}\ \mathsf{override}\ m \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{ComputeDynamicContext}(\mathsf{override}.\mathsf{body}.\mathsf{span},\ \operatorname{Ancestors}(\mathsf{override}))\ =\ \mathsf{true}
 \end{array}
 $$
@@ -762,8 +736,8 @@ A class procedure's `[[dynamic]]` annotation propagates to implementations.
 
 $$
 \begin{array}{l}
-\operatorname{CallExpr}(f,\ \mathsf{args})\ \mathsf{at}\ \mathsf{span}\ s\quad f\ \mathsf{is}\ [[\mathsf{dynamic}]]\quad s\ \nsubseteq \ f.\mathsf{span} \\
-\rule{18em}{0.4pt} \\
+\operatorname{CallExpr}(f,\ \mathsf{args})\ \mathsf{at}\ \mathsf{span}\ s\quad f\ \mathsf{is}\ [[\mathsf{dynamic}]]\quad s\ \nsubseteq \ f.\mathsf{span} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{ComputeDynamicContext}(s,\ \operatorname{Ancestors}(s))\ \mathsf{does}\ \mathsf{not}\ \mathsf{consider}\ f's\ [[\mathsf{dynamic}]]
 \end{array}
 $$
@@ -788,9 +762,7 @@ If a `[[dynamic]]` scope results in no runtime checks or runtime synchronization
 
 **`[[reflect]]`.** Marks a `record`, `enum`, or `modal` declaration as reflectable during Phase 2. Reflection queries over such declarations are defined by §22.3. A conforming implementation MUST expose the declaration's canonical shape, member order, and attached attributes to the compile-time reflection environment.
 
-$$
-**\texttt{[[derive(... )]]}.**\ \mathsf{Schedules}\ \mathsf{derive}-\mathsf{target}\ \mathsf{execution}\ \mathsf{in}\ \mathsf{Phase}\ 2\ \mathsf{for}\ \mathsf{the}\ \mathsf{annotated}\ \texttt{record},\ \texttt{enum},\ \mathsf{or}\ \texttt{modal}\ \mathsf{declaration}.\ \mathsf{Derive}\ \mathsf{target}\ \mathsf{resolution},\ \mathsf{dependency}\ \mathsf{ordering},\ \mathsf{and}\ \mathsf{contract}\ \mathsf{checking}\ \mathsf{are}\ \mathsf{defined}\ \mathsf{by}\ \S 22.5.
-$$
+**`[[derive(... )]]`.** Schedules derive-target execution in Phase 2 for the annotated `record`, `enum`, or `modal` declaration. Derive target resolution, dependency ordering, and contract checking are defined by §22.5.
 
 **`[[emit]]`.** Grants the `TypeEmitter` capability to the annotated compile-time statement or compile-time expression. The target MUST be a `comptime` form. Emission ordering and generated-item visibility are defined by §22.4.
 
@@ -804,9 +776,7 @@ For `[[dynamic]]`, runtime synchronization or runtime verification MUST be inser
 
 ### 9.5.6 Lowering
 
-$$
-\texttt{[[dynamic]]}\ \mathsf{lowers}\ \mathsf{by}\ \mathsf{enabling}\ \mathsf{runtime}\ \mathsf{synchronization}\ \mathsf{or}\ \mathsf{runtime}\ \mathsf{checks}\ \mathsf{exactly}\ \mathsf{where}\ \mathsf{the}\ \mathsf{owning}\ \mathsf{semantic}\ \mathsf{sections}\ \mathsf{require}\ \mathsf{them}\ \mathsf{and}\ \mathsf{nowhere}\ \mathsf{else}.\ \texttt{[[stale\_ok]]}\ \mathsf{suppresses}\ \mathsf{warnings}\ \mathsf{only}\ \mathsf{and}\ \mathsf{does}\ \mathsf{not}\ \mathsf{affect}\ \mathsf{lowering}.\ \texttt{[[deprecated]]}\ \mathsf{introduces}\ \mathsf{no}\ \mathsf{lowering}.\ \texttt{[[reflect]]},\ \texttt{[[derive(... )]]},\ \texttt{[[emit]]},\ \mathsf{and}\ \texttt{[[files]]}\ \mathsf{lower}\ \mathsf{only}\ \mathsf{through}\ \mathsf{Phase}\ 2\ \mathsf{execution}\ \mathsf{as}\ \mathsf{defined}\ \mathsf{by}\ \mathsf{Chapter}\ 22\ \mathsf{and}\ \mathsf{MUST}\ \mathsf{introduce}\ \mathsf{no}\ \mathsf{direct}\ \mathsf{Phase}\ 4\ \mathsf{runtime}\ \mathsf{instrumentation}.
-$$
+`[[dynamic]]` lowers by enabling runtime synchronization or runtime checks exactly where the owning semantic sections require them and nowhere else. `[[stale_ok]]` suppresses warnings only and does not affect lowering. `[[deprecated]]` introduces no lowering. `[[reflect]]`, `[[derive(... )]]`, `[[emit]]`, and `[[files]]` lower only through Phase 2 execution as defined by Chapter 22 and MUST introduce no direct Phase 4 runtime instrumentation.
 
 ### 9.5.7 Diagnostics
 
@@ -832,12 +802,10 @@ test_attribute_arg  ::= "name" ":" string_literal
 ### 9.6.2 Parsing
 
 `[[test]]` is parsed by the ordinary attribute parser from §9.1.2. The `name`
+argument is represented as `⟨name, string_literal⟩`. Each `covers(...)` argument
 
 $$
-\begin{array}{l}
-\mathsf{argument}\ \mathsf{is}\ \mathsf{represented}\ \mathsf{as}\ \texttt{<name, string\_literal>}.\ \mathsf{Each}\ \texttt{covers(...)}\ \mathsf{argument} \\
 \mathsf{is}\ \mathsf{represented}\ \mathsf{as}\ \texttt{<covers, [string\_literal]>}.
-\end{array}
 $$
 
 ### 9.6.3 AST Representation / Form
@@ -847,7 +815,7 @@ test)` set is non-empty.
 
 $$
 \begin{array}{l}
-\operatorname{TestName}(\mathsf{proc})\ =\ s\ \mathsf{when}\ \mathsf{the}\ \mathsf{unique}\ \texttt{name: s}\ \mathsf{argument}\ \mathsf{is}\ \mathsf{present}. \\
+\operatorname{TestName}(\mathsf{proc})\ =\ s\ \mathsf{when}\ \mathsf{the}\ \mathsf{unique}\ \texttt{name: s}\ \mathsf{argument}\ \mathsf{is}\ \mathsf{present}. \\[0.16em]
 \operatorname{TestName}(\mathsf{proc})\ =\ \operatorname{FullyQualifiedProcPath}(\mathsf{proc})\ \mathsf{when}\ \mathsf{no}\ \texttt{name}\ \mathsf{argument}\ \mathsf{is}\ \mathsf{present}.
 \end{array}
 $$
@@ -908,8 +876,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{TestInput}(\bot )\ =\ \mathsf{CurrentDirectory} \\
-\operatorname{TestInput}(s)\ =\ p\ \mathsf{if}\ \operatorname{HostPath}(s)\ \land \ \operatorname{ResolveHostPath}(\mathsf{CurrentDirectory},\ s)\ \Downarrow \ p \\
+\operatorname{TestInput}(\bot )\ =\ \mathsf{CurrentDirectory} \\[0.16em]
+\operatorname{TestInput}(s)\ =\ p\ \mathsf{if}\ \operatorname{HostPath}(s)\ \land \ \operatorname{ResolveHostPath}(\mathsf{CurrentDirectory},\ s)\ \Downarrow \ p \\[0.16em]
 \operatorname{TestInput}(s)\ =\ \mathsf{CurrentDirectory}\ \mathsf{if}\ \lnot \ \operatorname{HostPath}(s)
 \end{array}
 $$
@@ -920,8 +888,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{TestsPrefix}(A)\ =\ A.\mathsf{name}\ \mathbin{::} \ \texttt{Tests} \\
-\operatorname{TestBearing}(A)\ \Leftrightarrow \ \exists \ m\ \in \ A.\mathsf{modules}.\ \operatorname{Prefix}(\operatorname{path}(m),\ \operatorname{TestsPrefix}(A)) \\
+\operatorname{TestsPrefix}(A)\ =\ A.\mathsf{name}\ \mathbin{::} \ \texttt{Tests} \\[0.16em]
+\operatorname{TestBearing}(A)\ \Leftrightarrow \ \exists \ m\ \in \ A.\mathsf{modules}.\ \operatorname{Prefix}(\operatorname{path}(m),\ \operatorname{TestsPrefix}(A)) \\[0.16em]
 \operatorname{TestAssemblies}(P)\ =\ [A\ \in \ P.\mathsf{assemblies}\ \mid \ \operatorname{TestBearing}(A)]
 \end{array}
 $$
@@ -932,32 +900,32 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ResolveTestTarget}(P,\ \bot )\ =\ \mathsf{AllTests} \\
-\operatorname{ResolveTestTarget}(P,\ s)\ =\ \operatorname{SourceFileTests}(p) \\
-\ \mathsf{if}\ \operatorname{HostPath}(s)\ \land \ \operatorname{ResolveHostPath}(\mathsf{CurrentDirectory},\ s)\ \Downarrow \ p\ \land \ \operatorname{File}(p) \\
-\operatorname{ResolveTestTarget}(P,\ s)\ =\ \mathsf{AllTests} \\
-\ \mathsf{if}\ \operatorname{HostPath}(s)\ \land \ \operatorname{ResolveHostPath}(\mathsf{CurrentDirectory},\ s)\ \Downarrow \ p\ \land \ \operatorname{Dir}(p)\ \land \ p\ =\ P.\mathsf{root} \\
-\operatorname{ResolveTestTarget}(P,\ s)\ =\ \operatorname{DirectoryTests}(p) \\
-\ \mathsf{if}\ \operatorname{HostPath}(s)\ \land \ \operatorname{ResolveHostPath}(\mathsf{CurrentDirectory},\ s)\ \Downarrow \ p\ \land \ \operatorname{Dir}(p)\ \land \ p\ \ne \ P.\mathsf{root} \\
-\operatorname{ResolveTestTarget}(P,\ s)\ =\ \operatorname{AssemblyTests}(A) \\
-\ \mathsf{if}\ \lnot \ \operatorname{HostPath}(s)\ \land \ A\ \in \ P.\mathsf{assemblies}\ \land \ A.\mathsf{name}\ =\ s \\
-\operatorname{ResolveTestTarget}(P,\ s)\ =\ \operatorname{ModuleTests}(q) \\
-\ \mathsf{if}\ \lnot \ \operatorname{HostPath}(s)\ \land \ \operatorname{ParseModulePath}(s)\ \Downarrow \ q\ \land \ \exists \ m\ \in \ \operatorname{ModuleList}(P).\ \operatorname{path}(m)\ =\ q \\
+\operatorname{ResolveTestTarget}(P,\ \bot )\ =\ \mathsf{AllTests} \\[0.16em]
+\operatorname{ResolveTestTarget}(P,\ s)\ =\ \operatorname{SourceFileTests}(p) \\[0.16em]
+\ \mathsf{if}\ \operatorname{HostPath}(s)\ \land \ \operatorname{ResolveHostPath}(\mathsf{CurrentDirectory},\ s)\ \Downarrow \ p\ \land \ \operatorname{File}(p) \\[0.16em]
+\operatorname{ResolveTestTarget}(P,\ s)\ =\ \mathsf{AllTests} \\[0.16em]
+\ \mathsf{if}\ \operatorname{HostPath}(s)\ \land \ \operatorname{ResolveHostPath}(\mathsf{CurrentDirectory},\ s)\ \Downarrow \ p\ \land \ \operatorname{Dir}(p)\ \land \ p\ =\ P.\mathsf{root} \\[0.16em]
+\operatorname{ResolveTestTarget}(P,\ s)\ =\ \operatorname{DirectoryTests}(p) \\[0.16em]
+\ \mathsf{if}\ \operatorname{HostPath}(s)\ \land \ \operatorname{ResolveHostPath}(\mathsf{CurrentDirectory},\ s)\ \Downarrow \ p\ \land \ \operatorname{Dir}(p)\ \land \ p\ \ne \ P.\mathsf{root} \\[0.16em]
+\operatorname{ResolveTestTarget}(P,\ s)\ =\ \operatorname{AssemblyTests}(A) \\[0.16em]
+\ \mathsf{if}\ \lnot \ \operatorname{HostPath}(s)\ \land \ A\ \in \ P.\mathsf{assemblies}\ \land \ A.\mathsf{name}\ =\ s \\[0.16em]
+\operatorname{ResolveTestTarget}(P,\ s)\ =\ \operatorname{ModuleTests}(q) \\[0.16em]
+\ \mathsf{if}\ \lnot \ \operatorname{HostPath}(s)\ \land \ \operatorname{ParseModulePath}(s)\ \Downarrow \ q\ \land \ \exists \ m\ \in \ \operatorname{ModuleList}(P).\ \operatorname{path}(m)\ =\ q \\[0.16em]
 \operatorname{ResolveTestTarget}(P,\ s)\ \Uparrow \ \operatorname{Code}(\mathsf{Test}-\mathsf{Target}-\mathsf{Err})\ \mathsf{otherwise}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{SelectedTests}(P,\ \mathsf{AllTests})\ = \\
-\ [\mathsf{proc}\ \mid \ A\ \in \ \operatorname{TestAssemblies}(P),\ \mathsf{proc}\ \in \ \operatorname{TestProceduresUnder}(A,\ \operatorname{TestsPrefix}(A))] \\
-\operatorname{SelectedTests}(P,\ \operatorname{AssemblyTests}(A))\ = \\
-\ [\mathsf{proc}\ \mid \ \mathsf{proc}\ \in \ \operatorname{TestProceduresUnder}(A,\ \operatorname{TestsPrefix}(A))] \\
-\operatorname{SelectedTests}(P,\ \operatorname{ModuleTests}(q))\ = \\
-\ [\mathsf{proc}\ \mid \ \mathsf{proc}\ \in \ \operatorname{TestProceduresUnder}(\operatorname{OwnerAssembly}(P,\ q),\ q)] \\
-\operatorname{SelectedTests}(P,\ \operatorname{SourceFileTests}(f))\ = \\
-\ [\mathsf{proc}\ \mid \ \mathsf{proc}\ \in \ \operatorname{TestProceduresInFile}(P,\ f)\ \land \ \operatorname{InTestsSubtree}(P,\ \mathsf{proc})] \\
-\operatorname{SelectedTests}(P,\ \operatorname{DirectoryTests}(d))\ = \\
+\operatorname{SelectedTests}(P,\ \mathsf{AllTests})\ = \\[0.16em]
+\ [\mathsf{proc}\ \mid \ A\ \in \ \operatorname{TestAssemblies}(P),\ \mathsf{proc}\ \in \ \operatorname{TestProceduresUnder}(A,\ \operatorname{TestsPrefix}(A))] \\[0.16em]
+\operatorname{SelectedTests}(P,\ \operatorname{AssemblyTests}(A))\ = \\[0.16em]
+\ [\mathsf{proc}\ \mid \ \mathsf{proc}\ \in \ \operatorname{TestProceduresUnder}(A,\ \operatorname{TestsPrefix}(A))] \\[0.16em]
+\operatorname{SelectedTests}(P,\ \operatorname{ModuleTests}(q))\ = \\[0.16em]
+\ [\mathsf{proc}\ \mid \ \mathsf{proc}\ \in \ \operatorname{TestProceduresUnder}(\operatorname{OwnerAssembly}(P,\ q),\ q)] \\[0.16em]
+\operatorname{SelectedTests}(P,\ \operatorname{SourceFileTests}(f))\ = \\[0.16em]
+\ [\mathsf{proc}\ \mid \ \mathsf{proc}\ \in \ \operatorname{TestProceduresInFile}(P,\ f)\ \land \ \operatorname{InTestsSubtree}(P,\ \mathsf{proc})] \\[0.16em]
+\operatorname{SelectedTests}(P,\ \operatorname{DirectoryTests}(d))\ = \\[0.16em]
 \ [\mathsf{proc}\ \mid \ \mathsf{proc}\ \in \ \operatorname{TestProceduresUnderDirectory}(P,\ d)\ \land \ \operatorname{InTestsSubtree}(P,\ \mathsf{proc})]
 \end{array}
 $$

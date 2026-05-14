@@ -2,20 +2,25 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
-import { groupedChapters } from './scripts/spec-utils.mjs';
+import { CHAPTERS } from './scripts/spec-utils.mjs';
+import {
+  siteDescription,
+  socialImageAlt,
+  socialImageHeight,
+  socialImagePath,
+  socialImageType,
+  socialImageWidth,
+} from './src/data/siteMetadata.mjs';
 
-const description =
-  'Ultraviolet is a high-visibility, general-purpose programming language for AI and Humans.';
+const description = siteDescription;
+const socialImageUrl = `https://ultraviolet-lang.org${socialImagePath}`;
 
 const specificationSidebarItems = [
   { label: 'Overview', slug: 'docs/specification' },
-  ...[...groupedChapters().entries()].map(([group, chapters]) => ({
-    label: group,
-    collapsed: true,
-    items: chapters.map((chapter) => ({
-      label: chapter.heading,
-      slug: `docs/specification/${chapter.slug}`,
-    })),
+  { label: 'Reading guide', slug: 'docs/reference/specification-reading-guide' },
+  ...CHAPTERS.map((chapter) => ({
+    label: chapter.heading,
+    slug: `docs/specification/${chapter.slug}`,
   })),
 ];
 
@@ -73,6 +78,10 @@ export default defineConfig({
           ],
         },
         {
+          label: 'Specification',
+          items: specificationSidebarItems,
+        },
+        {
           label: 'Modal programming',
           items: [
             { label: 'Overview', slug: 'docs/modal-programming' },
@@ -120,25 +129,8 @@ export default defineConfig({
           items: [
             { label: 'Overview', slug: 'docs/reference' },
             {
-              label: 'Reading the spec',
-              slug: 'docs/reference/specification-reading-guide',
-            },
-            {
               label: 'Documentation audit',
               slug: 'docs/reference/documentation-audit',
-            },
-            {
-              label: 'Specification',
-              collapsed: true,
-              items: specificationSidebarItems,
-            },
-            {
-              label: 'Grammar',
-              slug: 'docs/specification/complete-grammar-reference',
-            },
-            {
-              label: 'Diagnostic index',
-              slug: 'docs/specification/diagnostic-index',
             },
             {
               label: 'Runtime and built-ins',
@@ -182,7 +174,42 @@ export default defineConfig({
           tag: 'meta',
           attrs: {
             property: 'og:image',
-            content: 'https://ultraviolet-lang.org/og.svg',
+            content: socialImageUrl,
+          },
+        },
+        {
+          tag: 'meta',
+          attrs: {
+            property: 'og:image:secure_url',
+            content: socialImageUrl,
+          },
+        },
+        {
+          tag: 'meta',
+          attrs: {
+            property: 'og:image:type',
+            content: socialImageType,
+          },
+        },
+        {
+          tag: 'meta',
+          attrs: {
+            property: 'og:image:width',
+            content: socialImageWidth,
+          },
+        },
+        {
+          tag: 'meta',
+          attrs: {
+            property: 'og:image:height',
+            content: socialImageHeight,
+          },
+        },
+        {
+          tag: 'meta',
+          attrs: {
+            property: 'og:image:alt',
+            content: socialImageAlt,
           },
         },
         {
@@ -190,6 +217,20 @@ export default defineConfig({
           attrs: {
             name: 'twitter:card',
             content: 'summary_large_image',
+          },
+        },
+        {
+          tag: 'meta',
+          attrs: {
+            name: 'twitter:image',
+            content: socialImageUrl,
+          },
+        },
+        {
+          tag: 'meta',
+          attrs: {
+            name: 'twitter:image:alt',
+            content: socialImageAlt,
           },
         },
       ],

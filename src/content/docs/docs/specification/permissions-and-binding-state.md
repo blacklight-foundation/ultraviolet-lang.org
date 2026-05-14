@@ -2,14 +2,14 @@
 title: "Permissions and Binding State"
 description: "10. Permissions and Binding State of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T19:35:24.518Z"
+specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+generatedAt: "2026-05-14T00:55:03.609Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e</code></span>
+  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
 </div>
 
 
@@ -22,9 +22,7 @@ permission         ::= "const" | "unique" | "shared"
 receiver_shorthand ::= "~" | "~!" | "~%"
 ```
 
-$$
-\mathsf{Permission}\ \mathsf{qualifiers}\ \mathsf{appear}\ \mathsf{in}\ \texttt{type ::= permission? non\_permission\_type refinement\_clause?}.\ \mathsf{Receiver}\ \mathsf{shorthand}\ \mathsf{forms}\ \mathsf{map}\ \mathsf{to}\ \mathsf{receiver}\ \mathsf{permissions}\ \mathsf{as}\ \mathsf{defined}\ \mathsf{by}\ \mathsf{the}\ \mathsf{parser}\ \mathsf{and}\ \mathsf{AST}\ \mathsf{rules}\ \mathsf{in}\ \mathsf{Chapter}\ 5.
-$$
+Permission qualifiers appear in `type ::= permission? non_permission_type refinement_clause?`. Receiver shorthand forms map to receiver permissions as defined by the parser and AST rules in Chapter 5.
 
 ### 10.1.2 Parsing
 
@@ -40,9 +38,7 @@ Permission syntax lowers into the following AST forms:
 - `TypePerm(perm, base)`
 - `ReceiverShorthand(perm)`
 
-$$
-A\ \mathsf{permission}-\mathsf{qualified}\ \mathsf{type}\ \mathsf{is}\ \mathsf{represented}\ \mathsf{as}\ \texttt{TypePerm(P, T)}\ \mathsf{where}\ \texttt{P in Perm}\ \mathsf{and}\ \texttt{T}\ \mathsf{is}\ \mathsf{the}\ \mathsf{unqualified}\ \mathsf{base}\ \mathsf{type}.
-$$
+A permission-qualified type is represented as `TypePerm(P, T)` where `P ∈ Perm` and `T` is the unqualified base type.
 
 ### 10.1.4 Static Semantics
 
@@ -186,7 +182,7 @@ b : `unique` T    b is Active    non-consuming admissible use of b begins
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 b\ \mathsf{becomes}\ \mathsf{Inactive}
 \end{array}
 $$
@@ -196,7 +192,7 @@ b is Inactive    all live non-consuming admissible uses of b end
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 b\ \mathsf{becomes}\ \mathsf{Active}\ \mathsf{with}\ \texttt{unique}\ \mathsf{permission}\ \mathsf{preserved}
 \end{array}
 $$

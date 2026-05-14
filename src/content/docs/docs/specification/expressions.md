@@ -2,14 +2,14 @@
 title: "Expressions"
 description: "16. Expressions of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e"
-generatedAt: "2026-05-09T19:35:24.518Z"
+specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+generatedAt: "2026-05-14T00:55:03.609Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>1b8352f24d29890df364b26bbbd80a305cd72d74ffd3cd64c998bfd213f78d6e</code></span>
+  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
 </div>
 
 
@@ -32,8 +32,8 @@ Qualified applications with `(` ... `)` are owned by §16.3. Qualified applicati
 
 $$
 \begin{array}{l}
-\operatorname{Tok}(P).\mathsf{kind}\ \in \ \{\mathsf{IntLiteral},\ \mathsf{FloatLiteral},\ \mathsf{StringLiteral},\ \mathsf{CharLiteral},\ \mathsf{BoolLiteral},\ \mathsf{NullLiteral}\} \\
-\rule{18em}{0.4pt} \\
+\operatorname{Tok}(P).\mathsf{kind}\ \in \ \{\mathsf{IntLiteral},\ \mathsf{FloatLiteral},\ \mathsf{StringLiteral},\ \mathsf{CharLiteral},\ \mathsf{BoolLiteral},\ \mathsf{NullLiteral}\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \operatorname{Literal}(\operatorname{Tok}(P)))
 \end{array}
 $$
@@ -42,8 +42,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsIdent}(\operatorname{Tok}(P))\quad \operatorname{Lexeme}(\operatorname{Tok}(P))\ =\ \texttt{Ptr}\quad \operatorname{IsOp}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"::"})\quad \operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))).\mathsf{kind}\ =\ \mathsf{NullLiteral}\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P)))),\ \texttt{"("})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P))))),\ \texttt{")"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsIdent}(\operatorname{Tok}(P))\quad \operatorname{Lexeme}(\operatorname{Tok}(P))\ =\ \texttt{Ptr}\quad \operatorname{IsOp}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"::"})\quad \operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))).\mathsf{kind}\ =\ \mathsf{NullLiteral}\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P)))),\ \texttt{"("})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P))))),\ \texttt{")"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P))))),\ \mathsf{PtrNullExpr})
 \end{array}
 $$
@@ -52,8 +52,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsIdent}(\operatorname{Tok}(P))\quad \lnot \ \operatorname{IsOp}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"::"})\quad \lnot \ \operatorname{IsOp}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"@"})\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"\{"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsIdent}(\operatorname{Tok}(P))\quad \lnot \ \operatorname{IsOp}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"::"})\quad \lnot \ \operatorname{IsOp}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"@"})\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"\{"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \operatorname{Identifier}(\operatorname{Lexeme}(\operatorname{Tok}(P))))
 \end{array}
 $$
@@ -62,8 +62,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseQualifiedHead}(P)\ \Downarrow \ (P_{1},\ \mathsf{path},\ \mathsf{name})\quad \operatorname{Tok}(P_{1})\ \notin \ \{\operatorname{Punctuator}(\texttt{"("}),\ \operatorname{Punctuator}(\texttt{"\{"})\}\quad \lnot \ \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"@"}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseQualifiedHead}(P)\ \Downarrow \ (P_{1},\ \mathsf{path},\ \mathsf{name})\quad \operatorname{Tok}(P_{1})\ \notin \ \{\operatorname{Punctuator}(\texttt{"("}),\ \operatorname{Punctuator}(\texttt{"\{"})\}\quad \lnot \ \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"@"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (P_{1},\ \operatorname{QualifiedName}(\mathsf{path},\ \mathsf{name}))
 \end{array}
 $$
@@ -72,14 +72,14 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{LiteralKind}\ =\ \{\mathsf{IntLiteral},\ \mathsf{FloatLiteral},\ \mathsf{StringLiteral},\ \mathsf{CharLiteral},\ \mathsf{BoolLiteral},\ \mathsf{NullLiteral}\} \\
+\mathsf{LiteralKind}\ =\ \{\mathsf{IntLiteral},\ \mathsf{FloatLiteral},\ \mathsf{StringLiteral},\ \mathsf{CharLiteral},\ \mathsf{BoolLiteral},\ \mathsf{NullLiteral}\} \\[0.16em]
 \mathsf{LiteralToken}\ =\ \{\ t\ \in \ \mathsf{Token}\ \mid \ t.\mathsf{kind}\ \in \ \mathsf{LiteralKind}\ \}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\mathsf{Expr}\ =\ \operatorname{Literal}(\mathsf{lit})\ \mid \ \mathsf{PtrNullExpr}\ \mid \ \operatorname{Identifier}(\mathsf{name})\ \mid \ \operatorname{QualifiedName}(\mathsf{path},\ \mathsf{name})\ \mid \ \operatorname{Path}(\mathsf{path},\ \mathsf{name})\ \mid \ \operatorname{ErrorExpr}(\mathsf{span})\ \mid \ \ldots  \\
+\mathsf{Expr}\ =\ \operatorname{Literal}(\mathsf{lit})\ \mid \ \mathsf{PtrNullExpr}\ \mid \ \operatorname{Identifier}(\mathsf{name})\ \mid \ \operatorname{QualifiedName}(\mathsf{path},\ \mathsf{name})\ \mid \ \operatorname{Path}(\mathsf{path},\ \mathsf{name})\ \mid \ \operatorname{ErrorExpr}(\mathsf{span})\ \mid \ \ldots  \\[0.16em]
 \mathsf{ExprSpan}\ :\ \mathsf{Expr}\ \to \ \mathsf{Span}
 \end{array}
 $$
@@ -95,13 +95,13 @@ If neither form resolves, the name-resolution pass rejects the expression.
 
 $$
 \begin{array}{l}
-\mathsf{ValuePathType}\ :\ \mathsf{Path}\ \times \ \mathsf{Ident}\ \rightharpoonup \ \mathsf{Type} \\
-\operatorname{BuiltinModalStaticSig}(\mathsf{path},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow  \\
-\ (\mathsf{path}\ =\ [\texttt{"Region"}]\ \land \ \mathsf{name}\ =\ \texttt{new\_scoped}\ \land \ \operatorname{RegionProcSig}(\texttt{Region::new\_scoped})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle )\ \lor  \\
-\ (\mathsf{path}\ =\ [\texttt{"CancelToken"}]\ \land \ \mathsf{name}\ =\ \texttt{new}\ \land \ \operatorname{BuiltinModalProcSig}(\texttt{CancelToken::new})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle ) \\
-\operatorname{ValuePathType}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{StaticType}(\mathsf{path},\ \mathsf{name})\ \mathsf{if}\ \operatorname{StaticType}(\mathsf{path},\ \mathsf{name})\ \mathsf{defined} \\
-\operatorname{ValuePathType}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{TypeFunc}([\langle \mathsf{mode},\ T\rangle \ \mid \ \langle \mathsf{mode},\ x,\ T\rangle \ \in \ \mathsf{params}],\ \mathsf{ret})\ \mathsf{if}\ \operatorname{BuiltinModalStaticSig}(\mathsf{path},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\
-\operatorname{ValuePathType}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{TypeFunc}([\langle \mathsf{mode},\ T\rangle \ \mid \ \langle \mathsf{mode},\ x,\ T\rangle \ \in \ \mathsf{params}],\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}}))\ \mathsf{if}\ \operatorname{DeclOf}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \_,\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \_,\ \_,\ \_)\ \land \ \operatorname{TypeParamsOpt}(\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\ =\ [] \\
+\mathsf{ValuePathType}\ :\ \mathsf{Path}\ \times \ \mathsf{Ident}\ \rightharpoonup \ \mathsf{Type} \\[0.16em]
+\operatorname{BuiltinModalStaticSig}(\mathsf{path},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow  \\[0.16em]
+\ (\mathsf{path}\ =\ [\texttt{"Region"}]\ \land \ \mathsf{name}\ =\ \texttt{new\_scoped}\ \land \ \operatorname{RegionProcSig}(\texttt{Region::new\_scoped})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle )\ \lor  \\[0.16em]
+\ (\mathsf{path}\ =\ [\texttt{"CancelToken"}]\ \land \ \mathsf{name}\ =\ \texttt{new}\ \land \ \operatorname{BuiltinModalProcSig}(\texttt{CancelToken::new})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle ) \\[0.16em]
+\operatorname{ValuePathType}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{StaticType}(\mathsf{path},\ \mathsf{name})\ \mathsf{if}\ \operatorname{StaticType}(\mathsf{path},\ \mathsf{name})\ \mathsf{defined} \\[0.16em]
+\operatorname{ValuePathType}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{TypeFunc}([\langle \mathsf{mode},\ T\rangle \ \mid \ \langle \mathsf{mode},\ x,\ T\rangle \ \in \ \mathsf{params}],\ \mathsf{ret})\ \mathsf{if}\ \operatorname{BuiltinModalStaticSig}(\mathsf{path},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
+\operatorname{ValuePathType}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{TypeFunc}([\langle \mathsf{mode},\ T\rangle \ \mid \ \langle \mathsf{mode},\ x,\ T\rangle \ \in \ \mathsf{params}],\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}}))\ \mathsf{if}\ \operatorname{DeclOf}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \_,\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \_,\ \_,\ \_)\ \land \ \operatorname{TypeParamsOpt}(\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\ =\ [] \\[0.16em]
 \operatorname{ValuePathType}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{TypeFunc}([\langle \mathsf{mode},\ T\rangle \ \mid \ \langle \mathsf{mode},\ x,\ T\rangle \ \in \ \mathsf{params}],\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}}))\ \mathsf{if}\ \operatorname{DeclOf}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{ExternProcDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \_,\ \_,\ \_)
 \end{array}
 $$
@@ -111,8 +111,8 @@ ValuePathType(path, name) undefined otherwise
 
 $$
 \begin{array}{l}
-\mathsf{IntTypes}\ =\ \{\texttt{i8},\ \texttt{i16},\ \texttt{i32},\ \texttt{i64},\ \texttt{i128},\ \texttt{u8},\ \texttt{u16},\ \texttt{u32},\ \texttt{u64},\ \texttt{u128},\ \texttt{isize},\ \texttt{usize}\} \\
-\mathsf{FloatTypes}\ =\ \{\texttt{f16},\ \texttt{f32},\ \texttt{f64}\} \\
+\mathsf{IntTypes}\ =\ \{\texttt{i8},\ \texttt{i16},\ \texttt{i32},\ \texttt{i64},\ \texttt{i128},\ \texttt{u8},\ \texttt{u16},\ \texttt{u32},\ \texttt{u64},\ \texttt{u128},\ \texttt{isize},\ \texttt{usize}\} \\[0.16em]
+\mathsf{FloatTypes}\ =\ \{\texttt{f16},\ \texttt{f32},\ \texttt{f64}\} \\[0.16em]
 \mathsf{FloatSuffixKinds}\ =\ \mathsf{FloatTypes}\ \cup \ \{\texttt{f}\}
 \end{array}
 $$
@@ -121,20 +121,20 @@ DefaultFloat = `f32`
 
 $$
 \begin{array}{l}
-\operatorname{IntCore}(s)\ \Leftrightarrow \ s\ \mathsf{matches}\ (\texttt{decimal\_integer}\ \mid \ \texttt{hex\_integer}\ \mid \ \texttt{octal\_integer}\ \mid \ \texttt{binary\_integer}) \\
-\operatorname{FloatCore}(s)\ \Leftrightarrow \ s\ \mathsf{matches}\ (\texttt{decimal\_integer}\ \texttt{"."}\ \texttt{decimal\_integer}?\ \texttt{exponent}?) \\
-\operatorname{StripIntSuffix}(s)\ =\ \langle \mathsf{core},\ t\rangle \ \Leftrightarrow \ s\ =\ \mathsf{core}\ \mathbin{++} \ t\ \land \ t\ \in \ \mathsf{IntSuffixSet}\ \land \ \operatorname{IntCore}(\mathsf{core}) \\
-\operatorname{StripIntSuffix}(s)\ =\ \langle s,\ \bot \rangle \ \Leftrightarrow \ \lnot \ \exists \ t.\ s\ =\ \mathsf{core}\ \mathbin{++} \ t\ \land \ t\ \in \ \mathsf{IntSuffixSet}\ \land \ \operatorname{IntCore}(\mathsf{core}) \\
-\operatorname{StripFloatSuffix}(s)\ =\ \langle \mathsf{core},\ t\rangle \ \Leftrightarrow \ s\ =\ \mathsf{core}\ \mathbin{++} \ t\ \land \ t\ \in \ \mathsf{FloatSuffixSet}\ \land \ \operatorname{FloatCore}(\mathsf{core}) \\
-\operatorname{StripFloatSuffix}(s)\ =\ \langle s,\ \bot \rangle \ \Leftrightarrow \ \operatorname{FloatCore}(s)\ \land \ \lnot \ \exists \ t.\ s\ =\ \mathsf{core}\ \mathbin{++} \ t\ \land \ t\ \in \ \mathsf{FloatSuffixSet}\ \land \ \operatorname{FloatCore}(\mathsf{core}) \\
-\operatorname{IntSuffix}(\mathsf{lit})\ =\ t\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\ \land \ \operatorname{StripIntSuffix}(\operatorname{Lexeme}(\mathsf{lit}))\ =\ \langle \_,\ t\rangle  \\
-\operatorname{FloatSuffix}(\mathsf{lit})\ =\ t\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\ \land \ \operatorname{StripFloatSuffix}(\operatorname{Lexeme}(\mathsf{lit}))\ =\ \langle \_,\ t\rangle  \\
-\operatorname{NoFloatSuffix}(\mathsf{lit})\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\ \land \ \operatorname{StripFloatSuffix}(\operatorname{Lexeme}(\mathsf{lit}))\ =\ \langle \_,\ \bot \rangle  \\
-\operatorname{IntValueCore}(s)\ =\ v\ \Leftrightarrow \ (s\ =\ \texttt{"0x"}\ \mathbin{++} \ h\ \land \ v\ =\ \operatorname{HexValue}(\operatorname{Digits}(h)))\ \lor \ (s\ =\ \texttt{"0o"}\ \mathbin{++} \ o\ \land \ v\ =\ \operatorname{OctValue}(\operatorname{Digits}(o)))\ \lor \ (s\ =\ \texttt{"0b"}\ \mathbin{++} \ b\ \land \ v\ =\ \operatorname{BinValue}(\operatorname{Digits}(b)))\ \lor \ (s\ \mathsf{matches}\ \texttt{decimal\_integer}\ \land \ v\ =\ \operatorname{DecValue}(\operatorname{Digits}(s))) \\
-\operatorname{IntValue}(\mathsf{lit})\ =\ v\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\ \land \ \operatorname{StripIntSuffix}(\operatorname{Lexeme}(\mathsf{lit}))\ =\ \langle \mathsf{core},\ \_\rangle \ \land \ \operatorname{IntValueCore}(\mathsf{core})\ =\ v \\
-\operatorname{FloatParts}(s)\ =\ \langle a,\ b,\ e\rangle \ \Leftrightarrow \ s\ =\ a\ \mathbin{++} \ \texttt{"."}\ \mathbin{++} \ b\ \mathbin{++} \ \mathsf{exp}\ \land \ (\mathsf{exp}\ =\ \texttt{""}\ \Rightarrow \ e\ =\ 0)\ \land \ (\mathsf{exp}\ \ne \ \texttt{""}\ \Rightarrow \ \mathsf{exp}\ =\ \texttt{"e"}\ \mathbin{++} \ \mathsf{sign}\ \mathbin{++} \ d\ \lor \ \mathsf{exp}\ =\ \texttt{"E"}\ \mathbin{++} \ \mathsf{sign}\ \mathbin{++} \ d)\ \land \ (\mathsf{sign}\ =\ \texttt{""}\ \Rightarrow \ e\ =\ \operatorname{DecValue}(\operatorname{Digits}(d)))\ \land \ (\mathsf{sign}\ =\ \texttt{"+"}\ \Rightarrow \ e\ =\ \operatorname{DecValue}(\operatorname{Digits}(d)))\ \land \ (\mathsf{sign}\ =\ \texttt{"-"}\ \Rightarrow \ e\ =\ -\operatorname{DecValue}(\operatorname{Digits}(d))) \\
-\operatorname{FloatValueCore}(s)\ =\ v\ \Leftrightarrow \ \operatorname{FloatParts}(s)\ =\ \langle a,\ b,\ e\rangle \ \land \ v\ =\ (\operatorname{DecValue}(\operatorname{Digits}(a))\ \cdot \ 10^\{\mid \operatorname{Digits}(b)\mid \}\ +\ \operatorname{DecValue}(\operatorname{Digits}(b)))\ \cdot \ 10^\{e\ -\ \mid \operatorname{Digits}(b)\mid \} \\
-\operatorname{FloatValue}(\mathsf{lit})\ =\ v\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\ \land \ \operatorname{StripFloatSuffix}(\operatorname{Lexeme}(\mathsf{lit}))\ =\ \langle \mathsf{core},\ \_\rangle \ \land \ \operatorname{FloatValueCore}(\mathsf{core})\ =\ v \\
+\operatorname{IntCore}(s)\ \Leftrightarrow \ s\ \mathsf{matches}\ (\texttt{decimal\_integer}\ \mid \ \texttt{hex\_integer}\ \mid \ \texttt{octal\_integer}\ \mid \ \texttt{binary\_integer}) \\[0.16em]
+\operatorname{FloatCore}(s)\ \Leftrightarrow \ s\ \mathsf{matches}\ (\texttt{decimal\_integer}\ \texttt{"."}\ \texttt{decimal\_integer}?\ \texttt{exponent}?) \\[0.16em]
+\operatorname{StripIntSuffix}(s)\ =\ \langle \mathsf{core},\ t\rangle \ \Leftrightarrow \ s\ =\ \mathsf{core}\ \mathbin{++} \ t\ \land \ t\ \in \ \mathsf{IntSuffixSet}\ \land \ \operatorname{IntCore}(\mathsf{core}) \\[0.16em]
+\operatorname{StripIntSuffix}(s)\ =\ \langle s,\ \bot \rangle \ \Leftrightarrow \ \lnot \ \exists \ t.\ s\ =\ \mathsf{core}\ \mathbin{++} \ t\ \land \ t\ \in \ \mathsf{IntSuffixSet}\ \land \ \operatorname{IntCore}(\mathsf{core}) \\[0.16em]
+\operatorname{StripFloatSuffix}(s)\ =\ \langle \mathsf{core},\ t\rangle \ \Leftrightarrow \ s\ =\ \mathsf{core}\ \mathbin{++} \ t\ \land \ t\ \in \ \mathsf{FloatSuffixSet}\ \land \ \operatorname{FloatCore}(\mathsf{core}) \\[0.16em]
+\operatorname{StripFloatSuffix}(s)\ =\ \langle s,\ \bot \rangle \ \Leftrightarrow \ \operatorname{FloatCore}(s)\ \land \ \lnot \ \exists \ t.\ s\ =\ \mathsf{core}\ \mathbin{++} \ t\ \land \ t\ \in \ \mathsf{FloatSuffixSet}\ \land \ \operatorname{FloatCore}(\mathsf{core}) \\[0.16em]
+\operatorname{IntSuffix}(\mathsf{lit})\ =\ t\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\ \land \ \operatorname{StripIntSuffix}(\operatorname{Lexeme}(\mathsf{lit}))\ =\ \langle \_,\ t\rangle  \\[0.16em]
+\operatorname{FloatSuffix}(\mathsf{lit})\ =\ t\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\ \land \ \operatorname{StripFloatSuffix}(\operatorname{Lexeme}(\mathsf{lit}))\ =\ \langle \_,\ t\rangle  \\[0.16em]
+\operatorname{NoFloatSuffix}(\mathsf{lit})\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\ \land \ \operatorname{StripFloatSuffix}(\operatorname{Lexeme}(\mathsf{lit}))\ =\ \langle \_,\ \bot \rangle  \\[0.16em]
+\operatorname{IntValueCore}(s)\ =\ v\ \Leftrightarrow \ (s\ =\ \texttt{"0x"}\ \mathbin{++} \ h\ \land \ v\ =\ \operatorname{HexValue}(\operatorname{Digits}(h)))\ \lor \ (s\ =\ \texttt{"0o"}\ \mathbin{++} \ o\ \land \ v\ =\ \operatorname{OctValue}(\operatorname{Digits}(o)))\ \lor \ (s\ =\ \texttt{"0b"}\ \mathbin{++} \ b\ \land \ v\ =\ \operatorname{BinValue}(\operatorname{Digits}(b)))\ \lor \ (s\ \mathsf{matches}\ \texttt{decimal\_integer}\ \land \ v\ =\ \operatorname{DecValue}(\operatorname{Digits}(s))) \\[0.16em]
+\operatorname{IntValue}(\mathsf{lit})\ =\ v\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\ \land \ \operatorname{StripIntSuffix}(\operatorname{Lexeme}(\mathsf{lit}))\ =\ \langle \mathsf{core},\ \_\rangle \ \land \ \operatorname{IntValueCore}(\mathsf{core})\ =\ v \\[0.16em]
+\operatorname{FloatParts}(s)\ =\ \langle a,\ b,\ e\rangle \ \Leftrightarrow \ s\ =\ a\ \mathbin{++} \ \texttt{"."}\ \mathbin{++} \ b\ \mathbin{++} \ \mathsf{exp}\ \land \ (\mathsf{exp}\ =\ \texttt{""}\ \Rightarrow \ e\ =\ 0)\ \land \ (\mathsf{exp}\ \ne \ \texttt{""}\ \Rightarrow \ \mathsf{exp}\ =\ \texttt{"e"}\ \mathbin{++} \ \mathsf{sign}\ \mathbin{++} \ d\ \lor \ \mathsf{exp}\ =\ \texttt{"E"}\ \mathbin{++} \ \mathsf{sign}\ \mathbin{++} \ d)\ \land \ (\mathsf{sign}\ =\ \texttt{""}\ \Rightarrow \ e\ =\ \operatorname{DecValue}(\operatorname{Digits}(d)))\ \land \ (\mathsf{sign}\ =\ \texttt{"+"}\ \Rightarrow \ e\ =\ \operatorname{DecValue}(\operatorname{Digits}(d)))\ \land \ (\mathsf{sign}\ =\ \texttt{"-"}\ \Rightarrow \ e\ =\ -\operatorname{DecValue}(\operatorname{Digits}(d))) \\[0.16em]
+\operatorname{FloatValueCore}(s)\ =\ v\ \Leftrightarrow \ \operatorname{FloatParts}(s)\ =\ \langle a,\ b,\ e\rangle \ \land \ v\ =\ (\operatorname{DecValue}(\operatorname{Digits}(a))\ \cdot \ 10^\{\mid \operatorname{Digits}(b)\mid \}\ +\ \operatorname{DecValue}(\operatorname{Digits}(b)))\ \cdot \ 10^\{e\ -\ \mid \operatorname{Digits}(b)\mid \} \\[0.16em]
+\operatorname{FloatValue}(\mathsf{lit})\ =\ v\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\ \land \ \operatorname{StripFloatSuffix}(\operatorname{Lexeme}(\mathsf{lit}))\ =\ \langle \mathsf{core},\ \_\rangle \ \land \ \operatorname{FloatValueCore}(\mathsf{core})\ =\ v \\[0.16em]
 \operatorname{InRange}(v,\ T)\ \Leftrightarrow \ v\ \in \ \operatorname{RangeOf}(T)
 \end{array}
 $$
@@ -143,8 +143,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\quad \operatorname{IntSuffix}(\mathsf{lit})\ =\ t\quad \operatorname{InRange}(\operatorname{IntValue}(\mathsf{lit}),\ t) \\
-\rule{18em}{0.4pt} \\
+\mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\quad \operatorname{IntSuffix}(\mathsf{lit})\ =\ t\quad \operatorname{InRange}(\operatorname{IntValue}(\mathsf{lit}),\ t) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Literal}(\mathsf{lit})\ :\ \operatorname{TypePrim}(t)
 \end{array}
 $$
@@ -153,8 +153,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\quad \operatorname{IntSuffix}(\mathsf{lit})\ =\ \bot \quad \operatorname{InRange}(\operatorname{IntValue}(\mathsf{lit}),\ \texttt{i32}) \\
-\rule{18em}{0.4pt} \\
+\mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\quad \operatorname{IntSuffix}(\mathsf{lit})\ =\ \bot \quad \operatorname{InRange}(\operatorname{IntValue}(\mathsf{lit}),\ \texttt{i32}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Literal}(\mathsf{lit})\ :\ \operatorname{TypePrim}(\texttt{i32})
 \end{array}
 $$
@@ -163,8 +163,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\quad \operatorname{FloatSuffix}(\mathsf{lit})\ =\ t\quad t\ \in \ \{\texttt{f16},\ \texttt{f32},\ \texttt{f64}\} \\
-\rule{18em}{0.4pt} \\
+\mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\quad \operatorname{FloatSuffix}(\mathsf{lit})\ =\ t\quad t\ \in \ \{\texttt{f16},\ \texttt{f32},\ \texttt{f64}\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Literal}(\mathsf{lit})\ :\ \operatorname{TypePrim}(t)
 \end{array}
 $$
@@ -173,8 +173,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\quad (\operatorname{FloatSuffix}(\mathsf{lit})\ =\ \texttt{f}\ \lor \ \operatorname{NoFloatSuffix}(\mathsf{lit})) \\
-\rule{18em}{0.4pt} \\
+\mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\quad (\operatorname{FloatSuffix}(\mathsf{lit})\ =\ \texttt{f}\ \lor \ \operatorname{NoFloatSuffix}(\mathsf{lit})) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Literal}(\mathsf{lit})\ :\ \operatorname{TypePrim}(\texttt{f32})
 \end{array}
 $$
@@ -184,7 +184,7 @@ lit.kind = BoolLiteral
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Literal}(\mathsf{lit})\ :\ \operatorname{TypePrim}(\texttt{bool})
 \end{array}
 $$
@@ -194,7 +194,7 @@ lit.kind = CharLiteral
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Literal}(\mathsf{lit})\ :\ \operatorname{TypePrim}(\texttt{char})
 \end{array}
 $$
@@ -204,7 +204,7 @@ lit.kind = StringLiteral
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Literal}(\mathsf{lit})\ :\ \operatorname{TypeString}(\texttt{@View})
 \end{array}
 $$
@@ -213,8 +213,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{Literal}(\mathsf{lit})\ :\ T \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{Literal}(\mathsf{lit})\ :\ T \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Literal}(\mathsf{lit})\ \Rightarrow \ T\ \dashv \ \emptyset 
 \end{array}
 $$
@@ -227,8 +227,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\quad T\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{IntTypes}\quad \operatorname{InRange}(\operatorname{IntValue}(\mathsf{lit}),\ t) \\
-\rule{18em}{0.4pt} \\
+\mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\quad T\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{IntTypes}\quad \operatorname{InRange}(\operatorname{IntValue}(\mathsf{lit}),\ t) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Literal}(\mathsf{lit})\ \Leftarrow \ T\ \dashv \ \emptyset 
 \end{array}
 $$
@@ -237,8 +237,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\quad \operatorname{FloatSuffix}(\mathsf{lit})\ =\ s\quad s\ \in \ \{\texttt{f16},\ \texttt{f32},\ \texttt{f64}\}\quad T\ =\ \operatorname{TypePrim}(s) \\
-\rule{18em}{0.4pt} \\
+\mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\quad \operatorname{FloatSuffix}(\mathsf{lit})\ =\ s\quad s\ \in \ \{\texttt{f16},\ \texttt{f32},\ \texttt{f64}\}\quad T\ =\ \operatorname{TypePrim}(s) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Literal}(\mathsf{lit})\ \Leftarrow \ T\ \dashv \ \emptyset 
 \end{array}
 $$
@@ -247,8 +247,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\quad (\operatorname{FloatSuffix}(\mathsf{lit})\ =\ \texttt{f}\ \lor \ \operatorname{NoFloatSuffix}(\mathsf{lit}))\quad T\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{FloatTypes} \\
-\rule{18em}{0.4pt} \\
+\mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\quad (\operatorname{FloatSuffix}(\mathsf{lit})\ =\ \texttt{f}\ \lor \ \operatorname{NoFloatSuffix}(\mathsf{lit}))\quad T\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{FloatTypes} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Literal}(\mathsf{lit})\ \Leftarrow \ T\ \dashv \ \emptyset 
 \end{array}
 $$
@@ -257,8 +257,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{lit}.\mathsf{kind}\ =\ \mathsf{NullLiteral}\quad T\ =\ \operatorname{TypeRawPtr}(q,\ U) \\
-\rule{18em}{0.4pt} \\
+\mathsf{lit}.\mathsf{kind}\ =\ \mathsf{NullLiteral}\quad T\ =\ \operatorname{TypeRawPtr}(q,\ U) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Literal}(\mathsf{lit})\ \Leftarrow \ T\ \dashv \ \emptyset 
 \end{array}
 $$
@@ -271,8 +271,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePtr}(U,\ s)\quad s\ \in \ \{\texttt{Null},\ \bot \} \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{TypePtr}(U,\ s)\quad s\ \in \ \{\texttt{Null},\ \bot \} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \mathsf{PtrNullExpr}\ \Leftarrow \ T\ \dashv \ \emptyset 
 \end{array}
 $$
@@ -281,8 +281,8 @@ $$
 
 $$
 \begin{array}{l}
-c\ =\ \operatorname{Code}(\mathsf{PtrNull}-\mathsf{Infer}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+c\ =\ \operatorname{Code}(\mathsf{PtrNull}-\mathsf{Infer}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \mathsf{PtrNullExpr}\ \Rightarrow \ T\ \dashv \ C\ \Uparrow \ c
 \end{array}
 $$
@@ -291,8 +291,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{PtrNullExpected}(T)\quad c\ =\ \operatorname{Code}(\mathsf{PtrNull}-\mathsf{Infer}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{PtrNullExpected}(T)\quad c\ =\ \operatorname{Code}(\mathsf{PtrNull}-\mathsf{Infer}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \mathsf{PtrNullExpr}\ \Leftarrow \ T\ \dashv \ C\ \Uparrow \ c
 \end{array}
 $$
@@ -301,8 +301,8 @@ $$
 
 $$
 \begin{array}{l}
-(x\ :\ T)\ \in \ \Gamma \quad \operatorname{BitcopyType}(T) \\
-\rule{18em}{0.4pt} \\
+(x\ :\ T)\ \in \ \Gamma \quad \operatorname{BitcopyType}(T) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Identifier}(x)\ :\ T
 \end{array}
 $$
@@ -311,8 +311,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ValuePathType}(\mathsf{path},\ \mathsf{name})\ =\ T \\
-\rule{18em}{0.4pt} \\
+\operatorname{ValuePathType}(\mathsf{path},\ \mathsf{name})\ =\ T \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Path}(\mathsf{path},\ \mathsf{name})\ :\ T
 \end{array}
 $$
@@ -321,8 +321,8 @@ $$
 
 $$
 \begin{array}{l}
-e\ \in \ \{\operatorname{QualifiedName}(\_,\ \_)\}\quad c\ =\ \operatorname{Code}(\mathsf{ResolveExpr}-\mathsf{Ident}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+e\ \in \ \{\operatorname{QualifiedName}(\_,\ \_)\}\quad c\ =\ \operatorname{Code}(\mathsf{ResolveExpr}-\mathsf{Ident}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ e\ \Uparrow \ c
 \end{array}
 $$
@@ -333,22 +333,22 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{EvalJudg}\ =\ \{\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\} \\
-\mathsf{EvalOptJudg}\ =\ \{\Gamma \ \vdash \ \operatorname{EvalOptSigma}(e_{\mathsf{opt}},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\} \\
+\mathsf{EvalJudg}\ =\ \{\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\} \\[0.16em]
+\mathsf{EvalOptJudg}\ =\ \{\Gamma \ \vdash \ \operatorname{EvalOptSigma}(e_{\mathsf{opt}},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\} \\[0.16em]
 \mathsf{EvalListJudg}\ =\ \{\Gamma \ \vdash \ \operatorname{EvalListSigma}(\mathsf{es},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma '),\ \Gamma \ \vdash \ \operatorname{EvalFieldInitsSigma}(\mathsf{fields},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{BoolValue}(\mathsf{lit})\ =\ \mathsf{true}\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{BoolLiteral}\ \land \ \operatorname{Lexeme}(\mathsf{lit})\ =\ \texttt{"true"} \\
-\operatorname{BoolValue}(\mathsf{lit})\ =\ \mathsf{false}\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{BoolLiteral}\ \land \ \operatorname{Lexeme}(\mathsf{lit})\ =\ \texttt{"false"} \\
-\operatorname{CharValue}(\mathsf{lit})\ =\ u\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{CharLiteral}\ \land \ T\ =\ \operatorname{Lexeme}(\mathsf{lit})\ \land \ \operatorname{StringBytesFrom}(T,\ 1,\ \mid T\mid -1)\ =\ \mathsf{bytes}\ \land \ \operatorname{DecodeUTF8}(\mathsf{bytes})\ =\ [u] \\
-\operatorname{LiteralValue}(\ell ,\ \operatorname{TypePrim}(\texttt{"bool"}))\ =\ \operatorname{BoolVal}(b)\ \Leftrightarrow \ \ell .\mathsf{kind}\ =\ \mathsf{BoolLiteral}\ \land \ \operatorname{BoolValue}(\ell )\ =\ b \\
-\operatorname{LiteralValue}(\ell ,\ \operatorname{TypePrim}(\texttt{"char"}))\ =\ \operatorname{CharVal}(c)\ \Leftrightarrow \ \ell .\mathsf{kind}\ =\ \mathsf{CharLiteral}\ \land \ \operatorname{CharValue}(\ell )\ =\ c \\
-\operatorname{LiteralValue}(\ell ,\ \operatorname{TypeString}(\texttt{@View}))\ =\ v\ \Leftrightarrow \ \ell .\mathsf{kind}\ =\ \mathsf{StringLiteral}\ \land \ \operatorname{ViewBytes}(v)\ =\ \operatorname{StringBytes}(\ell ) \\
-\operatorname{LiteralValue}(\ell ,\ \operatorname{TypePrim}(t))\ =\ \operatorname{IntVal}(t,\ x)\ \Leftrightarrow \ \ell .\mathsf{kind}\ =\ \mathsf{IntLiteral}\ \land \ t\ \in \ \mathsf{IntTypes}\ \land \ x\ =\ \operatorname{IntValue}(\ell ) \\
-\operatorname{LiteralValue}(\ell ,\ \operatorname{TypePrim}(t))\ =\ \operatorname{FloatVal}(t,\ v)\ \Leftrightarrow \ \ell .\mathsf{kind}\ =\ \mathsf{FloatLiteral}\ \land \ t\ \in \ \mathsf{FloatTypes}\ \land \ v\ =\ \operatorname{FloatValue}(\ell ) \\
+\operatorname{BoolValue}(\mathsf{lit})\ =\ \mathsf{true}\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{BoolLiteral}\ \land \ \operatorname{Lexeme}(\mathsf{lit})\ =\ \texttt{"true"} \\[0.16em]
+\operatorname{BoolValue}(\mathsf{lit})\ =\ \mathsf{false}\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{BoolLiteral}\ \land \ \operatorname{Lexeme}(\mathsf{lit})\ =\ \texttt{"false"} \\[0.16em]
+\operatorname{CharValue}(\mathsf{lit})\ =\ u\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{CharLiteral}\ \land \ T\ =\ \operatorname{Lexeme}(\mathsf{lit})\ \land \ \operatorname{StringBytesFrom}(T,\ 1,\ \mid T\mid -1)\ =\ \mathsf{bytes}\ \land \ \operatorname{DecodeUTF8}(\mathsf{bytes})\ =\ [u] \\[0.16em]
+\operatorname{LiteralValue}(\ell ,\ \operatorname{TypePrim}(\texttt{"bool"}))\ =\ \operatorname{BoolVal}(b)\ \Leftrightarrow \ \ell .\mathsf{kind}\ =\ \mathsf{BoolLiteral}\ \land \ \operatorname{BoolValue}(\ell )\ =\ b \\[0.16em]
+\operatorname{LiteralValue}(\ell ,\ \operatorname{TypePrim}(\texttt{"char"}))\ =\ \operatorname{CharVal}(c)\ \Leftrightarrow \ \ell .\mathsf{kind}\ =\ \mathsf{CharLiteral}\ \land \ \operatorname{CharValue}(\ell )\ =\ c \\[0.16em]
+\operatorname{LiteralValue}(\ell ,\ \operatorname{TypeString}(\texttt{@View}))\ =\ v\ \Leftrightarrow \ \ell .\mathsf{kind}\ =\ \mathsf{StringLiteral}\ \land \ \operatorname{ViewBytes}(v)\ =\ \operatorname{StringBytes}(\ell ) \\[0.16em]
+\operatorname{LiteralValue}(\ell ,\ \operatorname{TypePrim}(t))\ =\ \operatorname{IntVal}(t,\ x)\ \Leftrightarrow \ \ell .\mathsf{kind}\ =\ \mathsf{IntLiteral}\ \land \ t\ \in \ \mathsf{IntTypes}\ \land \ x\ =\ \operatorname{IntValue}(\ell ) \\[0.16em]
+\operatorname{LiteralValue}(\ell ,\ \operatorname{TypePrim}(t))\ =\ \operatorname{FloatVal}(t,\ v)\ \Leftrightarrow \ \ell .\mathsf{kind}\ =\ \mathsf{FloatLiteral}\ \land \ t\ \in \ \mathsf{FloatTypes}\ \land \ v\ =\ \operatorname{FloatValue}(\ell ) \\[0.16em]
 \operatorname{LiteralValue}(\ell ,\ \operatorname{TypeRawPtr}(q,\ U))\ =\ \operatorname{RawPtr}(q,\ 0\mathsf{x0})\ \Leftrightarrow \ \ell .\mathsf{kind}\ =\ \mathsf{NullLiteral}
 \end{array}
 $$
@@ -357,8 +357,8 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{ExprType}(\operatorname{Literal}(\ell ))\quad \operatorname{LiteralValue}(\ell ,\ T)\ =\ v \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{ExprType}(\operatorname{Literal}(\ell ))\quad \operatorname{LiteralValue}(\ell ,\ T)\ =\ v \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Literal}(\ell ),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma )
 \end{array}
 $$
@@ -367,7 +367,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{PtrNullExpr},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{Ptr}@\operatorname{Null}(0\mathsf{x0})),\ \sigma )
 \end{array}
 $$
@@ -376,8 +376,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{LookupVal}(\sigma ,\ x)\ =\ v \\
-\rule{18em}{0.4pt} \\
+\operatorname{LookupVal}(\sigma ,\ x)\ =\ v \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Identifier}(x),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma )
 \end{array}
 $$
@@ -386,8 +386,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{LookupValPath}(\sigma ,\ \mathsf{path},\ \mathsf{name})\ =\ v \\
-\rule{18em}{0.4pt} \\
+\operatorname{LookupValPath}(\sigma ,\ \mathsf{path},\ \mathsf{name})\ =\ v \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Path}(\mathsf{path},\ \mathsf{name}),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma )
 \end{array}
 $$
@@ -396,7 +396,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{ErrorExpr}(\_),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma )
 \end{array}
 $$
@@ -409,8 +409,8 @@ Name and path evaluation MAY panic if the referenced module is poisoned. The poi
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{ExprType}(\operatorname{Literal}(\ell ))\quad \operatorname{LiteralValue}(\ell ,\ T)\ =\ v \\
-\rule{18em}{0.4pt} \\
+T\ =\ \operatorname{ExprType}(\operatorname{Literal}(\ell ))\quad \operatorname{LiteralValue}(\ell ,\ T)\ =\ v \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Literal}(\ell ))\ \Downarrow \ \langle \varepsilon ,\ v\rangle 
 \end{array}
 $$
@@ -419,7 +419,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{PtrNullExpr})\ \Downarrow \ \langle \varepsilon ,\ \mathsf{Ptr}@\operatorname{Null}(0\mathsf{x0})\rangle 
 \end{array}
 $$
@@ -428,8 +428,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ResolveValueName}(x)\ \Downarrow \ \mathsf{ent}\quad \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \bot \quad \Gamma \ \vdash \ \operatorname{LowerReadPlace}(\operatorname{Identifier}(x))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveValueName}(x)\ \Downarrow \ \mathsf{ent}\quad \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \bot \quad \Gamma \ \vdash \ \operatorname{LowerReadPlace}(\operatorname{Identifier}(x))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Identifier}(x))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
 \end{array}
 $$
@@ -438,8 +438,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ResolveValueName}(x)\ \Downarrow \ \mathsf{ent}\quad \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \mathsf{mp}\quad \mathsf{name}\ =\ (\mathsf{ent}.\mathsf{target}_{\mathsf{opt}}\ \mathsf{if}\ \mathsf{present},\ \mathsf{else}\ x)\quad \operatorname{PathOfModule}(\mathsf{mp})\ =\ \mathsf{path} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveValueName}(x)\ \Downarrow \ \mathsf{ent}\quad \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \mathsf{mp}\quad \mathsf{name}\ =\ (\mathsf{ent}.\mathsf{target}_{\mathsf{opt}}\ \mathsf{if}\ \mathsf{present},\ \mathsf{else}\ x)\quad \operatorname{PathOfModule}(\mathsf{mp})\ =\ \mathsf{path} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Identifier}(x))\ \Downarrow \ \langle \operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}),\ v\rangle 
 \end{array}
 $$
@@ -448,7 +448,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Path}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \langle \operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}),\ v\rangle 
 \end{array}
 $$
@@ -457,7 +457,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{ErrorExpr}(\mathsf{span}))\ \Downarrow \ \langle \operatorname{LowerPanic}(\operatorname{ErrorExpr}(\mathsf{span})),\ v_{\mathsf{unreach}}\rangle 
 \end{array}
 $$
@@ -483,8 +483,8 @@ place_expr    ::= "*" place_expr | postfix_expr
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"."})\quad \operatorname{IsIdent}(\operatorname{Tok}(\operatorname{Advance}(P)))\quad \mathsf{name}\ =\ \operatorname{Lexeme}(\operatorname{Tok}(\operatorname{Advance}(P))) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"."})\quad \operatorname{IsIdent}(\operatorname{Tok}(\operatorname{Advance}(P)))\quad \mathsf{name}\ =\ \operatorname{Lexeme}(\operatorname{Tok}(\operatorname{Advance}(P))) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{PostfixStep}(P,\ e)\ \Downarrow \ (\operatorname{Advance}(\operatorname{Advance}(P)),\ \operatorname{FieldAccess}(e,\ \mathsf{name}))
 \end{array}
 $$
@@ -493,8 +493,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"."})\quad t\ =\ \operatorname{Tok}(\operatorname{Advance}(P))\quad t.\mathsf{kind}\ =\ \mathsf{IntLiteral}\quad \mathsf{idx}\ =\ \operatorname{IntValue}(t) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"."})\quad t\ =\ \operatorname{Tok}(\operatorname{Advance}(P))\quad t.\mathsf{kind}\ =\ \mathsf{IntLiteral}\quad \mathsf{idx}\ =\ \operatorname{IntValue}(t) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{PostfixStep}(P,\ e)\ \Downarrow \ (\operatorname{Advance}(\operatorname{Advance}(P)),\ \operatorname{TupleAccess}(e,\ \mathsf{idx}))
 \end{array}
 $$
@@ -503,8 +503,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"["})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{idx})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"]"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"["})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{idx})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"]"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{PostfixStep}(P,\ e)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{IndexAccess}(e,\ \mathsf{idx}))
 \end{array}
 $$
@@ -517,8 +517,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"*"})\quad \Gamma \ \vdash \ \operatorname{ParsePlace}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ p) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"*"})\quad \Gamma \ \vdash \ \operatorname{ParsePlace}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ p) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePlace}(P)\ \Downarrow \ (P_{1},\ \operatorname{Deref}(p))
 \end{array}
 $$
@@ -527,8 +527,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParsePostfix}(P)\ \Downarrow \ (P_{1},\ e)\quad \operatorname{IsPlace}(e) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParsePostfix}(P)\ \Downarrow \ (P_{1},\ e)\quad \operatorname{IsPlace}(e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePlace}(P)\ \Downarrow \ (P_{1},\ e)
 \end{array}
 $$
@@ -537,8 +537,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParsePostfix}(P)\ \Downarrow \ (P_{1},\ e)\quad \lnot \ \operatorname{IsPlace}(e)\quad c\ =\ \operatorname{Code}(\mathsf{Parse}-\mathsf{Syntax}-\mathsf{Err})\quad \Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{Tok}(P).\mathsf{span})\quad \Gamma \ \vdash \ \operatorname{SyncStmt}(P_{1})\ \Downarrow \ P_{2} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParsePostfix}(P)\ \Downarrow \ (P_{1},\ e)\quad \lnot \ \operatorname{IsPlace}(e)\quad c\ =\ \operatorname{Code}(\mathsf{Parse}-\mathsf{Syntax}-\mathsf{Err})\quad \Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{Tok}(P).\mathsf{span})\quad \Gamma \ \vdash \ \operatorname{SyncStmt}(P_{1})\ \Downarrow \ P_{2} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePlace}(P)\ \Downarrow \ (P_{2},\ \operatorname{ErrorExpr}(\operatorname{SpanBetween}(P,\ P_{2})))
 \end{array}
 $$
@@ -555,15 +555,15 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{FieldVis}(R,\ f)\ =\ \mathsf{vis}\ \Leftrightarrow \ \langle \mathsf{vis},\ f,\ T_{f},\ \_\rangle \ \in \ \operatorname{Fields}(R) \\
+\operatorname{FieldVis}(R,\ f)\ =\ \mathsf{vis}\ \Leftrightarrow \ \langle \mathsf{vis},\ f,\ T_{f},\ \_\rangle \ \in \ \operatorname{Fields}(R) \\[0.16em]
 \operatorname{FieldVisible}(m,\ R,\ f)\ \Leftrightarrow \ \operatorname{FieldVis}(R,\ f)\ \in \ \{\texttt{public},\ \texttt{internal}\}\ \lor \ (\operatorname{FieldVis}(R,\ f)\ =\ \texttt{private}\ \land \ \operatorname{ModuleOfPath}(\operatorname{RecordPath}(R))\ =\ m)
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{ConstTupleIndex}(i)\ \Leftrightarrow \ \exists \ n\ \in \ \mathbb{Z} .\ i\ =\ n \\
-\operatorname{ConstIndex}(e)\ \Leftrightarrow \ \exists \ n.\ \Gamma \ \vdash \ \operatorname{ConstLen}(e)\ \Downarrow \ n \\
+\operatorname{ConstTupleIndex}(i)\ \Leftrightarrow \ \exists \ n\ \in \ \mathbb{Z} .\ i\ =\ n \\[0.16em]
+\operatorname{ConstIndex}(e)\ \Leftrightarrow \ \exists \ n.\ \Gamma \ \vdash \ \operatorname{ConstLen}(e)\ \Downarrow \ n \\[0.16em]
 \operatorname{RangeIndexType}(T_{r})\ \Leftrightarrow \ T_{r}\ =\ \operatorname{TypeRange}(\operatorname{TypePrim}(\texttt{usize}))\ \lor \ T_{r}\ =\ \operatorname{TypeRangeInclusive}(\operatorname{TypePrim}(\texttt{usize}))\ \lor \ T_{r}\ =\ \operatorname{TypeRangeFrom}(\operatorname{TypePrim}(\texttt{usize}))\ \lor \ T_{r}\ =\ \operatorname{TypeRangeTo}(\operatorname{TypePrim}(\texttt{usize}))\ \lor \ T_{r}\ =\ \operatorname{TypeRangeToInclusive}(\operatorname{TypePrim}(\texttt{usize}))\ \lor \ T_{r}\ =\ \mathsf{TypeRangeFull}
 \end{array}
 $$
@@ -574,8 +574,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ :\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{FieldType}(R,\ f)\ =\ T_{f}\quad \operatorname{FieldVisible}(m,\ R,\ f)\quad \operatorname{BitcopyType}(T_{f}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ :\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{FieldType}(R,\ f)\ =\ T_{f}\quad \operatorname{FieldVisible}(m,\ R,\ f)\quad \operatorname{BitcopyType}(T_{f}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{FieldAccess}(e,\ f)\ :\ T_{f}
 \end{array}
 $$
@@ -584,8 +584,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypePath}(q))\quad \operatorname{RecordDecl}(q)\ =\ R\quad \operatorname{FieldType}(R,\ f)\ =\ T_{f}\quad \operatorname{FieldVisible}(m,\ R,\ f)\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T_{f})) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypePath}(q))\quad \operatorname{RecordDecl}(q)\ =\ R\quad \operatorname{FieldType}(R,\ f)\ =\ T_{f}\quad \operatorname{FieldVisible}(m,\ R,\ f)\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T_{f})) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{FieldAccess}(e,\ f)\ :\ \operatorname{TypePerm}(p,\ T_{f})
 \end{array}
 $$
@@ -594,8 +594,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ :\mathsf{place}\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{FieldType}(R,\ f)\ =\ T_{f}\quad \operatorname{FieldVisible}(m,\ R,\ f) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ :\mathsf{place}\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{FieldType}(R,\ f)\ =\ T_{f}\quad \operatorname{FieldVisible}(m,\ R,\ f) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{FieldAccess}(e,\ f)\ :\mathsf{place}\ T_{f}
 \end{array}
 $$
@@ -604,8 +604,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ \operatorname{TypePath}(q))\quad \operatorname{RecordDecl}(q)\ =\ R\quad \operatorname{FieldType}(R,\ f)\ =\ T_{f}\quad \operatorname{FieldVisible}(m,\ R,\ f) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ \operatorname{TypePath}(q))\quad \operatorname{RecordDecl}(q)\ =\ R\quad \operatorname{FieldType}(R,\ f)\ =\ T_{f}\quad \operatorname{FieldVisible}(m,\ R,\ f) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{FieldAccess}(e,\ f)\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ T_{f})
 \end{array}
 $$
@@ -614,8 +614,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e\ :\ \operatorname{TypeTuple}([T_{0},\ \ldots ,\ T\_\{n-1\}])\quad 0\ \le \ i\ <\ n\quad \operatorname{BitcopyType}(T_{i}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ e\ :\ \operatorname{TypeTuple}([T_{0},\ \ldots ,\ T\_\{n-1\}])\quad 0\ \le \ i\ <\ n\quad \operatorname{BitcopyType}(T_{i}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{TupleAccess}(e,\ i)\ :\ T_{i}
 \end{array}
 $$
@@ -624,8 +624,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeTuple}([T_{0},\ \ldots ,\ T\_\{n-1\}]))\quad 0\ \le \ i\ <\ n\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T_{i})) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ e\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeTuple}([T_{0},\ \ldots ,\ T\_\{n-1\}]))\quad 0\ \le \ i\ <\ n\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T_{i})) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{TupleAccess}(e,\ i)\ :\ \operatorname{TypePerm}(p,\ T_{i})
 \end{array}
 $$
@@ -634,8 +634,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e\ :\mathsf{place}\ \operatorname{TypeTuple}([T_{0},\ \ldots ,\ T\_\{n-1\}])\quad 0\ \le \ i\ <\ n \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ e\ :\mathsf{place}\ \operatorname{TypeTuple}([T_{0},\ \ldots ,\ T\_\{n-1\}])\quad 0\ \le \ i\ <\ n \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{TupleAccess}(e,\ i)\ :\mathsf{place}\ T_{i}
 \end{array}
 $$
@@ -644,8 +644,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ \operatorname{TypeTuple}([T_{0},\ \ldots ,\ T\_\{n-1\}]))\quad 0\ \le \ i\ <\ n \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ e\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ \operatorname{TypeTuple}([T_{0},\ \ldots ,\ T\_\{n-1\}]))\quad 0\ \le \ i\ <\ n \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{TupleAccess}(e,\ i)\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ T_{i})
 \end{array}
 $$
@@ -654,8 +654,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ \mathsf{len})\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{usize})\quad \operatorname{ConstIndex}(e_{2})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ i\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{len})\ \Downarrow \ n\quad i\ <\ n\quad \operatorname{BitcopyType}(T) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ \mathsf{len})\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{usize})\quad \operatorname{ConstIndex}(e_{2})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ i\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{len})\ \Downarrow \ n\quad i\ <\ n\quad \operatorname{BitcopyType}(T) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ T
 \end{array}
 $$
@@ -664,8 +664,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ \mathsf{len})\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{usize})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \mathsf{InDynamicContext}\quad \operatorname{BitcopyType}(T) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ \mathsf{len})\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{usize})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \mathsf{InDynamicContext}\quad \operatorname{BitcopyType}(T) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ T
 \end{array}
 $$
@@ -674,8 +674,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ \mathsf{len}))\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{usize})\quad \operatorname{ConstIndex}(e_{2})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ i\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{len})\ \Downarrow \ n\quad i\ <\ n\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ \mathsf{len}))\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{usize})\quad \operatorname{ConstIndex}(e_{2})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ i\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{len})\ \Downarrow \ n\quad i\ <\ n\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ T)
 \end{array}
 $$
@@ -684,8 +684,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ \mathsf{len}))\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{usize})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \mathsf{InDynamicContext}\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ \mathsf{len}))\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{usize})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \mathsf{InDynamicContext}\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ T)
 \end{array}
 $$
@@ -694,8 +694,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeSlice}(T)\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{usize})\quad \operatorname{BitcopyType}(T) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeSlice}(T)\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{usize})\quad \operatorname{BitcopyType}(T) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ T
 \end{array}
 $$
@@ -704,8 +704,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{usize})\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{usize})\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ T)
 \end{array}
 $$
@@ -714,8 +714,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ n)\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2}))\quad \operatorname{BitcopyType}(\operatorname{TypeSlice}(T)) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ n)\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2}))\quad \operatorname{BitcopyType}(\operatorname{TypeSlice}(T)) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypeSlice}(T)
 \end{array}
 $$
@@ -724,8 +724,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ n))\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2}))\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ n))\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2}))\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))
 \end{array}
 $$
@@ -734,8 +734,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeSlice}(T)\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2}))\quad \operatorname{BitcopyType}(\operatorname{TypeSlice}(T)) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeSlice}(T)\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2}))\quad \operatorname{BitcopyType}(\operatorname{TypeSlice}(T)) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypeSlice}(T)
 \end{array}
 $$
@@ -744,8 +744,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2}))\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2}))\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))
 \end{array}
 $$
@@ -756,8 +756,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ n)) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ e\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ n)) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ e\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))
 \end{array}
 $$
@@ -766,8 +766,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ :\ U\quad \operatorname{StripPerm}(U)\ =\ \operatorname{TypeUnion}(\_)\quad c\ =\ \operatorname{Code}(\mathsf{Union}-\mathsf{DirectAccess}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ :\ U\quad \operatorname{StripPerm}(U)\ =\ \operatorname{TypeUnion}(\_)\quad c\ =\ \operatorname{Code}(\mathsf{Union}-\mathsf{DirectAccess}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{FieldAccess}(e,\ f)\ \Uparrow \ c
 \end{array}
 $$
@@ -776,8 +776,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPlace}(e)\quad \lnot \ \operatorname{BitcopyType}(\operatorname{ExprType}(e))\quad c\ =\ \operatorname{Code}(\mathsf{ValueUse}-\mathsf{NonBitcopyPlace}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPlace}(e)\quad \lnot \ \operatorname{BitcopyType}(\operatorname{ExprType}(e))\quad c\ =\ \operatorname{Code}(\mathsf{ValueUse}-\mathsf{NonBitcopyPlace}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ e\ \Uparrow \ c
 \end{array}
 $$
@@ -788,8 +788,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{base},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{b}),\ \sigma_{1} )\quad \operatorname{FieldValue}(v_{b},\ f)\ =\ v_{f} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{base},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{b}),\ \sigma_{1} )\quad \operatorname{FieldValue}(v_{b},\ f)\ =\ v_{f} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{FieldAccess}(\mathsf{base},\ f),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{f}),\ \sigma_{1} )
 \end{array}
 $$
@@ -798,8 +798,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{base},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{b}),\ \sigma_{1} )\quad \operatorname{TupleValue}(v_{b},\ i)\ =\ v_{i} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{base},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{b}),\ \sigma_{1} )\quad \operatorname{TupleValue}(v_{b},\ i)\ =\ v_{i} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{TupleAccess}(\mathsf{base},\ i),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{i}),\ \sigma_{1} )
 \end{array}
 $$
@@ -808,8 +808,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{base},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{b}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{idx},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(v_{i}),\ \sigma_{2} )\quad \operatorname{IndexValue}(v_{b},\ v_{i})\ =\ v_{e} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{base},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{b}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{idx},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(v_{i}),\ \sigma_{2} )\quad \operatorname{IndexValue}(v_{b},\ v_{i})\ =\ v_{e} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{IndexAccess}(\mathsf{base},\ \mathsf{idx}),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{e}),\ \sigma_{2} )
 \end{array}
 $$
@@ -818,8 +818,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{base},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{b}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{idx},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(v_{r}),\ \sigma_{2} )\quad \operatorname{SliceValue}(v_{b},\ v_{r})\ =\ v_{s} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{base},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{b}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{idx},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(v_{r}),\ \sigma_{2} )\quad \operatorname{SliceValue}(v_{b},\ v_{r})\ =\ v_{s} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{IndexAccess}(\mathsf{base},\ \mathsf{idx}),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{s}),\ \sigma_{2} )
 \end{array}
 $$
@@ -832,8 +832,8 @@ Bounds failures in scalar and range indexing evaluate to `Ctrl(Panic)` as define
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{base})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \quad \operatorname{FieldValue}(v_{b},\ f)\ =\ v_{f} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{base})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \quad \operatorname{FieldValue}(v_{b},\ f)\ =\ v_{f} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{FieldAccess}(\mathsf{base},\ f))\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{f}\rangle 
 \end{array}
 $$
@@ -842,8 +842,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{base})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \quad \operatorname{TupleValue}(v_{b},\ i)\ =\ v_{i} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{base})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \quad \operatorname{TupleValue}(v_{b},\ i)\ =\ v_{i} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{TupleAccess}(\mathsf{base},\ i))\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{i}\rangle 
 \end{array}
 $$
@@ -854,7 +854,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerPlace}(\operatorname{Identifier}(x))\ \Downarrow \ \operatorname{Identifier}(x)
 \end{array}
 $$
@@ -863,8 +863,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerPlace}(p)\ \Downarrow \ l \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerPlace}(p)\ \Downarrow \ l \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerPlace}(\operatorname{FieldAccess}(p,\ f))\ \Downarrow \ \operatorname{FieldAccess}(l,\ f)
 \end{array}
 $$
@@ -873,8 +873,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerPlace}(p)\ \Downarrow \ l \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerPlace}(p)\ \Downarrow \ l \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerPlace}(\operatorname{TupleAccess}(p,\ i))\ \Downarrow \ \operatorname{TupleAccess}(l,\ i)
 \end{array}
 $$
@@ -883,8 +883,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerPlace}(p)\ \Downarrow \ l \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerPlace}(p)\ \Downarrow \ l \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerPlace}(\operatorname{IndexAccess}(p,\ \mathsf{idx}))\ \Downarrow \ \operatorname{IndexAccess}(l,\ \mathsf{idx})
 \end{array}
 $$
@@ -893,8 +893,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerPlace}(p)\ \Downarrow \ l \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerPlace}(p)\ \Downarrow \ l \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerPlace}(\operatorname{Deref}(p))\ \Downarrow \ \operatorname{Deref}(l)
 \end{array}
 $$
@@ -927,8 +927,8 @@ Qualified applications with parenthesized arguments parse before name resolution
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseArgList}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{args})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseArgList}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{args})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{PostfixStep}(P,\ e)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{Call}(e,\ \mathsf{args}))
 \end{array}
 $$
@@ -937,8 +937,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{CallTypeArgsStart}(P)\quad \Gamma \ \vdash \ \operatorname{ParseGenericArgs}(P)\ \Downarrow \ (P_{1},\ \mathsf{targs})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseArgList}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{args})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{")"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{CallTypeArgsStart}(P)\quad \Gamma \ \vdash \ \operatorname{ParseGenericArgs}(P)\ \Downarrow \ (P_{1},\ \mathsf{targs})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseArgList}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{args})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{")"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{PostfixStep}(P,\ e)\ \Downarrow \ (\operatorname{Advance}(P_{2}),\ \operatorname{CallTypeArgs}(e,\ \mathsf{targs},\ \mathsf{args}))
 \end{array}
 $$
@@ -947,8 +947,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"\~{}>"})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{name})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseArgList}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{args})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{")"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"\~{}>"})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{name})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseArgList}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{args})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{")"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{PostfixStep}(P,\ e)\ \Downarrow \ (\operatorname{Advance}(P_{2}),\ \operatorname{MethodCall}(e,\ \mathsf{name},\ \mathsf{args}))
 \end{array}
 $$
@@ -957,8 +957,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseQualifiedHead}(P)\ \Downarrow \ (P_{1},\ \mathsf{path},\ \mathsf{name})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseArgList}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{args})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{")"}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseQualifiedHead}(P)\ \Downarrow \ (P_{1},\ \mathsf{path},\ \mathsf{name})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseArgList}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{args})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{")"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(P_{2}),\ \operatorname{QualifiedApply}(\mathsf{path},\ \mathsf{name},\ \operatorname{Paren}(\mathsf{args})))
 \end{array}
 $$
@@ -977,15 +977,15 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ArgMoved}(\langle \mathsf{moved},\ e,\ \mathsf{span}\rangle )\ =\ \mathsf{moved} \\
+\operatorname{ArgMoved}(\langle \mathsf{moved},\ e,\ \mathsf{span}\rangle )\ =\ \mathsf{moved} \\[0.16em]
 \operatorname{ArgExpr}(\langle \mathsf{moved},\ e,\ \mathsf{span}\rangle )\ =\ e
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{MovedArg}(\mathsf{moved},\ e)\ = \\
-\ \{\ \operatorname{MoveExpr}(e)\ \mathsf{if}\ \mathsf{moved}\ =\ \mathsf{true}\ \land \ \operatorname{IsPlace}(e) \\
+\operatorname{MovedArg}(\mathsf{moved},\ e)\ = \\[0.16em]
+\ \{\ \operatorname{MoveExpr}(e)\ \mathsf{if}\ \mathsf{moved}\ =\ \mathsf{true}\ \land \ \operatorname{IsPlace}(e) \\[0.16em]
 \quad e\quad \mathsf{otherwise}\ \}
 \end{array}
 $$
@@ -1000,21 +1000,21 @@ Qualified parenthesized applications are pre-resolution forms. Name resolution r
 
 $$
 \begin{array}{l}
-\mathsf{UnresolvedExpr}\ =\ \{\operatorname{QualifiedName}(\_,\ \_),\ \operatorname{QualifiedApply}(\_,\ \_,\ \_)\} \\
-\mathsf{ExprJudg}\ =\ \{\Gamma ;\ R;\ L\ \vdash \ e\ :\ T,\ \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ T\ \dashv \ C,\ \Gamma ;\ R;\ L\ \vdash \ p\ :\mathsf{place}\ T,\ \Gamma ;\ R;\ L\ \vdash \ p\ \Leftarrow_{\mathsf{place}} \ T,\ \Gamma ;\ R;\ L\ \vdash \ r\ :\ \mathsf{Range}\} \\
-\mathsf{ArgsOkTJudg}\ =\ \{\mathsf{ArgsOk}_{T}\} \\
-\operatorname{ParamMode}(\langle \mathsf{mode},\ T\rangle )\ =\ \mathsf{mode} \\
-\operatorname{ParamType}(\langle \mathsf{mode},\ T\rangle )\ =\ T \\
-\operatorname{PlaceType}(p)\ =\ T\ \Leftrightarrow \ \Gamma ;\ R;\ L\ \vdash \ p\ :\mathsf{place}\ T \\
-\operatorname{HasSourceProvenance}(e)\ \Leftrightarrow \ (\exists \ \pi .\ \Gamma ;\ \Omega \ \vdash \ e\ \Downarrow \ \pi \ \land \ \pi \ \ne \ \bot ) \\
-\operatorname{CallTemp}(e)\ =\ p_{\mathsf{tmp}}\ \mathsf{where}\ \lnot \ \operatorname{HasSourceProvenance}(e)\ \land \ \operatorname{Lifetime}(p_{\mathsf{tmp}})\ =\ \mathsf{CallExtent}\ \land \ \operatorname{ValueOf}(p_{\mathsf{tmp}})\ =\ e \\
-\operatorname{RefArgExpr}(e)\ =\ \{\ e\ \mathsf{if}\ \operatorname{HasSourceProvenance}(e)\ ;\ \operatorname{CallTemp}(e)\ \mathsf{otherwise}\ \} \\
-\operatorname{ConsumeArgExpr}(\mathsf{mode},\ \mathsf{moved},\ e)\ = \\
-\ \{\ \operatorname{MovedArg}(\mathsf{moved},\ e)\quad \mathsf{if}\ \mathsf{mode}\ =\ \texttt{move}\ \land \ \mathsf{moved}\ =\ \mathsf{true} \\
-\quad \operatorname{MovedArg}(\mathsf{true},\ \operatorname{CallTemp}(e))\ \mathsf{if}\ \mathsf{mode}\ =\ \texttt{move}\ \land \ \mathsf{moved}\ =\ \mathsf{false}\ \land \ \lnot \ \operatorname{HasSourceProvenance}(e) \\
-\quad e\quad \mathsf{otherwise}\ \} \\
-\operatorname{ArgType}(p,\ a)\ = \\
-\ \{\ \operatorname{ExprType}(\operatorname{ConsumeArgExpr}(\operatorname{ParamMode}(p),\ \operatorname{ArgMoved}(a),\ \operatorname{ArgExpr}(a)))\quad \mathsf{if}\ \operatorname{ParamMode}(p)\ =\ \texttt{move} \\
+\mathsf{UnresolvedExpr}\ =\ \{\operatorname{QualifiedName}(\_,\ \_),\ \operatorname{QualifiedApply}(\_,\ \_,\ \_)\} \\[0.16em]
+\mathsf{ExprJudg}\ =\ \{\Gamma ;\ R;\ L\ \vdash \ e\ :\ T,\ \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ T\ \dashv \ C,\ \Gamma ;\ R;\ L\ \vdash \ p\ :\mathsf{place}\ T,\ \Gamma ;\ R;\ L\ \vdash \ p\ \Leftarrow_{\mathsf{place}} \ T,\ \Gamma ;\ R;\ L\ \vdash \ r\ :\ \mathsf{Range}\} \\[0.16em]
+\mathsf{ArgsOkTJudg}\ =\ \{\mathsf{ArgsOk}_{T}\} \\[0.16em]
+\operatorname{ParamMode}(\langle \mathsf{mode},\ T\rangle )\ =\ \mathsf{mode} \\[0.16em]
+\operatorname{ParamType}(\langle \mathsf{mode},\ T\rangle )\ =\ T \\[0.16em]
+\operatorname{PlaceType}(p)\ =\ T\ \Leftrightarrow \ \Gamma ;\ R;\ L\ \vdash \ p\ :\mathsf{place}\ T \\[0.16em]
+\operatorname{HasSourceProvenance}(e)\ \Leftrightarrow \ (\exists \ \pi .\ \Gamma ;\ \Omega \ \vdash \ e\ \Downarrow \ \pi \ \land \ \pi \ \ne \ \bot ) \\[0.16em]
+\operatorname{CallTemp}(e)\ =\ p_{\mathsf{tmp}}\ \mathsf{where}\ \lnot \ \operatorname{HasSourceProvenance}(e)\ \land \ \operatorname{Lifetime}(p_{\mathsf{tmp}})\ =\ \mathsf{CallExtent}\ \land \ \operatorname{ValueOf}(p_{\mathsf{tmp}})\ =\ e \\[0.16em]
+\operatorname{RefArgExpr}(e)\ =\ \{\ e\ \mathsf{if}\ \operatorname{HasSourceProvenance}(e)\ ;\ \operatorname{CallTemp}(e)\ \mathsf{otherwise}\ \} \\[0.16em]
+\operatorname{ConsumeArgExpr}(\mathsf{mode},\ \mathsf{moved},\ e)\ = \\[0.16em]
+\ \{\ \operatorname{MovedArg}(\mathsf{moved},\ e)\quad \mathsf{if}\ \mathsf{mode}\ =\ \texttt{move}\ \land \ \mathsf{moved}\ =\ \mathsf{true} \\[0.16em]
+\quad \operatorname{MovedArg}(\mathsf{true},\ \operatorname{CallTemp}(e))\ \mathsf{if}\ \mathsf{mode}\ =\ \texttt{move}\ \land \ \mathsf{moved}\ =\ \mathsf{false}\ \land \ \lnot \ \operatorname{HasSourceProvenance}(e) \\[0.16em]
+\quad e\quad \mathsf{otherwise}\ \} \\[0.16em]
+\operatorname{ArgType}(p,\ a)\ = \\[0.16em]
+\ \{\ \operatorname{ExprType}(\operatorname{ConsumeArgExpr}(\operatorname{ParamMode}(p),\ \operatorname{ArgMoved}(a),\ \operatorname{ArgExpr}(a)))\quad \mathsf{if}\ \operatorname{ParamMode}(p)\ =\ \texttt{move} \\[0.16em]
 \quad \operatorname{PlaceType}(\operatorname{RefArgExpr}(\operatorname{ArgExpr}(a)))\quad \mathsf{if}\ \operatorname{ParamMode}(p)\ =\ \bot \ \}
 \end{array}
 $$
@@ -1023,7 +1023,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}([],\ [])
 \end{array}
 $$
@@ -1032,8 +1032,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{ConsumeArgExpr}(\texttt{move},\ \mathsf{moved},\ e)\ \Leftarrow \ T_{p}\ \dashv \ \emptyset \quad (\mathsf{moved}\ =\ \mathsf{true}\ \lor \ (\mathsf{moved}\ =\ \mathsf{false}\ \land \ \lnot \ \operatorname{HasSourceProvenance}(e)))\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}(\mathsf{ps},\ \mathsf{as}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{ConsumeArgExpr}(\texttt{move},\ \mathsf{moved},\ e)\ \Leftarrow \ T_{p}\ \dashv \ \emptyset \quad (\mathsf{moved}\ =\ \mathsf{true}\ \lor \ (\mathsf{moved}\ =\ \mathsf{false}\ \land \ \lnot \ \operatorname{HasSourceProvenance}(e)))\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}(\mathsf{ps},\ \mathsf{as}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}([\langle \texttt{move},\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})
 \end{array}
 $$
@@ -1042,8 +1042,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{RefArgExpr}(e)\ \Leftarrow_{\mathsf{place}} \ T_{p}\quad \operatorname{AddrOfOk}(\operatorname{RefArgExpr}(e))\quad \mathsf{moved}\ =\ \mathsf{false}\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}(\mathsf{ps},\ \mathsf{as}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{RefArgExpr}(e)\ \Leftarrow_{\mathsf{place}} \ T_{p}\quad \operatorname{AddrOfOk}(\operatorname{RefArgExpr}(e))\quad \mathsf{moved}\ =\ \mathsf{false}\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}(\mathsf{ps},\ \mathsf{as}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}([\langle \bot ,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})
 \end{array}
 $$
@@ -1052,8 +1052,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{GenericCallInference}(\mathsf{callee},\ \mathsf{args},\ \bot )\ \Downarrow \ [A_{1},\ \ldots ,\ A_{n}]\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{CallTypeArgs}(\mathsf{callee},\ [A_{1},\ \ldots ,\ A_{n}],\ \mathsf{args})\ :\ R_{c} \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{GenericCallInference}(\mathsf{callee},\ \mathsf{args},\ \bot )\ \Downarrow \ [A_{1},\ \ldots ,\ A_{n}]\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{CallTypeArgs}(\mathsf{callee},\ [A_{1},\ \ldots ,\ A_{n}],\ \mathsf{args})\ :\ R_{c} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ :\ R_{c}
 \end{array}
 $$
@@ -1062,8 +1062,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ R_{c})\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}(\mathsf{params},\ \mathsf{args}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ R_{c})\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}(\mathsf{params},\ \mathsf{args}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ :\ R_{c}
 \end{array}
 $$
@@ -1072,8 +1072,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ T\quad T\ \ne \ \operatorname{TypeFunc}(\_,\ \_)\quad \lnot (\operatorname{RecordCallee}(\mathsf{callee})\ \land \ \mathsf{args}\ =\ [])\quad c\ =\ \operatorname{Code}(\mathsf{Call}-\mathsf{Callee}-\mathsf{NotFunc}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ T\quad T\ \ne \ \operatorname{TypeFunc}(\_,\ \_)\quad \lnot (\operatorname{RecordCallee}(\mathsf{callee})\ \land \ \mathsf{args}\ =\ [])\quad c\ =\ \operatorname{Code}(\mathsf{Call}-\mathsf{Callee}-\mathsf{NotFunc}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Uparrow \ c
 \end{array}
 $$
@@ -1082,8 +1082,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\quad \mid \mathsf{params}\mid \ \ne \ \mid \mathsf{args}\mid \quad c\ =\ \operatorname{Code}(\mathsf{Call}-\mathsf{ArgCount}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\quad \mid \mathsf{params}\mid \ \ne \ \mid \mathsf{args}\mid \quad c\ =\ \operatorname{Code}(\mathsf{Call}-\mathsf{ArgCount}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Uparrow \ c
 \end{array}
 $$
@@ -1092,8 +1092,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\quad \exists \ i.\ \lnot (\Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgType}(\mathsf{params}[i],\ \mathsf{args}[i])\ \mathrel{<:} \ \operatorname{ParamType}(\mathsf{params}[i]))\quad c\ =\ \operatorname{Code}(\mathsf{Call}-\mathsf{ArgType}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\quad \exists \ i.\ \lnot (\Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgType}(\mathsf{params}[i],\ \mathsf{args}[i])\ \mathrel{<:} \ \operatorname{ParamType}(\mathsf{params}[i]))\quad c\ =\ \operatorname{Code}(\mathsf{Call}-\mathsf{ArgType}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Uparrow \ c
 \end{array}
 $$
@@ -1102,8 +1102,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\quad \exists \ i.\ \operatorname{ParamMode}(\mathsf{params}[i])\ =\ \texttt{move}\ \land \ \operatorname{ArgMoved}(\mathsf{args}[i])\ =\ \mathsf{false}\ \land \ \operatorname{HasSourceProvenance}(\operatorname{ArgExpr}(\mathsf{args}[i]))\quad c\ =\ \operatorname{Code}(\mathsf{Call}-\mathsf{Move}-\mathsf{Missing}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\quad \exists \ i.\ \operatorname{ParamMode}(\mathsf{params}[i])\ =\ \texttt{move}\ \land \ \operatorname{ArgMoved}(\mathsf{args}[i])\ =\ \mathsf{false}\ \land \ \operatorname{HasSourceProvenance}(\operatorname{ArgExpr}(\mathsf{args}[i]))\quad c\ =\ \operatorname{Code}(\mathsf{Call}-\mathsf{Move}-\mathsf{Missing}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Uparrow \ c
 \end{array}
 $$
@@ -1112,8 +1112,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\quad \exists \ i.\ \operatorname{ParamMode}(\mathsf{params}[i])\ =\ \bot \ \land \ \operatorname{ArgMoved}(\mathsf{args}[i])\ =\ \mathsf{true}\quad c\ =\ \operatorname{Code}(\mathsf{Call}-\mathsf{Move}-\mathsf{Unexpected}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\quad \exists \ i.\ \operatorname{ParamMode}(\mathsf{params}[i])\ =\ \bot \ \land \ \operatorname{ArgMoved}(\mathsf{args}[i])\ =\ \mathsf{true}\quad c\ =\ \operatorname{Code}(\mathsf{Call}-\mathsf{Move}-\mathsf{Unexpected}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Uparrow \ c
 \end{array}
 $$
@@ -1122,8 +1122,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\quad \exists \ i.\ \operatorname{ParamMode}(\mathsf{params}[i])\ =\ \bot \ \land \ \operatorname{PackedField}(\operatorname{ArgExpr}(\mathsf{args}[i]))\ \land \ \lnot \ \operatorname{UnsafeSpan}(\operatorname{span}(\operatorname{ArgExpr}(\mathsf{args}[i])))\quad c\ =\ \operatorname{Code}(\mathsf{Packed}-\mathsf{Field}-\mathsf{Unsafe}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\quad \exists \ i.\ \operatorname{ParamMode}(\mathsf{params}[i])\ =\ \bot \ \land \ \operatorname{PackedField}(\operatorname{ArgExpr}(\mathsf{args}[i]))\ \land \ \lnot \ \operatorname{UnsafeSpan}(\operatorname{span}(\operatorname{ArgExpr}(\mathsf{args}[i])))\quad c\ =\ \operatorname{Code}(\mathsf{Packed}-\mathsf{Field}-\mathsf{Unsafe}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Uparrow \ c
 \end{array}
 $$
@@ -1132,8 +1132,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\quad \exists \ i.\ \operatorname{ParamMode}(\mathsf{params}[i])\ =\ \bot \ \land \ \operatorname{HasSourceProvenance}(\operatorname{ArgExpr}(\mathsf{args}[i]))\ \land \ \lnot \ \operatorname{IsPlace}(\operatorname{ArgExpr}(\mathsf{args}[i]))\quad c\ =\ \operatorname{Code}(\mathsf{Call}-\mathsf{Arg}-\mathsf{NotPlace}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\quad \exists \ i.\ \operatorname{ParamMode}(\mathsf{params}[i])\ =\ \bot \ \land \ \operatorname{HasSourceProvenance}(\operatorname{ArgExpr}(\mathsf{args}[i]))\ \land \ \lnot \ \operatorname{IsPlace}(\operatorname{ArgExpr}(\mathsf{args}[i]))\quad c\ =\ \operatorname{Code}(\mathsf{Call}-\mathsf{Arg}-\mathsf{NotPlace}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Uparrow \ c
 \end{array}
 $$
@@ -1142,17 +1142,15 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{GenericCallInference}(\mathsf{callee},\ \mathsf{args},\ T_{\mathsf{exp}})\ \Downarrow \ [A_{1},\ \ldots ,\ A_{n}]\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{CallTypeArgs}(\mathsf{callee},\ [A_{1},\ \ldots ,\ A_{n}],\ \mathsf{args})\ :\ R_{c}\quad \Gamma \ \vdash \ R_{c}\ \mathrel{<:} \ T_{\mathsf{exp}} \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{GenericCallInference}(\mathsf{callee},\ \mathsf{args},\ T_{\mathsf{exp}})\ \Downarrow \ [A_{1},\ \ldots ,\ A_{n}]\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{CallTypeArgs}(\mathsf{callee},\ [A_{1},\ \ldots ,\ A_{n}],\ \mathsf{args})\ :\ R_{c}\quad \Gamma \ \vdash \ R_{c}\ \mathrel{<:} \ T_{\mathsf{exp}} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Leftarrow \ T_{\mathsf{exp}}\ \dashv \ \emptyset 
 \end{array}
 $$
 
 Explicit and inferred type-argument calls use `CallTypeArgs`. Their bound checking, defaulted argument completion, omitted-argument inference, and elaboration to monomorphic `Call` are defined in §14.2.4.
 
-$$
-\mathsf{Method}-\mathsf{call}\ \mathsf{typing}\ \mathsf{is}\ \mathsf{defined}\ \mathsf{in}\ \S 15.2.4\ \mathsf{for}\ \mathsf{concrete}\ \mathsf{receivers}\ \mathsf{and}\ \mathsf{in}\ \S 14.6.4\ \mathsf{for}\ \mathsf{dynamic}\ \texttt{\$Class}\ \mathsf{receivers}.\ \mathsf{Record}-\mathsf{default}\ \mathsf{construction}\ \mathsf{via}\ \texttt{Call(callee, [])}\ \mathsf{is}\ \mathsf{defined}\ \mathsf{in}\ \S 16.6.4.\ \mathsf{Calls}\ \mathsf{whose}\ \mathsf{callee}\ \mathsf{has}\ \mathsf{closure}\ \mathsf{type}\ \mathsf{are}\ \mathsf{defined}\ \mathsf{in}\ \S 16.9.4.
-$$
+Method-call typing is defined in §15.2.4 for concrete receivers and in §14.6.4 for dynamic `$Class` receivers. Record-default construction via `Call(callee, [])` is defined in §16.6.4. Calls whose callee has closure type are defined in §16.9.4.
 
 Calls to `extern` procedures outside `unsafe` are rejected by the FFI boundary rule in §23.2.4.
 
@@ -1162,8 +1160,8 @@ Calls to `extern` procedures outside `unsafe` are rejected by the FFI boundary r
 
 $$
 \begin{array}{l}
-\operatorname{ExprType}(\mathsf{callee})\ =\ \operatorname{TypeClosure}(\_,\ \_,\ \_)\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{ClosureCall}(\mathsf{callee},\ \mathsf{args}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\operatorname{ExprType}(\mathsf{callee})\ =\ \operatorname{TypeClosure}(\_,\ \_,\ \_)\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{ClosureCall}(\mathsf{callee},\ \mathsf{args}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Call}(\mathsf{callee},\ \mathsf{args}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{1} )
 \end{array}
 $$
@@ -1172,8 +1170,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{callee},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{FuncVal}(\mathsf{sym})),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{BuiltinModalSym}(\texttt{Region::}\mathsf{name})\ \Downarrow \ \mathsf{sym}\quad \operatorname{RegionProcParams}(\mathsf{name})\ =\ \mathsf{params}\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{params},\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ApplyRegionProc}(\mathsf{name},\ \mathsf{vec}_{v},\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{callee},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{FuncVal}(\mathsf{sym})),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{BuiltinModalSym}(\texttt{Region::}\mathsf{name})\ \Downarrow \ \mathsf{sym}\quad \operatorname{RegionProcParams}(\mathsf{name})\ =\ \mathsf{params}\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{params},\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ApplyRegionProc}(\mathsf{name},\ \mathsf{vec}_{v},\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Call}(\mathsf{callee},\ \mathsf{args}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} )
 \end{array}
 $$
@@ -1182,8 +1180,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{callee},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{FuncVal}(\mathsf{sym})),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{BuiltinModalSym}(\texttt{Region::}\mathsf{name})\ \Downarrow \ \mathsf{sym}\quad \operatorname{RegionProcParams}(\mathsf{name})\ =\ \mathsf{params}\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{params},\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{callee},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{FuncVal}(\mathsf{sym})),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{BuiltinModalSym}(\texttt{Region::}\mathsf{name})\ \Downarrow \ \mathsf{sym}\quad \operatorname{RegionProcParams}(\mathsf{name})\ =\ \mathsf{params}\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{params},\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Call}(\mathsf{callee},\ \mathsf{args}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} )
 \end{array}
 $$
@@ -1192,8 +1190,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{callee},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{FuncVal}(\mathsf{sym})),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{BuiltinModalSym}(\texttt{CancelToken::}\mathsf{name})\ \Downarrow \ \mathsf{sym}\quad \operatorname{CancelProcParams}(\mathsf{name})\ =\ \mathsf{params}\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{params},\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ApplyCancelProc}(\mathsf{name},\ \mathsf{vec}_{v},\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{callee},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{FuncVal}(\mathsf{sym})),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{BuiltinModalSym}(\texttt{CancelToken::}\mathsf{name})\ \Downarrow \ \mathsf{sym}\quad \operatorname{CancelProcParams}(\mathsf{name})\ =\ \mathsf{params}\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{params},\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ApplyCancelProc}(\mathsf{name},\ \mathsf{vec}_{v},\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Call}(\mathsf{callee},\ \mathsf{args}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} )
 \end{array}
 $$
@@ -1202,8 +1200,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{callee},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{FuncVal}(\mathsf{sym})),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{BuiltinModalSym}(\texttt{CancelToken::}\mathsf{name})\ \Downarrow \ \mathsf{sym}\quad \operatorname{CancelProcParams}(\mathsf{name})\ =\ \mathsf{params}\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{params},\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{callee},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{FuncVal}(\mathsf{sym})),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{BuiltinModalSym}(\texttt{CancelToken::}\mathsf{name})\ \Downarrow \ \mathsf{sym}\quad \operatorname{CancelProcParams}(\mathsf{name})\ =\ \mathsf{params}\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{params},\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Call}(\mathsf{callee},\ \mathsf{args}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} )
 \end{array}
 $$
@@ -1212,8 +1210,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{callee},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{c}),\ \sigma_{1} )\quad \mathsf{proc}\ =\ \operatorname{CallTarget}(v_{c})\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{proc}.\mathsf{params},\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ApplyProcSigma}(\mathsf{proc},\ \mathsf{vec}_{v},\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{callee},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{c}),\ \sigma_{1} )\quad \mathsf{proc}\ =\ \operatorname{CallTarget}(v_{c})\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{proc}.\mathsf{params},\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ApplyProcSigma}(\mathsf{proc},\ \mathsf{vec}_{v},\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Call}(\mathsf{callee},\ \mathsf{args}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} )
 \end{array}
 $$
@@ -1222,8 +1220,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{callee},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{c}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}([],\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} )\quad \mathsf{vec}_{v}\ =\ []\quad \operatorname{RecordCtor}(p)\ =\ \operatorname{CallTarget}(v_{c})\quad \Gamma \ \vdash \ \operatorname{ApplyRecordCtorSigma}(p,\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{callee},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{c}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}([],\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} )\quad \mathsf{vec}_{v}\ =\ []\quad \operatorname{RecordCtor}(p)\ =\ \operatorname{CallTarget}(v_{c})\quad \Gamma \ \vdash \ \operatorname{ApplyRecordCtorSigma}(p,\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Call}(\mathsf{callee},\ \mathsf{args}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} )
 \end{array}
 $$
@@ -1232,8 +1230,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{mode}\ =\ \operatorname{RecvArgMode}(\mathsf{base})\quad \Gamma \ \vdash \ \operatorname{EvalRecvSigma}(\mathsf{base},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\langle v_{\mathsf{self}},\ v_{\mathsf{arg}}\rangle ),\ \sigma_{1} )\quad m\ =\ \operatorname{MethodTarget}(v_{\mathsf{self}},\ \mathsf{name})\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(m.\mathsf{params},\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ApplyMethodSigma}(\mathsf{base},\ \mathsf{name},\ v_{\mathsf{self}},\ v_{\mathsf{arg}},\ \mathsf{vec}_{v},\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\
-\rule{18em}{0.4pt} \\
+\mathsf{mode}\ =\ \operatorname{RecvArgMode}(\mathsf{base})\quad \Gamma \ \vdash \ \operatorname{EvalRecvSigma}(\mathsf{base},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\langle v_{\mathsf{self}},\ v_{\mathsf{arg}}\rangle ),\ \sigma_{1} )\quad m\ =\ \operatorname{MethodTarget}(v_{\mathsf{self}},\ \mathsf{name})\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(m.\mathsf{params},\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ApplyMethodSigma}(\mathsf{base},\ \mathsf{name},\ v_{\mathsf{self}},\ v_{\mathsf{arg}},\ \mathsf{vec}_{v},\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{MethodCall}(\mathsf{base},\ \mathsf{name},\ \mathsf{args}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} )
 \end{array}
 $$
@@ -1250,7 +1248,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerArgs}([],\ [])\ \Downarrow \ \langle \varepsilon ,\ []\rangle 
 \end{array}
 $$
@@ -1259,8 +1257,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MovedArg}(\mathsf{moved},\ e))\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerArgs}(\mathsf{ps},\ \mathsf{as})\ \Downarrow \ \langle \mathsf{IR}_{a},\ \mathsf{vec}_{v}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MovedArg}(\mathsf{moved},\ e))\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerArgs}(\mathsf{ps},\ \mathsf{as})\ \Downarrow \ \langle \mathsf{IR}_{a},\ \mathsf{vec}_{v}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerArgs}([\langle \texttt{move},\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{a}),\ [v]\ \mathbin{++} \ \mathsf{vec}_{v}\rangle 
 \end{array}
 $$
@@ -1269,8 +1267,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerAddrOf}(\operatorname{RefArgExpr}(e))\ \Downarrow \ \langle \mathsf{IR}_{e},\ \mathsf{addr}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerArgs}(\mathsf{ps},\ \mathsf{as})\ \Downarrow \ \langle \mathsf{IR}_{a},\ \mathsf{vec}_{v}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerAddrOf}(\operatorname{RefArgExpr}(e))\ \Downarrow \ \langle \mathsf{IR}_{e},\ \mathsf{addr}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerArgs}(\mathsf{ps},\ \mathsf{as})\ \Downarrow \ \langle \mathsf{IR}_{a},\ \mathsf{vec}_{v}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerArgs}([\langle \bot ,\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{a}),\ [\mathsf{Ptr}@\operatorname{Valid}(\mathsf{addr})]\ \mathbin{++} \ \mathsf{vec}_{v}\rangle 
 \end{array}
 $$
@@ -1279,8 +1277,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ExprType}(\mathsf{callee})\ =\ \operatorname{TypeClosure}(\_,\ \_,\ \_)\quad \Gamma \ \vdash \ \operatorname{LowerClosureCall}(\mathsf{callee},\ \mathsf{args})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\
-\rule{18em}{0.4pt} \\
+\operatorname{ExprType}(\mathsf{callee})\ =\ \operatorname{TypeClosure}(\_,\ \_,\ \_)\quad \Gamma \ \vdash \ \operatorname{LowerClosureCall}(\mathsf{callee},\ \mathsf{args})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Call}(\mathsf{callee},\ \mathsf{args}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
 \end{array}
 $$
@@ -1333,8 +1331,8 @@ Cast syntax is owned by §16.5. Dereference and `widen` prefix forms are owned b
 
 $$
 \begin{array}{l}
-\operatorname{Tok}(P)\ =\ \mathsf{op}\ \in \ \{\texttt{"!"},\ \texttt{"-"}\}\quad \Gamma \ \vdash \ \operatorname{ParseUnary}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e) \\
-\rule{18em}{0.4pt} \\
+\operatorname{Tok}(P)\ =\ \mathsf{op}\ \in \ \{\texttt{"!"},\ \texttt{"-"}\}\quad \Gamma \ \vdash \ \operatorname{ParseUnary}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseUnary}(P)\ \Downarrow \ (P_{1},\ \operatorname{Unary}(\mathsf{op},\ e))
 \end{array}
 $$
@@ -1343,16 +1341,16 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{RangeKind}\ =\ \{\texttt{To},\ \texttt{ToInclusive},\ \texttt{Full},\ \texttt{From},\ \texttt{Exclusive},\ \texttt{Inclusive}\} \\
+\mathsf{RangeKind}\ =\ \{\texttt{To},\ \texttt{ToInclusive},\ \texttt{Full},\ \texttt{From},\ \texttt{Exclusive},\ \texttt{Inclusive}\} \\[0.16em]
 \mathsf{Expr}\ =\ \operatorname{Unary}(\mathsf{op},\ \mathsf{expr})\ \mid \ \operatorname{Binary}(\mathsf{op},\ \mathsf{left},\ \mathsf{right})\ \mid \ \operatorname{Range}(\mathsf{kind},\ \mathsf{lo}_{\mathsf{opt}},\ \mathsf{hi}_{\mathsf{opt}})\ \mid \ \ldots 
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\mathsf{ArithOps}\ =\ \{\texttt{"+"},\ \texttt{"-"},\ \texttt{"*"},\ \texttt{"/"},\ \texttt{"\%"},\ \texttt{"**"}\} \\
-\mathsf{BitOps}\ =\ \{\texttt{"\&"},\ \texttt{"|"},\ \texttt{"\^{}"}\} \\
-\mathsf{ShiftOps}\ =\ \{\texttt{"<<"},\ \texttt{">>"}\} \\
+\mathsf{ArithOps}\ =\ \{\texttt{"+"},\ \texttt{"-"},\ \texttt{"*"},\ \texttt{"/"},\ \texttt{"\%"},\ \texttt{"**"}\} \\[0.16em]
+\mathsf{BitOps}\ =\ \{\texttt{"\&"},\ \texttt{"|"},\ \texttt{"\^{}"}\} \\[0.16em]
+\mathsf{ShiftOps}\ =\ \{\texttt{"<<"},\ \texttt{">>"}\} \\[0.16em]
 \mathsf{LogicOps}\ =\ \{\texttt{"\&\&"},\ \texttt{"||"}\}
 \end{array}
 $$
@@ -1361,8 +1359,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{EqType}(T)\ \Leftrightarrow \ (\operatorname{StripPerm}(T)\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{NumericTypes}\ \cup \ \{\texttt{bool},\ \texttt{char}\})\ \lor \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypePtr}(U,\ s)\ \lor \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeRawPtr}(q,\ U)\ \lor \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeString}(\mathsf{st})\ \lor \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeBytes}(\mathsf{st}) \\
-\operatorname{OrdType}(T)\ \Leftrightarrow \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{IntTypes}\ \cup \ \mathsf{FloatTypes}\ \cup \ \{\texttt{char}\} \\
+\operatorname{EqType}(T)\ \Leftrightarrow \ (\operatorname{StripPerm}(T)\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{NumericTypes}\ \cup \ \{\texttt{bool},\ \texttt{char}\})\ \lor \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypePtr}(U,\ s)\ \lor \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeRawPtr}(q,\ U)\ \lor \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeString}(\mathsf{st})\ \lor \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeBytes}(\mathsf{st}) \\[0.16em]
+\operatorname{OrdType}(T)\ \Leftrightarrow \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{IntTypes}\ \cup \ \mathsf{FloatTypes}\ \cup \ \{\texttt{char}\} \\[0.16em]
 \operatorname{IsRangeType}(T)\ \Leftrightarrow \ T\ =\ \operatorname{TypeRange}(\_)\ \lor \ T\ =\ \operatorname{TypeRangeInclusive}(\_)\ \lor \ T\ =\ \operatorname{TypeRangeFrom}(\_)\ \lor \ T\ =\ \operatorname{TypeRangeTo}(\_)\ \lor \ T\ =\ \operatorname{TypeRangeToInclusive}(\_)\ \lor \ T\ =\ \mathsf{TypeRangeFull}
 \end{array}
 $$
@@ -1371,8 +1369,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ r\ :\ \mathsf{Range}\quad \operatorname{ExprType}(r)\ =\ T \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ r\ :\ \mathsf{Range}\quad \operatorname{ExprType}(r)\ =\ T \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ r\ :\ T
 \end{array}
 $$
@@ -1383,8 +1381,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ :\ \operatorname{TypePrim}(\texttt{bool}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ :\ \operatorname{TypePrim}(\texttt{bool}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Unary}(\texttt{"!"},\ e)\ :\ \operatorname{TypePrim}(\texttt{bool})
 \end{array}
 $$
@@ -1393,8 +1391,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ :\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{IntTypes} \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ :\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{IntTypes} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Unary}(\texttt{"!"},\ e)\ :\ \operatorname{TypePrim}(t)
 \end{array}
 $$
@@ -1403,8 +1401,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ :\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{SignedIntTypes}\ \cup \ \mathsf{FloatTypes} \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ :\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{SignedIntTypes}\ \cup \ \mathsf{FloatTypes} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Unary}(\texttt{"-"},\ e)\ :\ \operatorname{TypePrim}(t)
 \end{array}
 $$
@@ -1413,8 +1411,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ T\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ T\quad \operatorname{StripPerm}(T)\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{NumericTypes}\quad \mathsf{op}\ \in \ \mathsf{ArithOps} \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ T\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ T\quad \operatorname{StripPerm}(T)\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{NumericTypes}\quad \mathsf{op}\ \in \ \mathsf{ArithOps} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Binary}(\mathsf{op},\ e_{1},\ e_{2})\ :\ \operatorname{TypePrim}(t)
 \end{array}
 $$
@@ -1423,8 +1421,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ T\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ T\quad \operatorname{StripPerm}(T)\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{IntTypes}\quad \mathsf{op}\ \in \ \mathsf{BitOps} \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ T\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ T\quad \operatorname{StripPerm}(T)\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{IntTypes}\quad \mathsf{op}\ \in \ \mathsf{BitOps} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Binary}(\mathsf{op},\ e_{1},\ e_{2})\ :\ \operatorname{TypePrim}(t)
 \end{array}
 $$
@@ -1433,8 +1431,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ T_{1}\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{u32})\quad \operatorname{StripPerm}(T_{1})\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{IntTypes}\quad \mathsf{op}\ \in \ \mathsf{ShiftOps} \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ T_{1}\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{u32})\quad \operatorname{StripPerm}(T_{1})\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{IntTypes}\quad \mathsf{op}\ \in \ \mathsf{ShiftOps} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Binary}(\mathsf{op},\ e_{1},\ e_{2})\ :\ \operatorname{TypePrim}(t)
 \end{array}
 $$
@@ -1443,8 +1441,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ T\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ T\quad \operatorname{EqType}(T)\quad \mathsf{op}\ \in \ \{\texttt{"=="},\ \texttt{"!="}\} \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ T\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ T\quad \operatorname{EqType}(T)\quad \mathsf{op}\ \in \ \{\texttt{"=="},\ \texttt{"!="}\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Binary}(\mathsf{op},\ e_{1},\ e_{2})\ :\ \operatorname{TypePrim}(\texttt{bool})
 \end{array}
 $$
@@ -1453,8 +1451,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ T\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ T\quad \operatorname{OrdType}(T)\quad \mathsf{op}\ \in \ \{\texttt{"<"},\ \texttt{"<="},\ \texttt{">"},\ \texttt{">="}\} \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ T\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ T\quad \operatorname{OrdType}(T)\quad \mathsf{op}\ \in \ \{\texttt{"<"},\ \texttt{"<="},\ \texttt{">"},\ \texttt{">="}\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Binary}(\mathsf{op},\ e_{1},\ e_{2})\ :\ \operatorname{TypePrim}(\texttt{bool})
 \end{array}
 $$
@@ -1463,8 +1461,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ \operatorname{TypePrim}(\texttt{bool})\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{bool})\quad \mathsf{op}\ \in \ \mathsf{LogicOps} \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ \operatorname{TypePrim}(\texttt{bool})\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{bool})\quad \mathsf{op}\ \in \ \mathsf{LogicOps} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Binary}(\mathsf{op},\ e_{1},\ e_{2})\ :\ \operatorname{TypePrim}(\texttt{bool})
 \end{array}
 $$
@@ -1473,37 +1471,37 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RetType}(\Gamma )\ \in \ \mathsf{Type} \\
-\mathsf{OpJudg}\ =\ \{\operatorname{UnOp}(\mathsf{op},\ v)\ \Downarrow \ v',\ \operatorname{BinOp}(\mathsf{op},\ v_{1},\ v_{2})\ \Downarrow \ v\} \\
-\operatorname{NumericValue}(v,\ t)\ \Leftrightarrow \ \operatorname{ValueType}(v)\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{NumericTypes} \\
-\operatorname{IntValue}(v,\ t)\ \Leftrightarrow \ \operatorname{ValueType}(v)\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{IntTypes} \\
-\operatorname{FloatValue}(v,\ t)\ \Leftrightarrow \ \operatorname{ValueType}(v)\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{FloatTypes} \\
-\operatorname{SignedIntValue}(v)\ \Leftrightarrow \ \exists \ t.\ t\ \in \ \mathsf{SignedIntTypes}\ \land \ \operatorname{ValueType}(v)\ =\ \operatorname{TypePrim}(t) \\
-\operatorname{SignedTypeOf}(v)\ =\ t\ \Leftrightarrow \ t\ \in \ \mathsf{SignedIntTypes}\ \land \ \operatorname{ValueType}(v)\ =\ \operatorname{TypePrim}(t) \\
-\operatorname{U32Value}(v)\ \Leftrightarrow \ \operatorname{ValueType}(v)\ =\ \operatorname{TypePrim}(\texttt{"u32"}) \\
-\operatorname{EqValue}(v_{1},\ v_{2})\ \Leftrightarrow \ \exists \ T.\ \operatorname{ValueType}(v_{1})\ =\ T\ \land \ \operatorname{ValueType}(v_{2})\ =\ T\ \land \ \operatorname{EqType}(T) \\
-\operatorname{OrdValue}(v_{1},\ v_{2})\ \Leftrightarrow \ \exists \ T.\ \operatorname{ValueType}(v_{1})\ =\ T\ \land \ \operatorname{ValueType}(v_{2})\ =\ T\ \land \ \operatorname{OrdType}(T) \\
-\operatorname{IsNaN}(t,\ v)\ \Leftrightarrow \ t\ \in \ \mathsf{FloatTypes}\ \land \ v\ =\ \operatorname{FloatVal}(t,\ x)\ \land \ \operatorname{IEEE754Encode}(t,\ x)\ =\ \operatorname{CanonicalNaNBits}(t) \\
-\operatorname{OrdScalar}(v)\ =\ x\ \Leftrightarrow \ (\exists \ t.\ v\ =\ \operatorname{IntVal}(t,\ x)\ \land \ t\ \in \ \mathsf{IntTypes})\ \lor \ (\exists \ u.\ v\ =\ \operatorname{CharVal}(u)\ \land \ x\ =\ u) \\
-\operatorname{Cmp}(\texttt{"=="},\ v_{1},\ v_{2})\ =\ b\ \Leftrightarrow \ \operatorname{EqValue}(v_{1},\ v_{2})\ \land \ ((\exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ \mathsf{false})\ \lor \ (\lnot \ \exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ (v_{1}\ =\ v_{2}))) \\
-\operatorname{Cmp}(\texttt{"!="},\ v_{1},\ v_{2})\ =\ b\ \Leftrightarrow \ \operatorname{EqValue}(v_{1},\ v_{2})\ \land \ ((\exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ \mathsf{true})\ \lor \ (\lnot \ \exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ (v_{1}\ \ne \ v_{2}))) \\
-\operatorname{Cmp}(\texttt{"<"},\ v_{1},\ v_{2})\ =\ b\ \Leftrightarrow \ \operatorname{OrdValue}(v_{1},\ v_{2})\ \land \ ((\exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ ((\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ \mathsf{false})\ \lor \ (\lnot \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ x_{1}\ =\ \operatorname{FloatValValue}(v_{1})\ \land \ x_{2}\ =\ \operatorname{FloatValValue}(v_{2})\ \land \ b\ =\ (x_{1}\ <\ x_{2})))\ \lor \ (\exists \ x_{1},\ x_{2}.\ \operatorname{OrdScalar}(v_{1})\ =\ x_{1}\ \land \ \operatorname{OrdScalar}(v_{2})\ =\ x_{2}\ \land \ b\ =\ (x_{1}\ <\ x_{2}))) \\
-\operatorname{Cmp}(\texttt{"<="},\ v_{1},\ v_{2})\ =\ b\ \Leftrightarrow \ \operatorname{OrdValue}(v_{1},\ v_{2})\ \land \ ((\exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ ((\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ \mathsf{false})\ \lor \ (\lnot \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ x_{1}\ =\ \operatorname{FloatValValue}(v_{1})\ \land \ x_{2}\ =\ \operatorname{FloatValValue}(v_{2})\ \land \ b\ =\ (x_{1}\ \le \ x_{2})))\ \lor \ (\exists \ x_{1},\ x_{2}.\ \operatorname{OrdScalar}(v_{1})\ =\ x_{1}\ \land \ \operatorname{OrdScalar}(v_{2})\ =\ x_{2}\ \land \ b\ =\ (x_{1}\ \le \ x_{2}))) \\
-\operatorname{Cmp}(\texttt{">"},\ v_{1},\ v_{2})\ =\ b\ \Leftrightarrow \ \operatorname{OrdValue}(v_{1},\ v_{2})\ \land \ ((\exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ ((\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ \mathsf{false})\ \lor \ (\lnot \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ x_{1}\ =\ \operatorname{FloatValValue}(v_{1})\ \land \ x_{2}\ =\ \operatorname{FloatValValue}(v_{2})\ \land \ b\ =\ (x_{1}\ >\ x_{2})))\ \lor \ (\exists \ x_{1},\ x_{2}.\ \operatorname{OrdScalar}(v_{1})\ =\ x_{1}\ \land \ \operatorname{OrdScalar}(v_{2})\ =\ x_{2}\ \land \ b\ =\ (x_{1}\ >\ x_{2}))) \\
-\operatorname{Cmp}(\texttt{">="},\ v_{1},\ v_{2})\ =\ b\ \Leftrightarrow \ \operatorname{OrdValue}(v_{1},\ v_{2})\ \land \ ((\exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ ((\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ \mathsf{false})\ \lor \ (\lnot \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ x_{1}\ =\ \operatorname{FloatValValue}(v_{1})\ \land \ x_{2}\ =\ \operatorname{FloatValValue}(v_{2})\ \land \ b\ =\ (x_{1}\ \ge \ x_{2})))\ \lor \ (\exists \ x_{1},\ x_{2}.\ \operatorname{OrdScalar}(v_{1})\ =\ x_{1}\ \land \ \operatorname{OrdScalar}(v_{2})\ =\ x_{2}\ \land \ b\ =\ (x_{1}\ \ge \ x_{2}))) \\
-\operatorname{BitAt}(u,\ i)\ =\ b\ \Leftrightarrow \ b\ \in \ \{0,\ 1\}\ \land \ \exists \ q,\ r.\ u\ =\ q\ \cdot \ 2^\{i\ +\ 1\}\ +\ b\ \cdot \ 2^i\ +\ r\ \land \ 0\ \le \ r\ <\ 2^i \\
-\operatorname{BitNot}(v)\ =\ v'\ \Leftrightarrow \ \exists \ t,\ x,\ w,\ u,\ u'.\ v\ =\ \operatorname{IntVal}(t,\ x)\ \land \ w\ =\ \operatorname{IntWidth}(t)\ \land \ u\ =\ \operatorname{ToUnsigned}(w,\ x)\ \land \ u'\ =\ (2^w\ -\ 1)\ -\ u\ \land \ ((t\ \in \ \mathsf{SignedIntTypes}\ \land \ v'\ =\ \operatorname{IntVal}(t,\ \operatorname{ToSigned}(w,\ u')))\ \lor \ (t\ \in \ \mathsf{UnsignedIntTypes}\ \land \ v'\ =\ \operatorname{IntVal}(t,\ u'))) \\
-\operatorname{BitOp}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ =\ v\ \Leftrightarrow \ v_{1}\ =\ \operatorname{IntVal}(t,\ x_{1})\ \land \ v_{2}\ =\ \operatorname{IntVal}(t,\ x_{2})\ \land \ w\ =\ \operatorname{IntWidth}(t)\ \land \ u_{1}\ =\ \operatorname{ToUnsigned}(w,\ x_{1})\ \land \ u_{2}\ =\ \operatorname{ToUnsigned}(w,\ x_{2})\ \land \ u\ =\ \sum \_\{i=0\}^\{w-1\}\ b_{i}\ 2^i\ \land \ \forall \ i.\ 0\ \le \ i\ <\ w\ \Rightarrow \ ((\mathsf{op}\ =\ \texttt{"\&"}\ \land \ b_{i}\ =\ \operatorname{BitAt}(u_{1},\ i)\ \cdot \ \operatorname{BitAt}(u_{2},\ i))\ \lor \ (\mathsf{op}\ =\ \texttt{"|"}\ \land \ b_{i}\ =\ \operatorname{max}(\operatorname{BitAt}(u_{1},\ i),\ \operatorname{BitAt}(u_{2},\ i)))\ \lor \ (\mathsf{op}\ =\ \texttt{"\^{}"}\ \land \ b_{i}\ =\ (\operatorname{BitAt}(u_{1},\ i)\ +\ \operatorname{BitAt}(u_{2},\ i))\ \mathsf{mod}\ 2))\ \land \ ((t\ \in \ \mathsf{SignedIntTypes}\ \land \ v\ =\ \operatorname{IntVal}(t,\ \operatorname{ToSigned}(w,\ u)))\ \lor \ (t\ \in \ \mathsf{UnsignedIntTypes}\ \land \ v\ =\ \operatorname{IntVal}(t,\ u))) \\
-\operatorname{ShiftOp}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ =\ v\ \Leftrightarrow \ v_{1}\ =\ \operatorname{IntVal}(t,\ x_{1})\ \land \ v_{2}\ =\ \operatorname{IntVal}(\texttt{"u32"},\ n)\ \land \ w\ =\ \operatorname{IntWidth}(t)\ \land \ 0\ \le \ n\ <\ w\ \land \ u_{1}\ =\ \operatorname{ToUnsigned}(w,\ x_{1})\ \land \ ((\mathsf{op}\ =\ \texttt{"<<"}\ \land \ u\ =\ (u_{1}\ \cdot \ 2^n)\ \mathsf{mod}\ 2^w)\ \lor \ (\mathsf{op}\ =\ \texttt{">>"}\ \land \ u\ =\ \lfloor u_{1}\ /\ 2^n\rfloor ))\ \land \ ((t\ \in \ \mathsf{SignedIntTypes}\ \land \ v\ =\ \operatorname{IntVal}(t,\ \operatorname{ToSigned}(w,\ u)))\ \lor \ (t\ \in \ \mathsf{UnsignedIntTypes}\ \land \ v\ =\ \operatorname{IntVal}(t,\ u))) \\
-\operatorname{PowInt}(x,\ n)\ =\ y\ \Leftrightarrow \ n\ \in \ \mathbb{N} \ \land \ ((n\ =\ 0\ \land \ y\ =\ 1)\ \lor \ (n\ >\ 0\ \land \ y\ =\ x\ \cdot \ \operatorname{PowInt}(x,\ n\ -\ 1))) \\
-\operatorname{PowFloat}(t,\ x_{1},\ x_{2})\ =\ x\ \Leftrightarrow \ t\ \in \ \mathsf{FloatTypes}\ \land \ x_{1}\ \in \ \operatorname{FloatValueSet}(t)\ \land \ x_{2}\ \in \ \operatorname{FloatValueSet}(t)\ \land \ x\ \mathsf{is}\ \mathsf{the}\ \mathsf{IEEE}\ 754-2019\ \mathsf{pow}\ \mathsf{result}\ \mathsf{of}\ x_{1},\ x_{2}\ \mathsf{in}\ \mathsf{format}\ \operatorname{FloatFormat}(t) \\
-\operatorname{IEEEArith}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ =\ v\ \Leftrightarrow \ v_{1}\ =\ \operatorname{FloatVal}(t,\ x_{1})\ \land \ v_{2}\ =\ \operatorname{FloatVal}(t,\ x_{2})\ \land \ \mathsf{op}\ \in \ \mathsf{ArithOps}\ \land \ ((\mathsf{op}\ \in \ \{\texttt{"+"},\ \texttt{"-"},\ \texttt{"*"},\ \texttt{"/"}\}\ \land \ x\ \mathsf{is}\ \mathsf{the}\ \mathsf{IEEE}\ 754-2019\ \mathsf{result}\ \mathsf{of}\ \mathsf{applying}\ \mathsf{op}\ \mathsf{to}\ x_{1},\ x_{2}\ \mathsf{in}\ \mathsf{format}\ \operatorname{FloatFormat}(t))\ \lor \ (\mathsf{op}\ =\ \texttt{"\%"}\ \land \ x\ \mathsf{is}\ \mathsf{the}\ \mathsf{IEEE}\ 754-2019\ \mathsf{remainder}\ \mathsf{of}\ x_{1},\ x_{2}\ \mathsf{in}\ \mathsf{format}\ \operatorname{FloatFormat}(t))\ \lor \ (\mathsf{op}\ =\ \texttt{"**"}\ \land \ \operatorname{PowFloat}(t,\ x_{1},\ x_{2})\ =\ x))\ \land \ v\ =\ \operatorname{FloatVal}(t,\ x) \\
-\forall \ t\ \in \ \mathsf{FloatTypes},\ v_{1},\ v_{2},\ \mathsf{op}\ \in \ \mathsf{ArithOps}.\ \exists \ v.\ \operatorname{IEEEArith}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ =\ v \\
-\operatorname{UnOp}(\texttt{"!"},\ \mathsf{false})\ \Downarrow \ \mathsf{true} \\
-\operatorname{UnOp}(\texttt{"!"},\ \mathsf{true})\ \Downarrow \ \mathsf{false} \\
-\operatorname{UnOp}(\texttt{"!"},\ v)\ \Downarrow \ v'\ \Leftrightarrow \ \operatorname{IntValue}(v,\ t)\ \land \ v'\ =\ \operatorname{BitNot}(v) \\
-\operatorname{UnOp}(\texttt{"-"},\ v)\ \Downarrow \ v'\ \Leftrightarrow \ v\ =\ \operatorname{IntVal}(t,\ x)\ \land \ t\ \in \ \mathsf{SignedIntTypes}\ \land \ x'\ =\ -x\ \land \ \operatorname{InRange}(x',\ t)\ \land \ v'\ =\ \operatorname{IntVal}(t,\ x') \\
-\operatorname{UnOp}(\texttt{"-"},\ v)\ \Downarrow \ v'\ \Leftrightarrow \ v\ =\ \operatorname{FloatVal}(t,\ x)\ \land \ v'\ =\ \operatorname{FloatVal}(t,\ -x) \\
+\operatorname{RetType}(\Gamma )\ \in \ \mathsf{Type} \\[0.16em]
+\mathsf{OpJudg}\ =\ \{\operatorname{UnOp}(\mathsf{op},\ v)\ \Downarrow \ v',\ \operatorname{BinOp}(\mathsf{op},\ v_{1},\ v_{2})\ \Downarrow \ v\} \\[0.16em]
+\operatorname{NumericValue}(v,\ t)\ \Leftrightarrow \ \operatorname{ValueType}(v)\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{NumericTypes} \\[0.16em]
+\operatorname{IntValue}(v,\ t)\ \Leftrightarrow \ \operatorname{ValueType}(v)\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{IntTypes} \\[0.16em]
+\operatorname{FloatValue}(v,\ t)\ \Leftrightarrow \ \operatorname{ValueType}(v)\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{FloatTypes} \\[0.16em]
+\operatorname{SignedIntValue}(v)\ \Leftrightarrow \ \exists \ t.\ t\ \in \ \mathsf{SignedIntTypes}\ \land \ \operatorname{ValueType}(v)\ =\ \operatorname{TypePrim}(t) \\[0.16em]
+\operatorname{SignedTypeOf}(v)\ =\ t\ \Leftrightarrow \ t\ \in \ \mathsf{SignedIntTypes}\ \land \ \operatorname{ValueType}(v)\ =\ \operatorname{TypePrim}(t) \\[0.16em]
+\operatorname{U32Value}(v)\ \Leftrightarrow \ \operatorname{ValueType}(v)\ =\ \operatorname{TypePrim}(\texttt{"u32"}) \\[0.16em]
+\operatorname{EqValue}(v_{1},\ v_{2})\ \Leftrightarrow \ \exists \ T.\ \operatorname{ValueType}(v_{1})\ =\ T\ \land \ \operatorname{ValueType}(v_{2})\ =\ T\ \land \ \operatorname{EqType}(T) \\[0.16em]
+\operatorname{OrdValue}(v_{1},\ v_{2})\ \Leftrightarrow \ \exists \ T.\ \operatorname{ValueType}(v_{1})\ =\ T\ \land \ \operatorname{ValueType}(v_{2})\ =\ T\ \land \ \operatorname{OrdType}(T) \\[0.16em]
+\operatorname{IsNaN}(t,\ v)\ \Leftrightarrow \ t\ \in \ \mathsf{FloatTypes}\ \land \ v\ =\ \operatorname{FloatVal}(t,\ x)\ \land \ \operatorname{IEEE754Encode}(t,\ x)\ =\ \operatorname{CanonicalNaNBits}(t) \\[0.16em]
+\operatorname{OrdScalar}(v)\ =\ x\ \Leftrightarrow \ (\exists \ t.\ v\ =\ \operatorname{IntVal}(t,\ x)\ \land \ t\ \in \ \mathsf{IntTypes})\ \lor \ (\exists \ u.\ v\ =\ \operatorname{CharVal}(u)\ \land \ x\ =\ u) \\[0.16em]
+\operatorname{Cmp}(\texttt{"=="},\ v_{1},\ v_{2})\ =\ b\ \Leftrightarrow \ \operatorname{EqValue}(v_{1},\ v_{2})\ \land \ ((\exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ \mathsf{false})\ \lor \ (\lnot \ \exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ (v_{1}\ =\ v_{2}))) \\[0.16em]
+\operatorname{Cmp}(\texttt{"!="},\ v_{1},\ v_{2})\ =\ b\ \Leftrightarrow \ \operatorname{EqValue}(v_{1},\ v_{2})\ \land \ ((\exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ \mathsf{true})\ \lor \ (\lnot \ \exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ (v_{1}\ \ne \ v_{2}))) \\[0.16em]
+\operatorname{Cmp}(\texttt{"<"},\ v_{1},\ v_{2})\ =\ b\ \Leftrightarrow \ \operatorname{OrdValue}(v_{1},\ v_{2})\ \land \ ((\exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ ((\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ \mathsf{false})\ \lor \ (\lnot \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ x_{1}\ =\ \operatorname{FloatValValue}(v_{1})\ \land \ x_{2}\ =\ \operatorname{FloatValValue}(v_{2})\ \land \ b\ =\ (x_{1}\ <\ x_{2})))\ \lor \ (\exists \ x_{1},\ x_{2}.\ \operatorname{OrdScalar}(v_{1})\ =\ x_{1}\ \land \ \operatorname{OrdScalar}(v_{2})\ =\ x_{2}\ \land \ b\ =\ (x_{1}\ <\ x_{2}))) \\[0.16em]
+\operatorname{Cmp}(\texttt{"<="},\ v_{1},\ v_{2})\ =\ b\ \Leftrightarrow \ \operatorname{OrdValue}(v_{1},\ v_{2})\ \land \ ((\exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ ((\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ \mathsf{false})\ \lor \ (\lnot \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ x_{1}\ =\ \operatorname{FloatValValue}(v_{1})\ \land \ x_{2}\ =\ \operatorname{FloatValValue}(v_{2})\ \land \ b\ =\ (x_{1}\ \le \ x_{2})))\ \lor \ (\exists \ x_{1},\ x_{2}.\ \operatorname{OrdScalar}(v_{1})\ =\ x_{1}\ \land \ \operatorname{OrdScalar}(v_{2})\ =\ x_{2}\ \land \ b\ =\ (x_{1}\ \le \ x_{2}))) \\[0.16em]
+\operatorname{Cmp}(\texttt{">"},\ v_{1},\ v_{2})\ =\ b\ \Leftrightarrow \ \operatorname{OrdValue}(v_{1},\ v_{2})\ \land \ ((\exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ ((\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ \mathsf{false})\ \lor \ (\lnot \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ x_{1}\ =\ \operatorname{FloatValValue}(v_{1})\ \land \ x_{2}\ =\ \operatorname{FloatValValue}(v_{2})\ \land \ b\ =\ (x_{1}\ >\ x_{2})))\ \lor \ (\exists \ x_{1},\ x_{2}.\ \operatorname{OrdScalar}(v_{1})\ =\ x_{1}\ \land \ \operatorname{OrdScalar}(v_{2})\ =\ x_{2}\ \land \ b\ =\ (x_{1}\ >\ x_{2}))) \\[0.16em]
+\operatorname{Cmp}(\texttt{">="},\ v_{1},\ v_{2})\ =\ b\ \Leftrightarrow \ \operatorname{OrdValue}(v_{1},\ v_{2})\ \land \ ((\exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ ((\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ \mathsf{false})\ \lor \ (\lnot \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ x_{1}\ =\ \operatorname{FloatValValue}(v_{1})\ \land \ x_{2}\ =\ \operatorname{FloatValValue}(v_{2})\ \land \ b\ =\ (x_{1}\ \ge \ x_{2})))\ \lor \ (\exists \ x_{1},\ x_{2}.\ \operatorname{OrdScalar}(v_{1})\ =\ x_{1}\ \land \ \operatorname{OrdScalar}(v_{2})\ =\ x_{2}\ \land \ b\ =\ (x_{1}\ \ge \ x_{2}))) \\[0.16em]
+\operatorname{BitAt}(u,\ i)\ =\ b\ \Leftrightarrow \ b\ \in \ \{0,\ 1\}\ \land \ \exists \ q,\ r.\ u\ =\ q\ \cdot \ 2^\{i\ +\ 1\}\ +\ b\ \cdot \ 2^i\ +\ r\ \land \ 0\ \le \ r\ <\ 2^i \\[0.16em]
+\operatorname{BitNot}(v)\ =\ v'\ \Leftrightarrow \ \exists \ t,\ x,\ w,\ u,\ u'.\ v\ =\ \operatorname{IntVal}(t,\ x)\ \land \ w\ =\ \operatorname{IntWidth}(t)\ \land \ u\ =\ \operatorname{ToUnsigned}(w,\ x)\ \land \ u'\ =\ (2^w\ -\ 1)\ -\ u\ \land \ ((t\ \in \ \mathsf{SignedIntTypes}\ \land \ v'\ =\ \operatorname{IntVal}(t,\ \operatorname{ToSigned}(w,\ u')))\ \lor \ (t\ \in \ \mathsf{UnsignedIntTypes}\ \land \ v'\ =\ \operatorname{IntVal}(t,\ u'))) \\[0.16em]
+\operatorname{BitOp}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ =\ v\ \Leftrightarrow \ v_{1}\ =\ \operatorname{IntVal}(t,\ x_{1})\ \land \ v_{2}\ =\ \operatorname{IntVal}(t,\ x_{2})\ \land \ w\ =\ \operatorname{IntWidth}(t)\ \land \ u_{1}\ =\ \operatorname{ToUnsigned}(w,\ x_{1})\ \land \ u_{2}\ =\ \operatorname{ToUnsigned}(w,\ x_{2})\ \land \ u\ =\ \sum \_\{i=0\}^\{w-1\}\ b_{i}\ 2^i\ \land \ \forall \ i.\ 0\ \le \ i\ <\ w\ \Rightarrow \ ((\mathsf{op}\ =\ \texttt{"\&"}\ \land \ b_{i}\ =\ \operatorname{BitAt}(u_{1},\ i)\ \cdot \ \operatorname{BitAt}(u_{2},\ i))\ \lor \ (\mathsf{op}\ =\ \texttt{"|"}\ \land \ b_{i}\ =\ \operatorname{max}(\operatorname{BitAt}(u_{1},\ i),\ \operatorname{BitAt}(u_{2},\ i)))\ \lor \ (\mathsf{op}\ =\ \texttt{"\^{}"}\ \land \ b_{i}\ =\ (\operatorname{BitAt}(u_{1},\ i)\ +\ \operatorname{BitAt}(u_{2},\ i))\ \mathsf{mod}\ 2))\ \land \ ((t\ \in \ \mathsf{SignedIntTypes}\ \land \ v\ =\ \operatorname{IntVal}(t,\ \operatorname{ToSigned}(w,\ u)))\ \lor \ (t\ \in \ \mathsf{UnsignedIntTypes}\ \land \ v\ =\ \operatorname{IntVal}(t,\ u))) \\[0.16em]
+\operatorname{ShiftOp}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ =\ v\ \Leftrightarrow \ v_{1}\ =\ \operatorname{IntVal}(t,\ x_{1})\ \land \ v_{2}\ =\ \operatorname{IntVal}(\texttt{"u32"},\ n)\ \land \ w\ =\ \operatorname{IntWidth}(t)\ \land \ 0\ \le \ n\ <\ w\ \land \ u_{1}\ =\ \operatorname{ToUnsigned}(w,\ x_{1})\ \land \ ((\mathsf{op}\ =\ \texttt{"<<"}\ \land \ u\ =\ (u_{1}\ \cdot \ 2^n)\ \mathsf{mod}\ 2^w)\ \lor \ (\mathsf{op}\ =\ \texttt{">>"}\ \land \ u\ =\ \lfloor u_{1}\ /\ 2^n\rfloor ))\ \land \ ((t\ \in \ \mathsf{SignedIntTypes}\ \land \ v\ =\ \operatorname{IntVal}(t,\ \operatorname{ToSigned}(w,\ u)))\ \lor \ (t\ \in \ \mathsf{UnsignedIntTypes}\ \land \ v\ =\ \operatorname{IntVal}(t,\ u))) \\[0.16em]
+\operatorname{PowInt}(x,\ n)\ =\ y\ \Leftrightarrow \ n\ \in \ \mathbb{N} \ \land \ ((n\ =\ 0\ \land \ y\ =\ 1)\ \lor \ (n\ >\ 0\ \land \ y\ =\ x\ \cdot \ \operatorname{PowInt}(x,\ n\ -\ 1))) \\[0.16em]
+\operatorname{PowFloat}(t,\ x_{1},\ x_{2})\ =\ x\ \Leftrightarrow \ t\ \in \ \mathsf{FloatTypes}\ \land \ x_{1}\ \in \ \operatorname{FloatValueSet}(t)\ \land \ x_{2}\ \in \ \operatorname{FloatValueSet}(t)\ \land \ x\ \mathsf{is}\ \mathsf{the}\ \mathsf{IEEE}\ 754-2019\ \mathsf{pow}\ \mathsf{result}\ \mathsf{of}\ x_{1},\ x_{2}\ \mathsf{in}\ \mathsf{format}\ \operatorname{FloatFormat}(t) \\[0.16em]
+\operatorname{IEEEArith}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ =\ v\ \Leftrightarrow \ v_{1}\ =\ \operatorname{FloatVal}(t,\ x_{1})\ \land \ v_{2}\ =\ \operatorname{FloatVal}(t,\ x_{2})\ \land \ \mathsf{op}\ \in \ \mathsf{ArithOps}\ \land \ ((\mathsf{op}\ \in \ \{\texttt{"+"},\ \texttt{"-"},\ \texttt{"*"},\ \texttt{"/"}\}\ \land \ x\ \mathsf{is}\ \mathsf{the}\ \mathsf{IEEE}\ 754-2019\ \mathsf{result}\ \mathsf{of}\ \mathsf{applying}\ \mathsf{op}\ \mathsf{to}\ x_{1},\ x_{2}\ \mathsf{in}\ \mathsf{format}\ \operatorname{FloatFormat}(t))\ \lor \ (\mathsf{op}\ =\ \texttt{"\%"}\ \land \ x\ \mathsf{is}\ \mathsf{the}\ \mathsf{IEEE}\ 754-2019\ \mathsf{remainder}\ \mathsf{of}\ x_{1},\ x_{2}\ \mathsf{in}\ \mathsf{format}\ \operatorname{FloatFormat}(t))\ \lor \ (\mathsf{op}\ =\ \texttt{"**"}\ \land \ \operatorname{PowFloat}(t,\ x_{1},\ x_{2})\ =\ x))\ \land \ v\ =\ \operatorname{FloatVal}(t,\ x) \\[0.16em]
+\forall \ t\ \in \ \mathsf{FloatTypes},\ v_{1},\ v_{2},\ \mathsf{op}\ \in \ \mathsf{ArithOps}.\ \exists \ v.\ \operatorname{IEEEArith}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ =\ v \\[0.16em]
+\operatorname{UnOp}(\texttt{"!"},\ \mathsf{false})\ \Downarrow \ \mathsf{true} \\[0.16em]
+\operatorname{UnOp}(\texttt{"!"},\ \mathsf{true})\ \Downarrow \ \mathsf{false} \\[0.16em]
+\operatorname{UnOp}(\texttt{"!"},\ v)\ \Downarrow \ v'\ \Leftrightarrow \ \operatorname{IntValue}(v,\ t)\ \land \ v'\ =\ \operatorname{BitNot}(v) \\[0.16em]
+\operatorname{UnOp}(\texttt{"-"},\ v)\ \Downarrow \ v'\ \Leftrightarrow \ v\ =\ \operatorname{IntVal}(t,\ x)\ \land \ t\ \in \ \mathsf{SignedIntTypes}\ \land \ x'\ =\ -x\ \land \ \operatorname{InRange}(x',\ t)\ \land \ v'\ =\ \operatorname{IntVal}(t,\ x') \\[0.16em]
+\operatorname{UnOp}(\texttt{"-"},\ v)\ \Downarrow \ v'\ \Leftrightarrow \ v\ =\ \operatorname{FloatVal}(t,\ x)\ \land \ v'\ =\ \operatorname{FloatVal}(t,\ -x) \\[0.16em]
 \operatorname{UnOp}(\texttt{"widen"},\ v)\ \Downarrow \ \operatorname{ModalVal}(S,\ v)\ \Leftrightarrow \ v\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}(\mathsf{modal}_{\mathsf{ref}},\ S),\ \mathsf{fs})
 \end{array}
 $$
@@ -1512,14 +1510,14 @@ For floating-point operands, unary `-` is total (no overflow panic) and MUST pre
 
 $$
 \begin{array}{l}
-\operatorname{BinOp}(\mathsf{op},\ v_{1},\ v_{2})\ \Downarrow \ v\ \Leftrightarrow \ \mathsf{op}\ \in \ \mathsf{ArithOps}\ \land \ \operatorname{NumericValue}(v_{1},\ t)\ \land \ \operatorname{NumericValue}(v_{2},\ t)\ \land \ \operatorname{ArithEval}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ \Downarrow \ v \\
-\operatorname{BinOp}(\mathsf{op},\ v_{1},\ v_{2})\ \Downarrow \ v\ \Leftrightarrow \ \mathsf{op}\ \in \ \mathsf{BitOps}\ \land \ \operatorname{IntValue}(v_{1},\ t)\ \land \ \operatorname{IntValue}(v_{2},\ t)\ \land \ \operatorname{BitEval}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ \Downarrow \ v \\
-\operatorname{BinOp}(\mathsf{op},\ v_{1},\ v_{2})\ \Downarrow \ v\ \Leftrightarrow \ \mathsf{op}\ \in \ \mathsf{ShiftOps}\ \land \ \operatorname{IntValue}(v_{1},\ t)\ \land \ \operatorname{U32Value}(v_{2})\ \land \ \operatorname{ShiftEval}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ \Downarrow \ v \\
-\operatorname{BinOp}(\mathsf{op},\ v_{1},\ v_{2})\ \Downarrow \ v\ \Leftrightarrow \ \mathsf{op}\ \in \ \{\texttt{"=="},\ \texttt{"!="}\}\ \land \ \operatorname{EqValue}(v_{1},\ v_{2})\ \land \ v\ =\ \operatorname{Cmp}(\mathsf{op},\ v_{1},\ v_{2}) \\
-\operatorname{BinOp}(\mathsf{op},\ v_{1},\ v_{2})\ \Downarrow \ v\ \Leftrightarrow \ \mathsf{op}\ \in \ \{\texttt{"<"},\ \texttt{"<="},\ \texttt{">"},\ \texttt{">="}\}\ \land \ \operatorname{OrdValue}(v_{1},\ v_{2})\ \land \ v\ =\ \operatorname{Cmp}(\mathsf{op},\ v_{1},\ v_{2}) \\
-\operatorname{ArithEval}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ \Downarrow \ v\ \Leftrightarrow \ t\ \in \ \mathsf{IntTypes}\ \land \ v_{1}\ =\ \operatorname{IntVal}(t,\ x_{1})\ \land \ v_{2}\ =\ \operatorname{IntVal}(t,\ x_{2})\ \land \ ((\mathsf{op}\ \in \ \{\texttt{"+"},\ \texttt{"-"},\ \texttt{"*"}\}\ \land \ x\ =\ x_{1}\ \mathsf{op}\ x_{2})\ \lor \ (\mathsf{op}\ \in \ \{\texttt{"/"},\ \texttt{"\%"}\}\ \land \ x_{2}\ \ne \ 0\ \land \ x\ =\ x_{1}\ \mathsf{op}\ x_{2})\ \lor \ (\mathsf{op}\ =\ \texttt{"**"}\ \land \ x_{2}\ \ge \ 0\ \land \ \operatorname{PowInt}(x_{1},\ x_{2})\ =\ x))\ \land \ \operatorname{InRange}(x,\ t)\ \land \ v\ =\ \operatorname{IntVal}(t,\ x) \\
-\operatorname{ArithEval}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ \Downarrow \ v\ \Leftrightarrow \ t\ \in \ \mathsf{FloatTypes}\ \land \ v\ =\ \operatorname{IEEEArith}(\mathsf{op},\ t,\ v_{1},\ v_{2}) \\
-\operatorname{BitEval}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ \Downarrow \ v\ \Leftrightarrow \ t\ \in \ \mathsf{IntTypes}\ \land \ v\ =\ \operatorname{BitOp}(\mathsf{op},\ t,\ v_{1},\ v_{2}) \\
+\operatorname{BinOp}(\mathsf{op},\ v_{1},\ v_{2})\ \Downarrow \ v\ \Leftrightarrow \ \mathsf{op}\ \in \ \mathsf{ArithOps}\ \land \ \operatorname{NumericValue}(v_{1},\ t)\ \land \ \operatorname{NumericValue}(v_{2},\ t)\ \land \ \operatorname{ArithEval}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ \Downarrow \ v \\[0.16em]
+\operatorname{BinOp}(\mathsf{op},\ v_{1},\ v_{2})\ \Downarrow \ v\ \Leftrightarrow \ \mathsf{op}\ \in \ \mathsf{BitOps}\ \land \ \operatorname{IntValue}(v_{1},\ t)\ \land \ \operatorname{IntValue}(v_{2},\ t)\ \land \ \operatorname{BitEval}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ \Downarrow \ v \\[0.16em]
+\operatorname{BinOp}(\mathsf{op},\ v_{1},\ v_{2})\ \Downarrow \ v\ \Leftrightarrow \ \mathsf{op}\ \in \ \mathsf{ShiftOps}\ \land \ \operatorname{IntValue}(v_{1},\ t)\ \land \ \operatorname{U32Value}(v_{2})\ \land \ \operatorname{ShiftEval}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ \Downarrow \ v \\[0.16em]
+\operatorname{BinOp}(\mathsf{op},\ v_{1},\ v_{2})\ \Downarrow \ v\ \Leftrightarrow \ \mathsf{op}\ \in \ \{\texttt{"=="},\ \texttt{"!="}\}\ \land \ \operatorname{EqValue}(v_{1},\ v_{2})\ \land \ v\ =\ \operatorname{Cmp}(\mathsf{op},\ v_{1},\ v_{2}) \\[0.16em]
+\operatorname{BinOp}(\mathsf{op},\ v_{1},\ v_{2})\ \Downarrow \ v\ \Leftrightarrow \ \mathsf{op}\ \in \ \{\texttt{"<"},\ \texttt{"<="},\ \texttt{">"},\ \texttt{">="}\}\ \land \ \operatorname{OrdValue}(v_{1},\ v_{2})\ \land \ v\ =\ \operatorname{Cmp}(\mathsf{op},\ v_{1},\ v_{2}) \\[0.16em]
+\operatorname{ArithEval}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ \Downarrow \ v\ \Leftrightarrow \ t\ \in \ \mathsf{IntTypes}\ \land \ v_{1}\ =\ \operatorname{IntVal}(t,\ x_{1})\ \land \ v_{2}\ =\ \operatorname{IntVal}(t,\ x_{2})\ \land \ ((\mathsf{op}\ \in \ \{\texttt{"+"},\ \texttt{"-"},\ \texttt{"*"}\}\ \land \ x\ =\ x_{1}\ \mathsf{op}\ x_{2})\ \lor \ (\mathsf{op}\ \in \ \{\texttt{"/"},\ \texttt{"\%"}\}\ \land \ x_{2}\ \ne \ 0\ \land \ x\ =\ x_{1}\ \mathsf{op}\ x_{2})\ \lor \ (\mathsf{op}\ =\ \texttt{"**"}\ \land \ x_{2}\ \ge \ 0\ \land \ \operatorname{PowInt}(x_{1},\ x_{2})\ =\ x))\ \land \ \operatorname{InRange}(x,\ t)\ \land \ v\ =\ \operatorname{IntVal}(t,\ x) \\[0.16em]
+\operatorname{ArithEval}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ \Downarrow \ v\ \Leftrightarrow \ t\ \in \ \mathsf{FloatTypes}\ \land \ v\ =\ \operatorname{IEEEArith}(\mathsf{op},\ t,\ v_{1},\ v_{2}) \\[0.16em]
+\operatorname{BitEval}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ \Downarrow \ v\ \Leftrightarrow \ t\ \in \ \mathsf{IntTypes}\ \land \ v\ =\ \operatorname{BitOp}(\mathsf{op},\ t,\ v_{1},\ v_{2}) \\[0.16em]
 \operatorname{ShiftEval}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ \Downarrow \ v\ \Leftrightarrow \ t\ \in \ \mathsf{IntTypes}\ \land \ v\ =\ \operatorname{ShiftOp}(\mathsf{op},\ t,\ v_{1},\ v_{2})
 \end{array}
 $$
@@ -1528,8 +1526,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalOptSigma}(\mathsf{lo}_{\mathsf{opt}},\ \sigma_{0} )\ \Downarrow \ (\operatorname{Val}(v_{\mathsf{lo}}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalOptSigma}(\mathsf{hi}_{\mathsf{opt}},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(v_{\mathsf{hi}}),\ \sigma_{2} )\quad r\ =\ \operatorname{RangeVal}(\mathsf{kind},\ v_{\mathsf{lo}},\ v_{\mathsf{hi}}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalOptSigma}(\mathsf{lo}_{\mathsf{opt}},\ \sigma_{0} )\ \Downarrow \ (\operatorname{Val}(v_{\mathsf{lo}}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalOptSigma}(\mathsf{hi}_{\mathsf{opt}},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(v_{\mathsf{hi}}),\ \sigma_{2} )\quad r\ =\ \operatorname{RangeVal}(\mathsf{kind},\ v_{\mathsf{lo}},\ v_{\mathsf{hi}}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Range}(\mathsf{kind},\ \mathsf{lo}_{\mathsf{opt}},\ \mathsf{hi}_{\mathsf{opt}}),\ \sigma_{0} )\ \Downarrow \ (\operatorname{Val}(r),\ \sigma_{2} )
 \end{array}
 $$
@@ -1538,8 +1536,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \operatorname{UnOp}(\mathsf{op},\ v)\ \Downarrow \ v' \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \operatorname{UnOp}(\mathsf{op},\ v)\ \Downarrow \ v' \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Unary}(\mathsf{op},\ e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v'),\ \sigma_{1} )
 \end{array}
 $$
@@ -1548,8 +1546,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{1},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{false}),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{1},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{false}),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Binary}(\texttt{"\&\&"},\ e_{1},\ e_{2}),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{false}),\ \sigma_{1} )
 \end{array}
 $$
@@ -1558,8 +1556,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{1},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e_{2},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{1},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e_{2},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Binary}(\texttt{"\&\&"},\ e_{1},\ e_{2}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -1568,8 +1566,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{1},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{1},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Binary}(\texttt{"||"},\ e_{1},\ e_{2}),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma_{1} )
 \end{array}
 $$
@@ -1578,8 +1576,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{1},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{false}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e_{2},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{1},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{false}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e_{2},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Binary}(\texttt{"||"},\ e_{1},\ e_{2}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -1588,15 +1586,13 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{op}\ \notin \ \{\texttt{"\&\&"},\ \texttt{"||"}\}\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e_{1},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{1}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e_{2},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(v_{2}),\ \sigma_{2} )\quad \operatorname{BinOp}(\mathsf{op},\ v_{1},\ v_{2})\ \Downarrow \ v \\
-\rule{18em}{0.4pt} \\
+\mathsf{op}\ \notin \ \{\texttt{"\&\&"},\ \texttt{"||"}\}\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e_{1},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{1}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e_{2},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(v_{2}),\ \sigma_{2} )\quad \operatorname{BinOp}(\mathsf{op},\ v_{1},\ v_{2})\ \Downarrow \ v \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Binary}(\mathsf{op},\ e_{1},\ e_{2}),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{2} )
 \end{array}
 $$
 
-$$
-\mathsf{If}\ \texttt{UnOp}\ \mathsf{or}\ \texttt{BinOp}\ \mathsf{is}\ \mathsf{undefined},\ \mathsf{evaluation}\ \mathsf{produces}\ \texttt{Ctrl(Panic)}.\ \mathsf{The}\ \mathsf{old}\ \mathsf{draft}\ \mathsf{defines}\ \mathsf{NaN}-\mathsf{sensitive}\ \mathsf{comparison}\ \mathsf{behavior}\ \mathsf{through}\ \texttt{Cmp};\ \mathsf{ordered}\ \mathsf{float}\ \mathsf{comparisons}\ \mathsf{with}\ \mathsf{NaN}\ \mathsf{yield}\ \texttt{false},\ \texttt{==}\ \mathsf{yields}\ \texttt{false},\ \mathsf{and}\ \texttt{!=}\ \mathsf{yields}\ \texttt{true}.
-$$
+If `UnOp` or `BinOp` is undefined, evaluation produces `Ctrl(Panic)`. The old draft defines NaN-sensitive comparison behavior through `Cmp`; ordered float comparisons with NaN yield `false`, `==` yields `false`, and `!=` yields `true`.
 
 ### 16.4.6 Lowering
 
@@ -1604,8 +1600,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerUnOp}(\mathsf{op},\ e)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerUnOp}(\mathsf{op},\ e)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Unary}(\mathsf{op},\ e))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
 \end{array}
 $$
@@ -1614,8 +1610,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(e_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(e_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Binary}(\texttt{"\&\&"},\ e_{1},\ e_{2}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{1},\ \operatorname{IfIR}(v_{1},\ \mathsf{IR}_{2},\ v_{2},\ \varepsilon ,\ \mathsf{false})),\ v_{\mathsf{and}}\rangle 
 \end{array}
 $$
@@ -1624,8 +1620,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(e_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(e_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Binary}(\texttt{"||"},\ e_{1},\ e_{2}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{1},\ \operatorname{IfIR}(v_{1},\ \varepsilon ,\ \mathsf{true},\ \mathsf{IR}_{2},\ v_{2})),\ v_{\mathsf{or}}\rangle 
 \end{array}
 $$
@@ -1634,8 +1630,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{op}\ \notin \ \{\texttt{"\&\&"},\ \texttt{"||"}\}\quad \Gamma \ \vdash \ \operatorname{LowerBinOp}(\mathsf{op},\ e_{1},\ e_{2})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\
-\rule{18em}{0.4pt} \\
+\mathsf{op}\ \notin \ \{\texttt{"\&\&"},\ \texttt{"||"}\}\quad \Gamma \ \vdash \ \operatorname{LowerBinOp}(\mathsf{op},\ e_{1},\ e_{2})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Binary}(\mathsf{op},\ e_{1},\ e_{2}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
 \end{array}
 $$
@@ -1644,15 +1640,15 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerRangeExpr}(\operatorname{Range}(\mathsf{kind},\ \mathsf{lo}_{\mathsf{opt}},\ \mathsf{hi}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerRangeExpr}(\operatorname{Range}(\mathsf{kind},\ \mathsf{lo}_{\mathsf{opt}},\ \mathsf{hi}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Range}(\mathsf{kind},\ \mathsf{lo}_{\mathsf{opt}},\ \mathsf{hi}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{OpPanicReason}(\texttt{"-"})\ =\ \mathsf{Overflow} \\
+\operatorname{OpPanicReason}(\texttt{"-"})\ =\ \mathsf{Overflow} \\[0.16em]
 \operatorname{NeedsUnOpPanicCheck}(\mathsf{op},\ T)\ \Leftrightarrow \ \mathsf{op}\ =\ \texttt{"-"}\ \land \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{SignedIntTypes}
 \end{array}
 $$
@@ -1661,8 +1657,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad T\ =\ \operatorname{ExprType}(e)\quad \lnot \ \operatorname{NeedsUnOpPanicCheck}(\mathsf{op},\ T)\quad v_{r}\ =\ \operatorname{FreshTemp}(\texttt{"unop"}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad T\ =\ \operatorname{ExprType}(e)\quad \lnot \ \operatorname{NeedsUnOpPanicCheck}(\mathsf{op},\ T)\quad v_{r}\ =\ \operatorname{FreshTemp}(\texttt{"unop"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerUnOp}(\mathsf{op},\ e)\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{UnOpIR}(\mathsf{op},\ v,\ v_{r})),\ v_{r}\rangle 
 \end{array}
 $$
@@ -1671,8 +1667,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad T\ =\ \operatorname{ExprType}(e)\quad \operatorname{NeedsUnOpPanicCheck}(\mathsf{op},\ T)\quad r\ =\ \operatorname{OpPanicReason}(\mathsf{op})\quad v_{r}\ =\ \operatorname{FreshTemp}(\texttt{"unop"}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad T\ =\ \operatorname{ExprType}(e)\quad \operatorname{NeedsUnOpPanicCheck}(\mathsf{op},\ T)\quad r\ =\ \operatorname{OpPanicReason}(\mathsf{op})\quad v_{r}\ =\ \operatorname{FreshTemp}(\texttt{"unop"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerUnOp}(\mathsf{op},\ e)\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{CheckOpIR}(\mathsf{op},\ v,\ r),\ \mathsf{PanicCheckIR},\ \operatorname{UnOpIR}(\mathsf{op},\ v,\ v_{r})),\ v_{r}\rangle 
 \end{array}
 $$
@@ -1702,8 +1698,8 @@ The `widen` prefix form is canonically defined in §13.5. This section reference
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseUnary}(P)\ \Downarrow \ (P_{1},\ e)\quad \Gamma \ \vdash \ \operatorname{ParseCastTail}(P_{1},\ e)\ \Downarrow \ (P_{2},\ e') \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseUnary}(P)\ \Downarrow \ (P_{1},\ e)\quad \Gamma \ \vdash \ \operatorname{ParseCastTail}(P_{1},\ e)\ \Downarrow \ (P_{2},\ e') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseCast}(P)\ \Downarrow \ (P_{2},\ e')
 \end{array}
 $$
@@ -1712,8 +1708,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{as}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{as}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseCastTail}(P,\ e)\ \Downarrow \ (P,\ e)
 \end{array}
 $$
@@ -1722,8 +1718,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{as})\quad \Gamma \ \vdash \ \operatorname{ParseType}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ t) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{as})\quad \Gamma \ \vdash \ \operatorname{ParseType}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ t) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseCastTail}(P,\ e)\ \Downarrow \ (P_{1},\ \operatorname{Cast}(e,\ t))
 \end{array}
 $$
@@ -1744,8 +1740,8 @@ $$
 
 $$
 \begin{array}{l}
-S'\ =\ \operatorname{StripPerm}(S) \\
-T'\ =\ \operatorname{StripPerm}(T) \\
+S'\ =\ \operatorname{StripPerm}(S) \\[0.16em]
+T'\ =\ \operatorname{StripPerm}(T) \\[0.16em]
 \operatorname{CastValid}(S,\ T)\ \Leftrightarrow \ (S'\ =\ \operatorname{TypePrim}(s)\ \land \ T'\ =\ \operatorname{TypePrim}(t)\ \land \ s,\ t\ \in \ \mathsf{NumericTypes})\ \lor \ (S'\ =\ \operatorname{TypePrim}(\texttt{bool})\ \land \ T'\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{IntTypes})\ \lor \ (S'\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{IntTypes}\ \land \ T'\ =\ \operatorname{TypePrim}(\texttt{bool}))\ \lor \ (S'\ =\ \operatorname{TypePrim}(\texttt{char})\ \land \ T'\ =\ \operatorname{TypePrim}(\texttt{u32}))\ \lor \ (S'\ =\ \operatorname{TypePrim}(\texttt{u32})\ \land \ T'\ =\ \operatorname{TypePrim}(\texttt{char}))
 \end{array}
 $$
@@ -1754,8 +1750,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ :\ S\quad \operatorname{CastValid}(S,\ T) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ :\ S\quad \operatorname{CastValid}(S,\ T) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Cast}(e,\ T)\ :\ T
 \end{array}
 $$
@@ -1764,8 +1760,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ :\ S\quad \lnot \ \operatorname{CastValid}(S,\ T)\quad c\ =\ \operatorname{Code}(E-\mathsf{SEM}-2528) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ :\ S\quad \lnot \ \operatorname{CastValid}(S,\ T)\quad c\ =\ \operatorname{Code}(E-\mathsf{SEM}-2528) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Cast}(e,\ T)\ \Uparrow \ c
 \end{array}
 $$
@@ -1774,8 +1770,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{sizeof}(t_{1})\ =\ \operatorname{sizeof}(t_{2}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{sizeof}(t_{1})\ =\ \operatorname{sizeof}(t_{2}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{TransmuteSizeOk}(t_{1},\ t_{2})
 \end{array}
 $$
@@ -1784,8 +1780,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{alignof}(t_{1})\ =\ \operatorname{alignof}(t_{2}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{alignof}(t_{1})\ =\ \operatorname{alignof}(t_{2}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{TransmuteAlignOk}(t_{1},\ t_{2})
 \end{array}
 $$
@@ -1794,8 +1790,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{UnsafeSpan}(\operatorname{span}(\operatorname{TransmuteExpr}(t_{1},\ t_{2},\ e)))\quad \Gamma \ \vdash \ t_{1}\ \mathsf{wf}\quad \Gamma \ \vdash \ t_{2}\ \mathsf{wf}\quad \Gamma \ \vdash \ \operatorname{TransmuteSizeOk}(t_{1},\ t_{2})\quad \Gamma \ \vdash \ \operatorname{TransmuteAlignOk}(t_{1},\ t_{2})\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ t_{1} \\
-\rule{18em}{0.4pt} \\
+\operatorname{UnsafeSpan}(\operatorname{span}(\operatorname{TransmuteExpr}(t_{1},\ t_{2},\ e)))\quad \Gamma \ \vdash \ t_{1}\ \mathsf{wf}\quad \Gamma \ \vdash \ t_{2}\ \mathsf{wf}\quad \Gamma \ \vdash \ \operatorname{TransmuteSizeOk}(t_{1},\ t_{2})\quad \Gamma \ \vdash \ \operatorname{TransmuteAlignOk}(t_{1},\ t_{2})\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ t_{1} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{TransmuteExpr}(t_{1},\ t_{2},\ e)\ :\ t_{2}
 \end{array}
 $$
@@ -1804,18 +1800,18 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{UnsafeSpan}(\operatorname{span}(\operatorname{TransmuteExpr}(t_{1},\ t_{2},\ e)))\quad c\ =\ \operatorname{Code}(\mathsf{Transmute}-\mathsf{Unsafe}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{UnsafeSpan}(\operatorname{span}(\operatorname{TransmuteExpr}(t_{1},\ t_{2},\ e)))\quad c\ =\ \operatorname{Code}(\mathsf{Transmute}-\mathsf{Unsafe}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{TransmuteExpr}(t_{1},\ t_{2},\ e)\ \Uparrow \ c
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{ValidTransmuteTarget}(T)\ \Leftrightarrow  \\
-\ T\ \in \ \{\texttt{i8},\ \texttt{i16},\ \texttt{i32},\ \texttt{i64},\ \texttt{i128},\ \texttt{u8},\ \texttt{u16},\ \texttt{u32},\ \texttt{u64},\ \texttt{u128},\ \texttt{isize},\ \texttt{usize},\ \texttt{f16},\ \texttt{f32},\ \texttt{f64}\}\ \lor  \\
-\ T\ =\ \operatorname{TypeRawPtr}(\_,\ \_)\ \lor  \\
-\ (T\ =\ \operatorname{TypeArray}(E,\ \_)\ \land \ \operatorname{ValidTransmuteTarget}(E))\ \lor  \\
+\operatorname{ValidTransmuteTarget}(T)\ \Leftrightarrow  \\[0.16em]
+\ T\ \in \ \{\texttt{i8},\ \texttt{i16},\ \texttt{i32},\ \texttt{i64},\ \texttt{i128},\ \texttt{u8},\ \texttt{u16},\ \texttt{u32},\ \texttt{u64},\ \texttt{u128},\ \texttt{isize},\ \texttt{usize},\ \texttt{f16},\ \texttt{f32},\ \texttt{f64}\}\ \lor  \\[0.16em]
+\ T\ =\ \operatorname{TypeRawPtr}(\_,\ \_)\ \lor  \\[0.16em]
+\ (T\ =\ \operatorname{TypeArray}(E,\ \_)\ \land \ \operatorname{ValidTransmuteTarget}(E))\ \lor  \\[0.16em]
 \ (T\ =\ \operatorname{TypePath}(p)\ \land \ \operatorname{RecordDecl}(p)\ =\ R\ \land \ \operatorname{HasAttribute}(R,\ \texttt{layout(C)})\ \land \ \forall \ f\ \in \ \operatorname{Fields}(R).\ \operatorname{ValidTransmuteTarget}(\operatorname{FieldType}(R,\ f)))
 \end{array}
 $$
@@ -1826,22 +1822,22 @@ Widen typing, warnings, and diagnostics are defined in §13.5.4 and §13.5.7.
 
 $$
 \begin{array}{l}
-\mathsf{ExprType}\ :\ \mathsf{Expr}\ \to \ \mathsf{Type} \\
+\mathsf{ExprType}\ :\ \mathsf{Expr}\ \to \ \mathsf{Type} \\[0.16em]
 R\ =\ \operatorname{RetType}(\Gamma )
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\mathsf{CastValJudg}\ =\ \{\operatorname{CastVal}(S,\ T,\ v)\ \Downarrow \ v'\} \\
-\mathsf{UnsignedIntTypes}\ =\ \{\texttt{u8},\ \texttt{u16},\ \texttt{u32},\ \texttt{u64},\ \texttt{u128},\ \texttt{usize}\} \\
-\operatorname{IntWidth}(\texttt{i8})\ =\ 8\quad \operatorname{IntWidth}(\texttt{i16})\ =\ 16\quad \operatorname{IntWidth}(\texttt{i32})\ =\ 32\quad \operatorname{IntWidth}(\texttt{i64})\ =\ 64\quad \operatorname{IntWidth}(\texttt{i128})\ =\ 128 \\
-\operatorname{IntWidth}(\texttt{u8})\ =\ 8\quad \operatorname{IntWidth}(\texttt{u16})\ =\ 16\quad \operatorname{IntWidth}(\texttt{u32})\ =\ 32\quad \operatorname{IntWidth}(\texttt{u64})\ =\ 64\quad \operatorname{IntWidth}(\texttt{u128})\ =\ 128 \\
-\operatorname{IntWidth}(\texttt{isize})\ =\ 8\ \times \ \mathsf{PointerSize}\quad \operatorname{IntWidth}(\texttt{usize})\ =\ 8\ \times \ \mathsf{PointerSize} \\
-\operatorname{Mod_w}(x)\ =\ x\ \mathsf{mod}\ 2^w \\
-\operatorname{ToSigned}(w,\ x)\ =\ y\ \Leftrightarrow \ y\ \in \ [-2^\{w-1\},\ 2^\{w-1\}-1]\ \land \ y\ \equiv \ x\ \mathsf{mod}\ 2^w \\
-\operatorname{ToUnsigned}(w,\ x)\ =\ y\ \Leftrightarrow \ y\ \in \ [0,\ 2^w-1]\ \land \ y\ \equiv \ x\ \mathsf{mod}\ 2^w \\
-\mathsf{CodePoint}\ :\ \texttt{char}\ \to \ \mathbb{N}  \\
+\mathsf{CastValJudg}\ =\ \{\operatorname{CastVal}(S,\ T,\ v)\ \Downarrow \ v'\} \\[0.16em]
+\mathsf{UnsignedIntTypes}\ =\ \{\texttt{u8},\ \texttt{u16},\ \texttt{u32},\ \texttt{u64},\ \texttt{u128},\ \texttt{usize}\} \\[0.16em]
+\operatorname{IntWidth}(\texttt{i8})\ =\ 8\quad \operatorname{IntWidth}(\texttt{i16})\ =\ 16\quad \operatorname{IntWidth}(\texttt{i32})\ =\ 32\quad \operatorname{IntWidth}(\texttt{i64})\ =\ 64\quad \operatorname{IntWidth}(\texttt{i128})\ =\ 128 \\[0.16em]
+\operatorname{IntWidth}(\texttt{u8})\ =\ 8\quad \operatorname{IntWidth}(\texttt{u16})\ =\ 16\quad \operatorname{IntWidth}(\texttt{u32})\ =\ 32\quad \operatorname{IntWidth}(\texttt{u64})\ =\ 64\quad \operatorname{IntWidth}(\texttt{u128})\ =\ 128 \\[0.16em]
+\operatorname{IntWidth}(\texttt{isize})\ =\ 8\ \times \ \mathsf{PointerSize}\quad \operatorname{IntWidth}(\texttt{usize})\ =\ 8\ \times \ \mathsf{PointerSize} \\[0.16em]
+\operatorname{Mod_w}(x)\ =\ x\ \mathsf{mod}\ 2^w \\[0.16em]
+\operatorname{ToSigned}(w,\ x)\ =\ y\ \Leftrightarrow \ y\ \in \ [-2^\{w-1\},\ 2^\{w-1\}-1]\ \land \ y\ \equiv \ x\ \mathsf{mod}\ 2^w \\[0.16em]
+\operatorname{ToUnsigned}(w,\ x)\ =\ y\ \Leftrightarrow \ y\ \in \ [0,\ 2^w-1]\ \land \ y\ \equiv \ x\ \mathsf{mod}\ 2^w \\[0.16em]
+\mathsf{CodePoint}\ :\ \texttt{char}\ \to \ \mathbb{N}  \\[0.16em]
 \operatorname{IsScalar}(u)\ \Leftrightarrow \ u\ \in \ \mathsf{CharValueRange}
 \end{array}
 $$
@@ -1851,14 +1847,14 @@ Trunc(v) function
 
 $$
 \begin{array}{l}
-\operatorname{CharOf}(u)\ =\ u\ \Leftrightarrow \ \operatorname{IsScalar}(u) \\
-\operatorname{CodePoint}(\operatorname{CharOf}(u))\ =\ u\quad (\operatorname{IsScalar}(u)) \\
-\operatorname{IEEE754Bits}(t,\ v)\ =\ \mathsf{bits}\ \Leftrightarrow \ v\ \in \ \operatorname{FloatValueSet}(t)\ \land \ \operatorname{IEEE754Encode}(t,\ v)\ =\ \mathsf{bits} \\
-\operatorname{IntToFloat}(t,\ x)\ =\ v\ \Leftrightarrow \ v\ \in \ \operatorname{NonNaNValueSet}(t)\ \land \ \forall \ v'\ \in \ \operatorname{NonNaNValueSet}(t).\ \mid v\ -\ x\mid \ <\ \mid v'\ -\ x\mid \ \lor \ (\mid v\ -\ x\mid \ =\ \mid v'\ -\ x\mid \ \land \ \operatorname{EvenSignificandLSB}(t,\ v)) \\
-\operatorname{FloatToFloat}(s,\ t,\ v)\ =\ v'\ \Leftrightarrow \ \operatorname{IEEE754Encode}(s,\ v)\ =\ \operatorname{CanonicalNaNBits}(s)\ \land \ v'\ =\ \operatorname{CanonicalNaN}(t) \\
-\operatorname{FloatToFloat}(s,\ t,\ v)\ =\ v'\ \Leftrightarrow \ \operatorname{IEEE754Encode}(s,\ v)\ \ne \ \operatorname{CanonicalNaNBits}(s)\ \land \ v'\ \in \ \operatorname{NonNaNValueSet}(t)\ \land \ \forall \ u\ \in \ \operatorname{NonNaNValueSet}(t).\ \mid v'\ -\ v\mid \ <\ \mid u\ -\ v\mid \ \lor \ (\mid v'\ -\ v\mid \ =\ \mid u\ -\ v\mid \ \land \ \operatorname{EvenSignificandLSB}(t,\ v')) \\
-\operatorname{Trunc}(v)\ = \\
-\ \lfloor v\rfloor \quad \mathsf{if}\ v\ \ge \ 0 \\
+\operatorname{CharOf}(u)\ =\ u\ \Leftrightarrow \ \operatorname{IsScalar}(u) \\[0.16em]
+\operatorname{CodePoint}(\operatorname{CharOf}(u))\ =\ u\quad (\operatorname{IsScalar}(u)) \\[0.16em]
+\operatorname{IEEE754Bits}(t,\ v)\ =\ \mathsf{bits}\ \Leftrightarrow \ v\ \in \ \operatorname{FloatValueSet}(t)\ \land \ \operatorname{IEEE754Encode}(t,\ v)\ =\ \mathsf{bits} \\[0.16em]
+\operatorname{IntToFloat}(t,\ x)\ =\ v\ \Leftrightarrow \ v\ \in \ \operatorname{NonNaNValueSet}(t)\ \land \ \forall \ v'\ \in \ \operatorname{NonNaNValueSet}(t).\ \mid v\ -\ x\mid \ <\ \mid v'\ -\ x\mid \ \lor \ (\mid v\ -\ x\mid \ =\ \mid v'\ -\ x\mid \ \land \ \operatorname{EvenSignificandLSB}(t,\ v)) \\[0.16em]
+\operatorname{FloatToFloat}(s,\ t,\ v)\ =\ v'\ \Leftrightarrow \ \operatorname{IEEE754Encode}(s,\ v)\ =\ \operatorname{CanonicalNaNBits}(s)\ \land \ v'\ =\ \operatorname{CanonicalNaN}(t) \\[0.16em]
+\operatorname{FloatToFloat}(s,\ t,\ v)\ =\ v'\ \Leftrightarrow \ \operatorname{IEEE754Encode}(s,\ v)\ \ne \ \operatorname{CanonicalNaNBits}(s)\ \land \ v'\ \in \ \operatorname{NonNaNValueSet}(t)\ \land \ \forall \ u\ \in \ \operatorname{NonNaNValueSet}(t).\ \mid v'\ -\ v\mid \ <\ \mid u\ -\ v\mid \ \lor \ (\mid v'\ -\ v\mid \ =\ \mid u\ -\ v\mid \ \land \ \operatorname{EvenSignificandLSB}(t,\ v')) \\[0.16em]
+\operatorname{Trunc}(v)\ = \\[0.16em]
+\ \lfloor v\rfloor \quad \mathsf{if}\ v\ \ge \ 0 \\[0.16em]
 \ \lceil v\rceil \quad \mathsf{if}\ v\ <\ 0
 \end{array}
 $$
@@ -1867,8 +1863,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{StripPerm}(S)\ =\ \operatorname{StripPerm}(T) \\
-\rule{18em}{0.4pt} \\
+\operatorname{StripPerm}(S)\ =\ \operatorname{StripPerm}(T) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{CastVal}(S,\ T,\ v)\ \Downarrow \ v
 \end{array}
 $$
@@ -1877,8 +1873,8 @@ $$
 
 $$
 \begin{array}{l}
-S'\ =\ \operatorname{StripPerm}(S)\quad T'\ =\ \operatorname{StripPerm}(T)\quad S'\ =\ \operatorname{TypePrim}(s)\quad T'\ =\ \operatorname{TypePrim}(t)\quad s\ \in \ \mathsf{IntTypes}\quad t\ \in \ \mathsf{SignedIntTypes}\quad v\ =\ \operatorname{IntVal}(s,\ x)\quad w\ =\ \operatorname{IntWidth}(t)\quad x'\ =\ \operatorname{ToSigned}(w,\ x)\quad v'\ =\ \operatorname{IntVal}(t,\ x') \\
-\rule{18em}{0.4pt} \\
+S'\ =\ \operatorname{StripPerm}(S)\quad T'\ =\ \operatorname{StripPerm}(T)\quad S'\ =\ \operatorname{TypePrim}(s)\quad T'\ =\ \operatorname{TypePrim}(t)\quad s\ \in \ \mathsf{IntTypes}\quad t\ \in \ \mathsf{SignedIntTypes}\quad v\ =\ \operatorname{IntVal}(s,\ x)\quad w\ =\ \operatorname{IntWidth}(t)\quad x'\ =\ \operatorname{ToSigned}(w,\ x)\quad v'\ =\ \operatorname{IntVal}(t,\ x') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{CastVal}(S,\ T,\ v)\ \Downarrow \ v'
 \end{array}
 $$
@@ -1887,8 +1883,8 @@ $$
 
 $$
 \begin{array}{l}
-S'\ =\ \operatorname{StripPerm}(S)\quad T'\ =\ \operatorname{StripPerm}(T)\quad S'\ =\ \operatorname{TypePrim}(s)\quad T'\ =\ \operatorname{TypePrim}(t)\quad s\ \in \ \mathsf{IntTypes}\quad t\ \in \ \mathsf{UnsignedIntTypes}\quad v\ =\ \operatorname{IntVal}(s,\ x)\quad w\ =\ \operatorname{IntWidth}(t)\quad x'\ =\ \operatorname{ToUnsigned}(w,\ x)\quad v'\ =\ \operatorname{IntVal}(t,\ x') \\
-\rule{18em}{0.4pt} \\
+S'\ =\ \operatorname{StripPerm}(S)\quad T'\ =\ \operatorname{StripPerm}(T)\quad S'\ =\ \operatorname{TypePrim}(s)\quad T'\ =\ \operatorname{TypePrim}(t)\quad s\ \in \ \mathsf{IntTypes}\quad t\ \in \ \mathsf{UnsignedIntTypes}\quad v\ =\ \operatorname{IntVal}(s,\ x)\quad w\ =\ \operatorname{IntWidth}(t)\quad x'\ =\ \operatorname{ToUnsigned}(w,\ x)\quad v'\ =\ \operatorname{IntVal}(t,\ x') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{CastVal}(S,\ T,\ v)\ \Downarrow \ v'
 \end{array}
 $$
@@ -1897,22 +1893,20 @@ $$
 
 $$
 \begin{array}{l}
-S'\ =\ \operatorname{StripPerm}(S)\quad T'\ =\ \operatorname{StripPerm}(T)\quad S'\ =\ \operatorname{TypePrim}(s)\quad T'\ =\ \operatorname{TypePrim}(t)\quad s\ \in \ \mathsf{IntTypes}\quad t\ \in \ \mathsf{FloatTypes}\quad v\ =\ \operatorname{IntVal}(s,\ x)\quad v'\ =\ \operatorname{FloatVal}(t,\ \operatorname{IntToFloat}(t,\ x)) \\
-\rule{18em}{0.4pt} \\
+S'\ =\ \operatorname{StripPerm}(S)\quad T'\ =\ \operatorname{StripPerm}(T)\quad S'\ =\ \operatorname{TypePrim}(s)\quad T'\ =\ \operatorname{TypePrim}(t)\quad s\ \in \ \mathsf{IntTypes}\quad t\ \in \ \mathsf{FloatTypes}\quad v\ =\ \operatorname{IntVal}(s,\ x)\quad v'\ =\ \operatorname{FloatVal}(t,\ \operatorname{IntToFloat}(t,\ x)) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{CastVal}(S,\ T,\ v)\ \Downarrow \ v'
 \end{array}
 $$
 
-$$
-\mathsf{Lowering}\ \mathsf{and}\ \mathsf{backend}\ \mathsf{emission}\ \mathsf{for}\ \texttt{CastVal-Int-Float}\ \mathsf{MUST}\ \mathsf{preserve}\ \mathsf{source}\ \mathsf{signedness}:\ \mathsf{use}\ \mathsf{signed}\ \mathsf{integer}-\mathsf{to}-\mathsf{float}\ \mathsf{conversion}\ \mathsf{iff}\ \texttt{s in SignedIntTypes};\ \mathsf{otherwise}\ \mathsf{use}\ \mathsf{unsigned}\ \mathsf{conversion}.
-$$
+Lowering and backend emission for `CastVal-Int-Float` MUST preserve source signedness: use signed integer-to-float conversion iff `s ∈ SignedIntTypes`; otherwise use unsigned conversion.
 
 **(CastVal-Float-Float)**
 
 $$
 \begin{array}{l}
-S'\ =\ \operatorname{StripPerm}(S)\quad T'\ =\ \operatorname{StripPerm}(T)\quad S'\ =\ \operatorname{TypePrim}(s)\quad T'\ =\ \operatorname{TypePrim}(t)\quad s\ \in \ \mathsf{FloatTypes}\quad t\ \in \ \mathsf{FloatTypes}\quad v\ =\ \operatorname{FloatVal}(s,\ x)\quad v'\ =\ \operatorname{FloatVal}(t,\ \operatorname{FloatToFloat}(s,\ t,\ x)) \\
-\rule{18em}{0.4pt} \\
+S'\ =\ \operatorname{StripPerm}(S)\quad T'\ =\ \operatorname{StripPerm}(T)\quad S'\ =\ \operatorname{TypePrim}(s)\quad T'\ =\ \operatorname{TypePrim}(t)\quad s\ \in \ \mathsf{FloatTypes}\quad t\ \in \ \mathsf{FloatTypes}\quad v\ =\ \operatorname{FloatVal}(s,\ x)\quad v'\ =\ \operatorname{FloatVal}(t,\ \operatorname{FloatToFloat}(s,\ t,\ x)) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{CastVal}(S,\ T,\ v)\ \Downarrow \ v'
 \end{array}
 $$
@@ -1921,8 +1915,8 @@ $$
 
 $$
 \begin{array}{l}
-S'\ =\ \operatorname{StripPerm}(S)\quad T'\ =\ \operatorname{StripPerm}(T)\quad S'\ =\ \operatorname{TypePrim}(s)\quad T'\ =\ \operatorname{TypePrim}(t)\quad s\ \in \ \mathsf{FloatTypes}\quad t\ \in \ \mathsf{IntTypes}\quad v\ =\ \operatorname{FloatVal}(s,\ x)\quad x'\ =\ \operatorname{Trunc}(x)\quad \operatorname{InRange}(x',\ t)\quad v'\ =\ \operatorname{IntVal}(t,\ x') \\
-\rule{18em}{0.4pt} \\
+S'\ =\ \operatorname{StripPerm}(S)\quad T'\ =\ \operatorname{StripPerm}(T)\quad S'\ =\ \operatorname{TypePrim}(s)\quad T'\ =\ \operatorname{TypePrim}(t)\quad s\ \in \ \mathsf{FloatTypes}\quad t\ \in \ \mathsf{IntTypes}\quad v\ =\ \operatorname{FloatVal}(s,\ x)\quad x'\ =\ \operatorname{Trunc}(x)\quad \operatorname{InRange}(x',\ t)\quad v'\ =\ \operatorname{IntVal}(t,\ x') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{CastVal}(S,\ T,\ v)\ \Downarrow \ v'
 \end{array}
 $$
@@ -1931,10 +1925,10 @@ $$
 
 $$
 \begin{array}{l}
-S'\ =\ \operatorname{StripPerm}(S)\quad T'\ =\ \operatorname{StripPerm}(T)\quad S'\ =\ \operatorname{TypePrim}(\texttt{"bool"})\quad T'\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{IntTypes}\quad v'\ = \\
-\ \operatorname{IntVal}(t,\ 0)\quad \mathsf{if}\ v\ =\ \mathsf{false} \\
-\ \operatorname{IntVal}(t,\ 1)\quad \mathsf{if}\ v\ =\ \mathsf{true} \\
-\rule{18em}{0.4pt} \\
+S'\ =\ \operatorname{StripPerm}(S)\quad T'\ =\ \operatorname{StripPerm}(T)\quad S'\ =\ \operatorname{TypePrim}(\texttt{"bool"})\quad T'\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{IntTypes}\quad v'\ = \\[0.16em]
+\ \operatorname{IntVal}(t,\ 0)\quad \mathsf{if}\ v\ =\ \mathsf{false} \\[0.16em]
+\ \operatorname{IntVal}(t,\ 1)\quad \mathsf{if}\ v\ =\ \mathsf{true} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{CastVal}(S,\ T,\ v)\ \Downarrow \ v'
 \end{array}
 $$
@@ -1943,10 +1937,10 @@ $$
 
 $$
 \begin{array}{l}
-S'\ =\ \operatorname{StripPerm}(S)\quad T'\ =\ \operatorname{StripPerm}(T)\quad S'\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{IntTypes}\quad T'\ =\ \operatorname{TypePrim}(\texttt{"bool"})\quad v\ =\ \operatorname{IntVal}(t,\ x)\quad v'\ = \\
-\ \mathsf{false}\quad \mathsf{if}\ x\ =\ 0 \\
-\ \mathsf{true}\quad \mathsf{if}\ x\ \ne \ 0 \\
-\rule{18em}{0.4pt} \\
+S'\ =\ \operatorname{StripPerm}(S)\quad T'\ =\ \operatorname{StripPerm}(T)\quad S'\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{IntTypes}\quad T'\ =\ \operatorname{TypePrim}(\texttt{"bool"})\quad v\ =\ \operatorname{IntVal}(t,\ x)\quad v'\ = \\[0.16em]
+\ \mathsf{false}\quad \mathsf{if}\ x\ =\ 0 \\[0.16em]
+\ \mathsf{true}\quad \mathsf{if}\ x\ \ne \ 0 \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{CastVal}(S,\ T,\ v)\ \Downarrow \ v'
 \end{array}
 $$
@@ -1955,8 +1949,8 @@ $$
 
 $$
 \begin{array}{l}
-S'\ =\ \operatorname{StripPerm}(S)\quad T'\ =\ \operatorname{StripPerm}(T)\quad S'\ =\ \operatorname{TypePrim}(\texttt{"char"})\quad T'\ =\ \operatorname{TypePrim}(\texttt{"u32"})\quad v'\ =\ \operatorname{IntVal}(\texttt{"u32"},\ \operatorname{CodePoint}(v)) \\
-\rule{18em}{0.4pt} \\
+S'\ =\ \operatorname{StripPerm}(S)\quad T'\ =\ \operatorname{StripPerm}(T)\quad S'\ =\ \operatorname{TypePrim}(\texttt{"char"})\quad T'\ =\ \operatorname{TypePrim}(\texttt{"u32"})\quad v'\ =\ \operatorname{IntVal}(\texttt{"u32"},\ \operatorname{CodePoint}(v)) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{CastVal}(S,\ T,\ v)\ \Downarrow \ v'
 \end{array}
 $$
@@ -1965,8 +1959,8 @@ $$
 
 $$
 \begin{array}{l}
-S'\ =\ \operatorname{StripPerm}(S)\quad T'\ =\ \operatorname{StripPerm}(T)\quad S'\ =\ \operatorname{TypePrim}(\texttt{"u32"})\quad T'\ =\ \operatorname{TypePrim}(\texttt{"char"})\quad v\ =\ \operatorname{IntVal}(\texttt{"u32"},\ x)\quad \operatorname{IsScalar}(x)\quad v'\ =\ \operatorname{CharVal}(\operatorname{CharOf}(x)) \\
-\rule{18em}{0.4pt} \\
+S'\ =\ \operatorname{StripPerm}(S)\quad T'\ =\ \operatorname{StripPerm}(T)\quad S'\ =\ \operatorname{TypePrim}(\texttt{"u32"})\quad T'\ =\ \operatorname{TypePrim}(\texttt{"char"})\quad v\ =\ \operatorname{IntVal}(\texttt{"u32"},\ x)\quad \operatorname{IsScalar}(x)\quad v'\ =\ \operatorname{CharVal}(\operatorname{CharOf}(x)) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{CastVal}(S,\ T,\ v)\ \Downarrow \ v'
 \end{array}
 $$
@@ -1975,8 +1969,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad S\ =\ \operatorname{ExprType}(e)\quad \operatorname{CastVal}(S,\ T,\ v)\ \Downarrow \ v' \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad S\ =\ \operatorname{ExprType}(e)\quad \operatorname{CastVal}(S,\ T,\ v)\ \Downarrow \ v' \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Cast}(e,\ T),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v'),\ \sigma_{1} )
 \end{array}
 $$
@@ -1985,8 +1979,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad S\ =\ \operatorname{ExprType}(e)\quad \operatorname{CastVal}(S,\ T,\ v)\ \mathsf{undefined} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad S\ =\ \operatorname{ExprType}(e)\quad \operatorname{CastVal}(S,\ T,\ v)\ \mathsf{undefined} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Cast}(e,\ T),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma_{1} )
 \end{array}
 $$
@@ -1999,8 +1993,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad S\ =\ t_{1}\quad T\ =\ t_{2}\quad \operatorname{TransmuteVal}(S,\ T,\ v)\ \Downarrow \ v' \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad S\ =\ t_{1}\quad T\ =\ t_{2}\quad \operatorname{TransmuteVal}(S,\ T,\ v)\ \Downarrow \ v' \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{TransmuteExpr}(t_{1},\ t_{2},\ e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v'),\ \sigma_{1} )
 \end{array}
 $$
@@ -2009,8 +2003,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{TransmuteExpr}(t_{1},\ t_{2},\ e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -2023,8 +2017,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerCast}(e,\ T)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerCast}(e,\ T)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Cast}(e,\ T))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
 \end{array}
 $$
@@ -2033,8 +2027,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerTransmute}(T_{1},\ T_{2},\ e)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerTransmute}(T_{1},\ T_{2},\ e)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{TransmuteExpr}(T_{1},\ T_{2},\ e))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
 \end{array}
 $$
@@ -2068,8 +2062,8 @@ Unit enum constructors and tuple/record enum constructors arise after name resol
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \operatorname{TupleParen}(P)\quad \Gamma \ \vdash \ \operatorname{ParseTupleExprElems}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{elems})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \operatorname{TupleParen}(P)\quad \Gamma \ \vdash \ \operatorname{ParseTupleExprElems}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{elems})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{TupleExpr}(\mathsf{elems}))
 \end{array}
 $$
@@ -2078,8 +2072,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseExpr}(P)\ \Downarrow \ (P_{1},\ \mathsf{value})\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{";"}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseExpr}(P)\ \Downarrow \ (P_{1},\ \mathsf{value})\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{";"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseArraySegment}(P)\ \Downarrow \ (P_{1},\ \operatorname{ArrayElemSegment}(\mathsf{value}))
 \end{array}
 $$
@@ -2088,8 +2082,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseExpr}(P)\ \Downarrow \ (P_{1},\ \mathsf{value})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{";"})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{count}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseExpr}(P)\ \Downarrow \ (P_{1},\ \mathsf{value})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{";"})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{count}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseArraySegment}(P)\ \Downarrow \ (P_{2},\ \operatorname{ArrayRepeatSegment}(\mathsf{value},\ \mathsf{count}))
 \end{array}
 $$
@@ -2098,7 +2092,7 @@ $$
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseArraySegmentList}(P)\ \Downarrow \ (P,\ [])
 \end{array}
 $$
@@ -2107,8 +2101,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseArraySegment}(P)\ \Downarrow \ (P_{1},\ \mathsf{seg})\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{","}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseArraySegment}(P)\ \Downarrow \ (P_{1},\ \mathsf{seg})\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{","}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseArraySegmentList}(P)\ \Downarrow \ (P_{1},\ [\mathsf{seg}])
 \end{array}
 $$
@@ -2117,8 +2111,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseArraySegment}(P)\ \Downarrow \ (P_{1},\ \mathsf{seg})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{","})\quad \Gamma \ \vdash \ \operatorname{ParseArraySegmentList}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{segs}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseArraySegment}(P)\ \Downarrow \ (P_{1},\ \mathsf{seg})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{","})\quad \Gamma \ \vdash \ \operatorname{ParseArraySegmentList}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{segs}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseArraySegmentList}(P)\ \Downarrow \ (P_{2},\ [\mathsf{seg}]\ \mathbin{++} \ \mathsf{segs})
 \end{array}
 $$
@@ -2127,8 +2121,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"["})\quad \Gamma \ \vdash \ \operatorname{ParseArraySegmentList}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{segs})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"]"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"["})\quad \Gamma \ \vdash \ \operatorname{ParseArraySegmentList}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{segs})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"]"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{ArrayExpr}(\mathsf{segs}))
 \end{array}
 $$
@@ -2137,8 +2131,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseModalTypeRef}(P)\ \Downarrow \ (P_{1},\ \mathsf{modal}_{\mathsf{ref}})\quad \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"@"})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{state})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseFieldInitList}(\operatorname{Advance}(P_{2}))\ \Downarrow \ (P_{3},\ \mathsf{fields})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{3}),\ \texttt{"\}"}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseModalTypeRef}(P)\ \Downarrow \ (P_{1},\ \mathsf{modal}_{\mathsf{ref}})\quad \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"@"})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{state})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseFieldInitList}(\operatorname{Advance}(P_{2}))\ \Downarrow \ (P_{3},\ \mathsf{fields})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{3}),\ \texttt{"\}"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(P_{3}),\ \operatorname{RecordExpr}(\operatorname{ModalStateRef}(\mathsf{modal}_{\mathsf{ref}},\ \mathsf{state}),\ \mathsf{fields}))
 \end{array}
 $$
@@ -2147,8 +2141,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseTypePath}(P)\ \Downarrow \ (P_{1},\ \mathsf{path})\quad \mid \mathsf{path}\mid \ =\ 1\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseFieldInitList}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{fields})\quad \mathsf{fields}\ \ne \ []\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{"\}"}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseTypePath}(P)\ \Downarrow \ (P_{1},\ \mathsf{path})\quad \mid \mathsf{path}\mid \ =\ 1\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseFieldInitList}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{fields})\quad \mathsf{fields}\ \ne \ []\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{"\}"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(P_{2}),\ \operatorname{RecordExpr}(\operatorname{TypePath}(\mathsf{path}),\ \mathsf{fields}))
 \end{array}
 $$
@@ -2157,8 +2151,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseQualifiedHead}(P)\ \Downarrow \ (P_{1},\ \mathsf{path},\ \mathsf{name})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseFieldInitList}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{fields})\quad \mathsf{fields}\ \ne \ []\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{"\}"}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseQualifiedHead}(P)\ \Downarrow \ (P_{1},\ \mathsf{path},\ \mathsf{name})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseFieldInitList}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{fields})\quad \mathsf{fields}\ \ne \ []\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{"\}"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(P_{2}),\ \operatorname{QualifiedApply}(\mathsf{path},\ \mathsf{name},\ \operatorname{Brace}(\mathsf{fields})))
 \end{array}
 $$
@@ -2177,7 +2171,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{FieldInitNames}(\mathsf{fields})\ =\ [\ f\ \mid \ \langle f,\ \_\rangle \ \in \ \mathsf{fields}\ ] \\
+\operatorname{FieldInitNames}(\mathsf{fields})\ =\ [\ f\ \mid \ \langle f,\ \_\rangle \ \in \ \mathsf{fields}\ ] \\[0.16em]
 \operatorname{FieldInitSet}(\mathsf{fields})\ =\ \{\ x\ \mid \ x\ \in \ \operatorname{FieldInitNames}(\mathsf{fields})\ \}
 \end{array}
 $$
@@ -2195,7 +2189,7 @@ Qualified parenthesized applications become tuple-enum construction or ordinary 
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{TupleExpr}([])\ :\ \operatorname{TypePrim}(\texttt{()})
 \end{array}
 $$
@@ -2204,15 +2198,15 @@ $$
 
 $$
 \begin{array}{l}
-n\ \ge \ 1\quad \forall \ i,\ \Gamma \ \vdash \ e_{i}\ :\ T_{i} \\
-\rule{18em}{0.4pt} \\
+n\ \ge \ 1\quad \forall \ i,\ \Gamma \ \vdash \ e_{i}\ :\ T_{i} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{TupleExpr}([e_{1},\ \ldots ,\ e_{n}])\ :\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{SegLen}(\operatorname{ArrayElemSegment}(\_))\ =\ 1 \\
+\operatorname{SegLen}(\operatorname{ArrayElemSegment}(\_))\ =\ 1 \\[0.16em]
 \operatorname{SegLen}(\operatorname{ArrayRepeatSegment}(\_,\ \mathsf{count}))\ =\ n\ \mathsf{where}\ \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{count})\ \Downarrow \ n
 \end{array}
 $$
@@ -2221,16 +2215,16 @@ $$
 
 $$
 \begin{array}{l}
-\forall \ i, \\
-\ (s_{i}\ =\ \operatorname{ArrayElemSegment}(\mathsf{value}_{i})\ \Rightarrow \ \Gamma \ \vdash \ \mathsf{value}_{i}\ :\ T)\ \land  \\
-\ (s_{i}\ =\ \operatorname{ArrayRepeatSegment}(\mathsf{value}_{i},\ \mathsf{count}_{i})\ \Rightarrow  \\
-\quad \Gamma \ \vdash \ \mathsf{value}_{i}\ :\ T\ \land  \\
-\quad \operatorname{BitcopyType}(T)\ \land  \\
-\quad \Gamma \ \vdash \ \mathsf{count}_{i}\ :\ U_{i}\ \land  \\
-\quad (\operatorname{IntType}(U_{i})\ \lor \ U_{i}\ =\ \operatorname{TypePrim}(\texttt{"usize"}))\ \land  \\
-\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{count}_{i})\ \Downarrow \ n_{i}) \\
-N\ =\ \Sigma_{i} \ \operatorname{SegLen}(s_{i}) \\
-\rule{18em}{0.4pt} \\
+\forall \ i, \\[0.16em]
+\ (s_{i}\ =\ \operatorname{ArrayElemSegment}(\mathsf{value}_{i})\ \Rightarrow \ \Gamma \ \vdash \ \mathsf{value}_{i}\ :\ T)\ \land  \\[0.16em]
+\ (s_{i}\ =\ \operatorname{ArrayRepeatSegment}(\mathsf{value}_{i},\ \mathsf{count}_{i})\ \Rightarrow  \\[0.16em]
+\quad \Gamma \ \vdash \ \mathsf{value}_{i}\ :\ T\ \land  \\[0.16em]
+\quad \operatorname{BitcopyType}(T)\ \land  \\[0.16em]
+\quad \Gamma \ \vdash \ \mathsf{count}_{i}\ :\ U_{i}\ \land  \\[0.16em]
+\quad (\operatorname{IntType}(U_{i})\ \lor \ U_{i}\ =\ \operatorname{TypePrim}(\texttt{"usize"}))\ \land  \\[0.16em]
+\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{count}_{i})\ \Downarrow \ n_{i}) \\[0.16em]
+N\ =\ \Sigma_{i} \ \operatorname{SegLen}(s_{i}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ArrayExpr}([s_{1},\ \ldots ,\ s_{k}])\ :\ \operatorname{TypeArray}(T,\ \operatorname{Literal}(\operatorname{IntLiteral}(N)))
 \end{array}
 $$
@@ -2238,7 +2232,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{FieldNames}(R)\ =\ [\ f.\mathsf{name}\ \mid \ f\ \in \ \operatorname{Fields}(R)\ ] \\
+\operatorname{FieldNames}(R)\ =\ [\ f.\mathsf{name}\ \mid \ f\ \in \ \operatorname{Fields}(R)\ ] \\[0.16em]
 \operatorname{FieldNameSet}(R)\ =\ \{\ x\ \mid \ x\ \in \ \operatorname{FieldNames}(R)\ \}
 \end{array}
 $$
@@ -2247,8 +2241,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{Distinct}(\operatorname{FieldInitNames}(\mathsf{fields}))\quad \operatorname{FieldInitSet}(\mathsf{fields})\ =\ \operatorname{FieldNameSet}(R)\quad \forall \ \langle f,\ e\rangle \ \in \ \mathsf{fields},\ \operatorname{FieldType}(R,\ f)\ =\ T_{f}\ \land \ \operatorname{FieldVisible}(m,\ R,\ f)\ \land \ \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ T_{f}\ \dashv \ \emptyset  \\
-\rule{18em}{0.4pt} \\
+\operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{Distinct}(\operatorname{FieldInitNames}(\mathsf{fields}))\quad \operatorname{FieldInitSet}(\mathsf{fields})\ =\ \operatorname{FieldNameSet}(R)\quad \forall \ \langle f,\ e\rangle \ \in \ \mathsf{fields},\ \operatorname{FieldType}(R,\ f)\ =\ T_{f}\ \land \ \operatorname{FieldVisible}(m,\ R,\ f)\ \land \ \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ T_{f}\ \dashv \ \emptyset  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{RecordExpr}(\operatorname{TypePath}(p),\ \mathsf{fields})\ :\ \operatorname{TypePath}(p)
 \end{array}
 $$
@@ -2257,8 +2251,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RecordDecl}(p)\ =\ R\quad \lnot \ \operatorname{Distinct}(\operatorname{FieldInitNames}(\mathsf{fields}))\quad c\ =\ \operatorname{Code}(\mathsf{Record}-\mathsf{FieldInit}-\mathsf{Dup}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{RecordDecl}(p)\ =\ R\quad \lnot \ \operatorname{Distinct}(\operatorname{FieldInitNames}(\mathsf{fields}))\quad c\ =\ \operatorname{Code}(\mathsf{Record}-\mathsf{FieldInit}-\mathsf{Dup}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{RecordExpr}(\operatorname{TypePath}(p),\ \mathsf{fields})\ \Uparrow \ c
 \end{array}
 $$
@@ -2267,8 +2261,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{FieldInitSet}(\mathsf{fields})\ \ne \ \operatorname{FieldNameSet}(R)\quad c\ =\ \operatorname{Code}(\mathsf{Record}-\mathsf{FieldInit}-\mathsf{Missing}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{FieldInitSet}(\mathsf{fields})\ \ne \ \operatorname{FieldNameSet}(R)\quad c\ =\ \operatorname{Code}(\mathsf{Record}-\mathsf{FieldInit}-\mathsf{Missing}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{RecordExpr}(\operatorname{TypePath}(p),\ \mathsf{fields})\ \Uparrow \ c
 \end{array}
 $$
@@ -2279,8 +2273,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RecordDecl}(p)\ =\ R\quad \exists \ \langle f,\ e\rangle \ \in \ \mathsf{fields}.\ \operatorname{FieldType}(R,\ f)\ =\ T_{f}\ \land \ \lnot \ \operatorname{BitcopyType}(T_{f})\ \land \ \operatorname{IsPlace}(e)\ \land \ e\ \ne \ \operatorname{MoveExpr}(\_)\quad c\ =\ \operatorname{Code}(\mathsf{Record}-\mathsf{Field}-\mathsf{NonBitcopy}-\mathsf{Move}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{RecordDecl}(p)\ =\ R\quad \exists \ \langle f,\ e\rangle \ \in \ \mathsf{fields}.\ \operatorname{FieldType}(R,\ f)\ =\ T_{f}\ \land \ \lnot \ \operatorname{BitcopyType}(T_{f})\ \land \ \operatorname{IsPlace}(e)\ \land \ e\ \ne \ \operatorname{MoveExpr}(\_)\quad c\ =\ \operatorname{Code}(\mathsf{Record}-\mathsf{Field}-\mathsf{NonBitcopy}-\mathsf{Move}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{RecordExpr}(\operatorname{TypePath}(p),\ \mathsf{fields})\ \Uparrow \ c
 \end{array}
 $$
@@ -2289,7 +2283,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RecordCallee}(\mathsf{callee})\ =\ R\ \Leftrightarrow \ (\mathsf{callee}\ =\ \operatorname{Identifier}(\mathsf{name})\ \lor \ \mathsf{callee}\ =\ \operatorname{Path}(\mathsf{path},\ \mathsf{name}))\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTypeName}(\mathsf{name})\ \Downarrow \ \mathsf{ent}\ \land \ \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \mathsf{mp}\ \land \ \mathsf{name}'\ =\ (\mathsf{ent}.\mathsf{target}_{\mathsf{opt}}\ \mathsf{if}\ \mathsf{present},\ \mathsf{else}\ \mathsf{name})\ \land \ \operatorname{RecordDecl}(\operatorname{FullPath}(\operatorname{PathOfModule}(\mathsf{mp}),\ \mathsf{name}'))\ =\ R \\
+\operatorname{RecordCallee}(\mathsf{callee})\ =\ R\ \Leftrightarrow \ (\mathsf{callee}\ =\ \operatorname{Identifier}(\mathsf{name})\ \lor \ \mathsf{callee}\ =\ \operatorname{Path}(\mathsf{path},\ \mathsf{name}))\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTypeName}(\mathsf{name})\ \Downarrow \ \mathsf{ent}\ \land \ \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \mathsf{mp}\ \land \ \mathsf{name}'\ =\ (\mathsf{ent}.\mathsf{target}_{\mathsf{opt}}\ \mathsf{if}\ \mathsf{present},\ \mathsf{else}\ \mathsf{name})\ \land \ \operatorname{RecordDecl}(\operatorname{FullPath}(\operatorname{PathOfModule}(\mathsf{mp}),\ \mathsf{name}'))\ =\ R \\[0.16em]
 \operatorname{DefaultConstructible}(R)\ \Leftrightarrow \ \forall \ f\ \in \ \operatorname{Fields}(R).\ f.\mathsf{init}_{\mathsf{opt}}\ \ne \ \bot 
 \end{array}
 $$
@@ -2298,8 +2292,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RecordCallee}(\mathsf{callee})\ =\ R\quad \Gamma \ \vdash \ R\ \mathsf{record}\ \mathsf{wf}\quad \operatorname{DefaultConstructible}(R) \\
-\rule{18em}{0.4pt} \\
+\operatorname{RecordCallee}(\mathsf{callee})\ =\ R\quad \Gamma \ \vdash \ R\ \mathsf{record}\ \mathsf{wf}\quad \operatorname{DefaultConstructible}(R) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Call}(\mathsf{callee},\ [])\ :\ \operatorname{TypePath}(\operatorname{RecordPath}(R))
 \end{array}
 $$
@@ -2308,8 +2302,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RecordCallee}(\mathsf{callee})\ =\ R\quad \lnot \ \operatorname{DefaultConstructible}(R)\quad c\ =\ \operatorname{Code}(\mathsf{Record}-\mathsf{Default}-\mathsf{Init}-\mathsf{Err}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{RecordCallee}(\mathsf{callee})\ =\ R\quad \lnot \ \operatorname{DefaultConstructible}(R)\quad c\ =\ \operatorname{Code}(\mathsf{Record}-\mathsf{Default}-\mathsf{Init}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Call}(\mathsf{callee},\ [])\ \Uparrow \ c
 \end{array}
 $$
@@ -2332,8 +2326,8 @@ Zero-argument default record construction uses `EvalSigma-Call-Record` from §16
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerList}(\mathsf{es})\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{vec}_{v}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerList}(\mathsf{es})\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{vec}_{v}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{TupleExpr}(\mathsf{es}))\ \Downarrow \ \langle \mathsf{IR},\ (v_{1},\ \ldots ,\ v_{n})\rangle 
 \end{array}
 $$
@@ -2342,8 +2336,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerArraySegments}(\mathsf{segs})\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{vec}_{v}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerArraySegments}(\mathsf{segs})\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{vec}_{v}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{ArrayExpr}(\mathsf{segs}))\ \Downarrow \ \langle \mathsf{IR},\ [v_{1},\ \ldots ,\ v_{n}]\rangle 
 \end{array}
 $$
@@ -2352,8 +2346,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerFieldInits}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{vec}_{f}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerFieldInits}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{vec}_{f}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{RecordExpr}(\mathsf{tr},\ \mathsf{fields}))\ \Downarrow \ \langle \mathsf{IR},\ \operatorname{RecordValue}(\mathsf{tr},\ \mathsf{vec}_{f})\rangle 
 \end{array}
 $$
@@ -2364,8 +2358,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{CallTarget}(\mathsf{callee})\ =\ \operatorname{RecordCtor}(p)\quad \mathsf{args}\ =\ []\quad \operatorname{RecordDefaultInits}(p)\ =\ \mathsf{fields}\quad \Gamma \ \vdash \ \operatorname{LowerFieldInits}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{IR}_{f},\ \mathsf{vec}_{f}\rangle  \\
-\rule{18em}{0.4pt} \\
+\operatorname{CallTarget}(\mathsf{callee})\ =\ \operatorname{RecordCtor}(p)\quad \mathsf{args}\ =\ []\quad \operatorname{RecordDefaultInits}(p)\ =\ \mathsf{fields}\quad \Gamma \ \vdash \ \operatorname{LowerFieldInits}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{IR}_{f},\ \mathsf{vec}_{f}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{CallIR}(\mathsf{callee},\ \mathsf{args}))\ \Downarrow \ \langle \mathsf{IR}_{f},\ \operatorname{RecordValue}(\operatorname{TypePath}(p),\ \mathsf{vec}_{f})\rangle 
 \end{array}
 $$
@@ -2381,9 +2375,10 @@ Diagnostics are defined for duplicate record-field initializers, missing record-
 ```text
 if_expr        ::= "if" expression if_tail
 if_tail        ::= block_expr ("else" (block_expr | if_expr))?
-                 | "is" pattern block_expr ("else" (block_expr | if_expr))?
+                 | "is" if_case_pattern block_expr ("else" (block_expr | if_expr))?
                  | "is" "{" if_case+ if_case_else? "}"
-if_case        ::= pattern block_expr
+if_case        ::= if_case_pattern block_expr
+if_case_pattern ::= pattern | ":" type
 if_case_else   ::= "else" block_expr
 loop_expr      ::= "loop" loop_condition? loop_invariant? block_expr
 loop_condition ::= expression | pattern (":" type)? "in" expression
@@ -2391,7 +2386,7 @@ loop_invariant ::= "|:" "{" predicate_expr "}"
 block_expr     ::= "{" statement* expression? "}"
 ```
 
-Pattern forms, case-clause parsing, and exhaustiveness notions are owned by Chapter 17. Loop-invariant obligations are owned by §15.7.
+Pattern forms, case-clause parsing, and exhaustiveness notions are owned by Chapter 17. In an `if ... is` case position, `: T` is a type-test pattern shorthand and elaborates to the discard typed pattern `_: T`; it is not general pattern syntax outside `if_case_pattern`. Loop-invariant obligations are owned by §15.7.
 Block structure, statement sequencing, terminator handling, and block-local typing are owned by §18.1.
 
 ### 16.7.2 Parsing
@@ -2400,8 +2395,8 @@ Block structure, statement sequencing, terminator handling, and block-local typi
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{if})\quad \Gamma \ \vdash \ \operatorname{ParseExpr_NoBrace}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ c)\quad \lnot \ \operatorname{IsKw}(\operatorname{Tok}(P_{1}),\ \texttt{is})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{b1})\quad \Gamma \ \vdash \ \operatorname{ParseElseOpt}(P_{2})\ \Downarrow \ (P_{3},\ \mathsf{b2}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{if})\quad \Gamma \ \vdash \ \operatorname{ParseExpr_NoBrace}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ c)\quad \lnot \ \operatorname{IsKw}(\operatorname{Tok}(P_{1}),\ \texttt{is})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{b1})\quad \Gamma \ \vdash \ \operatorname{ParseElseOpt}(P_{2})\ \Downarrow \ (P_{3},\ \mathsf{b2}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (P_{3},\ \operatorname{IfExpr}(c,\ \mathsf{b1},\ \mathsf{b2}))
 \end{array}
 $$
@@ -2410,9 +2405,19 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{if})\quad \Gamma \ \vdash \ \operatorname{ParseExpr_NoBrace}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e)\quad \operatorname{IsKw}(\operatorname{Tok}(P_{1}),\ \texttt{is})\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P_{1})),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParsePattern}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{pat})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(P_{2})\ \Downarrow \ (P_{3},\ \mathsf{b1})\quad \Gamma \ \vdash \ \operatorname{ParseElseOpt}(P_{3})\ \Downarrow \ (P_{4},\ \mathsf{b2}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{if})\quad \Gamma \ \vdash \ \operatorname{ParseExpr_NoBrace}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e)\quad \operatorname{IsKw}(\operatorname{Tok}(P_{1}),\ \texttt{is})\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P_{1})),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseIfCasePattern}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{pat})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(P_{2})\ \Downarrow \ (P_{3},\ \mathsf{b1})\quad \Gamma \ \vdash \ \operatorname{ParseElseOpt}(P_{3})\ \Downarrow \ (P_{4},\ \mathsf{b2}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (P_{4},\ \operatorname{IfIsExpr}(e,\ \mathsf{pat},\ \mathsf{b1},\ \mathsf{b2}))
+\end{array}
+$$
+
+**(Parse-If-Is-TypeTest)**
+
+$$
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseType}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ T) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseIfCasePattern}(P)\ \Downarrow \ (P_{1},\ \operatorname{TypedPattern}(\texttt{"\_"},\ T))
 \end{array}
 $$
 
@@ -2420,8 +2425,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{if})\quad \Gamma \ \vdash \ \operatorname{ParseExpr_NoBrace}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e)\quad \operatorname{IsKw}(\operatorname{Tok}(P_{1}),\ \texttt{is})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P_{1})),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseIfCases}(\operatorname{Advance}(\operatorname{Advance}(P_{1})))\ \Downarrow \ (P_{2},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{"\}"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{if})\quad \Gamma \ \vdash \ \operatorname{ParseExpr_NoBrace}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e)\quad \operatorname{IsKw}(\operatorname{Tok}(P_{1}),\ \texttt{is})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P_{1})),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseIfCases}(\operatorname{Advance}(\operatorname{Advance}(P_{1})))\ \Downarrow \ (P_{2},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{"\}"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(P_{2}),\ \operatorname{IfCaseExpr}(e,\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}}))
 \end{array}
 $$
@@ -2430,8 +2435,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{loop})\quad \Gamma \ \vdash \ \operatorname{ParseLoopTail}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{loop}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{loop})\quad \Gamma \ \vdash \ \operatorname{ParseLoopTail}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{loop}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (P_{1},\ \mathsf{loop})
 \end{array}
 $$
@@ -2440,8 +2445,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(P)\ \Downarrow \ (P_{1},\ b) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(P)\ \Downarrow \ (P_{1},\ b) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (P_{1},\ b)
 \end{array}
 $$
@@ -2456,26 +2461,28 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{LoopInvariantOpt}\ \in \ \{\bot \}\ \cup \ \mathsf{Expr} \\
+\mathsf{LoopInvariantOpt}\ \in \ \{\bot \}\ \cup \ \mathsf{Expr} \\[0.16em]
 \mathsf{IfCase}\ =\ \langle \mathsf{pattern},\ \mathsf{body}\rangle 
 \end{array}
 $$
 
+`if_case_pattern` does not add a distinct AST node. `: T` MUST be represented as `TypedPattern("_", T)` before semantic analysis.
+
 $$
 \begin{array}{l}
-\operatorname{LoopTypeInf}(\mathsf{Brk},\ \mathsf{BrkVoid})\ = \\
-\ \{\ \operatorname{TypePrim}(\texttt{!})\quad \mathsf{if}\ \mathsf{Brk}\ =\ []\ \land \ \mathsf{BrkVoid}\ =\ \mathsf{false} \\
-\quad \operatorname{TypePrim}(\texttt{()})\ \mathsf{if}\ \mathsf{Brk}\ =\ []\ \land \ \mathsf{BrkVoid}\ =\ \mathsf{true} \\
-\quad T\quad \mathsf{if}\ \mathsf{BrkVoid}\ =\ \mathsf{false}\ \land \ \operatorname{ResType}(\mathsf{Brk})\ =\ T \\
+\operatorname{LoopTypeInf}(\mathsf{Brk},\ \mathsf{BrkVoid})\ = \\[0.16em]
+\ \{\ \operatorname{TypePrim}(\texttt{!})\quad \mathsf{if}\ \mathsf{Brk}\ =\ []\ \land \ \mathsf{BrkVoid}\ =\ \mathsf{false} \\[0.16em]
+\quad \operatorname{TypePrim}(\texttt{()})\ \mathsf{if}\ \mathsf{Brk}\ =\ []\ \land \ \mathsf{BrkVoid}\ =\ \mathsf{true} \\[0.16em]
+\quad T\quad \mathsf{if}\ \mathsf{BrkVoid}\ =\ \mathsf{false}\ \land \ \operatorname{ResType}(\mathsf{Brk})\ =\ T \\[0.16em]
 \quad \bot \quad \mathsf{otherwise}\ \}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{LoopTypeFin}(\mathsf{Brk},\ \mathsf{BrkVoid})\ = \\
-\ \{\ \operatorname{TypePrim}(\texttt{()})\ \mathsf{if}\ \mathsf{Brk}\ =\ [] \\
-\quad T\quad \mathsf{if}\ \mathsf{BrkVoid}\ =\ \mathsf{false}\ \land \ \operatorname{ResType}(\mathsf{Brk})\ =\ T \\
+\operatorname{LoopTypeFin}(\mathsf{Brk},\ \mathsf{BrkVoid})\ = \\[0.16em]
+\ \{\ \operatorname{TypePrim}(\texttt{()})\ \mathsf{if}\ \mathsf{Brk}\ =\ [] \\[0.16em]
+\quad T\quad \mathsf{if}\ \mathsf{BrkVoid}\ =\ \mathsf{false}\ \land \ \operatorname{ResType}(\mathsf{Brk})\ =\ T \\[0.16em]
 \quad \bot \quad \mathsf{otherwise}\ \}
 \end{array}
 $$
@@ -2494,8 +2501,8 @@ Block typing and checking are owned by §18.1.4:
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ c\ :\ \operatorname{TypePrim}(\texttt{bool})\quad \Gamma ;\ R;\ L\ \vdash \ b_{t}\ :\ T\quad \Gamma ;\ R;\ L\ \vdash \ b_{f}\ :\ T \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ c\ :\ \operatorname{TypePrim}(\texttt{bool})\quad \Gamma ;\ R;\ L\ \vdash \ b_{t}\ :\ T\quad \Gamma ;\ R;\ L\ \vdash \ b_{f}\ :\ T \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{IfExpr}(c,\ b_{t},\ b_{f})\ :\ T
 \end{array}
 $$
@@ -2504,8 +2511,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ c\ :\ \operatorname{TypePrim}(\texttt{bool})\quad \Gamma ;\ R;\ L\ \vdash \ b_{t}\ :\ \operatorname{TypePrim}(\texttt{()}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ c\ :\ \operatorname{TypePrim}(\texttt{bool})\quad \Gamma ;\ R;\ L\ \vdash \ b_{t}\ :\ \operatorname{TypePrim}(\texttt{()}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{IfExpr}(c,\ b_{t},\ \bot )\ :\ \operatorname{TypePrim}(\texttt{()})
 \end{array}
 $$
@@ -2522,8 +2529,8 @@ Pattern typing uses Chapter 17 pattern judgments:
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{s}\quad \operatorname{CaseScope}(\Gamma ,\ e,\ \mathsf{pat},\ T_{s})\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} ;\ R;\ L\ \vdash \ b_{t}\ :\ T\quad \Gamma ;\ R;\ L\ \vdash \ b_{f}\ :\ T \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{s}\quad \operatorname{CaseScope}(\Gamma ,\ e,\ \mathsf{pat},\ T_{s})\ \Downarrow \ \Gamma_{1} \quad \operatorname{ElseScope}(\Gamma ,\ e,\ \mathsf{pat},\ T_{s})\ \Downarrow \ \Gamma_{2} \quad \Gamma_{1} ;\ R;\ L\ \vdash \ b_{t}\ :\ T\quad \Gamma_{2} ;\ R;\ L\ \vdash \ b_{f}\ :\ T \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{IfIsExpr}(e,\ \mathsf{pat},\ b_{t},\ b_{f})\ :\ T
 \end{array}
 $$
@@ -2532,8 +2539,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{s}\quad \operatorname{CaseScope}(\Gamma ,\ e,\ \mathsf{pat},\ T_{s})\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} ;\ R;\ L\ \vdash \ b_{t}\ :\ \operatorname{TypePrim}(\texttt{()}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{s}\quad \operatorname{CaseScope}(\Gamma ,\ e,\ \mathsf{pat},\ T_{s})\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} ;\ R;\ L\ \vdash \ b_{t}\ :\ \operatorname{TypePrim}(\texttt{()}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{IfIsExpr}(e,\ \mathsf{pat},\ b_{t},\ \bot )\ :\ \operatorname{TypePrim}(\texttt{()})
 \end{array}
 $$
@@ -2549,8 +2556,8 @@ Loop invariants use `LoopInvOk` from §15.7.4.
 
 $$
 \begin{array}{l}
-\operatorname{LoopInvOk}(\mathsf{inv}_{\mathsf{opt}})\quad \Gamma ;\ R;\ \texttt{loop}\ \vdash \ \operatorname{BlockInfo}(\mathsf{body})\ \Downarrow \ \langle T_{b},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \operatorname{LoopTypeInf}(\mathsf{Brk},\ \mathsf{BrkVoid})\ =\ T \\
-\rule{18em}{0.4pt} \\
+\operatorname{LoopInvOk}(\mathsf{inv}_{\mathsf{opt}})\quad \Gamma ;\ R;\ \texttt{loop}\ \vdash \ \operatorname{BlockInfo}(\mathsf{body})\ \Downarrow \ \langle T_{b},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \operatorname{LoopTypeInf}(\mathsf{Brk},\ \mathsf{BrkVoid})\ =\ T \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LoopInfinite}(\mathsf{inv}_{\mathsf{opt}},\ \mathsf{body})\ :\ T
 \end{array}
 $$
@@ -2559,8 +2566,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{cond}\ :\ \operatorname{TypePrim}(\texttt{bool})\quad \operatorname{LoopInvOk}(\mathsf{inv}_{\mathsf{opt}})\quad \Gamma ;\ R;\ \texttt{loop}\ \vdash \ \operatorname{BlockInfo}(\mathsf{body})\ \Downarrow \ \langle T_{b},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \operatorname{LoopTypeFin}(\mathsf{Brk},\ \mathsf{BrkVoid})\ =\ T \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{cond}\ :\ \operatorname{TypePrim}(\texttt{bool})\quad \operatorname{LoopInvOk}(\mathsf{inv}_{\mathsf{opt}})\quad \Gamma ;\ R;\ \texttt{loop}\ \vdash \ \operatorname{BlockInfo}(\mathsf{body})\ \Downarrow \ \langle T_{b},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \operatorname{LoopTypeFin}(\mathsf{Brk},\ \mathsf{BrkVoid})\ =\ T \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LoopConditional}(\mathsf{cond},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body})\ :\ T
 \end{array}
 $$
@@ -2569,8 +2576,8 @@ $$
 
 $$
 \begin{array}{l}
-(\Gamma ;\ R;\ L\ \vdash \ \mathsf{iter}\ :\ T_{\mathsf{iter}})\quad \operatorname{LoopIterableType}(T_{\mathsf{iter}},\ T)\quad (\operatorname{RangeLoopType}(T_{\mathsf{iter}},\ T)\ \Rightarrow \ \operatorname{ImplementsStep}(T))\quad (\operatorname{BoundedRangeLoopType}(T_{\mathsf{iter}},\ T)\ \Rightarrow \ \operatorname{ImplementsEq}(T))\quad (\mathsf{ty}_{\mathsf{opt}}\ =\ \bot \ \Rightarrow \ T_{p}\ =\ T)\quad (\mathsf{ty}_{\mathsf{opt}}\ =\ T_{a}\ \Rightarrow \ \Gamma \ \vdash \ T\ \mathrel{<:} \ T_{a}\ \land \ T_{p}\ =\ T_{a})\quad \Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ T_{p}\ \dashv \ B\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}))\quad \operatorname{LoopInvOk}(\mathsf{inv}_{\mathsf{opt}})\quad \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \operatorname{IntroAll}(\Gamma_{0} ,\ B)\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} ;\ R;\ \texttt{loop}\ \vdash \ \operatorname{BlockInfo}(\mathsf{body})\ \Downarrow \ \langle T_{b},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \operatorname{LoopTypeFin}(\mathsf{Brk},\ \mathsf{BrkVoid})\ =\ T_{r} \\
-\rule{18em}{0.4pt} \\
+(\Gamma ;\ R;\ L\ \vdash \ \mathsf{iter}\ :\ T_{\mathsf{iter}})\quad \operatorname{LoopIterableType}(T_{\mathsf{iter}},\ T)\quad (\operatorname{RangeLoopType}(T_{\mathsf{iter}},\ T)\ \Rightarrow \ \operatorname{ImplementsStep}(T))\quad (\operatorname{BoundedRangeLoopType}(T_{\mathsf{iter}},\ T)\ \Rightarrow \ \operatorname{ImplementsEq}(T))\quad (\mathsf{ty}_{\mathsf{opt}}\ =\ \bot \ \Rightarrow \ T_{p}\ =\ T)\quad (\mathsf{ty}_{\mathsf{opt}}\ =\ T_{a}\ \Rightarrow \ \Gamma \ \vdash \ T\ \mathrel{<:} \ T_{a}\ \land \ T_{p}\ =\ T_{a})\quad \Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ T_{p}\ \dashv \ B\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}))\quad \operatorname{LoopInvOk}(\mathsf{inv}_{\mathsf{opt}})\quad \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \operatorname{IntroAll}(\Gamma_{0} ,\ B)\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} ;\ R;\ \texttt{loop}\ \vdash \ \operatorname{BlockInfo}(\mathsf{body})\ \Downarrow \ \langle T_{b},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \operatorname{LoopTypeFin}(\mathsf{Brk},\ \mathsf{BrkVoid})\ =\ T_{r} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LoopIter}(\mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{iter},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body})\ :\ T_{r}
 \end{array}
 $$
@@ -2583,8 +2590,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{then}_{\mathsf{block}},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{then}_{\mathsf{block}},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{IfExpr}(\mathsf{cond},\ \mathsf{then}_{\mathsf{block}},\ \mathsf{else}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -2593,8 +2600,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{false}),\ \sigma_{1} )\quad \mathsf{else}_{\mathsf{opt}}\ =\ \bot  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{false}),\ \sigma_{1} )\quad \mathsf{else}_{\mathsf{opt}}\ =\ \bot  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{IfExpr}(\mathsf{cond},\ \mathsf{then}_{\mathsf{block}},\ \mathsf{else}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\operatorname{Val}(()),\ \sigma_{1} )
 \end{array}
 $$
@@ -2603,8 +2610,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{false}),\ \sigma_{1} )\quad \mathsf{else}_{\mathsf{opt}}\ =\ e\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{false}),\ \sigma_{1} )\quad \mathsf{else}_{\mathsf{opt}}\ =\ e\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{IfExpr}(\mathsf{cond},\ \mathsf{then}_{\mathsf{block}},\ \mathsf{else}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -2613,8 +2620,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{IfExpr}(\mathsf{cond},\ \mathsf{then}_{\mathsf{block}},\ \mathsf{else}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -2623,8 +2630,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{scrutinee},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{s}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalIfCaseListSigma}([\langle \mathsf{pat},\ \mathsf{then}_{\mathsf{block}}\rangle ],\ \mathsf{else}_{\mathsf{opt}},\ v_{s},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{scrutinee},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{s}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalIfCaseListSigma}([\langle \mathsf{pat},\ \mathsf{then}_{\mathsf{block}}\rangle ],\ \mathsf{else}_{\mathsf{opt}},\ v_{s},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{IfIsExpr}(\mathsf{scrutinee},\ \mathsf{pat},\ \mathsf{then}_{\mathsf{block}},\ \mathsf{else}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -2633,8 +2640,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{scrutinee},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{scrutinee},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{IfIsExpr}(\mathsf{scrutinee},\ \mathsf{pat},\ \mathsf{then}_{\mathsf{block}},\ \mathsf{else}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -2643,8 +2650,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{scrutinee},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{s}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalIfCaseListSigma}(\mathsf{cases},\ \mathsf{else}_{\mathsf{opt}},\ v_{s},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{scrutinee},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{s}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalIfCaseListSigma}(\mathsf{cases},\ \mathsf{else}_{\mathsf{opt}},\ v_{s},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{IfCaseExpr}(\mathsf{scrutinee},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -2653,8 +2660,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{scrutinee},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{scrutinee},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{IfCaseExpr}(\mathsf{scrutinee},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -2665,53 +2672,53 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ') \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{LoopIterableType}(T_{\mathsf{iter}},\ T)\ \Leftrightarrow \ T_{\mathsf{iter}}\ =\ \operatorname{TypeSlice}(T)\ \lor \ T_{\mathsf{iter}}\ =\ \operatorname{TypeArray}(T,\ n)\ \lor \ T_{\mathsf{iter}}\ =\ \operatorname{TypeRange}(T)\ \lor \ T_{\mathsf{iter}}\ =\ \operatorname{TypeRangeInclusive}(T)\ \lor \ T_{\mathsf{iter}}\ =\ \operatorname{TypeRangeFrom}(T) \\
-\operatorname{LoopIterableType}(\operatorname{TypePerm}(p,\ T_{\mathsf{iter}}),\ T)\ \Leftrightarrow \ \operatorname{LoopIterableType}(T_{\mathsf{iter}},\ T) \\
-\operatorname{RangeLoopType}(T_{\mathsf{iter}},\ T)\ \Leftrightarrow \ T_{\mathsf{iter}}\ =\ \operatorname{TypeRange}(T)\ \lor \ T_{\mathsf{iter}}\ =\ \operatorname{TypeRangeInclusive}(T)\ \lor \ T_{\mathsf{iter}}\ =\ \operatorname{TypeRangeFrom}(T) \\
-\operatorname{RangeLoopType}(\operatorname{TypePerm}(p,\ T_{\mathsf{iter}}),\ T)\ \Leftrightarrow \ \operatorname{RangeLoopType}(T_{\mathsf{iter}},\ T) \\
-\operatorname{BoundedRangeLoopType}(T_{\mathsf{iter}},\ T)\ \Leftrightarrow \ T_{\mathsf{iter}}\ =\ \operatorname{TypeRange}(T)\ \lor \ T_{\mathsf{iter}}\ =\ \operatorname{TypeRangeInclusive}(T) \\
+\operatorname{LoopIterableType}(T_{\mathsf{iter}},\ T)\ \Leftrightarrow \ T_{\mathsf{iter}}\ =\ \operatorname{TypeSlice}(T)\ \lor \ T_{\mathsf{iter}}\ =\ \operatorname{TypeArray}(T,\ n)\ \lor \ T_{\mathsf{iter}}\ =\ \operatorname{TypeRange}(T)\ \lor \ T_{\mathsf{iter}}\ =\ \operatorname{TypeRangeInclusive}(T)\ \lor \ T_{\mathsf{iter}}\ =\ \operatorname{TypeRangeFrom}(T) \\[0.16em]
+\operatorname{LoopIterableType}(\operatorname{TypePerm}(p,\ T_{\mathsf{iter}}),\ T)\ \Leftrightarrow \ \operatorname{LoopIterableType}(T_{\mathsf{iter}},\ T) \\[0.16em]
+\operatorname{RangeLoopType}(T_{\mathsf{iter}},\ T)\ \Leftrightarrow \ T_{\mathsf{iter}}\ =\ \operatorname{TypeRange}(T)\ \lor \ T_{\mathsf{iter}}\ =\ \operatorname{TypeRangeInclusive}(T)\ \lor \ T_{\mathsf{iter}}\ =\ \operatorname{TypeRangeFrom}(T) \\[0.16em]
+\operatorname{RangeLoopType}(\operatorname{TypePerm}(p,\ T_{\mathsf{iter}}),\ T)\ \Leftrightarrow \ \operatorname{RangeLoopType}(T_{\mathsf{iter}},\ T) \\[0.16em]
+\operatorname{BoundedRangeLoopType}(T_{\mathsf{iter}},\ T)\ \Leftrightarrow \ T_{\mathsf{iter}}\ =\ \operatorname{TypeRange}(T)\ \lor \ T_{\mathsf{iter}}\ =\ \operatorname{TypeRangeInclusive}(T) \\[0.16em]
 \operatorname{BoundedRangeLoopType}(\operatorname{TypePerm}(p,\ T_{\mathsf{iter}}),\ T)\ \Leftrightarrow \ \operatorname{BoundedRangeLoopType}(T_{\mathsf{iter}},\ T)
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\mathsf{IterJudg}\ =\ \{\operatorname{IterInit}(v)\ \Downarrow \ \mathsf{it},\ \operatorname{IterNext}(\mathsf{it})\ \Downarrow \ (\operatorname{opt}(v),\ \mathsf{it}')\} \\
-\mathsf{Iter}\ =\ \{\operatorname{SeqIter}(v,\ i)\ \mid \ \operatorname{Len}(v)\ \mathsf{defined}\ \land \ i\ \in \ \mathbb{N} \}\ \cup \ \{\operatorname{RangeIterExclusive}(\mathsf{cur},\ \mathsf{hi})\}\ \cup \ \{\operatorname{RangeIterInclusive}(\mathsf{cur},\ \mathsf{hi})\}\ \cup \ \{\operatorname{RangeIterFrom}(\mathsf{cur})\}\ \cup \ \{\mathsf{IterDone}\} \\
-\operatorname{Successor}(v)\ \Downarrow \ v'\ \Leftrightarrow \ \texttt{Step::successor}\ \mathsf{applied}\ \mathsf{to}\ v\ \mathsf{returns}\ v' \\
+\mathsf{IterJudg}\ =\ \{\operatorname{IterInit}(v)\ \Downarrow \ \mathsf{it},\ \operatorname{IterNext}(\mathsf{it})\ \Downarrow \ (\operatorname{opt}(v),\ \mathsf{it}')\} \\[0.16em]
+\mathsf{Iter}\ =\ \{\operatorname{SeqIter}(v,\ i)\ \mid \ \operatorname{Len}(v)\ \mathsf{defined}\ \land \ i\ \in \ \mathbb{N} \}\ \cup \ \{\operatorname{RangeIterExclusive}(\mathsf{cur},\ \mathsf{hi})\}\ \cup \ \{\operatorname{RangeIterInclusive}(\mathsf{cur},\ \mathsf{hi})\}\ \cup \ \{\operatorname{RangeIterFrom}(\mathsf{cur})\}\ \cup \ \{\mathsf{IterDone}\} \\[0.16em]
+\operatorname{Successor}(v)\ \Downarrow \ v'\ \Leftrightarrow \ \texttt{Step::successor}\ \mathsf{applied}\ \mathsf{to}\ v\ \mathsf{returns}\ v' \\[0.16em]
 \operatorname{EqHolds}(v_{1},\ v_{2})\ \Leftrightarrow \ \texttt{Eq::eq}\ \mathsf{applied}\ \mathsf{to}\ \langle v_{1},\ v_{2}\rangle \ \mathsf{returns}\ \texttt{true}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{IterInit}(v)\ \Downarrow \ \operatorname{SeqIter}(v,\ 0)\ \Leftrightarrow \ \operatorname{Len}(v)\ \mathsf{defined} \\
-\operatorname{IterInit}(\operatorname{RangeVal}(\texttt{Exclusive},\ \mathsf{lo},\ \mathsf{hi}))\ \Downarrow \ \operatorname{RangeIterExclusive}(\mathsf{lo},\ \mathsf{hi}) \\
-\operatorname{IterInit}(\operatorname{RangeVal}(\texttt{Inclusive},\ \mathsf{lo},\ \mathsf{hi}))\ \Downarrow \ \operatorname{RangeIterInclusive}(\mathsf{lo},\ \mathsf{hi}) \\
+\operatorname{IterInit}(v)\ \Downarrow \ \operatorname{SeqIter}(v,\ 0)\ \Leftrightarrow \ \operatorname{Len}(v)\ \mathsf{defined} \\[0.16em]
+\operatorname{IterInit}(\operatorname{RangeVal}(\texttt{Exclusive},\ \mathsf{lo},\ \mathsf{hi}))\ \Downarrow \ \operatorname{RangeIterExclusive}(\mathsf{lo},\ \mathsf{hi}) \\[0.16em]
+\operatorname{IterInit}(\operatorname{RangeVal}(\texttt{Inclusive},\ \mathsf{lo},\ \mathsf{hi}))\ \Downarrow \ \operatorname{RangeIterInclusive}(\mathsf{lo},\ \mathsf{hi}) \\[0.16em]
 \operatorname{IterInit}(\operatorname{RangeVal}(\texttt{From},\ \mathsf{lo},\ \bot ))\ \Downarrow \ \operatorname{RangeIterFrom}(\mathsf{lo})
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{IterNext}(\operatorname{SeqIter}(v,\ i))\ \Downarrow \ (\bot ,\ \mathsf{IterDone})\ \Leftrightarrow \ \lnot \ (0\ \le \ i\ <\ \operatorname{Len}(v)) \\
-\operatorname{IterNext}(\operatorname{SeqIter}(v,\ i))\ \Downarrow \ (v_{i},\ \operatorname{SeqIter}(v,\ i\ +\ 1))\ \Leftrightarrow \ 0\ \le \ i\ <\ \operatorname{Len}(v)\ \land \ \operatorname{IndexValue}(v,\ i)\ =\ v_{i} \\
-\operatorname{IterNext}(\operatorname{RangeIterExclusive}(\mathsf{cur},\ \mathsf{hi}))\ \Downarrow \ (\bot ,\ \mathsf{IterDone})\ \Leftrightarrow \ \operatorname{EqHolds}(\mathsf{cur},\ \mathsf{hi}) \\
-\operatorname{IterNext}(\operatorname{RangeIterExclusive}(\mathsf{cur},\ \mathsf{hi}))\ \Downarrow \ (\mathsf{cur},\ \operatorname{RangeIterExclusive}(\mathsf{cur}',\ \mathsf{hi}))\ \Leftrightarrow \ \lnot \ \operatorname{EqHolds}(\mathsf{cur},\ \mathsf{hi})\ \land \ \operatorname{Successor}(\mathsf{cur})\ \Downarrow \ \mathsf{cur}' \\
-\operatorname{IterNext}(\operatorname{RangeIterExclusive}(\mathsf{cur},\ \mathsf{hi}))\ \Downarrow \ (\mathsf{cur},\ \mathsf{IterDone})\ \Leftrightarrow \ \lnot \ \operatorname{EqHolds}(\mathsf{cur},\ \mathsf{hi})\ \land \ \lnot \ \exists \ \mathsf{cur}'.\ \operatorname{Successor}(\mathsf{cur})\ \Downarrow \ \mathsf{cur}' \\
-\operatorname{IterNext}(\operatorname{RangeIterInclusive}(\mathsf{cur},\ \mathsf{hi}))\ \Downarrow \ (\mathsf{cur},\ \mathsf{IterDone})\ \Leftrightarrow \ \operatorname{EqHolds}(\mathsf{cur},\ \mathsf{hi}) \\
-\operatorname{IterNext}(\operatorname{RangeIterInclusive}(\mathsf{cur},\ \mathsf{hi}))\ \Downarrow \ (\mathsf{cur},\ \operatorname{RangeIterInclusive}(\mathsf{cur}',\ \mathsf{hi}))\ \Leftrightarrow \ \lnot \ \operatorname{EqHolds}(\mathsf{cur},\ \mathsf{hi})\ \land \ \operatorname{Successor}(\mathsf{cur})\ \Downarrow \ \mathsf{cur}' \\
-\operatorname{IterNext}(\operatorname{RangeIterInclusive}(\mathsf{cur},\ \mathsf{hi}))\ \Downarrow \ (\mathsf{cur},\ \mathsf{IterDone})\ \Leftrightarrow \ \lnot \ \operatorname{EqHolds}(\mathsf{cur},\ \mathsf{hi})\ \land \ \lnot \ \exists \ \mathsf{cur}'.\ \operatorname{Successor}(\mathsf{cur})\ \Downarrow \ \mathsf{cur}' \\
-\operatorname{IterNext}(\operatorname{RangeIterFrom}(\mathsf{cur}))\ \Downarrow \ (\mathsf{cur},\ \operatorname{RangeIterFrom}(\mathsf{cur}'))\ \Leftrightarrow \ \operatorname{Successor}(\mathsf{cur})\ \Downarrow \ \mathsf{cur}' \\
-\operatorname{IterNext}(\operatorname{RangeIterFrom}(\mathsf{cur}))\ \Downarrow \ (\mathsf{cur},\ \mathsf{IterDone})\ \Leftrightarrow \ \lnot \ \exists \ \mathsf{cur}'.\ \operatorname{Successor}(\mathsf{cur})\ \Downarrow \ \mathsf{cur}' \\
+\operatorname{IterNext}(\operatorname{SeqIter}(v,\ i))\ \Downarrow \ (\bot ,\ \mathsf{IterDone})\ \Leftrightarrow \ \lnot \ (0\ \le \ i\ <\ \operatorname{Len}(v)) \\[0.16em]
+\operatorname{IterNext}(\operatorname{SeqIter}(v,\ i))\ \Downarrow \ (v_{i},\ \operatorname{SeqIter}(v,\ i\ +\ 1))\ \Leftrightarrow \ 0\ \le \ i\ <\ \operatorname{Len}(v)\ \land \ \operatorname{IndexValue}(v,\ i)\ =\ v_{i} \\[0.16em]
+\operatorname{IterNext}(\operatorname{RangeIterExclusive}(\mathsf{cur},\ \mathsf{hi}))\ \Downarrow \ (\bot ,\ \mathsf{IterDone})\ \Leftrightarrow \ \operatorname{EqHolds}(\mathsf{cur},\ \mathsf{hi}) \\[0.16em]
+\operatorname{IterNext}(\operatorname{RangeIterExclusive}(\mathsf{cur},\ \mathsf{hi}))\ \Downarrow \ (\mathsf{cur},\ \operatorname{RangeIterExclusive}(\mathsf{cur}',\ \mathsf{hi}))\ \Leftrightarrow \ \lnot \ \operatorname{EqHolds}(\mathsf{cur},\ \mathsf{hi})\ \land \ \operatorname{Successor}(\mathsf{cur})\ \Downarrow \ \mathsf{cur}' \\[0.16em]
+\operatorname{IterNext}(\operatorname{RangeIterExclusive}(\mathsf{cur},\ \mathsf{hi}))\ \Downarrow \ (\mathsf{cur},\ \mathsf{IterDone})\ \Leftrightarrow \ \lnot \ \operatorname{EqHolds}(\mathsf{cur},\ \mathsf{hi})\ \land \ \lnot \ \exists \ \mathsf{cur}'.\ \operatorname{Successor}(\mathsf{cur})\ \Downarrow \ \mathsf{cur}' \\[0.16em]
+\operatorname{IterNext}(\operatorname{RangeIterInclusive}(\mathsf{cur},\ \mathsf{hi}))\ \Downarrow \ (\mathsf{cur},\ \mathsf{IterDone})\ \Leftrightarrow \ \operatorname{EqHolds}(\mathsf{cur},\ \mathsf{hi}) \\[0.16em]
+\operatorname{IterNext}(\operatorname{RangeIterInclusive}(\mathsf{cur},\ \mathsf{hi}))\ \Downarrow \ (\mathsf{cur},\ \operatorname{RangeIterInclusive}(\mathsf{cur}',\ \mathsf{hi}))\ \Leftrightarrow \ \lnot \ \operatorname{EqHolds}(\mathsf{cur},\ \mathsf{hi})\ \land \ \operatorname{Successor}(\mathsf{cur})\ \Downarrow \ \mathsf{cur}' \\[0.16em]
+\operatorname{IterNext}(\operatorname{RangeIterInclusive}(\mathsf{cur},\ \mathsf{hi}))\ \Downarrow \ (\mathsf{cur},\ \mathsf{IterDone})\ \Leftrightarrow \ \lnot \ \operatorname{EqHolds}(\mathsf{cur},\ \mathsf{hi})\ \land \ \lnot \ \exists \ \mathsf{cur}'.\ \operatorname{Successor}(\mathsf{cur})\ \Downarrow \ \mathsf{cur}' \\[0.16em]
+\operatorname{IterNext}(\operatorname{RangeIterFrom}(\mathsf{cur}))\ \Downarrow \ (\mathsf{cur},\ \operatorname{RangeIterFrom}(\mathsf{cur}'))\ \Leftrightarrow \ \operatorname{Successor}(\mathsf{cur})\ \Downarrow \ \mathsf{cur}' \\[0.16em]
+\operatorname{IterNext}(\operatorname{RangeIterFrom}(\mathsf{cur}))\ \Downarrow \ (\mathsf{cur},\ \mathsf{IterDone})\ \Leftrightarrow \ \lnot \ \exists \ \mathsf{cur}'.\ \operatorname{Successor}(\mathsf{cur})\ \Downarrow \ \mathsf{cur}' \\[0.16em]
 \operatorname{IterNext}(\mathsf{IterDone})\ \Downarrow \ (\bot ,\ \mathsf{IterDone})
 \end{array}
 $$
@@ -2724,8 +2731,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopInfinite}(\mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopInfinite}(\mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopInfinite}(\mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -2734,8 +2741,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Continue}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopInfinite}(\mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Continue}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopInfinite}(\mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopInfinite}(\mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -2744,8 +2751,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\operatorname{Break}(v_{\mathsf{opt}})),\ \sigma_{1} )\quad v\ =\ \operatorname{BreakVal}(v_{\mathsf{opt}}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\operatorname{Break}(v_{\mathsf{opt}})),\ \sigma_{1} )\quad v\ =\ \operatorname{BreakVal}(v_{\mathsf{opt}}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopInfinite}(\mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )
 \end{array}
 $$
@@ -2754,8 +2761,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )\quad \kappa \ \in \ \{\operatorname{Return}(\_),\ \mathsf{Panic},\ \mathsf{Abort}\} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )\quad \kappa \ \in \ \{\operatorname{Return}(\_),\ \mathsf{Panic},\ \mathsf{Abort}\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopInfinite}(\mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -2764,8 +2771,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{false}),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{false}),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopConditional}(\mathsf{cond},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma )\ \Downarrow \ (\operatorname{Val}(()),\ \sigma_{1} )
 \end{array}
 $$
@@ -2774,8 +2781,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopConditional}(\mathsf{cond},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopConditional}(\mathsf{cond},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopConditional}(\mathsf{cond},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} )
 \end{array}
 $$
@@ -2784,8 +2791,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Continue}),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopConditional}(\mathsf{cond},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Continue}),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopConditional}(\mathsf{cond},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopConditional}(\mathsf{cond},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} )
 \end{array}
 $$
@@ -2794,8 +2801,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\operatorname{Break}(v_{\mathsf{opt}})),\ \sigma_{2} )\quad v\ =\ \operatorname{BreakVal}(v_{\mathsf{opt}}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\operatorname{Break}(v_{\mathsf{opt}})),\ \sigma_{2} )\quad v\ =\ \operatorname{BreakVal}(v_{\mathsf{opt}}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopConditional}(\mathsf{cond},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{2} )
 \end{array}
 $$
@@ -2804,8 +2811,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopConditional}(\mathsf{cond},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -2814,8 +2821,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} )\quad \kappa \ \in \ \{\operatorname{Return}(\_),\ \mathsf{Panic},\ \mathsf{Abort}\} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} )\quad \kappa \ \in \ \{\operatorname{Return}(\_),\ \mathsf{Panic},\ \mathsf{Abort}\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopConditional}(\mathsf{cond},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} )
 \end{array}
 $$
@@ -2824,8 +2831,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{iter},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{\mathsf{iter}}),\ \sigma_{1} )\quad \operatorname{IterInit}(v_{\mathsf{iter}})\ \Downarrow \ \mathsf{it}\quad \Gamma \ \vdash \ \operatorname{LoopIterExec}(\mathsf{pat},\ \mathsf{body},\ \mathsf{it},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{iter},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{\mathsf{iter}}),\ \sigma_{1} )\quad \operatorname{IterInit}(v_{\mathsf{iter}})\ \Downarrow \ \mathsf{it}\quad \Gamma \ \vdash \ \operatorname{LoopIterExec}(\mathsf{pat},\ \mathsf{body},\ \mathsf{it},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopIter}(\mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{iter},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -2834,8 +2841,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{iter},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{iter},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{LoopIter}(\mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{iter},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -2844,8 +2851,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IterNext}(\mathsf{it})\ \Downarrow \ (\bot ,\ \mathsf{it}') \\
-\rule{18em}{0.4pt} \\
+\operatorname{IterNext}(\mathsf{it})\ \Downarrow \ (\bot ,\ \mathsf{it}') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LoopIterExec}(\mathsf{pat},\ \mathsf{body},\ \mathsf{it},\ \sigma )\ \Downarrow \ (\operatorname{Val}(()),\ \sigma )
 \end{array}
 $$
@@ -2854,8 +2861,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IterNext}(\mathsf{it})\ \Downarrow \ (v,\ \mathsf{it}')\quad \Gamma \ \vdash \ \operatorname{EvalBlockBindSigma}(\mathsf{pat},\ v,\ \mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{b}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{LoopIterExec}(\mathsf{pat},\ \mathsf{body},\ \mathsf{it}',\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IterNext}(\mathsf{it})\ \Downarrow \ (v,\ \mathsf{it}')\quad \Gamma \ \vdash \ \operatorname{EvalBlockBindSigma}(\mathsf{pat},\ v,\ \mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{b}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{LoopIterExec}(\mathsf{pat},\ \mathsf{body},\ \mathsf{it}',\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LoopIterExec}(\mathsf{pat},\ \mathsf{body},\ \mathsf{it},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -2864,8 +2871,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IterNext}(\mathsf{it})\ \Downarrow \ (v,\ \mathsf{it}')\quad \Gamma \ \vdash \ \operatorname{EvalBlockBindSigma}(\mathsf{pat},\ v,\ \mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Continue}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{LoopIterExec}(\mathsf{pat},\ \mathsf{body},\ \mathsf{it}',\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IterNext}(\mathsf{it})\ \Downarrow \ (v,\ \mathsf{it}')\quad \Gamma \ \vdash \ \operatorname{EvalBlockBindSigma}(\mathsf{pat},\ v,\ \mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Continue}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{LoopIterExec}(\mathsf{pat},\ \mathsf{body},\ \mathsf{it}',\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LoopIterExec}(\mathsf{pat},\ \mathsf{body},\ \mathsf{it},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -2874,8 +2881,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IterNext}(\mathsf{it})\ \Downarrow \ (v,\ \mathsf{it}')\quad \Gamma \ \vdash \ \operatorname{EvalBlockBindSigma}(\mathsf{pat},\ v,\ \mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\operatorname{Break}(v_{\mathsf{opt}})),\ \sigma_{1} )\quad v'\ =\ \operatorname{BreakVal}(v_{\mathsf{opt}}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IterNext}(\mathsf{it})\ \Downarrow \ (v,\ \mathsf{it}')\quad \Gamma \ \vdash \ \operatorname{EvalBlockBindSigma}(\mathsf{pat},\ v,\ \mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\operatorname{Break}(v_{\mathsf{opt}})),\ \sigma_{1} )\quad v'\ =\ \operatorname{BreakVal}(v_{\mathsf{opt}}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LoopIterExec}(\mathsf{pat},\ \mathsf{body},\ \mathsf{it},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v'),\ \sigma_{1} )
 \end{array}
 $$
@@ -2884,8 +2891,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IterNext}(\mathsf{it})\ \Downarrow \ (v,\ \mathsf{it}')\quad \Gamma \ \vdash \ \operatorname{EvalBlockBindSigma}(\mathsf{pat},\ v,\ \mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )\quad \kappa \ \in \ \{\operatorname{Return}(\_),\ \mathsf{Panic},\ \mathsf{Abort}\} \\
-\rule{18em}{0.4pt} \\
+\operatorname{IterNext}(\mathsf{it})\ \Downarrow \ (v,\ \mathsf{it}')\quad \Gamma \ \vdash \ \operatorname{EvalBlockBindSigma}(\mathsf{pat},\ v,\ \mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )\quad \kappa \ \in \ \{\operatorname{Return}(\_),\ \mathsf{Panic},\ \mathsf{Abort}\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LoopIterExec}(\mathsf{pat},\ \mathsf{body},\ \mathsf{it},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -2896,8 +2903,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{cond})\ \Downarrow \ \langle \mathsf{IR}_{c},\ v_{c}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(b_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(b_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{cond})\ \Downarrow \ \langle \mathsf{IR}_{c},\ v_{c}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(b_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(b_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{IfExpr}(\mathsf{cond},\ b_{1},\ b_{2}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{c},\ \operatorname{IfIR}(v_{c},\ \mathsf{IR}_{1},\ v_{1},\ \mathsf{IR}_{2},\ v_{2})),\ v_{\mathsf{if}}\rangle 
 \end{array}
 $$
@@ -2906,8 +2913,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerIfCases}(\mathsf{scrut},\ [\langle \mathsf{pat},\ b_{t}\rangle ],\ \mathsf{else}_{\mathsf{opt}})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerIfCases}(\mathsf{scrut},\ [\langle \mathsf{pat},\ b_{t}\rangle ],\ \mathsf{else}_{\mathsf{opt}})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{IfIsExpr}(\mathsf{scrut},\ \mathsf{pat},\ b_{t},\ \mathsf{else}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
 \end{array}
 $$
@@ -2916,8 +2923,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerIfCases}(\mathsf{scrut},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerIfCases}(\mathsf{scrut},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{IfCaseExpr}(\mathsf{scrut},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
 \end{array}
 $$
@@ -2928,8 +2935,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerBlock}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerBlock}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
 \end{array}
 $$
@@ -2964,8 +2971,8 @@ After name resolution, `Binary("^", Identifier(r), e)` MAY be rewritten to `Allo
 
 $$
 \begin{array}{l}
-\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"*"})\quad \Gamma \ \vdash \ \operatorname{ParseUnary}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"*"})\quad \Gamma \ \vdash \ \operatorname{ParseUnary}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseUnary}(P)\ \Downarrow \ (P_{1},\ \operatorname{Deref}(e))
 \end{array}
 $$
@@ -2974,8 +2981,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"\&"})\quad \Gamma \ \vdash \ \operatorname{ParsePlace}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ p) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"\&"})\quad \Gamma \ \vdash \ \operatorname{ParsePlace}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ p) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseUnary}(P)\ \Downarrow \ (P_{1},\ \operatorname{AddressOf}(p))
 \end{array}
 $$
@@ -2984,8 +2991,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{move})\quad \Gamma \ \vdash \ \operatorname{ParsePlace}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ p) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{move})\quad \Gamma \ \vdash \ \operatorname{ParsePlace}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ p) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseUnary}(P)\ \Downarrow \ (P_{1},\ \operatorname{MoveExpr}(p))
 \end{array}
 $$
@@ -2995,7 +3002,7 @@ IsOp(Tok(P), "?")
 
 $$
 \begin{array}{l}
-\rule{18em}{0.4pt} \\
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{PostfixStep}(P,\ e)\ \Downarrow \ (\operatorname{Advance}(P),\ \operatorname{Propagate}(e))
 \end{array}
 $$
@@ -3004,8 +3011,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"\^{}"})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"\^{}"})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (P_{1},\ \operatorname{AllocExpr}(\bot ,\ e))
 \end{array}
 $$
@@ -3014,8 +3021,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{unsafe})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ b) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{unsafe})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ b) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (P_{1},\ \operatorname{UnsafeBlockExpr}(b))
 \end{array}
 $$
@@ -3030,8 +3037,8 @@ ResolveExpr-Alloc-Explicit-ByAlias rewrites:
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ResolveValueName}(r)\ \Downarrow \ \mathsf{ent}\quad \operatorname{RegionAlias}(\mathsf{ent})\quad \Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e' \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ResolveValueName}(r)\ \Downarrow \ \mathsf{ent}\quad \operatorname{RegionAlias}(\mathsf{ent})\quad \Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e' \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ResolveExpr}(\operatorname{Binary}(\texttt{"\^{}"},\ \operatorname{Identifier}(r),\ e))\ \Downarrow \ \operatorname{AllocExpr}(r,\ e')
 \end{array}
 $$
@@ -3040,8 +3047,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{HasLayoutPacked}(D)\ \Leftrightarrow \ \texttt{layout(packed)}\ \mathsf{appears}\ \mathsf{in}\ D.\mathsf{attrs}_{\mathsf{opt}} \\
-\operatorname{PackedField}(p)\ \Leftrightarrow \ p\ =\ \operatorname{FieldAccess}(\mathsf{base},\ f)\ \land \ \operatorname{StripPerm}(\operatorname{ExprType}(\mathsf{base}))\ =\ \operatorname{TypePath}(\mathsf{path})\ \land \ \operatorname{RecordDecl}(\mathsf{path})\ =\ R\ \land \ \operatorname{HasLayoutPacked}(R) \\
+\operatorname{HasLayoutPacked}(D)\ \Leftrightarrow \ \texttt{layout(packed)}\ \mathsf{appears}\ \mathsf{in}\ D.\mathsf{attrs}_{\mathsf{opt}} \\[0.16em]
+\operatorname{PackedField}(p)\ \Leftrightarrow \ p\ =\ \operatorname{FieldAccess}(\mathsf{base},\ f)\ \land \ \operatorname{StripPerm}(\operatorname{ExprType}(\mathsf{base}))\ =\ \operatorname{TypePath}(\mathsf{path})\ \land \ \operatorname{RecordDecl}(\mathsf{path})\ =\ R\ \land \ \operatorname{HasLayoutPacked}(R) \\[0.16em]
 \operatorname{AddrOfOk}(p)\ \Leftrightarrow \ \operatorname{IsPlace}(p)\ \land \ (p\ =\ \operatorname{IndexAccess}(\_,\ \mathsf{idx})\ \Rightarrow \ \Gamma ;\ R;\ L\ \vdash \ \mathsf{idx}\ :\ T_{i}\ \land \ \operatorname{StripPerm}(T_{i})\ =\ \operatorname{TypePrim}(\texttt{usize}))\ \land \ (\operatorname{PackedField}(p)\ \Rightarrow \ \operatorname{UnsafeSpan}(\operatorname{span}(p)))
 \end{array}
 $$
@@ -3050,8 +3057,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ b\ :\ T \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ b\ :\ T \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{UnsafeBlockExpr}(b)\ :\ T
 \end{array}
 $$
@@ -3060,8 +3067,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ b\ \Leftarrow \ T\ \dashv \ \emptyset  \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ b\ \Leftarrow \ T\ \dashv \ \emptyset  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{UnsafeBlockExpr}(b)\ \Leftarrow \ T\ \dashv \ \emptyset 
 \end{array}
 $$
@@ -3070,8 +3077,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ p\ :\mathsf{place}\ T\quad \operatorname{AddrOfOk}(p) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ p\ :\mathsf{place}\ T\quad \operatorname{AddrOfOk}(p) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{AddressOf}(p)\ :\ \operatorname{TypePtr}(T,\ \texttt{Valid})
 \end{array}
 $$
@@ -3080,8 +3087,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ :\ \operatorname{TypePtr}(T,\ \texttt{Valid})\quad \operatorname{BitcopyType}(T) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ :\ \operatorname{TypePtr}(T,\ \texttt{Valid})\quad \operatorname{BitcopyType}(T) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Deref}(e)\ :\ T
 \end{array}
 $$
@@ -3090,8 +3097,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{UnsafeSpan}(\operatorname{span}(\operatorname{Deref}(e)))\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ \operatorname{TypeRawPtr}(q,\ T)\quad \operatorname{BitcopyType}(T) \\
-\rule{18em}{0.4pt} \\
+\operatorname{UnsafeSpan}(\operatorname{span}(\operatorname{Deref}(e)))\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ \operatorname{TypeRawPtr}(q,\ T)\quad \operatorname{BitcopyType}(T) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Deref}(e)\ :\ T
 \end{array}
 $$
@@ -3102,8 +3109,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ p\ :\mathsf{place}\ T \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ p\ :\mathsf{place}\ T \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{MoveExpr}(p)\ :\ T
 \end{array}
 $$
@@ -3112,8 +3119,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ :\ T\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{Identifier}(r)\ :\ T_{r}\quad \operatorname{RegionActiveType}(T_{r}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e\ :\ T\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{Identifier}(r)\ :\ T_{r}\quad \operatorname{RegionActiveType}(T_{r}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{AllocExpr}(r,\ e)\ :\ T
 \end{array}
 $$
@@ -3122,8 +3129,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{InnermostActiveRegion}(\Gamma )\ =\ r\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T \\
-\rule{18em}{0.4pt} \\
+\operatorname{InnermostActiveRegion}(\Gamma )\ =\ r\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{AllocExpr}(\bot ,\ e)\ :\ T
 \end{array}
 $$
@@ -3136,8 +3143,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ U\quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{OutcomeSig}(R)\ =\ \langle T_{r},\ E_{r}\rangle \quad \Gamma \ \vdash \ E_{s}\ \mathrel{<:} \ E_{r} \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ U\quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{OutcomeSig}(R)\ =\ \langle T_{r},\ E_{r}\rangle \quad \Gamma \ \vdash \ E_{s}\ \mathrel{<:} \ E_{r} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Propagate}(e)\ :\ T_{s}
 \end{array}
 $$
@@ -3146,8 +3153,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ U\quad \operatorname{SuccessMember}(R,\ U)\ =\ T_{s} \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ U\quad \operatorname{SuccessMember}(R,\ U)\ =\ T_{s} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Propagate}(e)\ :\ T_{s}
 \end{array}
 $$
@@ -3160,8 +3167,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad E\ \ne \ \operatorname{TypePrim}(\texttt{"!"})\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ U\quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \Gamma \ \vdash \ E_{s}\ \mathrel{<:} \ E \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad E\ \ne \ \operatorname{TypePrim}(\texttt{"!"})\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ U\quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \Gamma \ \vdash \ E_{s}\ \mathrel{<:} \ E \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Propagate}(e)\ :\ T_{s}
 \end{array}
 $$
@@ -3170,8 +3177,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad E\ \ne \ \operatorname{TypePrim}(\texttt{"!"})\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ U\quad \operatorname{SuccessMemberAsync}(E,\ U)\ =\ T_{s} \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad E\ \ne \ \operatorname{TypePrim}(\texttt{"!"})\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ U\quad \operatorname{SuccessMemberAsync}(E,\ U)\ =\ T_{s} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Propagate}(e)\ :\ T_{s}
 \end{array}
 $$
@@ -3180,8 +3187,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad E\ =\ \operatorname{TypePrim}(\texttt{"!"})\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ U\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0230) \\
-\rule{18em}{0.4pt} \\
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad E\ =\ \operatorname{TypePrim}(\texttt{"!"})\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ U\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0230) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Propagate}(e)\ \Uparrow \ c
 \end{array}
 $$
@@ -3192,8 +3199,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalBlockSigma}(b,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ') \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalBlockSigma}(b,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{UnsafeBlockExpr}(b),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')
 \end{array}
 $$
@@ -3202,8 +3209,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{AddrOfSigma}(p,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{addr}),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{AddrOfSigma}(p,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{addr}),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{AddressOf}(p),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{Ptr}@\operatorname{Valid}(\mathsf{addr})),\ \sigma_{1} )
 \end{array}
 $$
@@ -3212,8 +3219,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{\mathsf{ptr}}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{ReadPtrSigma}(v_{\mathsf{ptr}},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{\mathsf{ptr}}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{ReadPtrSigma}(v_{\mathsf{ptr}},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Deref}(e),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )
 \end{array}
 $$
@@ -3222,8 +3229,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{MovePlaceSigma}(p,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{MovePlaceSigma}(p,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{MoveExpr}(p),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{1} )
 \end{array}
 $$
@@ -3232,8 +3239,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \operatorname{ActiveTarget}(\sigma_{1} )\ =\ r\quad \operatorname{RegionAlloc}(\sigma_{1} ,\ r,\ v)\ \Downarrow \ (\sigma_{2} ,\ v') \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \operatorname{ActiveTarget}(\sigma_{1} )\ =\ r\quad \operatorname{RegionAlloc}(\sigma_{1} ,\ r,\ v)\ \Downarrow \ (\sigma_{2} ,\ v') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{AllocExpr}(\bot ,\ e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v'),\ \sigma_{2} )
 \end{array}
 $$
@@ -3242,8 +3249,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{AllocExpr}(\bot ,\ e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -3252,8 +3259,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \operatorname{LookupVal}(\sigma_{1} ,\ r)\ =\ v_{r}\quad \operatorname{RegionHandleOf}(v_{r})\ =\ h\quad \operatorname{ResolveTarget}(\sigma_{1} ,\ h)\ =\ r_{t}\quad \operatorname{RegionAlloc}(\sigma_{1} ,\ r_{t},\ v)\ \Downarrow \ (\sigma_{2} ,\ v') \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \operatorname{LookupVal}(\sigma_{1} ,\ r)\ =\ v_{r}\quad \operatorname{RegionHandleOf}(v_{r})\ =\ h\quad \operatorname{ResolveTarget}(\sigma_{1} ,\ h)\ =\ r_{t}\quad \operatorname{RegionAlloc}(\sigma_{1} ,\ r_{t},\ v)\ \Downarrow \ (\sigma_{2} ,\ v') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{AllocExpr}(r,\ e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v'),\ \sigma_{2} )
 \end{array}
 $$
@@ -3262,8 +3269,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{AllocExpr}(r,\ e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -3272,8 +3279,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \bot \quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{OutcomeSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle T_{r},\ E_{r}\rangle \quad \operatorname{ModalCase}(v)\ =\ \langle \texttt{@Value},\ v_{s}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \bot \quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{OutcomeSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle T_{r},\ E_{r}\rangle \quad \operatorname{ModalCase}(v)\ =\ \langle \texttt{@Value},\ v_{s}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Propagate}(e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{FieldValue}(v_{s},\ \texttt{value})),\ \sigma_{1} )
 \end{array}
 $$
@@ -3282,8 +3289,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{ModalCase}(v)\ =\ \langle \texttt{@Value},\ v_{s}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{ModalCase}(v)\ =\ \langle \texttt{@Value},\ v_{s}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Propagate}(e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{FieldValue}(v_{s},\ \texttt{value})),\ \sigma_{1} )
 \end{array}
 $$
@@ -3292,9 +3299,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \bot \quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{OutcomeSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle T_{r},\ E_{r}\rangle \quad \operatorname{ModalCase}(v)\ =\ \langle \texttt{@Error},\ v_{e}\rangle  \\
-\mathsf{out}\ =\ \texttt{Outcome}<T_{r},\ E_{r}>\texttt{@Error}\{\texttt{error}:\ \operatorname{FieldValue}(v_{e},\ \texttt{error})\} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \bot \quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{OutcomeSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle T_{r},\ E_{r}\rangle \quad \operatorname{ModalCase}(v)\ =\ \langle \texttt{@Error},\ v_{e}\rangle  \\[0.16em]
+\mathsf{out}\ =\ \texttt{Outcome}<T_{r},\ E_{r}>\texttt{@Error}\{\texttt{error}:\ \operatorname{FieldValue}(v_{e},\ \texttt{error})\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Propagate}(e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\operatorname{Return}(\mathsf{out})),\ \sigma_{1} )
 \end{array}
 $$
@@ -3303,9 +3310,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad E\ \ne \ \operatorname{TypePrim}(\texttt{"!"})\quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{ModalCase}(v)\ =\ \langle \texttt{@Error},\ v_{e}\rangle  \\
-\mathsf{async}_{\mathsf{failed}}\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}([\texttt{Async}],\ \texttt{@Failed}),\ [\langle \texttt{error},\ \operatorname{FieldValue}(v_{e},\ \texttt{error})\rangle ]) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad E\ \ne \ \operatorname{TypePrim}(\texttt{"!"})\quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{ModalCase}(v)\ =\ \langle \texttt{@Error},\ v_{e}\rangle  \\[0.16em]
+\mathsf{async}_{\mathsf{failed}}\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}([\texttt{Async}],\ \texttt{@Failed}),\ [\langle \texttt{error},\ \operatorname{FieldValue}(v_{e},\ \texttt{error})\rangle ]) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Propagate}(e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\operatorname{Fail}(\mathsf{async}_{\mathsf{failed}})),\ \sigma_{1} )
 \end{array}
 $$
@@ -3314,8 +3321,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \bot \quad \operatorname{SuccessMember}(\operatorname{RetType}(\Gamma ),\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{s},\ v_{s}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \bot \quad \operatorname{SuccessMember}(\operatorname{RetType}(\Gamma ),\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{s},\ v_{s}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Propagate}(e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{s}),\ \sigma_{1} )
 \end{array}
 $$
@@ -3324,8 +3331,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \operatorname{SuccessMemberAsync}(E,\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{s},\ v_{s}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \operatorname{SuccessMemberAsync}(E,\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{s},\ v_{s}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Propagate}(e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{s}),\ \sigma_{1} )
 \end{array}
 $$
@@ -3334,8 +3341,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \bot \quad \operatorname{SuccessMember}(\operatorname{RetType}(\Gamma ),\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{e},\ v_{e}\rangle \quad T_{e}\ \ne \ T_{s} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \bot \quad \operatorname{SuccessMember}(\operatorname{RetType}(\Gamma ),\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{e},\ v_{e}\rangle \quad T_{e}\ \ne \ T_{s} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Propagate}(e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\operatorname{Return}(v_{e})),\ \sigma_{1} )
 \end{array}
 $$
@@ -3344,9 +3351,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad E\ \ne \ \operatorname{TypePrim}(\texttt{"!"})\quad \operatorname{SuccessMemberAsync}(E,\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{e},\ v_{e}\rangle \quad T_{e}\ \ne \ T_{s} \\
-\mathsf{async}_{\mathsf{failed}}\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}([\texttt{Async}],\ \texttt{@Failed}),\ [\langle \texttt{error},\ v_{e}\rangle ]) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad E\ \ne \ \operatorname{TypePrim}(\texttt{"!"})\quad \operatorname{SuccessMemberAsync}(E,\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{e},\ v_{e}\rangle \quad T_{e}\ \ne \ T_{s} \\[0.16em]
+\mathsf{async}_{\mathsf{failed}}\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}([\texttt{Async}],\ \texttt{@Failed}),\ [\langle \texttt{error},\ v_{e}\rangle ]) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Propagate}(e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\operatorname{Fail}(\mathsf{async}_{\mathsf{failed}})),\ \sigma_{1} )
 \end{array}
 $$
@@ -3355,16 +3362,16 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Propagate}(e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\mathsf{ExprState}\ =\ \{\langle e,\ \sigma \rangle ,\ \langle \operatorname{Val}(v),\ \sigma \rangle ,\ \langle \operatorname{Ctrl}(\kappa ),\ \sigma \rangle \} \\
-\operatorname{TerminalExpr}(\langle \operatorname{Val}(v),\ \sigma \rangle ) \\
+\mathsf{ExprState}\ =\ \{\langle e,\ \sigma \rangle ,\ \langle \operatorname{Val}(v),\ \sigma \rangle ,\ \langle \operatorname{Ctrl}(\kappa ),\ \sigma \rangle \} \\[0.16em]
+\operatorname{TerminalExpr}(\langle \operatorname{Val}(v),\ \sigma \rangle ) \\[0.16em]
 \operatorname{TerminalExpr}(\langle \operatorname{Ctrl}(\kappa ),\ \sigma \rangle )
 \end{array}
 $$
@@ -3373,8 +3380,8 @@ $$
 
 $$
 \begin{array}{l}
-\langle e\rangle \ \to \ \langle e'\rangle  \\
-\rule{18em}{0.4pt} \\
+\langle e\rangle \ \to \ \langle e'\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle e,\ \sigma \rangle \ \to \ \langle e',\ \sigma \rangle 
 \end{array}
 $$
@@ -3383,8 +3390,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \operatorname{ActiveTarget}(\sigma_{1} )\ =\ r\quad \operatorname{RegionAlloc}(\sigma_{1} ,\ r,\ v)\ \Downarrow \ (\sigma_{2} ,\ v') \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \operatorname{ActiveTarget}(\sigma_{1} )\ =\ r\quad \operatorname{RegionAlloc}(\sigma_{1} ,\ r,\ v)\ \Downarrow \ (\sigma_{2} ,\ v') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{AllocExpr}(\bot ,\ e),\ \sigma \rangle \ \to \ \langle \operatorname{Val}(v'),\ \sigma_{2} \rangle 
 \end{array}
 $$
@@ -3393,8 +3400,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{AllocExpr}(\bot ,\ e),\ \sigma \rangle \ \to \ \langle \operatorname{Ctrl}(\kappa ),\ \sigma_{1} \rangle 
 \end{array}
 $$
@@ -3403,8 +3410,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \operatorname{LookupVal}(\sigma_{1} ,\ r)\ =\ v_{r}\quad \operatorname{RegionHandleOf}(v_{r})\ =\ h\quad \operatorname{ResolveTarget}(\sigma_{1} ,\ h)\ =\ r_{t}\quad \operatorname{RegionAlloc}(\sigma_{1} ,\ r_{t},\ v)\ \Downarrow \ (\sigma_{2} ,\ v') \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \operatorname{LookupVal}(\sigma_{1} ,\ r)\ =\ v_{r}\quad \operatorname{RegionHandleOf}(v_{r})\ =\ h\quad \operatorname{ResolveTarget}(\sigma_{1} ,\ h)\ =\ r_{t}\quad \operatorname{RegionAlloc}(\sigma_{1} ,\ r_{t},\ v)\ \Downarrow \ (\sigma_{2} ,\ v') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{AllocExpr}(r,\ e),\ \sigma \rangle \ \to \ \langle \operatorname{Val}(v'),\ \sigma_{2} \rangle 
 \end{array}
 $$
@@ -3413,8 +3420,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{AllocExpr}(r,\ e),\ \sigma \rangle \ \to \ \langle \operatorname{Ctrl}(\kappa ),\ \sigma_{1} \rangle 
 \end{array}
 $$
@@ -3423,8 +3430,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ') \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}),\ \sigma \rangle \ \to \ \langle \mathsf{out},\ \sigma '\rangle 
 \end{array}
 $$
@@ -3433,8 +3440,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalBlockSigma}(b,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ') \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalBlockSigma}(b,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ') \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{UnsafeBlockExpr}(b),\ \sigma \rangle \ \to \ \langle \mathsf{out},\ \sigma '\rangle 
 \end{array}
 $$
@@ -3443,8 +3450,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\ell ,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\quad \ell \ \in \ \{\operatorname{LoopInfinite}(\_,\ \_),\ \operatorname{LoopConditional}(\_,\ \_,\ \_),\ \operatorname{LoopIter}(\_,\ \_,\ \_,\ \_,\ \_)\} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\ell ,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\quad \ell \ \in \ \{\operatorname{LoopInfinite}(\_,\ \_),\ \operatorname{LoopConditional}(\_,\ \_,\ \_),\ \operatorname{LoopIter}(\_,\ \_,\ \_,\ \_,\ \_)\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle \ell ,\ \sigma \rangle \ \to \ \langle \mathsf{out},\ \sigma '\rangle 
 \end{array}
 $$
@@ -3453,8 +3460,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\quad e\ \notin \ \{\operatorname{AllocExpr}(\_,\ \_),\ \operatorname{BlockExpr}(\_,\ \_),\ \operatorname{UnsafeBlockExpr}(\_),\ \operatorname{LoopInfinite}(\_,\ \_),\ \operatorname{LoopConditional}(\_,\ \_,\ \_),\ \operatorname{LoopIter}(\_,\ \_,\ \_,\ \_,\ \_)\} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\quad e\ \notin \ \{\operatorname{AllocExpr}(\_,\ \_),\ \operatorname{BlockExpr}(\_,\ \_),\ \operatorname{UnsafeBlockExpr}(\_),\ \operatorname{LoopInfinite}(\_,\ \_),\ \operatorname{LoopConditional}(\_,\ \_,\ \_),\ \operatorname{LoopIter}(\_,\ \_,\ \_,\ \_,\ \_)\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \langle e,\ \sigma \rangle \ \to \ \langle \mathsf{out},\ \sigma '\rangle 
 \end{array}
 $$
@@ -3465,8 +3472,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerBlock}(b)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerBlock}(b)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{UnsafeBlockExpr}(b))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
 \end{array}
 $$
@@ -3475,8 +3482,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerMovePlace}(p)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerMovePlace}(p)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MoveExpr}(p))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
 \end{array}
 $$
@@ -3485,8 +3492,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerAddrOf}(p)\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{addr}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerAddrOf}(p)\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{addr}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{AddressOf}(p))\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{Ptr}@\operatorname{Valid}(\mathsf{addr})\rangle 
 \end{array}
 $$
@@ -3495,8 +3502,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v_{\mathsf{ptr}}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerRawDeref}(v_{\mathsf{ptr}})\ \Downarrow \ \langle \mathsf{IR}_{d},\ v\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v_{\mathsf{ptr}}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerRawDeref}(v_{\mathsf{ptr}})\ \Downarrow \ \langle \mathsf{IR}_{d},\ v\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Deref}(e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{d}),\ v\rangle 
 \end{array}
 $$
@@ -3505,8 +3512,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{AllocExpr}(r_{\mathsf{opt}},\ e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{AllocIR}(r_{\mathsf{opt}},\ v)),\ v_{\mathsf{alloc}}\rangle 
 \end{array}
 $$
@@ -3515,8 +3522,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{OutcomeState}(v)\ =\ \texttt{@Value}\quad \operatorname{OutcomeField}(v,\ \texttt{value})\ =\ v_{s} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{OutcomeState}(v)\ =\ \texttt{@Value}\quad \operatorname{OutcomeField}(v,\ \texttt{value})\ =\ v_{s} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Propagate}(e))\ \Downarrow \ \langle \mathsf{IR}_{e},\ v_{s}\rangle 
 \end{array}
 $$
@@ -3525,8 +3532,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{OutcomeState}(v)\ =\ \texttt{@Error}\quad \operatorname{OutcomeField}(v,\ \texttt{error})\ =\ v_{e} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{OutcomeState}(v)\ =\ \texttt{@Error}\quad \operatorname{OutcomeField}(v,\ \texttt{error})\ =\ v_{e} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Propagate}(e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{ReturnIR}(\texttt{Outcome@Error}\{\texttt{error}:\ v_{e}\})),\ v_{\mathsf{unreach}}\rangle 
 \end{array}
 $$
@@ -3535,8 +3542,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{SuccessMember}(\operatorname{RetType}(\Gamma ),\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{s},\ v_{s}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{SuccessMember}(\operatorname{RetType}(\Gamma ),\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{s},\ v_{s}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Propagate}(e))\ \Downarrow \ \langle \mathsf{IR}_{e},\ v_{s}\rangle 
 \end{array}
 $$
@@ -3545,8 +3552,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{SuccessMember}(\operatorname{RetType}(\Gamma ),\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{e},\ v_{e}\rangle \quad T_{e}\ \ne \ T_{s} \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{SuccessMember}(\operatorname{RetType}(\Gamma ),\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{e},\ v_{e}\rangle \quad T_{e}\ \ne \ T_{s} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Propagate}(e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{ReturnIR}(v_{e})),\ v_{\mathsf{unreach}}\rangle 
 \end{array}
 $$
@@ -3581,8 +3588,8 @@ Closure invocation uses ordinary call syntax; the closure-specific rules for tha
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseBasePostfix}(P)\ \Downarrow \ (P_{1},\ e_{0})\quad \Gamma \ \vdash \ \operatorname{ParsePipelineTail}(P_{1},\ e_{0})\ \Downarrow \ (P_{2},\ e) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseBasePostfix}(P)\ \Downarrow \ (P_{1},\ e_{0})\quad \Gamma \ \vdash \ \operatorname{ParsePipelineTail}(P_{1},\ e_{0})\ \Downarrow \ (P_{2},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePipeline}(P)\ \Downarrow \ (P_{2},\ e)
 \end{array}
 $$
@@ -3591,8 +3598,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"=>"}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"=>"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePipelineTail}(P,\ e)\ \Downarrow \ (P,\ e)
 \end{array}
 $$
@@ -3601,8 +3608,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"=>"})\quad \Gamma \ \vdash \ \operatorname{ParseBasePostfix}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e_{1})\quad \Gamma \ \vdash \ \operatorname{ParsePipelineTail}(P_{1},\ \operatorname{PipelineExpr}(e,\ e_{1}))\ \Downarrow \ (P_{2},\ e_{2}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"=>"})\quad \Gamma \ \vdash \ \operatorname{ParseBasePostfix}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e_{1})\quad \Gamma \ \vdash \ \operatorname{ParsePipelineTail}(P_{1},\ \operatorname{PipelineExpr}(e,\ e_{1}))\ \Downarrow \ (P_{2},\ e_{2}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePipelineTail}(P,\ e)\ \Downarrow \ (P_{2},\ e_{2})
 \end{array}
 $$
@@ -3611,8 +3618,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"|"})\quad \Gamma \ \vdash \ \operatorname{ParseClosureParams}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{params})\quad \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"|"})\quad \Gamma \ \vdash \ \operatorname{ParseClosureRetOpt}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{ret}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseClosureBody}(P_{2})\ \Downarrow \ (P_{3},\ \mathsf{body}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"|"})\quad \Gamma \ \vdash \ \operatorname{ParseClosureParams}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{params})\quad \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"|"})\quad \Gamma \ \vdash \ \operatorname{ParseClosureRetOpt}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{ret}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseClosureBody}(P_{2})\ \Downarrow \ (P_{3},\ \mathsf{body}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (P_{3},\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \mathsf{body}))
 \end{array}
 $$
@@ -3621,8 +3628,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"|"})\quad \operatorname{IsOp}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"|"})\quad \Gamma \ \vdash \ \operatorname{ParseClosureRetOpt}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ \mathsf{ret}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseClosureBody}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{body}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"|"})\quad \operatorname{IsOp}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"|"})\quad \Gamma \ \vdash \ \operatorname{ParseClosureRetOpt}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ \mathsf{ret}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseClosureBody}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{body}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (P_{2},\ \operatorname{ClosureExpr}([],\ \mathsf{ret}_{\mathsf{opt}},\ \mathsf{body}))
 \end{array}
 $$
@@ -3631,8 +3638,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseClosureParam}(P)\ \Downarrow \ (P_{1},\ p)\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{","}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseClosureParam}(P)\ \Downarrow \ (P_{1},\ p)\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{","}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseClosureParams}(P)\ \Downarrow \ (P_{1},\ [p])
 \end{array}
 $$
@@ -3641,8 +3648,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseClosureParam}(P)\ \Downarrow \ (P_{1},\ p)\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{","})\quad \Gamma \ \vdash \ \operatorname{ParseClosureParams}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{ps}) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{ParseClosureParam}(P)\ \Downarrow \ (P_{1},\ p)\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{","})\quad \Gamma \ \vdash \ \operatorname{ParseClosureParams}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{ps}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseClosureParams}(P)\ \Downarrow \ (P_{2},\ [p]\ \mathbin{++} \ \mathsf{ps})
 \end{array}
 $$
@@ -3651,8 +3658,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseType}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{ty})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseType}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{ty})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseClosureParamType}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \mathsf{ty})
 \end{array}
 $$
@@ -3661,8 +3668,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseTypeNoUnion}(P)\ \Downarrow \ (P_{1},\ \mathsf{ty}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseTypeNoUnion}(P)\ \Downarrow \ (P_{1},\ \mathsf{ty}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseClosureParamType}(P)\ \Downarrow \ (P_{1},\ \mathsf{ty})
 \end{array}
 $$
@@ -3671,8 +3678,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{move})\quad \operatorname{IsIdent}(\operatorname{Tok}(\operatorname{Advance}(P)))\quad \mathsf{name}\ =\ \operatorname{Lexeme}(\operatorname{Tok}(\operatorname{Advance}(P)))\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseClosureParamType}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P))))\ \Downarrow \ (P_{1},\ \mathsf{ty}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{move})\quad \operatorname{IsIdent}(\operatorname{Tok}(\operatorname{Advance}(P)))\quad \mathsf{name}\ =\ \operatorname{Lexeme}(\operatorname{Tok}(\operatorname{Advance}(P)))\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseClosureParamType}(\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P))))\ \Downarrow \ (P_{1},\ \mathsf{ty}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseClosureParam}(P)\ \Downarrow \ (P_{1},\ \langle \mathsf{true},\ \mathsf{name},\ \mathsf{ty}\rangle )
 \end{array}
 $$
@@ -3681,8 +3688,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{move})\quad \operatorname{IsIdent}(\operatorname{Tok}(\operatorname{Advance}(P)))\quad \mathsf{name}\ =\ \operatorname{Lexeme}(\operatorname{Tok}(\operatorname{Advance}(P)))\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))),\ \texttt{":"}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{move})\quad \operatorname{IsIdent}(\operatorname{Tok}(\operatorname{Advance}(P)))\quad \mathsf{name}\ =\ \operatorname{Lexeme}(\operatorname{Tok}(\operatorname{Advance}(P)))\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))),\ \texttt{":"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseClosureParam}(P)\ \Downarrow \ (\operatorname{Advance}(\operatorname{Advance}(P)),\ \langle \mathsf{true},\ \mathsf{name},\ \bot \rangle )
 \end{array}
 $$
@@ -3691,8 +3698,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{move})\quad \operatorname{IsIdent}(\operatorname{Tok}(P))\quad \mathsf{name}\ =\ \operatorname{Lexeme}(\operatorname{Tok}(P))\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseClosureParamType}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ \mathsf{ty}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{move})\quad \operatorname{IsIdent}(\operatorname{Tok}(P))\quad \mathsf{name}\ =\ \operatorname{Lexeme}(\operatorname{Tok}(P))\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseClosureParamType}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ \mathsf{ty}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseClosureParam}(P)\ \Downarrow \ (P_{1},\ \langle \mathsf{false},\ \mathsf{name},\ \mathsf{ty}\rangle )
 \end{array}
 $$
@@ -3701,8 +3708,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{move})\quad \operatorname{IsIdent}(\operatorname{Tok}(P))\quad \mathsf{name}\ =\ \operatorname{Lexeme}(\operatorname{Tok}(P))\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{":"}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{move})\quad \operatorname{IsIdent}(\operatorname{Tok}(P))\quad \mathsf{name}\ =\ \operatorname{Lexeme}(\operatorname{Tok}(P))\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{":"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseClosureParam}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \langle \mathsf{false},\ \mathsf{name},\ \bot \rangle )
 \end{array}
 $$
@@ -3711,8 +3718,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"->"})\quad \Gamma \ \vdash \ \operatorname{ParseType}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{ty}) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"->"})\quad \Gamma \ \vdash \ \operatorname{ParseType}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{ty}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseClosureRetOpt}(P)\ \Downarrow \ (P_{1},\ \mathsf{ty})
 \end{array}
 $$
@@ -3721,8 +3728,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"->"}) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"->"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseClosureRetOpt}(P)\ \Downarrow \ (P,\ \bot )
 \end{array}
 $$
@@ -3731,8 +3738,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(P)\ \Downarrow \ (P_{1},\ b) \\
-\rule{18em}{0.4pt} \\
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseBlock}(P)\ \Downarrow \ (P_{1},\ b) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseClosureBody}(P)\ \Downarrow \ (P_{1},\ \operatorname{BlockExpr}(b))
 \end{array}
 $$
@@ -3741,8 +3748,8 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(P)\ \Downarrow \ (P_{1},\ e) \\
-\rule{18em}{0.4pt} \\
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(P)\ \Downarrow \ (P_{1},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseClosureBody}(P)\ \Downarrow \ (P_{1},\ e)
 \end{array}
 $$
@@ -3755,38 +3762,38 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{ClosureParam}\ =\ \langle \mathsf{move}_{\mathsf{opt}},\ \mathsf{name},\ \mathsf{type}_{\mathsf{opt}}\rangle \quad \mathsf{move}_{\mathsf{opt}}\ \in \ \{\mathsf{true},\ \mathsf{false}\}\quad \mathsf{type}_{\mathsf{opt}}\ \in \ \{\bot \}\ \cup \ \mathsf{Type} \\
-\mathsf{ClosureParams}\ =\ [\mathsf{ClosureParam}]
+\mathsf{ClosureParam}\ =\ \langle \mathsf{move}_{\mathsf{opt}},\ \mathsf{name},\ \mathsf{type}_{\mathsf{opt}}\rangle \quad \mathsf{move}_{\mathsf{opt}}\ \in \ \{\mathsf{true},\ \mathsf{false}\}\quad \mathsf{type}_{\mathsf{opt}}\ \in \ \{\bot \}\ \cup \ \mathsf{Type} \\[0.16em]
+\mathsf{ClosureParams}\ =\ [\mathsf{ClosureParam}] \\[0.16em]
+\mathsf{ClosureBody}\ =\ \mathsf{Expr}
 \end{array}
 $$
-ClosureBody = Expr
 
 ### 16.9.4 Static Semantics
 
 $$
 \begin{array}{l}
-\operatorname{FreeVars}(e)\ =\ \{\ x\ \mid \ x\ \in \ \mathsf{Identifier}\ \land \ \operatorname{Bound}(x,\ e)\ \land \ \lnot \ \operatorname{LocallyBound}(x,\ e)\ \} \\
-\operatorname{CaptureSet}(C)\ =\ \operatorname{FreeVars}(C.\mathsf{body})\ \setminus \ \{\ p.\mathsf{name}\ \mid \ p\ \in \ C.\mathsf{params}\ \} \\
-\operatorname{MoveCaptureSet}(C)\ =\ \{\ x\ \mid \ x\ \in \ \operatorname{CaptureSet}(C)\ \land \ (\exists \ p\ \in \ C.\mathsf{params}.\ p\ =\ \langle \mathsf{true},\ x,\ \_\rangle )\ \} \\
-\quad \cup \ \{\ x\ \mid \ x\ \in \ \operatorname{CaptureSet}(C)\ \land \ \operatorname{MoveExpr}(e)\ \in \ C.\mathsf{body}\ \land \ \operatorname{PlaceRoot}(e)\ =\ x\ \} \\
-\operatorname{RefCaptureSet}(C)\ =\ \operatorname{CaptureSet}(C)\ \setminus \ \operatorname{MoveCaptureSet}(C) \\
-\operatorname{SharedCaptures}(C)\ =\ \{\ x\ \mid \ x\ \in \ \operatorname{CaptureSet}(C)\ \land \ \Gamma (x)\ =\ \operatorname{TypePerm}(\texttt{shared},\ \_)\ \} \\
-\operatorname{ConstCaptures}(C)\ =\ \{\ x\ \mid \ x\ \in \ \operatorname{CaptureSet}(C)\ \land \ \Gamma (x)\ =\ \operatorname{TypePerm}(\texttt{const},\ \_)\ \} \\
+\operatorname{FreeVars}(e)\ =\ \{\ x\ \mid \ x\ \in \ \mathsf{Identifier}\ \land \ \operatorname{Bound}(x,\ e)\ \land \ \lnot \ \operatorname{LocallyBound}(x,\ e)\ \} \\[0.16em]
+\operatorname{CaptureSet}(C)\ =\ \operatorname{FreeVars}(C.\mathsf{body})\ \setminus \ \{\ p.\mathsf{name}\ \mid \ p\ \in \ C.\mathsf{params}\ \} \\[0.16em]
+\operatorname{MoveCaptureSet}(C)\ =\ \{\ x\ \mid \ x\ \in \ \operatorname{CaptureSet}(C)\ \land \ (\exists \ p\ \in \ C.\mathsf{params}.\ p\ =\ \langle \mathsf{true},\ x,\ \_\rangle )\ \} \\[0.16em]
+\quad \cup \ \{\ x\ \mid \ x\ \in \ \operatorname{CaptureSet}(C)\ \land \ \operatorname{MoveExpr}(e)\ \in \ C.\mathsf{body}\ \land \ \operatorname{PlaceRoot}(e)\ =\ x\ \} \\[0.16em]
+\operatorname{RefCaptureSet}(C)\ =\ \operatorname{CaptureSet}(C)\ \setminus \ \operatorname{MoveCaptureSet}(C) \\[0.16em]
+\operatorname{SharedCaptures}(C)\ =\ \{\ x\ \mid \ x\ \in \ \operatorname{CaptureSet}(C)\ \land \ \Gamma (x)\ =\ \operatorname{TypePerm}(\texttt{shared},\ \_)\ \} \\[0.16em]
+\operatorname{ConstCaptures}(C)\ =\ \{\ x\ \mid \ x\ \in \ \operatorname{CaptureSet}(C)\ \land \ \Gamma (x)\ =\ \operatorname{TypePerm}(\texttt{const},\ \_)\ \} \\[0.16em]
 \operatorname{UniqueCaptures}(C)\ =\ \{\ x\ \mid \ x\ \in \ \operatorname{CaptureSet}(C)\ \land \ \Gamma (x)\ =\ \operatorname{TypePerm}(\texttt{unique},\ \_)\ \}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{IsEscaping}(C)\ \Leftrightarrow \ \operatorname{ExpectedType}(C)\ \ne \ \bot \ \land \ \operatorname{CanEscape}(\operatorname{ExpectedType}(C)) \\
-\operatorname{CanEscape}(T)\ \Leftrightarrow \ T\ =\ \operatorname{TypeClosure}(\_,\ \_,\ \_)\ \lor \ (\operatorname{IsGenericType}(T)\ \land \ \lnot \ \operatorname{LocalBound}(T)) \\
+\operatorname{IsEscaping}(C)\ \Leftrightarrow \ \operatorname{ExpectedType}(C)\ \ne \ \bot \ \land \ \operatorname{CanEscape}(\operatorname{ExpectedType}(C)) \\[0.16em]
+\operatorname{CanEscape}(T)\ \Leftrightarrow \ T\ =\ \operatorname{TypeClosure}(\_,\ \_,\ \_)\ \lor \ (\operatorname{IsGenericType}(T)\ \land \ \lnot \ \operatorname{LocalBound}(T)) \\[0.16em]
 \operatorname{IsLocalClosure}(C)\ \Leftrightarrow \ \lnot \ \operatorname{IsEscaping}(C)
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{Params}(C)\ =\ C.\mathsf{params} \\
+\operatorname{Params}(C)\ =\ C.\mathsf{params} \\[0.16em]
 \operatorname{Annot}(p)\ =\ p.\mathsf{type}_{\mathsf{opt}}
 \end{array}
 $$
@@ -3795,10 +3802,10 @@ $$
 
 $$
 \begin{array}{l}
-C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ =\ \emptyset  \\
-\forall \ i.\ \operatorname{ParamType}(\mathsf{params}[i])\ =\ T_{i}\quad (\mathsf{ret}_{\mathsf{opt}}\ \ne \ \bot \ \Rightarrow \ R\ =\ \mathsf{ret}_{\mathsf{opt}})\quad (\mathsf{ret}_{\mathsf{opt}}\ =\ \bot \ \Rightarrow \ \Gamma '\ \vdash \ \mathsf{body}\ :\ R) \\
-\Gamma '\ =\ \Gamma \ \cup \ \{\ \mathsf{params}[i].\mathsf{name}\ \mapsto \ T_{i}\ \mid \ i\ \in \ 1..\mid \mathsf{params}\mid \ \}\quad \Gamma '\ \vdash \ \mathsf{body}\ :\ R \\
-\rule{18em}{0.4pt} \\
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ =\ \emptyset  \\[0.16em]
+\forall \ i.\ \operatorname{ParamType}(\mathsf{params}[i])\ =\ T_{i}\quad (\mathsf{ret}_{\mathsf{opt}}\ \ne \ \bot \ \Rightarrow \ R\ =\ \mathsf{ret}_{\mathsf{opt}})\quad (\mathsf{ret}_{\mathsf{opt}}\ =\ \bot \ \Rightarrow \ \Gamma '\ \vdash \ \mathsf{body}\ :\ R) \\[0.16em]
+\Gamma '\ =\ \Gamma \ \cup \ \{\ \mathsf{params}[i].\mathsf{name}\ \mapsto \ T_{i}\ \mid \ i\ \in \ 1..\mid \mathsf{params}\mid \ \}\quad \Gamma '\ \vdash \ \mathsf{body}\ :\ R \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ C\ :\ \operatorname{TypeFunc}([\langle \mathsf{params}[i].\mathsf{move}_{\mathsf{opt}},\ T_{i}\rangle \ \mid \ i\ \in \ 1..\mid \mathsf{params}\mid ],\ R)
 \end{array}
 $$
@@ -3807,11 +3814,11 @@ $$
 
 $$
 \begin{array}{l}
-C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ \ne \ \emptyset \quad \operatorname{IsLocalClosure}(C) \\
-\forall \ i.\ \operatorname{ParamType}(\mathsf{params}[i])\ =\ T_{i}\quad (\mathsf{ret}_{\mathsf{opt}}\ \ne \ \bot \ \Rightarrow \ R\ =\ \mathsf{ret}_{\mathsf{opt}})\quad (\mathsf{ret}_{\mathsf{opt}}\ =\ \bot \ \Rightarrow \ \Gamma '\ \vdash \ \mathsf{body}\ :\ R) \\
-\operatorname{UniqueCaptures}(C)\ =\ \emptyset  \\
-\Gamma '\ =\ \Gamma \ \cup \ \{\ \mathsf{params}[i].\mathsf{name}\ \mapsto \ T_{i}\ \mid \ i\ \in \ 1..\mid \mathsf{params}\mid \ \}\quad \Gamma '\ \vdash \ \mathsf{body}\ :\ R \\
-\rule{18em}{0.4pt} \\
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ \ne \ \emptyset \quad \operatorname{IsLocalClosure}(C) \\[0.16em]
+\forall \ i.\ \operatorname{ParamType}(\mathsf{params}[i])\ =\ T_{i}\quad (\mathsf{ret}_{\mathsf{opt}}\ \ne \ \bot \ \Rightarrow \ R\ =\ \mathsf{ret}_{\mathsf{opt}})\quad (\mathsf{ret}_{\mathsf{opt}}\ =\ \bot \ \Rightarrow \ \Gamma '\ \vdash \ \mathsf{body}\ :\ R) \\[0.16em]
+\operatorname{UniqueCaptures}(C)\ =\ \emptyset  \\[0.16em]
+\Gamma '\ =\ \Gamma \ \cup \ \{\ \mathsf{params}[i].\mathsf{name}\ \mapsto \ T_{i}\ \mid \ i\ \in \ 1..\mid \mathsf{params}\mid \ \}\quad \Gamma '\ \vdash \ \mathsf{body}\ :\ R \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ C\ :\ \operatorname{TypeClosure}([\langle \mathsf{params}[i].\mathsf{move}_{\mathsf{opt}},\ T_{i}\rangle \ \mid \ i\ \in \ 1..\mid \mathsf{params}\mid ],\ R,\ \bot )
 \end{array}
 $$
@@ -3820,12 +3827,12 @@ $$
 
 $$
 \begin{array}{l}
-C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ \ne \ \emptyset \quad \operatorname{IsEscaping}(C) \\
-\forall \ i.\ \operatorname{ParamType}(\mathsf{params}[i])\ =\ T_{i}\quad (\mathsf{ret}_{\mathsf{opt}}\ \ne \ \bot \ \Rightarrow \ R\ =\ \mathsf{ret}_{\mathsf{opt}})\quad (\mathsf{ret}_{\mathsf{opt}}\ =\ \bot \ \Rightarrow \ \Gamma '\ \vdash \ \mathsf{body}\ :\ R) \\
-\operatorname{UniqueCaptures}(C)\ =\ \emptyset  \\
-\operatorname{SharedCaptures}(C)\ =\ \{x_{1},\ \ldots ,\ x_{k}\}\quad \mathsf{deps}\ =\ [(x_{j},\ \Gamma (x_{j}))\ \mid \ j\ \in \ 1..k] \\
-\Gamma '\ =\ \Gamma \ \cup \ \{\ \mathsf{params}[i].\mathsf{name}\ \mapsto \ T_{i}\ \mid \ i\ \in \ 1..\mid \mathsf{params}\mid \ \}\quad \Gamma '\ \vdash \ \mathsf{body}\ :\ R \\
-\rule{18em}{0.4pt} \\
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ \ne \ \emptyset \quad \operatorname{IsEscaping}(C) \\[0.16em]
+\forall \ i.\ \operatorname{ParamType}(\mathsf{params}[i])\ =\ T_{i}\quad (\mathsf{ret}_{\mathsf{opt}}\ \ne \ \bot \ \Rightarrow \ R\ =\ \mathsf{ret}_{\mathsf{opt}})\quad (\mathsf{ret}_{\mathsf{opt}}\ =\ \bot \ \Rightarrow \ \Gamma '\ \vdash \ \mathsf{body}\ :\ R) \\[0.16em]
+\operatorname{UniqueCaptures}(C)\ =\ \emptyset  \\[0.16em]
+\operatorname{SharedCaptures}(C)\ =\ \{x_{1},\ \ldots ,\ x_{k}\}\quad \mathsf{deps}\ =\ [(x_{j},\ \Gamma (x_{j}))\ \mid \ j\ \in \ 1..k] \\[0.16em]
+\Gamma '\ =\ \Gamma \ \cup \ \{\ \mathsf{params}[i].\mathsf{name}\ \mapsto \ T_{i}\ \mid \ i\ \in \ 1..\mid \mathsf{params}\mid \ \}\quad \Gamma '\ \vdash \ \mathsf{body}\ :\ R \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ C\ :\ \operatorname{TypeClosure}([\langle \mathsf{params}[i].\mathsf{move}_{\mathsf{opt}},\ T_{i}\rangle \ \mid \ i\ \in \ 1..\mid \mathsf{params}\mid ],\ R,\ \langle \mathsf{deps}\rangle )
 \end{array}
 $$
@@ -3834,8 +3841,8 @@ $$
 
 $$
 \begin{array}{l}
-C\ \mathsf{is}\ \mathsf{escaping}\quad \operatorname{SharedCaptures}(C)\ =\ \{x_{1},\ \ldots ,\ x_{n}\} \\
-\rule{18em}{0.4pt} \\
+C\ \mathsf{is}\ \mathsf{escaping}\quad \operatorname{SharedCaptures}(C)\ =\ \{x_{1},\ \ldots ,\ x_{n}\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{Type}(C)\ =\ \mid \mathsf{vec}_{T}\mid \ \to \ R\ [\texttt{shared}:\ \{x_{1}\ :\ \texttt{shared}\ T_{1},\ \ldots ,\ x_{n}\ :\ \texttt{shared}\ T_{n}\}]
 \end{array}
 $$
@@ -3844,8 +3851,8 @@ $$
 
 $$
 \begin{array}{l}
-x\ \in \ \operatorname{ConstCaptures}(C) \\
-\rule{18em}{0.4pt} \\
+x\ \in \ \operatorname{ConstCaptures}(C) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{CaptureMode}(C,\ x)\ =\ \mathsf{ByRef}
 \end{array}
 $$
@@ -3854,8 +3861,8 @@ $$
 
 $$
 \begin{array}{l}
-x\ \in \ \operatorname{SharedCaptures}(C) \\
-\rule{18em}{0.4pt} \\
+x\ \in \ \operatorname{SharedCaptures}(C) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \operatorname{CaptureMode}(C,\ x)\ =\ \mathsf{ByRef}
 \end{array}
 $$
@@ -3864,8 +3871,8 @@ $$
 
 $$
 \begin{array}{l}
-x\ \in \ \operatorname{UniqueCaptures}(C)\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0120) \\
-\rule{18em}{0.4pt} \\
+x\ \in \ \operatorname{UniqueCaptures}(C)\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0120) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ C\ \Uparrow \ c
 \end{array}
 $$
@@ -3874,8 +3881,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeClosure}(\mathsf{params},\ R_{c},\ \_)\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}(\mathsf{params},\ \mathsf{args}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeClosure}(\mathsf{params},\ R_{c},\ \_)\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}(\mathsf{params},\ \mathsf{args}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ :\ R_{c}
 \end{array}
 $$
@@ -3884,8 +3891,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ C\ \Leftarrow \ \operatorname{TypeFunc}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R_{t})\ \dashv \ \emptyset \quad \operatorname{Params}(C)\ =\ [p_{1},\ \ldots ,\ p_{n}]\quad \forall \ i.\ (\operatorname{Annot}(p_{i})\ =\ \bot \ \Rightarrow \ \operatorname{ParamType}(p_{i})\ =\ T_{i})\ \land \ (\operatorname{Annot}(p_{i})\ =\ T_{i}'\ \Rightarrow \ \Gamma \ \vdash \ T_{i}'\ \equiv \ T_{i}) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ C\ \Leftarrow \ \operatorname{TypeFunc}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R_{t})\ \dashv \ \emptyset \quad \operatorname{Params}(C)\ =\ [p_{1},\ \ldots ,\ p_{n}]\quad \forall \ i.\ (\operatorname{Annot}(p_{i})\ =\ \bot \ \Rightarrow \ \operatorname{ParamType}(p_{i})\ =\ T_{i})\ \land \ (\operatorname{Annot}(p_{i})\ =\ T_{i}'\ \Rightarrow \ \Gamma \ \vdash \ T_{i}'\ \equiv \ T_{i}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{InferClosureParams}(C)\ \Downarrow \ \mathsf{ok}
 \end{array}
 $$
@@ -3894,8 +3901,8 @@ $$
 
 $$
 \begin{array}{l}
-\exists \ i.\ \operatorname{Annot}(\operatorname{Params}(C)\_i)\ =\ \bot \quad \operatorname{ExpectedType}(C)\ =\ \bot \quad c\ =\ \operatorname{Code}(E-\mathsf{SEM}-2591) \\
-\rule{18em}{0.4pt} \\
+\exists \ i.\ \operatorname{Annot}(\operatorname{Params}(C)\_i)\ =\ \bot \quad \operatorname{ExpectedType}(C)\ =\ \bot \quad c\ =\ \operatorname{Code}(E-\mathsf{SEM}-2591) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{InferClosureParams}(C)\ \Uparrow \ c
 \end{array}
 $$
@@ -3904,8 +3911,8 @@ $$
 
 $$
 \begin{array}{l}
-C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \bot ,\ \mathsf{body})\quad \Gamma '\ =\ \Gamma \ \cup \ \{\ \mathsf{params}[i].\mathsf{name}\ \mapsto \ \operatorname{ParamType}(\mathsf{params}[i])\ \mid \ i\ \in \ 1..\mid \mathsf{params}\mid \ \}\quad \Gamma '\ \vdash \ \mathsf{body}\ :\ R \\
-\rule{18em}{0.4pt} \\
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \bot ,\ \mathsf{body})\quad \Gamma '\ =\ \Gamma \ \cup \ \{\ \mathsf{params}[i].\mathsf{name}\ \mapsto \ \operatorname{ParamType}(\mathsf{params}[i])\ \mid \ i\ \in \ 1..\mid \mathsf{params}\mid \ \}\quad \Gamma '\ \vdash \ \mathsf{body}\ :\ R \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{InferClosureReturn}(C)\ \Downarrow \ R
 \end{array}
 $$
@@ -3914,30 +3921,30 @@ The shared dependency set MAY be inferred when the closure is checked against an
 
 $$
 \begin{array}{l}
-\operatorname{ClosureMoveCaptures}(C)\ =\ \operatorname{MoveCaptureSet}(C) \\
+\operatorname{ClosureMoveCaptures}(C)\ =\ \operatorname{MoveCaptureSet}(C) \\[0.16em]
 \operatorname{ClosureRefCaptures}(C)\ =\ \operatorname{RefCaptureSet}(C)
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{MoveCaptureValid}(𝔅,\ x)\ \Leftrightarrow \ \operatorname{Lookup_B}(𝔅,\ x)\ =\ \langle \mathsf{Valid},\ \mathsf{mov},\ \_,\ \_\rangle \ \land \ \mathsf{mov}\ =\ \mathsf{mov} \\
-\operatorname{MoveCaptureErr}(𝔅,\ x)\ \Leftrightarrow \ \operatorname{Lookup_B}(𝔅,\ x)\ =\ \langle s,\ \mathsf{mv},\ \_,\ \_\rangle \ \land \ (s\ \ne \ \mathsf{Valid}\ \lor \ \mathsf{mv}\ =\ \mathsf{immov})
+\operatorname{MoveCaptureValid}(\mathfrak{B} ,\ x)\ \Leftrightarrow \ \operatorname{Lookup_B}(\mathfrak{B} ,\ x)\ =\ \langle \mathsf{Valid},\ \mathsf{mov},\ \_,\ \_\rangle \ \land \ \mathsf{mov}\ =\ \mathsf{mov} \\[0.16em]
+\operatorname{MoveCaptureErr}(\mathfrak{B} ,\ x)\ \Leftrightarrow \ \operatorname{Lookup_B}(\mathfrak{B} ,\ x)\ =\ \langle s,\ \mathsf{mv},\ \_,\ \_\rangle \ \land \ (s\ \ne \ \mathsf{Valid}\ \lor \ \mathsf{mv}\ =\ \mathsf{immov})
 \end{array}
 $$
 
 $$
-\operatorname{RefCaptureValid}(𝔅,\ x)\ \Leftrightarrow \ \operatorname{Lookup_B}(𝔅,\ x)\ =\ \langle s,\ \_,\ \_,\ \_\rangle \ \land \ s\ =\ \mathsf{Valid}
+\operatorname{RefCaptureValid}(\mathfrak{B} ,\ x)\ \Leftrightarrow \ \operatorname{Lookup_B}(\mathfrak{B} ,\ x)\ =\ \langle s,\ \_,\ \_,\ \_\rangle \ \land \ s\ =\ \mathsf{Valid}
 $$
 
 $$
-\operatorname{ApplyMoveCapture}(𝔅,\ x)\ =\ \operatorname{Update_B}(𝔅,\ x,\ \langle \mathsf{Moved},\ \mathsf{mv},\ m,\ r\rangle )\ \mathsf{where}\ \operatorname{Lookup_B}(𝔅,\ x)\ =\ \langle \_,\ \mathsf{mv},\ m,\ r\rangle 
+\operatorname{ApplyMoveCapture}(\mathfrak{B} ,\ x)\ =\ \operatorname{Update_B}(\mathfrak{B} ,\ x,\ \langle \mathsf{Moved},\ \mathsf{mv},\ m,\ r\rangle )\ \mathsf{where}\ \operatorname{Lookup_B}(\mathfrak{B} ,\ x)\ =\ \langle \_,\ \mathsf{mv},\ m,\ r\rangle 
 $$
 
 $$
 \begin{array}{l}
-\operatorname{ApplyMoveCaptures}(𝔅,\ [])\ =\ 𝔅 \\
-\operatorname{ApplyMoveCaptures}(𝔅,\ [x]\ \mathbin{++} \ \mathsf{xs})\ =\ \operatorname{ApplyMoveCaptures}(\operatorname{ApplyMoveCapture}(𝔅,\ x),\ \mathsf{xs})
+\operatorname{ApplyMoveCaptures}(\mathfrak{B} ,\ [])\ =\ \mathfrak{B}  \\[0.16em]
+\operatorname{ApplyMoveCaptures}(\mathfrak{B} ,\ [x]\ \mathbin{++} \ \mathsf{xs})\ =\ \operatorname{ApplyMoveCaptures}(\operatorname{ApplyMoveCapture}(\mathfrak{B} ,\ x),\ \mathsf{xs})
 \end{array}
 $$
 
@@ -3945,9 +3952,9 @@ $$
 
 $$
 \begin{array}{l}
-C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ =\ \emptyset  \\
-\rule{18em}{0.4pt} \\
-\Gamma ;\ 𝔅;\ \Pi \ \vdash \ C\ \Rightarrow \ 𝔅\ \triangleright \ \Pi 
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ =\ \emptyset  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma ;\ \mathfrak{B} ;\ \Pi \ \vdash \ C\ \Rightarrow \ \mathfrak{B} \ \triangleright \ \Pi 
 \end{array}
 $$
 
@@ -3955,12 +3962,12 @@ $$
 
 $$
 \begin{array}{l}
-C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ \ne \ \emptyset  \\
-\mathsf{MoveCaps}\ =\ \operatorname{ClosureMoveCaptures}(C)\quad \mathsf{RefCaps}\ =\ \operatorname{ClosureRefCaptures}(C) \\
-\forall \ x\ \in \ \mathsf{MoveCaps}.\ \operatorname{MoveCaptureValid}(𝔅,\ x)\quad \forall \ x\ \in \ \mathsf{RefCaps}.\ \operatorname{RefCaptureValid}(𝔅,\ x) \\
-𝔅'\ =\ \operatorname{ApplyMoveCaptures}(𝔅,\ \mathsf{MoveCaps}) \\
-\rule{18em}{0.4pt} \\
-\Gamma ;\ 𝔅;\ \Pi \ \vdash \ C\ \Rightarrow \ 𝔅'\ \triangleright \ \Pi 
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ \ne \ \emptyset  \\[0.16em]
+\mathsf{MoveCaps}\ =\ \operatorname{ClosureMoveCaptures}(C)\quad \mathsf{RefCaps}\ =\ \operatorname{ClosureRefCaptures}(C) \\[0.16em]
+\forall \ x\ \in \ \mathsf{MoveCaps}.\ \operatorname{MoveCaptureValid}(\mathfrak{B} ,\ x)\quad \forall \ x\ \in \ \mathsf{RefCaps}.\ \operatorname{RefCaptureValid}(\mathfrak{B} ,\ x) \\[0.16em]
+\mathfrak{B} '\ =\ \operatorname{ApplyMoveCaptures}(\mathfrak{B} ,\ \mathsf{MoveCaps}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma ;\ \mathfrak{B} ;\ \Pi \ \vdash \ C\ \Rightarrow \ \mathfrak{B} '\ \triangleright \ \Pi 
 \end{array}
 $$
 
@@ -3968,10 +3975,10 @@ $$
 
 $$
 \begin{array}{l}
-C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \mathsf{MoveCaps}\ =\ \operatorname{ClosureMoveCaptures}(C) \\
-\exists \ x\ \in \ \mathsf{MoveCaps}.\ \operatorname{Lookup_B}(𝔅,\ x)\ =\ \langle s,\ \mathsf{mov},\ \_,\ \_\rangle \ \land \ s\ \ne \ \mathsf{Valid}\ \land \ \mathsf{mov}\ =\ \mathsf{mov}\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0121) \\
-\rule{18em}{0.4pt} \\
-\Gamma ;\ 𝔅;\ \Pi \ \vdash \ C\ \Uparrow \ c
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \mathsf{MoveCaps}\ =\ \operatorname{ClosureMoveCaptures}(C) \\[0.16em]
+\exists \ x\ \in \ \mathsf{MoveCaps}.\ \operatorname{Lookup_B}(\mathfrak{B} ,\ x)\ =\ \langle s,\ \mathsf{mov},\ \_,\ \_\rangle \ \land \ s\ \ne \ \mathsf{Valid}\ \land \ \mathsf{mov}\ =\ \mathsf{mov}\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0121) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma ;\ \mathfrak{B} ;\ \Pi \ \vdash \ C\ \Uparrow \ c
 \end{array}
 $$
 
@@ -3979,10 +3986,10 @@ $$
 
 $$
 \begin{array}{l}
-C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \mathsf{MoveCaps}\ =\ \operatorname{ClosureMoveCaptures}(C) \\
-\exists \ x\ \in \ \mathsf{MoveCaps}.\ \operatorname{Lookup_B}(𝔅,\ x)\ =\ \langle \_,\ \mathsf{mv},\ \_,\ \_\rangle \ \land \ \mathsf{mv}\ =\ \mathsf{immov}\quad c\ =\ \operatorname{Code}(E-\mathsf{MEM}-3006) \\
-\rule{18em}{0.4pt} \\
-\Gamma ;\ 𝔅;\ \Pi \ \vdash \ C\ \Uparrow \ c
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \mathsf{MoveCaps}\ =\ \operatorname{ClosureMoveCaptures}(C) \\[0.16em]
+\exists \ x\ \in \ \mathsf{MoveCaps}.\ \operatorname{Lookup_B}(\mathfrak{B} ,\ x)\ =\ \langle \_,\ \mathsf{mv},\ \_,\ \_\rangle \ \land \ \mathsf{mv}\ =\ \mathsf{immov}\quad c\ =\ \operatorname{Code}(E-\mathsf{MEM}-3006) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma ;\ \mathfrak{B} ;\ \Pi \ \vdash \ C\ \Uparrow \ c
 \end{array}
 $$
 
@@ -3990,10 +3997,10 @@ $$
 
 $$
 \begin{array}{l}
-C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \mathsf{RefCaps}\ =\ \operatorname{ClosureRefCaptures}(C) \\
-\exists \ x\ \in \ \mathsf{RefCaps}.\ \operatorname{Lookup_B}(𝔅,\ x)\ =\ \langle s,\ \_,\ \_,\ \_\rangle \ \land \ s\ \ne \ \mathsf{Valid}\quad c\ =\ \operatorname{Code}(E-\mathsf{MEM}-3001) \\
-\rule{18em}{0.4pt} \\
-\Gamma ;\ 𝔅;\ \Pi \ \vdash \ C\ \Uparrow \ c
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \mathsf{RefCaps}\ =\ \operatorname{ClosureRefCaptures}(C) \\[0.16em]
+\exists \ x\ \in \ \mathsf{RefCaps}.\ \operatorname{Lookup_B}(\mathfrak{B} ,\ x)\ =\ \langle s,\ \_,\ \_,\ \_\rangle \ \land \ s\ \ne \ \mathsf{Valid}\quad c\ =\ \operatorname{Code}(E-\mathsf{MEM}-3001) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma ;\ \mathfrak{B} ;\ \Pi \ \vdash \ C\ \Uparrow \ c
 \end{array}
 $$
 
@@ -4001,10 +4008,10 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ T_{1}\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ T_{f} \\
-(T_{f}\ =\ \operatorname{TypeFunc}([(m,\ T_{p})],\ R_{f})\ \lor \ T_{f}\ =\ \operatorname{TypeClosure}([(m,\ T_{p})],\ R_{f},\ \_)) \\
-\Gamma \ \vdash \ T_{1}\ \mathrel{<:} \ T_{p} \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ T_{1}\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ T_{f} \\[0.16em]
+(T_{f}\ =\ \operatorname{TypeFunc}([(m,\ T_{p})],\ R_{f})\ \lor \ T_{f}\ =\ \operatorname{TypeClosure}([(m,\ T_{p})],\ R_{f},\ \_)) \\[0.16em]
+\Gamma \ \vdash \ T_{1}\ \mathrel{<:} \ T_{p} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{PipelineExpr}(e_{1},\ e_{2})\ :\ R_{f}
 \end{array}
 $$
@@ -4013,9 +4020,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ T_{1}\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ T_{f} \\
-T_{f}\ \ne \ \operatorname{TypeFunc}(\_,\ \_)\quad T_{f}\ \ne \ \operatorname{TypeClosure}(\_,\ \_,\ \_)\quad c\ =\ \operatorname{Code}(E-\mathsf{SEM}-2538) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ T_{1}\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ T_{f} \\[0.16em]
+T_{f}\ \ne \ \operatorname{TypeFunc}(\_,\ \_)\quad T_{f}\ \ne \ \operatorname{TypeClosure}(\_,\ \_,\ \_)\quad c\ =\ \operatorname{Code}(E-\mathsf{SEM}-2538) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{PipelineExpr}(e_{1},\ e_{2})\ \Uparrow \ c
 \end{array}
 $$
@@ -4024,10 +4031,10 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ T_{1}\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ T_{f} \\
-(T_{f}\ =\ \operatorname{TypeFunc}([(m,\ T_{p})],\ \_)\ \lor \ T_{f}\ =\ \operatorname{TypeClosure}([(m,\ T_{p})],\ \_,\ \_)) \\
-\lnot (\Gamma \ \vdash \ T_{1}\ \mathrel{<:} \ T_{p})\quad c\ =\ \operatorname{Code}(E-\mathsf{SEM}-2539) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ T_{1}\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ T_{f} \\[0.16em]
+(T_{f}\ =\ \operatorname{TypeFunc}([(m,\ T_{p})],\ \_)\ \lor \ T_{f}\ =\ \operatorname{TypeClosure}([(m,\ T_{p})],\ \_,\ \_)) \\[0.16em]
+\lnot (\Gamma \ \vdash \ T_{1}\ \mathrel{<:} \ T_{p})\quad c\ =\ \operatorname{Code}(E-\mathsf{SEM}-2539) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{PipelineExpr}(e_{1},\ e_{2})\ \Uparrow \ c
 \end{array}
 $$
@@ -4036,9 +4043,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ T_{1}\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ T_{f} \\
-(T_{f}\ =\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\ \lor \ T_{f}\ =\ \operatorname{TypeClosure}(\mathsf{params},\ \_,\ \_))\quad \mid \mathsf{params}\mid \ \ne \ 1\quad c\ =\ \operatorname{Code}(E-\mathsf{SEM}-2539) \\
-\rule{18em}{0.4pt} \\
+\Gamma ;\ R;\ L\ \vdash \ e_{1}\ :\ T_{1}\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ T_{f} \\[0.16em]
+(T_{f}\ =\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\ \lor \ T_{f}\ =\ \operatorname{TypeClosure}(\mathsf{params},\ \_,\ \_))\quad \mid \mathsf{params}\mid \ \ne \ 1\quad c\ =\ \operatorname{Code}(E-\mathsf{SEM}-2539) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{PipelineExpr}(e_{1},\ e_{2})\ \Uparrow \ c
 \end{array}
 $$
@@ -4047,9 +4054,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ 𝔅;\ \Pi \ \vdash \ e_{1}\ \Rightarrow \ 𝔅\_1\ \triangleright \ \Pi_{1} \quad \Gamma ;\ 𝔅\_1;\ \Pi_{1} \ \vdash \ e_{2}\ \Rightarrow \ 𝔅\_2\ \triangleright \ \Pi_{2}  \\
-\rule{18em}{0.4pt} \\
-\Gamma ;\ 𝔅;\ \Pi \ \vdash \ \operatorname{PipelineExpr}(e_{1},\ e_{2})\ \Rightarrow \ 𝔅\_2\ \triangleright \ \Pi_{2} 
+\Gamma ;\ \mathfrak{B} ;\ \Pi \ \vdash \ e_{1}\ \Rightarrow \ \mathfrak{B}_{1} \ \triangleright \ \Pi_{1} \quad \Gamma ;\ \mathfrak{B}_{1} ;\ \Pi_{1} \ \vdash \ e_{2}\ \Rightarrow \ \mathfrak{B}_{2} \ \triangleright \ \Pi_{2}  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma ;\ \mathfrak{B} ;\ \Pi \ \vdash \ \operatorname{PipelineExpr}(e_{1},\ e_{2})\ \Rightarrow \ \mathfrak{B}_{2} \ \triangleright \ \Pi_{2} 
 \end{array}
 $$
 
@@ -4065,7 +4072,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{CaptureVal}(\sigma ,\ C,\ x)\ =\ \mathsf{Ptr}@\operatorname{Valid}(\operatorname{AddrOfBind}(x))\quad \mathsf{if}\ x\ \in \ \operatorname{RefCaptureSet}(C) \\
+\operatorname{CaptureVal}(\sigma ,\ C,\ x)\ =\ \mathsf{Ptr}@\operatorname{Valid}(\operatorname{AddrOfBind}(x))\quad \mathsf{if}\ x\ \in \ \operatorname{RefCaptureSet}(C) \\[0.16em]
 \operatorname{CaptureVal}(\sigma ,\ C,\ x)\ =\ \operatorname{MoveVal}(\sigma ,\ x)\quad \mathsf{if}\ x\ \in \ \operatorname{MoveCaptureSet}(C)
 \end{array}
 $$
@@ -4076,16 +4083,16 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{BindEnv}(\sigma ,\ \mathsf{env}_{\mathsf{ptr}})\ =\ \sigma '\ \Leftrightarrow  \\
-\ C\ =\ \operatorname{ClosureOf}(\mathsf{env}_{\mathsf{ptr}})\ \land  \\
-\ \mathsf{env}\ =\ \operatorname{LoadEnv}(\sigma ,\ \mathsf{env}_{\mathsf{ptr}})\ \land  \\
+\operatorname{BindEnv}(\sigma ,\ \mathsf{env}_{\mathsf{ptr}})\ =\ \sigma '\ \Leftrightarrow  \\[0.16em]
+\ C\ =\ \operatorname{ClosureOf}(\mathsf{env}_{\mathsf{ptr}})\ \land  \\[0.16em]
+\ \mathsf{env}\ =\ \operatorname{LoadEnv}(\sigma ,\ \mathsf{env}_{\mathsf{ptr}})\ \land  \\[0.16em]
 \ \operatorname{BindCapturedList}(\sigma ,\ C,\ [\langle x,\ \mathsf{env}[x]\rangle \ \mid \ x\ \in \ \operatorname{CaptureList}(C)])\ \Downarrow \ (\sigma ',\ \mathsf{bs})
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{LoadEnv}(\sigma ,\ \mathsf{env}_{\mathsf{ptr}})\ =\ \mathsf{env}\ \Leftrightarrow  \\
+\operatorname{LoadEnv}(\sigma ,\ \mathsf{env}_{\mathsf{ptr}})\ =\ \mathsf{env}\ \Leftrightarrow  \\[0.16em]
 \ \forall \ (x,\ \mathsf{offset})\ \in \ \operatorname{EnvOffsets}(\mathsf{env}_{\mathsf{ptr}}).\ \mathsf{env}[x]\ =\ \operatorname{ReadAddr}(\sigma ,\ \operatorname{GEP}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{offset}))
 \end{array}
 $$
@@ -4096,14 +4103,14 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{BindCapturedList}(\sigma ,\ C,\ [])\ \Downarrow \ (\sigma ,\ []) \\
+\operatorname{BindCapturedList}(\sigma ,\ C,\ [])\ \Downarrow \ (\sigma ,\ []) \\[0.16em]
 \operatorname{BindCapturedList}(\sigma ,\ C,\ [\langle x,\ v\rangle ]\ \mathbin{++} \ \mathsf{xs})\ \Downarrow \ (\sigma_{2} ,\ b\ \mathbin{::} \ \mathsf{bs})\ \Leftrightarrow \ \operatorname{BindCaptured}(\sigma ,\ C,\ x,\ v)\ \Downarrow \ (\sigma_{1} ,\ b)\ \land \ \operatorname{BindCapturedList}(\sigma_{1} ,\ C,\ \mathsf{xs})\ \Downarrow \ (\sigma_{2} ,\ \mathsf{bs})
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{BindCaptured}(\sigma ,\ C,\ x,\ \mathsf{Ptr}@\operatorname{Valid}(\mathsf{addr}))\ \Downarrow \ (\sigma ',\ b)\ \Leftrightarrow \ x\ \in \ \operatorname{RefCaptureSet}(C)\ \land \ \operatorname{BindVal}(\sigma ,\ x,\ \operatorname{Alias}(\mathsf{addr}))\ \Downarrow \ (\sigma ',\ b) \\
+\operatorname{BindCaptured}(\sigma ,\ C,\ x,\ \mathsf{Ptr}@\operatorname{Valid}(\mathsf{addr}))\ \Downarrow \ (\sigma ',\ b)\ \Leftrightarrow \ x\ \in \ \operatorname{RefCaptureSet}(C)\ \land \ \operatorname{BindVal}(\sigma ,\ x,\ \operatorname{Alias}(\mathsf{addr}))\ \Downarrow \ (\sigma ',\ b) \\[0.16em]
 \operatorname{BindCaptured}(\sigma ,\ C,\ x,\ v)\ \Downarrow \ (\sigma ',\ b)\ \Leftrightarrow \ x\ \in \ \operatorname{MoveCaptureSet}(C)\ \land \ \operatorname{BindVal}(\sigma ,\ x,\ v)\ \Downarrow \ (\sigma ',\ b)
 \end{array}
 $$
@@ -4116,8 +4123,8 @@ $$
 
 $$
 \begin{array}{l}
-C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ =\ \emptyset \quad \Gamma \ \vdash \ \operatorname{Mangle}(C)\ \Downarrow \ \mathsf{sym} \\
-\rule{18em}{0.4pt} \\
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ =\ \emptyset \quad \Gamma \ \vdash \ \operatorname{Mangle}(C)\ \Downarrow \ \mathsf{sym} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(C,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{ClosureVal}(\mathsf{null},\ \mathsf{sym})),\ \sigma )
 \end{array}
 $$
@@ -4126,17 +4133,17 @@ $$
 
 $$
 \begin{array}{l}
-C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ \ne \ \emptyset \quad \Gamma \ \vdash \ \operatorname{Mangle}(C)\ \Downarrow \ \mathsf{sym} \\
-\operatorname{BuildClosureEnv}(\sigma ,\ C)\ =\ \mathsf{env}\quad \operatorname{AllocEnv}(\sigma ,\ \mathsf{env})\ =\ (\sigma_{1} ,\ \mathsf{env}_{\mathsf{ptr}}) \\
-\operatorname{MarkMoved}(\sigma_{1} ,\ \operatorname{MoveCaptureSet}(C))\ =\ \sigma_{2}  \\
-\rule{18em}{0.4pt} \\
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ \ne \ \emptyset \quad \Gamma \ \vdash \ \operatorname{Mangle}(C)\ \Downarrow \ \mathsf{sym} \\[0.16em]
+\operatorname{BuildClosureEnv}(\sigma ,\ C)\ =\ \mathsf{env}\quad \operatorname{AllocEnv}(\sigma ,\ \mathsf{env})\ =\ (\sigma_{1} ,\ \mathsf{env}_{\mathsf{ptr}}) \\[0.16em]
+\operatorname{MarkMoved}(\sigma_{1} ,\ \operatorname{MoveCaptureSet}(C))\ =\ \sigma_{2}  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(C,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{ClosureVal}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{sym})),\ \sigma_{2} )
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{MarkMoved}(\sigma ,\ [])\ =\ \sigma  \\
+\operatorname{MarkMoved}(\sigma ,\ [])\ =\ \sigma  \\[0.16em]
 \operatorname{MarkMoved}(\sigma ,\ [x]\ \mathbin{++} \ \mathsf{xs})\ =\ \operatorname{MarkMoved}(\operatorname{SetMoved}(\sigma ,\ x),\ \mathsf{xs})
 \end{array}
 $$
@@ -4145,29 +4152,29 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{c},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{ClosureVal}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}})),\ \sigma_{1} ) \\
-\Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\operatorname{ClosureParams}(\operatorname{ExprType}(e_{c})),\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} ) \\
-\Gamma \ \vdash \ \operatorname{ApplyClosureSigma}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}},\ \mathsf{vec}_{v},\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{c},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{ClosureVal}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}})),\ \sigma_{1} ) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\operatorname{ClosureParams}(\operatorname{ExprType}(e_{c})),\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} ) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ApplyClosureSigma}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}},\ \mathsf{vec}_{v},\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{ClosureCall}(e_{c},\ \mathsf{args}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} )
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{ClosureParams}(\operatorname{TypeClosure}(\mathsf{params},\ R,\ \mathsf{deps}_{\mathsf{opt}}))\ =\ \mathsf{params} \\
+\operatorname{ClosureParams}(\operatorname{TypeClosure}(\mathsf{params},\ R,\ \mathsf{deps}_{\mathsf{opt}}))\ =\ \mathsf{params} \\[0.16em]
 \operatorname{ClosureParams}(\operatorname{TypeFunc}(\mathsf{params},\ R))\ =\ \mathsf{params}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{ApplyClosureSigma}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}},\ \mathsf{vec}_{v},\ \sigma )\ =\ (\mathsf{out},\ \sigma ')\ \Leftrightarrow  \\
-\ \mathsf{body}\ =\ \operatorname{CodeBody}(\mathsf{code}_{\mathsf{ptr}})\ \land  \\
-\ \mathsf{params}\ =\ \operatorname{CodeParams}(\mathsf{code}_{\mathsf{ptr}})\ \land  \\
-\ \sigma_{1} \ =\ \operatorname{BindParams}(\sigma ,\ \mathsf{params},\ \mathsf{vec}_{v})\ \land  \\
-\ (\mathsf{env}_{\mathsf{ptr}}\ \ne \ \mathsf{null}\ \Rightarrow \ \sigma_{2} \ =\ \operatorname{BindEnv}(\sigma_{1} ,\ \mathsf{env}_{\mathsf{ptr}}))\ \land  \\
-\ (\mathsf{env}_{\mathsf{ptr}}\ =\ \mathsf{null}\ \Rightarrow \ \sigma_{2} \ =\ \sigma_{1} )\ \land  \\
+\operatorname{ApplyClosureSigma}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}},\ \mathsf{vec}_{v},\ \sigma )\ =\ (\mathsf{out},\ \sigma ')\ \Leftrightarrow  \\[0.16em]
+\ \mathsf{body}\ =\ \operatorname{CodeBody}(\mathsf{code}_{\mathsf{ptr}})\ \land  \\[0.16em]
+\ \mathsf{params}\ =\ \operatorname{CodeParams}(\mathsf{code}_{\mathsf{ptr}})\ \land  \\[0.16em]
+\ \sigma_{1} \ =\ \operatorname{BindParams}(\sigma ,\ \mathsf{params},\ \mathsf{vec}_{v})\ \land  \\[0.16em]
+\ (\mathsf{env}_{\mathsf{ptr}}\ \ne \ \mathsf{null}\ \Rightarrow \ \sigma_{2} \ =\ \operatorname{BindEnv}(\sigma_{1} ,\ \mathsf{env}_{\mathsf{ptr}}))\ \land  \\[0.16em]
+\ (\mathsf{env}_{\mathsf{ptr}}\ =\ \mathsf{null}\ \Rightarrow \ \sigma_{2} \ =\ \sigma_{1} )\ \land  \\[0.16em]
 \ \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma ')
 \end{array}
 $$
@@ -4176,8 +4183,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{c},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{c},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{ClosureCall}(e_{c},\ \mathsf{args}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -4186,26 +4193,24 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{c},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{ClosureVal}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}})),\ \sigma_{1} ) \\
-\Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\operatorname{ClosureParams}(\operatorname{ExprType}(e_{c})),\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{c},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{ClosureVal}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}})),\ \sigma_{1} ) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\operatorname{ClosureParams}(\operatorname{ExprType}(e_{c})),\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{ClosureCall}(e_{c},\ \mathsf{args}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} )
 \end{array}
 $$
 
 `ClosureCall(e_c, args)` is the resolved internal call form for an ordinary source call `Call(callee, args)` whose callee has closure type. §16.3.5 bridges the source call form to this internal dynamic-semantic form.
 
-$$
-\mathsf{Pipeline}\ \mathsf{expressions}\ \mathsf{desugar}\ \mathsf{to}\ \mathsf{function}\ \mathsf{or}\ \mathsf{closure}\ \mathsf{application}:\ \texttt{e\_1 => e\_2 == e\_2(e\_1)}.
-$$
+Pipeline expressions desugar to function or closure application: `e_1 => e_2 ≡ e_2(e_1)`.
 
 **(EvalSigma-Pipeline-Func)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{1},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{1}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e_{2},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\operatorname{FuncVal}(\mathsf{sym})),\ \sigma_{2} ) \\
-\Gamma \ \vdash \ \operatorname{ApplyProcSigma}(\mathsf{sym},\ [v_{1}],\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{1},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{1}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e_{2},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\operatorname{FuncVal}(\mathsf{sym})),\ \sigma_{2} ) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ApplyProcSigma}(\mathsf{sym},\ [v_{1}],\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{PipelineExpr}(e_{1},\ e_{2}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} )
 \end{array}
 $$
@@ -4214,9 +4219,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{1},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{1}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e_{2},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\operatorname{ClosureVal}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}})),\ \sigma_{2} ) \\
-\Gamma \ \vdash \ \operatorname{ApplyClosureSigma}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}},\ [v_{1}],\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{1},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{1}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e_{2},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\operatorname{ClosureVal}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}})),\ \sigma_{2} ) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ApplyClosureSigma}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}},\ [v_{1}],\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{PipelineExpr}(e_{1},\ e_{2}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} )
 \end{array}
 $$
@@ -4225,8 +4230,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{1},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{1},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{PipelineExpr}(e_{1},\ e_{2}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
@@ -4235,8 +4240,8 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{1},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{1}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e_{2},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} ) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e_{1},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{1}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e_{2},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{PipelineExpr}(e_{1},\ e_{2}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} )
 \end{array}
 $$
@@ -4249,7 +4254,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{CaptureType}(C,\ x)\ =\ \mathsf{Ptr}<T_{x}>@\mathsf{Valid}\ \Leftrightarrow \ x\ \in \ \operatorname{ConstCaptures}(C)\ \cup \ \operatorname{SharedCaptures}(C)\ \land \ \Gamma (x)\ =\ T_{x} \\
+\operatorname{CaptureType}(C,\ x)\ =\ \mathsf{Ptr}<T_{x}>@\mathsf{Valid}\ \Leftrightarrow \ x\ \in \ \operatorname{ConstCaptures}(C)\ \cup \ \operatorname{SharedCaptures}(C)\ \land \ \Gamma (x)\ =\ T_{x} \\[0.16em]
 \operatorname{CaptureType}(C,\ x)\ =\ T_{x}\ \Leftrightarrow \ x\ \in \ \operatorname{MoveCaptureSet}(C)\ \land \ \Gamma (x)\ =\ T_{x}
 \end{array}
 $$
@@ -4258,8 +4263,8 @@ $$
 
 $$
 \begin{array}{l}
-C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{ClosureEnvFields}(C)\ =\ \mathsf{fields}\quad \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \mathsf{offsets}\rangle  \\
-\rule{18em}{0.4pt} \\
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{ClosureEnvFields}(C)\ =\ \mathsf{fields}\quad \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \mathsf{offsets}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ClosureEnvLayout}(C)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \mathsf{offsets}\rangle 
 \end{array}
 $$
@@ -4268,8 +4273,8 @@ $$
 
 $$
 \begin{array}{l}
-C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ =\ \emptyset  \\
-\rule{18em}{0.4pt} \\
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ =\ \emptyset  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ClosureEnvLayout}(C)\ \Downarrow \ \langle 0,\ 1,\ []\rangle 
 \end{array}
 $$
@@ -4278,8 +4283,8 @@ $$
 
 $$
 \begin{array}{l}
-C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ =\ \emptyset \quad \Gamma \ \vdash \ \operatorname{ClosureCodeSym}(C)\ \Downarrow \ \mathsf{sym} \\
-\rule{18em}{0.4pt} \\
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ =\ \emptyset \quad \Gamma \ \vdash \ \operatorname{ClosureCodeSym}(C)\ \Downarrow \ \mathsf{sym} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(C)\ \Downarrow \ \langle \mathsf{EmptyIR},\ \operatorname{ClosureVal}(\mathsf{null},\ \mathsf{sym})\rangle 
 \end{array}
 $$
@@ -4288,35 +4293,35 @@ $$
 
 $$
 \begin{array}{l}
-C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ \ne \ \emptyset  \\
-\Gamma \ \vdash \ \operatorname{ClosureCodeSym}(C)\ \Downarrow \ \mathsf{sym}\quad \Gamma \ \vdash \ \operatorname{ClosureEnvLayout}(C)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \mathsf{offsets}\rangle  \\
-\Gamma \ \vdash \ \operatorname{LowerCaptureEnv}(C,\ \mathsf{offsets})\ \Downarrow \ \langle \mathsf{IR}_{\mathsf{env}},\ \mathsf{env}_{\mathsf{ptr}}\rangle  \\
-\rule{18em}{0.4pt} \\
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ \ne \ \emptyset  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ClosureCodeSym}(C)\ \Downarrow \ \mathsf{sym}\quad \Gamma \ \vdash \ \operatorname{ClosureEnvLayout}(C)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \mathsf{offsets}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerCaptureEnv}(C,\ \mathsf{offsets})\ \Downarrow \ \langle \mathsf{IR}_{\mathsf{env}},\ \mathsf{env}_{\mathsf{ptr}}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(C)\ \Downarrow \ \langle \mathsf{IR}_{\mathsf{env}},\ \operatorname{ClosureVal}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{sym})\rangle 
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{LowerCaptureEnv}(C,\ \mathsf{offsets})\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{env}_{\mathsf{ptr}}\rangle \ \Leftrightarrow  \\
-\ \mathsf{captures}\ =\ \operatorname{CaptureSet}(C)\ \land  \\
-\ \Gamma \ \vdash \ \operatorname{ClosureEnvLayout}(C)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_\rangle \ \land  \\
-\ \mathsf{env}_{\mathsf{ptr}}\ =\ \operatorname{Alloc}(\mathsf{size},\ \mathsf{align})\ \land  \\
+\operatorname{LowerCaptureEnv}(C,\ \mathsf{offsets})\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{env}_{\mathsf{ptr}}\rangle \ \Leftrightarrow  \\[0.16em]
+\ \mathsf{captures}\ =\ \operatorname{CaptureSet}(C)\ \land  \\[0.16em]
+\ \Gamma \ \vdash \ \operatorname{ClosureEnvLayout}(C)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_\rangle \ \land  \\[0.16em]
+\ \mathsf{env}_{\mathsf{ptr}}\ =\ \operatorname{Alloc}(\mathsf{size},\ \mathsf{align})\ \land  \\[0.16em]
 \ \mathsf{IR}\ =\ \operatorname{SeqIR}(\operatorname{AllocIR}(\mathsf{size},\ \mathsf{align}),\ [\operatorname{StoreCapture}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{offsets}[i],\ x_{i})\ \mid \ x_{i}\ \in \ \mathsf{captures},\ i\ \in \ 1..\mid \mathsf{captures}\mid ])
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{StoreCapture}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{offset},\ x)\ =\ \operatorname{StoreIR}(\operatorname{GEP}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{offset}),\ \operatorname{LoadLocal}(x))\quad \mathsf{if}\ x\ \in \ \operatorname{RefCaptureSet}(C) \\
+\operatorname{StoreCapture}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{offset},\ x)\ =\ \operatorname{StoreIR}(\operatorname{GEP}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{offset}),\ \operatorname{LoadLocal}(x))\quad \mathsf{if}\ x\ \in \ \operatorname{RefCaptureSet}(C) \\[0.16em]
 \operatorname{StoreCapture}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{offset},\ x)\ =\ \operatorname{MoveIR}(\operatorname{GEP}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{offset}),\ x)\quad \mathsf{if}\ x\ \in \ \operatorname{MoveCaptureSet}(C)
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{IsCaptured}(C,\ x)\ \Leftrightarrow \ x\ \in \ \operatorname{CaptureSet}(C) \\
-\operatorname{CaptureOffset}(C,\ x)\ =\ \mathsf{offset}_{i}\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{ClosureEnvLayout}(C)\ \Downarrow \ \langle \_,\ \_,\ \mathsf{offsets}\rangle \ \land \ \operatorname{CaptureList}(C)\ =\ [x_{1},\ \ldots ,\ x_{n}]\ \land \ x\ =\ x_{i}\ \land \ \mathsf{offsets}\ =\ [\mathsf{offset}_{1},\ \ldots ,\ \mathsf{offset}_{n}] \\
+\operatorname{IsCaptured}(C,\ x)\ \Leftrightarrow \ x\ \in \ \operatorname{CaptureSet}(C) \\[0.16em]
+\operatorname{CaptureOffset}(C,\ x)\ =\ \mathsf{offset}_{i}\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{ClosureEnvLayout}(C)\ \Downarrow \ \langle \_,\ \_,\ \mathsf{offsets}\rangle \ \land \ \operatorname{CaptureList}(C)\ =\ [x_{1},\ \ldots ,\ x_{n}]\ \land \ x\ =\ x_{i}\ \land \ \mathsf{offsets}\ =\ [\mathsf{offset}_{1},\ \ldots ,\ \mathsf{offset}_{n}] \\[0.16em]
 \operatorname{CaptureList}(C)\ =\ [x\ \mid \ x\ \in \ \operatorname{CaptureSet}(C)]\quad (\mathsf{deterministic}\ \mathsf{ordering}\ \mathsf{by}\ \mathsf{lexicographic}\ \mathsf{name})
 \end{array}
 $$
@@ -4325,9 +4330,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{InClosureBody}(C)\quad \operatorname{IsCaptured}(C,\ x)\quad x\ \in \ \operatorname{RefCaptureSet}(C)\quad \operatorname{CaptureOffset}(C,\ x)\ =\ \mathsf{offset} \\
-\mathsf{env}_{\mathsf{param}}\ =\ \mathsf{ClosureEnvParam}\quad \Gamma (x)\ =\ T_{x} \\
-\rule{18em}{0.4pt} \\
+\operatorname{InClosureBody}(C)\quad \operatorname{IsCaptured}(C,\ x)\quad x\ \in \ \operatorname{RefCaptureSet}(C)\quad \operatorname{CaptureOffset}(C,\ x)\ =\ \mathsf{offset} \\[0.16em]
+\mathsf{env}_{\mathsf{param}}\ =\ \mathsf{ClosureEnvParam}\quad \Gamma (x)\ =\ T_{x} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Identifier}(x))\ \Downarrow \ \langle \operatorname{SeqIR}(\operatorname{LoadIR}(\operatorname{GEP}(\mathsf{env}_{\mathsf{param}},\ \mathsf{offset}),\ \mathsf{Ptr}<T_{x}>@\mathsf{Valid}),\ \operatorname{LoadIR}(p_{\mathsf{capture}},\ T_{x})),\ v_{\mathsf{capture}}\rangle 
 \end{array}
 $$
@@ -4338,9 +4343,9 @@ where `p_capture` is the result of the first load and `v_capture` is the result 
 
 $$
 \begin{array}{l}
-\operatorname{InClosureBody}(C)\quad \operatorname{IsCaptured}(C,\ x)\quad x\ \in \ \operatorname{MoveCaptureSet}(C)\quad \operatorname{CaptureOffset}(C,\ x)\ =\ \mathsf{offset} \\
-\mathsf{env}_{\mathsf{param}}\ =\ \mathsf{ClosureEnvParam}\quad \Gamma (x)\ =\ T_{x} \\
-\rule{18em}{0.4pt} \\
+\operatorname{InClosureBody}(C)\quad \operatorname{IsCaptured}(C,\ x)\quad x\ \in \ \operatorname{MoveCaptureSet}(C)\quad \operatorname{CaptureOffset}(C,\ x)\ =\ \mathsf{offset} \\[0.16em]
+\mathsf{env}_{\mathsf{param}}\ =\ \mathsf{ClosureEnvParam}\quad \Gamma (x)\ =\ T_{x} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Identifier}(x))\ \Downarrow \ \langle \operatorname{LoadIR}(\operatorname{GEP}(\mathsf{env}_{\mathsf{param}},\ \mathsf{offset}),\ T_{x}),\ v_{\mathsf{capture}}\rangle 
 \end{array}
 $$
@@ -4351,10 +4356,10 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ClosureCodeSig}(C)\ =\ (\mathsf{params}',\ R)\ \Leftrightarrow  \\
-\ C.\mathsf{params}\ =\ \mathsf{params}\ \land  \\
-\ C.\mathsf{ret}_{\mathsf{type}\_\mathsf{opt}}\ =\ R_{\mathsf{opt}}\ \land  \\
-\ R\ =\ (R_{\mathsf{opt}}\ \mathsf{if}\ R_{\mathsf{opt}}\ \ne \ \bot \ \mathsf{else}\ \operatorname{InferRetType}(C.\mathsf{body}))\ \land  \\
+\operatorname{ClosureCodeSig}(C)\ =\ (\mathsf{params}',\ R)\ \Leftrightarrow  \\[0.16em]
+\ C.\mathsf{params}\ =\ \mathsf{params}\ \land  \\[0.16em]
+\ C.\mathsf{ret}_{\mathsf{type}\_\mathsf{opt}}\ =\ R_{\mathsf{opt}}\ \land  \\[0.16em]
+\ R\ =\ (R_{\mathsf{opt}}\ \mathsf{if}\ R_{\mathsf{opt}}\ \ne \ \bot \ \mathsf{else}\ \operatorname{InferRetType}(C.\mathsf{body}))\ \land  \\[0.16em]
 \ \mathsf{params}'\ =\ \operatorname{CodegenParams}([\langle \bot ,\ \texttt{\_\_env},\ \operatorname{TypeRawPtr}(\texttt{imm},\ \operatorname{TypePrim}(\texttt{"u8"}))\rangle ]\ \mathbin{++} \ \mathsf{params})
 \end{array}
 $$
@@ -4363,10 +4368,10 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e_{\mathsf{closure}})\ \Downarrow \ \langle \mathsf{IR}_{c},\ v_{\mathsf{closure}}\rangle  \\
-v_{\mathsf{closure}}\ =\ \operatorname{ClosureVal}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}}) \\
-\Gamma \ \vdash \ \operatorname{LowerArgs}(\mathsf{args})\ \Downarrow \ \langle \mathsf{IR}_{\mathsf{args}},\ \mathsf{vs}\rangle  \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e_{\mathsf{closure}})\ \Downarrow \ \langle \mathsf{IR}_{c},\ v_{\mathsf{closure}}\rangle  \\[0.16em]
+v_{\mathsf{closure}}\ =\ \operatorname{ClosureVal}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}}) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerArgs}(\mathsf{args})\ \Downarrow \ \langle \mathsf{IR}_{\mathsf{args}},\ \mathsf{vs}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerClosureCall}(e_{\mathsf{closure}},\ \mathsf{args})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{c},\ \mathsf{IR}_{\mathsf{args}}),\ \operatorname{IndirectCall}(\mathsf{code}_{\mathsf{ptr}},\ [\mathsf{env}_{\mathsf{ptr}}]\ \mathbin{++} \ \mathsf{vs})\rangle 
 \end{array}
 $$
@@ -4377,19 +4382,19 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(e_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle  \\
-\operatorname{IsFunc}(\operatorname{ExprType}(e_{2}))\ \Rightarrow \ \mathsf{IR}_{\mathsf{call}}\ =\ \operatorname{CallIR}(v_{2},\ [v_{1}]) \\
-\operatorname{IsClosure}(\operatorname{ExprType}(e_{2}))\ \Rightarrow \ v_{2}\ =\ \operatorname{ClosureVal}(\mathsf{env},\ \mathsf{code})\ \land \ \mathsf{IR}_{\mathsf{call}}\ =\ \operatorname{IndirectCall}(\mathsf{code},\ [\mathsf{env},\ v_{1}]) \\
-\rule{18em}{0.4pt} \\
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(e_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle  \\[0.16em]
+\operatorname{IsFunc}(\operatorname{ExprType}(e_{2}))\ \Rightarrow \ \mathsf{IR}_{\mathsf{call}}\ =\ \operatorname{CallIR}(v_{2},\ [v_{1}]) \\[0.16em]
+\operatorname{IsClosure}(\operatorname{ExprType}(e_{2}))\ \Rightarrow \ v_{2}\ =\ \operatorname{ClosureVal}(\mathsf{env},\ \mathsf{code})\ \land \ \mathsf{IR}_{\mathsf{call}}\ =\ \operatorname{IndirectCall}(\mathsf{code},\ [\mathsf{env},\ v_{1}]) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{PipelineExpr}(e_{1},\ e_{2}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{1},\ \mathsf{IR}_{2},\ \mathsf{IR}_{\mathsf{call}}),\ v_{\mathsf{result}}\rangle 
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{IsFunc}(\operatorname{TypeFunc}(\_,\ \_))\ \Leftrightarrow \ \mathsf{true} \\
-\operatorname{IsFunc}(\_)\ \Leftrightarrow \ \mathsf{false} \\
-\operatorname{IsClosure}(\operatorname{TypeClosure}(\_,\ \_,\ \_))\ \Leftrightarrow \ \mathsf{true} \\
+\operatorname{IsFunc}(\operatorname{TypeFunc}(\_,\ \_))\ \Leftrightarrow \ \mathsf{true} \\[0.16em]
+\operatorname{IsFunc}(\_)\ \Leftrightarrow \ \mathsf{false} \\[0.16em]
+\operatorname{IsClosure}(\operatorname{TypeClosure}(\_,\ \_,\ \_))\ \Leftrightarrow \ \mathsf{true} \\[0.16em]
 \operatorname{IsClosure}(\_)\ \Leftrightarrow \ \mathsf{false}
 \end{array}
 $$

@@ -4,6 +4,7 @@ import {
   CHAPTERS,
   SPEC_OUTPUT_DIR,
   docsPathForSlug,
+  extractChapterSections,
   frontmatter,
   normalizeChapterBody,
   readSpec,
@@ -56,6 +57,12 @@ for (const chapter of CHAPTERS) {
   if (stripDisplayMath(content).includes('\\rule{')) {
     errors.push(`${path} contains literal LaTeX rule markup outside a rendered math block.`);
   }
+  if (content.includes('<!--')) {
+    errors.push(`${path} contains an HTML comment in generated specification content.`);
+  }
+  if (stripDisplayMath(content).match(/[\u{1D4AB}\u{1D4AF}\u{1D505}]/u)) {
+    errors.push(`${path} contains raw mathematical alphabet glyphs outside generated math.`);
+  }
 
   checkChapterBody(path, chapter, content, chunks.get(chapter.slug));
   checkMathBlocks(path, content);
@@ -76,6 +83,18 @@ if (!existsSync(indexPath)) {
       errors.push(`Specification index is missing ${chapter.slug}.`);
     }
   }
+  for (const chapter of expectedManifestChapters()) {
+    for (const section of chapter.sections) {
+      if (!index.includes(`/docs/specification/${chapter.slug}/#${section.anchor}`)) {
+        errors.push(`${indexPath} is missing section link ${chapter.slug}#${section.anchor}.`);
+      }
+      for (const subsection of section.subsections) {
+        if (!index.includes(`/docs/specification/${chapter.slug}/#${subsection.anchor}`)) {
+          errors.push(`${indexPath} is missing subsection link ${chapter.slug}#${subsection.anchor}.`);
+        }
+      }
+    }
+  }
   for (const group of new Set(CHAPTERS.map((chapter) => chapter.group))) {
     if (!index.includes(`<section class="spec-index-group"`) || !index.includes(`>${group}</h2>`)) {
       errors.push(`${indexPath} is missing grouped navigation section ${group}.`);
@@ -94,14 +113,36 @@ if (errors.length > 0) {
   process.exit(1);
 }
 
-console.log(`Specification docs are current: ${CHAPTERS.length + 1} pages, hash ${hash}`);
+const { sectionCount, subsectionCount } = countOutlineEntries(expectedManifestChapters());
+console.log(
+  `Specification docs are current: ${CHAPTERS.length + 1} pages, ${sectionCount} sections, ${subsectionCount} subsections, hash ${hash}`,
+);
 
 function checkManifestChapters(manifest) {
   const manifestChapters = JSON.stringify(manifest.chapters);
-  const expectedChapters = JSON.stringify(CHAPTERS);
+  const expectedChapters = JSON.stringify(expectedManifestChapters());
   if (manifestChapters !== expectedChapters) {
     errors.push(`${manifestPath} chapters do not match scripts/spec-utils.mjs.`);
   }
+}
+
+function expectedManifestChapters() {
+  return CHAPTERS.map((chapter) => ({
+    ...chapter,
+    sections: extractChapterSections(chunks.get(chapter.slug) ?? ''),
+  }));
+}
+
+function countOutlineEntries(chapters) {
+  return chapters.reduce(
+    (counts, chapter) => ({
+      sectionCount: counts.sectionCount + chapter.sections.length,
+      subsectionCount:
+        counts.subsectionCount +
+        chapter.sections.reduce((total, section) => total + section.subsections.length, 0),
+    }),
+    { sectionCount: 0, subsectionCount: 0 },
+  );
 }
 
 function checkCanonicalChapterCoverage() {
@@ -164,6 +205,7 @@ function checkMathBlocks(path, content) {
   let mathBlocks = 0;
   for (const match of content.matchAll(blockPattern)) {
     mathBlocks += 1;
+    checkMathBlockContent(path, match[1]);
     try {
       katex.renderToString(match[1], {
         throwOnError: true,
@@ -189,6 +231,19 @@ function checkMathBlocks(path, content) {
   // that are language syntax, not LaTeX.
 }
 
+function checkMathBlockContent(path, body) {
+  if (body.includes('<!--')) {
+    errors.push(`${path} has an HTML comment inside a generated math block.`);
+  }
+
+  if (/[^\x00-\x7F]/.test(body)) {
+    errors.push(`${path} has raw non-ASCII inside generated math; convert it to KaTeX-safe LaTeX commands.`);
+  }
+
+  if (/\\mathsf\{(?:For|The|This|These|Those|If|When|While|Every|Each|Calls|Executables|Libraries)\}/.test(body)) {
+    errors.push(`${path} appears to render prose as generated math.`);
+  }
+}
 
 function checkFences(path, content) {
   const lines = content.split(/\r?\n/);
@@ -242,7 +297,7 @@ function checkDanglingMathClosers(path, content) {
 }
 
 function hasFormalNotation(text) {
-  return /[ΓΣΞΩΔΠΦπσθλεκαβγδημρτωφχψ⊢⊣⊬⇓⇑⇔⇒⇐→↔↦⇀↑∀∃∈∉∋⊆⊂⊄⊈⊥⊤⊨≠≤≥≡≈≺⟨⟩∧∨¬∪∩∅∞ℕℤℓ℘𝒫𝒯⋃⋀⋯×∖▷◁±⊎⊕⌊⌋⌈⌉∘]/u.test(text);
+  return /[\u00ac\u00b1\u00b7\u00d7\u0393\u0394\u039e\u03a0\u03a3\u03a6\u03a9\u03b1\u03b2\u03b3\u03b4\u03b5\u03b8\u03ba\u03bb\u03c0\u03c1\u03c3\u03c4\u03c7\u03c9\u2113\u2115\u2118\u211d\u2124\u2191\u2192\u2194\u21a6\u21c0\u21d0\u21d1\u21d2\u21d3\u21d4\u2200\u2203\u2205\u2208\u2209\u220b\u2211\u2216\u2218\u221e\u2227\u2228\u2229\u222a\u2260\u2261\u2264\u2265\u227a\u2282\u2284\u2286\u2288\u228e\u2295\u22a2\u22a3\u22a5\u22a8\u22ac\u22c0\u22c3\u22ef\u2308\u2309\u230a\u230b\u25b7\u25c1\u27e8\u27e9\u{1D4AB}\u{1D4AF}\u{1D505}]/u.test(text);
 }
 
 function checkMojibake(path, content) {
