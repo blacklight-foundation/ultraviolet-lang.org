@@ -1,11 +1,11 @@
 export const siteTitle = 'Ultraviolet';
 
 export const siteDescription =
-  'Ultraviolet is a high-visibility, general-purpose programming language for AI and Humans.';
+  'A systems language for fast, safe, auditable code from LLMs and humans.';
 
-export const socialImagePath = '/og.png';
+export const socialImagePath = '/ultraviolet-social-card-v2.png';
 export const socialImageAlt =
-  'Ultraviolet language logomark with the Ultraviolet project title and tagline.';
+  'Ultraviolet language logomark with the project title, social preview copy, and Blacklight Foundation attribution.';
 export const socialImageWidth = '1200';
 export const socialImageHeight = '630';
 export const socialImageType = 'image/png';

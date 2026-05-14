@@ -1,7 +1,7 @@
 {
   "source": "SPECIFICATION.md",
   "hash": "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a",
-  "generatedAt": "2026-05-14T00:55:03.609Z",
+  "generatedAt": "2026-05-14T07:35:34.990Z",
   "chapters": [
     {
       "slug": "front-matter",
@@ -12,22 +12,26 @@
         {
           "title": "0.1 Document Organization",
           "anchor": "01-document-organization",
-          "subsections": []
+          "subsections": [],
+          "slug": "front-matter/01-document-organization"
         },
         {
           "title": "0.2 Canonical Chapter Outline",
           "anchor": "02-canonical-chapter-outline",
-          "subsections": []
+          "subsections": [],
+          "slug": "front-matter/02-canonical-chapter-outline"
         },
         {
           "title": "0.3 Required Feature Section Template",
           "anchor": "03-required-feature-section-template",
-          "subsections": []
+          "subsections": [],
+          "slug": "front-matter/03-required-feature-section-template"
         },
         {
           "title": "0.4 Language Design Contract",
           "anchor": "04-language-design-contract",
-          "subsections": []
+          "subsections": [],
+          "slug": "front-matter/04-language-design-contract"
         }
       ]
     },
@@ -40,32 +44,38 @@
         {
           "title": "1.1 Conformance",
           "anchor": "11-conformance",
-          "subsections": []
+          "subsections": [],
+          "slug": "conformance-and-notation/11-conformance"
         },
         {
           "title": "1.2 Behavior Types",
           "anchor": "12-behavior-types",
-          "subsections": []
+          "subsections": [],
+          "slug": "conformance-and-notation/12-behavior-types"
         },
         {
           "title": "1.3 Document Conventions",
           "anchor": "13-document-conventions",
-          "subsections": []
+          "subsections": [],
+          "slug": "conformance-and-notation/13-document-conventions"
         },
         {
           "title": "1.4 Normative References",
           "anchor": "14-normative-references",
-          "subsections": []
+          "subsections": [],
+          "slug": "conformance-and-notation/14-normative-references"
         },
         {
           "title": "1.5 Compile-Time Execution and Phase Ordering",
           "anchor": "15-compile-time-execution-and-phase-ordering",
-          "subsections": []
+          "subsections": [],
+          "slug": "conformance-and-notation/15-compile-time-execution-and-phase-ordering"
         },
         {
           "title": "1.6 Target and ABI Assumptions",
           "anchor": "16-target-and-abi-assumptions",
-          "subsections": []
+          "subsections": [],
+          "slug": "conformance-and-notation/16-target-and-abi-assumptions"
         }
       ]
     },
@@ -78,37 +88,44 @@
         {
           "title": "2.1 Source Locations and Spans",
           "anchor": "21-source-locations-and-spans",
-          "subsections": []
+          "subsections": [],
+          "slug": "diagnostic-infrastructure/21-source-locations-and-spans"
         },
         {
           "title": "2.2 Token Spans",
           "anchor": "22-token-spans",
-          "subsections": []
+          "subsections": [],
+          "slug": "diagnostic-infrastructure/22-token-spans"
         },
         {
           "title": "2.3 Diagnostic Records and Emission",
           "anchor": "23-diagnostic-records-and-emission",
-          "subsections": []
+          "subsections": [],
+          "slug": "diagnostic-infrastructure/23-diagnostic-records-and-emission"
         },
         {
           "title": "2.4 Diagnostic Code Selection",
           "anchor": "24-diagnostic-code-selection",
-          "subsections": []
+          "subsections": [],
+          "slug": "diagnostic-infrastructure/24-diagnostic-code-selection"
         },
         {
           "title": "2.5 Diagnostic Ordering",
           "anchor": "25-diagnostic-ordering",
-          "subsections": []
+          "subsections": [],
+          "slug": "diagnostic-infrastructure/25-diagnostic-ordering"
         },
         {
           "title": "2.6 Diagnostic Rendering",
           "anchor": "26-diagnostic-rendering",
-          "subsections": []
+          "subsections": [],
+          "slug": "diagnostic-infrastructure/26-diagnostic-rendering"
         },
         {
           "title": "2.7 Diagnostics Without Source Spans",
           "anchor": "27-diagnostics-without-source-spans",
-          "subsections": []
+          "subsections": [],
+          "slug": "diagnostic-infrastructure/27-diagnostics-without-source-spans"
         }
       ]
     },
@@ -121,42 +138,50 @@
         {
           "title": "3.1 Core Project Records",
           "anchor": "31-core-project-records",
-          "subsections": []
+          "subsections": [],
+          "slug": "project-and-compilation-model/31-core-project-records"
         },
         {
           "title": "3.2 Project Root and Manifest",
           "anchor": "32-project-root-and-manifest",
-          "subsections": []
+          "subsections": [],
+          "slug": "project-and-compilation-model/32-project-root-and-manifest"
         },
         {
           "title": "3.3 Assemblies and Project Loading",
           "anchor": "33-assemblies-and-project-loading",
-          "subsections": []
+          "subsections": [],
+          "slug": "project-and-compilation-model/33-assemblies-and-project-loading"
         },
         {
           "title": "3.4 Deterministic Ordering and Case Folding",
           "anchor": "34-deterministic-ordering-and-case-folding",
-          "subsections": []
+          "subsections": [],
+          "slug": "project-and-compilation-model/34-deterministic-ordering-and-case-folding"
         },
         {
           "title": "3.5 Source Roots, Module Directories, and Compilation Units",
           "anchor": "35-source-roots-module-directories-and-compilation-units",
-          "subsections": []
+          "subsections": [],
+          "slug": "project-and-compilation-model/35-source-roots-module-directories-and-compilation-units"
         },
         {
           "title": "3.6 Output Artifacts and Linking",
           "anchor": "36-output-artifacts-and-linking",
-          "subsections": []
+          "subsections": [],
+          "slug": "project-and-compilation-model/36-output-artifacts-and-linking"
         },
         {
           "title": "3.7 Tool Resolution and IR Assembly Inputs",
           "anchor": "37-tool-resolution-and-ir-assembly-inputs",
-          "subsections": []
+          "subsections": [],
+          "slug": "project-and-compilation-model/37-tool-resolution-and-ir-assembly-inputs"
         },
         {
           "title": "3.8 Project Diagnostics",
           "anchor": "38-project-diagnostics",
-          "subsections": []
+          "subsections": [],
+          "slug": "project-and-compilation-model/38-project-diagnostics"
         }
       ]
     },
@@ -206,7 +231,8 @@
               "title": "4.1.9 Diagnostic Spans for Source Loading",
               "anchor": "419-diagnostic-spans-for-source-loading"
             }
-          ]
+          ],
+          "slug": "source-text-and-lexical-structure/41-source-loading-and-normalization"
         },
         {
           "title": "4.2 Lexical Analysis",
@@ -260,12 +286,14 @@
               "title": "4.2.12 Tokenize",
               "anchor": "4212-tokenize"
             }
-          ]
+          ],
+          "slug": "source-text-and-lexical-structure/42-lexical-analysis"
         },
         {
           "title": "4.3 Source Loading and Lexical Diagnostics",
           "anchor": "43-source-loading-and-lexical-diagnostics",
-          "subsections": []
+          "subsections": [],
+          "slug": "source-text-and-lexical-structure/43-source-loading-and-lexical-diagnostics"
         }
       ]
     },
@@ -278,52 +306,62 @@
         {
           "title": "5.1 Parsing Inputs, Outputs, and Invariants",
           "anchor": "51-parsing-inputs-outputs-and-invariants",
-          "subsections": []
+          "subsections": [],
+          "slug": "parsing-and-ast-infrastructure/51-parsing-inputs-outputs-and-invariants"
         },
         {
           "title": "5.2 AST Meta-Conventions",
           "anchor": "52-ast-meta-conventions",
-          "subsections": []
+          "subsections": [],
+          "slug": "parsing-and-ast-infrastructure/52-ast-meta-conventions"
         },
         {
           "title": "5.3 Parser State and Judgments",
           "anchor": "53-parser-state-and-judgments",
-          "subsections": []
+          "subsections": [],
+          "slug": "parsing-and-ast-infrastructure/53-parser-state-and-judgments"
         },
         {
           "title": "5.4 Shared Grammar Policy and Parser Helpers",
           "anchor": "54-shared-grammar-policy-and-parser-helpers",
-          "subsections": []
+          "subsections": [],
+          "slug": "parsing-and-ast-infrastructure/54-shared-grammar-policy-and-parser-helpers"
         },
         {
           "title": "5.5 Token Consumption and List Parsing",
           "anchor": "55-token-consumption-and-list-parsing",
-          "subsections": []
+          "subsections": [],
+          "slug": "parsing-and-ast-infrastructure/55-token-consumption-and-list-parsing"
         },
         {
           "title": "5.6 ParseFile, Item Sequencing, and Terminators",
           "anchor": "56-parsefile-item-sequencing-and-terminators",
-          "subsections": []
+          "subsections": [],
+          "slug": "parsing-and-ast-infrastructure/56-parsefile-item-sequencing-and-terminators"
         },
         {
           "title": "5.7 Doc Comment Association",
           "anchor": "57-doc-comment-association",
-          "subsections": []
+          "subsections": [],
+          "slug": "parsing-and-ast-infrastructure/57-doc-comment-association"
         },
         {
           "title": "5.8 Error Recovery and Synchronization",
           "anchor": "58-error-recovery-and-synchronization",
-          "subsections": []
+          "subsections": [],
+          "slug": "parsing-and-ast-infrastructure/58-error-recovery-and-synchronization"
         },
         {
           "title": "5.9 Parsing Diagnostics",
           "anchor": "59-parsing-diagnostics",
-          "subsections": []
+          "subsections": [],
+          "slug": "parsing-and-ast-infrastructure/59-parsing-diagnostics"
         },
         {
           "title": "5.10 Parsing Diagnostics Supplement",
           "anchor": "510-parsing-diagnostics-supplement",
-          "subsections": []
+          "subsections": [],
+          "slug": "parsing-and-ast-infrastructure/510-parsing-diagnostics-supplement"
         }
       ]
     },
@@ -361,7 +399,8 @@
               "title": "6.1.6 Unsafe and Foreign Interaction",
               "anchor": "616-unsafe-and-foreign-interaction"
             }
-          ]
+          ],
+          "slug": "abstract-machine-objects-responsibility-and-authority/61-authority-model"
         },
         {
           "title": "6.2 Host Primitives",
@@ -387,7 +426,8 @@
               "title": "6.2.5 Primitive Method Application",
               "anchor": "625-primitive-method-application"
             }
-          ]
+          ],
+          "slug": "abstract-machine-objects-responsibility-and-authority/62-host-primitives"
         },
         {
           "title": "6.3 Binding and Permission Runtime State",
@@ -409,7 +449,8 @@
               "title": "6.3.4 Access and Binding Introduction Helpers",
               "anchor": "634-access-and-binding-introduction-helpers"
             }
-          ]
+          ],
+          "slug": "abstract-machine-objects-responsibility-and-authority/63-binding-and-permission-runtime-state"
         },
         {
           "title": "6.4 Regions, Frames, and Provenance",
@@ -427,7 +468,8 @@
               "title": "6.4.3 Provenance Environment",
               "anchor": "643-provenance-environment"
             }
-          ]
+          ],
+          "slug": "abstract-machine-objects-responsibility-and-authority/64-regions-frames-and-provenance"
         },
         {
           "title": "6.5 Dynamic Scope Stack, Bindings, and Region Runtime",
@@ -445,12 +487,14 @@
               "title": "6.5.3 Runtime Value, Block, and Address Helpers",
               "anchor": "653-runtime-value-block-and-address-helpers"
             }
-          ]
+          ],
+          "slug": "abstract-machine-objects-responsibility-and-authority/65-dynamic-scope-stack-bindings-and-region-runtime"
         },
         {
           "title": "6.6 Runtime State and Memory Diagnostics",
           "anchor": "66-runtime-state-and-memory-diagnostics",
-          "subsections": []
+          "subsections": [],
+          "slug": "abstract-machine-objects-responsibility-and-authority/66-runtime-state-and-memory-diagnostics"
         }
       ]
     },
@@ -463,7 +507,8 @@
         {
           "title": "7.1 Scope Context and Identifiers",
           "anchor": "71-scope-context-and-identifiers",
-          "subsections": []
+          "subsections": [],
+          "slug": "name-resolution-and-visibility/71-scope-context-and-identifiers"
         },
         {
           "title": "7.2 Name Introduction and Module Validation",
@@ -473,37 +518,44 @@
               "title": "UsingAlias",
               "anchor": "usingalias"
             }
-          ]
+          ],
+          "slug": "name-resolution-and-visibility/72-name-introduction-and-module-validation"
         },
         {
           "title": "7.3 Lookup and Qualified Resolution",
           "anchor": "73-lookup-and-qualified-resolution",
-          "subsections": []
+          "subsections": [],
+          "slug": "name-resolution-and-visibility/73-lookup-and-qualified-resolution"
         },
         {
           "title": "7.4 Visibility and Accessibility",
           "anchor": "74-visibility-and-accessibility",
-          "subsections": []
+          "subsections": [],
+          "slug": "name-resolution-and-visibility/74-visibility-and-accessibility"
         },
         {
           "title": "7.5 Top-Level Name Collection",
           "anchor": "75-top-level-name-collection",
-          "subsections": []
+          "subsections": [],
+          "slug": "name-resolution-and-visibility/75-top-level-name-collection"
         },
         {
           "title": "7.6 Qualified Disambiguation",
           "anchor": "76-qualified-disambiguation",
-          "subsections": []
+          "subsections": [],
+          "slug": "name-resolution-and-visibility/76-qualified-disambiguation"
         },
         {
           "title": "7.7 Shared Resolution Helpers and Resolution Pass",
           "anchor": "77-shared-resolution-helpers-and-resolution-pass",
-          "subsections": []
+          "subsections": [],
+          "slug": "name-resolution-and-visibility/77-shared-resolution-helpers-and-resolution-pass"
         },
         {
           "title": "7.8 Name Resolution and Reserved Name Diagnostics",
           "anchor": "78-name-resolution-and-reserved-name-diagnostics",
-          "subsections": []
+          "subsections": [],
+          "slug": "name-resolution-and-visibility/78-name-resolution-and-reserved-name-diagnostics"
         }
       ]
     },
@@ -516,27 +568,32 @@
         {
           "title": "8.1 Type Equivalence",
           "anchor": "81-type-equivalence",
-          "subsections": []
+          "subsections": [],
+          "slug": "type-system-core/81-type-equivalence"
         },
         {
           "title": "8.2 Subtyping",
           "anchor": "82-subtyping",
-          "subsections": []
+          "subsections": [],
+          "slug": "type-system-core/82-subtyping"
         },
         {
           "title": "8.3 Type Inference",
           "anchor": "83-type-inference",
-          "subsections": []
+          "subsections": [],
+          "slug": "type-system-core/83-type-inference"
         },
         {
           "title": "8.4 Metatheoretic Properties",
           "anchor": "84-metatheoretic-properties",
-          "subsections": []
+          "subsections": [],
+          "slug": "type-system-core/84-metatheoretic-properties"
         },
         {
           "title": "8.5 Core Type Diagnostics",
           "anchor": "85-core-type-diagnostics",
-          "subsections": []
+          "subsections": [],
+          "slug": "type-system-core/85-core-type-diagnostics"
         }
       ]
     },
@@ -578,7 +635,8 @@
               "title": "9.1.7 Diagnostics",
               "anchor": "917-diagnostics"
             }
-          ]
+          ],
+          "slug": "attributes-and-metadata/91-attribute-syntax-and-placement"
         },
         {
           "title": "9.2 Vendor Attributes",
@@ -612,7 +670,8 @@
               "title": "9.2.7 Diagnostics",
               "anchor": "927-diagnostics"
             }
-          ]
+          ],
+          "slug": "attributes-and-metadata/92-vendor-attributes"
         },
         {
           "title": "9.3 Layout Attributes",
@@ -646,7 +705,8 @@
               "title": "9.3.7 Diagnostics",
               "anchor": "937-diagnostics"
             }
-          ]
+          ],
+          "slug": "attributes-and-metadata/93-layout-attributes"
         },
         {
           "title": "9.4 Optimization Attributes",
@@ -680,7 +740,8 @@
               "title": "9.4.7 Diagnostics",
               "anchor": "947-diagnostics"
             }
-          ]
+          ],
+          "slug": "attributes-and-metadata/94-optimization-attributes"
         },
         {
           "title": "9.5 Diagnostics and Metadata Attributes",
@@ -714,7 +775,8 @@
               "title": "9.5.7 Diagnostics",
               "anchor": "957-diagnostics"
             }
-          ]
+          ],
+          "slug": "attributes-and-metadata/95-diagnostics-and-metadata-attributes"
         },
         {
           "title": "9.6 Source-Native Test Attributes",
@@ -748,7 +810,8 @@
               "title": "9.6.7 Diagnostics",
               "anchor": "967-diagnostics"
             }
-          ]
+          ],
+          "slug": "attributes-and-metadata/96-source-native-test-attributes"
         }
       ]
     },
@@ -790,7 +853,8 @@
               "title": "10.1.7 Diagnostics",
               "anchor": "1017-diagnostics"
             }
-          ]
+          ],
+          "slug": "permissions-and-binding-state/101-permission-forms"
         },
         {
           "title": "10.2 Alias and Exclusivity Rules",
@@ -824,7 +888,8 @@
               "title": "10.2.7 Diagnostics",
               "anchor": "1027-diagnostics"
             }
-          ]
+          ],
+          "slug": "permissions-and-binding-state/102-alias-and-exclusivity-rules"
         },
         {
           "title": "10.3 Binding Activity States",
@@ -858,7 +923,8 @@
               "title": "10.3.7 Diagnostics",
               "anchor": "1037-diagnostics"
             }
-          ]
+          ],
+          "slug": "permissions-and-binding-state/103-binding-activity-states"
         },
         {
           "title": "10.4 Permission Admissibility",
@@ -892,7 +958,8 @@
               "title": "10.4.7 Diagnostics",
               "anchor": "1047-diagnostics"
             }
-          ]
+          ],
+          "slug": "permissions-and-binding-state/104-permission-admissibility"
         }
       ]
     },
@@ -934,7 +1001,8 @@
               "title": "11.1.7 Diagnostics",
               "anchor": "1117-diagnostics"
             }
-          ]
+          ],
+          "slug": "module-level-forms/111-import-declarations"
         },
         {
           "title": "11.2 Using Declarations",
@@ -968,7 +1036,8 @@
               "title": "11.2.7 Diagnostics",
               "anchor": "1127-diagnostics"
             }
-          ]
+          ],
+          "slug": "module-level-forms/112-using-declarations"
         },
         {
           "title": "11.3 Static Declarations",
@@ -1002,7 +1071,8 @@
               "title": "11.3.7 Diagnostics",
               "anchor": "1137-diagnostics"
             }
-          ]
+          ],
+          "slug": "module-level-forms/113-static-declarations"
         },
         {
           "title": "11.4 Extern Block Shell",
@@ -1036,7 +1106,8 @@
               "title": "11.4.7 Diagnostics",
               "anchor": "1147-diagnostics"
             }
-          ]
+          ],
+          "slug": "module-level-forms/114-extern-block-shell"
         },
         {
           "title": "11.5 Module and File Aggregation",
@@ -1070,7 +1141,8 @@
               "title": "11.5.7 Diagnostics",
               "anchor": "1157-diagnostics"
             }
-          ]
+          ],
+          "slug": "module-level-forms/115-module-and-file-aggregation"
         }
       ]
     },
@@ -1112,7 +1184,8 @@
               "title": "12.1.7 Diagnostics",
               "anchor": "1217-diagnostics"
             }
-          ]
+          ],
+          "slug": "concrete-data-types/121-primitive-types"
         },
         {
           "title": "12.2 Tuples",
@@ -1146,7 +1219,8 @@
               "title": "12.2.7 Diagnostics",
               "anchor": "1227-diagnostics"
             }
-          ]
+          ],
+          "slug": "concrete-data-types/122-tuples"
         },
         {
           "title": "12.3 Arrays",
@@ -1180,7 +1254,8 @@
               "title": "12.3.7 Diagnostics",
               "anchor": "1237-diagnostics"
             }
-          ]
+          ],
+          "slug": "concrete-data-types/123-arrays"
         },
         {
           "title": "12.4 Slices",
@@ -1214,7 +1289,8 @@
               "title": "12.4.7 Diagnostics",
               "anchor": "1247-diagnostics"
             }
-          ]
+          ],
+          "slug": "concrete-data-types/124-slices"
         },
         {
           "title": "12.5 Ranges",
@@ -1248,7 +1324,8 @@
               "title": "12.5.7 Diagnostics",
               "anchor": "1257-diagnostics"
             }
-          ]
+          ],
+          "slug": "concrete-data-types/125-ranges"
         },
         {
           "title": "12.6 Records",
@@ -1282,7 +1359,8 @@
               "title": "12.6.7 Diagnostics",
               "anchor": "1267-diagnostics"
             }
-          ]
+          ],
+          "slug": "concrete-data-types/126-records"
         },
         {
           "title": "12.7 Enums",
@@ -1316,7 +1394,8 @@
               "title": "12.7.7 Diagnostics",
               "anchor": "1277-diagnostics"
             }
-          ]
+          ],
+          "slug": "concrete-data-types/127-enums"
         },
         {
           "title": "12.8 Union Types",
@@ -1350,7 +1429,8 @@
               "title": "12.8.7 Diagnostics",
               "anchor": "1287-diagnostics"
             }
-          ]
+          ],
+          "slug": "concrete-data-types/128-union-types"
         },
         {
           "title": "12.9 Type Aliases",
@@ -1384,12 +1464,14 @@
               "title": "12.9.7 Diagnostics",
               "anchor": "1297-diagnostics"
             }
-          ]
+          ],
+          "slug": "concrete-data-types/129-type-aliases"
         },
         {
           "title": "12.10 Data Type Diagnostics Supplement",
           "anchor": "1210-data-type-diagnostics-supplement",
-          "subsections": []
+          "subsections": [],
+          "slug": "concrete-data-types/1210-data-type-diagnostics-supplement"
         }
       ]
     },
@@ -1431,7 +1513,8 @@
               "title": "13.1.7 Diagnostics",
               "anchor": "1317-diagnostics"
             }
-          ]
+          ],
+          "slug": "modal-and-special-types/131-modal-declarations"
         },
         {
           "title": "13.2 State Fields",
@@ -1465,7 +1548,8 @@
               "title": "13.2.7 Diagnostics",
               "anchor": "1327-diagnostics"
             }
-          ]
+          ],
+          "slug": "modal-and-special-types/132-state-fields"
         },
         {
           "title": "13.3 State-Specific Methods",
@@ -1499,7 +1583,8 @@
               "title": "13.3.7 Diagnostics",
               "anchor": "1337-diagnostics"
             }
-          ]
+          ],
+          "slug": "modal-and-special-types/133-state-specific-methods"
         },
         {
           "title": "13.4 Transitions",
@@ -1533,7 +1618,8 @@
               "title": "13.4.7 Diagnostics",
               "anchor": "1347-diagnostics"
             }
-          ]
+          ],
+          "slug": "modal-and-special-types/134-transitions"
         },
         {
           "title": "13.5 Modal Widening",
@@ -1567,7 +1653,8 @@
               "title": "13.5.7 Diagnostics",
               "anchor": "1357-diagnostics"
             }
-          ]
+          ],
+          "slug": "modal-and-special-types/135-modal-widening"
         },
         {
           "title": "13.6 String Types",
@@ -1601,7 +1688,8 @@
               "title": "13.6.7 Diagnostics",
               "anchor": "1367-diagnostics"
             }
-          ]
+          ],
+          "slug": "modal-and-special-types/136-string-types"
         },
         {
           "title": "13.7 Bytes Types",
@@ -1635,7 +1723,8 @@
               "title": "13.7.7 Diagnostics",
               "anchor": "1377-diagnostics"
             }
-          ]
+          ],
+          "slug": "modal-and-special-types/137-bytes-types"
         },
         {
           "title": "13.8 Safe Pointer Types",
@@ -1669,7 +1758,8 @@
               "title": "13.8.7 Diagnostics",
               "anchor": "1387-diagnostics"
             }
-          ]
+          ],
+          "slug": "modal-and-special-types/138-safe-pointer-types"
         },
         {
           "title": "13.9 Raw Pointer Types",
@@ -1703,7 +1793,8 @@
               "title": "13.9.7 Diagnostics",
               "anchor": "1397-diagnostics"
             }
-          ]
+          ],
+          "slug": "modal-and-special-types/139-raw-pointer-types"
         },
         {
           "title": "13.10 Function Types",
@@ -1737,7 +1828,8 @@
               "title": "13.10.7 Diagnostics",
               "anchor": "13107-diagnostics"
             }
-          ]
+          ],
+          "slug": "modal-and-special-types/1310-function-types"
         },
         {
           "title": "13.11 Closure Types",
@@ -1771,12 +1863,14 @@
               "title": "13.11.7 Diagnostics",
               "anchor": "13117-diagnostics"
             }
-          ]
+          ],
+          "slug": "modal-and-special-types/1311-closure-types"
         },
         {
           "title": "13.12 Modal and Pointer Diagnostics Supplement",
           "anchor": "1312-modal-and-pointer-diagnostics-supplement",
-          "subsections": []
+          "subsections": [],
+          "slug": "modal-and-special-types/1312-modal-and-pointer-diagnostics-supplement"
         }
       ]
     },
@@ -1818,7 +1912,8 @@
               "title": "14.1.7 Diagnostics",
               "anchor": "1417-diagnostics"
             }
-          ]
+          ],
+          "slug": "abstraction-and-polymorphism/141-generic-parameters-and-arguments"
         },
         {
           "title": "14.2 Generic Procedures and Types",
@@ -1852,7 +1947,8 @@
               "title": "14.2.7 Diagnostics",
               "anchor": "1427-diagnostics"
             }
-          ]
+          ],
+          "slug": "abstraction-and-polymorphism/142-generic-procedures-and-types"
         },
         {
           "title": "14.3 Classes",
@@ -1886,7 +1982,8 @@
               "title": "14.3.7 Diagnostics",
               "anchor": "1437-diagnostics"
             }
-          ]
+          ],
+          "slug": "abstraction-and-polymorphism/143-classes"
         },
         {
           "title": "14.4 Implementations",
@@ -1920,7 +2017,8 @@
               "title": "14.4.7 Diagnostics",
               "anchor": "1447-diagnostics"
             }
-          ]
+          ],
+          "slug": "abstraction-and-polymorphism/144-implementations"
         },
         {
           "title": "14.5 Associated Types",
@@ -1954,7 +2052,8 @@
               "title": "14.5.7 Diagnostics",
               "anchor": "1457-diagnostics"
             }
-          ]
+          ],
+          "slug": "abstraction-and-polymorphism/145-associated-types"
         },
         {
           "title": "14.6 Dynamic Class Objects",
@@ -1988,7 +2087,8 @@
               "title": "14.6.7 Diagnostics",
               "anchor": "1467-diagnostics"
             }
-          ]
+          ],
+          "slug": "abstraction-and-polymorphism/146-dynamic-class-objects"
         },
         {
           "title": "14.7 Opaque Types",
@@ -2022,7 +2122,8 @@
               "title": "14.7.7 Diagnostics",
               "anchor": "1477-diagnostics"
             }
-          ]
+          ],
+          "slug": "abstraction-and-polymorphism/147-opaque-types"
         },
         {
           "title": "14.8 Refinement Types",
@@ -2056,7 +2157,8 @@
               "title": "14.8.7 Diagnostics",
               "anchor": "1487-diagnostics"
             }
-          ]
+          ],
+          "slug": "abstraction-and-polymorphism/148-refinement-types"
         },
         {
           "title": "14.9 Capability Classes",
@@ -2090,7 +2192,8 @@
               "title": "14.9.7 Diagnostics",
               "anchor": "1497-diagnostics"
             }
-          ]
+          ],
+          "slug": "abstraction-and-polymorphism/149-capability-classes"
         },
         {
           "title": "14.10 Foundational Classes and Predicates",
@@ -2124,12 +2227,14 @@
               "title": "14.10.7 Diagnostics",
               "anchor": "14107-diagnostics"
             }
-          ]
+          ],
+          "slug": "abstraction-and-polymorphism/1410-foundational-classes-and-predicates"
         },
         {
           "title": "14.11 Refinement and Polymorphism Diagnostics Supplement",
           "anchor": "1411-refinement-and-polymorphism-diagnostics-supplement",
-          "subsections": []
+          "subsections": [],
+          "slug": "abstraction-and-polymorphism/1411-refinement-and-polymorphism-diagnostics-supplement"
         }
       ]
     },
@@ -2171,7 +2276,8 @@
               "title": "15.1.7 Diagnostics",
               "anchor": "1517-diagnostics"
             }
-          ]
+          ],
+          "slug": "procedures-and-contracts/151-procedure-declarations"
         },
         {
           "title": "15.2 Methods and Receivers",
@@ -2205,7 +2311,8 @@
               "title": "15.2.7 Diagnostics",
               "anchor": "1527-diagnostics"
             }
-          ]
+          ],
+          "slug": "procedures-and-contracts/152-methods-and-receivers"
         },
         {
           "title": "15.3 Overloading",
@@ -2239,7 +2346,8 @@
               "title": "15.3.7 Diagnostics",
               "anchor": "1537-diagnostics"
             }
-          ]
+          ],
+          "slug": "procedures-and-contracts/153-overloading"
         },
         {
           "title": "15.4 Contract Clauses",
@@ -2273,7 +2381,8 @@
               "title": "15.4.7 Diagnostics",
               "anchor": "1547-diagnostics"
             }
-          ]
+          ],
+          "slug": "procedures-and-contracts/154-contract-clauses"
         },
         {
           "title": "15.5 Preconditions",
@@ -2307,7 +2416,8 @@
               "title": "15.5.7 Diagnostics",
               "anchor": "1557-diagnostics"
             }
-          ]
+          ],
+          "slug": "procedures-and-contracts/155-preconditions"
         },
         {
           "title": "15.6 Postconditions",
@@ -2341,7 +2451,8 @@
               "title": "15.6.7 Diagnostics",
               "anchor": "1567-diagnostics"
             }
-          ]
+          ],
+          "slug": "procedures-and-contracts/156-postconditions"
         },
         {
           "title": "15.7 Invariants",
@@ -2375,7 +2486,8 @@
               "title": "15.7.7 Diagnostics",
               "anchor": "1577-diagnostics"
             }
-          ]
+          ],
+          "slug": "procedures-and-contracts/157-invariants"
         },
         {
           "title": "15.8 Verification Logic",
@@ -2409,7 +2521,8 @@
               "title": "15.8.7 Diagnostics",
               "anchor": "1587-diagnostics"
             }
-          ]
+          ],
+          "slug": "procedures-and-contracts/158-verification-logic"
         },
         {
           "title": "15.9 Behavioral Subtyping",
@@ -2443,12 +2556,14 @@
               "title": "15.9.7 Diagnostics",
               "anchor": "1597-diagnostics"
             }
-          ]
+          ],
+          "slug": "procedures-and-contracts/159-behavioral-subtyping"
         },
         {
           "title": "15.10 Procedure, Contract, and Entry Diagnostics Supplement",
           "anchor": "1510-procedure-contract-and-entry-diagnostics-supplement",
-          "subsections": []
+          "subsections": [],
+          "slug": "procedures-and-contracts/1510-procedure-contract-and-entry-diagnostics-supplement"
         }
       ]
     },
@@ -2490,7 +2605,8 @@
               "title": "16.1.7 Diagnostics",
               "anchor": "1617-diagnostics"
             }
-          ]
+          ],
+          "slug": "expressions/161-literal-and-name-expressions"
         },
         {
           "title": "16.2 Access and Place Expressions",
@@ -2524,7 +2640,8 @@
               "title": "16.2.7 Diagnostics",
               "anchor": "1627-diagnostics"
             }
-          ]
+          ],
+          "slug": "expressions/162-access-and-place-expressions"
         },
         {
           "title": "16.3 Call Expressions",
@@ -2558,7 +2675,8 @@
               "title": "16.3.7 Diagnostics",
               "anchor": "1637-diagnostics"
             }
-          ]
+          ],
+          "slug": "expressions/163-call-expressions"
         },
         {
           "title": "16.4 Operator Expressions",
@@ -2592,7 +2710,8 @@
               "title": "16.4.7 Diagnostics",
               "anchor": "1647-diagnostics"
             }
-          ]
+          ],
+          "slug": "expressions/164-operator-expressions"
         },
         {
           "title": "16.5 Cast and Transmute Expressions",
@@ -2626,7 +2745,8 @@
               "title": "16.5.7 Diagnostics",
               "anchor": "1657-diagnostics"
             }
-          ]
+          ],
+          "slug": "expressions/165-cast-and-transmute-expressions"
         },
         {
           "title": "16.6 Construction Expressions",
@@ -2660,7 +2780,8 @@
               "title": "16.6.7 Diagnostics",
               "anchor": "1667-diagnostics"
             }
-          ]
+          ],
+          "slug": "expressions/166-construction-expressions"
         },
         {
           "title": "16.7 Control Expressions",
@@ -2694,7 +2815,8 @@
               "title": "16.7.7 Diagnostics",
               "anchor": "1677-diagnostics"
             }
-          ]
+          ],
+          "slug": "expressions/167-control-expressions"
         },
         {
           "title": "16.8 Effectful Core Expressions",
@@ -2728,7 +2850,8 @@
               "title": "16.8.7 Diagnostics",
               "anchor": "1687-diagnostics"
             }
-          ]
+          ],
+          "slug": "expressions/168-effectful-core-expressions"
         },
         {
           "title": "16.9 Closure and Pipeline Expressions",
@@ -2762,12 +2885,14 @@
               "title": "16.9.7 Diagnostics",
               "anchor": "1697-diagnostics"
             }
-          ]
+          ],
+          "slug": "expressions/169-closure-and-pipeline-expressions"
         },
         {
           "title": "16.10 Expression Diagnostics Supplement",
           "anchor": "1610-expression-diagnostics-supplement",
-          "subsections": []
+          "subsections": [],
+          "slug": "expressions/1610-expression-diagnostics-supplement"
         }
       ]
     },
@@ -2809,7 +2934,8 @@
               "title": "17.1.7 Diagnostics",
               "anchor": "1717-diagnostics"
             }
-          ]
+          ],
+          "slug": "patterns/171-basic-patterns"
         },
         {
           "title": "17.2 Tuple and Record Patterns",
@@ -2843,7 +2969,8 @@
               "title": "17.2.7 Diagnostics",
               "anchor": "1727-diagnostics"
             }
-          ]
+          ],
+          "slug": "patterns/172-tuple-and-record-patterns"
         },
         {
           "title": "17.3 Enum and Modal Patterns",
@@ -2877,7 +3004,8 @@
               "title": "17.3.7 Diagnostics",
               "anchor": "1737-diagnostics"
             }
-          ]
+          ],
+          "slug": "patterns/173-enum-and-modal-patterns"
         },
         {
           "title": "17.4 Range Patterns",
@@ -2911,7 +3039,8 @@
               "title": "17.4.7 Diagnostics",
               "anchor": "1747-diagnostics"
             }
-          ]
+          ],
+          "slug": "patterns/174-range-patterns"
         },
         {
           "title": "17.5 Case Clauses",
@@ -2945,7 +3074,8 @@
               "title": "17.5.7 Diagnostics",
               "anchor": "1757-diagnostics"
             }
-          ]
+          ],
+          "slug": "patterns/175-case-clauses"
         },
         {
           "title": "17.6 Exhaustiveness and Reachability",
@@ -2979,12 +3109,14 @@
               "title": "17.6.7 Diagnostics",
               "anchor": "1767-diagnostics"
             }
-          ]
+          ],
+          "slug": "patterns/176-exhaustiveness-and-reachability"
         },
         {
           "title": "17.7 Pattern Diagnostics Supplement",
           "anchor": "177-pattern-diagnostics-supplement",
-          "subsections": []
+          "subsections": [],
+          "slug": "patterns/177-pattern-diagnostics-supplement"
         }
       ]
     },
@@ -3026,7 +3158,8 @@
               "title": "18.1.7 Diagnostics",
               "anchor": "1817-diagnostics"
             }
-          ]
+          ],
+          "slug": "statements-and-blocks/181-blocks"
         },
         {
           "title": "18.2 Binding Statements",
@@ -3060,7 +3193,8 @@
               "title": "18.2.7 Diagnostics",
               "anchor": "1827-diagnostics"
             }
-          ]
+          ],
+          "slug": "statements-and-blocks/182-binding-statements"
         },
         {
           "title": "18.3 Local Using Statements",
@@ -3094,7 +3228,8 @@
               "title": "18.3.7 Diagnostics",
               "anchor": "1837-diagnostics"
             }
-          ]
+          ],
+          "slug": "statements-and-blocks/183-local-using-statements"
         },
         {
           "title": "18.4 Assignment Statements",
@@ -3128,7 +3263,8 @@
               "title": "18.4.7 Diagnostics",
               "anchor": "1847-diagnostics"
             }
-          ]
+          ],
+          "slug": "statements-and-blocks/184-assignment-statements"
         },
         {
           "title": "18.5 Expression Statements",
@@ -3162,7 +3298,8 @@
               "title": "18.5.7 Diagnostics",
               "anchor": "1857-diagnostics"
             }
-          ]
+          ],
+          "slug": "statements-and-blocks/185-expression-statements"
         },
         {
           "title": "18.6 Defer",
@@ -3196,7 +3333,8 @@
               "title": "18.6.7 Diagnostics",
               "anchor": "1867-diagnostics"
             }
-          ]
+          ],
+          "slug": "statements-and-blocks/186-defer"
         },
         {
           "title": "18.7 Region",
@@ -3230,7 +3368,8 @@
               "title": "18.7.7 Diagnostics",
               "anchor": "1877-diagnostics"
             }
-          ]
+          ],
+          "slug": "statements-and-blocks/187-region"
         },
         {
           "title": "18.8 Frame",
@@ -3264,7 +3403,8 @@
               "title": "18.8.7 Diagnostics",
               "anchor": "1887-diagnostics"
             }
-          ]
+          ],
+          "slug": "statements-and-blocks/188-frame"
         },
         {
           "title": "18.9 Control-Transfer Statements",
@@ -3298,7 +3438,8 @@
               "title": "18.9.7 Diagnostics",
               "anchor": "1897-diagnostics"
             }
-          ]
+          ],
+          "slug": "statements-and-blocks/189-control-transfer-statements"
         },
         {
           "title": "18.10 Unsafe Statements",
@@ -3332,12 +3473,14 @@
               "title": "18.10.7 Diagnostics",
               "anchor": "18107-diagnostics"
             }
-          ]
+          ],
+          "slug": "statements-and-blocks/1810-unsafe-statements"
         },
         {
           "title": "18.11 Statement Diagnostics Supplement",
           "anchor": "1811-statement-diagnostics-supplement",
-          "subsections": []
+          "subsections": [],
+          "slug": "statements-and-blocks/1811-statement-diagnostics-supplement"
         }
       ]
     },
@@ -3379,7 +3522,8 @@
               "title": "19.1.7 Diagnostics",
               "anchor": "1917-diagnostics"
             }
-          ]
+          ],
+          "slug": "key-system/191-key-paths"
         },
         {
           "title": "19.2 Key Acquisition Blocks",
@@ -3413,7 +3557,8 @@
               "title": "19.2.7 Diagnostics",
               "anchor": "1927-diagnostics"
             }
-          ]
+          ],
+          "slug": "key-system/192-key-acquisition-blocks"
         },
         {
           "title": "19.3 Conflict Detection",
@@ -3447,7 +3592,8 @@
               "title": "19.3.7 Diagnostics",
               "anchor": "1937-diagnostics"
             }
-          ]
+          ],
+          "slug": "key-system/193-conflict-detection"
         },
         {
           "title": "19.4 Nested Release",
@@ -3481,7 +3627,8 @@
               "title": "19.4.7 Diagnostics",
               "anchor": "1947-diagnostics"
             }
-          ]
+          ],
+          "slug": "key-system/194-nested-release"
         },
         {
           "title": "19.5 Speculative Execution",
@@ -3515,7 +3662,8 @@
               "title": "19.5.7 Diagnostics",
               "anchor": "1957-diagnostics"
             }
-          ]
+          ],
+          "slug": "key-system/195-speculative-execution"
         },
         {
           "title": "19.6 Dynamic Key Verification",
@@ -3549,7 +3697,8 @@
               "title": "19.6.7 Diagnostics",
               "anchor": "1967-diagnostics"
             }
-          ]
+          ],
+          "slug": "key-system/196-dynamic-key-verification"
         },
         {
           "title": "19.7 Memory Ordering",
@@ -3583,7 +3732,8 @@
               "title": "19.7.7 Diagnostics",
               "anchor": "1977-diagnostics"
             }
-          ]
+          ],
+          "slug": "key-system/197-memory-ordering"
         }
       ]
     },
@@ -3625,7 +3775,8 @@
               "title": "20.1.7 Diagnostics",
               "anchor": "2017-diagnostics"
             }
-          ]
+          ],
+          "slug": "structured-parallelism/201-parallel-blocks"
         },
         {
           "title": "20.2 Execution Domains",
@@ -3659,7 +3810,8 @@
               "title": "20.2.7 Diagnostics",
               "anchor": "2027-diagnostics"
             }
-          ]
+          ],
+          "slug": "structured-parallelism/202-execution-domains"
         },
         {
           "title": "20.3 Capture Semantics",
@@ -3693,7 +3845,8 @@
               "title": "20.3.7 Diagnostics",
               "anchor": "2037-diagnostics"
             }
-          ]
+          ],
+          "slug": "structured-parallelism/203-capture-semantics"
         },
         {
           "title": "20.4 Spawn",
@@ -3727,7 +3880,8 @@
               "title": "20.4.7 Diagnostics",
               "anchor": "2047-diagnostics"
             }
-          ]
+          ],
+          "slug": "structured-parallelism/204-spawn"
         },
         {
           "title": "20.5 Dispatch",
@@ -3761,7 +3915,8 @@
               "title": "20.5.7 Diagnostics",
               "anchor": "2057-diagnostics"
             }
-          ]
+          ],
+          "slug": "structured-parallelism/205-dispatch"
         },
         {
           "title": "20.6 Cancellation",
@@ -3795,7 +3950,8 @@
               "title": "20.6.7 Diagnostics",
               "anchor": "2067-diagnostics"
             }
-          ]
+          ],
+          "slug": "structured-parallelism/206-cancellation"
         },
         {
           "title": "20.7 Panic Handling",
@@ -3829,7 +3985,8 @@
               "title": "20.7.7 Diagnostics",
               "anchor": "2077-diagnostics"
             }
-          ]
+          ],
+          "slug": "structured-parallelism/207-panic-handling"
         },
         {
           "title": "20.8 Determinism and Nesting",
@@ -3863,12 +4020,14 @@
               "title": "20.8.7 Diagnostics",
               "anchor": "2087-diagnostics"
             }
-          ]
+          ],
+          "slug": "structured-parallelism/208-determinism-and-nesting"
         },
         {
           "title": "20.9 Structured Parallelism Diagnostics Supplement",
           "anchor": "209-structured-parallelism-diagnostics-supplement",
-          "subsections": []
+          "subsections": [],
+          "slug": "structured-parallelism/209-structured-parallelism-diagnostics-supplement"
         }
       ]
     },
@@ -3910,7 +4069,8 @@
               "title": "21.1.7 Diagnostics",
               "anchor": "2117-diagnostics"
             }
-          ]
+          ],
+          "slug": "asynchronous-operations/211-async-type"
         },
         {
           "title": "21.2 Suspension Forms",
@@ -3944,7 +4104,8 @@
               "title": "21.2.7 Diagnostics",
               "anchor": "2127-diagnostics"
             }
-          ]
+          ],
+          "slug": "asynchronous-operations/212-suspension-forms"
         },
         {
           "title": "21.3 Composition Forms",
@@ -3978,7 +4139,8 @@
               "title": "21.3.7 Diagnostics",
               "anchor": "2137-diagnostics"
             }
-          ]
+          ],
+          "slug": "asynchronous-operations/213-composition-forms"
         },
         {
           "title": "21.4 Async State Machine",
@@ -4012,7 +4174,8 @@
               "title": "21.4.7 Diagnostics",
               "anchor": "2147-diagnostics"
             }
-          ]
+          ],
+          "slug": "asynchronous-operations/214-async-state-machine"
         },
         {
           "title": "21.5 Async-Key Integration",
@@ -4046,12 +4209,14 @@
               "title": "21.5.7 Diagnostics",
               "anchor": "2157-diagnostics"
             }
-          ]
+          ],
+          "slug": "asynchronous-operations/215-async-key-integration"
         },
         {
           "title": "21.6 Async Diagnostics Supplement",
           "anchor": "216-async-diagnostics-supplement",
-          "subsections": []
+          "subsections": [],
+          "slug": "asynchronous-operations/216-async-diagnostics-supplement"
         }
       ]
     },
@@ -4093,7 +4258,8 @@
               "title": "22.1.7 Diagnostics",
               "anchor": "2217-diagnostics"
             }
-          ]
+          ],
+          "slug": "compile-time-execution-and-metaprogramming/221-compile-time-forms"
         },
         {
           "title": "22.2 Compile-Time Capabilities",
@@ -4127,7 +4293,8 @@
               "title": "22.2.7 Diagnostics",
               "anchor": "2227-diagnostics"
             }
-          ]
+          ],
+          "slug": "compile-time-execution-and-metaprogramming/222-compile-time-capabilities"
         },
         {
           "title": "22.3 Reflection",
@@ -4161,7 +4328,8 @@
               "title": "22.3.7 Diagnostics",
               "anchor": "2237-diagnostics"
             }
-          ]
+          ],
+          "slug": "compile-time-execution-and-metaprogramming/223-reflection"
         },
         {
           "title": "22.4 Quote, Splice, and Emission",
@@ -4195,7 +4363,8 @@
               "title": "22.4.7 Diagnostics",
               "anchor": "2247-diagnostics"
             }
-          ]
+          ],
+          "slug": "compile-time-execution-and-metaprogramming/224-quote-splice-and-emission"
         },
         {
           "title": "22.5 Derive Targets and Contracts",
@@ -4229,12 +4398,14 @@
               "title": "22.5.7 Diagnostics",
               "anchor": "2257-diagnostics"
             }
-          ]
+          ],
+          "slug": "compile-time-execution-and-metaprogramming/225-derive-targets-and-contracts"
         },
         {
           "title": "22.6 Compile-Time Diagnostics Supplement",
           "anchor": "226-compile-time-diagnostics-supplement",
-          "subsections": []
+          "subsections": [],
+          "slug": "compile-time-execution-and-metaprogramming/226-compile-time-diagnostics-supplement"
         }
       ]
     },
@@ -4276,7 +4447,8 @@
               "title": "23.1.7 Diagnostics",
               "anchor": "2317-diagnostics"
             }
-          ]
+          ],
+          "slug": "foreign-function-interface/231-ffisafe"
         },
         {
           "title": "23.2 Extern Procedures",
@@ -4310,7 +4482,8 @@
               "title": "23.2.7 Diagnostics",
               "anchor": "2327-diagnostics"
             }
-          ]
+          ],
+          "slug": "foreign-function-interface/232-extern-procedures"
         },
         {
           "title": "23.3 Exported Procedures and Hosted Exports",
@@ -4372,7 +4545,8 @@
               "title": "23.3.14 Diagnostics",
               "anchor": "23314-diagnostics"
             }
-          ]
+          ],
+          "slug": "foreign-function-interface/233-exported-procedures-and-hosted-exports"
         },
         {
           "title": "23.4 FFI Attributes",
@@ -4406,7 +4580,8 @@
               "title": "23.4.7 Diagnostics",
               "anchor": "2347-diagnostics"
             }
-          ]
+          ],
+          "slug": "foreign-function-interface/234-ffi-attributes"
         },
         {
           "title": "23.5 Capability Isolation",
@@ -4440,7 +4615,8 @@
               "title": "23.5.7 Diagnostics",
               "anchor": "2357-diagnostics"
             }
-          ]
+          ],
+          "slug": "foreign-function-interface/235-capability-isolation"
         },
         {
           "title": "23.6 Foreign Contracts",
@@ -4474,7 +4650,8 @@
               "title": "23.6.7 Diagnostics",
               "anchor": "2367-diagnostics"
             }
-          ]
+          ],
+          "slug": "foreign-function-interface/236-foreign-contracts"
         },
         {
           "title": "23.7 Boundary Unwinding",
@@ -4508,12 +4685,14 @@
               "title": "23.7.7 Diagnostics",
               "anchor": "2377-diagnostics"
             }
-          ]
+          ],
+          "slug": "foreign-function-interface/237-boundary-unwinding"
         },
         {
           "title": "23.8 FFI Diagnostics Supplement",
           "anchor": "238-ffi-diagnostics-supplement",
-          "subsections": []
+          "subsections": [],
+          "slug": "foreign-function-interface/238-ffi-diagnostics-supplement"
         }
       ]
     },
@@ -4543,7 +4722,8 @@
               "title": "24.1.4 Project and Module Composition",
               "anchor": "2414-project-and-module-composition"
             }
-          ]
+          ],
+          "slug": "common-lowering-program-lifecycle-and-backend/241-shared-lowering-judgments"
         },
         {
           "title": "24.2 Layout and ABI Framework",
@@ -4569,7 +4749,8 @@
               "title": "24.2.5 ABI Parameter and Return Passing",
               "anchor": "2425-abi-parameter-and-return-passing"
             }
-          ]
+          ],
+          "slug": "common-lowering-program-lifecycle-and-backend/242-layout-and-abi-framework"
         },
         {
           "title": "24.3 Symbols, Mangling, and Linkage",
@@ -4583,7 +4764,8 @@
               "title": "24.3.2 Linkage for Generated Symbols",
               "anchor": "2432-linkage-for-generated-symbols"
             }
-          ]
+          ],
+          "slug": "common-lowering-program-lifecycle-and-backend/243-symbols-mangling-and-linkage"
         },
         {
           "title": "24.4 Initialization and Program Lifecycle",
@@ -4609,7 +4791,8 @@
               "title": "24.4.5 Interpreter Entrypoint",
               "anchor": "2445-interpreter-entrypoint"
             }
-          ]
+          ],
+          "slug": "common-lowering-program-lifecycle-and-backend/244-initialization-and-program-lifecycle"
         },
         {
           "title": "24.5 Cleanup, Drop, and Unwinding Framework",
@@ -4631,7 +4814,8 @@
               "title": "24.5.4 Cleanup and Unwinding Driver",
               "anchor": "2454-cleanup-and-unwinding-driver"
             }
-          ]
+          ],
+          "slug": "common-lowering-program-lifecycle-and-backend/245-cleanup-drop-and-unwinding-framework"
         },
         {
           "title": "24.6 Runtime Interface",
@@ -4653,7 +4837,8 @@
               "title": "24.6.4 Network, Heap, Reactor, and Time Host-Primitives",
               "anchor": "2464-network-heap-reactor-and-time-host-primitives"
             }
-          ]
+          ],
+          "slug": "common-lowering-program-lifecycle-and-backend/246-runtime-interface"
         },
         {
           "title": "24.7 Backend Requirements",
@@ -4711,12 +4896,14 @@
               "title": "24.7.13 Poisoning Instrumentation",
               "anchor": "24713-poisoning-instrumentation"
             }
-          ]
+          ],
+          "slug": "common-lowering-program-lifecycle-and-backend/247-backend-requirements"
         },
         {
           "title": "24.8 Output and Backend Diagnostics",
           "anchor": "248-output-and-backend-diagnostics",
-          "subsections": []
+          "subsections": [],
+          "slug": "common-lowering-program-lifecycle-and-backend/248-output-and-backend-diagnostics"
         }
       ]
     },
@@ -4736,72 +4923,86 @@
         {
           "title": "B.1 Lexical Grammar",
           "anchor": "b1-lexical-grammar",
-          "subsections": []
+          "subsections": [],
+          "slug": "complete-grammar-reference/b1-lexical-grammar"
         },
         {
           "title": "B.2 Type Grammar",
           "anchor": "b2-type-grammar",
-          "subsections": []
+          "subsections": [],
+          "slug": "complete-grammar-reference/b2-type-grammar"
         },
         {
           "title": "B.3 Expression Grammar",
           "anchor": "b3-expression-grammar",
-          "subsections": []
+          "subsections": [],
+          "slug": "complete-grammar-reference/b3-expression-grammar"
         },
         {
           "title": "B.4 Pattern Grammar",
           "anchor": "b4-pattern-grammar",
-          "subsections": []
+          "subsections": [],
+          "slug": "complete-grammar-reference/b4-pattern-grammar"
         },
         {
           "title": "B.5 Statement Grammar",
           "anchor": "b5-statement-grammar",
-          "subsections": []
+          "subsections": [],
+          "slug": "complete-grammar-reference/b5-statement-grammar"
         },
         {
           "title": "B.6 Declaration Grammar",
           "anchor": "b6-declaration-grammar",
-          "subsections": []
+          "subsections": [],
+          "slug": "complete-grammar-reference/b6-declaration-grammar"
         },
         {
           "title": "B.7 Contract Grammar",
           "anchor": "b7-contract-grammar",
-          "subsections": []
+          "subsections": [],
+          "slug": "complete-grammar-reference/b7-contract-grammar"
         },
         {
           "title": "B.8 Attribute Grammar",
           "anchor": "b8-attribute-grammar",
-          "subsections": []
+          "subsections": [],
+          "slug": "complete-grammar-reference/b8-attribute-grammar"
         },
         {
           "title": "B.9 Key System Grammar",
           "anchor": "b9-key-system-grammar",
-          "subsections": []
+          "subsections": [],
+          "slug": "complete-grammar-reference/b9-key-system-grammar"
         },
         {
           "title": "B.10 Concurrency Grammar",
           "anchor": "b10-concurrency-grammar",
-          "subsections": []
+          "subsections": [],
+          "slug": "complete-grammar-reference/b10-concurrency-grammar"
         },
         {
           "title": "B.11 Async Grammar",
           "anchor": "b11-async-grammar",
-          "subsections": []
+          "subsections": [],
+          "slug": "complete-grammar-reference/b11-async-grammar"
         },
         {
           "title": "B.12 Metaprogramming Grammar",
           "anchor": "b12-metaprogramming-grammar",
-          "subsections": []
+          "subsections": [],
+          "slug": "complete-grammar-reference/b12-metaprogramming-grammar"
         },
         {
           "title": "B.13 FFI Grammar",
           "anchor": "b13-ffi-grammar",
-          "subsections": []
+          "subsections": [],
+          "slug": "complete-grammar-reference/b13-ffi-grammar"
         },
         {
           "title": "B.14 Region Grammar",
           "anchor": "b14-region-grammar",
-          "subsections": []
+          "subsections": [],
+          "slug": "complete-grammar-reference/b14-region-grammar"
         }
       ]
     },
@@ -4814,17 +5015,20 @@
         {
           "title": "C.1 Item Forms",
           "anchor": "c1-item-forms",
-          "subsections": []
+          "subsections": [],
+          "slug": "ast-form-index/c1-item-forms"
         },
         {
           "title": "C.2 Type Forms",
           "anchor": "c2-type-forms",
-          "subsections": []
+          "subsections": [],
+          "slug": "ast-form-index/c2-type-forms"
         },
         {
           "title": "C.3 Expression, Pattern, and Statement Families",
           "anchor": "c3-expression-pattern-and-statement-families",
-          "subsections": []
+          "subsections": [],
+          "slug": "ast-form-index/c3-expression-pattern-and-statement-families"
         }
       ]
     },
@@ -4834,6 +5038,1610 @@
       "title": "Layout, ABI, and Runtime Reference",
       "group": "Appendices",
       "sections": []
+    }
+  ],
+  "pages": [
+    {
+      "kind": "chapter",
+      "slug": "front-matter",
+      "title": "Front Matter",
+      "chapterSlug": "front-matter"
+    },
+    {
+      "kind": "section",
+      "slug": "front-matter/01-document-organization",
+      "title": "0.1 Document Organization",
+      "chapterSlug": "front-matter",
+      "sectionAnchor": "01-document-organization"
+    },
+    {
+      "kind": "section",
+      "slug": "front-matter/02-canonical-chapter-outline",
+      "title": "0.2 Canonical Chapter Outline",
+      "chapterSlug": "front-matter",
+      "sectionAnchor": "02-canonical-chapter-outline"
+    },
+    {
+      "kind": "section",
+      "slug": "front-matter/03-required-feature-section-template",
+      "title": "0.3 Required Feature Section Template",
+      "chapterSlug": "front-matter",
+      "sectionAnchor": "03-required-feature-section-template"
+    },
+    {
+      "kind": "section",
+      "slug": "front-matter/04-language-design-contract",
+      "title": "0.4 Language Design Contract",
+      "chapterSlug": "front-matter",
+      "sectionAnchor": "04-language-design-contract"
+    },
+    {
+      "kind": "chapter",
+      "slug": "conformance-and-notation",
+      "title": "Conformance and Notation",
+      "chapterSlug": "conformance-and-notation"
+    },
+    {
+      "kind": "section",
+      "slug": "conformance-and-notation/11-conformance",
+      "title": "1.1 Conformance",
+      "chapterSlug": "conformance-and-notation",
+      "sectionAnchor": "11-conformance"
+    },
+    {
+      "kind": "section",
+      "slug": "conformance-and-notation/12-behavior-types",
+      "title": "1.2 Behavior Types",
+      "chapterSlug": "conformance-and-notation",
+      "sectionAnchor": "12-behavior-types"
+    },
+    {
+      "kind": "section",
+      "slug": "conformance-and-notation/13-document-conventions",
+      "title": "1.3 Document Conventions",
+      "chapterSlug": "conformance-and-notation",
+      "sectionAnchor": "13-document-conventions"
+    },
+    {
+      "kind": "section",
+      "slug": "conformance-and-notation/14-normative-references",
+      "title": "1.4 Normative References",
+      "chapterSlug": "conformance-and-notation",
+      "sectionAnchor": "14-normative-references"
+    },
+    {
+      "kind": "section",
+      "slug": "conformance-and-notation/15-compile-time-execution-and-phase-ordering",
+      "title": "1.5 Compile-Time Execution and Phase Ordering",
+      "chapterSlug": "conformance-and-notation",
+      "sectionAnchor": "15-compile-time-execution-and-phase-ordering"
+    },
+    {
+      "kind": "section",
+      "slug": "conformance-and-notation/16-target-and-abi-assumptions",
+      "title": "1.6 Target and ABI Assumptions",
+      "chapterSlug": "conformance-and-notation",
+      "sectionAnchor": "16-target-and-abi-assumptions"
+    },
+    {
+      "kind": "chapter",
+      "slug": "diagnostic-infrastructure",
+      "title": "Diagnostic Infrastructure",
+      "chapterSlug": "diagnostic-infrastructure"
+    },
+    {
+      "kind": "section",
+      "slug": "diagnostic-infrastructure/21-source-locations-and-spans",
+      "title": "2.1 Source Locations and Spans",
+      "chapterSlug": "diagnostic-infrastructure",
+      "sectionAnchor": "21-source-locations-and-spans"
+    },
+    {
+      "kind": "section",
+      "slug": "diagnostic-infrastructure/22-token-spans",
+      "title": "2.2 Token Spans",
+      "chapterSlug": "diagnostic-infrastructure",
+      "sectionAnchor": "22-token-spans"
+    },
+    {
+      "kind": "section",
+      "slug": "diagnostic-infrastructure/23-diagnostic-records-and-emission",
+      "title": "2.3 Diagnostic Records and Emission",
+      "chapterSlug": "diagnostic-infrastructure",
+      "sectionAnchor": "23-diagnostic-records-and-emission"
+    },
+    {
+      "kind": "section",
+      "slug": "diagnostic-infrastructure/24-diagnostic-code-selection",
+      "title": "2.4 Diagnostic Code Selection",
+      "chapterSlug": "diagnostic-infrastructure",
+      "sectionAnchor": "24-diagnostic-code-selection"
+    },
+    {
+      "kind": "section",
+      "slug": "diagnostic-infrastructure/25-diagnostic-ordering",
+      "title": "2.5 Diagnostic Ordering",
+      "chapterSlug": "diagnostic-infrastructure",
+      "sectionAnchor": "25-diagnostic-ordering"
+    },
+    {
+      "kind": "section",
+      "slug": "diagnostic-infrastructure/26-diagnostic-rendering",
+      "title": "2.6 Diagnostic Rendering",
+      "chapterSlug": "diagnostic-infrastructure",
+      "sectionAnchor": "26-diagnostic-rendering"
+    },
+    {
+      "kind": "section",
+      "slug": "diagnostic-infrastructure/27-diagnostics-without-source-spans",
+      "title": "2.7 Diagnostics Without Source Spans",
+      "chapterSlug": "diagnostic-infrastructure",
+      "sectionAnchor": "27-diagnostics-without-source-spans"
+    },
+    {
+      "kind": "chapter",
+      "slug": "project-and-compilation-model",
+      "title": "Project and Compilation Model",
+      "chapterSlug": "project-and-compilation-model"
+    },
+    {
+      "kind": "section",
+      "slug": "project-and-compilation-model/31-core-project-records",
+      "title": "3.1 Core Project Records",
+      "chapterSlug": "project-and-compilation-model",
+      "sectionAnchor": "31-core-project-records"
+    },
+    {
+      "kind": "section",
+      "slug": "project-and-compilation-model/32-project-root-and-manifest",
+      "title": "3.2 Project Root and Manifest",
+      "chapterSlug": "project-and-compilation-model",
+      "sectionAnchor": "32-project-root-and-manifest"
+    },
+    {
+      "kind": "section",
+      "slug": "project-and-compilation-model/33-assemblies-and-project-loading",
+      "title": "3.3 Assemblies and Project Loading",
+      "chapterSlug": "project-and-compilation-model",
+      "sectionAnchor": "33-assemblies-and-project-loading"
+    },
+    {
+      "kind": "section",
+      "slug": "project-and-compilation-model/34-deterministic-ordering-and-case-folding",
+      "title": "3.4 Deterministic Ordering and Case Folding",
+      "chapterSlug": "project-and-compilation-model",
+      "sectionAnchor": "34-deterministic-ordering-and-case-folding"
+    },
+    {
+      "kind": "section",
+      "slug": "project-and-compilation-model/35-source-roots-module-directories-and-compilation-units",
+      "title": "3.5 Source Roots, Module Directories, and Compilation Units",
+      "chapterSlug": "project-and-compilation-model",
+      "sectionAnchor": "35-source-roots-module-directories-and-compilation-units"
+    },
+    {
+      "kind": "section",
+      "slug": "project-and-compilation-model/36-output-artifacts-and-linking",
+      "title": "3.6 Output Artifacts and Linking",
+      "chapterSlug": "project-and-compilation-model",
+      "sectionAnchor": "36-output-artifacts-and-linking"
+    },
+    {
+      "kind": "section",
+      "slug": "project-and-compilation-model/37-tool-resolution-and-ir-assembly-inputs",
+      "title": "3.7 Tool Resolution and IR Assembly Inputs",
+      "chapterSlug": "project-and-compilation-model",
+      "sectionAnchor": "37-tool-resolution-and-ir-assembly-inputs"
+    },
+    {
+      "kind": "section",
+      "slug": "project-and-compilation-model/38-project-diagnostics",
+      "title": "3.8 Project Diagnostics",
+      "chapterSlug": "project-and-compilation-model",
+      "sectionAnchor": "38-project-diagnostics"
+    },
+    {
+      "kind": "chapter",
+      "slug": "source-text-and-lexical-structure",
+      "title": "Source Text and Lexical Structure",
+      "chapterSlug": "source-text-and-lexical-structure"
+    },
+    {
+      "kind": "section",
+      "slug": "source-text-and-lexical-structure/41-source-loading-and-normalization",
+      "title": "4.1 Source Loading and Normalization",
+      "chapterSlug": "source-text-and-lexical-structure",
+      "sectionAnchor": "41-source-loading-and-normalization"
+    },
+    {
+      "kind": "section",
+      "slug": "source-text-and-lexical-structure/42-lexical-analysis",
+      "title": "4.2 Lexical Analysis",
+      "chapterSlug": "source-text-and-lexical-structure",
+      "sectionAnchor": "42-lexical-analysis"
+    },
+    {
+      "kind": "section",
+      "slug": "source-text-and-lexical-structure/43-source-loading-and-lexical-diagnostics",
+      "title": "4.3 Source Loading and Lexical Diagnostics",
+      "chapterSlug": "source-text-and-lexical-structure",
+      "sectionAnchor": "43-source-loading-and-lexical-diagnostics"
+    },
+    {
+      "kind": "chapter",
+      "slug": "parsing-and-ast-infrastructure",
+      "title": "Parsing and AST Infrastructure",
+      "chapterSlug": "parsing-and-ast-infrastructure"
+    },
+    {
+      "kind": "section",
+      "slug": "parsing-and-ast-infrastructure/51-parsing-inputs-outputs-and-invariants",
+      "title": "5.1 Parsing Inputs, Outputs, and Invariants",
+      "chapterSlug": "parsing-and-ast-infrastructure",
+      "sectionAnchor": "51-parsing-inputs-outputs-and-invariants"
+    },
+    {
+      "kind": "section",
+      "slug": "parsing-and-ast-infrastructure/52-ast-meta-conventions",
+      "title": "5.2 AST Meta-Conventions",
+      "chapterSlug": "parsing-and-ast-infrastructure",
+      "sectionAnchor": "52-ast-meta-conventions"
+    },
+    {
+      "kind": "section",
+      "slug": "parsing-and-ast-infrastructure/53-parser-state-and-judgments",
+      "title": "5.3 Parser State and Judgments",
+      "chapterSlug": "parsing-and-ast-infrastructure",
+      "sectionAnchor": "53-parser-state-and-judgments"
+    },
+    {
+      "kind": "section",
+      "slug": "parsing-and-ast-infrastructure/54-shared-grammar-policy-and-parser-helpers",
+      "title": "5.4 Shared Grammar Policy and Parser Helpers",
+      "chapterSlug": "parsing-and-ast-infrastructure",
+      "sectionAnchor": "54-shared-grammar-policy-and-parser-helpers"
+    },
+    {
+      "kind": "section",
+      "slug": "parsing-and-ast-infrastructure/55-token-consumption-and-list-parsing",
+      "title": "5.5 Token Consumption and List Parsing",
+      "chapterSlug": "parsing-and-ast-infrastructure",
+      "sectionAnchor": "55-token-consumption-and-list-parsing"
+    },
+    {
+      "kind": "section",
+      "slug": "parsing-and-ast-infrastructure/56-parsefile-item-sequencing-and-terminators",
+      "title": "5.6 ParseFile, Item Sequencing, and Terminators",
+      "chapterSlug": "parsing-and-ast-infrastructure",
+      "sectionAnchor": "56-parsefile-item-sequencing-and-terminators"
+    },
+    {
+      "kind": "section",
+      "slug": "parsing-and-ast-infrastructure/57-doc-comment-association",
+      "title": "5.7 Doc Comment Association",
+      "chapterSlug": "parsing-and-ast-infrastructure",
+      "sectionAnchor": "57-doc-comment-association"
+    },
+    {
+      "kind": "section",
+      "slug": "parsing-and-ast-infrastructure/58-error-recovery-and-synchronization",
+      "title": "5.8 Error Recovery and Synchronization",
+      "chapterSlug": "parsing-and-ast-infrastructure",
+      "sectionAnchor": "58-error-recovery-and-synchronization"
+    },
+    {
+      "kind": "section",
+      "slug": "parsing-and-ast-infrastructure/59-parsing-diagnostics",
+      "title": "5.9 Parsing Diagnostics",
+      "chapterSlug": "parsing-and-ast-infrastructure",
+      "sectionAnchor": "59-parsing-diagnostics"
+    },
+    {
+      "kind": "section",
+      "slug": "parsing-and-ast-infrastructure/510-parsing-diagnostics-supplement",
+      "title": "5.10 Parsing Diagnostics Supplement",
+      "chapterSlug": "parsing-and-ast-infrastructure",
+      "sectionAnchor": "510-parsing-diagnostics-supplement"
+    },
+    {
+      "kind": "chapter",
+      "slug": "abstract-machine-objects-responsibility-and-authority",
+      "title": "Abstract Machine, Objects, Responsibility, and Authority",
+      "chapterSlug": "abstract-machine-objects-responsibility-and-authority"
+    },
+    {
+      "kind": "section",
+      "slug": "abstract-machine-objects-responsibility-and-authority/61-authority-model",
+      "title": "6.1 Authority Model",
+      "chapterSlug": "abstract-machine-objects-responsibility-and-authority",
+      "sectionAnchor": "61-authority-model"
+    },
+    {
+      "kind": "section",
+      "slug": "abstract-machine-objects-responsibility-and-authority/62-host-primitives",
+      "title": "6.2 Host Primitives",
+      "chapterSlug": "abstract-machine-objects-responsibility-and-authority",
+      "sectionAnchor": "62-host-primitives"
+    },
+    {
+      "kind": "section",
+      "slug": "abstract-machine-objects-responsibility-and-authority/63-binding-and-permission-runtime-state",
+      "title": "6.3 Binding and Permission Runtime State",
+      "chapterSlug": "abstract-machine-objects-responsibility-and-authority",
+      "sectionAnchor": "63-binding-and-permission-runtime-state"
+    },
+    {
+      "kind": "section",
+      "slug": "abstract-machine-objects-responsibility-and-authority/64-regions-frames-and-provenance",
+      "title": "6.4 Regions, Frames, and Provenance",
+      "chapterSlug": "abstract-machine-objects-responsibility-and-authority",
+      "sectionAnchor": "64-regions-frames-and-provenance"
+    },
+    {
+      "kind": "section",
+      "slug": "abstract-machine-objects-responsibility-and-authority/65-dynamic-scope-stack-bindings-and-region-runtime",
+      "title": "6.5 Dynamic Scope Stack, Bindings, and Region Runtime",
+      "chapterSlug": "abstract-machine-objects-responsibility-and-authority",
+      "sectionAnchor": "65-dynamic-scope-stack-bindings-and-region-runtime"
+    },
+    {
+      "kind": "section",
+      "slug": "abstract-machine-objects-responsibility-and-authority/66-runtime-state-and-memory-diagnostics",
+      "title": "6.6 Runtime State and Memory Diagnostics",
+      "chapterSlug": "abstract-machine-objects-responsibility-and-authority",
+      "sectionAnchor": "66-runtime-state-and-memory-diagnostics"
+    },
+    {
+      "kind": "chapter",
+      "slug": "name-resolution-and-visibility",
+      "title": "Name Resolution and Visibility",
+      "chapterSlug": "name-resolution-and-visibility"
+    },
+    {
+      "kind": "section",
+      "slug": "name-resolution-and-visibility/71-scope-context-and-identifiers",
+      "title": "7.1 Scope Context and Identifiers",
+      "chapterSlug": "name-resolution-and-visibility",
+      "sectionAnchor": "71-scope-context-and-identifiers"
+    },
+    {
+      "kind": "section",
+      "slug": "name-resolution-and-visibility/72-name-introduction-and-module-validation",
+      "title": "7.2 Name Introduction and Module Validation",
+      "chapterSlug": "name-resolution-and-visibility",
+      "sectionAnchor": "72-name-introduction-and-module-validation"
+    },
+    {
+      "kind": "section",
+      "slug": "name-resolution-and-visibility/73-lookup-and-qualified-resolution",
+      "title": "7.3 Lookup and Qualified Resolution",
+      "chapterSlug": "name-resolution-and-visibility",
+      "sectionAnchor": "73-lookup-and-qualified-resolution"
+    },
+    {
+      "kind": "section",
+      "slug": "name-resolution-and-visibility/74-visibility-and-accessibility",
+      "title": "7.4 Visibility and Accessibility",
+      "chapterSlug": "name-resolution-and-visibility",
+      "sectionAnchor": "74-visibility-and-accessibility"
+    },
+    {
+      "kind": "section",
+      "slug": "name-resolution-and-visibility/75-top-level-name-collection",
+      "title": "7.5 Top-Level Name Collection",
+      "chapterSlug": "name-resolution-and-visibility",
+      "sectionAnchor": "75-top-level-name-collection"
+    },
+    {
+      "kind": "section",
+      "slug": "name-resolution-and-visibility/76-qualified-disambiguation",
+      "title": "7.6 Qualified Disambiguation",
+      "chapterSlug": "name-resolution-and-visibility",
+      "sectionAnchor": "76-qualified-disambiguation"
+    },
+    {
+      "kind": "section",
+      "slug": "name-resolution-and-visibility/77-shared-resolution-helpers-and-resolution-pass",
+      "title": "7.7 Shared Resolution Helpers and Resolution Pass",
+      "chapterSlug": "name-resolution-and-visibility",
+      "sectionAnchor": "77-shared-resolution-helpers-and-resolution-pass"
+    },
+    {
+      "kind": "section",
+      "slug": "name-resolution-and-visibility/78-name-resolution-and-reserved-name-diagnostics",
+      "title": "7.8 Name Resolution and Reserved Name Diagnostics",
+      "chapterSlug": "name-resolution-and-visibility",
+      "sectionAnchor": "78-name-resolution-and-reserved-name-diagnostics"
+    },
+    {
+      "kind": "chapter",
+      "slug": "type-system-core",
+      "title": "Type System Core",
+      "chapterSlug": "type-system-core"
+    },
+    {
+      "kind": "section",
+      "slug": "type-system-core/81-type-equivalence",
+      "title": "8.1 Type Equivalence",
+      "chapterSlug": "type-system-core",
+      "sectionAnchor": "81-type-equivalence"
+    },
+    {
+      "kind": "section",
+      "slug": "type-system-core/82-subtyping",
+      "title": "8.2 Subtyping",
+      "chapterSlug": "type-system-core",
+      "sectionAnchor": "82-subtyping"
+    },
+    {
+      "kind": "section",
+      "slug": "type-system-core/83-type-inference",
+      "title": "8.3 Type Inference",
+      "chapterSlug": "type-system-core",
+      "sectionAnchor": "83-type-inference"
+    },
+    {
+      "kind": "section",
+      "slug": "type-system-core/84-metatheoretic-properties",
+      "title": "8.4 Metatheoretic Properties",
+      "chapterSlug": "type-system-core",
+      "sectionAnchor": "84-metatheoretic-properties"
+    },
+    {
+      "kind": "section",
+      "slug": "type-system-core/85-core-type-diagnostics",
+      "title": "8.5 Core Type Diagnostics",
+      "chapterSlug": "type-system-core",
+      "sectionAnchor": "85-core-type-diagnostics"
+    },
+    {
+      "kind": "chapter",
+      "slug": "attributes-and-metadata",
+      "title": "Attributes and Metadata",
+      "chapterSlug": "attributes-and-metadata"
+    },
+    {
+      "kind": "section",
+      "slug": "attributes-and-metadata/91-attribute-syntax-and-placement",
+      "title": "9.1 Attribute Syntax and Placement",
+      "chapterSlug": "attributes-and-metadata",
+      "sectionAnchor": "91-attribute-syntax-and-placement"
+    },
+    {
+      "kind": "section",
+      "slug": "attributes-and-metadata/92-vendor-attributes",
+      "title": "9.2 Vendor Attributes",
+      "chapterSlug": "attributes-and-metadata",
+      "sectionAnchor": "92-vendor-attributes"
+    },
+    {
+      "kind": "section",
+      "slug": "attributes-and-metadata/93-layout-attributes",
+      "title": "9.3 Layout Attributes",
+      "chapterSlug": "attributes-and-metadata",
+      "sectionAnchor": "93-layout-attributes"
+    },
+    {
+      "kind": "section",
+      "slug": "attributes-and-metadata/94-optimization-attributes",
+      "title": "9.4 Optimization Attributes",
+      "chapterSlug": "attributes-and-metadata",
+      "sectionAnchor": "94-optimization-attributes"
+    },
+    {
+      "kind": "section",
+      "slug": "attributes-and-metadata/95-diagnostics-and-metadata-attributes",
+      "title": "9.5 Diagnostics and Metadata Attributes",
+      "chapterSlug": "attributes-and-metadata",
+      "sectionAnchor": "95-diagnostics-and-metadata-attributes"
+    },
+    {
+      "kind": "section",
+      "slug": "attributes-and-metadata/96-source-native-test-attributes",
+      "title": "9.6 Source-Native Test Attributes",
+      "chapterSlug": "attributes-and-metadata",
+      "sectionAnchor": "96-source-native-test-attributes"
+    },
+    {
+      "kind": "chapter",
+      "slug": "permissions-and-binding-state",
+      "title": "Permissions and Binding State",
+      "chapterSlug": "permissions-and-binding-state"
+    },
+    {
+      "kind": "section",
+      "slug": "permissions-and-binding-state/101-permission-forms",
+      "title": "10.1 Permission Forms",
+      "chapterSlug": "permissions-and-binding-state",
+      "sectionAnchor": "101-permission-forms"
+    },
+    {
+      "kind": "section",
+      "slug": "permissions-and-binding-state/102-alias-and-exclusivity-rules",
+      "title": "10.2 Alias and Exclusivity Rules",
+      "chapterSlug": "permissions-and-binding-state",
+      "sectionAnchor": "102-alias-and-exclusivity-rules"
+    },
+    {
+      "kind": "section",
+      "slug": "permissions-and-binding-state/103-binding-activity-states",
+      "title": "10.3 Binding Activity States",
+      "chapterSlug": "permissions-and-binding-state",
+      "sectionAnchor": "103-binding-activity-states"
+    },
+    {
+      "kind": "section",
+      "slug": "permissions-and-binding-state/104-permission-admissibility",
+      "title": "10.4 Permission Admissibility",
+      "chapterSlug": "permissions-and-binding-state",
+      "sectionAnchor": "104-permission-admissibility"
+    },
+    {
+      "kind": "chapter",
+      "slug": "module-level-forms",
+      "title": "Module-Level Forms",
+      "chapterSlug": "module-level-forms"
+    },
+    {
+      "kind": "section",
+      "slug": "module-level-forms/111-import-declarations",
+      "title": "11.1 Import Declarations",
+      "chapterSlug": "module-level-forms",
+      "sectionAnchor": "111-import-declarations"
+    },
+    {
+      "kind": "section",
+      "slug": "module-level-forms/112-using-declarations",
+      "title": "11.2 Using Declarations",
+      "chapterSlug": "module-level-forms",
+      "sectionAnchor": "112-using-declarations"
+    },
+    {
+      "kind": "section",
+      "slug": "module-level-forms/113-static-declarations",
+      "title": "11.3 Static Declarations",
+      "chapterSlug": "module-level-forms",
+      "sectionAnchor": "113-static-declarations"
+    },
+    {
+      "kind": "section",
+      "slug": "module-level-forms/114-extern-block-shell",
+      "title": "11.4 Extern Block Shell",
+      "chapterSlug": "module-level-forms",
+      "sectionAnchor": "114-extern-block-shell"
+    },
+    {
+      "kind": "section",
+      "slug": "module-level-forms/115-module-and-file-aggregation",
+      "title": "11.5 Module and File Aggregation",
+      "chapterSlug": "module-level-forms",
+      "sectionAnchor": "115-module-and-file-aggregation"
+    },
+    {
+      "kind": "chapter",
+      "slug": "concrete-data-types",
+      "title": "Concrete Data Types",
+      "chapterSlug": "concrete-data-types"
+    },
+    {
+      "kind": "section",
+      "slug": "concrete-data-types/121-primitive-types",
+      "title": "12.1 Primitive Types",
+      "chapterSlug": "concrete-data-types",
+      "sectionAnchor": "121-primitive-types"
+    },
+    {
+      "kind": "section",
+      "slug": "concrete-data-types/122-tuples",
+      "title": "12.2 Tuples",
+      "chapterSlug": "concrete-data-types",
+      "sectionAnchor": "122-tuples"
+    },
+    {
+      "kind": "section",
+      "slug": "concrete-data-types/123-arrays",
+      "title": "12.3 Arrays",
+      "chapterSlug": "concrete-data-types",
+      "sectionAnchor": "123-arrays"
+    },
+    {
+      "kind": "section",
+      "slug": "concrete-data-types/124-slices",
+      "title": "12.4 Slices",
+      "chapterSlug": "concrete-data-types",
+      "sectionAnchor": "124-slices"
+    },
+    {
+      "kind": "section",
+      "slug": "concrete-data-types/125-ranges",
+      "title": "12.5 Ranges",
+      "chapterSlug": "concrete-data-types",
+      "sectionAnchor": "125-ranges"
+    },
+    {
+      "kind": "section",
+      "slug": "concrete-data-types/126-records",
+      "title": "12.6 Records",
+      "chapterSlug": "concrete-data-types",
+      "sectionAnchor": "126-records"
+    },
+    {
+      "kind": "section",
+      "slug": "concrete-data-types/127-enums",
+      "title": "12.7 Enums",
+      "chapterSlug": "concrete-data-types",
+      "sectionAnchor": "127-enums"
+    },
+    {
+      "kind": "section",
+      "slug": "concrete-data-types/128-union-types",
+      "title": "12.8 Union Types",
+      "chapterSlug": "concrete-data-types",
+      "sectionAnchor": "128-union-types"
+    },
+    {
+      "kind": "section",
+      "slug": "concrete-data-types/129-type-aliases",
+      "title": "12.9 Type Aliases",
+      "chapterSlug": "concrete-data-types",
+      "sectionAnchor": "129-type-aliases"
+    },
+    {
+      "kind": "section",
+      "slug": "concrete-data-types/1210-data-type-diagnostics-supplement",
+      "title": "12.10 Data Type Diagnostics Supplement",
+      "chapterSlug": "concrete-data-types",
+      "sectionAnchor": "1210-data-type-diagnostics-supplement"
+    },
+    {
+      "kind": "chapter",
+      "slug": "modal-and-special-types",
+      "title": "Modal and Special Types",
+      "chapterSlug": "modal-and-special-types"
+    },
+    {
+      "kind": "section",
+      "slug": "modal-and-special-types/131-modal-declarations",
+      "title": "13.1 Modal Declarations",
+      "chapterSlug": "modal-and-special-types",
+      "sectionAnchor": "131-modal-declarations"
+    },
+    {
+      "kind": "section",
+      "slug": "modal-and-special-types/132-state-fields",
+      "title": "13.2 State Fields",
+      "chapterSlug": "modal-and-special-types",
+      "sectionAnchor": "132-state-fields"
+    },
+    {
+      "kind": "section",
+      "slug": "modal-and-special-types/133-state-specific-methods",
+      "title": "13.3 State-Specific Methods",
+      "chapterSlug": "modal-and-special-types",
+      "sectionAnchor": "133-state-specific-methods"
+    },
+    {
+      "kind": "section",
+      "slug": "modal-and-special-types/134-transitions",
+      "title": "13.4 Transitions",
+      "chapterSlug": "modal-and-special-types",
+      "sectionAnchor": "134-transitions"
+    },
+    {
+      "kind": "section",
+      "slug": "modal-and-special-types/135-modal-widening",
+      "title": "13.5 Modal Widening",
+      "chapterSlug": "modal-and-special-types",
+      "sectionAnchor": "135-modal-widening"
+    },
+    {
+      "kind": "section",
+      "slug": "modal-and-special-types/136-string-types",
+      "title": "13.6 String Types",
+      "chapterSlug": "modal-and-special-types",
+      "sectionAnchor": "136-string-types"
+    },
+    {
+      "kind": "section",
+      "slug": "modal-and-special-types/137-bytes-types",
+      "title": "13.7 Bytes Types",
+      "chapterSlug": "modal-and-special-types",
+      "sectionAnchor": "137-bytes-types"
+    },
+    {
+      "kind": "section",
+      "slug": "modal-and-special-types/138-safe-pointer-types",
+      "title": "13.8 Safe Pointer Types",
+      "chapterSlug": "modal-and-special-types",
+      "sectionAnchor": "138-safe-pointer-types"
+    },
+    {
+      "kind": "section",
+      "slug": "modal-and-special-types/139-raw-pointer-types",
+      "title": "13.9 Raw Pointer Types",
+      "chapterSlug": "modal-and-special-types",
+      "sectionAnchor": "139-raw-pointer-types"
+    },
+    {
+      "kind": "section",
+      "slug": "modal-and-special-types/1310-function-types",
+      "title": "13.10 Function Types",
+      "chapterSlug": "modal-and-special-types",
+      "sectionAnchor": "1310-function-types"
+    },
+    {
+      "kind": "section",
+      "slug": "modal-and-special-types/1311-closure-types",
+      "title": "13.11 Closure Types",
+      "chapterSlug": "modal-and-special-types",
+      "sectionAnchor": "1311-closure-types"
+    },
+    {
+      "kind": "section",
+      "slug": "modal-and-special-types/1312-modal-and-pointer-diagnostics-supplement",
+      "title": "13.12 Modal and Pointer Diagnostics Supplement",
+      "chapterSlug": "modal-and-special-types",
+      "sectionAnchor": "1312-modal-and-pointer-diagnostics-supplement"
+    },
+    {
+      "kind": "chapter",
+      "slug": "abstraction-and-polymorphism",
+      "title": "Abstraction and Polymorphism",
+      "chapterSlug": "abstraction-and-polymorphism"
+    },
+    {
+      "kind": "section",
+      "slug": "abstraction-and-polymorphism/141-generic-parameters-and-arguments",
+      "title": "14.1 Generic Parameters and Arguments",
+      "chapterSlug": "abstraction-and-polymorphism",
+      "sectionAnchor": "141-generic-parameters-and-arguments"
+    },
+    {
+      "kind": "section",
+      "slug": "abstraction-and-polymorphism/142-generic-procedures-and-types",
+      "title": "14.2 Generic Procedures and Types",
+      "chapterSlug": "abstraction-and-polymorphism",
+      "sectionAnchor": "142-generic-procedures-and-types"
+    },
+    {
+      "kind": "section",
+      "slug": "abstraction-and-polymorphism/143-classes",
+      "title": "14.3 Classes",
+      "chapterSlug": "abstraction-and-polymorphism",
+      "sectionAnchor": "143-classes"
+    },
+    {
+      "kind": "section",
+      "slug": "abstraction-and-polymorphism/144-implementations",
+      "title": "14.4 Implementations",
+      "chapterSlug": "abstraction-and-polymorphism",
+      "sectionAnchor": "144-implementations"
+    },
+    {
+      "kind": "section",
+      "slug": "abstraction-and-polymorphism/145-associated-types",
+      "title": "14.5 Associated Types",
+      "chapterSlug": "abstraction-and-polymorphism",
+      "sectionAnchor": "145-associated-types"
+    },
+    {
+      "kind": "section",
+      "slug": "abstraction-and-polymorphism/146-dynamic-class-objects",
+      "title": "14.6 Dynamic Class Objects",
+      "chapterSlug": "abstraction-and-polymorphism",
+      "sectionAnchor": "146-dynamic-class-objects"
+    },
+    {
+      "kind": "section",
+      "slug": "abstraction-and-polymorphism/147-opaque-types",
+      "title": "14.7 Opaque Types",
+      "chapterSlug": "abstraction-and-polymorphism",
+      "sectionAnchor": "147-opaque-types"
+    },
+    {
+      "kind": "section",
+      "slug": "abstraction-and-polymorphism/148-refinement-types",
+      "title": "14.8 Refinement Types",
+      "chapterSlug": "abstraction-and-polymorphism",
+      "sectionAnchor": "148-refinement-types"
+    },
+    {
+      "kind": "section",
+      "slug": "abstraction-and-polymorphism/149-capability-classes",
+      "title": "14.9 Capability Classes",
+      "chapterSlug": "abstraction-and-polymorphism",
+      "sectionAnchor": "149-capability-classes"
+    },
+    {
+      "kind": "section",
+      "slug": "abstraction-and-polymorphism/1410-foundational-classes-and-predicates",
+      "title": "14.10 Foundational Classes and Predicates",
+      "chapterSlug": "abstraction-and-polymorphism",
+      "sectionAnchor": "1410-foundational-classes-and-predicates"
+    },
+    {
+      "kind": "section",
+      "slug": "abstraction-and-polymorphism/1411-refinement-and-polymorphism-diagnostics-supplement",
+      "title": "14.11 Refinement and Polymorphism Diagnostics Supplement",
+      "chapterSlug": "abstraction-and-polymorphism",
+      "sectionAnchor": "1411-refinement-and-polymorphism-diagnostics-supplement"
+    },
+    {
+      "kind": "chapter",
+      "slug": "procedures-and-contracts",
+      "title": "Procedures and Contracts",
+      "chapterSlug": "procedures-and-contracts"
+    },
+    {
+      "kind": "section",
+      "slug": "procedures-and-contracts/151-procedure-declarations",
+      "title": "15.1 Procedure Declarations",
+      "chapterSlug": "procedures-and-contracts",
+      "sectionAnchor": "151-procedure-declarations"
+    },
+    {
+      "kind": "section",
+      "slug": "procedures-and-contracts/152-methods-and-receivers",
+      "title": "15.2 Methods and Receivers",
+      "chapterSlug": "procedures-and-contracts",
+      "sectionAnchor": "152-methods-and-receivers"
+    },
+    {
+      "kind": "section",
+      "slug": "procedures-and-contracts/153-overloading",
+      "title": "15.3 Overloading",
+      "chapterSlug": "procedures-and-contracts",
+      "sectionAnchor": "153-overloading"
+    },
+    {
+      "kind": "section",
+      "slug": "procedures-and-contracts/154-contract-clauses",
+      "title": "15.4 Contract Clauses",
+      "chapterSlug": "procedures-and-contracts",
+      "sectionAnchor": "154-contract-clauses"
+    },
+    {
+      "kind": "section",
+      "slug": "procedures-and-contracts/155-preconditions",
+      "title": "15.5 Preconditions",
+      "chapterSlug": "procedures-and-contracts",
+      "sectionAnchor": "155-preconditions"
+    },
+    {
+      "kind": "section",
+      "slug": "procedures-and-contracts/156-postconditions",
+      "title": "15.6 Postconditions",
+      "chapterSlug": "procedures-and-contracts",
+      "sectionAnchor": "156-postconditions"
+    },
+    {
+      "kind": "section",
+      "slug": "procedures-and-contracts/157-invariants",
+      "title": "15.7 Invariants",
+      "chapterSlug": "procedures-and-contracts",
+      "sectionAnchor": "157-invariants"
+    },
+    {
+      "kind": "section",
+      "slug": "procedures-and-contracts/158-verification-logic",
+      "title": "15.8 Verification Logic",
+      "chapterSlug": "procedures-and-contracts",
+      "sectionAnchor": "158-verification-logic"
+    },
+    {
+      "kind": "section",
+      "slug": "procedures-and-contracts/159-behavioral-subtyping",
+      "title": "15.9 Behavioral Subtyping",
+      "chapterSlug": "procedures-and-contracts",
+      "sectionAnchor": "159-behavioral-subtyping"
+    },
+    {
+      "kind": "section",
+      "slug": "procedures-and-contracts/1510-procedure-contract-and-entry-diagnostics-supplement",
+      "title": "15.10 Procedure, Contract, and Entry Diagnostics Supplement",
+      "chapterSlug": "procedures-and-contracts",
+      "sectionAnchor": "1510-procedure-contract-and-entry-diagnostics-supplement"
+    },
+    {
+      "kind": "chapter",
+      "slug": "expressions",
+      "title": "Expressions",
+      "chapterSlug": "expressions"
+    },
+    {
+      "kind": "section",
+      "slug": "expressions/161-literal-and-name-expressions",
+      "title": "16.1 Literal and Name Expressions",
+      "chapterSlug": "expressions",
+      "sectionAnchor": "161-literal-and-name-expressions"
+    },
+    {
+      "kind": "section",
+      "slug": "expressions/162-access-and-place-expressions",
+      "title": "16.2 Access and Place Expressions",
+      "chapterSlug": "expressions",
+      "sectionAnchor": "162-access-and-place-expressions"
+    },
+    {
+      "kind": "section",
+      "slug": "expressions/163-call-expressions",
+      "title": "16.3 Call Expressions",
+      "chapterSlug": "expressions",
+      "sectionAnchor": "163-call-expressions"
+    },
+    {
+      "kind": "section",
+      "slug": "expressions/164-operator-expressions",
+      "title": "16.4 Operator Expressions",
+      "chapterSlug": "expressions",
+      "sectionAnchor": "164-operator-expressions"
+    },
+    {
+      "kind": "section",
+      "slug": "expressions/165-cast-and-transmute-expressions",
+      "title": "16.5 Cast and Transmute Expressions",
+      "chapterSlug": "expressions",
+      "sectionAnchor": "165-cast-and-transmute-expressions"
+    },
+    {
+      "kind": "section",
+      "slug": "expressions/166-construction-expressions",
+      "title": "16.6 Construction Expressions",
+      "chapterSlug": "expressions",
+      "sectionAnchor": "166-construction-expressions"
+    },
+    {
+      "kind": "section",
+      "slug": "expressions/167-control-expressions",
+      "title": "16.7 Control Expressions",
+      "chapterSlug": "expressions",
+      "sectionAnchor": "167-control-expressions"
+    },
+    {
+      "kind": "section",
+      "slug": "expressions/168-effectful-core-expressions",
+      "title": "16.8 Effectful Core Expressions",
+      "chapterSlug": "expressions",
+      "sectionAnchor": "168-effectful-core-expressions"
+    },
+    {
+      "kind": "section",
+      "slug": "expressions/169-closure-and-pipeline-expressions",
+      "title": "16.9 Closure and Pipeline Expressions",
+      "chapterSlug": "expressions",
+      "sectionAnchor": "169-closure-and-pipeline-expressions"
+    },
+    {
+      "kind": "section",
+      "slug": "expressions/1610-expression-diagnostics-supplement",
+      "title": "16.10 Expression Diagnostics Supplement",
+      "chapterSlug": "expressions",
+      "sectionAnchor": "1610-expression-diagnostics-supplement"
+    },
+    {
+      "kind": "chapter",
+      "slug": "patterns",
+      "title": "Patterns",
+      "chapterSlug": "patterns"
+    },
+    {
+      "kind": "section",
+      "slug": "patterns/171-basic-patterns",
+      "title": "17.1 Basic Patterns",
+      "chapterSlug": "patterns",
+      "sectionAnchor": "171-basic-patterns"
+    },
+    {
+      "kind": "section",
+      "slug": "patterns/172-tuple-and-record-patterns",
+      "title": "17.2 Tuple and Record Patterns",
+      "chapterSlug": "patterns",
+      "sectionAnchor": "172-tuple-and-record-patterns"
+    },
+    {
+      "kind": "section",
+      "slug": "patterns/173-enum-and-modal-patterns",
+      "title": "17.3 Enum and Modal Patterns",
+      "chapterSlug": "patterns",
+      "sectionAnchor": "173-enum-and-modal-patterns"
+    },
+    {
+      "kind": "section",
+      "slug": "patterns/174-range-patterns",
+      "title": "17.4 Range Patterns",
+      "chapterSlug": "patterns",
+      "sectionAnchor": "174-range-patterns"
+    },
+    {
+      "kind": "section",
+      "slug": "patterns/175-case-clauses",
+      "title": "17.5 Case Clauses",
+      "chapterSlug": "patterns",
+      "sectionAnchor": "175-case-clauses"
+    },
+    {
+      "kind": "section",
+      "slug": "patterns/176-exhaustiveness-and-reachability",
+      "title": "17.6 Exhaustiveness and Reachability",
+      "chapterSlug": "patterns",
+      "sectionAnchor": "176-exhaustiveness-and-reachability"
+    },
+    {
+      "kind": "section",
+      "slug": "patterns/177-pattern-diagnostics-supplement",
+      "title": "17.7 Pattern Diagnostics Supplement",
+      "chapterSlug": "patterns",
+      "sectionAnchor": "177-pattern-diagnostics-supplement"
+    },
+    {
+      "kind": "chapter",
+      "slug": "statements-and-blocks",
+      "title": "Statements and Blocks",
+      "chapterSlug": "statements-and-blocks"
+    },
+    {
+      "kind": "section",
+      "slug": "statements-and-blocks/181-blocks",
+      "title": "18.1 Blocks",
+      "chapterSlug": "statements-and-blocks",
+      "sectionAnchor": "181-blocks"
+    },
+    {
+      "kind": "section",
+      "slug": "statements-and-blocks/182-binding-statements",
+      "title": "18.2 Binding Statements",
+      "chapterSlug": "statements-and-blocks",
+      "sectionAnchor": "182-binding-statements"
+    },
+    {
+      "kind": "section",
+      "slug": "statements-and-blocks/183-local-using-statements",
+      "title": "18.3 Local Using Statements",
+      "chapterSlug": "statements-and-blocks",
+      "sectionAnchor": "183-local-using-statements"
+    },
+    {
+      "kind": "section",
+      "slug": "statements-and-blocks/184-assignment-statements",
+      "title": "18.4 Assignment Statements",
+      "chapterSlug": "statements-and-blocks",
+      "sectionAnchor": "184-assignment-statements"
+    },
+    {
+      "kind": "section",
+      "slug": "statements-and-blocks/185-expression-statements",
+      "title": "18.5 Expression Statements",
+      "chapterSlug": "statements-and-blocks",
+      "sectionAnchor": "185-expression-statements"
+    },
+    {
+      "kind": "section",
+      "slug": "statements-and-blocks/186-defer",
+      "title": "18.6 Defer",
+      "chapterSlug": "statements-and-blocks",
+      "sectionAnchor": "186-defer"
+    },
+    {
+      "kind": "section",
+      "slug": "statements-and-blocks/187-region",
+      "title": "18.7 Region",
+      "chapterSlug": "statements-and-blocks",
+      "sectionAnchor": "187-region"
+    },
+    {
+      "kind": "section",
+      "slug": "statements-and-blocks/188-frame",
+      "title": "18.8 Frame",
+      "chapterSlug": "statements-and-blocks",
+      "sectionAnchor": "188-frame"
+    },
+    {
+      "kind": "section",
+      "slug": "statements-and-blocks/189-control-transfer-statements",
+      "title": "18.9 Control-Transfer Statements",
+      "chapterSlug": "statements-and-blocks",
+      "sectionAnchor": "189-control-transfer-statements"
+    },
+    {
+      "kind": "section",
+      "slug": "statements-and-blocks/1810-unsafe-statements",
+      "title": "18.10 Unsafe Statements",
+      "chapterSlug": "statements-and-blocks",
+      "sectionAnchor": "1810-unsafe-statements"
+    },
+    {
+      "kind": "section",
+      "slug": "statements-and-blocks/1811-statement-diagnostics-supplement",
+      "title": "18.11 Statement Diagnostics Supplement",
+      "chapterSlug": "statements-and-blocks",
+      "sectionAnchor": "1811-statement-diagnostics-supplement"
+    },
+    {
+      "kind": "chapter",
+      "slug": "key-system",
+      "title": "Key System",
+      "chapterSlug": "key-system"
+    },
+    {
+      "kind": "section",
+      "slug": "key-system/191-key-paths",
+      "title": "19.1 Key Paths",
+      "chapterSlug": "key-system",
+      "sectionAnchor": "191-key-paths"
+    },
+    {
+      "kind": "section",
+      "slug": "key-system/192-key-acquisition-blocks",
+      "title": "19.2 Key Acquisition Blocks",
+      "chapterSlug": "key-system",
+      "sectionAnchor": "192-key-acquisition-blocks"
+    },
+    {
+      "kind": "section",
+      "slug": "key-system/193-conflict-detection",
+      "title": "19.3 Conflict Detection",
+      "chapterSlug": "key-system",
+      "sectionAnchor": "193-conflict-detection"
+    },
+    {
+      "kind": "section",
+      "slug": "key-system/194-nested-release",
+      "title": "19.4 Nested Release",
+      "chapterSlug": "key-system",
+      "sectionAnchor": "194-nested-release"
+    },
+    {
+      "kind": "section",
+      "slug": "key-system/195-speculative-execution",
+      "title": "19.5 Speculative Execution",
+      "chapterSlug": "key-system",
+      "sectionAnchor": "195-speculative-execution"
+    },
+    {
+      "kind": "section",
+      "slug": "key-system/196-dynamic-key-verification",
+      "title": "19.6 Dynamic Key Verification",
+      "chapterSlug": "key-system",
+      "sectionAnchor": "196-dynamic-key-verification"
+    },
+    {
+      "kind": "section",
+      "slug": "key-system/197-memory-ordering",
+      "title": "19.7 Memory Ordering",
+      "chapterSlug": "key-system",
+      "sectionAnchor": "197-memory-ordering"
+    },
+    {
+      "kind": "chapter",
+      "slug": "structured-parallelism",
+      "title": "Structured Parallelism",
+      "chapterSlug": "structured-parallelism"
+    },
+    {
+      "kind": "section",
+      "slug": "structured-parallelism/201-parallel-blocks",
+      "title": "20.1 Parallel Blocks",
+      "chapterSlug": "structured-parallelism",
+      "sectionAnchor": "201-parallel-blocks"
+    },
+    {
+      "kind": "section",
+      "slug": "structured-parallelism/202-execution-domains",
+      "title": "20.2 Execution Domains",
+      "chapterSlug": "structured-parallelism",
+      "sectionAnchor": "202-execution-domains"
+    },
+    {
+      "kind": "section",
+      "slug": "structured-parallelism/203-capture-semantics",
+      "title": "20.3 Capture Semantics",
+      "chapterSlug": "structured-parallelism",
+      "sectionAnchor": "203-capture-semantics"
+    },
+    {
+      "kind": "section",
+      "slug": "structured-parallelism/204-spawn",
+      "title": "20.4 Spawn",
+      "chapterSlug": "structured-parallelism",
+      "sectionAnchor": "204-spawn"
+    },
+    {
+      "kind": "section",
+      "slug": "structured-parallelism/205-dispatch",
+      "title": "20.5 Dispatch",
+      "chapterSlug": "structured-parallelism",
+      "sectionAnchor": "205-dispatch"
+    },
+    {
+      "kind": "section",
+      "slug": "structured-parallelism/206-cancellation",
+      "title": "20.6 Cancellation",
+      "chapterSlug": "structured-parallelism",
+      "sectionAnchor": "206-cancellation"
+    },
+    {
+      "kind": "section",
+      "slug": "structured-parallelism/207-panic-handling",
+      "title": "20.7 Panic Handling",
+      "chapterSlug": "structured-parallelism",
+      "sectionAnchor": "207-panic-handling"
+    },
+    {
+      "kind": "section",
+      "slug": "structured-parallelism/208-determinism-and-nesting",
+      "title": "20.8 Determinism and Nesting",
+      "chapterSlug": "structured-parallelism",
+      "sectionAnchor": "208-determinism-and-nesting"
+    },
+    {
+      "kind": "section",
+      "slug": "structured-parallelism/209-structured-parallelism-diagnostics-supplement",
+      "title": "20.9 Structured Parallelism Diagnostics Supplement",
+      "chapterSlug": "structured-parallelism",
+      "sectionAnchor": "209-structured-parallelism-diagnostics-supplement"
+    },
+    {
+      "kind": "chapter",
+      "slug": "asynchronous-operations",
+      "title": "Asynchronous Operations",
+      "chapterSlug": "asynchronous-operations"
+    },
+    {
+      "kind": "section",
+      "slug": "asynchronous-operations/211-async-type",
+      "title": "21.1 Async Type",
+      "chapterSlug": "asynchronous-operations",
+      "sectionAnchor": "211-async-type"
+    },
+    {
+      "kind": "section",
+      "slug": "asynchronous-operations/212-suspension-forms",
+      "title": "21.2 Suspension Forms",
+      "chapterSlug": "asynchronous-operations",
+      "sectionAnchor": "212-suspension-forms"
+    },
+    {
+      "kind": "section",
+      "slug": "asynchronous-operations/213-composition-forms",
+      "title": "21.3 Composition Forms",
+      "chapterSlug": "asynchronous-operations",
+      "sectionAnchor": "213-composition-forms"
+    },
+    {
+      "kind": "section",
+      "slug": "asynchronous-operations/214-async-state-machine",
+      "title": "21.4 Async State Machine",
+      "chapterSlug": "asynchronous-operations",
+      "sectionAnchor": "214-async-state-machine"
+    },
+    {
+      "kind": "section",
+      "slug": "asynchronous-operations/215-async-key-integration",
+      "title": "21.5 Async-Key Integration",
+      "chapterSlug": "asynchronous-operations",
+      "sectionAnchor": "215-async-key-integration"
+    },
+    {
+      "kind": "section",
+      "slug": "asynchronous-operations/216-async-diagnostics-supplement",
+      "title": "21.6 Async Diagnostics Supplement",
+      "chapterSlug": "asynchronous-operations",
+      "sectionAnchor": "216-async-diagnostics-supplement"
+    },
+    {
+      "kind": "chapter",
+      "slug": "compile-time-execution-and-metaprogramming",
+      "title": "Compile-Time Execution and Metaprogramming",
+      "chapterSlug": "compile-time-execution-and-metaprogramming"
+    },
+    {
+      "kind": "section",
+      "slug": "compile-time-execution-and-metaprogramming/221-compile-time-forms",
+      "title": "22.1 Compile-Time Forms",
+      "chapterSlug": "compile-time-execution-and-metaprogramming",
+      "sectionAnchor": "221-compile-time-forms"
+    },
+    {
+      "kind": "section",
+      "slug": "compile-time-execution-and-metaprogramming/222-compile-time-capabilities",
+      "title": "22.2 Compile-Time Capabilities",
+      "chapterSlug": "compile-time-execution-and-metaprogramming",
+      "sectionAnchor": "222-compile-time-capabilities"
+    },
+    {
+      "kind": "section",
+      "slug": "compile-time-execution-and-metaprogramming/223-reflection",
+      "title": "22.3 Reflection",
+      "chapterSlug": "compile-time-execution-and-metaprogramming",
+      "sectionAnchor": "223-reflection"
+    },
+    {
+      "kind": "section",
+      "slug": "compile-time-execution-and-metaprogramming/224-quote-splice-and-emission",
+      "title": "22.4 Quote, Splice, and Emission",
+      "chapterSlug": "compile-time-execution-and-metaprogramming",
+      "sectionAnchor": "224-quote-splice-and-emission"
+    },
+    {
+      "kind": "section",
+      "slug": "compile-time-execution-and-metaprogramming/225-derive-targets-and-contracts",
+      "title": "22.5 Derive Targets and Contracts",
+      "chapterSlug": "compile-time-execution-and-metaprogramming",
+      "sectionAnchor": "225-derive-targets-and-contracts"
+    },
+    {
+      "kind": "section",
+      "slug": "compile-time-execution-and-metaprogramming/226-compile-time-diagnostics-supplement",
+      "title": "22.6 Compile-Time Diagnostics Supplement",
+      "chapterSlug": "compile-time-execution-and-metaprogramming",
+      "sectionAnchor": "226-compile-time-diagnostics-supplement"
+    },
+    {
+      "kind": "chapter",
+      "slug": "foreign-function-interface",
+      "title": "Foreign Function Interface",
+      "chapterSlug": "foreign-function-interface"
+    },
+    {
+      "kind": "section",
+      "slug": "foreign-function-interface/231-ffisafe",
+      "title": "23.1 FfiSafe",
+      "chapterSlug": "foreign-function-interface",
+      "sectionAnchor": "231-ffisafe"
+    },
+    {
+      "kind": "section",
+      "slug": "foreign-function-interface/232-extern-procedures",
+      "title": "23.2 Extern Procedures",
+      "chapterSlug": "foreign-function-interface",
+      "sectionAnchor": "232-extern-procedures"
+    },
+    {
+      "kind": "section",
+      "slug": "foreign-function-interface/233-exported-procedures-and-hosted-exports",
+      "title": "23.3 Exported Procedures and Hosted Exports",
+      "chapterSlug": "foreign-function-interface",
+      "sectionAnchor": "233-exported-procedures-and-hosted-exports"
+    },
+    {
+      "kind": "section",
+      "slug": "foreign-function-interface/234-ffi-attributes",
+      "title": "23.4 FFI Attributes",
+      "chapterSlug": "foreign-function-interface",
+      "sectionAnchor": "234-ffi-attributes"
+    },
+    {
+      "kind": "section",
+      "slug": "foreign-function-interface/235-capability-isolation",
+      "title": "23.5 Capability Isolation",
+      "chapterSlug": "foreign-function-interface",
+      "sectionAnchor": "235-capability-isolation"
+    },
+    {
+      "kind": "section",
+      "slug": "foreign-function-interface/236-foreign-contracts",
+      "title": "23.6 Foreign Contracts",
+      "chapterSlug": "foreign-function-interface",
+      "sectionAnchor": "236-foreign-contracts"
+    },
+    {
+      "kind": "section",
+      "slug": "foreign-function-interface/237-boundary-unwinding",
+      "title": "23.7 Boundary Unwinding",
+      "chapterSlug": "foreign-function-interface",
+      "sectionAnchor": "237-boundary-unwinding"
+    },
+    {
+      "kind": "section",
+      "slug": "foreign-function-interface/238-ffi-diagnostics-supplement",
+      "title": "23.8 FFI Diagnostics Supplement",
+      "chapterSlug": "foreign-function-interface",
+      "sectionAnchor": "238-ffi-diagnostics-supplement"
+    },
+    {
+      "kind": "chapter",
+      "slug": "common-lowering-program-lifecycle-and-backend",
+      "title": "Common Lowering, Program Lifecycle, and Backend",
+      "chapterSlug": "common-lowering-program-lifecycle-and-backend"
+    },
+    {
+      "kind": "section",
+      "slug": "common-lowering-program-lifecycle-and-backend/241-shared-lowering-judgments",
+      "title": "24.1 Shared Lowering Judgments",
+      "chapterSlug": "common-lowering-program-lifecycle-and-backend",
+      "sectionAnchor": "241-shared-lowering-judgments"
+    },
+    {
+      "kind": "section",
+      "slug": "common-lowering-program-lifecycle-and-backend/242-layout-and-abi-framework",
+      "title": "24.2 Layout and ABI Framework",
+      "chapterSlug": "common-lowering-program-lifecycle-and-backend",
+      "sectionAnchor": "242-layout-and-abi-framework"
+    },
+    {
+      "kind": "section",
+      "slug": "common-lowering-program-lifecycle-and-backend/243-symbols-mangling-and-linkage",
+      "title": "24.3 Symbols, Mangling, and Linkage",
+      "chapterSlug": "common-lowering-program-lifecycle-and-backend",
+      "sectionAnchor": "243-symbols-mangling-and-linkage"
+    },
+    {
+      "kind": "section",
+      "slug": "common-lowering-program-lifecycle-and-backend/244-initialization-and-program-lifecycle",
+      "title": "24.4 Initialization and Program Lifecycle",
+      "chapterSlug": "common-lowering-program-lifecycle-and-backend",
+      "sectionAnchor": "244-initialization-and-program-lifecycle"
+    },
+    {
+      "kind": "section",
+      "slug": "common-lowering-program-lifecycle-and-backend/245-cleanup-drop-and-unwinding-framework",
+      "title": "24.5 Cleanup, Drop, and Unwinding Framework",
+      "chapterSlug": "common-lowering-program-lifecycle-and-backend",
+      "sectionAnchor": "245-cleanup-drop-and-unwinding-framework"
+    },
+    {
+      "kind": "section",
+      "slug": "common-lowering-program-lifecycle-and-backend/246-runtime-interface",
+      "title": "24.6 Runtime Interface",
+      "chapterSlug": "common-lowering-program-lifecycle-and-backend",
+      "sectionAnchor": "246-runtime-interface"
+    },
+    {
+      "kind": "section",
+      "slug": "common-lowering-program-lifecycle-and-backend/247-backend-requirements",
+      "title": "24.7 Backend Requirements",
+      "chapterSlug": "common-lowering-program-lifecycle-and-backend",
+      "sectionAnchor": "247-backend-requirements"
+    },
+    {
+      "kind": "section",
+      "slug": "common-lowering-program-lifecycle-and-backend/248-output-and-backend-diagnostics",
+      "title": "24.8 Output and Backend Diagnostics",
+      "chapterSlug": "common-lowering-program-lifecycle-and-backend",
+      "sectionAnchor": "248-output-and-backend-diagnostics"
+    },
+    {
+      "kind": "chapter",
+      "slug": "diagnostic-index",
+      "title": "Diagnostic Index",
+      "chapterSlug": "diagnostic-index"
+    },
+    {
+      "kind": "chapter",
+      "slug": "complete-grammar-reference",
+      "title": "Complete Grammar Reference",
+      "chapterSlug": "complete-grammar-reference"
+    },
+    {
+      "kind": "section",
+      "slug": "complete-grammar-reference/b1-lexical-grammar",
+      "title": "B.1 Lexical Grammar",
+      "chapterSlug": "complete-grammar-reference",
+      "sectionAnchor": "b1-lexical-grammar"
+    },
+    {
+      "kind": "section",
+      "slug": "complete-grammar-reference/b2-type-grammar",
+      "title": "B.2 Type Grammar",
+      "chapterSlug": "complete-grammar-reference",
+      "sectionAnchor": "b2-type-grammar"
+    },
+    {
+      "kind": "section",
+      "slug": "complete-grammar-reference/b3-expression-grammar",
+      "title": "B.3 Expression Grammar",
+      "chapterSlug": "complete-grammar-reference",
+      "sectionAnchor": "b3-expression-grammar"
+    },
+    {
+      "kind": "section",
+      "slug": "complete-grammar-reference/b4-pattern-grammar",
+      "title": "B.4 Pattern Grammar",
+      "chapterSlug": "complete-grammar-reference",
+      "sectionAnchor": "b4-pattern-grammar"
+    },
+    {
+      "kind": "section",
+      "slug": "complete-grammar-reference/b5-statement-grammar",
+      "title": "B.5 Statement Grammar",
+      "chapterSlug": "complete-grammar-reference",
+      "sectionAnchor": "b5-statement-grammar"
+    },
+    {
+      "kind": "section",
+      "slug": "complete-grammar-reference/b6-declaration-grammar",
+      "title": "B.6 Declaration Grammar",
+      "chapterSlug": "complete-grammar-reference",
+      "sectionAnchor": "b6-declaration-grammar"
+    },
+    {
+      "kind": "section",
+      "slug": "complete-grammar-reference/b7-contract-grammar",
+      "title": "B.7 Contract Grammar",
+      "chapterSlug": "complete-grammar-reference",
+      "sectionAnchor": "b7-contract-grammar"
+    },
+    {
+      "kind": "section",
+      "slug": "complete-grammar-reference/b8-attribute-grammar",
+      "title": "B.8 Attribute Grammar",
+      "chapterSlug": "complete-grammar-reference",
+      "sectionAnchor": "b8-attribute-grammar"
+    },
+    {
+      "kind": "section",
+      "slug": "complete-grammar-reference/b9-key-system-grammar",
+      "title": "B.9 Key System Grammar",
+      "chapterSlug": "complete-grammar-reference",
+      "sectionAnchor": "b9-key-system-grammar"
+    },
+    {
+      "kind": "section",
+      "slug": "complete-grammar-reference/b10-concurrency-grammar",
+      "title": "B.10 Concurrency Grammar",
+      "chapterSlug": "complete-grammar-reference",
+      "sectionAnchor": "b10-concurrency-grammar"
+    },
+    {
+      "kind": "section",
+      "slug": "complete-grammar-reference/b11-async-grammar",
+      "title": "B.11 Async Grammar",
+      "chapterSlug": "complete-grammar-reference",
+      "sectionAnchor": "b11-async-grammar"
+    },
+    {
+      "kind": "section",
+      "slug": "complete-grammar-reference/b12-metaprogramming-grammar",
+      "title": "B.12 Metaprogramming Grammar",
+      "chapterSlug": "complete-grammar-reference",
+      "sectionAnchor": "b12-metaprogramming-grammar"
+    },
+    {
+      "kind": "section",
+      "slug": "complete-grammar-reference/b13-ffi-grammar",
+      "title": "B.13 FFI Grammar",
+      "chapterSlug": "complete-grammar-reference",
+      "sectionAnchor": "b13-ffi-grammar"
+    },
+    {
+      "kind": "section",
+      "slug": "complete-grammar-reference/b14-region-grammar",
+      "title": "B.14 Region Grammar",
+      "chapterSlug": "complete-grammar-reference",
+      "sectionAnchor": "b14-region-grammar"
+    },
+    {
+      "kind": "chapter",
+      "slug": "ast-form-index",
+      "title": "AST Form Index",
+      "chapterSlug": "ast-form-index"
+    },
+    {
+      "kind": "section",
+      "slug": "ast-form-index/c1-item-forms",
+      "title": "C.1 Item Forms",
+      "chapterSlug": "ast-form-index",
+      "sectionAnchor": "c1-item-forms"
+    },
+    {
+      "kind": "section",
+      "slug": "ast-form-index/c2-type-forms",
+      "title": "C.2 Type Forms",
+      "chapterSlug": "ast-form-index",
+      "sectionAnchor": "c2-type-forms"
+    },
+    {
+      "kind": "section",
+      "slug": "ast-form-index/c3-expression-pattern-and-statement-families",
+      "title": "C.3 Expression, Pattern, and Statement Families",
+      "chapterSlug": "ast-form-index",
+      "sectionAnchor": "c3-expression-pattern-and-statement-families"
+    },
+    {
+      "kind": "chapter",
+      "slug": "layout-abi-and-runtime-reference",
+      "title": "Layout, ABI, and Runtime Reference",
+      "chapterSlug": "layout-abi-and-runtime-reference"
     }
   ]
 }

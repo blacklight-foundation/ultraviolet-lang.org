@@ -1,61 +1,100 @@
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { dirname } from 'node:path';
 import {
   CHAPTERS,
   SPEC_OUTPUT_DIR,
   chapterNumber,
   docsPathForSlug,
+  extractChapterIntro,
   extractChapterSections,
   frontmatter,
-  groupedChapters,
   normalizeChapterBody,
   readSpec,
   specSourceLabel,
   specSourceRelative,
+  splitChapterSectionPages,
   splitChapters,
+  specRouteForSlug,
 } from './spec-utils.mjs';
 
 const { normalized, hash } = readSpec();
 const chunks = splitChapters(normalized);
 const generatedAt = new Date().toISOString();
-const chapterEntries = CHAPTERS.map((chapter) => ({
-  ...chapter,
-  sections: extractChapterSections(chunks.get(chapter.slug) ?? ''),
-}));
+const chapterEntries = CHAPTERS.map((chapter) => {
+  const body = chunks.get(chapter.slug) ?? '';
+  const sectionPages = splitChapterSectionPages(chapter, body);
+  return {
+    ...chapter,
+    body,
+    intro: extractChapterIntro(body),
+    sections:
+      sectionPages.length > 0
+        ? sectionPages.map(stripSectionBody)
+        : extractChapterSections(body).map((section) => ({
+            ...section,
+            slug: `${chapter.slug}/${section.anchor}`,
+          })),
+    sectionPages,
+  };
+});
 
 mkdirSync(SPEC_OUTPUT_DIR, { recursive: true });
 rmSync(SPEC_OUTPUT_DIR, { recursive: true, force: true });
 mkdirSync(SPEC_OUTPUT_DIR, { recursive: true });
 
-writeFileSync(docsPathForSlug('index'), renderIndex(hash, generatedAt), 'utf8');
+writeGeneratedFile(docsPathForSlug('index'), renderIndex(hash, generatedAt));
 
 for (const chapter of CHAPTERS) {
-  const body = chunks.get(chapter.slug);
-  if (!body) {
+  const entry = chapterEntries.find((candidate) => candidate.slug === chapter.slug);
+  if (!entry?.body) {
     throw new Error(`Missing specification chapter: ${chapter.heading}`);
   }
-  writeFileSync(docsPathForSlug(chapter.slug), renderChapter(chapter, body, hash, generatedAt), 'utf8');
+
+  writeGeneratedFile(docsPathForSlug(entry.slug), renderChapter(entry, hash, generatedAt));
+
+  for (const section of entry.sectionPages) {
+    writeGeneratedFile(
+      docsPathForSlug(section.slug),
+      renderSectionPage(entry, section, hash, generatedAt),
+    );
+  }
 }
 
 writeFileSync(
   `${SPEC_OUTPUT_DIR}/manifest.json`,
-  `${JSON.stringify({ source: specSourceRelative(), hash, generatedAt, chapters: chapterEntries }, null, 2)}\n`,
+  `${JSON.stringify(
+    {
+      source: specSourceRelative(),
+      hash,
+      generatedAt,
+      chapters: chapterEntries.map(stripGeneratedBodies),
+      pages: generatedPageEntries(chapterEntries),
+    },
+    null,
+    2,
+  )}\n`,
   'utf8',
 );
 
 const { sectionCount, subsectionCount } = countOutlineEntries(chapterEntries);
+const generatedPageCount = generatedPageEntries(chapterEntries).length + 1;
 console.log(
-  `Generated ${CHAPTERS.length + 1} specification pages with ${sectionCount} sections and ${subsectionCount} subsections from ${specSourceLabel()}`,
+  `Generated ${generatedPageCount} specification pages with ${sectionCount} sections and ${subsectionCount} subsections from ${specSourceLabel()}`,
 );
 
 function renderIndex(hash, generatedAt) {
-  const groupMarkdown = [...groupedChapters().entries()]
+  const groupMarkdown = [...groupedChapterEntries().entries()]
     .map(([group, chapters]) => {
       const links = chapters
         .map((chapter) => {
           const number = chapterNumber(chapter.heading);
-          return `<a class="spec-index-link" href="/docs/specification/${chapter.slug}/">
+          const sectionCount = chapter.sections.length;
+          const sectionLabel =
+            sectionCount === 1 ? '1 section' : sectionCount > 1 ? `${sectionCount} sections` : 'Reference';
+          return `<a class="spec-index-link" href="${specRouteForSlug(chapter.slug)}">
   <span>${escapeHtml(number)}</span>
   <strong>${escapeHtml(chapter.title)}</strong>
+  <small>${escapeHtml(sectionLabel)}</small>
 </a>`;
         })
         .join('\n');
@@ -87,7 +126,7 @@ ${links}
   <a href="/docs/reference/documentation-audit/">Claim audit</a>
 </div>
 
-The Ultraviolet language specification is the authoritative reference for syntax, static semantics, dynamic semantics, lowering, diagnostics, ABI behavior, and conformance. The generated pages below preserve chapter boundaries from <code>${specSourceRelative()}</code> and render formal notation as display mathematics.
+The Ultraviolet language specification is the authoritative reference for syntax, static semantics, dynamic semantics, lowering, diagnostics, ABI behavior, and conformance. The generated pages below preserve the chapter outline from <code>${specSourceRelative()}</code> and publish section-sized pages for faster reading and rendering.
 
 Use the guide pages for learning paths and the generated specification pages when you need exact rules.
 
@@ -97,11 +136,16 @@ ${renderSectionOutline()}
 `;
 }
 
-function renderChapter(chapter, body, hash, generatedAt) {
-  const normalizedBody = normalizeChapterBody(body);
+function renderChapter(chapter, hash, generatedAt) {
+  const hasSectionPages = chapter.sectionPages.length > 0;
+  const normalizedIntro = hasSectionPages ? normalizeChapterBody(chapter.intro) : normalizeChapterBody(chapter.body);
+  const sectionList = hasSectionPages ? `\n\n${renderChapterSectionList(chapter)}` : '';
+
   return `${frontmatter({
     title: chapter.title,
-    description: `${chapter.heading} of the Ultraviolet language specification.`,
+    description: hasSectionPages
+      ? `${chapter.heading} section index for the Ultraviolet language specification.`
+      : `${chapter.heading} of the Ultraviolet language specification.`,
     specSource: specSourceRelative(),
     specHash: hash,
     generatedAt,
@@ -111,12 +155,46 @@ function renderChapter(chapter, body, hash, generatedAt) {
   <span>SHA-256: <code>${hash}</code></span>
 </div>
 
-${normalizedBody}
+${normalizedIntro}${sectionList}
+`;
+}
+
+function renderSectionPage(chapter, section, hash, generatedAt) {
+  return `${frontmatter({
+    title: section.title,
+    description: `${section.title} from ${chapter.heading} of the Ultraviolet language specification.`,
+    specSource: specSourceRelative(),
+    specHash: hash,
+    specChapter: chapter.slug,
+    specSection: section.anchor,
+    generatedAt,
+    generated: true,
+  })}<div class="spec-provenance">
+  <strong>Generated from ${specSourceLabel()}.</strong>
+  <span>SHA-256: <code>${hash}</code></span>
+</div>
+
+<div class="spec-section-context">
+  <a href="${specRouteForSlug(chapter.slug)}">${escapeHtml(chapter.heading)}</a>
+  <span>${escapeHtml(chapter.title)}</span>
+</div>
+
+${normalizeChapterBody(section.body)}
 `;
 }
 
 function slugify(value) {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+function groupedChapterEntries() {
+  const groups = new Map();
+  for (const chapter of chapterEntries) {
+    const group = groups.get(chapter.group) ?? [];
+    group.push(chapter);
+    groups.set(chapter.group, group);
+  }
+  return groups;
 }
 
 function renderSectionOutline() {
@@ -126,7 +204,7 @@ function renderSectionOutline() {
         .map((section) => renderSection(chapter, section))
         .join('\n');
       return `<li class="spec-outline-chapter">
-  <a class="spec-outline-chapter-link" href="/docs/specification/${chapter.slug}/">
+  <a class="spec-outline-chapter-link" href="${specRouteForSlug(chapter.slug)}">
     <span>${escapeHtml(chapterNumber(chapter.heading))}</span>
     <strong>${escapeHtml(chapter.title)}</strong>
   </a>
@@ -146,6 +224,7 @@ ${chapters}
 }
 
 function renderSection(chapter, section) {
+  const sectionRoute = section.slug ? specRouteForSlug(section.slug) : specRouteForSlug(chapter.slug);
   const subsections =
     section.subsections.length > 0
       ? `<details class="spec-outline-subsections">
@@ -153,7 +232,7 @@ function renderSection(chapter, section) {
     <ol>
 ${section.subsections
   .map(
-    (subsection) => `      <li><a href="/docs/specification/${chapter.slug}/#${subsection.anchor}">${escapeHtml(subsection.title)}</a></li>`,
+    (subsection) => `      <li><a href="${sectionRoute}#${subsection.anchor}">${escapeHtml(subsection.title)}</a></li>`,
   )
   .join('\n')}
     </ol>
@@ -161,9 +240,21 @@ ${section.subsections
       : '';
 
   return `    <li>
-      <a href="/docs/specification/${chapter.slug}/#${section.anchor}">${escapeHtml(section.title)}</a>
+      <a href="${sectionRoute}">${escapeHtml(section.title)}</a>
 ${subsections}
     </li>`;
+}
+
+function renderChapterSectionList(chapter) {
+  const sections = chapter.sections
+    .map((section) => renderSection(chapter, section))
+    .join('\n');
+  return `<section class="spec-chapter-sections" aria-labelledby="spec-chapter-sections">
+  <h2 id="spec-chapter-sections">Sections</h2>
+  <ol class="spec-outline-sections">
+${sections}
+  </ol>
+</section>`;
 }
 
 function escapeHtml(value) {
@@ -184,4 +275,43 @@ function countOutlineEntries(chapters) {
     }),
     { sectionCount: 0, subsectionCount: 0 },
   );
+}
+
+function writeGeneratedFile(path, content) {
+  mkdirSync(dirname(path), { recursive: true });
+  writeFileSync(path, content, 'utf8');
+}
+
+function stripSectionBody(section) {
+  const { body, ...entry } = section;
+  return entry;
+}
+
+function stripGeneratedBodies(chapter) {
+  const { body, intro, sectionPages, ...entry } = chapter;
+  return {
+    ...entry,
+    sections: chapter.sections.map((section) => ({
+      ...section,
+      subsections: section.subsections.map((subsection) => ({ ...subsection })),
+    })),
+  };
+}
+
+function generatedPageEntries(chapters) {
+  return chapters.flatMap((chapter) => [
+    {
+      kind: 'chapter',
+      slug: chapter.slug,
+      title: chapter.title,
+      chapterSlug: chapter.slug,
+    },
+    ...chapter.sectionPages.map((section) => ({
+      kind: 'section',
+      slug: section.slug,
+      title: section.title,
+      chapterSlug: chapter.slug,
+      sectionAnchor: section.anchor,
+    })),
+  ]);
 }

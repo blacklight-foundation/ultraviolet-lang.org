@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
-import { CHAPTERS } from './scripts/spec-utils.mjs';
+import { CHAPTERS, readSpec, splitChapterSectionPages, splitChapters } from './scripts/spec-utils.mjs';
 import {
   siteDescription,
   socialImageAlt,
@@ -14,14 +14,33 @@ import {
 
 const description = siteDescription;
 const socialImageUrl = `https://ultraviolet-lang.org${socialImagePath}`;
+const { normalized: specificationSource } = readSpec();
+const specificationChunks = splitChapters(specificationSource);
 
 const specificationSidebarItems = [
   { label: 'Overview', slug: 'docs/specification' },
   { label: 'Reading guide', slug: 'docs/reference/specification-reading-guide' },
-  ...CHAPTERS.map((chapter) => ({
-    label: chapter.heading,
-    slug: `docs/specification/${chapter.slug}`,
-  })),
+  ...CHAPTERS.map((chapter) => {
+    const sections = splitChapterSectionPages(chapter, specificationChunks.get(chapter.slug) ?? '');
+    if (sections.length === 0) {
+      return {
+        label: chapter.heading,
+        slug: `docs/specification/${chapter.slug}`,
+      };
+    }
+
+    return {
+      label: chapter.heading,
+      collapsed: true,
+      items: [
+        { label: 'Chapter overview', slug: `docs/specification/${chapter.slug}` },
+        ...sections.map((section) => ({
+          label: section.title,
+          slug: `docs/specification/${section.slug}`,
+        })),
+      ],
+    };
+  }),
 ];
 
 export default defineConfig({

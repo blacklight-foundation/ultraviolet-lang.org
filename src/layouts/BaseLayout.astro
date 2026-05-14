@@ -100,9 +100,9 @@ const footerUtilityLinks = [
       <a class="brand" href="/" aria-label="Ultraviolet home">
         <span class="brand-mark" aria-hidden="true">
           <img
-            src="/images/ultraviolet_darkmode_transparent.png"
-            width="1000"
-            height="1000"
+            src="/images/ultraviolet_logo_dark_256.png"
+            width="256"
+            height="256"
             alt=""
           />
         </span>
@@ -131,18 +131,20 @@ const footerUtilityLinks = [
           <a class="footer-brand" href="/">
             <span class="footer-brand-mark" aria-hidden="true">
               <img
-                src="/images/ultraviolet_darkmode_transparent.png"
-                width="1000"
-                height="1000"
+                src="/images/ultraviolet_logo_dark_256.png"
+                width="256"
+                height="256"
                 alt=""
               />
             </span>
             <span>Ultraviolet</span>
           </a>
-          <p class="footer-summary">
-            High-visibility, general-purpose programming language for AI and
-            Humans, stewarded by Blacklight Foundation.
-          </p>
+          <div class="footer-stewardship">
+            <p class="footer-summary">
+              A systems language for fast, safe, auditable code from LLMs and
+              humans, stewarded by Blacklight Foundation.
+            </p>
+          </div>
           <nav class="footer-links" aria-label="Footer primary navigation">
             {
               footerPrimaryLinks.map((link) => (
@@ -201,6 +203,18 @@ const footerUtilityLinks = [
             }
           </nav>
           <div class="footer-meta">
+            <a
+              class="footer-foundation-mark"
+              href="/foundation/"
+              aria-label="Blacklight Foundation"
+            >
+              <img
+                src="/images/blacklight_wordmark_vertical.png"
+                width="600"
+                height="600"
+                alt=""
+              />
+            </a>
             <span>&copy; 2026 Blacklight Foundation</span>
             <span>Currently in alpha.</span>
           </div>

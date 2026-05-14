@@ -1,19 +1,23 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { CHAPTERS, docsPathForSlug } from './spec-utils.mjs';
+import { SPEC_OUTPUT_DIR, docsPathForSlug } from './spec-utils.mjs';
 
 const errors = [];
 const distSpecDir = join('dist', 'docs', 'specification');
+const manifestPath = `${SPEC_OUTPUT_DIR}/manifest.json`;
 
-if (!existsSync(distSpecDir)) {
+if (!existsSync(manifestPath)) {
+  errors.push(`Missing ${manifestPath}. Run npm run docs:spec:generate before building.`);
+} else if (!existsSync(distSpecDir)) {
   errors.push(`Missing ${distSpecDir}. Run npm run build before checking rendered spec output.`);
 } else {
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
   let renderedWithKatex = 0;
   let expectedWithMath = 0;
 
-  for (const chapter of CHAPTERS) {
-    const sourcePath = docsPathForSlug(chapter.slug);
-    const outputPath = join(distSpecDir, chapter.slug, 'index.html');
+  for (const page of manifest.pages) {
+    const sourcePath = docsPathForSlug(page.slug);
+    const outputPath = join(distSpecDir, ...page.slug.split('/'), 'index.html');
 
     if (!existsSync(outputPath)) {
       errors.push(`Missing built spec page ${outputPath}.`);

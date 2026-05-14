@@ -455,6 +455,43 @@ export function extractChapterSections(body) {
   return sections;
 }
 
+export function extractChapterIntro(body) {
+  const firstSection = body.search(/^###\s+/m);
+  return (firstSection === -1 ? body : body.slice(0, firstSection)).trim();
+}
+
+export function splitChapterSectionPages(chapter, body) {
+  const sectionHeadings = [...body.matchAll(/^###\s+(.+)$/gm)];
+  if (sectionHeadings.length === 0) return [];
+
+  const sections = extractChapterSections(body).filter((section) => section.anchor);
+  if (sectionHeadings.length !== sections.length) {
+    throw new Error(
+      `${chapter.heading} section split mismatch: ${sectionHeadings.length} headings, ${sections.length} outline entries.`,
+    );
+  }
+
+  return sectionHeadings.map((match, index) => {
+    const section = sections[index];
+    const start = match.index;
+    const end =
+      index + 1 < sectionHeadings.length ? sectionHeadings[index + 1].index : body.length;
+    return {
+      ...section,
+      slug: specSectionSlug(chapter, section),
+      body: body.slice(start, end).trim(),
+    };
+  });
+}
+
+export function specSectionSlug(chapter, section) {
+  return `${chapter.slug}/${section.anchor}`;
+}
+
+export function specRouteForSlug(slug) {
+  return `/docs/specification/${slug}/`;
+}
+
 export function readSpec() {
   const raw = readFileSync(SPEC_SOURCE_PATH, 'utf8');
   return {
@@ -965,7 +1002,7 @@ export function frontmatter(fields) {
 export function docsPathForSlug(slug) {
   return slug === 'index'
     ? `${SPEC_OUTPUT_DIR}/index.md`
-    : `${SPEC_OUTPUT_DIR}/${slug}.md`;
+    : `${SPEC_OUTPUT_DIR}/${slug}/index.md`;
 }
 
 export function slugifyHeading(value, slugCounts = new Map()) {

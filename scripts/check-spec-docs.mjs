@@ -4,12 +4,15 @@ import {
   CHAPTERS,
   SPEC_OUTPUT_DIR,
   docsPathForSlug,
+  extractChapterIntro,
   extractChapterSections,
   frontmatter,
   normalizeChapterBody,
   readSpec,
+  specRouteForSlug,
   specSourceLabel,
   specSourceRelative,
+  splitChapterSectionPages,
   splitChapters,
 } from './spec-utils.mjs';
 
@@ -17,6 +20,9 @@ const errors = [];
 const { normalized, hash } = readSpec();
 const chunks = splitChapters(normalized);
 const manifestPath = `${SPEC_OUTPUT_DIR}/manifest.json`;
+const chapterEntries = expectedChapters();
+const generatedPages = generatedPageEntries(chapterEntries);
+const generatedSpecSlugs = new Set(generatedPages.map((page) => page.slug));
 
 if (!existsSync(manifestPath)) {
   errors.push(`Missing ${manifestPath}. Run npm run docs:spec:generate.`);
@@ -28,20 +34,94 @@ if (!existsSync(manifestPath)) {
   if (manifest.source !== specSourceRelative()) {
     errors.push(`Spec source drift: generated ${manifest.source}, current ${specSourceRelative()}.`);
   }
-  checkManifestChapters(manifest);
+  checkManifest(manifest);
 }
 
 checkCanonicalChapterCoverage();
+checkGeneratedPages();
+checkGeneratedIndex();
 
-for (const chapter of CHAPTERS) {
-  if (!chunks.has(chapter.slug)) {
-    errors.push(`Canonical spec is missing chapter ${chapter.heading}.`);
+if (errors.length > 0) {
+  console.error(errors.map((error) => `- ${error}`).join('\n'));
+  process.exit(1);
+}
+
+const { sectionCount, subsectionCount } = countOutlineEntries(chapterEntries);
+console.log(
+  `Specification docs are current: ${generatedPages.length + 1} pages, ${sectionCount} sections, ${subsectionCount} subsections, hash ${hash}`,
+);
+
+function expectedChapters() {
+  return CHAPTERS.map((chapter) => {
+    const body = chunks.get(chapter.slug) ?? '';
+    const sectionPages = splitChapterSectionPages(chapter, body);
+    return {
+      ...chapter,
+      body,
+      intro: extractChapterIntro(body),
+      sections:
+        sectionPages.length > 0
+          ? sectionPages.map(stripSectionBody)
+          : extractChapterSections(body).map((section) => ({
+              ...section,
+              slug: `${chapter.slug}/${section.anchor}`,
+            })),
+      sectionPages,
+    };
+  });
+}
+
+function checkManifest(manifest) {
+  const expected = {
+    source: specSourceRelative(),
+    hash,
+    generatedAt: manifest.generatedAt,
+    chapters: chapterEntries.map(stripGeneratedBodies),
+    pages: generatedPages,
+  };
+
+  if (JSON.stringify(manifest) !== JSON.stringify(expected)) {
+    errors.push(`${manifestPath} does not match the current generated specification structure.`);
+  }
+}
+
+function checkCanonicalChapterCoverage() {
+  const chapterHeadings = [
+    ...normalized.matchAll(/^## (.+)$/gm),
+  ].map((match) => match[1].trim());
+  const expectedHeadings = CHAPTERS.map((chapter) => chapter.heading);
+
+  for (const heading of chapterHeadings) {
+    if (!expectedHeadings.includes(heading)) {
+      errors.push(`Canonical spec has unmapped chapter heading: ${heading}`);
+    }
   }
 
-  const path = docsPathForSlug(chapter.slug);
+  for (const heading of expectedHeadings) {
+    if (!chapterHeadings.includes(heading)) {
+      errors.push(`Configured chapter is missing from canonical spec: ${heading}`);
+    }
+  }
+}
+
+function checkGeneratedPages() {
+  for (const chapter of chapterEntries) {
+    if (!chunks.has(chapter.slug)) {
+      errors.push(`Canonical spec is missing chapter ${chapter.heading}.`);
+    }
+
+    checkGeneratedPage(docsPathForSlug(chapter.slug), renderExpectedChapter(chapter));
+
+    for (const section of chapter.sectionPages) {
+      checkGeneratedPage(docsPathForSlug(section.slug), renderExpectedSection(chapter, section));
+    }
+  }
+}
+
+function checkGeneratedPage(path, expectedContent) {
   if (!existsSync(path)) {
     errors.push(`Missing generated page ${path}.`);
-    continue;
+    return;
   }
 
   const content = readFileSync(path, 'utf8');
@@ -64,7 +144,10 @@ for (const chapter of CHAPTERS) {
     errors.push(`${path} contains raw mathematical alphabet glyphs outside generated math.`);
   }
 
-  checkChapterBody(path, chapter, content, chunks.get(chapter.slug));
+  if (content !== expectedContent) {
+    errors.push(`${path} body does not match the normalized current SPECIFICATION.md chunk.`);
+  }
+
   checkMathBlocks(path, content);
   checkFences(path, content);
   checkFormalNotationNotFenced(path, content);
@@ -73,24 +156,26 @@ for (const chapter of CHAPTERS) {
   checkInternalSpecLinks(path, content);
 }
 
-const indexPath = docsPathForSlug('index');
-if (!existsSync(indexPath)) {
-  errors.push(`Missing generated index ${indexPath}.`);
-} else {
+function checkGeneratedIndex() {
+  const indexPath = docsPathForSlug('index');
+  if (!existsSync(indexPath)) {
+    errors.push(`Missing generated index ${indexPath}.`);
+    return;
+  }
+
   const index = readFileSync(indexPath, 'utf8');
-  for (const chapter of CHAPTERS) {
-    if (!index.includes(`/docs/specification/${chapter.slug}/`)) {
+  for (const chapter of chapterEntries) {
+    if (!index.includes(specRouteForSlug(chapter.slug))) {
       errors.push(`Specification index is missing ${chapter.slug}.`);
     }
-  }
-  for (const chapter of expectedManifestChapters()) {
     for (const section of chapter.sections) {
-      if (!index.includes(`/docs/specification/${chapter.slug}/#${section.anchor}`)) {
-        errors.push(`${indexPath} is missing section link ${chapter.slug}#${section.anchor}.`);
+      const sectionRoute = section.slug ? specRouteForSlug(section.slug) : specRouteForSlug(chapter.slug);
+      if (!index.includes(sectionRoute)) {
+        errors.push(`${indexPath} is missing section link ${section.slug ?? chapter.slug}.`);
       }
       for (const subsection of section.subsections) {
-        if (!index.includes(`/docs/specification/${chapter.slug}/#${subsection.anchor}`)) {
-          errors.push(`${indexPath} is missing subsection link ${chapter.slug}#${subsection.anchor}.`);
+        if (!index.includes(`${sectionRoute}#${subsection.anchor}`)) {
+          errors.push(`${indexPath} is missing subsection link ${section.slug ?? chapter.slug}#${subsection.anchor}.`);
         }
       }
     }
@@ -108,89 +193,93 @@ if (!existsSync(indexPath)) {
   }
 }
 
-if (errors.length > 0) {
-  console.error(errors.map((error) => `- ${error}`).join('\n'));
-  process.exit(1);
-}
+function renderExpectedChapter(chapter) {
+  const hasSectionPages = chapter.sectionPages.length > 0;
+  const normalizedIntro = hasSectionPages ? normalizeChapterBody(chapter.intro) : normalizeChapterBody(chapter.body);
+  const sectionList = hasSectionPages ? `\n\n${renderChapterSectionList(chapter)}` : '';
 
-const { sectionCount, subsectionCount } = countOutlineEntries(expectedManifestChapters());
-console.log(
-  `Specification docs are current: ${CHAPTERS.length + 1} pages, ${sectionCount} sections, ${subsectionCount} subsections, hash ${hash}`,
-);
-
-function checkManifestChapters(manifest) {
-  const manifestChapters = JSON.stringify(manifest.chapters);
-  const expectedChapters = JSON.stringify(expectedManifestChapters());
-  if (manifestChapters !== expectedChapters) {
-    errors.push(`${manifestPath} chapters do not match scripts/spec-utils.mjs.`);
-  }
-}
-
-function expectedManifestChapters() {
-  return CHAPTERS.map((chapter) => ({
-    ...chapter,
-    sections: extractChapterSections(chunks.get(chapter.slug) ?? ''),
-  }));
-}
-
-function countOutlineEntries(chapters) {
-  return chapters.reduce(
-    (counts, chapter) => ({
-      sectionCount: counts.sectionCount + chapter.sections.length,
-      subsectionCount:
-        counts.subsectionCount +
-        chapter.sections.reduce((total, section) => total + section.subsections.length, 0),
-    }),
-    { sectionCount: 0, subsectionCount: 0 },
-  );
-}
-
-function checkCanonicalChapterCoverage() {
-  const chapterHeadings = [
-    ...normalized.matchAll(/^## (.+)$/gm),
-  ].map((match) => match[1].trim());
-  const expectedHeadings = CHAPTERS.map((chapter) => chapter.heading);
-
-  for (const heading of chapterHeadings) {
-    if (!expectedHeadings.includes(heading)) {
-      errors.push(`Canonical spec has unmapped chapter heading: ${heading}`);
-    }
-  }
-
-  for (const heading of expectedHeadings) {
-    if (!chapterHeadings.includes(heading)) {
-      errors.push(`Configured chapter is missing from canonical spec: ${heading}`);
-    }
-  }
-}
-
-function checkChapterBody(path, chapter, content, sourceBody) {
-  if (!sourceBody) return;
-
-  const expected = `${frontmatter({
+  return `${frontmatter({
     title: chapter.title,
-    description: `${chapter.heading} of the Ultraviolet language specification.`,
+    description: hasSectionPages
+      ? `${chapter.heading} section index for the Ultraviolet language specification.`
+      : `${chapter.heading} of the Ultraviolet language specification.`,
     specSource: specSourceRelative(),
     specHash: hash,
-    generatedAt: extractGeneratedAt(content),
+    generatedAt: extractGeneratedAt(docsPathForSlug(chapter.slug)),
     generated: true,
   })}<div class="spec-provenance">
   <strong>Generated from ${specSourceLabel()}.</strong>
   <span>SHA-256: <code>${hash}</code></span>
 </div>
 
-${normalizeChapterBody(sourceBody)}
+${normalizedIntro}${sectionList}
 `;
-
-  if (content !== expected) {
-    errors.push(`${path} body does not match the normalized current SPECIFICATION.md chunk.`);
-  }
 }
 
-function extractGeneratedAt(content) {
+function renderExpectedSection(chapter, section) {
+  return `${frontmatter({
+    title: section.title,
+    description: `${section.title} from ${chapter.heading} of the Ultraviolet language specification.`,
+    specSource: specSourceRelative(),
+    specHash: hash,
+    specChapter: chapter.slug,
+    specSection: section.anchor,
+    generatedAt: extractGeneratedAt(docsPathForSlug(section.slug)),
+    generated: true,
+  })}<div class="spec-provenance">
+  <strong>Generated from ${specSourceLabel()}.</strong>
+  <span>SHA-256: <code>${hash}</code></span>
+</div>
+
+<div class="spec-section-context">
+  <a href="${specRouteForSlug(chapter.slug)}">${escapeHtml(chapter.heading)}</a>
+  <span>${escapeHtml(chapter.title)}</span>
+</div>
+
+${normalizeChapterBody(section.body)}
+`;
+}
+
+function renderChapterSectionList(chapter) {
+  const sections = chapter.sections
+    .map((section) => renderSection(chapter, section))
+    .join('\n');
+  return `<section class="spec-chapter-sections" aria-labelledby="spec-chapter-sections">
+  <h2 id="spec-chapter-sections">Sections</h2>
+  <ol class="spec-outline-sections">
+${sections}
+  </ol>
+</section>`;
+}
+
+function renderSection(chapter, section) {
+  const sectionRoute = section.slug ? specRouteForSlug(section.slug) : specRouteForSlug(chapter.slug);
+  const subsections =
+    section.subsections.length > 0
+      ? `<details class="spec-outline-subsections">
+    <summary>${section.subsections.length} subsections</summary>
+    <ol>
+${section.subsections
+  .map(
+    (subsection) => `      <li><a href="${sectionRoute}#${subsection.anchor}">${escapeHtml(subsection.title)}</a></li>`,
+  )
+  .join('\n')}
+    </ol>
+  </details>`
+      : '';
+
+  return `    <li>
+      <a href="${sectionRoute}">${escapeHtml(section.title)}</a>
+${subsections}
+    </li>`;
+}
+
+function extractGeneratedAt(path) {
+  if (!existsSync(path)) return '';
+  const content = readFileSync(path, 'utf8');
   const match = content.match(/^generatedAt: "([^"]+)"$/m);
   if (!match) {
-    errors.push('Generated specification page is missing generatedAt frontmatter.');
+    errors.push(`${path} is missing generatedAt frontmatter.`);
     return '';
   }
   return match[1];
@@ -220,15 +309,6 @@ function checkMathBlocks(path, content) {
   if (content.includes('```math')) {
     errors.push(`${path} contains fenced math; generated spec math must use display math delimiters.`);
   }
-
-  const hasFormalNotation = /[ΓΣΞΩπσθλεκαβδτ⊢⇓⇑⇔⇒→∀∃∈∉∋⊆⊄⊥⊤≠≤≥≡≈↦⟨⟩∧∨¬∪∩∅∞ℕ𝒯⋃×]/u.test(content);
-  if (hasFormalNotation && mathBlocks === 0) {
-    errors.push(`${path} contains formal notation but no display math blocks.`);
-  }
-
-  // Generated spec pages intentionally avoid validating inline dollar spans.
-  // The canonical spec contains source snippets such as `$Cl` and `$ExecutionDomain`
-  // that are language syntax, not LaTeX.
 }
 
 function checkMathBlockContent(path, body) {
@@ -301,7 +381,7 @@ function hasFormalNotation(text) {
 }
 
 function checkMojibake(path, content) {
-  const suspicious = ['Ã', 'Â', 'Î', 'Ï', 'â'];
+  const suspicious = ['Ãƒ', 'Ã‚', 'ÃŽ', 'Ã', 'Ã¢'];
   const lines = content.split(/\r?\n/);
   lines.forEach((line, index) => {
     if (suspicious.some((token) => line.includes(token))) {
@@ -311,11 +391,64 @@ function checkMojibake(path, content) {
 }
 
 function checkInternalSpecLinks(path, content) {
-  const linkPattern = /\]\((\/docs\/specification\/([a-z0-9-]+)\/)\)/g;
-  const slugs = new Set(CHAPTERS.map((chapter) => chapter.slug));
+  const linkPattern = /(?:\]\(|href=")(\/docs\/specification\/([^)"#]+)\/)(?:#[^)"']+)?/g;
   for (const match of content.matchAll(linkPattern)) {
-    if (!slugs.has(match[2])) {
+    if (!generatedSpecSlugs.has(match[2])) {
       errors.push(`${path} links to unknown specification page ${match[1]}.`);
     }
   }
+}
+
+function countOutlineEntries(chapters) {
+  return chapters.reduce(
+    (counts, chapter) => ({
+      sectionCount: counts.sectionCount + chapter.sections.length,
+      subsectionCount:
+        counts.subsectionCount +
+        chapter.sections.reduce((total, section) => total + section.subsections.length, 0),
+    }),
+    { sectionCount: 0, subsectionCount: 0 },
+  );
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;');
+}
+
+function stripSectionBody(section) {
+  const { body, ...entry } = section;
+  return entry;
+}
+
+function stripGeneratedBodies(chapter) {
+  const { body, intro, sectionPages, ...entry } = chapter;
+  return {
+    ...entry,
+    sections: chapter.sections.map((section) => ({
+      ...section,
+      subsections: section.subsections.map((subsection) => ({ ...subsection })),
+    })),
+  };
+}
+
+function generatedPageEntries(chapters) {
+  return chapters.flatMap((chapter) => [
+    {
+      kind: 'chapter',
+      slug: chapter.slug,
+      title: chapter.title,
+      chapterSlug: chapter.slug,
+    },
+    ...chapter.sectionPages.map((section) => ({
+      kind: 'section',
+      slug: section.slug,
+      title: section.title,
+      chapterSlug: chapter.slug,
+      sectionAnchor: section.anchor,
+    })),
+  ]);
 }

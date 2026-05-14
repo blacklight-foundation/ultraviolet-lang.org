@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
-import { CHAPTERS, SPEC_OUTPUT_DIR, docsPathForSlug, readSpec } from './spec-utils.mjs';
+import { SPEC_OUTPUT_DIR, readSpec } from './spec-utils.mjs';
 
 const root = process.cwd();
 const docsRoot = join(root, 'src', 'content', 'docs', 'docs');
@@ -33,8 +33,8 @@ function checkGeneratedSpecHash() {
 }
 
 function checkGeneratedSpecText() {
-  for (const chapter of CHAPTERS) {
-    const path = docsPathForSlug(chapter.slug);
+  const specRoot = join(root, SPEC_OUTPUT_DIR);
+  for (const path of walk(specRoot).filter((file) => file.endsWith('.md'))) {
     if (!existsSync(path)) {
       errors.push(`Missing generated specification page ${path}.`);
       continue;
