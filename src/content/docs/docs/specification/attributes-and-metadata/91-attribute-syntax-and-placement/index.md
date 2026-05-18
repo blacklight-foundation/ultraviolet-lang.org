@@ -2,16 +2,16 @@
 title: "9.1 Attribute Syntax and Placement"
 description: "9.1 Attribute Syntax and Placement from 9. Attributes and Metadata of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "attributes-and-metadata"
 specSection: "91-attribute-syntax-and-placement"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -25,7 +25,9 @@ generated: true
 
 ```text
 attribute_list    ::= attribute+
-attribute         ::= "[[" attribute_spec ("," attribute_spec)* "]]"
+attribute         ::= attr_open attribute_spec ("," attribute_spec)* attr_close
+attr_open         ::= "[" "["    (* adjacent tokens; no whitespace or comments between them *)
+attr_close        ::= "]" "]"    (* adjacent tokens; no whitespace or comments between them *)
 attribute_spec    ::= attribute_name ("(" attribute_args ")")?
 attribute_name    ::= identifier
                     | "dynamic"
@@ -52,7 +54,7 @@ An attribute list MUST appear immediately before the declaration or expression i
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["}) \\[0.16em]
+\lnot \ \operatorname{AttrOpen}(P) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P,\ \bot )
 \end{array}
@@ -62,7 +64,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["})\quad \Gamma \ \vdash \ \operatorname{ParseAttrList}(P)\ \Downarrow \ (P_{1},\ \mathsf{attrs}) \\[0.16em]
+\operatorname{AttrOpen}(P)\quad \Gamma \ \vdash \ \operatorname{ParseAttrList}(P)\ \Downarrow \ (P_{1},\ \mathsf{attrs}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P_{1},\ \mathsf{attrs})
 \end{array}
@@ -82,7 +84,7 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["}) \\[0.16em]
+\lnot \ \operatorname{AttrOpen}(P) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrListTail}(P,\ \mathsf{attrs})\ \Downarrow \ (P,\ \mathsf{attrs})
 \end{array}
@@ -92,7 +94,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["})\quad \Gamma \ \vdash \ \operatorname{ParseAttrBlock}(P)\ \Downarrow \ (P_{1},\ \mathsf{attrs}_{0})\quad \Gamma \ \vdash \ \operatorname{ParseAttrListTail}(P_{1},\ \mathsf{attrs}\ \mathbin{++} \ \mathsf{attrs}_{0})\ \Downarrow \ (P_{2},\ \mathsf{attrs}_{1}) \\[0.16em]
+\operatorname{AttrOpen}(P)\quad \Gamma \ \vdash \ \operatorname{ParseAttrBlock}(P)\ \Downarrow \ (P_{1},\ \mathsf{attrs}_{0})\quad \Gamma \ \vdash \ \operatorname{ParseAttrListTail}(P_{1},\ \mathsf{attrs}\ \mathbin{++} \ \mathsf{attrs}_{0})\ \Downarrow \ (P_{2},\ \mathsf{attrs}_{1}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrListTail}(P,\ \mathsf{attrs})\ \Downarrow \ (P_{2},\ \mathsf{attrs}_{1})
 \end{array}
@@ -102,9 +104,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"[["})\quad P_{0}\ =\ \operatorname{Advance}(P)\quad \Gamma \ \vdash \ \operatorname{ParseAttrSpecList}(P_{0})\ \Downarrow \ (P_{1},\ \mathsf{specs})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"]]"}) \\[0.16em]
+\operatorname{AttrOpen}(P)\quad P_{0}\ =\ \operatorname{Advance}(\operatorname{Advance}(P))\quad \Gamma \ \vdash \ \operatorname{ParseAttrSpecList}(P_{0})\ \Downarrow \ (P_{1},\ \mathsf{specs})\quad \operatorname{AttrClose}(P_{1}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParseAttrBlock}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \mathsf{specs})
+\Gamma \ \vdash \ \operatorname{ParseAttrBlock}(P)\ \Downarrow \ (\operatorname{Advance}(\operatorname{Advance}(P_{1})),\ \mathsf{specs})
 \end{array}
 $$
 
@@ -132,7 +134,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"]]"})\quad \operatorname{TrailingCommaAllowed}(P_{0},\ P,\ \{\operatorname{Punctuator}(\texttt{"]]"})\}) \\[0.16em]
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \operatorname{AttrClose}(\operatorname{Advance}(P))\quad \operatorname{TrailingCommaAllowed}(P_{0},\ P,\ \{\mathsf{AttrClose}\}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseAttrSpecListTail}(P,\ \mathsf{xs})\ \Downarrow \ (\operatorname{Advance}(P),\ \mathsf{xs})
 \end{array}

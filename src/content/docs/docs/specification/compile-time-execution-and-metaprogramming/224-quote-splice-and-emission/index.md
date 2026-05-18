@@ -2,16 +2,16 @@
 title: "22.4 Quote, Splice, and Emission"
 description: "22.4 Quote, Splice, and Emission from 22. Compile-Time Execution and Metaprogramming of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "compile-time-execution-and-metaprogramming"
 specSection: "224-quote-splice-and-emission"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -121,7 +121,7 @@ $$
 \operatorname{CtLiteralType}(\operatorname{TypePerm}(\_,\ T))\ \Leftrightarrow \ \operatorname{CtLiteralType}(T) \\[0.16em]
 \operatorname{CtLiteralType}(\operatorname{TypeRefine}(T,\ \_))\ \Leftrightarrow \ \operatorname{CtLiteralType}(T) \\[0.16em]
 \operatorname{CtLiteralType}(\operatorname{TypePath}(p))\ \Leftrightarrow \ \operatorname{RecordDecl}(p)\ =\ R\ \land \ \forall \ f\ \in \ \operatorname{Fields}(R).\ \operatorname{CtLiteralType}(\operatorname{FieldType}(f)) \\[0.16em]
-\operatorname{CtLiteralType}(\operatorname{TypePath}(p))\ \Leftrightarrow \ \operatorname{EnumDecl}(p)\ =\ E\ \land \ \forall \ v\ \in \ \operatorname{Variants}(E).\ (\operatorname{Payload}(v)\ =\ \bot \ \lor \ (\operatorname{Payload}(v)\ =\ \operatorname{TuplePayload}([T_{1},\ \ldots ,\ T_{n}])\ \land \ \forall \ i.\ \operatorname{CtLiteralType}(T_{i}))\ \lor \ (\operatorname{Payload}(v)\ =\ \operatorname{RecordPayload}(\mathsf{fs})\ \land \ \forall \ f\ \in \ \mathsf{fs}.\ \operatorname{CtLiteralType}(\operatorname{FieldType}(f)))) \\[0.16em]
+\operatorname{CtLiteralType}(\operatorname{TypePath}(p))\ \Leftrightarrow \ \operatorname{EnumDecl}(p)\ =\ E\ \land \ \forall \ v\ \in \ \operatorname{Variants}(E).\ (\operatorname{Payload}(v)\ =\ \bot \ \lor \ (\operatorname{Payload}(v)\ =\ \operatorname{TuplePayload}([T_{1},\ \ldots ,\ T_{n}])\ \land \ \forall \ i.\ \operatorname{CtLiteralType}(T_{i}))\ \lor \ (\operatorname{Payload}(v)\ =\ \operatorname{RecordPayload}(\mathsf{io})\ \land \ \forall \ f\ \in \ \mathsf{io}.\ \operatorname{CtLiteralType}(\operatorname{FieldType}(f)))) \\[0.16em]
 \operatorname{CtLiteralType}(\operatorname{TypeApply}(p,\ [T_{1},\ \ldots ,\ T_{n}]))\ \Leftrightarrow \ \operatorname{CtLiteralType}(\operatorname{TypePath}(p)<T_{1},\ \ldots ,\ T_{n}>)
 \end{array}
 $$
@@ -153,7 +153,7 @@ Quoted content MUST be syntactically valid in the resolved category. If `Resolve
 
 `$(e)` and `$ident` are valid only inside a quoted token slice. The compile-time type of the splice source MUST satisfy `SpliceCompat` for the surrounding quoted position.
 
-`$ident` is an identifier-position splice only. `SpliceIdentNode` MAY occur only in identifier expressions, identifier-pattern bindings, typed-pattern bindings, `using ... as` alias names, `region as` aliases, and procedure or method parameter bindings. `SpliceIdentNode` MUST NOT occur in structural identifier positions, including module or type path segments, field labels, variant names, type-parameter names, item declaration names, or modal state names. In every other quoted position, including quoted type position, splicing MUST use `$(e)`. Ordinary language syntax retains precedence where it already uses `$`; for example, in `quote type { $FileSystem }`, `$FileSystem` is parsed as `TypeDynamic(["FileSystem"])`, not as a splice.
+`$ident` is an identifier-position splice only. `SpliceIdentNode` MAY occur only in identifier expressions, identifier-pattern bindings, typed-pattern bindings, `using ... as` alias names, `region as` aliases, and procedure or method parameter bindings. `SpliceIdentNode` MUST NOT occur in structural identifier positions, including module or type path segments, field labels, variant names, type-parameter names, item declaration names, or modal state names. In every other quoted position, including quoted type position, splicing MUST use `$(e)`. Ordinary language syntax retains precedence where it already uses `$`; for example, in `quote type { $IO }`, `$IO` is parsed as `TypeDynamic(["IO"])`, not as a splice.
 
 If a string-valued splice occupies identifier position, the resulting identifier is intentionally unhygienic and binds in the emission environment.
 

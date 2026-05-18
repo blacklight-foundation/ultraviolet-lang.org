@@ -2,16 +2,16 @@
 title: "17.6 Exhaustiveness and Reachability"
 description: "17.6 Exhaustiveness and Reachability from 17. Patterns of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "patterns"
 specSection: "176-exhaustiveness-and-reachability"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -34,7 +34,7 @@ Exhaustiveness and reachability are not parser-owned.
 $$
 \begin{array}{l}
 \mathsf{AllEq}\_\Gamma ([T_{1},\ \ldots ,\ T_{n}])\ \Leftrightarrow \ \forall \ i.\ \Gamma \ \vdash \ T_{i}\ \equiv \ T_{1} \\[0.16em]
-\operatorname{Irrefutable}(\mathsf{pat},\ T)\ \Leftrightarrow \ \mathsf{pat}\ =\ \mathsf{WildcardPattern}\ \lor \ \mathsf{pat}\ =\ \operatorname{IdentifierPattern}(\_)\ \lor \ (\mathsf{pat}\ =\ \operatorname{TypedPattern}(\_,\ T_{a})\ \land \ T_{a}\ =\ \operatorname{StripPerm}(T))\ \lor \ (\mathsf{pat}\ =\ \operatorname{TuplePattern}([p_{1},\ \ldots ,\ p_{n}])\ \land \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\ \land \ \forall \ i.\ \operatorname{Irrefutable}(p_{i},\ T_{i}))\ \lor \ (\mathsf{pat}\ =\ \operatorname{RecordPattern}(p,\ \mathsf{fs})\ \land \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypePath}(p)\ \land \ \operatorname{RecordDecl}(p)\ =\ R\ \land \ \forall \ \mathsf{fp}\ \in \ \mathsf{fs}.\ \operatorname{Irrefutable}(\operatorname{PatOf}(\mathsf{fp}),\ \operatorname{FieldType}(R,\ \operatorname{FieldName}(\mathsf{fp})))) \\[0.16em]
+\operatorname{Irrefutable}(\mathsf{pat},\ T)\ \Leftrightarrow \ \mathsf{pat}\ =\ \mathsf{WildcardPattern}\ \lor \ \mathsf{pat}\ =\ \operatorname{IdentifierPattern}(\_)\ \lor \ (\mathsf{pat}\ =\ \operatorname{TypedPattern}(\_,\ T_{a})\ \land \ T_{a}\ =\ \operatorname{StripPerm}(T))\ \lor \ (\mathsf{pat}\ =\ \operatorname{TuplePattern}([p_{1},\ \ldots ,\ p_{n}])\ \land \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\ \land \ \forall \ i.\ \operatorname{Irrefutable}(p_{i},\ T_{i}))\ \lor \ (\mathsf{pat}\ =\ \operatorname{RecordPattern}(p,\ \mathsf{io})\ \land \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypePath}(p)\ \land \ \operatorname{RecordDecl}(p)\ =\ R\ \land \ \forall \ \mathsf{fp}\ \in \ \mathsf{io}.\ \operatorname{Irrefutable}(\operatorname{PatOf}(\mathsf{fp}),\ \operatorname{FieldType}(R,\ \operatorname{FieldName}(\mathsf{fp})))) \\[0.16em]
 \operatorname{HasIrrefutableCase}(\mathsf{cases},\ T)\ \Leftrightarrow \ \exists \ \mathsf{case}\ \in \ \mathsf{cases}.\ \exists \ p,\ b.\ \mathsf{case}\ =\ \langle p,\ b\rangle \ \land \ \operatorname{Irrefutable}(p,\ T) \\[0.16em]
 \operatorname{CaseLabel}(\operatorname{EnumPattern}(\mathsf{path},\ v,\ \_))\ =\ \langle \texttt{enum},\ \mathsf{path},\ v\rangle  \\[0.16em]
 \operatorname{CaseLabel}(\operatorname{ModalPattern}(s,\ \_))\ =\ \langle \texttt{modal},\ s\rangle  \\[0.16em]

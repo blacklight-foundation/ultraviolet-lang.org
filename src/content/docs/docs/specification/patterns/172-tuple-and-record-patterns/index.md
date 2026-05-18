@@ -2,16 +2,16 @@
 title: "17.2 Tuple and Record Patterns"
 description: "17.2 Tuple and Record Patterns from 17. Patterns of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "patterns"
 specSection: "172-tuple-and-record-patterns"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -99,9 +99,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseFieldPattern}(P)\ \Downarrow \ (P_{1},\ f)\quad \Gamma \ \vdash \ \operatorname{ParseFieldPatternTail}(P_{1},\ [f])\ \Downarrow \ (P_{2},\ \mathsf{fs}) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseFieldPattern}(P)\ \Downarrow \ (P_{1},\ f)\quad \Gamma \ \vdash \ \operatorname{ParseFieldPatternTail}(P_{1},\ [f])\ \Downarrow \ (P_{2},\ \mathsf{io}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParseFieldPatternList}(P)\ \Downarrow \ (P_{2},\ \mathsf{fs})
+\Gamma \ \vdash \ \operatorname{ParseFieldPatternList}(P)\ \Downarrow \ (P_{2},\ \mathsf{io})
 \end{array}
 $$
 
@@ -236,13 +236,23 @@ $$
 \end{array}
 $$
 
+**(Pat-Tuple-Unit-R)**
+
+$$
+\begin{array}{l}
+\operatorname{StripPerm}(T)\ =\ \operatorname{TypePrim}(\texttt{"()"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{TuplePattern}([])\ \triangleleft \ T\ \dashv \ \emptyset 
+\end{array}
+$$
+
 **(Pat-Record-R)**
 
 $$
 \begin{array}{l}
-\operatorname{StripPerm}(T)\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \forall \ \mathsf{fp}\ \in \ \mathsf{fs},\ \operatorname{FieldType}(R,\ \operatorname{FieldName}(\mathsf{fp}))\ =\ T_{f}\ \land \ \operatorname{FieldVisible}(m,\ R,\ \operatorname{FieldName}(\mathsf{fp}))\ \land \ \Gamma \ \vdash \ \operatorname{PatOf}(\mathsf{fp})\ \triangleleft \ T_{f}\ \dashv \ B_{f}\quad B\ =\ \uplus \_\{\mathsf{fp}\ \in \ \mathsf{fs}\}\ B_{f} \\[0.16em]
+\operatorname{StripPerm}(T)\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \forall \ \mathsf{fp}\ \in \ \mathsf{io},\ \operatorname{FieldType}(R,\ \operatorname{FieldName}(\mathsf{fp}))\ =\ T_{f}\ \land \ \operatorname{FieldVisible}(m,\ R,\ \operatorname{FieldName}(\mathsf{fp}))\ \land \ \Gamma \ \vdash \ \operatorname{PatOf}(\mathsf{fp})\ \triangleleft \ T_{f}\ \dashv \ B_{f}\quad B\ =\ \uplus \_\{\mathsf{fp}\ \in \ \mathsf{io}\}\ B_{f} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{RecordPattern}(p,\ \mathsf{fs})\ \triangleleft \ T\ \dashv \ B
+\Gamma \ \vdash \ \operatorname{RecordPattern}(p,\ \mathsf{io})\ \triangleleft \ T\ \dashv \ B
 \end{array}
 $$
 
@@ -250,9 +260,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{StripPerm}(T)\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \exists \ \mathsf{fp}\ \in \ \mathsf{fs}.\ \operatorname{FieldName}(\mathsf{fp})\ \notin \ \operatorname{FieldNameSet}(R)\quad c\ =\ \operatorname{Code}(\mathsf{RecordPattern}-\mathsf{UnknownField}) \\[0.16em]
+\operatorname{StripPerm}(T)\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \exists \ \mathsf{fp}\ \in \ \mathsf{io}.\ \operatorname{FieldName}(\mathsf{fp})\ \notin \ \operatorname{FieldNameSet}(R)\quad c\ =\ \operatorname{Code}(\mathsf{RecordPattern}-\mathsf{UnknownField}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{RecordPattern}(p,\ \mathsf{fs})\ \triangleleft \ T\ \Uparrow \ c
+\Gamma \ \vdash \ \operatorname{RecordPattern}(p,\ \mathsf{io})\ \triangleleft \ T\ \Uparrow \ c
 \end{array}
 $$
 
@@ -261,7 +271,7 @@ $$
 **MatchRecord.**
 
 $$
-\mathsf{MatchRecordJudg}\ =\ \{\Gamma \ \vdash \ \operatorname{MatchRecord}(\mathsf{fs},\ v)\ \Downarrow \ B\}
+\mathsf{MatchRecordJudg}\ =\ \{\Gamma \ \vdash \ \operatorname{MatchRecord}(\mathsf{io},\ v)\ \Downarrow \ B\}
 $$
 
 **(MatchRecord-Empty)**
@@ -277,9 +287,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{FieldValue}(v,\ f)\ =\ v_{f}\quad \Gamma \ \vdash \ \operatorname{MatchRecord}(\mathsf{fs},\ v)\ \Downarrow \ B \\[0.16em]
+\operatorname{FieldValue}(v,\ f)\ =\ v_{f}\quad \Gamma \ \vdash \ \operatorname{MatchRecord}(\mathsf{io},\ v)\ \Downarrow \ B \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{MatchRecord}([f]\ \mathbin{++} \ \mathsf{fs},\ v)\ \Downarrow \ (B\ \uplus \ \{f\ \mapsto \ v_{f}\})
+\Gamma \ \vdash \ \operatorname{MatchRecord}([f]\ \mathbin{++} \ \mathsf{io},\ v)\ \Downarrow \ (B\ \uplus \ \{f\ \mapsto \ v_{f}\})
 \end{array}
 $$
 
@@ -287,9 +297,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{FieldValue}(v,\ f)\ =\ v_{f}\quad \Gamma \ \vdash \ \operatorname{MatchPattern}(p,\ v_{f})\ \Downarrow \ B_{1}\quad \Gamma \ \vdash \ \operatorname{MatchRecord}(\mathsf{fs},\ v)\ \Downarrow \ B_{2} \\[0.16em]
+\operatorname{FieldValue}(v,\ f)\ =\ v_{f}\quad \Gamma \ \vdash \ \operatorname{MatchPattern}(p,\ v_{f})\ \Downarrow \ B_{1}\quad \Gamma \ \vdash \ \operatorname{MatchRecord}(\mathsf{io},\ v)\ \Downarrow \ B_{2} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{MatchRecord}([\langle f,\ p\rangle ]\ \mathbin{++} \ \mathsf{fs},\ v)\ \Downarrow \ (B_{1}\ \uplus \ B_{2})
+\Gamma \ \vdash \ \operatorname{MatchRecord}([\langle f,\ p\rangle ]\ \mathbin{++} \ \mathsf{io},\ v)\ \Downarrow \ (B_{1}\ \uplus \ B_{2})
 \end{array}
 $$
 
@@ -307,9 +317,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{MatchRecord}(\mathsf{fs},\ v)\ \Downarrow \ B \\[0.16em]
+\Gamma \ \vdash \ \operatorname{MatchRecord}(\mathsf{io},\ v)\ \Downarrow \ B \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{MatchPattern}(R\{\mathsf{fs}\},\ v)\ \Downarrow \ B
+\Gamma \ \vdash \ \operatorname{MatchPattern}(R\{\mathsf{io}\},\ v)\ \Downarrow \ B
 \end{array}
 $$
 

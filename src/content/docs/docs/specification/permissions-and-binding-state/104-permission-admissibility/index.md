@@ -2,16 +2,16 @@
 title: "10.4 Permission Admissibility"
 description: "10.4 Permission Admissibility from 10. Permissions and Binding State of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "permissions-and-binding-state"
 specSection: "104-permission-admissibility"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -90,5 +90,5 @@ Admissibility is a static gate only. It does not introduce distinct runtime repr
 | `E-TYP-1601` | Error    | Compile-time | Mutation through `const` path                                         |
 | `E-TYP-1602` | Error    | Compile-time | `unique` exclusion violation (aliasing or inactive use)               |
 | `E-TYP-1603` | Error    | Compile-time | Non-`move` argument with source provenance must be a place expression |
-| `E-TYP-1604` | Error    | Compile-time | Direct field mutation through `shared` path without key               |
+| `E-TYP-1604` | Error    | Compile-time | Shared-place mutation cannot form a valid key-mediated write context  |
 | `E-TYP-1605` | Error    | Compile-time | Receiver permission incompatible with caller                          |

@@ -2,16 +2,16 @@
 title: "13.2 State Fields"
 description: "13.2 State Fields from 13. Modal and Special Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "modal-and-special-types"
 specSection: "132-state-fields"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -110,7 +110,7 @@ $$
 
 ### 13.2.5 Dynamic Semantics
 
-State-field access on `TypeModalState(modal_ref, S)` reuses ordinary record-field evaluation over the concrete runtime value `RecordValue(ModalStateRef(modal_ref, S), fs)`. No additional abstract-machine rule is introduced for successful access beyond the shared `FieldAccess` rules.
+State-field access on `TypeModalState(modal_ref, S)` reuses ordinary record-field evaluation over the concrete runtime value `RecordValue(ModalStateRef(modal_ref, S), io)`. No additional abstract-machine rule is introduced for successful access beyond the shared `FieldAccess` rules.
 
 ### 13.2.6 Lowering
 

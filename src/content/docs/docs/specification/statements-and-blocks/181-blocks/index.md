@@ -2,16 +2,16 @@
 title: "18.1 Blocks"
 description: "18.1 Blocks from 18. Statements and Blocks of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "statements-and-blocks"
 specSection: "181-blocks"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -248,6 +248,10 @@ $$
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockInfo}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}))\ \Uparrow \ c
 \end{array}
 $$
+
+`BlockInfo-Res-Err` is internal correctness, parser recovery, and compiler AST
+validation evidence. Normal rejected-source evidence is supplied through reachable
+source rules that construct conflicting block-result paths.
 
 **(BlockInfo-Tail)**
 

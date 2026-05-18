@@ -2,16 +2,16 @@
 title: "16.8 Effectful Core Expressions"
 description: "16.8 Effectful Core Expressions from 16. Expressions of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "expressions"
 specSection: "168-effectful-core-expressions"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -27,6 +27,7 @@ generated: true
 unsafe_expr     ::= "unsafe" block_expr
 address_of_expr ::= "&" place_expr
 move_expr       ::= "move" place_expr
+copy_expr       ::= "copy" unary_expr
 deref_expr      ::= "*" unary_expr
 alloc_expr      ::= "^" expression
 propagate_expr  ::= postfix_expr "?"
@@ -66,6 +67,16 @@ $$
 \end{array}
 $$
 
+**(Parse-Unary-Copy)**
+
+$$
+\begin{array}{l}
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{copy})\quad \Gamma \ \vdash \ \operatorname{ParseUnary}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseUnary}(P)\ \Downarrow \ (P_{1},\ \operatorname{CopyExpr}(e))
+\end{array}
+$$
+
 **(Postfix-Propagate)**
 IsOp(Tok(P), "?")
 
@@ -99,7 +110,7 @@ $$
 ### 16.8.3 AST Representation / Form
 
 $$
-\mathsf{Expr}\ =\ \operatorname{UnsafeBlockExpr}(\mathsf{body})\ \mid \ \operatorname{MoveExpr}(\mathsf{place})\ \mid \ \operatorname{AddressOf}(\mathsf{place})\ \mid \ \operatorname{Deref}(\mathsf{expr})\ \mid \ \operatorname{AllocExpr}(\mathsf{region}_{\mathsf{opt}},\ \mathsf{expr})\ \mid \ \operatorname{Propagate}(\mathsf{expr})\ \mid \ \ldots 
+\mathsf{Expr}\ =\ \operatorname{UnsafeBlockExpr}(\mathsf{body})\ \mid \ \operatorname{MoveExpr}(\mathsf{place})\ \mid \ \operatorname{CopyExpr}(\mathsf{expr})\ \mid \ \operatorname{AddressOf}(\mathsf{place})\ \mid \ \operatorname{Deref}(\mathsf{expr})\ \mid \ \operatorname{AllocExpr}(\mathsf{region}_{\mathsf{opt}},\ \mathsf{expr})\ \mid \ \operatorname{Propagate}(\mathsf{expr})\ \mid \ \ldots 
 $$
 
 ResolveExpr-Alloc-Explicit-ByAlias rewrites:
@@ -181,6 +192,16 @@ $$
 \Gamma ;\ R;\ L\ \vdash \ p\ :\mathsf{place}\ T \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{MoveExpr}(p)\ :\ T
+\end{array}
+$$
+
+**(T-Copy)**
+
+$$
+\begin{array}{l}
+\Gamma ;\ R;\ L\ \vdash \ e\ :\ T\quad \operatorname{BitcopyType}(T) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{CopyExpr}(e)\ :\ T
 \end{array}
 $$
 
@@ -301,6 +322,26 @@ $$
 \Gamma \ \vdash \ \operatorname{MovePlaceSigma}(p,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{1} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{MoveExpr}(p),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{1} )
+\end{array}
+$$
+
+**(EvalSigma-Copy)**
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \operatorname{CopyObject}(\operatorname{ExprType}(e),\ v,\ \sigma_{1} )\ \Downarrow \ (v_{\mathsf{copy}},\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{CopyExpr}(e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{\mathsf{copy}}),\ \sigma_{2} )
+\end{array}
+$$
+
+**(EvalSigma-Copy-Ctrl)**
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{CopyExpr}(e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
 
@@ -554,6 +595,16 @@ $$
 \Gamma \ \vdash \ \operatorname{LowerMovePlace}(p)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MoveExpr}(p))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\end{array}
+$$
+
+**(Lower-Expr-Copy)**
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerCopyObject}(\operatorname{ExprType}(e),\ v)\ \Downarrow \ \langle \mathsf{IR}_{c},\ v_{\mathsf{copy}}\rangle  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{CopyExpr}(e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{c}),\ v_{\mathsf{copy}}\rangle 
 \end{array}
 $$
 

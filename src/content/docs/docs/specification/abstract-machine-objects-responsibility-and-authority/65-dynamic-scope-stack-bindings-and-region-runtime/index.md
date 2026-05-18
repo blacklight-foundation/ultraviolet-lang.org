@@ -2,16 +2,16 @@
 title: "6.5 Dynamic Scope Stack, Bindings, and Region Runtime"
 description: "6.5 Dynamic Scope Stack, Bindings, and Region Runtime from 6. Abstract Machine, Objects, Responsibility, and Authority of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "abstract-machine-objects-responsibility-and-authority"
 specSection: "65-dynamic-scope-stack-bindings-and-region-runtime"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -295,7 +295,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{RegionValue}(S,\ h)\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}([\texttt{Region}],\ S),\ [\langle \texttt{handle},\ \operatorname{IntVal}(\texttt{"usize"},\ h)\rangle ]) \\[0.16em]
-\operatorname{RegionHandleOf}(v)\ =\ h\ \Leftrightarrow \ v\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}([\texttt{Region}],\ S),\ \mathsf{fs})\ \land \ \langle \texttt{handle},\ \operatorname{IntVal}(\texttt{"usize"},\ h)\rangle \ \in \ \mathsf{fs}
+\operatorname{RegionHandleOf}(v)\ =\ h\ \Leftrightarrow \ v\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}([\texttt{Region}],\ S),\ \mathsf{io})\ \land \ \langle \texttt{handle},\ \operatorname{IntVal}(\texttt{"usize"},\ h)\rangle \ \in \ \mathsf{io}
 \end{array}
 $$
 
@@ -488,14 +488,14 @@ $$
 \operatorname{ModalVal}(S,\ v)\ =\ \langle S,\ v\rangle 
 \end{array}
 $$
-RecordValue(tr, fs) defined
+RecordValue(tr, io) defined
 
 $$
 \begin{array}{l}
 \mathsf{EnumPayloadVal}\ =\ \{\bot ,\ \operatorname{TuplePayload}(\mathsf{vec}_{v}),\ \operatorname{RecordPayload}(\mathsf{vec}_{f})\} \\[0.16em]
 \operatorname{EnumValue}(\mathsf{path},\ \mathsf{payload})\ \mathsf{defined}\ \Leftrightarrow \ \mathsf{payload}\ \in \ \mathsf{EnumPayloadVal} \\[0.16em]
 \operatorname{SliceValue}(v,\ r)\ \mathsf{defined}\ \Leftrightarrow \ \operatorname{SliceBounds}(r,\ \operatorname{Len}(v))\ \mathsf{defined} \\[0.16em]
-\mathsf{Value}\ =\ \{\operatorname{BoolVal}(b)\ \mid \ b\ \in \ \{\mathsf{true},\ \mathsf{false}\}\}\ \cup \ \{\operatorname{CharVal}(u)\ \mid \ u\ \in \ \mathsf{UnicodeScalar}\}\ \cup \ \{\mathsf{UnitVal}\}\ \cup \ \{\operatorname{IntVal}(t,\ x)\ \mid \ \operatorname{IntVal}(t,\ x)\ \mathsf{defined}\}\ \cup \ \{\operatorname{FloatVal}(t,\ v)\ \mid \ \operatorname{FloatVal}(t,\ v)\ \mathsf{defined}\}\ \cup \ \{\operatorname{PtrVal}(s,\ \mathsf{addr})\ \mid \ \operatorname{PtrVal}(s,\ \mathsf{addr})\ \mathsf{defined}\}\ \cup \ \{\operatorname{RawPtr}(q,\ \mathsf{addr})\}\ \cup \ \mathsf{TupleVal}\ \cup \ \mathsf{ArrayVal}\ \cup \ \{\operatorname{RecordValue}(\mathsf{tr},\ \mathsf{fs})\}\ \cup \ \{\operatorname{EnumValue}(\mathsf{path},\ \mathsf{payload})\}\ \cup \ \mathsf{RangeVal}\ \cup \ \{\operatorname{SliceValue}(v,\ r)\ \mid \ \operatorname{SliceValue}(v,\ r)\ \mathsf{defined}\}\ \cup \ \{\operatorname{ModalVal}(S,\ v)\}\ \cup \ \{\operatorname{Dyn}(\mathsf{Cl},\ \operatorname{RawPtr}(\texttt{imm},\ \mathsf{addr}),\ T)\}\ \cup \ \texttt{string@Managed}\ \cup \ \texttt{string@View}\ \cup \ \texttt{bytes@Managed}\ \cup \ \texttt{bytes@View}\ \cup \ \{\operatorname{FuncVal}(\mathsf{sym})\}\ \cup \ \{\operatorname{ClosureVal}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}})\}
+\mathsf{Value}\ =\ \{\operatorname{BoolVal}(b)\ \mid \ b\ \in \ \{\mathsf{true},\ \mathsf{false}\}\}\ \cup \ \{\operatorname{CharVal}(u)\ \mid \ u\ \in \ \mathsf{UnicodeScalar}\}\ \cup \ \{\mathsf{UnitVal}\}\ \cup \ \{\operatorname{IntVal}(t,\ x)\ \mid \ \operatorname{IntVal}(t,\ x)\ \mathsf{defined}\}\ \cup \ \{\operatorname{FloatVal}(t,\ v)\ \mid \ \operatorname{FloatVal}(t,\ v)\ \mathsf{defined}\}\ \cup \ \{\operatorname{PtrVal}(s,\ \mathsf{addr})\ \mid \ \operatorname{PtrVal}(s,\ \mathsf{addr})\ \mathsf{defined}\}\ \cup \ \{\operatorname{RawPtr}(q,\ \mathsf{addr})\}\ \cup \ \mathsf{TupleVal}\ \cup \ \mathsf{ArrayVal}\ \cup \ \{\operatorname{RecordValue}(\mathsf{tr},\ \mathsf{io})\}\ \cup \ \{\operatorname{EnumValue}(\mathsf{path},\ \mathsf{payload})\}\ \cup \ \mathsf{RangeVal}\ \cup \ \{\operatorname{SliceValue}(v,\ r)\ \mid \ \operatorname{SliceValue}(v,\ r)\ \mathsf{defined}\}\ \cup \ \{\operatorname{ModalVal}(S,\ v)\}\ \cup \ \{\operatorname{Dyn}(\mathsf{Cl},\ \operatorname{RawPtr}(\texttt{imm},\ \mathsf{addr}),\ T)\}\ \cup \ \texttt{string@Managed}\ \cup \ \texttt{string@View}\ \cup \ \texttt{bytes@Managed}\ \cup \ \texttt{bytes@View}\ \cup \ \{\operatorname{FuncVal}(\mathsf{sym})\}\ \cup \ \{\operatorname{ClosureVal}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}})\}
 \end{array}
 $$
 
@@ -503,8 +503,8 @@ $$
 \begin{array}{l}
 \operatorname{TupleValue}((v_{0},\ \ldots ,\ v\_\{n-1\}),\ i)\ =\ v_{i}\quad (0\ \le \ i\ <\ n) \\[0.16em]
 \operatorname{TupleUpdate}((v_{0},\ \ldots ,\ v\_\{n-1\}),\ i,\ v')\ =\ (v_{0},\ \ldots ,\ v\_\{i-1\},\ v',\ v\_\{i+1\},\ \ldots ,\ v\_\{n-1\})\quad (0\ \le \ i\ <\ n) \\[0.16em]
-\operatorname{FieldValue}(\operatorname{RecordValue}(\mathsf{tr},\ \mathsf{fs}),\ f)\ =\ v\ \Leftrightarrow \ \langle f,\ v\rangle \ \in \ \mathsf{fs} \\[0.16em]
-\operatorname{FieldUpdate}(\operatorname{RecordValue}(\mathsf{tr},\ \mathsf{fs}),\ f,\ v')\ =\ \operatorname{RecordValue}(\mathsf{tr},\ \mathsf{fs}')\quad \mathsf{where}\ \mathsf{fs}'\ =\ [\langle f_{i},\ v_{i}'\rangle \ \mid \ \langle f_{i},\ v_{i}\rangle \ \in \ \mathsf{fs}\ \land \ v_{i}'\ =\ v'\ \mathsf{if}\ f_{i}\ =\ f\ \mathsf{otherwise}\ v_{i}] \\[0.16em]
+\operatorname{FieldValue}(\operatorname{RecordValue}(\mathsf{tr},\ \mathsf{io}),\ f)\ =\ v\ \Leftrightarrow \ \langle f,\ v\rangle \ \in \ \mathsf{io} \\[0.16em]
+\operatorname{FieldUpdate}(\operatorname{RecordValue}(\mathsf{tr},\ \mathsf{io}),\ f,\ v')\ =\ \operatorname{RecordValue}(\mathsf{tr},\ \mathsf{io}')\quad \mathsf{where}\ \mathsf{io}'\ =\ [\langle f_{i},\ v_{i}'\rangle \ \mid \ \langle f_{i},\ v_{i}\rangle \ \in \ \mathsf{io}\ \land \ v_{i}'\ =\ v'\ \mathsf{if}\ f_{i}\ =\ f\ \mathsf{otherwise}\ v_{i}] \\[0.16em]
 \operatorname{IndexUpdate}([v_{0},\ \ldots ,\ v\_\{n-1\}],\ i,\ v_{e})\ =\ [v_{0},\ \ldots ,\ v\_\{i-1\},\ v_{e},\ v\_\{i+1\},\ \ldots ,\ v\_\{n-1\}]\quad (0\ \le \ i\ <\ n) \\[0.16em]
 \operatorname{SliceLen}([v_{0},\ \ldots ,\ v\_\{n-1\}])\ =\ n \\[0.16em]
 \operatorname{SliceLen}(\operatorname{SliceValue}(v,\ r))\ =\ \mathsf{end}\ -\ \mathsf{start}\quad (\operatorname{SliceBounds}(r,\ \operatorname{Len}(v))\ =\ (\mathsf{start},\ \mathsf{end})) \\[0.16em]

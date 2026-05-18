@@ -1,7 +1,7 @@
 {
   "source": "SPECIFICATION.md",
-  "hash": "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a",
-  "generatedAt": "2026-05-14T07:35:34.990Z",
+  "hash": "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16",
+  "generatedAt": "2026-05-18T22:15:57.711Z",
   "chapters": [
     {
       "slug": "front-matter",
@@ -407,8 +407,8 @@
           "anchor": "62-host-primitives",
           "subsections": [
             {
-              "title": "6.2.1 FileSystem, File, and Directory Primitive Relations",
-              "anchor": "621-filesystem-file-and-directory-primitive-relations"
+              "title": "6.2.1 IO, File, and Directory Primitive Relations",
+              "anchor": "621-io-file-and-directory-primitive-relations"
             },
             {
               "title": "6.2.2 System Primitive Relations",

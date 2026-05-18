@@ -2,16 +2,16 @@
 title: "4.2 Lexical Analysis"
 description: "4.2 Lexical Analysis from 4. Source Text and Lexical Structure of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "source-text-and-lexical-structure"
 specSection: "42-lexical-analysis"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -185,7 +185,7 @@ $$
 **Reserved.**
 
 $$
-\mathsf{Reserved}\ =\ \{\texttt{all},\ \texttt{as},\ \texttt{break},\ \texttt{class},\ \texttt{comptime},\ \texttt{continue},\ \texttt{derive},\ \texttt{dispatch},\ \texttt{else},\ \texttt{enum},\ \texttt{false},\ \texttt{defer},\ \texttt{frame},\ \texttt{from},\ \texttt{if},\ \texttt{imm},\ \texttt{import},\ \texttt{internal},\ \texttt{let},\ \texttt{loop},\ \texttt{modal},\ \texttt{move},\ \texttt{mut},\ \texttt{null},\ \texttt{parallel},\ \texttt{private},\ \texttt{procedure},\ \texttt{public},\ \texttt{quote},\ \texttt{race},\ \texttt{record},\ \texttt{region},\ \texttt{return},\ \texttt{shared},\ \texttt{spawn},\ \texttt{sync},\ \texttt{transition},\ \texttt{transmute},\ \texttt{true},\ \texttt{type},\ \texttt{unique},\ \texttt{unsafe},\ \texttt{var},\ \texttt{widen},\ \texttt{using},\ \texttt{yield},\ \texttt{const},\ \texttt{override}\}
+\mathsf{Reserved}\ =\ \{\texttt{all},\ \texttt{as},\ \texttt{break},\ \texttt{class},\ \texttt{comptime},\ \texttt{continue},\ \texttt{copy},\ \texttt{derive},\ \texttt{dispatch},\ \texttt{else},\ \texttt{enum},\ \texttt{false},\ \texttt{defer},\ \texttt{frame},\ \texttt{from},\ \texttt{if},\ \texttt{imm},\ \texttt{import},\ \texttt{internal},\ \texttt{let},\ \texttt{loop},\ \texttt{modal},\ \texttt{move},\ \texttt{mut},\ \texttt{null},\ \texttt{parallel},\ \texttt{private},\ \texttt{procedure},\ \texttt{public},\ \texttt{quote},\ \texttt{race},\ \texttt{record},\ \texttt{region},\ \texttt{return},\ \texttt{shared},\ \texttt{spawn},\ \texttt{sync},\ \texttt{transition},\ \texttt{transmute},\ \texttt{true},\ \texttt{type},\ \texttt{unique},\ \texttt{unsafe},\ \texttt{var},\ \texttt{widen},\ \texttt{using},\ \texttt{yield},\ \texttt{const},\ \texttt{override}\}
 $$
 
 $$
@@ -212,7 +212,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{UniverseProtected}\ =\ \{\texttt{i8},\ \texttt{i16},\ \texttt{i32},\ \texttt{i64},\ \texttt{i128},\ \texttt{u8},\ \texttt{u16},\ \texttt{u32},\ \texttt{u64},\ \texttt{u128},\ \texttt{f16},\ \texttt{f32},\ \texttt{f64},\ \texttt{bool},\ \texttt{char},\ \texttt{usize},\ \texttt{isize},\ \texttt{Self},\ \texttt{Drop},\ \texttt{Bitcopy},\ \texttt{Clone},\ \texttt{Eq},\ \texttt{Hash},\ \texttt{Hasher},\ \texttt{Iterator},\ \texttt{Step},\ \texttt{FfiSafe},\ \texttt{string},\ \texttt{bytes},\ \texttt{Modal},\ \texttt{Region},\ \texttt{RegionOptions},\ \texttt{CancelToken},\ \texttt{Context},\ \texttt{System},\ \texttt{Network},\ \texttt{ExecutionDomain},\ \texttt{Reactor},\ \texttt{Time},\ \texttt{MonotonicTime},\ \texttt{WallTime},\ \texttt{Duration},\ \texttt{MonotonicInstant},\ \texttt{UtcInstant},\ \texttt{TimeError},\ \texttt{CpuSet},\ \texttt{Priority},\ \texttt{Async},\ \texttt{Future},\ \texttt{Sequence},\ \texttt{Stream},\ \texttt{Pipe},\ \texttt{Exchange},\ \texttt{Tracked},\ \texttt{Spawned}\} \\[0.16em]
+\mathsf{UniverseProtected}\ =\ \{\texttt{i8},\ \texttt{i16},\ \texttt{i32},\ \texttt{i64},\ \texttt{i128},\ \texttt{u8},\ \texttt{u16},\ \texttt{u32},\ \texttt{u64},\ \texttt{u128},\ \texttt{f16},\ \texttt{f32},\ \texttt{f64},\ \texttt{bool},\ \texttt{char},\ \texttt{usize},\ \texttt{isize},\ \texttt{Self},\ \texttt{Drop},\ \texttt{Bitcopy},\ \texttt{Clone},\ \texttt{Eq},\ \texttt{Hash},\ \texttt{Hasher},\ \texttt{Iterator},\ \texttt{Step},\ \texttt{FfiSafe},\ \texttt{string},\ \texttt{bytes},\ \texttt{Modal},\ \texttt{Region},\ \texttt{RegionOptions},\ \texttt{CancelToken},\ \texttt{Context},\ \texttt{TestAuthority},\ \texttt{System},\ \texttt{IO},\ \texttt{HeapAllocator},\ \texttt{Network},\ \texttt{ExecutionDomain},\ \texttt{Reactor},\ \texttt{Time},\ \texttt{MonotonicTime},\ \texttt{WallTime},\ \texttt{Duration},\ \texttt{MonotonicInstant},\ \texttt{UtcInstant},\ \texttt{TimeError},\ \texttt{CpuSet},\ \texttt{Priority},\ \texttt{Async},\ \texttt{Future},\ \texttt{Sequence},\ \texttt{Stream},\ \texttt{Pipe},\ \texttt{Exchange},\ \texttt{Tracked},\ \texttt{Spawned}\} \\[0.16em]
 \mathsf{UniverseProtectedPhase}\ =\ \mathsf{Phase3}
 \end{array}
 $$
@@ -234,8 +234,10 @@ $$
 **Punctuator Set.**
 
 $$
-\mathsf{PunctuatorSet}\ =\ \{\texttt{"("},\ \texttt{")"},\ \texttt{"["},\ \texttt{"]"},\ \texttt{"[["},\ \texttt{"]]"},\ \texttt{"\{"},\ \texttt{"\}"},\ \texttt{","},\ \texttt{":"},\ \texttt{";"},\ \texttt{"."}\}
+\mathsf{PunctuatorSet}\ =\ \{\texttt{"("},\ \texttt{")"},\ \texttt{"["},\ \texttt{"]"},\ \texttt{"\{"},\ \texttt{"\}"},\ \texttt{","},\ \texttt{":"},\ \texttt{";"},\ \texttt{"."}\}
 $$
+
+The attribute delimiters spelled `[[` and `]]` are not token kinds. They tokenize as adjacent punctuator pairs `Punctuator("[") Punctuator("[")` and `Punctuator("]") Punctuator("]")`; attribute parsing consumes those adjacent token pairs.
 
 $$
 \mathsf{OperatorSet}\ \cap \ \mathsf{PunctuatorSet}\ =\ \emptyset 
@@ -422,7 +424,8 @@ $$
 \operatorname{StartsWithUnderscore}(s)\ \Leftrightarrow \ \operatorname{At}(s,\ 0)\ =\ \texttt{"\_"} \\[0.16em]
 \operatorname{EndsWithUnderscore}(s)\ \Leftrightarrow \ \operatorname{At}(s,\ \mid s\mid -1)\ =\ \texttt{"\_"} \\[0.16em]
 \operatorname{AfterBasePrefixUnderscore}(s)\ \Leftrightarrow \ \exists \ p\ \in \ \mathsf{BasePrefix}.\ \operatorname{StartsWith}(s,\ \operatorname{Concat}(p,\ \texttt{"\_"})) \\[0.16em]
-\operatorname{AdjacentExponentUnderscore}(s)\ \Leftrightarrow \ \exists \ i.\ \operatorname{At}(s,\ i)\ =\ \texttt{"\_"}\ \land \ ((i\ >\ 0\ \land \ \operatorname{At}(s,\ i-1)\ \in \ \{\texttt{"e"},\ \texttt{"E"}\})\ \lor \ (i+1\ <\ \mid s\mid \ \land \ \operatorname{At}(s,\ i+1)\ \in \ \{\texttt{"e"},\ \texttt{"E"}\})) \\[0.16em]
+\operatorname{ExponentMarker}(s,\ i)\ \Leftrightarrow \ (\forall \ p\ \in \ \mathsf{BasePrefix}.\ \lnot \ \operatorname{StartsWith}(s,\ p))\ \land \ \operatorname{At}(s,\ i)\ \in \ \{\texttt{"e"},\ \texttt{"E"}\} \\[0.16em]
+\operatorname{AdjacentExponentUnderscore}(s)\ \Leftrightarrow \ \exists \ i.\ \operatorname{At}(s,\ i)\ =\ \texttt{"\_"}\ \land \ ((i\ >\ 0\ \land \ \operatorname{ExponentMarker}(s,\ i-1))\ \lor \ (i+1\ <\ \mid s\mid \ \land \ \operatorname{ExponentMarker}(s,\ i+1))) \\[0.16em]
 \operatorname{BeforeSuffixUnderscore}(s)\ \Leftrightarrow \ \exists \ \mathsf{suf}\ \in \ \mathsf{NumSuffix}.\ \operatorname{EndsWith}(s,\ \operatorname{Concat}(\texttt{"\_"},\ \mathsf{suf})) \\[0.16em]
 \operatorname{NumericUnderscoreOk}(s)\ \Leftrightarrow \ \lnot \ \operatorname{StartsWithUnderscore}(s)\ \land \ \lnot \ \operatorname{EndsWithUnderscore}(s)\ \land \ \lnot \ \operatorname{AfterBasePrefixUnderscore}(s)\ \land \ \lnot \ \operatorname{AdjacentExponentUnderscore}(s)\ \land \ \lnot \ \operatorname{BeforeSuffixUnderscore}(s)
 \end{array}

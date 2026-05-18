@@ -2,16 +2,16 @@
 title: "24.5 Cleanup, Drop, and Unwinding Framework"
 description: "24.5 Cleanup, Drop, and Unwinding Framework from 24. Common Lowering, Program Lifecycle, and Backend of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "common-lowering-program-lifecycle-and-backend"
 specSection: "245-cleanup-drop-and-unwinding-framework"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -144,7 +144,7 @@ $$
 \operatorname{DropType}(T)\ \land \ \operatorname{BuiltinDropType}(T)\ \land \ T\ =\ \operatorname{TypeBytes}(\texttt{@Managed})\ \land \ \Gamma \ \vdash \ \mathsf{BytesDropSym}\ \Downarrow \ \mathsf{sym}\ \land \ \operatorname{ExecIRSigma}(\operatorname{CallIR}(\mathsf{sym},\ [v]),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\ \Rightarrow \ \operatorname{DropCall}(T,\ v,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ') \\[0.16em]
 \operatorname{DropType}(T)\ \land \ \lnot \ \operatorname{BuiltinDropType}(T)\ \land \ \operatorname{LookupMethod}(\operatorname{StripPerm}(T),\ \texttt{"drop"})\ =\ m\ \land \ \operatorname{Sig_T}(\operatorname{StripPerm}(T),\ m)\ =\ \langle \operatorname{TypePerm}(\texttt{unique},\ \operatorname{StripPerm}(T)),\ [],\ \operatorname{TypePrim}(\texttt{"()"})\rangle \ \land \ \operatorname{BindParams}(\operatorname{MethodParamsDecl}(\operatorname{StripPerm}(T),\ m),\ [v])\ =\ \mathsf{binds}\ \land \ \operatorname{BlockEnter}(\sigma ,\ \mathsf{binds})\ \Downarrow \ (\sigma_{1} ,\ \mathsf{scope})\ \land \ \Gamma \ \vdash \ \operatorname{EvalBlockBodySigma}(m.\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out}_{1},\ \sigma_{2} )\ \land \ \operatorname{BlockExit}(\sigma_{2} ,\ \mathsf{scope},\ \mathsf{out}_{1})\ \Downarrow \ (\mathsf{out}_{2},\ \sigma_{3} )\ \land \ \operatorname{ReturnOut}(\mathsf{out}_{2})\ =\ \mathsf{out}\ \Rightarrow \ \operatorname{DropCall}(T,\ v,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\[0.16em]
 \operatorname{ReleaseValue}(T,\ v,\ \sigma )\ \Downarrow \ \sigma '\ \mathsf{relation} \\[0.16em]
-\operatorname{ReleaseValue}(T,\ v,\ \sigma )\ \Downarrow \ \sigma '\ \Leftrightarrow \ \sigma '\ =\ \sigma  \\[0.16em]
+\operatorname{ReleaseValue}(T,\ v,\ \sigma )\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{EndDomain}(\operatorname{DomainOf}(v),\ \sigma )\ \Downarrow \ \sigma ' \\[0.16em]
 \operatorname{DropChildren}(T,\ v,\ F)\ = \\[0.16em]
 \ [\langle T_{i},\ v_{i}\rangle \ \mid \ \langle f_{i},\ T_{i}\rangle \ \in \ \operatorname{FieldsRev}(R),\ f_{i}\ \notin \ F,\ \operatorname{FieldValue}(v,\ f_{i})\ =\ v_{i}]\quad \mathsf{if}\ T\ =\ \operatorname{TypePath}(p)\ \land \ \operatorname{RecordDecl}(p)\ =\ R \\[0.16em]
 \ [\langle T_{i},\ v_{i}\rangle \ \mid \ T\ =\ \operatorname{TypeTuple}([T_{0},\ \ldots ,\ T\_\{n-1\}]),\ i\ \in \ \operatorname{rev}([0,\ \ldots ,\ n-1]),\ \operatorname{TupleValue}(v,\ i)\ =\ v_{i}]\quad \mathsf{if}\ T\ =\ \operatorname{TypeTuple}(\_) \\[0.16em]
@@ -462,7 +462,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{CleanupScope}(f_{1}.\mathsf{scope},\ \sigma )\ \Downarrow \ (\mathsf{ok},\ \sigma ') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Unwind}(f_{1}\mathbin{::} \mathsf{fs},\ \sigma )\rangle \ \to \ \langle \operatorname{Unwind}(\mathsf{fs},\ \sigma ')\rangle 
+\langle \operatorname{Unwind}(f_{1}\mathbin{::} \mathsf{io},\ \sigma )\rangle \ \to \ \langle \operatorname{Unwind}(\mathsf{io},\ \sigma ')\rangle 
 \end{array}
 $$
 
@@ -472,6 +472,6 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{CleanupScope}(f_{1}.\mathsf{scope},\ \sigma )\ \Downarrow \ (\mathsf{panic},\ \sigma ') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Unwind}(f_{1}\mathbin{::} \mathsf{fs},\ \sigma )\rangle \ \to \ \langle \mathsf{Abort}\rangle 
+\langle \operatorname{Unwind}(f_{1}\mathbin{::} \mathsf{io},\ \sigma )\rangle \ \to \ \langle \mathsf{Abort}\rangle 
 \end{array}
 $$

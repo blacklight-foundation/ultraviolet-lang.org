@@ -2,16 +2,16 @@
 title: "12.4 Slices"
 description: "12.4 Slices from 12. Concrete Data Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "concrete-data-types"
 specSection: "124-slices"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -59,6 +59,12 @@ $$
 \operatorname{RangeIndexType}(T_{r})\ \Leftrightarrow \ T_{r}\ =\ \operatorname{TypeRange}(\operatorname{TypePrim}(\texttt{"usize"}))\ \lor \ T_{r}\ =\ \operatorname{TypeRangeInclusive}(\operatorname{TypePrim}(\texttt{"usize"}))\ \lor \ T_{r}\ =\ \operatorname{TypeRangeFrom}(\operatorname{TypePrim}(\texttt{"usize"}))\ \lor \ T_{r}\ =\ \operatorname{TypeRangeTo}(\operatorname{TypePrim}(\texttt{"usize"}))\ \lor \ T_{r}\ =\ \operatorname{TypeRangeToInclusive}(\operatorname{TypePrim}(\texttt{"usize"}))\ \lor \ T_{r}\ =\ \mathsf{TypeRangeFull}
 $$
 
+$$
+\operatorname{RangeIndexExpr}(r)\ \Leftrightarrow \ (\Gamma ;\ R;\ L\ \vdash \ r\ :\ \mathsf{Range}\ \land \ \operatorname{RangeIndexType}(\operatorname{ExprType}(r)))\ \lor \ r\ =\ \operatorname{Range}(\texttt{Full},\ \bot ,\ \bot )\ \lor \ (r\ =\ \operatorname{Range}(\texttt{To},\ \bot ,\ e)\ \land \ \operatorname{IndexUsizeExpr}(e))\ \lor \ (r\ =\ \operatorname{Range}(\texttt{ToInclusive},\ \bot ,\ e)\ \land \ \operatorname{IndexUsizeExpr}(e))\ \lor \ (r\ =\ \operatorname{Range}(\texttt{From},\ e,\ \bot )\ \land \ \operatorname{IndexUsizeExpr}(e))\ \lor \ (r\ =\ \operatorname{Range}(\texttt{Exclusive},\ e_{1},\ e_{2})\ \land \ \operatorname{IndexUsizeExpr}(e_{1})\ \land \ \operatorname{IndexUsizeExpr}(e_{2}))\ \lor \ (r\ =\ \operatorname{Range}(\texttt{Inclusive},\ e_{1},\ e_{2})\ \land \ \operatorname{IndexUsizeExpr}(e_{1})\ \land \ \operatorname{IndexUsizeExpr}(e_{2}))
+$$
+
+`RangeIndexExpr` is a contextual array/slice slicing relation. It preserves already-typed `usize` range carriers and additionally accepts direct range expressions whose explicit bounds satisfy `IndexUsizeExpr`. Standalone range expressions still synthesize their ordinary range types under §12.5.4.
+
 **(WF-Slice)**
 
 $$
@@ -73,7 +79,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeSlice}(T)\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\quad \operatorname{BitcopyType}(T) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeSlice}(T)\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \operatorname{BitcopyType}(T) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ T
 \end{array}
@@ -83,7 +89,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ T)
 \end{array}
@@ -93,7 +99,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ n)\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2}))\quad \operatorname{BitcopyType}(\operatorname{TypeSlice}(T)) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ n)\quad \operatorname{RangeIndexExpr}(e_{2})\quad \operatorname{BitcopyType}(\operatorname{TypeSlice}(T)) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypeSlice}(T)
 \end{array}
@@ -103,7 +109,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ n))\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2}))\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ n))\quad \operatorname{RangeIndexExpr}(e_{2})\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))
 \end{array}
@@ -113,7 +119,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeSlice}(T)\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2}))\quad \operatorname{BitcopyType}(\operatorname{TypeSlice}(T)) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeSlice}(T)\quad \operatorname{RangeIndexExpr}(e_{2})\quad \operatorname{BitcopyType}(\operatorname{TypeSlice}(T)) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypeSlice}(T)
 \end{array}
@@ -123,7 +129,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2}))\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))\quad \operatorname{RangeIndexExpr}(e_{2})\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))
 \end{array}
@@ -133,7 +139,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypeSlice}(T)\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{"usize"}) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypeSlice}(T)\quad \operatorname{IndexUsizeExpr}(e_{2}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\mathsf{place}\ T
 \end{array}
@@ -143,7 +149,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{"usize"}) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))\quad \operatorname{IndexUsizeExpr}(e_{2}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ T)
 \end{array}
@@ -153,7 +159,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypeArray}(T,\ n)\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2})) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypeArray}(T,\ n)\quad \operatorname{RangeIndexExpr}(e_{2}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\mathsf{place}\ \operatorname{TypeSlice}(T)
 \end{array}
@@ -163,7 +169,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ n))\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2})) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ n))\quad \operatorname{RangeIndexExpr}(e_{2}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))
 \end{array}
@@ -173,7 +179,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypeSlice}(T)\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2})) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypeSlice}(T)\quad \operatorname{RangeIndexExpr}(e_{2}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\mathsf{place}\ \operatorname{TypeSlice}(T)
 \end{array}
@@ -183,7 +189,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2})) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))\quad \operatorname{RangeIndexExpr}(e_{2}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))
 \end{array}
@@ -285,7 +291,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ T_{b}\quad \operatorname{StripPerm}(T_{b})\ =\ \operatorname{TypeSlice}(T)\quad \Gamma \ \vdash \ e_{2}\ :\ T_{i}\quad T_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"usize"})\quad c\ =\ \operatorname{Code}(\mathsf{Index}-\mathsf{Slice}-\mathsf{NonUsize}) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ T_{b}\quad \operatorname{StripPerm}(T_{b})\ =\ \operatorname{TypeSlice}(T)\quad \lnot \ \operatorname{IndexUsizeExpr}(e_{2})\quad c\ =\ \operatorname{Code}(\mathsf{Index}-\mathsf{Slice}-\mathsf{NonUsize}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ \Uparrow \ c
 \end{array}

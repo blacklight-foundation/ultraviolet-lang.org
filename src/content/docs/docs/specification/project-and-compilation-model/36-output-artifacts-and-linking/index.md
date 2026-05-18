@@ -2,16 +2,16 @@
 title: "3.6 Output Artifacts and Linking"
 description: "3.6 Output Artifacts and Linking from 3. Project and Compilation Model of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "project-and-compilation-model"
 specSection: "36-output-artifacts-and-linking"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -318,7 +318,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{WriteFileOk}(p,\ b)\ \Rightarrow \ \operatorname{Overwrites}(p,\ b) \\[0.16em]
-\operatorname{Overwrites}(p,\ b)\ \Leftrightarrow \ \exists \ \mathsf{fs},\ \omega ,\ \omega '.\ \operatorname{FSWriteFile}(\mathsf{fs},\ p,\ b,\ \omega )\ \Downarrow \ (\mathsf{ok},\ \omega ')
+\operatorname{Overwrites}(p,\ b)\ \Leftrightarrow \ \exists \ \mathsf{io},\ \omega ,\ \omega '.\ \operatorname{IOWriteFile}(\mathsf{io},\ p,\ b,\ \omega )\ \Downarrow \ (\mathsf{ok},\ \omega ')
 \end{array}
 $$
 
@@ -327,8 +327,8 @@ $$
 $$
 \begin{array}{l}
 \operatorname{EnsureDir}(p)\ \Downarrow \ \mathsf{ok}\ \Rightarrow \ \operatorname{IsDir}(p) \\[0.16em]
-\operatorname{IsDir}(p)\ \Leftrightarrow \ \exists \ \mathsf{fs},\ \omega ,\ \omega '.\ \operatorname{FSKind}(\mathsf{fs},\ p,\ \omega )\ \Downarrow \ (\texttt{Dir},\ \omega ') \\[0.16em]
-\operatorname{IsFile}(p)\ \Leftrightarrow \ \operatorname{FSKind}(p)\ =\ \mathsf{File}
+\operatorname{IsDir}(p)\ \Leftrightarrow \ \exists \ \mathsf{io},\ \omega ,\ \omega '.\ \operatorname{IOKind}(\mathsf{io},\ p,\ \omega )\ \Downarrow \ (\texttt{Dir},\ \omega ') \\[0.16em]
+\operatorname{IsFile}(p)\ \Leftrightarrow \ \operatorname{IOKind}(p)\ =\ \mathsf{File}
 \end{array}
 $$
 

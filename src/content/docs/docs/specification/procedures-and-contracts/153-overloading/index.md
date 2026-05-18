@@ -2,16 +2,16 @@
 title: "15.3 Overloading"
 description: "15.3 Overloading from 15. Procedures and Contracts of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "procedures-and-contracts"
 specSection: "153-overloading"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -76,6 +76,12 @@ For a free call whose callee names an overload set `O`:
 8. If multiple candidates remain after all preference stages, the call is ill-formed with `E-SEM-3030`.
 
 Two visible overloads with the same name MUST NOT have identical parameter-mode/type signatures after generic-parameter erasure. Such a declaration set is ill-formed with `E-SEM-3032`.
+
+`ResolvedCallee(call)` is the declaration id selected by overload resolution,
+including the selected generic substitution when the selected declaration is generic.
+Lowering receives that declaration id and calls `Mangle(selected_decl)` or the
+export-specific link-name rules for that declaration. ABI-facing names are outputs of
+the selected declaration and are not inputs to overload resolution.
 
 ### 15.3.5 Dynamic Semantics
 

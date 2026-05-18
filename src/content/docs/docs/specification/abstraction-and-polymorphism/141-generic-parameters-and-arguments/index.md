@@ -2,16 +2,16 @@
 title: "14.1 Generic Parameters and Arguments"
 description: "14.1 Generic Parameters and Arguments from 14. Abstraction and Polymorphism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "abstraction-and-polymorphism"
 specSection: "141-generic-parameters-and-arguments"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -301,6 +301,10 @@ $$
 \mathsf{GenericArgs}\ =\ [\mathsf{Type}]
 \end{array}
 $$
+
+User-declared generic parameters default to invariant variance. Built-in types with
+dedicated subtyping rules, including `Async`, define their variance through those
+rules rather than through user-visible variance syntax.
 
 $$
 \begin{array}{l}

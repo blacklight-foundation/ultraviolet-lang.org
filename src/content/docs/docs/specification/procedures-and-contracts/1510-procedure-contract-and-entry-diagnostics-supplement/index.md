@@ -2,16 +2,16 @@
 title: "15.10 Procedure, Contract, and Entry Diagnostics Supplement"
 description: "15.10 Procedure, Contract, and Entry Diagnostics Supplement from 15. Procedures and Contracts of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "procedures-and-contracts"
 specSection: "1510-procedure-contract-and-entry-diagnostics-supplement"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -26,6 +26,7 @@ This section owns diagnostics for procedure declarations, receiver constraints, 
 | Code         | Severity | Detection    | Condition                                                                          |
 | ------------ | -------- | ------------ | ---------------------------------------------------------------------------------- |
 | `E-TYP-1507` | Error    | Compile-time | Procedure with non-unit return type requires explicit return statement             |
+| `E-TYP-1508` | Error    | Compile-time | Procedure declaration requires explicit return type annotation                     |
 | `E-TYP-1912` | Error    | Compile-time | Explicit receiver type must be `Self` for record methods                           |
 | `E-MOD-2411` | Error    | Compile-time | Missing move expression at call site for transferring provenance-bearing parameter |
 | `E-MOD-2430` | Error    | Compile-time | Multiple `main` procedures defined                                                 |
@@ -42,6 +43,7 @@ This section owns diagnostics for procedure declarations, receiver constraints, 
 | `E-SEM-2805` | Error    | Compile-time | `@entry()` result type not `BitcopyType`                                           |
 | `E-SEM-2806` | Error    | Compile-time | `@result` used outside postcondition                                               |
 | `E-SEM-2807` | Error    | Compile-time | `@entry()` references parameter whose value is unavailable after binding           |
+| `E-SEM-2808` | Error    | Compile-time | Contract predicate must have type `bool`                                           |
 | `E-SEM-2820` | Error    | Compile-time | Type invariant violated at construction                                            |
 | `E-SEM-2821` | Error    | Compile-time | Type invariant violated at public entry                                            |
 | `E-SEM-2822` | Error    | Compile-time | Type invariant violated at mutator return                                          |

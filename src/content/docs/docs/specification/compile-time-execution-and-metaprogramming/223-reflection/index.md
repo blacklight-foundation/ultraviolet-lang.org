@@ -2,16 +2,16 @@
 title: "22.3 Reflection"
 description: "22.3 Reflection from 22. Compile-Time Execution and Metaprogramming of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "compile-time-execution-and-metaprogramming"
 specSection: "223-reflection"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -144,10 +144,10 @@ $$
 \operatorname{PayloadKind}(\operatorname{RecordPayload}(\_))\ =\ \texttt{"record"} \\[0.16em]
 \operatorname{PayloadTypesOpt}(\bot )\ =\ [] \\[0.16em]
 \operatorname{PayloadTypesOpt}(\operatorname{TuplePayload}(\mathsf{ts}))\ =\ \mathsf{ts} \\[0.16em]
-\operatorname{PayloadTypesOpt}(\operatorname{RecordPayload}(\mathsf{fs}))\ =\ [T\ \mid \ \langle f,\ T\rangle \ \in \ \mathsf{fs}] \\[0.16em]
+\operatorname{PayloadTypesOpt}(\operatorname{RecordPayload}(\mathsf{io}))\ =\ [T\ \mid \ \langle f,\ T\rangle \ \in \ \mathsf{io}] \\[0.16em]
 \operatorname{PayloadFieldNames}(\bot )\ =\ [] \\[0.16em]
 \operatorname{PayloadFieldNames}(\operatorname{TuplePayload}(\_))\ =\ [] \\[0.16em]
-\operatorname{PayloadFieldNames}(\operatorname{RecordPayload}(\mathsf{fs}))\ =\ [f\ \mid \ \langle f,\ \_\rangle \ \in \ \mathsf{fs}] \\[0.16em]
+\operatorname{PayloadFieldNames}(\operatorname{RecordPayload}(\mathsf{io}))\ =\ [f\ \mid \ \langle f,\ \_\rangle \ \in \ \mathsf{io}] \\[0.16em]
 \operatorname{TypeModulePath}(\operatorname{TypePath}(p))\ =\ \mathsf{mp}\quad \mathsf{if}\ \operatorname{SplitLast}(p)\ =\ (\mathsf{mp},\ \_) \\[0.16em]
 \operatorname{TypeModulePath}(T)\ =\ []\quad \mathsf{otherwise}
 \end{array}

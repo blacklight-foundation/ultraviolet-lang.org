@@ -2,16 +2,16 @@
 title: "15.4 Contract Clauses"
 description: "15.4 Contract Clauses from 15. Procedures and Contracts of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "procedures-and-contracts"
 specSection: "154-contract-clauses"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -318,11 +318,16 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ComptimeProc}(f)\quad \Gamma \ \vdash \ e_{1}\ \mathsf{pure}\quad \ldots \quad \Gamma \ \vdash \ e_{n}\ \mathsf{pure} \\[0.16em]
+\operatorname{ComptimeProc}(f)\quad \Gamma \ \vdash \ e_{1}\ \mathsf{pure}\quad \ldots \quad \Gamma \ \vdash \ e_{n}\ \mathsf{pure}\quad \forall \ T\ \in \ \operatorname{ArgTypes}(f)\ \cup \ \{\operatorname{ReturnType}(f)\}.\ \operatorname{CtAvail}(T) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{CallExpr}(f,\ [e_{1},\ \ldots ,\ e_{n}])\ \mathsf{pure}
 \end{array}
 $$
+
+Contract predicate checking is a static verification context. Pure compile-time
+procedures may be evaluated in contract predicates when their argument and result
+types are valid for compile-time evaluation and the final predicate has type `bool`.
+Such calls are absent from runtime item lowering.
 
 **Helper Predicates**
 

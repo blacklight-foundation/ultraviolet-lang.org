@@ -2,16 +2,16 @@
 title: "9.6 Source-Native Test Attributes"
 description: "9.6 Source-Native Test Attributes from 9. Attributes and Metadata of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "attributes-and-metadata"
 specSection: "96-source-native-test-attributes"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,7 +24,7 @@ generated: true
 ### 9.6.1 Syntax
 
 ```text
-test_attribute      ::= "[[" "test" ("(" test_attribute_args ")")? "]]"
+test_attribute      ::= attr_open "test" ("(" test_attribute_args ")")? attr_close
 test_attribute_args ::= test_attribute_arg ("," test_attribute_arg)*
 test_attribute_arg  ::= "name" ":" string_literal
                       | "covers" "(" string_literal ")"
@@ -78,9 +78,9 @@ A `[[test]]` procedure MUST:
 4. have an explicit return type;
 5. have a contract clause containing a postcondition;
 6. have either no parameters or exactly one parameter whose type is the
-   toolchain-provided `TestContext` type.
+   toolchain-provided `TestAuthority` type.
 
-The `TestContext` parameter is the only runner-injected value. It carries the
+The `TestAuthority` parameter is the only runner-injected value. It carries the
 filesystem, process, temporary-directory, target-profile, and compiler-invocation
 authority needed by effectful compiler tests.
 
@@ -179,7 +179,7 @@ stable test identity. `name: "..."` is a display label.
 | `E-TST-0102` | Error    | Compile-time | Duplicate `[[test]]` name argument               |
 | `E-TST-0103` | Error    | Compile-time | Malformed `covers(...)` argument                 |
 | `E-TST-0104` | Error    | Compile-time | Invalid `[[test]]` procedure shape               |
-| `E-TST-0105` | Error    | Compile-time | Invalid `TestContext` parameter                  |
+| `E-TST-0105` | Error    | Compile-time | Invalid `TestAuthority` parameter                  |
 | `E-TST-0106` | Error    | Compile-time | `[[test]]` procedure missing postcondition       |
 | `E-TST-0107` | Error    | Compile-time | Unknown audit coverage reference                 |
 | `E-TST-0108` | Error    | Compile-time | Unknown `uv test` target                         |

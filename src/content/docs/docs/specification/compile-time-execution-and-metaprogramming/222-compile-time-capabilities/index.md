@@ -2,16 +2,16 @@
 title: "22.2 Compile-Time Capabilities"
 description: "22.2 Compile-Time Capabilities from 22. Compile-Time Execution and Metaprogramming of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "compile-time-execution-and-metaprogramming"
 specSection: "222-compile-time-capabilities"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -186,10 +186,10 @@ $$
 \operatorname{CtUserErrorDiag}(\Xi ,\ \mathsf{msg})\ =\ d\ \Leftrightarrow \ \operatorname{CtSiteOf}(\Xi )\ =\ \langle \_,\ \_,\ \mathsf{sp}\rangle \ \land \ d\ =\ \langle \texttt{E-CTE-0070},\ \mathsf{Error},\ \mathsf{msg},\ \mathsf{sp}\rangle  \\[0.16em]
 \operatorname{CtUserWarningDiag}(\Xi ,\ \mathsf{msg})\ =\ d\ \Leftrightarrow \ \operatorname{CtSiteOf}(\Xi )\ =\ \langle \_,\ \_,\ \mathsf{sp}\rangle \ \land \ d\ =\ \langle \texttt{W-CTE-0071},\ \mathsf{Warning},\ \mathsf{msg},\ \mathsf{sp}\rangle  \\[0.16em]
 \operatorname{CtUserNoteDiag}(\Xi ,\ \mathsf{msg})\ =\ d\ \Leftrightarrow \ \operatorname{CtSiteOf}(\Xi )\ =\ \langle \_,\ \_,\ \mathsf{sp}\rangle \ \land \ d\ =\ \langle \bot ,\ \mathsf{Note},\ \mathsf{msg},\ \mathsf{sp}\rangle  \\[0.16em]
-\operatorname{CtListDirResult}(\mathsf{fs},\ q)\ =\ \operatorname{CtSlice}([\operatorname{CtString}(\mathsf{entry}.\mathsf{name})\ \mid \ \mathsf{entry}\ \in \ \mathsf{entries}])\ \Leftrightarrow \ \exists \ \omega .\ \operatorname{DirEntries}(\mathsf{fs},\ q,\ \omega )\ =\ \mathsf{entries} \\[0.16em]
-\operatorname{CtListDirResult}(\mathsf{fs},\ q)\ =\ \operatorname{CtEnum}([\texttt{IoError}],\ \operatorname{IoErrorVariant}(r),\ \bot )\ \Leftrightarrow \ \operatorname{FSOpenDir}(\mathsf{fs},\ q)\ \Downarrow \ r\ \land \ r\ \in \ \mathsf{IoError} \\[0.16em]
-\operatorname{CtExistsResult}(\mathsf{fs},\ q)\ =\ \operatorname{CtPrim}(b)\ \Leftrightarrow \ \operatorname{FSExists}(\mathsf{fs},\ q)\ \Downarrow \ b\ \land \ b\ \in \ \mathsf{Bool} \\[0.16em]
-\operatorname{CtExistsResult}(\mathsf{fs},\ q)\ =\ \operatorname{CtEnum}([\texttt{IoError}],\ \operatorname{IoErrorVariant}(r),\ \bot )\ \Leftrightarrow \ \operatorname{FSExists}(\mathsf{fs},\ q)\ \Downarrow \ r\ \land \ r\ \in \ \mathsf{IoError}
+\operatorname{CtListDirResult}(\mathsf{io},\ q)\ =\ \operatorname{CtSlice}([\operatorname{CtString}(\mathsf{entry}.\mathsf{name})\ \mid \ \mathsf{entry}\ \in \ \mathsf{entries}])\ \Leftrightarrow \ \exists \ \omega .\ \operatorname{DirEntries}(\mathsf{io},\ q,\ \omega )\ =\ \mathsf{entries} \\[0.16em]
+\operatorname{CtListDirResult}(\mathsf{io},\ q)\ =\ \operatorname{CtEnum}([\texttt{IoError}],\ \operatorname{IoErrorVariant}(r),\ \bot )\ \Leftrightarrow \ \operatorname{IOOpenDir}(\mathsf{io},\ q)\ \Downarrow \ r\ \land \ r\ \in \ \mathsf{IoError} \\[0.16em]
+\operatorname{CtExistsResult}(\mathsf{io},\ q)\ =\ \operatorname{CtPrim}(b)\ \Leftrightarrow \ \operatorname{IOExists}(\mathsf{io},\ q)\ \Downarrow \ b\ \land \ b\ \in \ \mathsf{Bool} \\[0.16em]
+\operatorname{CtExistsResult}(\mathsf{io},\ q)\ =\ \operatorname{CtEnum}([\texttt{IoError}],\ \operatorname{IoErrorVariant}(r),\ \bot )\ \Leftrightarrow \ \operatorname{IOExists}(\mathsf{io},\ q)\ \Downarrow \ r\ \land \ r\ \in \ \mathsf{IoError}
 \end{array}
 $$
 
@@ -217,7 +217,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{owner}\ =\ \texttt{files}\quad \mathsf{name}\ =\ \texttt{read}\quad \mathsf{args}\ =\ [\operatorname{CtString}(\mathsf{path})]\quad \operatorname{CtProjectPath}(\Phi ,\ \mathsf{path})\ =\ q\quad \operatorname{FSReadFile}(\operatorname{CtFiles}(\Phi ),\ q)\ \Downarrow \ r \\[0.16em]
+\mathsf{owner}\ =\ \texttt{files}\quad \mathsf{name}\ =\ \texttt{read}\quad \mathsf{args}\ =\ [\operatorname{CtString}(\mathsf{path})]\quad \operatorname{CtProjectPath}(\Phi ,\ \mathsf{path})\ =\ q\quad \operatorname{IOReadFile}(\operatorname{CtFiles}(\Phi ),\ q)\ \Downarrow \ r \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{CtBuiltinCall}(\Xi ,\ \Phi ,\ \mathsf{owner},\ \mathsf{name},\ \mathsf{args})\ \Downarrow \ (\operatorname{CtFileResult}(r,\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeString}(\texttt{@Managed}))),\ \Phi )
 \end{array}
@@ -237,7 +237,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{owner}\ =\ \texttt{files}\quad \mathsf{name}\ =\ \texttt{read\_bytes}\quad \mathsf{args}\ =\ [\operatorname{CtString}(\mathsf{path})]\quad \operatorname{CtProjectPath}(\Phi ,\ \mathsf{path})\ =\ q\quad \operatorname{FSReadBytes}(\operatorname{CtFiles}(\Phi ),\ q)\ \Downarrow \ r \\[0.16em]
+\mathsf{owner}\ =\ \texttt{files}\quad \mathsf{name}\ =\ \texttt{read\_bytes}\quad \mathsf{args}\ =\ [\operatorname{CtString}(\mathsf{path})]\quad \operatorname{CtProjectPath}(\Phi ,\ \mathsf{path})\ =\ q\quad \operatorname{IOReadBytes}(\operatorname{CtFiles}(\Phi ),\ q)\ \Downarrow \ r \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{CtBuiltinCall}(\Xi ,\ \Phi ,\ \mathsf{owner},\ \mathsf{name},\ \mathsf{args})\ \Downarrow \ (\operatorname{CtFileResult}(r,\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeBytes}(\texttt{@Managed}))),\ \Phi )
 \end{array}
@@ -343,7 +343,7 @@ $$
 \end{array}
 $$
 
-Project-file reads MUST observe the `CtFiles(Φ)` snapshot captured at the start of Phase 2. Host writes during compilation MUST NOT change the values returned by `FSReadFile`, `FSReadBytes`, `FSExists`, or `DirEntries` through that snapshot for the same restricted path.
+Project-file reads MUST observe the `CtFiles(Φ)` snapshot captured at the start of Phase 2. Host writes during compilation MUST NOT change the values returned by `IOReadFile`, `IOReadBytes`, `IOExists`, or `DirEntries` through that snapshot for the same restricted path.
 
 ### 22.2.6 Lowering
 

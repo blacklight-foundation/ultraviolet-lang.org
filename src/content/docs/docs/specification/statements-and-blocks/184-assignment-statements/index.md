@@ -2,16 +2,16 @@
 title: "18.4 Assignment Statements"
 description: "18.4 Assignment Statements from 18. Statements and Blocks of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "statements-and-blocks"
 specSection: "184-assignment-statements"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -87,6 +87,15 @@ $$
 \end{array}
 $$
 
+Direct mutation of a `shared` place is valid when Chapter 19 can form a valid
+
+$$
+\texttt{KeyPath(p)}\ \mathsf{with}\ \texttt{RequiredMode(p) = Write}\ \mathsf{and}\ \mathsf{no}\ \mathsf{key}\ \mathsf{scope},\ \mathsf{escape},\ \mathsf{or}\ \mathsf{conflict}
+$$
+rule forbids the access. If no covering write key is already held, the assignment
+implicitly acquires a write key through the ordinary access rules in §19.1.6.
+`E-TYP-1604` applies only when no valid key-mediated write context can be formed.
+
 **(T-CompoundAssign)**
 
 $$
@@ -127,17 +136,12 @@ $$
 \end{array}
 $$
 
-**(Assign-Const-Err)**
+Assignment and compound assignment targets with effective `const` permission
+are rejected by §10.4.7 Permission Admissibility.
+The reported diagnostic is `E-TYP-1601` for both root places and subplaces.
+Binding restrictions remain owned by the binding-state rules.
 
-$$
-\begin{array}{l}
-\mathsf{stmt}\ \in \ \{\operatorname{AssignStmt}(p,\ e),\ \operatorname{CompoundAssignStmt}(p,\ \mathsf{op},\ e)\}\quad \Gamma ;\ R;\ L\ \vdash \ p\ :\ \operatorname{TypePerm}(\texttt{const},\ T)\quad c\ =\ \operatorname{Code}(\mathsf{Assign}-\mathsf{Const}-\mathsf{Err}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{stmt}\ \Uparrow \ c
-\end{array}
-$$
-
-**(B-Assign-Immutable-Err)**, **(B-Assign)**, and **(B-Assign-Const-Err)** define binding-state effects of assignment.
+**(B-Assign-Immutable-Err)** and **(B-Assign)** define binding-state effects of assignment.
 
 **(Prov-Assign)** and **(Prov-CompoundAssign)** require the assigned provenance not to escape into a shorter-lived target.
 
@@ -247,4 +251,4 @@ $$
 
 ### 18.4.7 Diagnostics
 
-Diagnostics are defined for non-place assignment targets, assignment to immutable bindings, assignment through `const`, assignment type mismatch, and provenance escapes in assignment.
+Diagnostics are defined for non-place assignment targets, assignment to immutable bindings, assignment type mismatch, and provenance escapes in assignment. Permission-qualified assignment failures are covered by §10.4.7 Permission Admissibility.

@@ -2,16 +2,16 @@
 title: "24.6 Runtime Interface"
 description: "24.6 Runtime Interface from 24. Common Lowering, Program Lifecycle, and Backend of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "common-lowering-program-lifecycle-and-backend"
 specSection: "246-runtime-interface"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -91,147 +91,147 @@ $$
 \end{array}
 $$
 
-**(BuiltinSym-FileSystem-OpenRead)**
+**(BuiltinSym-IO-OpenRead)**
 
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{FileSystem::open\_read})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"fs"},\ \texttt{"open\_read"}])
+\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{IO::open\_read})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"io"},\ \texttt{"open\_read"}])
 \end{array}
 $$
 
-**(BuiltinSym-FileSystem-OpenWrite)**
+**(BuiltinSym-IO-OpenWrite)**
 
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{FileSystem::open\_write})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"fs"},\ \texttt{"open\_write"}])
+\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{IO::open\_write})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"io"},\ \texttt{"open\_write"}])
 \end{array}
 $$
 
-**(BuiltinSym-FileSystem-OpenAppend)**
+**(BuiltinSym-IO-OpenAppend)**
 
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{FileSystem::open\_append})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"fs"},\ \texttt{"open\_append"}])
+\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{IO::open\_append})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"io"},\ \texttt{"open\_append"}])
 \end{array}
 $$
 
-**(BuiltinSym-FileSystem-CreateWrite)**
+**(BuiltinSym-IO-CreateWrite)**
 
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{FileSystem::create\_write})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"fs"},\ \texttt{"create\_write"}])
+\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{IO::create\_write})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"io"},\ \texttt{"create\_write"}])
 \end{array}
 $$
 
-**(BuiltinSym-FileSystem-ReadFile)**
+**(BuiltinSym-IO-ReadFile)**
 
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{FileSystem::read\_file})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"fs"},\ \texttt{"read\_file"}])
+\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{IO::read\_file})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"io"},\ \texttt{"read\_file"}])
 \end{array}
 $$
 
-**(BuiltinSym-FileSystem-ReadBytes)**
+**(BuiltinSym-IO-ReadBytes)**
 
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{FileSystem::read\_bytes})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"fs"},\ \texttt{"read\_bytes"}])
+\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{IO::read\_bytes})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"io"},\ \texttt{"read\_bytes"}])
 \end{array}
 $$
 
-**(BuiltinSym-FileSystem-WriteFile)**
+**(BuiltinSym-IO-WriteFile)**
 
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{FileSystem::write\_file})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"fs"},\ \texttt{"write\_file"}])
+\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{IO::write\_file})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"io"},\ \texttt{"write\_file"}])
 \end{array}
 $$
 
-**(BuiltinSym-FileSystem-WriteStdout)**
+**(BuiltinSym-IO-WriteStdout)**
 
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{FileSystem::write\_stdout})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"fs"},\ \texttt{"write\_stdout"}])
+\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{IO::write\_stdout})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"io"},\ \texttt{"write\_stdout"}])
 \end{array}
 $$
 
-**(BuiltinSym-FileSystem-WriteStderr)**
+**(BuiltinSym-IO-WriteStderr)**
 
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{FileSystem::write\_stderr})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"fs"},\ \texttt{"write\_stderr"}])
+\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{IO::write\_stderr})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"io"},\ \texttt{"write\_stderr"}])
 \end{array}
 $$
 
-**(BuiltinSym-FileSystem-Exists)**
+**(BuiltinSym-IO-Exists)**
 
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{FileSystem::exists})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"fs"},\ \texttt{"exists"}])
+\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{IO::exists})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"io"},\ \texttt{"exists"}])
 \end{array}
 $$
 
-**(BuiltinSym-FileSystem-Remove)**
+**(BuiltinSym-IO-Remove)**
 
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{FileSystem::remove})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"fs"},\ \texttt{"remove"}])
+\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{IO::remove})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"io"},\ \texttt{"remove"}])
 \end{array}
 $$
 
-**(BuiltinSym-FileSystem-OpenDir)**
+**(BuiltinSym-IO-OpenDir)**
 
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{FileSystem::open\_dir})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"fs"},\ \texttt{"open\_dir"}])
+\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{IO::open\_dir})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"io"},\ \texttt{"open\_dir"}])
 \end{array}
 $$
 
-**(BuiltinSym-FileSystem-CreateDir)**
+**(BuiltinSym-IO-CreateDir)**
 
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{FileSystem::create\_dir})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"fs"},\ \texttt{"create\_dir"}])
+\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{IO::create\_dir})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"io"},\ \texttt{"create\_dir"}])
 \end{array}
 $$
 
-**(BuiltinSym-FileSystem-EnsureDir)**
+**(BuiltinSym-IO-EnsureDir)**
 
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{FileSystem::ensure\_dir})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"fs"},\ \texttt{"ensure\_dir"}])
+\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{IO::ensure\_dir})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"io"},\ \texttt{"ensure\_dir"}])
 \end{array}
 $$
 
-**(BuiltinSym-FileSystem-Kind)**
+**(BuiltinSym-IO-Kind)**
 
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{FileSystem::kind})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"fs"},\ \texttt{"kind"}])
+\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{IO::kind})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"io"},\ \texttt{"kind"}])
 \end{array}
 $$
 
-**(BuiltinSym-FileSystem-Restrict)**
+**(BuiltinSym-IO-Restrict)**
 
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{FileSystem::restrict})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"fs"},\ \texttt{"restrict"}])
+\Gamma \ \vdash \ \operatorname{BuiltinSym}(\texttt{IO::restrict})\ \Downarrow \ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"io"},\ \texttt{"restrict"}])
 \end{array}
 $$
 
@@ -546,20 +546,20 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{FileSystemBuiltinMethods}\ =\ \{\texttt{FileSystem::open\_read},\ \texttt{FileSystem::open\_write},\ \texttt{FileSystem::open\_append},\ \texttt{FileSystem::create\_write},\ \texttt{FileSystem::read\_file},\ \texttt{FileSystem::read\_bytes},\ \texttt{FileSystem::write\_file},\ \texttt{FileSystem::write\_stdout},\ \texttt{FileSystem::write\_stderr},\ \texttt{FileSystem::exists},\ \texttt{FileSystem::remove},\ \texttt{FileSystem::open\_dir},\ \texttt{FileSystem::create\_dir},\ \texttt{FileSystem::ensure\_dir},\ \texttt{FileSystem::kind},\ \texttt{FileSystem::restrict}\} \\[0.16em]
+\mathsf{IOBuiltinMethods}\ =\ \{\texttt{IO::open\_read},\ \texttt{IO::open\_write},\ \texttt{IO::open\_append},\ \texttt{IO::create\_write},\ \texttt{IO::read\_file},\ \texttt{IO::read\_bytes},\ \texttt{IO::write\_file},\ \texttt{IO::write\_stdout},\ \texttt{IO::write\_stderr},\ \texttt{IO::exists},\ \texttt{IO::remove},\ \texttt{IO::open\_dir},\ \texttt{IO::create\_dir},\ \texttt{IO::ensure\_dir},\ \texttt{IO::kind},\ \texttt{IO::restrict}\} \\[0.16em]
 \mathsf{NetworkBuiltinMethods}\ =\ \{\texttt{Network::restrict\_to\_host}\} \\[0.16em]
 \mathsf{HeapAllocatorBuiltinMethods}\ =\ \{\texttt{HeapAllocator::with\_quota},\ \texttt{HeapAllocator::alloc\_raw},\ \texttt{HeapAllocator::dealloc\_raw}\} \\[0.16em]
 \mathsf{SystemBuiltinMethods}\ =\ \{\texttt{System::name}\ \mid \ \langle \mathsf{name},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{SystemInterface}\} \\[0.16em]
 \mathsf{ReactorBuiltinMethods}\ =\ \{\texttt{Reactor::run},\ \texttt{Reactor::register}\} \\[0.16em]
 \mathsf{TimeBuiltinMethods}\ =\ \{\texttt{Time::monotonic},\ \texttt{Time::wall},\ \texttt{MonotonicTime::now},\ \texttt{MonotonicTime::resolution},\ \texttt{MonotonicTime::elapsed},\ \texttt{MonotonicTime::coarsen},\ \texttt{WallTime::now\_utc},\ \texttt{WallTime::resolution},\ \texttt{WallTime::coarsen}\} \\[0.16em]
-\mathsf{BuiltinMethods}\ =\ \mathsf{StringBuiltins}\ \cup \ \mathsf{BytesBuiltins}\ \cup \ \mathsf{FileSystemBuiltinMethods}\ \cup \ \mathsf{NetworkBuiltinMethods}\ \cup \ \mathsf{HeapAllocatorBuiltinMethods}\ \cup \ \mathsf{SystemBuiltinMethods}\ \cup \ \mathsf{ReactorBuiltinMethods}\ \cup \ \mathsf{TimeBuiltinMethods} \\[0.16em]
+\mathsf{BuiltinMethods}\ =\ \mathsf{StringBuiltins}\ \cup \ \mathsf{BytesBuiltins}\ \cup \ \mathsf{IOBuiltinMethods}\ \cup \ \mathsf{NetworkBuiltinMethods}\ \cup \ \mathsf{HeapAllocatorBuiltinMethods}\ \cup \ \mathsf{SystemBuiltinMethods}\ \cup \ \mathsf{ReactorBuiltinMethods}\ \cup \ \mathsf{TimeBuiltinMethods} \\[0.16em]
 \mathsf{RuntimeSyms}\ =\ \{\mathsf{PanicSym},\ \mathsf{StringDropSym},\ \mathsf{BytesDropSym},\ \mathsf{ContextInitSym}\}\ \cup \ \{\operatorname{BuiltinModalSym}(\mathsf{proc})\ \mid \ \mathsf{proc}\ \in \ \operatorname{dom}(\mathsf{BuiltinModalSymMap})\}\ \cup \ \{\mathsf{RegionAddrIsActiveSym},\ \mathsf{RegionAddrTagFromSym}\}\ \cup \ \{\operatorname{BuiltinSym}(\mathsf{method})\ \mid \ \mathsf{method}\ \in \ \mathsf{BuiltinMethods}\}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{BuiltinSig}(\texttt{FileSystem}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{FileSystem},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{FileSystem}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{FileSystem},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
+\operatorname{BuiltinSig}(\texttt{IO}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{IO},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{IO}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{IO},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
 \operatorname{BuiltinSig}(\texttt{Network}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{Network},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{Network}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{Network},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
 \operatorname{BuiltinSig}(\texttt{HeapAllocator}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{HeapAllocator},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{HeapAllocator}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{HeapAllocator},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
 \operatorname{BuiltinSig}(\texttt{System}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{const},\ \operatorname{TypePath}([\texttt{"System"}]))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{SystemMethodSig}(\mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]

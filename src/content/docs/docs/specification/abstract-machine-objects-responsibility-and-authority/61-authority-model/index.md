@@ -2,16 +2,16 @@
 title: "6.1 Authority Model"
 description: "6.1 Authority Model from 6. Abstract Machine, Objects, Responsibility, and Authority of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "abstract-machine-objects-responsibility-and-authority"
 specSection: "61-authority-model"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -26,7 +26,7 @@ The language adopts a no ambient authority discipline: observable external effec
 ### 6.1.1 Capability Universe
 
 $$
-\mathsf{CapToken}\ =\ \{\mathsf{FileSystem},\ \mathsf{Network},\ \mathsf{HeapAllocator},\ \mathsf{Reactor},\ \mathsf{ExecutionDomain},\ \mathsf{System},\ \mathsf{Time}\}
+\mathsf{CapToken}\ =\ \{\mathsf{IO},\ \mathsf{Network},\ \mathsf{HeapAllocator},\ \mathsf{Reactor},\ \mathsf{ExecutionDomain},\ \mathsf{System},\ \mathsf{Time}\}
 $$
 
 $$
@@ -35,9 +35,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{CapInType}(\operatorname{TypePath}([\texttt{Context}]))\ =\ \{\mathsf{FileSystem},\ \mathsf{Network},\ \mathsf{HeapAllocator},\ \mathsf{Reactor},\ \mathsf{ExecutionDomain},\ \mathsf{System},\ \mathsf{Time}\} \\[0.16em]
+\operatorname{CapInType}(\operatorname{TypePath}([\texttt{Context}]))\ =\ \{\mathsf{IO},\ \mathsf{Network},\ \mathsf{HeapAllocator},\ \mathsf{Reactor},\ \mathsf{ExecutionDomain},\ \mathsf{System},\ \mathsf{Time}\} \\[0.16em]
 \operatorname{CapInType}(\operatorname{TypePath}([\texttt{System}]))\ =\ \{\mathsf{System}\} \\[0.16em]
-\operatorname{CapInType}(\operatorname{TypeDynamic}([\texttt{FileSystem}]))\ =\ \{\mathsf{FileSystem}\} \\[0.16em]
+\operatorname{CapInType}(\operatorname{TypeDynamic}([\texttt{IO}]))\ =\ \{\mathsf{IO}\} \\[0.16em]
 \operatorname{CapInType}(\operatorname{TypeDynamic}([\texttt{Network}]))\ =\ \{\mathsf{Network}\} \\[0.16em]
 \operatorname{CapInType}(\operatorname{TypeDynamic}([\texttt{HeapAllocator}]))\ =\ \{\mathsf{HeapAllocator}\} \\[0.16em]
 \operatorname{CapInType}(\operatorname{TypeDynamic}([\texttt{Reactor}]))\ =\ \{\mathsf{Reactor}\} \\[0.16em]
@@ -75,7 +75,7 @@ For every direct call from `d_src` to `d_tgt`, a conforming implementation MUST 
 ### 6.1.3 Attenuation Requirements
 
 The following operations are attenuation operations:
-- `$FileSystem::restrict(root)`
+- `$IO::restrict(root)`
 - `$Network::restrict_to_host(host)`
 - `$HeapAllocator::with_quota(bytes)`
 - `CancelToken@Active::child()`

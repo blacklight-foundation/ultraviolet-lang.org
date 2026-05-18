@@ -2,16 +2,16 @@
 title: "9.3 Layout Attributes"
 description: "9.3 Layout Attributes from 9. Attributes and Metadata of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "attributes-and-metadata"
 specSection: "93-layout-attributes"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,7 +24,7 @@ generated: true
 ### 9.3.1 Syntax
 
 ```text
-layout_attribute ::= "[[" "layout" "(" layout_args ")" "]]"
+layout_attribute ::= attr_open "layout" "(" layout_args ")" attr_close
 layout_args      ::= layout_kind ("," layout_kind)*
 layout_kind      ::= "C" | "packed" | "align" "(" integer_literal ")" | int_type
 int_type         ::= "i8" | "i16" | "i32" | "i64" | "u8" | "u16" | "u32" | "u64"

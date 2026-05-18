@@ -2,16 +2,16 @@
 title: "22.5 Derive Targets and Contracts"
 description: "22.5 Derive Targets and Contracts from 22. Compile-Time Execution and Metaprogramming of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "compile-time-execution-and-metaprogramming"
 specSection: "225-derive-targets-and-contracts"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,7 +24,7 @@ generated: true
 ### 22.5.1 Syntax
 
 ```text
-derive_attribute    ::= "[[" "derive" "(" derive_target_list ")" "]]"
+derive_attribute    ::= attr_open "derive" "(" derive_target_list ")" attr_close
 derive_target_list  ::= identifier ("," identifier)*
 derive_target_decl  ::= "derive" "target" identifier "(" "target" ":" "Type" ")" derive_contract_opt block_expr
 derive_contract_opt ::= "|:" derive_clause ("," derive_clause)*

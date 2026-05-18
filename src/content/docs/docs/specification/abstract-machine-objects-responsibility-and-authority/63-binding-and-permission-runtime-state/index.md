@@ -2,16 +2,16 @@
 title: "6.3 Binding and Permission Runtime State"
 description: "6.3 Binding and Permission Runtime State from 6. Abstract Machine, Objects, Responsibility, and Authority of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "abstract-machine-objects-responsibility-and-authority"
 specSection: "63-binding-and-permission-runtime-state"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -301,7 +301,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{Prefixes}([])\ =\ [[]] \\[0.16em]
-\operatorname{Prefixes}([f]\ \mathbin{++} \ \mathsf{fs})\ =\ [[]]\ \cup \ \{\ [f]\ \mathbin{++} \ p\ \mid \ p\ \in \ \operatorname{Prefixes}(\mathsf{fs})\ \} \\[0.16em]
+\operatorname{Prefixes}([f]\ \mathbin{++} \ \mathsf{io})\ =\ [[]]\ \cup \ \{\ [f]\ \mathbin{++} \ p\ \mid \ p\ \in \ \operatorname{Prefixes}(\mathsf{io})\ \} \\[0.16em]
 \operatorname{AncPaths}(p)\ =\ \{\ (\operatorname{PlaceRoot}(p),\ \mathsf{fp})\ \mid \ \mathsf{fp}\ \in \ \operatorname{Prefixes}(\operatorname{FieldPathOf}(p))\ \} \\[0.16em]
 \operatorname{AccessPathOk}(\Pi ,\ p)\ \Leftrightarrow \ \forall \ k\ \in \ \operatorname{AncPaths}(p).\ \mathsf{Lookup}\_\Pi (\Pi ,\ k)\ =\ \mathsf{Active} \\[0.16em]
 \operatorname{SuspendUniquePath}(\Pi ,\ \mathsf{mode},\ p)\ = \\[0.16em]
@@ -312,10 +312,12 @@ $$
 \quad \Pi \quad \mathsf{otherwise}\ \} \\[0.16em]
 \operatorname{RemoveKeys}(\sigma ,\ D)\ =\ \{\ k\ \mapsto \ \sigma [k]\ \mid \ k\ \in \ \operatorname{dom}(\sigma )\ \land \ k\ \notin \ D\ \} \\[0.16em]
 \operatorname{Reactivate}([\sigma ]\ \mathbin{++} \ \Pi ',\ D)\ =\ [\operatorname{RemoveKeys}(\sigma ,\ D)]\ \mathbin{++} \ \Pi ' \\[0.16em]
-\operatorname{ArgPassExpr}(\mathsf{mode},\ \mathsf{moved},\ e)\ = \\[0.16em]
-\ \{\ \operatorname{MovedArg}(\mathsf{moved},\ e)\quad \mathsf{if}\ \mathsf{mode}\ =\ \texttt{move}\ \land \ \mathsf{moved}\ =\ \mathsf{true} \\[0.16em]
-\quad \operatorname{MovedArg}(\mathsf{true},\ \operatorname{CallTemp}(e))\ \mathsf{if}\ \mathsf{mode}\ =\ \texttt{move}\ \land \ \mathsf{moved}\ =\ \mathsf{false}\ \land \ \lnot \ \operatorname{HasSourceProvenance}(e) \\[0.16em]
-\quad \operatorname{RefArgExpr}(e)\quad \mathsf{if}\ \mathsf{mode}\ =\ \bot \ \land \ \mathsf{moved}\ =\ \mathsf{false} \\[0.16em]
+\mathsf{ArgPassKind}\ =\ \{\texttt{ref},\ \texttt{move},\ \texttt{copy}\} \\[0.16em]
+\operatorname{ArgPassExpr}(\mathsf{mode},\ \mathsf{pass},\ e)\ = \\[0.16em]
+\ \{\ \operatorname{MoveArgExpr}(e)\quad \mathsf{if}\ \mathsf{mode}\ =\ \texttt{move}\ \land \ \mathsf{pass}\ =\ \texttt{move} \\[0.16em]
+\quad \operatorname{CopyArgExpr}(e)\quad \mathsf{if}\ \mathsf{pass}\ =\ \texttt{copy} \\[0.16em]
+\quad \operatorname{MoveArgExpr}(\operatorname{CallTemp}(e))\ \mathsf{if}\ \mathsf{mode}\ =\ \texttt{move}\ \land \ \mathsf{pass}\ =\ \texttt{ref}\ \land \ \lnot \ \operatorname{HasSourceProvenance}(e) \\[0.16em]
+\quad \operatorname{RefArgExpr}(e)\quad \mathsf{if}\ \mathsf{mode}\ =\ \bot \ \land \ \mathsf{pass}\ =\ \texttt{ref} \\[0.16em]
 \quad e\quad \mathsf{otherwise}\ \}
 \end{array}
 $$
@@ -362,9 +364,17 @@ $$
 
 $$
 \begin{array}{l}
+\operatorname{IsCopyExpr}(\operatorname{CopyExpr}(\_))\ =\ \mathsf{true} \\[0.16em]
+\operatorname{IsCopyExpr}(\_)\ =\ \mathsf{false}
+\end{array}
+$$
+
+$$
+\begin{array}{l}
 \operatorname{RespOfInit}(\mathsf{init})\ = \\[0.16em]
 \ \{\ \mathsf{resp}\quad \mathsf{if}\ \lnot \ \operatorname{IsPlace}(\mathsf{init}) \\[0.16em]
 \quad \mathsf{resp}\quad \mathsf{if}\ \operatorname{IsMoveExpr}(\mathsf{init}) \\[0.16em]
+\quad \mathsf{resp}\quad \mathsf{if}\ \operatorname{IsCopyExpr}(\mathsf{init}) \\[0.16em]
 \quad \mathsf{alias}\ \mathsf{otherwise}\ \}
 \end{array}
 $$
@@ -577,7 +587,10 @@ $$
 $$
 
 $$
-\operatorname{MoveInner}(\operatorname{MoveExpr}(p))\ =\ p
+\begin{array}{l}
+\operatorname{MoveInner}(\operatorname{MoveExpr}(p))\ =\ p \\[0.16em]
+\operatorname{CopyInner}(\operatorname{CopyExpr}(e))\ =\ e
+\end{array}
 $$
 
 $$

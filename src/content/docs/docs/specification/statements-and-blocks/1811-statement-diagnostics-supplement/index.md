@@ -2,16 +2,16 @@
 title: "18.11 Statement Diagnostics Supplement"
 description: "18.11 Statement Diagnostics Supplement from 18. Statements and Blocks of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "statements-and-blocks"
 specSection: "1811-statement-diagnostics-supplement"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -29,7 +29,6 @@ This section owns diagnostics for statement typing, method placement, assignment
 | `E-SEM-3011` | Error    | Compile-time | Method defined outside of type context      |
 | `E-SEM-3012` | Error    | Compile-time | Duplicate method name in type               |
 | `E-SEM-3131` | Error    | Compile-time | Assignment target is not a place expression |
-| `E-SEM-3132` | Error    | Compile-time | Assignment through `const` permission       |
 | `E-SEM-3133` | Error    | Compile-time | Assignment type mismatch                    |
 | `E-SEM-3151` | Error    | Compile-time | Defer block has non-unit type               |
 | `E-SEM-3152` | Error    | Compile-time | Non-local control flow in defer block       |
@@ -37,3 +36,5 @@ This section owns diagnostics for statement typing, method placement, assignment
 | `E-SEM-3162` | Error    | Compile-time | `break` outside `loop`                      |
 | `E-SEM-3163` | Error    | Compile-time | `continue` outside `loop`                   |
 | `E-SEM-3165` | Error    | Compile-time | `return` at module scope                    |
+
+Const permission assignment diagnostics are owned by §10.4.7 Permission Admissibility.

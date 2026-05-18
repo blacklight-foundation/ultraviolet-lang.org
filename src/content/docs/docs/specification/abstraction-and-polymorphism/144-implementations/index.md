@@ -2,16 +2,16 @@
 title: "14.4 Implementations"
 description: "14.4 Implementations from 14. Abstraction and Polymorphism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "abstraction-and-polymorphism"
 specSection: "144-implementations"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -307,6 +307,11 @@ $$
 A class with abstract states may be implemented only by a modal type.
 A type MUST NOT implement the same class more than once.
 For every implementation `T <: Cl`, at least one of the implementing declaration `T` or the referenced class `Cl` MUST be defined in the current assembly.
+Source-level implementation evidence is owned by the implementing record, enum, or
+modal declaration. Accepted source evidence for imported classes uses local
+implementing types. If imported project metadata presents an implementation relation
+owned by an assembly where both `T` and `Cl` are foreign to the current assembly,
+the implementation is rejected with `Impl-Orphan-Err`.
 
 ### 14.4.5 Dynamic Semantics
 

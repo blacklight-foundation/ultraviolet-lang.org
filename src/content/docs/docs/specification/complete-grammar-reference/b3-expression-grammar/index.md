@@ -2,16 +2,16 @@
 title: "B.3 Expression Grammar"
 description: "B.3 Expression Grammar from Appendix B. Complete Grammar Reference of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "complete-grammar-reference"
 specSection: "b3-expression-grammar"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -78,7 +78,7 @@ variant_args        ::= "(" expression_list ")" | "{" field_init_list "}"
 
 call_expr     ::= postfix_expr "(" argument_list? ")"
 argument_list ::= argument ("," argument)* ","?
-argument      ::= "move"? expression
+argument      ::= ("move" | "copy")? expression
 method_call   ::= postfix_expr "~>" identifier "(" argument_list? ")"
 static_call   ::= type_path "::" identifier "(" argument_list? ")"
 
@@ -103,6 +103,7 @@ loop_invariant ::= "|:" "{" predicate_expr "}"
 block_expr ::= "{" statement* expression? "}"
 
 move_expr        ::= "move" place_expr
+copy_expr        ::= "copy" unary_expr
 widen_expr       ::= "widen" unary_expr
 try_expr         ::= postfix_expr "?"
 address_of_expr  ::= "&" place_expr

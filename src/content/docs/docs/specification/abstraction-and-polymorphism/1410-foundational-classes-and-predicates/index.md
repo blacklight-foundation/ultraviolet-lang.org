@@ -2,16 +2,16 @@
 title: "14.10 Foundational Classes and Predicates"
 description: "14.10 Foundational Classes and Predicates from 14. Abstraction and Polymorphism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "abstraction-and-polymorphism"
 specSection: "1410-foundational-classes-and-predicates"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -166,7 +166,11 @@ $$
 
 ### 14.10.5 Dynamic Semantics
 
-`drop` is invoked implicitly by scope exit when `DropType(T)` holds. `clone` on a `BitcopyType` value is equivalent to the implicit bitwise duplication already permitted by that predicate.
+Scope exit runs the cleanup actions for bindings that still own their provenance/allocation domain. A moved-out binding has transferred that domain and is skipped at its original scope exit. At the final owning scope exit, `drop` is invoked when `DropType(T)` holds, owned children are cleaned in reverse construction order, and the provenance/allocation domain is released. For types without `drop`, no type-specific destructor is invoked; domain release still occurs, and cleanup is a no-op when the value has no owned children and no domain storage to release.
+
+`copy e` is the explicit object-duplication operation. It requires `BitcopyType(ExprType(e))`, duplicates the object bits, and materializes a fresh provenance/allocation domain for the duplicate. The original value and its cleanup responsibility remain with the original owner.
+
+`clone` on a `BitcopyType` value is equivalent to `copy` for the value-level duplication it performs.
 
 `Hasher` maintains an internal `u64` state. `write` appends bytes to the input stream. `finish` returns the FNV-1a 64-bit hash of the concatenated byte stream using `FNVOffset64` and `FNVPrime64`.
 

@@ -2,16 +2,16 @@
 title: "7.7 Shared Resolution Helpers and Resolution Pass"
 description: "7.7 Shared Resolution Helpers and Resolution Pass from 7. Name Resolution and Visibility of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "name-resolution-and-visibility"
 specSection: "77-shared-resolution-helpers-and-resolution-pass"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -316,9 +316,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{tp})\ \Downarrow \ \mathsf{tp}'\quad \Gamma \ \vdash \ \operatorname{ResolveFieldPatternList}(\mathsf{fs})\ \Downarrow \ \mathsf{fs}' \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{tp})\ \Downarrow \ \mathsf{tp}'\quad \Gamma \ \vdash \ \operatorname{ResolveFieldPatternList}(\mathsf{io})\ \Downarrow \ \mathsf{io}' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolvePattern}(\operatorname{RecordPattern}(\mathsf{tp},\ \mathsf{fs}))\ \Downarrow \ \operatorname{RecordPattern}(\mathsf{tp}',\ \mathsf{fs}')
+\Gamma \ \vdash \ \operatorname{ResolvePattern}(\operatorname{RecordPattern}(\mathsf{tp},\ \mathsf{io}))\ \Downarrow \ \operatorname{RecordPattern}(\mathsf{tp}',\ \mathsf{io}')
 \end{array}
 $$
 
@@ -392,9 +392,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ResolveFieldPattern}(f)\ \Downarrow \ f'\quad \Gamma \ \vdash \ \operatorname{ResolveFieldPatternList}(\mathsf{fs})\ \Downarrow \ \mathsf{fs}' \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveFieldPattern}(f)\ \Downarrow \ f'\quad \Gamma \ \vdash \ \operatorname{ResolveFieldPatternList}(\mathsf{io})\ \Downarrow \ \mathsf{io}' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveFieldPatternList}(f\ \mathbin{::} \ \mathsf{fs})\ \Downarrow \ f'\ \mathbin{::} \ \mathsf{fs}'
+\Gamma \ \vdash \ \operatorname{ResolveFieldPatternList}(f\ \mathbin{::} \ \mathsf{io})\ \Downarrow \ f'\ \mathbin{::} \ \mathsf{io}'
 \end{array}
 $$
 
@@ -416,9 +416,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ResolveFieldPatternList}(\mathsf{fs})\ \Downarrow \ \mathsf{fs}' \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveFieldPatternList}(\mathsf{io})\ \Downarrow \ \mathsf{io}' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveEnumPayloadPattern}(\operatorname{RecordPayloadPattern}(\mathsf{fs}))\ \Downarrow \ \operatorname{RecordPayloadPattern}(\mathsf{fs}')
+\Gamma \ \vdash \ \operatorname{ResolveEnumPayloadPattern}(\operatorname{RecordPayloadPattern}(\mathsf{io}))\ \Downarrow \ \operatorname{RecordPayloadPattern}(\mathsf{io}')
 \end{array}
 $$
 
@@ -430,9 +430,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ResolveFieldPatternList}(\mathsf{fs})\ \Downarrow \ \mathsf{fs}' \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveFieldPatternList}(\mathsf{io})\ \Downarrow \ \mathsf{io}' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveFieldPatternListOpt}(\mathsf{fs})\ \Downarrow \ \mathsf{fs}'
+\Gamma \ \vdash \ \operatorname{ResolveFieldPatternListOpt}(\mathsf{io})\ \Downarrow \ \mathsf{io}'
 \end{array}
 $$
 

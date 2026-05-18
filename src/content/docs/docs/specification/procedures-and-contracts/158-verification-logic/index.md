@@ -2,16 +2,16 @@
 title: "15.8 Verification Logic"
 description: "15.8 Verification Logic from 15. Procedures and Contracts of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "procedures-and-contracts"
 specSection: "158-verification-logic"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -125,6 +125,21 @@ Let `ContractFactsAt(S)` be the set of conjuncts imported from the enclosing
 procedure contract precondition that remain in scope at `S`.
 
 Let `ProofContextAt(S) = FlowFactsAt(S) ∪ ContractFactsAt(S)`.
+
+**(Fact-Call-Postcondition)**
+
+$$
+\begin{array}{l}
+\operatorname{StaticallyResolvedCall}(c,\ f)\quad f.\mathsf{postcondition}\ =\ P_{\mathsf{post}}\quad \operatorname{CallReturnsNormally}(c)\quad \operatorname{StableSubst}(c.\mathsf{args},\ f.\mathsf{params},\ \theta )\quad \operatorname{ResultSubst}(c,\ @\mathsf{result},\ \theta )\ =\ \theta ' \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\operatorname{ProofContextAfter}(c)\ =\ \operatorname{ProofContextBefore}(c)\ \cup \ \operatorname{Facts}(P_{\mathsf{post}}[\theta '])
+\end{array}
+$$
+
+Dynamic contract checks establish runtime behavior on the checked execution path.
+They create compile-time facts for later proof only through
+`Fact-Call-Postcondition`, which requires static callee identity, stable
+substitutions, and normal return.
 
 $$
 \texttt{Decidable(P)}\ \mathsf{is}\ \mathsf{the}\ \mathsf{smallest}\ \mathsf{set}\ \mathsf{closed}\ \mathsf{under}:

@@ -2,16 +2,16 @@
 title: "24.2 Layout and ABI Framework"
 description: "24.2 Layout and ABI Framework from 24. Common Lowering, Program Lifecycle, and Backend of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "common-lowering-program-lifecycle-and-backend"
 specSection: "242-layout-and-abi-framework"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -883,21 +883,11 @@ $$
 \end{array}
 $$
 
-**(ABI-Param-ByValue-Move)**
-
-$$
-\begin{array}{l}
-\mathsf{mode}\ =\ \texttt{move}\quad \Gamma \ \vdash \ \operatorname{sizeof}(T)\ =\ 0\ \lor \ \operatorname{ByValOk}(T) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ABIParam}(\mathsf{mode},\ T)\ \Downarrow \ \texttt{ByValue}
-\end{array}
-$$
-
 **(ABI-Param-ByRef-Move)**
 
 $$
 \begin{array}{l}
-\mathsf{mode}\ =\ \texttt{move}\quad \Gamma \ \vdash \ \operatorname{sizeof}(T)\ =\ n\quad n\ >\ 0\quad \lnot \ \operatorname{ByValOk}(T) \\[0.16em]
+\mathsf{mode}\ =\ \texttt{move}\quad \Gamma \ \vdash \ \operatorname{sizeof}(T)\ =\ n \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ABIParam}(\mathsf{mode},\ T)\ \Downarrow \ \texttt{ByRef}
 \end{array}

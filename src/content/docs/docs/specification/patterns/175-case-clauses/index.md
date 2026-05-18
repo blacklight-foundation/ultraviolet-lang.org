@@ -2,16 +2,16 @@
 title: "17.5 Case Clauses"
 description: "17.5 Case Clauses from 17. Patterns of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "patterns"
 specSection: "175-case-clauses"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -144,7 +144,7 @@ $$
 \begin{array}{l}
 \operatorname{StripPerm}(T)\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\quad \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad S\ \in \ \operatorname{States}(M) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\operatorname{PatternNarrow}(\Gamma ,\ \operatorname{ModalPattern}(S,\ \mathsf{fs}),\ T)\ \Downarrow \ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)
+\operatorname{PatternNarrow}(\Gamma ,\ \operatorname{ModalPattern}(S,\ \mathsf{io}),\ T)\ \Downarrow \ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)
 \end{array}
 $$
 
@@ -154,7 +154,7 @@ $$
 \begin{array}{l}
 \operatorname{StripPerm}(T)\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)\quad \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\operatorname{PatternNarrow}(\Gamma ,\ \operatorname{ModalPattern}(S,\ \mathsf{fs}),\ T)\ \Downarrow \ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)
+\operatorname{PatternNarrow}(\Gamma ,\ \operatorname{ModalPattern}(S,\ \mathsf{io}),\ T)\ \Downarrow \ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)
 \end{array}
 $$
 

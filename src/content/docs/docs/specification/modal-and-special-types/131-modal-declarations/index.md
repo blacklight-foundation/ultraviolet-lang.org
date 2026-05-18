@@ -2,16 +2,16 @@
 title: "13.1 Modal Declarations"
 description: "13.1 Modal Declarations from 13. Modal and Special Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "modal-and-special-types"
 specSection: "131-modal-declarations"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -333,6 +333,10 @@ $$
 \end{array}
 $$
 
+If `modal_ref` is `TypeApply(p, args)`, modal state record payload fields are checked
+under `DefaultArgs(TypeParamsOf(p), args)` and the constructed expression type keeps the
+same applied modal reference.
+
 **(Record-FileDir-Err)**
 
 $$
@@ -359,10 +363,10 @@ $$
 \mathsf{RegionProcs}\ =\ \{\texttt{Region::new\_scoped},\ \texttt{Region::alloc},\ \texttt{Region::reset\_unchecked},\ \texttt{Region::freeze},\ \texttt{Region::thaw},\ \texttt{Region::free\_unchecked}\} \\[0.16em]
 \operatorname{RegionProcSig}(\texttt{Region::new\_scoped})\ =\ \langle [\langle \bot ,\ \texttt{options},\ \operatorname{TypePath}([\texttt{"RegionOptions"}])\rangle ],\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle  \\[0.16em]
 \operatorname{RegionProcSig}(\texttt{Region::alloc})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle ,\ \langle \bot ,\ \texttt{value},\ T\rangle ],\ T\_\{\pi_{\mathsf{Region}} (\texttt{self})\}\rangle \quad (T\ \in \ \mathsf{Type}) \\[0.16em]
-\operatorname{RegionProcSig}(\texttt{Region::reset\_unchecked})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle ],\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active})\rangle  \\[0.16em]
-\operatorname{RegionProcSig}(\texttt{Region::freeze})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle ],\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Frozen})\rangle  \\[0.16em]
-\operatorname{RegionProcSig}(\texttt{Region::thaw})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Frozen}))\rangle ],\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active})\rangle  \\[0.16em]
-\operatorname{RegionProcSig}(\texttt{Region::free\_unchecked})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeUnion}([\operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}),\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Frozen})]))\rangle ],\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Freed})\rangle 
+\operatorname{RegionProcSig}(\texttt{Region::reset\_unchecked})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle ],\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle  \\[0.16em]
+\operatorname{RegionProcSig}(\texttt{Region::freeze})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle ],\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Frozen}))\rangle  \\[0.16em]
+\operatorname{RegionProcSig}(\texttt{Region::thaw})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Frozen}))\rangle ],\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle  \\[0.16em]
+\operatorname{RegionProcSig}(\texttt{Region::free\_unchecked})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeUnion}([\operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}),\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Frozen})]))\rangle ],\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Freed}))\rangle 
 \end{array}
 $$
 
@@ -625,12 +629,12 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ValueType}(\operatorname{RecordValue}(\operatorname{ModalStateRef}(\mathsf{modal}_{\mathsf{ref}},\ S),\ \mathsf{fs}))\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S) \\[0.16em]
+\operatorname{ValueType}(\operatorname{RecordValue}(\operatorname{ModalStateRef}(\mathsf{modal}_{\mathsf{ref}},\ S),\ \mathsf{io}))\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S) \\[0.16em]
 \operatorname{ValueType}(\operatorname{ModalVal}(S,\ v_{s}))\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\ \Leftrightarrow \ \operatorname{ValueType}(v_{s})\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)
 \end{array}
 $$
 
-At runtime, an unreified state value is represented as `RecordValue(ModalStateRef(modal_ref, S), fs)`. A widened general modal value is represented as `ModalVal(S, v_s)`. Pattern matching over general modal values is defined in Chapter 17.
+At runtime, an unreified state value is represented as `RecordValue(ModalStateRef(modal_ref, S), io)`. A widened general modal value is represented as `ModalVal(S, v_s)`. Pattern matching over general modal values is defined in Chapter 17.
 
 ### 13.1.6 Lowering
 
@@ -649,7 +653,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ValueBits}(\operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S),\ v)\ =\ \mathsf{bits}\ \Leftrightarrow \ \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\ \land \ S\ \in \ \operatorname{States}(M)\ \land \ v\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}(\mathsf{modal}_{\mathsf{ref}},\ S),\ \mathsf{fs})\ \land \ \operatorname{ModalPayload}(\mathsf{modal}_{\mathsf{ref}},\ S)\ =\ \mathsf{fields}\ \land \ \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{size},\ \_,\ \mathsf{offsets}\rangle \ \land \ \mathsf{fields}\ =\ [\langle f_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle f_{n},\ T_{n}\rangle ]\ \land \ (\forall \ i.\ \operatorname{FieldValue}(\operatorname{RecordValue}(\operatorname{ModalStateRef}(\mathsf{modal}_{\mathsf{ref}},\ S),\ \mathsf{fs}),\ f_{i})\ =\ v_{i})\ \land \ \operatorname{StructBits}([T_{1},\ \ldots ,\ T_{n}],\ [v_{1},\ \ldots ,\ v_{n}],\ \mathsf{offsets},\ \mathsf{size})\ =\ \mathsf{bits} \\[0.16em]
+\operatorname{ValueBits}(\operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S),\ v)\ =\ \mathsf{bits}\ \Leftrightarrow \ \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\ \land \ S\ \in \ \operatorname{States}(M)\ \land \ v\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}(\mathsf{modal}_{\mathsf{ref}},\ S),\ \mathsf{io})\ \land \ \operatorname{ModalPayload}(\mathsf{modal}_{\mathsf{ref}},\ S)\ =\ \mathsf{fields}\ \land \ \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{size},\ \_,\ \mathsf{offsets}\rangle \ \land \ \mathsf{fields}\ =\ [\langle f_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle f_{n},\ T_{n}\rangle ]\ \land \ (\forall \ i.\ \operatorname{FieldValue}(\operatorname{RecordValue}(\operatorname{ModalStateRef}(\mathsf{modal}_{\mathsf{ref}},\ S),\ \mathsf{io}),\ f_{i})\ =\ v_{i})\ \land \ \operatorname{StructBits}([T_{1},\ \ldots ,\ T_{n}],\ [v_{1},\ \ldots ,\ v_{n}],\ \mathsf{offsets},\ \mathsf{size})\ =\ \mathsf{bits} \\[0.16em]
 \operatorname{EmptyStates}(M)\ =\ [\ S\ \in \ \operatorname{States}(M)\ \mid \ \operatorname{EmptyState}(M,\ S)\ ] \\[0.16em]
 \operatorname{EmptyRecordVal}(v)\ \Leftrightarrow \ \exists \ \mathsf{tr}.\ v\ =\ \operatorname{RecordValue}(\mathsf{tr},\ []) \\[0.16em]
 \operatorname{ModalNicheBits}(\mathsf{modal}_{\mathsf{ref}},\ S,\ v)\ =\ \mathsf{bits}\ \Leftrightarrow \ \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\ \land \ \operatorname{NicheApplies}(\mathsf{modal}_{\mathsf{ref}})\ \land \ \operatorname{PayloadState}(\mathsf{modal}_{\mathsf{ref}})\ =\ S_{p}\ \land \ \operatorname{ModalSingleFieldPayload}(\mathsf{modal}_{\mathsf{ref}},\ S_{p})\ =\ T_{p}\ \land \ ((S\ =\ S_{p}\ \land \ \operatorname{ValueBits}(T_{p},\ v)\ =\ \mathsf{bits}\ \land \ \mathsf{bits}\ \notin \ \operatorname{NicheSet}(T_{p}))\ \lor \ (\exists \ i.\ \operatorname{EmptyStates}(M)[i]\ =\ S\ \land \ (v\ =\ ()\ \lor \ \operatorname{EmptyRecordVal}(v))\ \land \ \operatorname{NicheOrder}(T_{p})[i]\ =\ \mathsf{bits})) \\[0.16em]
@@ -658,7 +662,7 @@ $$
 \operatorname{ModalSize}(\mathsf{modal}_{\mathsf{ref}})\ =\ \operatorname{AlignUp}(\operatorname{sizeof}(\operatorname{ModalDiscType}(\mathsf{modal}_{\mathsf{ref}}))\ +\ \mathsf{max}\_\{S\ \in \ \operatorname{States}(M)\}(\operatorname{StateSize}(\mathsf{modal}_{\mathsf{ref}},\ S)),\ \operatorname{ModalAlign}(\mathsf{modal}_{\mathsf{ref}}))\ \mathsf{where}\ \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M \\[0.16em]
 \operatorname{ModalPayloadSize}(\mathsf{modal}_{\mathsf{ref}})\ =\ s\ \Leftrightarrow \ \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\ \land \ s\ =\ \mathsf{max}\_\{S\ \in \ \operatorname{States}(M)\}(\operatorname{StateSize}(\mathsf{modal}_{\mathsf{ref}},\ S)) \\[0.16em]
 \operatorname{ModalPayloadAlign}(\mathsf{modal}_{\mathsf{ref}})\ =\ a\ \Leftrightarrow \ \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\ \land \ a\ =\ \mathsf{max}\_\{S\ \in \ \operatorname{States}(M)\}(\operatorname{StateAlign}(\mathsf{modal}_{\mathsf{ref}},\ S)) \\[0.16em]
-\operatorname{StateRecordBits}(\mathsf{modal}_{\mathsf{ref}},\ S,\ v)\ =\ b\ \Leftrightarrow \ \operatorname{ModalPayload}(\mathsf{modal}_{\mathsf{ref}},\ S)\ =\ \mathsf{fields}\ \land \ \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{size},\ \_,\ \mathsf{offsets}\rangle \ \land \ \mathsf{fields}\ =\ [\langle f_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle f_{n},\ T_{n}\rangle ]\ \land \ ((n\ =\ 0\ \land \ (v\ =\ ()\ \lor \ \operatorname{EmptyRecordVal}(v))\ \land \ b\ =\ [])\ \lor \ (n\ >\ 0\ \land \ v\ =\ \operatorname{RecordValue}(\mathsf{tr},\ \mathsf{fs})\ \land \ (\forall \ i.\ \operatorname{FieldValue}(\operatorname{RecordValue}(\mathsf{tr},\ \mathsf{fs}),\ f_{i})\ =\ v_{i})\ \land \ \operatorname{StructBits}([T_{1},\ \ldots ,\ T_{n}],\ [v_{1},\ \ldots ,\ v_{n}],\ \mathsf{offsets},\ \mathsf{size})\ =\ b)) \\[0.16em]
+\operatorname{StateRecordBits}(\mathsf{modal}_{\mathsf{ref}},\ S,\ v)\ =\ b\ \Leftrightarrow \ \operatorname{ModalPayload}(\mathsf{modal}_{\mathsf{ref}},\ S)\ =\ \mathsf{fields}\ \land \ \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{size},\ \_,\ \mathsf{offsets}\rangle \ \land \ \mathsf{fields}\ =\ [\langle f_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle f_{n},\ T_{n}\rangle ]\ \land \ ((n\ =\ 0\ \land \ (v\ =\ ()\ \lor \ \operatorname{EmptyRecordVal}(v))\ \land \ b\ =\ [])\ \lor \ (n\ >\ 0\ \land \ v\ =\ \operatorname{RecordValue}(\mathsf{tr},\ \mathsf{io})\ \land \ (\forall \ i.\ \operatorname{FieldValue}(\operatorname{RecordValue}(\mathsf{tr},\ \mathsf{io}),\ f_{i})\ =\ v_{i})\ \land \ \operatorname{StructBits}([T_{1},\ \ldots ,\ T_{n}],\ [v_{1},\ \ldots ,\ v_{n}],\ \mathsf{offsets},\ \mathsf{size})\ =\ b)) \\[0.16em]
 \operatorname{ModalPayloadBits}(\mathsf{modal}_{\mathsf{ref}},\ S,\ v)\ =\ \mathsf{bits}\ \Leftrightarrow \ \operatorname{StateRecordBits}(\mathsf{modal}_{\mathsf{ref}},\ S,\ v)\ =\ b\ \land \ \operatorname{ModalPayloadSize}(\mathsf{modal}_{\mathsf{ref}})\ =\ s\ \land \ \operatorname{PadBytes}(b,\ s)\ =\ \mathsf{bits} \\[0.16em]
 \mathsf{ModalLayoutJudg}\ =\ \{\mathsf{ModalLayout}\}
 \end{array}

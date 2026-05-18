@@ -2,16 +2,16 @@
 title: "16.9 Closure and Pipeline Expressions"
 description: "16.9 Closure and Pipeline Expressions from 16. Expressions of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "expressions"
 specSection: "169-closure-and-pipeline-expressions"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -262,6 +262,16 @@ C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\
 \Gamma '\ =\ \Gamma \ \cup \ \{\ \mathsf{params}[i].\mathsf{name}\ \mapsto \ T_{i}\ \mid \ i\ \in \ 1..\mid \mathsf{params}\mid \ \}\quad \Gamma '\ \vdash \ \mathsf{body}\ :\ R \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ C\ :\ \operatorname{TypeFunc}([\langle \mathsf{params}[i].\mathsf{move}_{\mathsf{opt}},\ T_{i}\rangle \ \mid \ i\ \in \ 1..\mid \mathsf{params}\mid ],\ R)
+\end{array}
+$$
+
+**(T-Closure-NonCapturing-Expected)**
+
+$$
+\begin{array}{l}
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \mathsf{body})\quad \operatorname{CaptureSet}(C)\ =\ \emptyset \quad \operatorname{ExpectedType}(C)\ =\ \operatorname{TypeClosure}(P,\ R_{e},\ D)\quad \operatorname{ParamsCompatible}(\mathsf{params},\ P)\quad \Gamma '\ \vdash \ \mathsf{body}\ \Leftarrow \ R_{e} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma ;\ R;\ L\ \vdash \ C\ \Leftarrow \ \operatorname{TypeClosure}(P,\ R_{e},\ D)\ :\ \operatorname{TypeClosure}(P,\ R_{e},\ D)
 \end{array}
 $$
 
@@ -709,9 +719,13 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{CaptureType}(C,\ x)\ =\ \mathsf{Ptr}<T_{x}>@\mathsf{Valid}\ \Leftrightarrow \ x\ \in \ \operatorname{ConstCaptures}(C)\ \cup \ \operatorname{SharedCaptures}(C)\ \land \ \Gamma (x)\ =\ T_{x} \\[0.16em]
+\operatorname{CaptureType}(C,\ x)\ =\ \mathsf{Ptr}<T_{x}>@\mathsf{Valid}\ \Leftrightarrow \ x\ \in \ \operatorname{RefCaptureSet}(C)\ \land \ \Gamma (x)\ =\ T_{x} \\[0.16em]
 \operatorname{CaptureType}(C,\ x)\ =\ T_{x}\ \Leftrightarrow \ x\ \in \ \operatorname{MoveCaptureSet}(C)\ \land \ \Gamma (x)\ =\ T_{x}
 \end{array}
+$$
+
+$$
+\operatorname{ConstCaptures}(C)\ \subseteq \ \operatorname{RefCaptureSet}(C)\ \mathsf{and}\ \operatorname{SharedCaptures}(C)\ \subseteq \ \operatorname{RefCaptureSet}(C).\ \mathsf{Const}\ \mathsf{and}\ \mathsf{shared}\ \mathsf{captures}\ \mathsf{therefore}\ \mathsf{use}\ \mathsf{the}\ \mathsf{reference}-\mathsf{capture}\ \mathsf{environment}\ \mathsf{representation};\ \mathsf{their}\ \mathsf{additional}\ \mathsf{permission}\ \mathsf{and}\ \mathsf{key}-\mathsf{acquisition}\ \mathsf{constraints}\ \mathsf{are}\ \mathsf{defined}\ \mathsf{by}\ \S 16.9.4\ \mathsf{and}\ \mathsf{Chapter}\ 19.
 $$
 
 **(Layout-ClosureEnv)**
@@ -768,7 +782,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{StoreCapture}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{offset},\ x)\ =\ \operatorname{StoreIR}(\operatorname{GEP}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{offset}),\ \operatorname{LoadLocal}(x))\quad \mathsf{if}\ x\ \in \ \operatorname{RefCaptureSet}(C) \\[0.16em]
+\operatorname{StoreCapture}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{offset},\ x)\ =\ \operatorname{StoreIR}(\operatorname{GEP}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{offset}),\ \mathsf{Ptr}@\operatorname{Valid}(\operatorname{AddrOfBind}(x)))\quad \mathsf{if}\ x\ \in \ \operatorname{RefCaptureSet}(C) \\[0.16em]
 \operatorname{StoreCapture}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{offset},\ x)\ =\ \operatorname{MoveIR}(\operatorname{GEP}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{offset}),\ x)\quad \mathsf{if}\ x\ \in \ \operatorname{MoveCaptureSet}(C)
 \end{array}
 $$

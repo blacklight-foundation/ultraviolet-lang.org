@@ -2,16 +2,16 @@
 title: "21.1 Async Type"
 description: "21.1 Async Type from 21. Asynchronous Operations of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "asynchronous-operations"
 specSection: "211-async-type"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -80,9 +80,9 @@ $$
 \quad \operatorname{ReceiverShorthand}(\texttt{unique}), \\[0.16em]
 \quad [\langle \bot ,\ \texttt{input},\ \operatorname{TypePath}([\texttt{"In"}])\rangle ], \\[0.16em]
 \quad \operatorname{TypeUnion}([ \\[0.16em]
-\quad \operatorname{TypeModalState}(\mathsf{AsyncRef},\ \texttt{@Suspended}), \\[0.16em]
-\quad \operatorname{TypeModalState}(\mathsf{AsyncRef},\ \texttt{@Completed}), \\[0.16em]
-\quad \operatorname{TypeModalState}(\mathsf{AsyncRef},\ \texttt{@Failed}) \\[0.16em]
+\quad \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}(\mathsf{AsyncRef},\ \texttt{@Suspended})), \\[0.16em]
+\quad \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}(\mathsf{AsyncRef},\ \texttt{@Completed})), \\[0.16em]
+\quad \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}(\mathsf{AsyncRef},\ \texttt{@Failed})) \\[0.16em]
 \quad ]), \\[0.16em]
 \quad \bot , \\[0.16em]
 \quad \bot , \\[0.16em]
@@ -141,6 +141,15 @@ $$
 \quad R\quad \mathsf{otherwise}\ \}
 \end{array}
 $$
+
+An async creation expression may be checked against
+
+$$
+\texttt{TypePerm(p, TypeModalState(TypeApply(["Async"], args), state))}\ \mathsf{when}\ \texttt{p}\ \mathsf{is}
+$$
+supplied by the expected type and the ordinary permission rules allow introducing a
+fresh value at that permission. Manual `resume` consumes a `unique` suspended async
+receiver and returns a `unique` async state value.
 
 `Async` subtyping is:
 

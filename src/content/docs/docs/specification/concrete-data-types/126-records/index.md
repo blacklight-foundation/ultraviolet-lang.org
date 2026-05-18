@@ -2,16 +2,16 @@
 title: "12.6 Records"
 description: "12.6 Records from 12. Concrete Data Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "concrete-data-types"
 specSection: "126-records"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -320,10 +320,20 @@ $$
 \end{array}
 $$
 
+**(T-Record-Literal-ExpectedApply)**
+
+$$
+\begin{array}{l}
+\mathsf{Expected}\ =\ \operatorname{TypeApply}(p,\ \mathsf{args})\quad \operatorname{RecordDecl}(p)\ =\ R\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(R.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \operatorname{DefaultArgs}(\mathsf{params}_{\mathsf{gen}},\ \mathsf{args})\ =\ \mathsf{args}'\quad \theta \ =\ [\mathsf{args}'\_i\ /\ \mathsf{params}_{\mathsf{gen}}[i].\mathsf{name}]\quad \operatorname{Distinct}(\operatorname{FieldInitNames}(\mathsf{fields}))\quad \operatorname{FieldInitSet}(\mathsf{fields})\ =\ \operatorname{FieldNameSet}(R)\quad \forall \ \langle f,\ e\rangle \ \in \ \mathsf{fields},\ \operatorname{FieldType}(R,\ f)[\theta ]\ =\ T_{f}\ \land \ \operatorname{FieldVisible}(m,\ R,\ f)\ \land \ \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ T_{f}\ \dashv \ \emptyset  \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{RecordExpr}(\operatorname{TypePath}(p),\ \mathsf{fields})\ \Leftarrow \ \mathsf{Expected}\ :\ \mathsf{Expected}
+\end{array}
+$$
+
 ### 12.6.5 Dynamic Semantics
 
 $$
-\operatorname{ValueType}(\operatorname{RecordValue}(\operatorname{TypePath}(p),\ \mathsf{fs}))\ =\ \operatorname{TypePath}(p)
+\operatorname{ValueType}(\operatorname{RecordValue}(\operatorname{TypePath}(p),\ \mathsf{io}))\ =\ \operatorname{TypePath}(p)
 $$
 
 **(EvalSigma-Record)**
@@ -437,10 +447,10 @@ $$
 $$
 \begin{array}{l}
 \operatorname{FieldOffset}(\mathsf{fields},\ f_{i})\ =\ \mathsf{offset}_{i}\ \Leftrightarrow \ \mathsf{fields}\ =\ [\langle f_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle f_{n},\ T_{n}\rangle ]\ \land \ 1\ \le \ i\ \le \ n\ \land \ \operatorname{Offsets}(\mathsf{fields})\ =\ [\mathsf{offset}_{1},\ \ldots ,\ \mathsf{offset}_{n}] \\[0.16em]
-\operatorname{FieldValueList}(\mathsf{fs},\ f)\ =\ v\ \Leftrightarrow \ \langle f,\ v\rangle \ \in \ \mathsf{fs} \\[0.16em]
+\operatorname{FieldValueList}(\mathsf{io},\ f)\ =\ v\ \Leftrightarrow \ \langle f,\ v\rangle \ \in \ \mathsf{io} \\[0.16em]
 \operatorname{StructBits}([T_{1},\ \ldots ,\ T_{n}],\ [v_{1},\ \ldots ,\ v_{n}],\ [o_{1},\ \ldots ,\ o_{n}],\ \mathsf{size})\ =\ \mathsf{bits}\ \Leftrightarrow \ \mid \mathsf{bits}\mid \ =\ \mathsf{size}\ \land \ \forall \ i.\ \operatorname{ValueBits}(T_{i},\ v_{i})\ =\ b_{i}\ \land \ \mathsf{bits}[o_{i}..o_{i}+\mid b_{i}\mid )\ =\ b_{i}\ \land \ \forall \ j.\ (\forall \ i.\ j\ \notin \ [o_{i},\ o_{i}+\mid b_{i}\mid ))\ \Rightarrow \ \mathsf{bits}[j]\ =\ 0\mathsf{x00} \\[0.16em]
 \operatorname{PadBytes}(b,\ \mathsf{size})\ =\ \mathsf{bits}\ \Leftrightarrow \ \mid \mathsf{bits}\mid \ =\ \mathsf{size}\ \land \ \mathsf{bits}[0..\mid b\mid )\ =\ b\ \land \ \forall \ i.\ \mid b\mid \ \le \ i\ <\ \mathsf{size}\ \Rightarrow \ \mathsf{bits}[i]\ =\ 0\mathsf{x00} \\[0.16em]
-\operatorname{ValueBits}(\operatorname{TypePath}(p),\ v)\ =\ \mathsf{bits}\ \Leftrightarrow \ \operatorname{RecordDecl}(p)\ =\ R\ \land \ v\ =\ \operatorname{RecordValue}(\operatorname{TypePath}(p),\ \mathsf{fs})\ \land \ \operatorname{Fields}(R)\ =\ \mathsf{fields}\ \land \ \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{size},\ \_,\ \mathsf{offsets}\rangle \ \land \ \mathsf{fields}\ =\ [\langle f_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle f_{n},\ T_{n}\rangle ]\ \land \ (\forall \ i.\ \operatorname{FieldValue}(\operatorname{RecordValue}(\operatorname{TypePath}(p),\ \mathsf{fs}),\ f_{i})\ =\ v_{i})\ \land \ \operatorname{StructBits}([T_{1},\ \ldots ,\ T_{n}],\ [v_{1},\ \ldots ,\ v_{n}],\ \mathsf{offsets},\ \mathsf{size})\ =\ \mathsf{bits}
+\operatorname{ValueBits}(\operatorname{TypePath}(p),\ v)\ =\ \mathsf{bits}\ \Leftrightarrow \ \operatorname{RecordDecl}(p)\ =\ R\ \land \ v\ =\ \operatorname{RecordValue}(\operatorname{TypePath}(p),\ \mathsf{io})\ \land \ \operatorname{Fields}(R)\ =\ \mathsf{fields}\ \land \ \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{size},\ \_,\ \mathsf{offsets}\rangle \ \land \ \mathsf{fields}\ =\ [\langle f_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle f_{n},\ T_{n}\rangle ]\ \land \ (\forall \ i.\ \operatorname{FieldValue}(\operatorname{RecordValue}(\operatorname{TypePath}(p),\ \mathsf{io}),\ f_{i})\ =\ v_{i})\ \land \ \operatorname{StructBits}([T_{1},\ \ldots ,\ T_{n}],\ [v_{1},\ \ldots ,\ v_{n}],\ \mathsf{offsets},\ \mathsf{size})\ =\ \mathsf{bits}
 \end{array}
 $$
 
@@ -457,9 +467,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerFieldInits}(\mathsf{fs})\ \Downarrow \ \langle \mathsf{IR}_{s},\ \mathsf{vec}_{f}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerFieldInits}(\mathsf{io})\ \Downarrow \ \langle \mathsf{IR}_{s},\ \mathsf{vec}_{f}\rangle  \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerFieldInits}([\langle f,\ e\rangle ]\ \mathbin{++} \ \mathsf{fs})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{s}),\ [\langle f,\ v\rangle ]\ \mathbin{++} \ \mathsf{vec}_{f}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerFieldInits}([\langle f,\ e\rangle ]\ \mathbin{++} \ \mathsf{io})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{s}),\ [\langle f,\ v\rangle ]\ \mathbin{++} \ \mathsf{vec}_{f}\rangle 
 \end{array}
 $$
 

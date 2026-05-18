@@ -2,16 +2,16 @@
 title: "19.7 Memory Ordering"
 description: "19.7 Memory Ordering from 19. Key System of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "key-system"
 specSection: "197-memory-ordering"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,7 +24,7 @@ generated: true
 ### 19.7.1 Syntax
 
 ```text
-memory_order_attribute ::= "[[" memory_order "]]"
+memory_order_attribute ::= attr_open memory_order attr_close
 memory_order           ::= "relaxed" | "acquire" | "release" | "acqrel" | "seqcst"
 fence_expr             ::= "fence" "(" fence_order ")"
 fence_order            ::= "acquire" | "release" | "seqcst"

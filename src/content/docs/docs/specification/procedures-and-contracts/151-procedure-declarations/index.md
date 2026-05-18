@@ -2,16 +2,16 @@
 title: "15.1 Procedure Declarations"
 description: "15.1 Procedure Declarations from 15. Procedures and Contracts of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "procedures-and-contracts"
 specSection: "151-procedure-declarations"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -350,7 +350,7 @@ $$
 \begin{array}{l}
 \operatorname{BindParams}([\langle \mathsf{mode}_{1},\ x_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle \mathsf{mode}_{n},\ x_{n},\ T_{n}\rangle ],\ [v_{1},\ \ldots ,\ v_{n}])\ =\ [\langle x_{1},\ v_{1}\rangle ,\ \ldots ,\ \langle x_{n},\ v_{n}\rangle ] \\[0.16em]
 \mathsf{ArgPassJudg}\ =\ \{\Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{params},\ \mathsf{args},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma '),\ \Gamma \ \vdash \ \operatorname{EvalRecvSigma}(\mathsf{base},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\} \\[0.16em]
-\mathsf{ArgVal}\ =\ \{v,\ \operatorname{Alias}(\mathsf{addr})\}
+\mathsf{ArgVal}\ =\ \{v,\ \operatorname{Alias}(\mathsf{addr}),\ \operatorname{Owned}(\mathsf{addr})\}
 \end{array}
 $$
 
@@ -362,7 +362,7 @@ $$
 \begin{array}{l}
 \operatorname{CallTarget}(\operatorname{FuncVal}(\mathsf{sym}))\ =\ \mathsf{proc}\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{Mangle}(\mathsf{proc})\ \Downarrow \ \mathsf{sym}\ \land \ (\mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \lor \ \mathsf{proc}\ =\ \operatorname{ExternProcDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)) \\[0.16em]
 \operatorname{CallTarget}(\operatorname{RecordCtor}(p))\ =\ \operatorname{RecordCtor}(p) \\[0.16em]
-\operatorname{MethodTarget}(\operatorname{RecordValue}(\operatorname{TypePath}(p),\ \mathsf{fs}),\ \mathsf{name})\ =\ m\ \Leftrightarrow \ \operatorname{LookupMethod}(\operatorname{TypePath}(p),\ \mathsf{name})\ =\ m \\[0.16em]
+\operatorname{MethodTarget}(\operatorname{RecordValue}(\operatorname{TypePath}(p),\ \mathsf{io}),\ \mathsf{name})\ =\ m\ \Leftrightarrow \ \operatorname{LookupMethod}(\operatorname{TypePath}(p),\ \mathsf{name})\ =\ m \\[0.16em]
 \operatorname{MethodTarget}(v_{\mathsf{self}},\ \mathsf{name})\ =\ m\ \land \ m.\mathsf{body}\ =\ \bot \ \land \ \lnot \ \exists \ \mathsf{vec}_{v},\ \mathsf{out}.\ \Gamma \ \vdash \ \operatorname{PrimCall}(\operatorname{MethodOwner}(m),\ \operatorname{MethodName}(m),\ v_{\mathsf{self}},\ \mathsf{vec}_{v})\ \Downarrow \ \mathsf{out}\ \Rightarrow \ \operatorname{IllFormed}(\operatorname{MethodTarget}(v_{\mathsf{self}},\ \mathsf{name}))
 \end{array}
 $$
@@ -415,13 +415,41 @@ $$
 \end{array}
 $$
 
-**(EvalArgsSigma-Cons-Move)**
+$$
+\begin{array}{l}
+\operatorname{CopyValue}(e,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{CopyExpr}(e),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ') \\[0.16em]
+\operatorname{MaterializeCallTemp}(v,\ \sigma )\ \Downarrow \ (\mathsf{addr},\ \sigma ')\ \mathsf{relation} \\[0.16em]
+\operatorname{TransferArgOwner}(\mathsf{addr},\ \sigma )\ \Downarrow \ \sigma '\ \mathsf{relation}
+\end{array}
+$$
+
+**(EvalArgsSigma-Cons-Move-Place)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{MovedArg}(\mathsf{moved},\ e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{ps},\ \mathsf{as},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} ) \\[0.16em]
+\mathsf{pass}\ \in \ \{\texttt{move}\}\quad \Gamma \ \vdash \ \operatorname{AddrOfSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{addr}),\ \sigma_{1} )\quad \operatorname{TransferArgOwner}(\mathsf{addr},\ \sigma_{1} )\ \Downarrow \ \sigma_{2} \quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{ps},\ \mathsf{as},\ \sigma_{2} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{3} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{EvalArgsSigma}([\langle \texttt{move},\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as},\ \sigma )\ \Downarrow \ (\operatorname{Val}([v]\ \mathbin{++} \ \mathsf{vec}_{v}),\ \sigma_{2} )
+\Gamma \ \vdash \ \operatorname{EvalArgsSigma}([\langle \texttt{move},\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{pass},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as},\ \sigma )\ \Downarrow \ (\operatorname{Val}([\operatorname{Owned}(\mathsf{addr})]\ \mathbin{++} \ \mathsf{vec}_{v}),\ \sigma_{3} )
+\end{array}
+$$
+
+**(EvalArgsSigma-Cons-Move-Copy)**
+
+$$
+\begin{array}{l}
+\mathsf{pass}\ =\ \texttt{copy}\quad \Gamma \ \vdash \ \operatorname{CopyValue}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \operatorname{MaterializeCallTemp}(v,\ \sigma_{1} )\ \Downarrow \ (\mathsf{addr},\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{ps},\ \mathsf{as},\ \sigma_{2} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{3} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalArgsSigma}([\langle \texttt{move},\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{pass},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as},\ \sigma )\ \Downarrow \ (\operatorname{Val}([\operatorname{Owned}(\mathsf{addr})]\ \mathbin{++} \ \mathsf{vec}_{v}),\ \sigma_{3} )
+\end{array}
+$$
+
+**(EvalArgsSigma-Cons-Move-Fresh)**
+
+$$
+\begin{array}{l}
+\mathsf{pass}\ =\ \texttt{ref}\quad \lnot \ \operatorname{HasSourceProvenance}(e)\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \operatorname{MaterializeCallTemp}(v,\ \sigma_{1} )\ \Downarrow \ (\mathsf{addr},\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{ps},\ \mathsf{as},\ \sigma_{2} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{3} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalArgsSigma}([\langle \texttt{move},\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{pass},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as},\ \sigma )\ \Downarrow \ (\operatorname{Val}([\operatorname{Owned}(\mathsf{addr})]\ \mathbin{++} \ \mathsf{vec}_{v}),\ \sigma_{3} )
 \end{array}
 $$
 
@@ -429,9 +457,19 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{AddrOfSigma}(\operatorname{RefArgExpr}(e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{addr}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{ps},\ \mathsf{as},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} ) \\[0.16em]
+\mathsf{pass}\ =\ \texttt{ref}\quad \Gamma \ \vdash \ \operatorname{AddrOfSigma}(\operatorname{RefArgExpr}(e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{addr}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{ps},\ \mathsf{as},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{EvalArgsSigma}([\langle \bot ,\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as},\ \sigma )\ \Downarrow \ (\operatorname{Val}([\operatorname{Alias}(\mathsf{addr})]\ \mathbin{++} \ \mathsf{vec}_{v}),\ \sigma_{2} )
+\Gamma \ \vdash \ \operatorname{EvalArgsSigma}([\langle \bot ,\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{pass},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as},\ \sigma )\ \Downarrow \ (\operatorname{Val}([\operatorname{Alias}(\mathsf{addr})]\ \mathbin{++} \ \mathsf{vec}_{v}),\ \sigma_{2} )
+\end{array}
+$$
+
+**(EvalArgsSigma-Cons-Ref-Copy)**
+
+$$
+\begin{array}{l}
+\mathsf{pass}\ =\ \texttt{copy}\quad \Gamma \ \vdash \ \operatorname{CopyValue}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \operatorname{MaterializeCallTemp}(v,\ \sigma_{1} )\ \Downarrow \ (\mathsf{addr},\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{ps},\ \mathsf{as},\ \sigma_{2} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{3} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalArgsSigma}([\langle \bot ,\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{pass},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as},\ \sigma )\ \Downarrow \ (\operatorname{Val}([\operatorname{Alias}(\mathsf{addr})]\ \mathbin{++} \ \mathsf{vec}_{v}),\ \sigma_{3} )
 \end{array}
 $$
 
@@ -439,9 +477,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{MovedArg}(\mathsf{moved},\ e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{ArgPassExpr}(\texttt{move},\ \mathsf{pass},\ e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{EvalArgsSigma}([\langle \texttt{move},\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
+\Gamma \ \vdash \ \operatorname{EvalArgsSigma}([\langle \texttt{move},\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{pass},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
 
@@ -449,9 +487,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{AddrOfSigma}(\operatorname{RefArgExpr}(e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{ArgPassExpr}(\bot ,\ \mathsf{pass},\ e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{EvalArgsSigma}([\langle \bot ,\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
+\Gamma \ \vdash \ \operatorname{EvalArgsSigma}([\langle \bot ,\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{pass},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
 $$
 

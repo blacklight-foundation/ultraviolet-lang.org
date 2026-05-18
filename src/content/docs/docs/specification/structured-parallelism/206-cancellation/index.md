@@ -2,16 +2,16 @@
 title: "20.6 Cancellation"
 description: "20.6 Cancellation from 20. Structured Parallelism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "structured-parallelism"
 specSection: "206-cancellation"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -108,7 +108,7 @@ $$
 $$
 
 $$
-\operatorname{CancelId}(v)\ =\ n\ \Leftrightarrow \ v\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}([\texttt{"CancelToken"}],\ \texttt{@Active}),\ \mathsf{fs})\ \land \ \operatorname{FieldValue}(v,\ \texttt{id})\ =\ \operatorname{IntVal}(\texttt{"usize"},\ n)
+\operatorname{CancelId}(v)\ =\ n\ \Leftrightarrow \ v\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}([\texttt{"CancelToken"}],\ \texttt{@Active}),\ \mathsf{io})\ \land \ \operatorname{FieldValue}(v,\ \texttt{id})\ =\ \operatorname{IntVal}(\texttt{"usize"},\ n)
 $$
 
 **(Cancel-New)**

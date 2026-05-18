@@ -2,16 +2,16 @@
 title: "20.2 Execution Domains"
 description: "20.2 Execution Domains from 20. Structured Parallelism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "structured-parallelism"
 specSection: "202-execution-domains"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -433,7 +433,8 @@ $$
 $$
 \begin{array}{l}
 \operatorname{TopologyValid}(\mathsf{topo})\ \Leftrightarrow  \\[0.16em]
-\ \mathsf{topo}.\mathsf{WorkgroupSize}.0\ \times \ \mathsf{topo}.\mathsf{WorkgroupSize}.1\ \times \ \mathsf{topo}.\mathsf{WorkgroupSize}.2\ =\ \mathsf{MAX}_{\mathsf{WORKGROUP}\_\mathsf{SIZE}}\ \land  \\[0.16em]
+\ \mathsf{topo}.\mathsf{WorkgroupSize}.0\ >\ 0\ \land \ \mathsf{topo}.\mathsf{WorkgroupSize}.1\ >\ 0\ \land \ \mathsf{topo}.\mathsf{WorkgroupSize}.2\ >\ 0\ \land  \\[0.16em]
+\ \mathsf{topo}.\mathsf{WorkgroupSize}.0\ \times \ \mathsf{topo}.\mathsf{WorkgroupSize}.1\ \times \ \mathsf{topo}.\mathsf{WorkgroupSize}.2\ \le \ \mathsf{MAX}_{\mathsf{WORKGROUP}\_\mathsf{SIZE}}\ \land  \\[0.16em]
 \ \mathsf{topo}.\mathsf{GlobalSize}.0\ =\ \mathsf{topo}.\mathsf{WorkgroupSize}.0\ \times \ \mathsf{topo}.\mathsf{NumWorkgroups}.0\ \land  \\[0.16em]
 \ \mathsf{topo}.\mathsf{GlobalSize}.1\ =\ \mathsf{topo}.\mathsf{WorkgroupSize}.1\ \times \ \mathsf{topo}.\mathsf{NumWorkgroups}.1\ \land  \\[0.16em]
 \ \mathsf{topo}.\mathsf{GlobalSize}.2\ =\ \mathsf{topo}.\mathsf{WorkgroupSize}.2\ \times \ \mathsf{topo}.\mathsf{NumWorkgroups}.2

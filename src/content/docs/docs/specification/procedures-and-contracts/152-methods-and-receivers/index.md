@@ -2,16 +2,16 @@
 title: "15.2 Methods and Receivers"
 description: "15.2 Methods and Receivers from 15. Procedures and Contracts of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "procedures-and-contracts"
 specSection: "152-methods-and-receivers"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -310,9 +310,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{MovedArg}(\mathsf{moved},\ e)\ \Leftarrow \ T_{p}\ \dashv \ \emptyset \quad \mathsf{moved}\ =\ \mathsf{true}\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk}(\mathsf{ps},\ \mathsf{as}) \\[0.16em]
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{ConsumeArgExpr}(\texttt{move},\ \mathsf{pass},\ e)\ \Leftarrow \ T_{p}\ \dashv \ \emptyset \quad \mathsf{pass}\ \in \ \{\texttt{move},\ \texttt{copy}\}\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk}(\mathsf{ps},\ \mathsf{as}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk}([\langle \texttt{move},\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk}([\langle \texttt{move},\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{pass},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})
 \end{array}
 $$
 
@@ -320,9 +320,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{RefArgExpr}(e)\ \Leftarrow_{\mathsf{place}} \ T_{p}\quad \operatorname{AddrOfOk}(\operatorname{RefArgExpr}(e))\quad \mathsf{moved}\ =\ \mathsf{false}\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk}(\mathsf{ps},\ \mathsf{as}) \\[0.16em]
+\operatorname{RefArgOk}(\mathsf{pass},\ e,\ T_{p})\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk}(\mathsf{ps},\ \mathsf{as}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk}([\langle \bot ,\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk}([\langle \bot ,\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{pass},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})
 \end{array}
 $$
 

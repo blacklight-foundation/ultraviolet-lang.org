@@ -2,16 +2,16 @@
 title: "11.5 Module and File Aggregation"
 description: "11.5 Module and File Aggregation from 11. Module-Level Forms of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "module-level-forms"
 specSection: "115-module-and-file-aggregation"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -341,9 +341,9 @@ $$
 
 $$
 \begin{array}{l}
-U\ =\ f\ \mathbin{::} \ \mathsf{fs}\quad \Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Downarrow \ B\quad \Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \Downarrow \ S_{f}\quad \Gamma \ \vdash \ \operatorname{ParseFile}(S_{f})\ \Downarrow \ F \\[0.16em]
+U\ =\ f\ \mathbin{::} \ \mathsf{io}\quad \Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Downarrow \ B\quad \Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \Downarrow \ S_{f}\quad \Gamma \ \vdash \ \operatorname{ParseFile}(S_{f})\ \Downarrow \ F \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{fs},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{ModScan}(p,\ S,\ \mathsf{fs},\ \mathsf{items}\ \mathbin{++} \ F.\mathsf{items},\ \mathsf{docs}\ \mathbin{++} \ F.\mathsf{module}_{\mathsf{doc}})\rangle 
+\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{io},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{ModScan}(p,\ S,\ \mathsf{io},\ \mathsf{items}\ \mathbin{++} \ F.\mathsf{items},\ \mathsf{docs}\ \mathbin{++} \ F.\mathsf{module}_{\mathsf{doc}})\rangle 
 \end{array}
 $$
 
@@ -351,9 +351,9 @@ $$
 
 $$
 \begin{array}{l}
-U\ =\ f\ \mathbin{::} \ \mathsf{fs}\quad \Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Uparrow \ c \\[0.16em]
+U\ =\ f\ \mathbin{::} \ \mathsf{io}\quad \Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Uparrow \ c \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{fs},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{io},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
 \end{array}
 $$
 
@@ -361,9 +361,9 @@ $$
 
 $$
 \begin{array}{l}
-U\ =\ f\ \mathbin{::} \ \mathsf{fs}\quad \Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Downarrow \ B\quad \Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \Uparrow \ c \\[0.16em]
+U\ =\ f\ \mathbin{::} \ \mathsf{io}\quad \Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Downarrow \ B\quad \Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \Uparrow \ c \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{fs},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{io},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
 \end{array}
 $$
 
@@ -371,9 +371,9 @@ $$
 
 $$
 \begin{array}{l}
-U\ =\ f\ \mathbin{::} \ \mathsf{fs}\quad \Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Downarrow \ B\quad \Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \Downarrow \ S_{f}\quad \Gamma \ \vdash \ \operatorname{ParseFile}(S_{f})\ \Uparrow \ c \\[0.16em]
+U\ =\ f\ \mathbin{::} \ \mathsf{io}\quad \Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Downarrow \ B\quad \Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \Downarrow \ S_{f}\quad \Gamma \ \vdash \ \operatorname{ParseFile}(S_{f})\ \Uparrow \ c \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{fs},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{io},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
 \end{array}
 $$
 
@@ -1220,9 +1220,9 @@ $$
 
 $$
 \begin{array}{l}
-f\ =\ \langle \mathsf{name},\ e\rangle \quad \Gamma \ \vdash \ \operatorname{TypeRefsExpr}(e,\ \mathsf{env})\ \Downarrow \ T_{e}\quad \Gamma \ \vdash \ \operatorname{TypeRefsExprs}(\mathsf{fs},\ \mathsf{env})\ \Downarrow \ T_{f} \\[0.16em]
+f\ =\ \langle \mathsf{name},\ e\rangle \quad \Gamma \ \vdash \ \operatorname{TypeRefsExpr}(e,\ \mathsf{env})\ \Downarrow \ T_{e}\quad \Gamma \ \vdash \ \operatorname{TypeRefsExprs}(\mathsf{io},\ \mathsf{env})\ \Downarrow \ T_{f} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TypeRefsExprs}(f\mathbin{::} \mathsf{fs},\ \mathsf{env})\ \Downarrow \ T_{e}\ \cup \ T_{f}
+\Gamma \ \vdash \ \operatorname{TypeRefsExprs}(f\mathbin{::} \mathsf{io},\ \mathsf{env})\ \Downarrow \ T_{e}\ \cup \ T_{f}
 \end{array}
 $$
 
@@ -1243,7 +1243,7 @@ $$
 
 $$
 \begin{array}{l}
-a\ =\ \langle \mathsf{moved},\ e,\ \mathsf{span}\rangle \quad \Gamma \ \vdash \ \operatorname{TypeRefsExpr}(e,\ \mathsf{env})\ \Downarrow \ T_{e}\quad \Gamma \ \vdash \ \operatorname{TypeRefsArgs}(\mathsf{rest},\ \mathsf{env})\ \Downarrow \ T_{r} \\[0.16em]
+a\ =\ \langle \mathsf{pass},\ e,\ \mathsf{span}\rangle \quad \Gamma \ \vdash \ \operatorname{TypeRefsExpr}(e,\ \mathsf{env})\ \Downarrow \ T_{e}\quad \Gamma \ \vdash \ \operatorname{TypeRefsArgs}(\mathsf{rest},\ \mathsf{env})\ \Downarrow \ T_{r} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{TypeRefsArgs}(a\mathbin{::} \mathsf{rest},\ \mathsf{env})\ \Downarrow \ T_{e}\ \cup \ T_{r}
 \end{array}
@@ -1291,9 +1291,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{TypeRefsPat}(f,\ \mathsf{env})\ \Downarrow \ T_{f}\quad \Gamma \ \vdash \ \operatorname{TypeRefsFields}(\mathsf{fs},\ \mathsf{env})\ \Downarrow \ T_{s} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(f,\ \mathsf{env})\ \Downarrow \ T_{f}\quad \Gamma \ \vdash \ \operatorname{TypeRefsFields}(\mathsf{io},\ \mathsf{env})\ \Downarrow \ T_{s} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TypeRefsFields}(f\mathbin{::} \mathsf{fs},\ \mathsf{env})\ \Downarrow \ T_{f}\ \cup \ T_{s}
+\Gamma \ \vdash \ \operatorname{TypeRefsFields}(f\mathbin{::} \mathsf{io},\ \mathsf{env})\ \Downarrow \ T_{f}\ \cup \ T_{s}
 \end{array}
 $$
 
@@ -1432,7 +1432,7 @@ $$
 
 $$
 \begin{array}{l}
-a\ =\ \langle \mathsf{moved},\ e,\ \mathsf{span}\rangle \quad \Gamma \ \vdash \ \operatorname{ValueRefs}(e,\ \mathsf{env})\ \Downarrow \ V_{e}\quad \Gamma \ \vdash \ \operatorname{ValueRefsArgs}(\mathsf{args},\ \mathsf{env})\ \Downarrow \ V_{a} \\[0.16em]
+a\ =\ \langle \mathsf{pass},\ e,\ \mathsf{span}\rangle \quad \Gamma \ \vdash \ \operatorname{ValueRefs}(e,\ \mathsf{env})\ \Downarrow \ V_{e}\quad \Gamma \ \vdash \ \operatorname{ValueRefsArgs}(\mathsf{args},\ \mathsf{env})\ \Downarrow \ V_{a} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ValueRefsArgs}(a\mathbin{::} \mathsf{args},\ \mathsf{env})\ \Downarrow \ V_{e}\ \cup \ V_{a}
 \end{array}
@@ -1451,9 +1451,9 @@ $$
 
 $$
 \begin{array}{l}
-f\ =\ \langle \mathsf{name},\ e\rangle \quad \Gamma \ \vdash \ \operatorname{ValueRefs}(e,\ \mathsf{env})\ \Downarrow \ V_{e}\quad \Gamma \ \vdash \ \operatorname{ValueRefsFields}(\mathsf{fs},\ \mathsf{env})\ \Downarrow \ V_{f} \\[0.16em]
+f\ =\ \langle \mathsf{name},\ e\rangle \quad \Gamma \ \vdash \ \operatorname{ValueRefs}(e,\ \mathsf{env})\ \Downarrow \ V_{e}\quad \Gamma \ \vdash \ \operatorname{ValueRefsFields}(\mathsf{io},\ \mathsf{env})\ \Downarrow \ V_{f} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ValueRefsFields}(f\mathbin{::} \mathsf{fs},\ \mathsf{env})\ \Downarrow \ V_{e}\ \cup \ V_{f}
+\Gamma \ \vdash \ \operatorname{ValueRefsFields}(f\mathbin{::} \mathsf{io},\ \mathsf{env})\ \Downarrow \ V_{e}\ \cup \ V_{f}
 \end{array}
 $$
 

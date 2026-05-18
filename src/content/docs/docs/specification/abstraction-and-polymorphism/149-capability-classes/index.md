@@ -2,16 +2,16 @@
 title: "14.9 Capability Classes"
 description: "14.9 Capability Classes from 14. Abstraction and Polymorphism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "abstraction-and-polymorphism"
 specSection: "149-capability-classes"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -33,12 +33,12 @@ Capability classes have no feature-specific parser beyond ordinary class parsing
 
 $$
 \begin{array}{l}
-\mathsf{CapClass}\ =\ \{\texttt{FileSystem},\ \texttt{Network},\ \texttt{HeapAllocator},\ \texttt{ExecutionDomain},\ \texttt{Reactor},\ \texttt{Time},\ \texttt{MonotonicTime},\ \texttt{WallTime}\} \\[0.16em]
+\mathsf{CapClass}\ =\ \{\texttt{IO},\ \texttt{Network},\ \texttt{HeapAllocator},\ \texttt{ExecutionDomain},\ \texttt{Reactor},\ \texttt{Time},\ \texttt{MonotonicTime},\ \texttt{WallTime}\} \\[0.16em]
 \operatorname{CapType}(\mathsf{Cl})\ =\ \operatorname{TypeDynamic}(\mathsf{Cl})
 \end{array}
 $$
 
-FileSystemInterface =
+IOInterface =
 {
 
 $$
@@ -58,7 +58,7 @@ $$
 \ \langle \texttt{"create\_dir"},\ \texttt{const},\ [\langle \bot ,\ \texttt{path},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeApply}([\texttt{"Outcome"}],\ [\operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePath}([\texttt{"IoError"}])])\rangle , \\[0.16em]
 \ \langle \texttt{"ensure\_dir"},\ \texttt{const},\ [\langle \bot ,\ \texttt{path},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeApply}([\texttt{"Outcome"}],\ [\operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePath}([\texttt{"IoError"}])])\rangle , \\[0.16em]
 \ \langle \texttt{"kind"},\ \texttt{const},\ [\langle \bot ,\ \texttt{path},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeUnion}([\operatorname{TypePath}([\texttt{"FileKind"}]),\ \operatorname{TypePath}([\texttt{"IoError"}])])\rangle , \\[0.16em]
-\ \langle \texttt{"restrict"},\ \texttt{const},\ [\langle \bot ,\ \texttt{path},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeDynamic}(\texttt{FileSystem})\rangle  \\[0.16em]
+\ \langle \texttt{"restrict"},\ \texttt{const},\ [\langle \bot ,\ \texttt{path},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeDynamic}(\texttt{IO})\rangle  \\[0.16em]
 \}
 \end{array}
 $$
@@ -211,7 +211,7 @@ $$
 $$
 \begin{array}{l}
 \mathsf{ContextFields}\ =\ [ \\[0.16em]
-\ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{fs},\ \operatorname{TypeDynamic}(\texttt{FileSystem}),\ \bot ,\ \bot ,\ \bot \rangle , \\[0.16em]
+\ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{io},\ \operatorname{TypeDynamic}(\texttt{IO}),\ \bot ,\ \bot ,\ \bot \rangle , \\[0.16em]
 \ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{net},\ \operatorname{TypeDynamic}(\texttt{Network}),\ \bot ,\ \bot ,\ \bot \rangle , \\[0.16em]
 \ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{heap},\ \operatorname{TypeDynamic}(\texttt{HeapAllocator}),\ \bot ,\ \bot ,\ \bot \rangle , \\[0.16em]
 \ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{sys},\ \operatorname{TypePath}([\texttt{"System"}]),\ \bot ,\ \bot ,\ \bot \rangle , \\[0.16em]
@@ -281,7 +281,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{CapMethodSig}(\texttt{FileSystem},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{FileSystemInterface} \\[0.16em]
+\operatorname{CapMethodSig}(\texttt{IO},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{IOInterface} \\[0.16em]
 \operatorname{CapMethodSig}(\texttt{Network},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{NetworkInterface} \\[0.16em]
 \operatorname{CapMethodSig}(\texttt{HeapAllocator},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{HeapAllocatorInterface} \\[0.16em]
 \operatorname{CapMethodSig}(\texttt{Reactor},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{LookupClassMethod}(\texttt{Reactor},\ \mathsf{name})\ =\ m\ \land \ \operatorname{Sig_T}(\mathsf{SelfVar},\ m)\ =\ \langle \_,\ \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
@@ -294,7 +294,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{CapRecv}(\texttt{FileSystem},\ \mathsf{name})\ =\ \mathsf{recv}\ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{FileSystemInterface} \\[0.16em]
+\operatorname{CapRecv}(\texttt{IO},\ \mathsf{name})\ =\ \mathsf{recv}\ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{IOInterface} \\[0.16em]
 \operatorname{CapRecv}(\texttt{Network},\ \mathsf{name})\ =\ \mathsf{recv}\ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{NetworkInterface} \\[0.16em]
 \operatorname{CapRecv}(\texttt{HeapAllocator},\ \mathsf{name})\ =\ \mathsf{recv}\ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{HeapAllocatorInterface} \\[0.16em]
 \operatorname{CapRecv}(\texttt{Reactor},\ \mathsf{name})\ =\ \mathsf{recv}\ \Leftrightarrow \ \operatorname{LookupClassMethod}(\texttt{Reactor},\ \mathsf{name})\ =\ m\ \land \ \operatorname{RecvPerm}(\mathsf{SelfVar},\ m.\mathsf{receiver})\ =\ \mathsf{recv} \\[0.16em]
@@ -308,7 +308,7 @@ $$
 \begin{array}{l}
 \mathsf{LowerCallJudg}\ =\ \{\mathsf{MethodSymbol},\ \mathsf{BuiltinMethodSym},\ \mathsf{LowerMethodCall},\ \mathsf{LowerArgs},\ \mathsf{LowerRecvArg}\} \\[0.16em]
 \operatorname{ModalStateOf}(T)\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)\ \Leftrightarrow \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S) \\[0.16em]
-\mathsf{BuiltinCapClass}\ =\ \{\texttt{FileSystem},\ \texttt{Network},\ \texttt{HeapAllocator},\ \texttt{Reactor},\ \texttt{Time},\ \texttt{MonotonicTime},\ \texttt{WallTime}\}
+\mathsf{BuiltinCapClass}\ =\ \{\texttt{IO},\ \texttt{Network},\ \texttt{HeapAllocator},\ \texttt{Reactor},\ \texttt{Time},\ \texttt{MonotonicTime},\ \texttt{WallTime}\}
 \end{array}
 $$
 
@@ -318,7 +318,7 @@ Capability classes are ordinary classes in the type system. A parameter of type 
 
 Capability classes MAY be used as generic bounds exactly like any other class bound.
 
-The built-in capability class names `FileSystem`, `Network`, `HeapAllocator`, `ExecutionDomain`, `Reactor`, `Time`, `MonotonicTime`, and `WallTime` are reserved. Type-system use of those names is via `CapType(Cl) = TypeDynamic(Cl)`.
+The built-in capability class names `IO`, `Network`, `HeapAllocator`, `ExecutionDomain`, `Reactor`, `Time`, `MonotonicTime`, and `WallTime` are reserved. Type-system use of those names is via `CapType(Cl) = TypeDynamic(Cl)`.
 
 Calls to `HeapAllocator.alloc_raw` and `HeapAllocator.dealloc_raw` require `unsafe` context.
 
@@ -344,7 +344,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{BuiltinTypes}_{\mathsf{FS}}\ =\ \{\texttt{File},\ \texttt{DirIter},\ \texttt{DirEntry},\ \texttt{FileKind},\ \texttt{IoError}\} \\[0.16em]
+\mathsf{BuiltinTypes}_{\mathsf{IO}}\ =\ \{\texttt{File},\ \texttt{DirIter},\ \texttt{DirEntry},\ \texttt{FileKind},\ \texttt{IoError}\} \\[0.16em]
 \mathsf{BuiltinTypes}_{\mathsf{Time}}\ =\ \{\texttt{Duration},\ \texttt{MonotonicInstant},\ \texttt{UtcInstant},\ \texttt{TimeError}\}
 \end{array}
 $$
@@ -388,7 +388,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ContextBundleFieldType}(\texttt{fs})\ =\ \operatorname{TypeDynamic}(\texttt{FileSystem}) \\[0.16em]
+\operatorname{ContextBundleFieldType}(\texttt{io})\ =\ \operatorname{TypeDynamic}(\texttt{IO}) \\[0.16em]
 \operatorname{ContextBundleFieldType}(\texttt{net})\ =\ \operatorname{TypeDynamic}(\texttt{Network}) \\[0.16em]
 \operatorname{ContextBundleFieldType}(\texttt{heap})\ =\ \operatorname{TypeDynamic}(\texttt{HeapAllocator}) \\[0.16em]
 \operatorname{ContextBundleFieldType}(\texttt{sys})\ =\ \operatorname{TypePath}([\texttt{"System"}]) \\[0.16em]
@@ -409,7 +409,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ContextBundleFieldValue}(v_{\mathsf{ctx}},\ \texttt{fs})\ \Downarrow \ v\ \Leftrightarrow \ \operatorname{FieldValue}(v_{\mathsf{ctx}},\ \texttt{fs})\ =\ v \\[0.16em]
+\operatorname{ContextBundleFieldValue}(v_{\mathsf{ctx}},\ \texttt{io})\ \Downarrow \ v\ \Leftrightarrow \ \operatorname{FieldValue}(v_{\mathsf{ctx}},\ \texttt{io})\ =\ v \\[0.16em]
 \operatorname{ContextBundleFieldValue}(v_{\mathsf{ctx}},\ \texttt{net})\ \Downarrow \ v\ \Leftrightarrow \ \operatorname{FieldValue}(v_{\mathsf{ctx}},\ \texttt{net})\ =\ v \\[0.16em]
 \operatorname{ContextBundleFieldValue}(v_{\mathsf{ctx}},\ \texttt{heap})\ \Downarrow \ v\ \Leftrightarrow \ \operatorname{FieldValue}(v_{\mathsf{ctx}},\ \texttt{heap})\ =\ v \\[0.16em]
 \operatorname{ContextBundleFieldValue}(v_{\mathsf{ctx}},\ \texttt{sys})\ \Downarrow \ v\ \Leftrightarrow \ \operatorname{FieldValue}(v_{\mathsf{ctx}},\ \texttt{sys})\ =\ v \\[0.16em]
@@ -444,7 +444,7 @@ Capability classes introduce no separate dispatch model. Built-in capability ope
 
 ### 14.9.6 Lowering
 
-Calls on dynamic receivers of builtin capability classes `FileSystem`, `Network`, `HeapAllocator`, `Reactor`, `Time`, `MonotonicTime`, and `WallTime` lower to builtin method symbols rather than emitted vtable-call sequences. Other capability classes lower through the ordinary dynamic-dispatch path of §14.6.
+Calls on dynamic receivers of builtin capability classes `IO`, `Network`, `HeapAllocator`, `Reactor`, `Time`, `MonotonicTime`, and `WallTime` lower to builtin method symbols rather than emitted vtable-call sequences. Other capability classes lower through the ordinary dynamic-dispatch path of §14.6.
 
 ### 14.9.7 Diagnostics
 

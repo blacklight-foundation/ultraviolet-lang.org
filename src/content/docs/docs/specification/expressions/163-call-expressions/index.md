@@ -2,16 +2,16 @@
 title: "16.3 Call Expressions"
 description: "16.3 Call Expressions from 16. Expressions of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "expressions"
 specSection: "163-call-expressions"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -28,7 +28,7 @@ call_expr         ::= postfix_expr "(" argument_list? ")"
 generic_call_expr ::= postfix_expr generic_args "(" argument_list? ")"
 method_call_expr  ::= postfix_expr "~>" identifier "(" argument_list? ")"
 argument_list     ::= argument ("," argument)*
-argument          ::= "move"? expression
+argument          ::= ("move" | "copy")? expression
 ```
 
 Qualified applications with parenthesized arguments parse before name resolution as `QualifiedApply(path, name, Paren(args))`.
@@ -75,12 +75,12 @@ $$
 \end{array}
 $$
 
-**(Parse-ArgList-Empty)**, **(Parse-ArgList-Cons)**, **(Parse-Arg)**, **(Parse-ArgMoveOpt-None)**, **(Parse-ArgMoveOpt-Yes)**, **(Parse-ArgTail-End)**, **(Parse-ArgTail-TrailingComma)**, and **(Parse-ArgTail-Comma)** define argument-list parsing and move-mark parsing.
+**(Parse-ArgList-Empty)**, **(Parse-ArgList-Cons)**, **(Parse-Arg)**, **(Parse-ArgPassOpt-None)**, **(Parse-ArgPassOpt-Move)**, **(Parse-ArgPassOpt-Copy)**, **(Parse-ArgTail-End)**, **(Parse-ArgTail-TrailingComma)**, and **(Parse-ArgTail-Comma)** define argument-list parsing and pass-kind parsing.
 
 ### 16.3.3 AST Representation / Form
 
 $$
-\mathsf{Arg}\ =\ \langle \mathsf{moved},\ \mathsf{expr},\ \mathsf{span}\rangle \quad \mathsf{moved}\ \in \ \{\mathsf{true},\ \mathsf{false}\}
+\mathsf{Arg}\ =\ \langle \mathsf{pass},\ \mathsf{expr},\ \mathsf{span}\rangle \quad \mathsf{pass}\ \in \ \mathsf{ArgPassKind}
 $$
 
 $$
@@ -89,17 +89,21 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ArgMoved}(\langle \mathsf{moved},\ e,\ \mathsf{span}\rangle )\ =\ \mathsf{moved} \\[0.16em]
-\operatorname{ArgExpr}(\langle \mathsf{moved},\ e,\ \mathsf{span}\rangle )\ =\ e
+\operatorname{ArgPass}(\langle \mathsf{pass},\ e,\ \mathsf{span}\rangle )\ =\ \mathsf{pass} \\[0.16em]
+\operatorname{ArgExpr}(\langle \mathsf{pass},\ e,\ \mathsf{span}\rangle )\ =\ e
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{MovedArg}(\mathsf{moved},\ e)\ = \\[0.16em]
-\ \{\ \operatorname{MoveExpr}(e)\ \mathsf{if}\ \mathsf{moved}\ =\ \mathsf{true}\ \land \ \operatorname{IsPlace}(e) \\[0.16em]
+\operatorname{MoveArgExpr}(e)\ = \\[0.16em]
+\ \{\ \operatorname{MoveExpr}(e)\ \mathsf{if}\ \operatorname{IsPlace}(e) \\[0.16em]
 \quad e\quad \mathsf{otherwise}\ \}
 \end{array}
+$$
+
+$$
+\operatorname{CopyArgExpr}(e)\ =\ \operatorname{CopyExpr}(e)
 $$
 
 Qualified parenthesized applications are pre-resolution forms. Name resolution rewrites them to:
@@ -121,13 +125,18 @@ $$
 \operatorname{HasSourceProvenance}(e)\ \Leftrightarrow \ (\exists \ \pi .\ \Gamma ;\ \Omega \ \vdash \ e\ \Downarrow \ \pi \ \land \ \pi \ \ne \ \bot ) \\[0.16em]
 \operatorname{CallTemp}(e)\ =\ p_{\mathsf{tmp}}\ \mathsf{where}\ \lnot \ \operatorname{HasSourceProvenance}(e)\ \land \ \operatorname{Lifetime}(p_{\mathsf{tmp}})\ =\ \mathsf{CallExtent}\ \land \ \operatorname{ValueOf}(p_{\mathsf{tmp}})\ =\ e \\[0.16em]
 \operatorname{RefArgExpr}(e)\ =\ \{\ e\ \mathsf{if}\ \operatorname{HasSourceProvenance}(e)\ ;\ \operatorname{CallTemp}(e)\ \mathsf{otherwise}\ \} \\[0.16em]
-\operatorname{ConsumeArgExpr}(\mathsf{mode},\ \mathsf{moved},\ e)\ = \\[0.16em]
-\ \{\ \operatorname{MovedArg}(\mathsf{moved},\ e)\quad \mathsf{if}\ \mathsf{mode}\ =\ \texttt{move}\ \land \ \mathsf{moved}\ =\ \mathsf{true} \\[0.16em]
-\quad \operatorname{MovedArg}(\mathsf{true},\ \operatorname{CallTemp}(e))\ \mathsf{if}\ \mathsf{mode}\ =\ \texttt{move}\ \land \ \mathsf{moved}\ =\ \mathsf{false}\ \land \ \lnot \ \operatorname{HasSourceProvenance}(e) \\[0.16em]
+\operatorname{ConsumeArgExpr}(\mathsf{mode},\ \mathsf{pass},\ e)\ = \\[0.16em]
+\ \{\ \operatorname{MoveArgExpr}(e)\quad \mathsf{if}\ \mathsf{mode}\ =\ \texttt{move}\ \land \ \mathsf{pass}\ =\ \texttt{move} \\[0.16em]
+\quad \operatorname{CopyArgExpr}(e)\quad \mathsf{if}\ \mathsf{pass}\ =\ \texttt{copy} \\[0.16em]
+\quad \operatorname{MoveArgExpr}(\operatorname{CallTemp}(e))\ \mathsf{if}\ \mathsf{mode}\ =\ \texttt{move}\ \land \ \mathsf{pass}\ =\ \texttt{ref}\ \land \ \lnot \ \operatorname{HasSourceProvenance}(e) \\[0.16em]
 \quad e\quad \mathsf{otherwise}\ \} \\[0.16em]
+\operatorname{RefArgOk}(\mathsf{pass},\ e,\ T_{p})\ \Leftrightarrow  \\[0.16em]
+\ (\mathsf{pass}\ =\ \texttt{ref}\ \land \ \Gamma ;\ R;\ L\ \vdash \ \operatorname{RefArgExpr}(e)\ \Leftarrow_{\mathsf{place}} \ T_{p}\ \land \ \operatorname{AddrOfOk}(\operatorname{RefArgExpr}(e)))\ \lor  \\[0.16em]
+\ (\mathsf{pass}\ =\ \texttt{copy}\ \land \ \Gamma ;\ R;\ L\ \vdash \ \operatorname{CopyArgExpr}(e)\ \Leftarrow \ T_{p}\ \dashv \ \emptyset ) \\[0.16em]
 \operatorname{ArgType}(p,\ a)\ = \\[0.16em]
-\ \{\ \operatorname{ExprType}(\operatorname{ConsumeArgExpr}(\operatorname{ParamMode}(p),\ \operatorname{ArgMoved}(a),\ \operatorname{ArgExpr}(a)))\quad \mathsf{if}\ \operatorname{ParamMode}(p)\ =\ \texttt{move} \\[0.16em]
-\quad \operatorname{PlaceType}(\operatorname{RefArgExpr}(\operatorname{ArgExpr}(a)))\quad \mathsf{if}\ \operatorname{ParamMode}(p)\ =\ \bot \ \}
+\ \{\ \operatorname{ExprType}(\operatorname{ConsumeArgExpr}(\operatorname{ParamMode}(p),\ \operatorname{ArgPass}(a),\ \operatorname{ArgExpr}(a)))\quad \mathsf{if}\ \operatorname{ParamMode}(p)\ =\ \texttt{move} \\[0.16em]
+\quad \operatorname{ExprType}(\operatorname{CopyArgExpr}(\operatorname{ArgExpr}(a)))\quad \mathsf{if}\ \operatorname{ParamMode}(p)\ =\ \bot \ \land \ \operatorname{ArgPass}(a)\ =\ \texttt{copy} \\[0.16em]
+\quad \operatorname{PlaceType}(\operatorname{RefArgExpr}(\operatorname{ArgExpr}(a)))\quad \mathsf{if}\ \operatorname{ParamMode}(p)\ =\ \bot \ \land \ \operatorname{ArgPass}(a)\ =\ \texttt{ref}\ \}
 \end{array}
 $$
 
@@ -144,9 +153,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{ConsumeArgExpr}(\texttt{move},\ \mathsf{moved},\ e)\ \Leftarrow \ T_{p}\ \dashv \ \emptyset \quad (\mathsf{moved}\ =\ \mathsf{true}\ \lor \ (\mathsf{moved}\ =\ \mathsf{false}\ \land \ \lnot \ \operatorname{HasSourceProvenance}(e)))\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}(\mathsf{ps},\ \mathsf{as}) \\[0.16em]
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{ConsumeArgExpr}(\texttt{move},\ \mathsf{pass},\ e)\ \Leftarrow \ T_{p}\ \dashv \ \emptyset \quad (\mathsf{pass}\ \in \ \{\texttt{move},\ \texttt{copy}\}\ \lor \ (\mathsf{pass}\ =\ \texttt{ref}\ \land \ \lnot \ \operatorname{HasSourceProvenance}(e)))\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}(\mathsf{ps},\ \mathsf{as}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}([\langle \texttt{move},\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}([\langle \texttt{move},\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{pass},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})
 \end{array}
 $$
 
@@ -154,9 +163,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{RefArgExpr}(e)\ \Leftarrow_{\mathsf{place}} \ T_{p}\quad \operatorname{AddrOfOk}(\operatorname{RefArgExpr}(e))\quad \mathsf{moved}\ =\ \mathsf{false}\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}(\mathsf{ps},\ \mathsf{as}) \\[0.16em]
+\operatorname{RefArgOk}(\mathsf{pass},\ e,\ T_{p})\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}(\mathsf{ps},\ \mathsf{as}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}([\langle \bot ,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{ArgsOk_T}([\langle \bot ,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{pass},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})
 \end{array}
 $$
 
@@ -214,7 +223,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\quad \exists \ i.\ \operatorname{ParamMode}(\mathsf{params}[i])\ =\ \texttt{move}\ \land \ \operatorname{ArgMoved}(\mathsf{args}[i])\ =\ \mathsf{false}\ \land \ \operatorname{HasSourceProvenance}(\operatorname{ArgExpr}(\mathsf{args}[i]))\quad c\ =\ \operatorname{Code}(\mathsf{Call}-\mathsf{Move}-\mathsf{Missing}) \\[0.16em]
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\quad \exists \ i.\ \operatorname{ParamMode}(\mathsf{params}[i])\ =\ \texttt{move}\ \land \ \operatorname{ArgPass}(\mathsf{args}[i])\ =\ \texttt{ref}\ \land \ \operatorname{HasSourceProvenance}(\operatorname{ArgExpr}(\mathsf{args}[i]))\quad c\ =\ \operatorname{Code}(\mathsf{Call}-\mathsf{Move}-\mathsf{Missing}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Uparrow \ c
 \end{array}
@@ -224,7 +233,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\quad \exists \ i.\ \operatorname{ParamMode}(\mathsf{params}[i])\ =\ \bot \ \land \ \operatorname{ArgMoved}(\mathsf{args}[i])\ =\ \mathsf{true}\quad c\ =\ \operatorname{Code}(\mathsf{Call}-\mathsf{Move}-\mathsf{Unexpected}) \\[0.16em]
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\quad \exists \ i.\ \operatorname{ParamMode}(\mathsf{params}[i])\ =\ \bot \ \land \ \operatorname{ArgPass}(\mathsf{args}[i])\ =\ \texttt{move}\quad c\ =\ \operatorname{Code}(\mathsf{Call}-\mathsf{Move}-\mathsf{Unexpected}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Uparrow \ c
 \end{array}
@@ -244,7 +253,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\quad \exists \ i.\ \operatorname{ParamMode}(\mathsf{params}[i])\ =\ \bot \ \land \ \operatorname{HasSourceProvenance}(\operatorname{ArgExpr}(\mathsf{args}[i]))\ \land \ \lnot \ \operatorname{IsPlace}(\operatorname{ArgExpr}(\mathsf{args}[i]))\quad c\ =\ \operatorname{Code}(\mathsf{Call}-\mathsf{Arg}-\mathsf{NotPlace}) \\[0.16em]
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{callee}\ :\ \operatorname{TypeFunc}(\mathsf{params},\ \_)\quad \exists \ i.\ \operatorname{ParamMode}(\mathsf{params}[i])\ =\ \bot \ \land \ \operatorname{ArgPass}(\mathsf{args}[i])\ =\ \texttt{ref}\ \land \ \operatorname{HasSourceProvenance}(\operatorname{ArgExpr}(\mathsf{args}[i]))\ \land \ \lnot \ \operatorname{IsPlace}(\operatorname{ArgExpr}(\mathsf{args}[i]))\quad c\ =\ \operatorname{Code}(\mathsf{Call}-\mathsf{Arg}-\mathsf{NotPlace}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Uparrow \ c
 \end{array}
@@ -369,9 +378,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MovedArg}(\mathsf{moved},\ e))\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerArgs}(\mathsf{ps},\ \mathsf{as})\ \Downarrow \ \langle \mathsf{IR}_{a},\ \mathsf{vec}_{v}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerMoveArg}(\mathsf{pass},\ e,\ T_{p})\ \Downarrow \ \langle \mathsf{IR}_{e},\ \mathsf{owned}_{\mathsf{ref}}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerArgs}(\mathsf{ps},\ \mathsf{as})\ \Downarrow \ \langle \mathsf{IR}_{a},\ \mathsf{vec}_{v}\rangle  \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerArgs}([\langle \texttt{move},\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{a}),\ [v]\ \mathbin{++} \ \mathsf{vec}_{v}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerArgs}([\langle \texttt{move},\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{pass},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{a}),\ [\mathsf{owned}_{\mathsf{ref}}]\ \mathbin{++} \ \mathsf{vec}_{v}\rangle 
 \end{array}
 $$
 
@@ -379,9 +388,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerAddrOf}(\operatorname{RefArgExpr}(e))\ \Downarrow \ \langle \mathsf{IR}_{e},\ \mathsf{addr}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerArgs}(\mathsf{ps},\ \mathsf{as})\ \Downarrow \ \langle \mathsf{IR}_{a},\ \mathsf{vec}_{v}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerRefArg}(\mathsf{pass},\ e,\ T_{p})\ \Downarrow \ \langle \mathsf{IR}_{e},\ \mathsf{addr}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerArgs}(\mathsf{ps},\ \mathsf{as})\ \Downarrow \ \langle \mathsf{IR}_{a},\ \mathsf{vec}_{v}\rangle  \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerArgs}([\langle \bot ,\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{moved},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{a}),\ [\mathsf{Ptr}@\operatorname{Valid}(\mathsf{addr})]\ \mathbin{++} \ \mathsf{vec}_{v}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerArgs}([\langle \bot ,\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{pass},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{a}),\ [\mathsf{Ptr}@\operatorname{Valid}(\mathsf{addr})]\ \mathbin{++} \ \mathsf{vec}_{v}\rangle 
 \end{array}
 $$
 
@@ -403,4 +412,4 @@ $$
 
 ### 16.3.7 Diagnostics
 
-Diagnostics are defined for non-callable callees, wrong argument count, wrong argument type, missing `move` at consuming call sites, unexpected `move` on by-reference parameters, non-place reference arguments, packed-field by-reference arguments outside `unsafe`, calls to `extern` procedures outside `unsafe`, unresolved qualified parenthesized applications, and the closure-specific conditions owned by §16.9.7.
+Diagnostics are defined for non-callable callees, wrong argument count, wrong argument type, missing explicit transfer/copy at consuming call sites, unexpected `move` on by-reference parameters, non-place reference arguments, packed-field by-reference arguments outside `unsafe`, calls to `extern` procedures outside `unsafe`, unresolved qualified parenthesized applications, and the closure-specific conditions owned by §16.9.7.

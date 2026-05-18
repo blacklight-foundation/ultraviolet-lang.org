@@ -2,16 +2,16 @@
 title: "24.1 Shared Lowering Judgments"
 description: "24.1 Shared Lowering Judgments from 24. Common Lowering, Program Lifecycle, and Backend of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "common-lowering-program-lifecycle-and-backend"
 specSection: "241-shared-lowering-judgments"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -116,7 +116,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{ArgsExprs}([])\ =\ [] \\[0.16em]
-\operatorname{ArgsExprs}([\langle \mathsf{moved},\ e,\ \mathsf{span}\rangle ]\ \mathbin{++} \ \mathsf{rest})\ =\ [e]\ \mathbin{++} \ \operatorname{ArgsExprs}(\mathsf{rest})
+\operatorname{ArgsExprs}([\langle \mathsf{pass},\ e,\ \mathsf{span}\rangle ]\ \mathbin{++} \ \mathsf{rest})\ =\ [e]\ \mathbin{++} \ \operatorname{ArgsExprs}(\mathsf{rest})
 \end{array}
 $$
 
@@ -673,9 +673,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerFieldInits}(\mathsf{fs})\ \Downarrow \ \langle \mathsf{IR}_{s},\ \mathsf{vec}_{f}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerFieldInits}(\mathsf{io})\ \Downarrow \ \langle \mathsf{IR}_{s},\ \mathsf{vec}_{f}\rangle  \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerFieldInits}([\langle f,\ e\rangle ]\ \mathbin{++} \ \mathsf{fs})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{s}),\ [\langle f,\ v\rangle ]\ \mathbin{++} \ \mathsf{vec}_{f}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerFieldInits}([\langle f,\ e\rangle ]\ \mathbin{++} \ \mathsf{io})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{s}),\ [\langle f,\ v\rangle ]\ \mathbin{++} \ \mathsf{vec}_{f}\rangle 
 \end{array}
 $$
 
@@ -866,6 +866,10 @@ $$
 \end{array}
 $$
 
+`LowerIR-Err` is backend evidence. It is verified by valid source reaching semantic
+success followed by a deterministic backend harness or injected invalid IR
+declaration.
+
 **(EmitLLVM-Ok)**
 
 $$
@@ -919,3 +923,6 @@ $$
 \Gamma \ \vdash \ \operatorname{EmitObj}(\mathsf{LLVMIR})\ \Uparrow 
 \end{array}
 $$
+
+`EmitObj-Err` is reserved for verifier, target-machine, or object-emission failure
+after an LLVM module or LLVM text exists.

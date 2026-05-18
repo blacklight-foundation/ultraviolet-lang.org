@@ -2,16 +2,16 @@
 title: "18.9 Control-Transfer Statements"
 description: "18.9 Control-Transfer Statements from 18. Statements and Blocks of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "statements-and-blocks"
 specSection: "189-control-transfer-statements"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -69,11 +69,22 @@ ContinueStmt
 
 ### 18.9.4 Static Semantics
 
+$$
+\begin{array}{l}
+\operatorname{ReturnDestExpr}(e)\ = \\[0.16em]
+\ \{\ \operatorname{CopyExpr}(\operatorname{CopyInner}(e))\quad \mathsf{if}\ \operatorname{IsCopyExpr}(e) \\[0.16em]
+\quad \operatorname{MoveExpr}(e)\quad \mathsf{if}\ \operatorname{IsPlace}(e) \\[0.16em]
+\quad e\quad \mathsf{otherwise}\ \}
+\end{array}
+$$
+
+`ReturnDestExpr` is the static ownership-destination view of a return expression. `EvalReturnDest` and `LowerReturnDest` implement the same view dynamically and in IR: a returned owned place transfers its provenance/allocation domain to the return destination, a fresh expression materializes directly in that destination, and `copy` first creates a duplicate domain that becomes the returned owner.
+
 **(T-Return-Value)**
 
 $$
 \begin{array}{l}
-R_{b}\ =\ \operatorname{BodyReturnType}(R)\quad \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ R_{b}\ \dashv \ \emptyset  \\[0.16em]
+R_{b}\ =\ \operatorname{BodyReturnType}(R)\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnDestExpr}(e)\ \Leftarrow \ R_{b}\ \dashv \ \emptyset  \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnStmt}(e)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
 \end{array}
@@ -93,7 +104,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T\quad \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ \mathsf{Result})\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0203) \\[0.16em]
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnDestExpr}(e)\ :\ T\quad \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ \mathsf{Result})\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0203) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnStmt}(e)\ \Uparrow \ c
 \end{array}
@@ -113,7 +124,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T\quad R_{b}\ =\ \operatorname{BodyReturnType}(R)\quad \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ R_{b})\quad c\ =\ \operatorname{Code}(\mathsf{Return}-\mathsf{Type}-\mathsf{Err}) \\[0.16em]
+\operatorname{AsyncSig}(R)\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnDestExpr}(e)\ :\ T\quad R_{b}\ =\ \operatorname{BodyReturnType}(R)\quad \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ R_{b})\quad c\ =\ \operatorname{Code}(\mathsf{Return}-\mathsf{Type}-\mathsf{Err}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnStmt}(e)\ \Uparrow \ c
 \end{array}
@@ -189,7 +200,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} ) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalReturnDest}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{ReturnStmt}(e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\operatorname{Return}(v)),\ \sigma_{1} )
 \end{array}
@@ -208,7 +219,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalReturnDest}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{ReturnStmt}(e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
 \end{array}
@@ -258,7 +269,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerReturnDest}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle  \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{ReturnStmt}(e))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{ReturnIR}(v))
 \end{array}
@@ -305,7 +316,7 @@ For control-flow statements, the lowering MUST emit temporary cleanup immediatel
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{ReturnStmt}(e))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{TempCleanupIR}(s),\ \operatorname{ReturnIR}(v)) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{ReturnStmt}(e))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{TempCleanupIR}(s\ \setminus \ \operatorname{ReturnedOwner}(e)),\ \operatorname{ReturnIR}(v)) \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{BreakStmt}(e))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{TempCleanupIR}(s),\ \operatorname{BreakIR}(v)) \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{BreakStmt}(\bot ))\ \Downarrow \ \operatorname{SeqIR}(\operatorname{TempCleanupIR}(s),\ \operatorname{BreakIR}(\bot )) \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\mathsf{ContinueStmt})\ \Downarrow \ \operatorname{SeqIR}(\operatorname{TempCleanupIR}(s),\ \mathsf{ContinueIR})

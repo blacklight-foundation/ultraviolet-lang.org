@@ -2,16 +2,16 @@
 title: "12.3 Arrays"
 description: "12.3 Arrays from 12. Concrete Data Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "concrete-data-types"
 specSection: "123-arrays"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -130,6 +130,12 @@ $$
 \operatorname{ConstIndex}(e)\ \Leftrightarrow \ \exists \ n.\ \Gamma \ \vdash \ \operatorname{ConstLen}(e)\ \Downarrow \ n
 $$
 
+$$
+\operatorname{IndexUsizeExpr}(e)\ \Leftrightarrow \ (\Gamma \ \vdash \ e\ :\ \operatorname{TypePrim}(\texttt{"usize"}))\ \lor \ (e\ =\ \operatorname{Literal}(\mathsf{lit})\ \land \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\ \land \ \operatorname{IntSuffix}(\mathsf{lit})\ =\ \bot \ \land \ \operatorname{InRange}(\operatorname{IntValue}(\mathsf{lit}),\ \texttt{"usize"}))
+$$
+
+`IndexUsizeExpr` is a contextual integer-literal checking relation for array and slice index positions. It accepts an unsuffixed integer literal that fits `usize` without changing the standalone synthesized type of that literal. It MUST NOT admit explicitly suffixed non-`usize` literals, and it MUST NOT convert non-literal expressions; non-literal index expressions must already type as `TypePrim("usize")`.
+
 **(WF-Array)**
 
 $$
@@ -169,7 +175,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ \mathsf{len})\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\quad \operatorname{ConstIndex}(e_{2})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ i\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{len})\ \Downarrow \ n\quad i\ <\ n\quad \operatorname{BitcopyType}(T) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ \mathsf{len})\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \operatorname{ConstIndex}(e_{2})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ i\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{len})\ \Downarrow \ n\quad i\ <\ n\quad \operatorname{BitcopyType}(T) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ T
 \end{array}
@@ -179,7 +185,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ \mathsf{len})\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \mathsf{InDynamicContext}\quad \operatorname{BitcopyType}(T) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ \mathsf{len})\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \mathsf{InDynamicContext}\quad \operatorname{BitcopyType}(T) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ T
 \end{array}
@@ -189,7 +195,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ \mathsf{len}))\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\quad \operatorname{ConstIndex}(e_{2})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ i\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{len})\ \Downarrow \ n\quad i\ <\ n\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ \mathsf{len}))\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \operatorname{ConstIndex}(e_{2})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ i\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{len})\ \Downarrow \ n\quad i\ <\ n\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ T)
 \end{array}
@@ -199,7 +205,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ \mathsf{len}))\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \mathsf{InDynamicContext}\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ \mathsf{len}))\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \mathsf{InDynamicContext}\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ T)
 \end{array}
@@ -209,7 +215,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypeArray}(T,\ \mathsf{len})\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\quad \operatorname{ConstIndex}(e_{2})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ i\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{len})\ \Downarrow \ n\quad i\ <\ n \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypeArray}(T,\ \mathsf{len})\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \operatorname{ConstIndex}(e_{2})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ i\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{len})\ \Downarrow \ n\quad i\ <\ n \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\mathsf{place}\ T
 \end{array}
@@ -219,7 +225,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ \mathsf{len}))\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\quad \operatorname{ConstIndex}(e_{2})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ i\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{len})\ \Downarrow \ n\quad i\ <\ n \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ \mathsf{len}))\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \operatorname{ConstIndex}(e_{2})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ i\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{len})\ \Downarrow \ n\quad i\ <\ n \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ T)
 \end{array}
@@ -229,7 +235,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypeArray}(T,\ \mathsf{len})\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \mathsf{InDynamicContext} \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypeArray}(T,\ \mathsf{len})\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \mathsf{InDynamicContext} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\mathsf{place}\ T
 \end{array}
@@ -239,7 +245,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ \mathsf{len}))\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \mathsf{InDynamicContext} \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ \mathsf{len}))\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \mathsf{InDynamicContext} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ T)
 \end{array}
@@ -249,7 +255,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ \_)\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \lnot \ \mathsf{InDynamicContext}\quad c\ =\ \operatorname{Code}(\mathsf{Index}-\mathsf{Array}-\mathsf{NonConst}-\mathsf{Err}) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ \_)\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \lnot \ \mathsf{InDynamicContext}\quad c\ =\ \operatorname{Code}(\mathsf{Index}-\mathsf{Array}-\mathsf{NonConst}-\mathsf{Err}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ \Uparrow \ c
 \end{array}
@@ -269,7 +275,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ \_)\quad \Gamma \ \vdash \ e_{2}\ :\ T_{i}\quad T_{i}\ \ne \ \operatorname{TypePrim}(\texttt{"usize"})\quad c\ =\ \operatorname{Code}(\mathsf{Index}-\mathsf{Array}-\mathsf{NonUsize}) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ \_)\quad \lnot \ \operatorname{IndexUsizeExpr}(e_{2})\quad c\ =\ \operatorname{Code}(\mathsf{Index}-\mathsf{Array}-\mathsf{NonUsize}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ \Uparrow \ c
 \end{array}

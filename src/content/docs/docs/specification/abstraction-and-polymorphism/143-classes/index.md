@@ -2,16 +2,16 @@
 title: "14.3 Classes"
 description: "14.3 Classes from 14. Abstraction and Polymorphism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "abstraction-and-polymorphism"
 specSection: "143-classes"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -442,11 +442,11 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{FirstFieldByName}(\mathsf{fs})\ =\ \operatorname{FirstFieldByName}(\mathsf{fs},\ \emptyset ) \\[0.16em]
+\operatorname{FirstFieldByName}(\mathsf{io})\ =\ \operatorname{FirstFieldByName}(\mathsf{io},\ \emptyset ) \\[0.16em]
 \operatorname{FirstFieldByName}([],\ \mathsf{Seen})\ =\ [] \\[0.16em]
-\operatorname{FirstFieldByName}(f\ \mathbin{::} \ \mathsf{fs},\ \mathsf{Seen})\ = \\[0.16em]
-\ \{\ f\ \mathbin{::} \ \operatorname{FirstFieldByName}(\mathsf{fs},\ \mathsf{Seen}\ \cup \ \{\ f.\mathsf{name}\ \mapsto \ \operatorname{FieldSig}(f)\ \})\quad \mathsf{if}\ f.\mathsf{name}\ \notin \ \operatorname{dom}(\mathsf{Seen}) \\[0.16em]
-\quad \operatorname{FirstFieldByName}(\mathsf{fs},\ \mathsf{Seen})\quad \mathsf{if}\ \mathsf{Seen}[f.\mathsf{name}]\ =\ \operatorname{FieldSig}(f) \\[0.16em]
+\operatorname{FirstFieldByName}(f\ \mathbin{::} \ \mathsf{io},\ \mathsf{Seen})\ = \\[0.16em]
+\ \{\ f\ \mathbin{::} \ \operatorname{FirstFieldByName}(\mathsf{io},\ \mathsf{Seen}\ \cup \ \{\ f.\mathsf{name}\ \mapsto \ \operatorname{FieldSig}(f)\ \})\quad \mathsf{if}\ f.\mathsf{name}\ \notin \ \operatorname{dom}(\mathsf{Seen}) \\[0.16em]
+\quad \operatorname{FirstFieldByName}(\mathsf{io},\ \mathsf{Seen})\quad \mathsf{if}\ \mathsf{Seen}[f.\mathsf{name}]\ =\ \operatorname{FieldSig}(f) \\[0.16em]
 \quad \Uparrow \quad \mathsf{otherwise}\ \}
 \end{array}
 $$
@@ -455,7 +455,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{FirstFieldByName}(\mathsf{fs})\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{EffFields}-\mathsf{Conflict}) \\[0.16em]
+\operatorname{FirstFieldByName}(\mathsf{io})\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{EffFields}-\mathsf{Conflict}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Emit}(c)
 \end{array}

@@ -2,16 +2,16 @@
 title: "16.2 Access and Place Expressions"
 description: "16.2 Access and Place Expressions from 16. Expressions of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "expressions"
 specSection: "162-access-and-place-expressions"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -207,7 +207,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ \mathsf{len})\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{usize})\quad \operatorname{ConstIndex}(e_{2})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ i\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{len})\ \Downarrow \ n\quad i\ <\ n\quad \operatorname{BitcopyType}(T) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ \mathsf{len})\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \operatorname{ConstIndex}(e_{2})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ i\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{len})\ \Downarrow \ n\quad i\ <\ n\quad \operatorname{BitcopyType}(T) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ T
 \end{array}
@@ -217,7 +217,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ \mathsf{len})\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{usize})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \mathsf{InDynamicContext}\quad \operatorname{BitcopyType}(T) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ \mathsf{len})\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \mathsf{InDynamicContext}\quad \operatorname{BitcopyType}(T) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ T
 \end{array}
@@ -227,7 +227,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ \mathsf{len}))\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{usize})\quad \operatorname{ConstIndex}(e_{2})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ i\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{len})\ \Downarrow \ n\quad i\ <\ n\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ \mathsf{len}))\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \operatorname{ConstIndex}(e_{2})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ i\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{len})\ \Downarrow \ n\quad i\ <\ n\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ T)
 \end{array}
@@ -237,7 +237,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ \mathsf{len}))\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{usize})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \mathsf{InDynamicContext}\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ \mathsf{len}))\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \mathsf{InDynamicContext}\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ T)
 \end{array}
@@ -247,7 +247,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeSlice}(T)\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{usize})\quad \operatorname{BitcopyType}(T) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeSlice}(T)\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \operatorname{BitcopyType}(T) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ T
 \end{array}
@@ -257,7 +257,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))\quad \Gamma \ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{usize})\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ T)
 \end{array}
@@ -267,7 +267,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ n)\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2}))\quad \operatorname{BitcopyType}(\operatorname{TypeSlice}(T)) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ n)\quad \operatorname{RangeIndexExpr}(e_{2})\quad \operatorname{BitcopyType}(\operatorname{TypeSlice}(T)) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypeSlice}(T)
 \end{array}
@@ -277,7 +277,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ n))\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2}))\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ n))\quad \operatorname{RangeIndexExpr}(e_{2})\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))
 \end{array}
@@ -287,7 +287,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeSlice}(T)\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2}))\quad \operatorname{BitcopyType}(\operatorname{TypeSlice}(T)) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeSlice}(T)\quad \operatorname{RangeIndexExpr}(e_{2})\quad \operatorname{BitcopyType}(\operatorname{TypeSlice}(T)) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypeSlice}(T)
 \end{array}
@@ -297,7 +297,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))\quad \Gamma ;\ R;\ L\ \vdash \ e_{2}\ :\ \mathsf{Range}\quad \operatorname{RangeIndexType}(\operatorname{ExprType}(e_{2}))\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))) \\[0.16em]
+\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))\quad \operatorname{RangeIndexExpr}(e_{2})\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))
 \end{array}
@@ -315,6 +315,8 @@ $$
 \end{array}
 $$
 
+ValueCopyContext(e) holds when the enclosing operation must duplicate the value represented by `e`. It includes explicit `copy e`, by-value materialization for Bitcopy-only operations, and array-repeat/value-spread contexts. It does not include `move e`, ownership-return destinations, address formation, or by-reference argument passing.
+
 **(Union-DirectAccess-Err)**
 
 $$
@@ -329,7 +331,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPlace}(e)\quad \lnot \ \operatorname{BitcopyType}(\operatorname{ExprType}(e))\quad c\ =\ \operatorname{Code}(\mathsf{ValueUse}-\mathsf{NonBitcopyPlace}) \\[0.16em]
+\operatorname{ValueCopyContext}(e)\quad \operatorname{IsPlace}(e)\quad \lnot \ \operatorname{BitcopyType}(\operatorname{ExprType}(e))\quad c\ =\ \operatorname{Code}(\mathsf{ValueUse}-\mathsf{NonBitcopyPlace}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ e\ \Uparrow \ c
 \end{array}
@@ -456,6 +458,6 @@ $$
 
 ### 16.2.7 Diagnostics
 
-Diagnostics are defined for unknown or inaccessible record fields, tuple indexing on non-tuples, non-constant tuple indices, tuple index out of bounds, non-`usize` array indices, non-constant array indices outside dynamic-checking contexts, out-of-bounds array and slice access, indexing non-indexable values, direct field access on unions, and value use of non-`Bitcopy` places.
+Diagnostics are defined for unknown or inaccessible record fields, tuple indexing on non-tuples, non-constant tuple indices, tuple index out of bounds, non-`usize` array indices, non-constant array indices outside dynamic-checking contexts, out-of-bounds array and slice access, indexing non-indexable values, direct field access on unions, and value-copy use of non-`Bitcopy` places.
 
-Scalar indexing of arrays and slices is governed by the `TypePrim(`usize`)` requirement in §12.4.4. The corresponding non-`usize` diagnostics are `Index-Array-NonUsize` and `Index-Slice-NonUsize`. Scalar out-of-bounds access and range out-of-bounds slicing lower to panic through `EvalSigma-Index-OOB` and `EvalSigma-Index-Range-OOB`.
+Scalar indexing of arrays and slices is governed by `IndexUsizeExpr` from §12.3.4, which contextually checks direct unsuffixed integer literals as `usize` while requiring non-literal expressions to already type as `usize`. Array/slice range indexing is governed by `RangeIndexExpr` from §12.4.4. The corresponding non-`usize` diagnostics are `Index-Array-NonUsize` and `Index-Slice-NonUsize`. Scalar out-of-bounds access and range out-of-bounds slicing lower to panic through `EvalSigma-Index-OOB` and `EvalSigma-Index-Range-OOB`.

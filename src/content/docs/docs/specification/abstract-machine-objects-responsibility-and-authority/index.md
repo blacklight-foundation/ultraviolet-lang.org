@@ -2,14 +2,14 @@
 title: "Abstract Machine, Objects, Responsibility, and Authority"
 description: "6. Abstract Machine, Objects, Responsibility, and Authority section index for the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
-generatedAt: "2026-05-14T07:35:34.990Z"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 
@@ -36,7 +36,7 @@ generated: true
 <details class="spec-outline-subsections">
     <summary>5 subsections</summary>
     <ol>
-      <li><a href="/docs/specification/abstract-machine-objects-responsibility-and-authority/62-host-primitives/#621-filesystem-file-and-directory-primitive-relations">6.2.1 FileSystem, File, and Directory Primitive Relations</a></li>
+      <li><a href="/docs/specification/abstract-machine-objects-responsibility-and-authority/62-host-primitives/#621-io-file-and-directory-primitive-relations">6.2.1 IO, File, and Directory Primitive Relations</a></li>
       <li><a href="/docs/specification/abstract-machine-objects-responsibility-and-authority/62-host-primitives/#622-system-primitive-relations">6.2.2 System Primitive Relations</a></li>
       <li><a href="/docs/specification/abstract-machine-objects-responsibility-and-authority/62-host-primitives/#623-time-primitive-relations">6.2.3 Time Primitive Relations</a></li>
       <li><a href="/docs/specification/abstract-machine-objects-responsibility-and-authority/62-host-primitives/#624-network-primitive-relations">6.2.4 Network Primitive Relations</a></li>

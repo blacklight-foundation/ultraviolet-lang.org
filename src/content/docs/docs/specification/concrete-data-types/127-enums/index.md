@@ -2,16 +2,16 @@
 title: "12.7 Enums"
 description: "12.7 Enums from 12. Concrete Data Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "concrete-data-types"
 specSection: "127-enums"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -130,9 +130,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseFieldDeclList}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{fs})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\}"}) \\[0.16em]
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseFieldDeclList}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{io})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\}"}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParseVariantPayloadOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{RecordPayload}(\mathsf{fs}))
+\Gamma \ \vdash \ \operatorname{ParseVariantPayloadOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{RecordPayload}(\mathsf{io}))
 \end{array}
 $$
 
@@ -242,6 +242,10 @@ $$
 \end{array}
 $$
 
+When an enum record payload literal is checked against an expected `TypeApply(p, args)`,
+the payload field types are checked under `DefaultArgs(TypeParamsOf(p), args)` and the
+result expression type is the expected `TypeApply(p, args)`.
+
 **(ResolveQual-Name-Enum)**
 
 $$
@@ -308,6 +312,10 @@ $$
 \end{array}
 $$
 
+`Enum-Disc-NotInt` is AST/recovery/reference-model evidence. Source fixtures cover
+parse diagnostics for non-integer spelling and semantic diagnostics reached after
+integer tokenization.
+
 **(Enum-Disc-Invalid)**
 
 $$
@@ -327,6 +335,9 @@ $$
 \Gamma \ \vdash \ \operatorname{EnumDiscriminants}(E)\ \Uparrow \ c
 \end{array}
 $$
+
+`Enum-Disc-Negative` is AST/recovery/reference-model evidence unless the source
+grammar is expanded to parse signed discriminants.
 
 **(Enum-Disc-Dup)**
 
@@ -382,9 +393,9 @@ $$
 $$
 \begin{array}{l}
 \operatorname{VariantPayload}(E,\ v)\ =\ \mathsf{payload}_{\mathsf{opt}}\ \Leftrightarrow \ \exists \ \mathsf{disc},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{VariantDecl}(v,\ \mathsf{payload}_{\mathsf{opt}},\ \mathsf{disc},\ \mathsf{span},\ \mathsf{doc})\ \in \ E.\mathsf{variants} \\[0.16em]
-\operatorname{VariantFieldNames}(\mathsf{fs})\ =\ [\ f\ \mid \ \operatorname{FieldDecl}(\_,\ \_,\ \_,\ f,\ \_,\ \_,\ \_,\ \_)\ \in \ \mathsf{fs}\ ] \\[0.16em]
-\operatorname{VariantFieldNameSet}(\mathsf{fs})\ =\ \operatorname{Set}(\operatorname{VariantFieldNames}(\mathsf{fs})) \\[0.16em]
-\operatorname{EnumFieldType}(E,\ v,\ f)\ =\ T_{f}\ \Leftrightarrow \ \operatorname{VariantPayload}(E,\ v)\ =\ \operatorname{RecordPayload}(\mathsf{fs})\ \land \ \exists \ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{boundary},\ \mathsf{init}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}.\ \operatorname{FieldDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{boundary},\ f,\ T_{f},\ \mathsf{init}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}})\ \in \ \mathsf{fs} \\[0.16em]
+\operatorname{VariantFieldNames}(\mathsf{io})\ =\ [\ f\ \mid \ \operatorname{FieldDecl}(\_,\ \_,\ \_,\ f,\ \_,\ \_,\ \_,\ \_)\ \in \ \mathsf{io}\ ] \\[0.16em]
+\operatorname{VariantFieldNameSet}(\mathsf{io})\ =\ \operatorname{Set}(\operatorname{VariantFieldNames}(\mathsf{io})) \\[0.16em]
+\operatorname{EnumFieldType}(E,\ v,\ f)\ =\ T_{f}\ \Leftrightarrow \ \operatorname{VariantPayload}(E,\ v)\ =\ \operatorname{RecordPayload}(\mathsf{io})\ \land \ \exists \ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{boundary},\ \mathsf{init}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}.\ \operatorname{FieldDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{boundary},\ f,\ T_{f},\ \mathsf{init}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}})\ \in \ \mathsf{io} \\[0.16em]
 \operatorname{TuplePayloadArity}(E,\ v)\ =\ n\ \Leftrightarrow \ \operatorname{VariantPayload}(E,\ v)\ =\ \operatorname{TuplePayload}([T_{1},\ \ldots ,\ T_{n}])
 \end{array}
 $$
@@ -433,7 +444,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{EnumDecl}(\operatorname{EnumPath}(\mathsf{path}))\ =\ E\quad v\ =\ \operatorname{VariantName}(\mathsf{path})\quad \operatorname{VariantPayload}(E,\ v)\ =\ \operatorname{RecordPayload}(\mathsf{fs})\quad \operatorname{Distinct}(\operatorname{FieldInitNames}(\mathsf{fields}))\quad \operatorname{FieldInitSet}(\mathsf{fields})\ =\ \operatorname{VariantFieldNameSet}(\mathsf{fs})\quad \forall \ \langle f,\ e\rangle \ \in \ \mathsf{fields},\ \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ \operatorname{EnumFieldType}(E,\ v,\ f)\ \dashv \ \emptyset  \\[0.16em]
+\operatorname{EnumDecl}(\operatorname{EnumPath}(\mathsf{path}))\ =\ E\quad v\ =\ \operatorname{VariantName}(\mathsf{path})\quad \operatorname{VariantPayload}(E,\ v)\ =\ \operatorname{RecordPayload}(\mathsf{io})\quad \operatorname{Distinct}(\operatorname{FieldInitNames}(\mathsf{fields}))\quad \operatorname{FieldInitSet}(\mathsf{fields})\ =\ \operatorname{VariantFieldNameSet}(\mathsf{io})\quad \forall \ \langle f,\ e\rangle \ \in \ \mathsf{fields},\ \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ \operatorname{EnumFieldType}(E,\ v,\ f)\ \dashv \ \emptyset  \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{EnumLiteral}(\mathsf{path},\ \operatorname{Brace}(\mathsf{fields}))\ :\ \operatorname{TypePath}(\operatorname{EnumPath}(\mathsf{path}))
 \end{array}
@@ -443,7 +454,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{EnumDecl}(\operatorname{EnumPath}(\mathsf{path}))\ =\ E\quad v\ =\ \operatorname{VariantName}(\mathsf{path})\quad \operatorname{VariantPayload}(E,\ v)\ =\ \operatorname{RecordPayload}(\mathsf{fs})\quad \operatorname{FieldInitSet}(\mathsf{fields})\ \subset \ \operatorname{VariantFieldNameSet}(\mathsf{fs})\quad c\ =\ \operatorname{Code}(\mathsf{Enum}-\mathsf{Lit}-\mathsf{Record}-\mathsf{MissingField}) \\[0.16em]
+\operatorname{EnumDecl}(\operatorname{EnumPath}(\mathsf{path}))\ =\ E\quad v\ =\ \operatorname{VariantName}(\mathsf{path})\quad \operatorname{VariantPayload}(E,\ v)\ =\ \operatorname{RecordPayload}(\mathsf{io})\quad \operatorname{FieldInitSet}(\mathsf{fields})\ \subset \ \operatorname{VariantFieldNameSet}(\mathsf{io})\quad c\ =\ \operatorname{Code}(\mathsf{Enum}-\mathsf{Lit}-\mathsf{Record}-\mathsf{MissingField}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{EnumLiteral}(\mathsf{path},\ \operatorname{Brace}(\mathsf{fields}))\ \Uparrow \ c
 \end{array}
@@ -569,7 +580,7 @@ $$
 \begin{array}{l}
 \operatorname{EnumPayloadBits}(E,\ \mathsf{name},\ \bot )\ =\ \mathsf{bits}\ \Leftrightarrow \ (\exists \ v\ \in \ \operatorname{Variants}(E).\ v.\mathsf{name}\ =\ \mathsf{name}\ \land \ \operatorname{VariantPayloadOpt}(v)\ =\ \bot )\ \land \ \operatorname{PadBytes}([],\ \operatorname{PayloadSize}(E))\ =\ \mathsf{bits} \\[0.16em]
 \operatorname{EnumPayloadBits}(E,\ \mathsf{name},\ \operatorname{TuplePayload}([v_{1},\ \ldots ,\ v_{k}]))\ =\ \mathsf{bits}\ \Leftrightarrow \ (\exists \ v\ \in \ \operatorname{Variants}(E).\ v.\mathsf{name}\ =\ \mathsf{name}\ \land \ \operatorname{VariantPayloadOpt}(v)\ =\ \operatorname{TuplePayload}([T_{1},\ \ldots ,\ T_{k}]))\ \land \ \operatorname{ValueBits}(\operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{k}]),\ (v_{1},\ \ldots ,\ v_{k}))\ =\ b\ \land \ \operatorname{PadBytes}(b,\ \operatorname{PayloadSize}(E))\ =\ \mathsf{bits} \\[0.16em]
-\operatorname{EnumPayloadBits}(E,\ \mathsf{name},\ \operatorname{RecordPayload}(\mathsf{fs}))\ =\ \mathsf{bits}\ \Leftrightarrow \ (\exists \ v\ \in \ \operatorname{Variants}(E).\ v.\mathsf{name}\ =\ \mathsf{name}\ \land \ \operatorname{VariantPayloadOpt}(v)\ =\ \operatorname{RecordPayload}(\mathsf{fields}))\ \land \ \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{size},\ \_,\ \mathsf{offsets}\rangle \ \land \ \mathsf{fields}\ =\ [\langle f_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle f_{n},\ T_{n}\rangle ]\ \land \ (\forall \ i.\ \operatorname{FieldValueList}(\mathsf{fs},\ f_{i})\ =\ v_{i})\ \land \ \operatorname{StructBits}([T_{1},\ \ldots ,\ T_{n}],\ [v_{1},\ \ldots ,\ v_{n}],\ \mathsf{offsets},\ \mathsf{size})\ =\ b\ \land \ \operatorname{PadBytes}(b,\ \operatorname{PayloadSize}(E))\ =\ \mathsf{bits} \\[0.16em]
+\operatorname{EnumPayloadBits}(E,\ \mathsf{name},\ \operatorname{RecordPayload}(\mathsf{io}))\ =\ \mathsf{bits}\ \Leftrightarrow \ (\exists \ v\ \in \ \operatorname{Variants}(E).\ v.\mathsf{name}\ =\ \mathsf{name}\ \land \ \operatorname{VariantPayloadOpt}(v)\ =\ \operatorname{RecordPayload}(\mathsf{fields}))\ \land \ \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{size},\ \_,\ \mathsf{offsets}\rangle \ \land \ \mathsf{fields}\ =\ [\langle f_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle f_{n},\ T_{n}\rangle ]\ \land \ (\forall \ i.\ \operatorname{FieldValueList}(\mathsf{io},\ f_{i})\ =\ v_{i})\ \land \ \operatorname{StructBits}([T_{1},\ \ldots ,\ T_{n}],\ [v_{1},\ \ldots ,\ v_{n}],\ \mathsf{offsets},\ \mathsf{size})\ =\ b\ \land \ \operatorname{PadBytes}(b,\ \operatorname{PayloadSize}(E))\ =\ \mathsf{bits} \\[0.16em]
 \operatorname{ValueBits}(\operatorname{TypePath}(p),\ v)\ =\ \mathsf{bits}\ \Leftrightarrow \ \operatorname{EnumDecl}(p)\ =\ E\ \land \ v\ =\ \operatorname{EnumValue}(\mathsf{path},\ \mathsf{payload})\ \land \ \operatorname{EnumPath}(\mathsf{path})\ =\ p\ \land \ \mathsf{name}\ =\ \operatorname{VariantName}(\mathsf{path})\ \land \ \operatorname{EnumDisc}(E,\ \mathsf{name})\ =\ d\ \land \ \operatorname{EnumPayloadBits}(E,\ \mathsf{name},\ \mathsf{payload})\ =\ \mathsf{payload}_{\mathsf{bits}}\ \land \ \operatorname{EnumDiscType}(E)\ =\ D\ \land \ D\ =\ \operatorname{TypePrim}(t)\ \land \ \operatorname{ValueBits}(D,\ \operatorname{IntVal}(t,\ d))\ =\ \mathsf{disc}_{\mathsf{bits}}\ \land \ \operatorname{TaggedBits}(\mathsf{disc}_{\mathsf{bits}},\ \mathsf{payload}_{\mathsf{bits}},\ \operatorname{sizeof}(D),\ \operatorname{PayloadSize}(E),\ \operatorname{PayloadAlign}(E),\ \operatorname{EnumSize}(E))\ =\ \mathsf{bits}
 \end{array}
 $$

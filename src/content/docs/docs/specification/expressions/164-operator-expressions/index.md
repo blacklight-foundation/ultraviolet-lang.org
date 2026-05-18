@@ -2,16 +2,16 @@
 title: "16.4 Operator Expressions"
 description: "16.4 Operator Expressions from 16. Expressions of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "expressions"
 specSection: "164-operator-expressions"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -228,7 +228,7 @@ $$
 \operatorname{UnOp}(\texttt{"!"},\ v)\ \Downarrow \ v'\ \Leftrightarrow \ \operatorname{IntValue}(v,\ t)\ \land \ v'\ =\ \operatorname{BitNot}(v) \\[0.16em]
 \operatorname{UnOp}(\texttt{"-"},\ v)\ \Downarrow \ v'\ \Leftrightarrow \ v\ =\ \operatorname{IntVal}(t,\ x)\ \land \ t\ \in \ \mathsf{SignedIntTypes}\ \land \ x'\ =\ -x\ \land \ \operatorname{InRange}(x',\ t)\ \land \ v'\ =\ \operatorname{IntVal}(t,\ x') \\[0.16em]
 \operatorname{UnOp}(\texttt{"-"},\ v)\ \Downarrow \ v'\ \Leftrightarrow \ v\ =\ \operatorname{FloatVal}(t,\ x)\ \land \ v'\ =\ \operatorname{FloatVal}(t,\ -x) \\[0.16em]
-\operatorname{UnOp}(\texttt{"widen"},\ v)\ \Downarrow \ \operatorname{ModalVal}(S,\ v)\ \Leftrightarrow \ v\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}(\mathsf{modal}_{\mathsf{ref}},\ S),\ \mathsf{fs})
+\operatorname{UnOp}(\texttt{"widen"},\ v)\ \Downarrow \ \operatorname{ModalVal}(S,\ v)\ \Leftrightarrow \ v\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}(\mathsf{modal}_{\mathsf{ref}},\ S),\ \mathsf{io})
 \end{array}
 $$
 

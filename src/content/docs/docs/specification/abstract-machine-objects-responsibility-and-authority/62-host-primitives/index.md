@@ -2,16 +2,16 @@
 title: "6.2 Host Primitives"
 description: "6.2 Host Primitives from 6. Abstract Machine, Objects, Responsibility, and Authority of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "abstract-machine-objects-responsibility-and-authority"
 specSection: "62-host-primitives"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -23,7 +23,7 @@ generated: true
 
 $$
 \begin{array}{l}
-\mathsf{FSPrim}\ =\ \{\mathsf{FSOpenRead},\ \mathsf{FSOpenWrite},\ \mathsf{FSOpenAppend},\ \mathsf{FSCreateWrite},\ \mathsf{FSReadFile},\ \mathsf{FSReadBytes},\ \mathsf{FSWriteFile},\ \mathsf{FSWriteStdout},\ \mathsf{FSWriteStderr},\ \mathsf{FSExists},\ \mathsf{FSRemove},\ \mathsf{FSOpenDir},\ \mathsf{FSCreateDir},\ \mathsf{FSEnsureDir},\ \mathsf{FSKind},\ \mathsf{FSRestrict}\} \\[0.16em]
+\mathsf{IOPrim}\ =\ \{\mathsf{IOOpenRead},\ \mathsf{IOOpenWrite},\ \mathsf{IOOpenAppend},\ \mathsf{IOCreateWrite},\ \mathsf{IOReadFile},\ \mathsf{IOReadBytes},\ \mathsf{IOWriteFile},\ \mathsf{IOWriteStdout},\ \mathsf{IOWriteStderr},\ \mathsf{IOExists},\ \mathsf{IORemove},\ \mathsf{IOOpenDir},\ \mathsf{IOCreateDir},\ \mathsf{IOEnsureDir},\ \mathsf{IOKind},\ \mathsf{IORestrict}\} \\[0.16em]
 \mathsf{FilePrim}\ =\ \{\mathsf{FileReadAll},\ \mathsf{FileReadAllBytes},\ \mathsf{FileWrite},\ \mathsf{FileFlush},\ \mathsf{FileClose}\} \\[0.16em]
 \mathsf{DirPrim}\ =\ \{\mathsf{DirNext},\ \mathsf{DirClose}\} \\[0.16em]
 \mathsf{SystemPrim}\ =\ \{\mathsf{SystemGetEnv},\ \mathsf{SystemExit},\ \mathsf{SystemRun}\} \\[0.16em]
@@ -37,9 +37,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{HostPrim}\ =\ \{\mathsf{ParseTOML},\ \mathsf{ReadBytes},\ \mathsf{WriteFile},\ \mathsf{ResolveTool},\ \mathsf{ResolveRuntimeLib},\ \mathsf{Invoke},\ \mathsf{AssembleIR},\ \mathsf{InvokeLinker},\ \mathsf{InvokeArchiver},\ \mathsf{ArchiveMembers}\}\ \cup \ \mathsf{FSPrim}\ \cup \ \mathsf{FilePrim}\ \cup \ \mathsf{DirPrim}\ \cup \ \mathsf{SystemPrim}\ \cup \ \mathsf{NetworkPrim}\ \cup \ \mathsf{HeapPrim}\ \cup \ \mathsf{ReactorPrim}\ \cup \ \mathsf{TimePrim}\ \cup \ \mathsf{CancelPrim} \\[0.16em]
+\mathsf{HostPrim}\ =\ \{\mathsf{ParseTOML},\ \mathsf{ReadBytes},\ \mathsf{WriteFile},\ \mathsf{ResolveTool},\ \mathsf{ResolveRuntimeLib},\ \mathsf{Invoke},\ \mathsf{AssembleIR},\ \mathsf{InvokeLinker},\ \mathsf{InvokeArchiver},\ \mathsf{ArchiveMembers}\}\ \cup \ \mathsf{IOPrim}\ \cup \ \mathsf{FilePrim}\ \cup \ \mathsf{DirPrim}\ \cup \ \mathsf{SystemPrim}\ \cup \ \mathsf{NetworkPrim}\ \cup \ \mathsf{HeapPrim}\ \cup \ \mathsf{ReactorPrim}\ \cup \ \mathsf{TimePrim}\ \cup \ \mathsf{CancelPrim} \\[0.16em]
 \mathsf{HostPrimDiag}\ =\ \{\mathsf{ParseTOML},\ \mathsf{ReadBytes},\ \mathsf{WriteFile},\ \mathsf{ResolveTool},\ \mathsf{ResolveRuntimeLib},\ \mathsf{Invoke},\ \mathsf{AssembleIR},\ \mathsf{InvokeLinker},\ \mathsf{InvokeArchiver},\ \mathsf{ArchiveMembers}\} \\[0.16em]
-\mathsf{HostPrimRuntime}\ =\ \mathsf{FSPrim}\ \cup \ \mathsf{FilePrim}\ \cup \ \mathsf{DirPrim}\ \cup \ \mathsf{SystemPrim}\ \cup \ \mathsf{NetworkPrim}\ \cup \ \mathsf{HeapPrim}\ \cup \ \mathsf{ReactorPrim}\ \cup \ \mathsf{TimePrim}\ \cup \ \mathsf{CancelPrim}
+\mathsf{HostPrimRuntime}\ =\ \mathsf{IOPrim}\ \cup \ \mathsf{FilePrim}\ \cup \ \mathsf{DirPrim}\ \cup \ \mathsf{SystemPrim}\ \cup \ \mathsf{NetworkPrim}\ \cup \ \mathsf{HeapPrim}\ \cup \ \mathsf{ReactorPrim}\ \cup \ \mathsf{TimePrim}\ \cup \ \mathsf{CancelPrim}
 \end{array}
 $$
 
@@ -54,40 +54,40 @@ $$
 \operatorname{HostPrimFail}(p)\ \land \ \lnot \ \operatorname{MapsToDiagOrRuntime}(p)\ \Rightarrow \ \operatorname{IllFormed}(p)
 $$
 
-### 6.2.1 FileSystem, File, and Directory Primitive Relations
+### 6.2.1 IO, File, and Directory Primitive Relations
 
-Feature-local runtime behavior for capability-bearing filesystem operations is owned here. The built-in capability and modal declarations in Chapters 13 and 14 define the type surface; this section defines the runtime relations they invoke.
+Feature-local runtime behavior for capability-bearing IO operations is owned here. The built-in capability and modal declarations in Chapters 13 and 14 define the type surface; this section defines the runtime relations they invoke.
 
 $$
 \begin{array}{l}
-\mathsf{FSJudg}\ =\ \{\operatorname{FSOpenRead}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSOpenWrite}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSOpenAppend}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSCreateWrite}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSReadFile}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSReadBytes}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSWriteFile}(\mathsf{fs},\ \mathsf{path},\ \mathsf{data})\ \Downarrow \ r,\ \operatorname{FSWriteStdout}(\mathsf{fs},\ \mathsf{data})\ \Downarrow \ r,\ \operatorname{FSWriteStderr}(\mathsf{fs},\ \mathsf{data})\ \Downarrow \ r,\ \operatorname{FSExists}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ b,\ \operatorname{FSRemove}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSOpenDir}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSCreateDir}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSEnsureDir}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSKind}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{FSRestrict}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ \mathsf{fs}',\ \operatorname{FileReadAll}(\mathsf{handle})\ \Downarrow \ r,\ \operatorname{FileReadAllBytes}(\mathsf{handle})\ \Downarrow \ r,\ \operatorname{FileWrite}(\mathsf{handle},\ \mathsf{data})\ \Downarrow \ r,\ \operatorname{FileFlush}(\mathsf{handle})\ \Downarrow \ r,\ \operatorname{FileClose}(\mathsf{handle})\ \Downarrow \ \mathsf{ok},\ \operatorname{DirNext}(\mathsf{handle})\ \Downarrow \ r,\ \operatorname{DirClose}(\mathsf{handle})\ \Downarrow \ \mathsf{ok}\} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FSOpenRead})\ =\ \texttt{Outcome<File@Read, IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FSOpenWrite})\ =\ \texttt{Outcome<File@Write, IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FSOpenAppend})\ =\ \texttt{Outcome<File@Append, IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FSCreateWrite})\ =\ \texttt{Outcome<File@Write, IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FSReadFile})\ =\ \texttt{Outcome<unique string@Managed, IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FSReadBytes})\ =\ \texttt{Outcome<unique bytes@Managed, IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FSWriteFile})\ =\ \texttt{Outcome<(), IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FSWriteStdout})\ =\ \texttt{Outcome<(), IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FSWriteStderr})\ =\ \texttt{Outcome<(), IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FSExists})\ =\ \texttt{bool} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FSRemove})\ =\ \texttt{Outcome<(), IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FSOpenDir})\ =\ \texttt{Outcome<DirIter@Open, IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FSCreateDir})\ =\ \texttt{Outcome<(), IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FSEnsureDir})\ =\ \texttt{Outcome<(), IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FSKind})\ =\ \texttt{Outcome<FileKind, IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FSRestrict})\ =\ \texttt{\$FileSystem} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FileReadAll})\ =\ \texttt{Outcome<unique string@Managed, IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FileReadAllBytes})\ =\ \texttt{Outcome<unique bytes@Managed, IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FileWrite})\ =\ \texttt{Outcome<(), IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FileFlush})\ =\ \texttt{Outcome<(), IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{FileClose})\ =\ \texttt{ok} \\[0.16em]
-\operatorname{FSResType}(\mathsf{DirNext})\ =\ \texttt{Outcome<DirEntry | (), IoError>} \\[0.16em]
-\operatorname{FSResType}(\mathsf{DirClose})\ =\ \texttt{ok}
+\mathsf{IOJudg}\ =\ \{\operatorname{IOOpenRead}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{IOOpenWrite}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{IOOpenAppend}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{IOCreateWrite}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{IOReadFile}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{IOReadBytes}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{IOWriteFile}(\mathsf{io},\ \mathsf{path},\ \mathsf{data})\ \Downarrow \ r,\ \operatorname{IOWriteStdout}(\mathsf{io},\ \mathsf{data})\ \Downarrow \ r,\ \operatorname{IOWriteStderr}(\mathsf{io},\ \mathsf{data})\ \Downarrow \ r,\ \operatorname{IOExists}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ b,\ \operatorname{IORemove}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{IOOpenDir}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{IOCreateDir}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{IOEnsureDir}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{IOKind}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r,\ \operatorname{IORestrict}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ \mathsf{io}',\ \operatorname{FileReadAll}(\mathsf{handle})\ \Downarrow \ r,\ \operatorname{FileReadAllBytes}(\mathsf{handle})\ \Downarrow \ r,\ \operatorname{FileWrite}(\mathsf{handle},\ \mathsf{data})\ \Downarrow \ r,\ \operatorname{FileFlush}(\mathsf{handle})\ \Downarrow \ r,\ \operatorname{FileClose}(\mathsf{handle})\ \Downarrow \ \mathsf{ok},\ \operatorname{DirNext}(\mathsf{handle})\ \Downarrow \ r,\ \operatorname{DirClose}(\mathsf{handle})\ \Downarrow \ \mathsf{ok}\} \\[0.16em]
+\operatorname{IOResType}(\mathsf{IOOpenRead})\ =\ \texttt{Outcome<File@Read, IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{IOOpenWrite})\ =\ \texttt{Outcome<File@Write, IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{IOOpenAppend})\ =\ \texttt{Outcome<File@Append, IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{IOCreateWrite})\ =\ \texttt{Outcome<File@Write, IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{IOReadFile})\ =\ \texttt{Outcome<unique string@Managed, IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{IOReadBytes})\ =\ \texttt{Outcome<unique bytes@Managed, IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{IOWriteFile})\ =\ \texttt{Outcome<(), IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{IOWriteStdout})\ =\ \texttt{Outcome<(), IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{IOWriteStderr})\ =\ \texttt{Outcome<(), IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{IOExists})\ =\ \texttt{bool} \\[0.16em]
+\operatorname{IOResType}(\mathsf{IORemove})\ =\ \texttt{Outcome<(), IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{IOOpenDir})\ =\ \texttt{Outcome<DirIter@Open, IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{IOCreateDir})\ =\ \texttt{Outcome<(), IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{IOEnsureDir})\ =\ \texttt{Outcome<(), IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{IOKind})\ =\ \texttt{Outcome<FileKind, IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{IORestrict})\ =\ \texttt{\$IO} \\[0.16em]
+\operatorname{IOResType}(\mathsf{FileReadAll})\ =\ \texttt{Outcome<unique string@Managed, IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{FileReadAllBytes})\ =\ \texttt{Outcome<unique bytes@Managed, IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{FileWrite})\ =\ \texttt{Outcome<(), IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{FileFlush})\ =\ \texttt{Outcome<(), IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{FileClose})\ =\ \texttt{ok} \\[0.16em]
+\operatorname{IOResType}(\mathsf{DirNext})\ =\ \texttt{Outcome<DirEntry | (), IoError>} \\[0.16em]
+\operatorname{IOResType}(\mathsf{DirClose})\ =\ \texttt{ok}
 \end{array}
 $$
 
-When `FSResType(Op) = Outcome<T, E>`, a primitive relation in this section that
+When `IOResType(Op) = Outcome<T, E>`, a primitive relation in this section that
 returns a successful payload `v` denotes `Outcome<T, E>@Value{value: v}`.
 A primitive relation that returns an `IoError` value `e` denotes
 `Outcome<T, IoError>@Error{error: e}`. For `DirNext`, the successful payload
@@ -98,7 +98,7 @@ $$
 \begin{array}{l}
 \mathsf{Handle}\ =\ \mathbb{N}  \\[0.16em]
 \mathsf{Entry}\ \mathbin{::} =\ \operatorname{FileEntry}(\mathsf{bytes})\ \mid \ \operatorname{DirEntry}(\mathsf{names})\ \mid \ \mathsf{OtherEntry} \\[0.16em]
-\mathsf{FSState}\ =\ \langle \mathsf{entries},\ \mathsf{handles},\ \mathsf{diriters},\ \mathsf{flushed},\ \mathsf{failmap}\rangle  \\[0.16em]
+\mathsf{IOState}\ =\ \langle \mathsf{entries},\ \mathsf{handles},\ \mathsf{diriters},\ \mathsf{flushed},\ \mathsf{failmap}\rangle  \\[0.16em]
 \operatorname{Entries}(\langle \mathsf{entries},\ \mathsf{handles},\ \mathsf{diriters},\ \mathsf{flushed},\ \mathsf{failmap}\rangle )\ =\ \mathsf{entries} \\[0.16em]
 \operatorname{Handles}(\langle \mathsf{entries},\ \mathsf{handles},\ \mathsf{diriters},\ \mathsf{flushed},\ \mathsf{failmap}\rangle )\ =\ \mathsf{handles} \\[0.16em]
 \operatorname{DirIters}(\langle \mathsf{entries},\ \mathsf{handles},\ \mathsf{diriters},\ \mathsf{flushed},\ \mathsf{failmap}\rangle )\ =\ \mathsf{diriters} \\[0.16em]
@@ -123,8 +123,8 @@ $$
 \operatorname{HandlePath}(\omega ,\ h)\ = \\[0.16em]
 \ \operatorname{Handles}(\omega )[h].\mathsf{path}\ \mathsf{if}\ \operatorname{Handles}(\omega )[h]\ \mathsf{defined} \\[0.16em]
 \ \texttt{"\textbackslash{}""}\quad \mathsf{otherwise} \\[0.16em]
-\operatorname{DirIterFS}(\omega ,\ h)\ = \\[0.16em]
-\ \operatorname{DirIters}(\omega )[h].\mathsf{fs}\ \mathsf{if}\ \operatorname{DirIters}(\omega )[h]\ \mathsf{defined} \\[0.16em]
+\operatorname{DirIterIO}(\omega ,\ h)\ = \\[0.16em]
+\ \operatorname{DirIters}(\omega )[h].\mathsf{io}\ \mathsf{if}\ \operatorname{DirIters}(\omega )[h]\ \mathsf{defined} \\[0.16em]
 \ \bot \quad \mathsf{otherwise} \\[0.16em]
 \operatorname{DirIterPath}(\omega ,\ h)\ = \\[0.16em]
 \ \operatorname{DirIters}(\omega )[h].\mathsf{path}\ \mathsf{if}\ \operatorname{DirIters}(\omega )[h]\ \mathsf{defined} \\[0.16em]
@@ -137,7 +137,7 @@ $$
 \ 0\quad \mathsf{otherwise} \\[0.16em]
 \operatorname{DirIterOpen}(\omega ,\ h)\ \Leftrightarrow \ \operatorname{DirIters}(\omega )[h]\ \mathsf{defined} \\[0.16em]
 \operatorname{Flushed}(\omega ,\ h)\ \Leftrightarrow \ h\ \in \ \operatorname{FlushedSet}(\omega ) \\[0.16em]
-\mathsf{FSJudg}\_\omega \ =\ \{\operatorname{FSOpenRead}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSOpenWrite}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSOpenAppend}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSCreateWrite}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSReadFile}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSReadBytes}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSWriteFile}(\mathsf{fs},\ \mathsf{path},\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSWriteStdout}(\mathsf{fs},\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSWriteStderr}(\mathsf{fs},\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSExists}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (b,\ \omega '),\ \operatorname{FSRemove}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSOpenDir}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSCreateDir}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSEnsureDir}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FSKind}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ')\} \\[0.16em]
+\mathsf{IOJudg}\_\omega \ =\ \{\operatorname{IOOpenRead}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{IOOpenWrite}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{IOOpenAppend}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{IOCreateWrite}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{IOReadFile}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{IOReadBytes}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{IOWriteFile}(\mathsf{io},\ \mathsf{path},\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{IOWriteStdout}(\mathsf{io},\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{IOWriteStderr}(\mathsf{io},\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{IOExists}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (b,\ \omega '),\ \operatorname{IORemove}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{IOOpenDir}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{IOCreateDir}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{IOEnsureDir}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{IOKind}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ')\} \\[0.16em]
 \mathsf{FileJudg}\_\omega \ =\ \{\operatorname{FileReadAll}(h,\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FileReadAllBytes}(h,\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FileWrite}(h,\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FileFlush}(h,\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{FileClose}(h,\ \omega )\ \Downarrow \ (\mathsf{ok},\ \omega ')\} \\[0.16em]
 \mathsf{DirJudg}\_\omega \ =\ \{\operatorname{DirNext}(h,\ \omega )\ \Downarrow \ (r,\ \omega '),\ \operatorname{DirClose}(h,\ \omega )\ \Downarrow \ (\mathsf{ok},\ \omega ')\}
 \end{array}
@@ -145,21 +145,21 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{FSOpenRead}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSOpenRead}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
-\operatorname{FSOpenWrite}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSOpenWrite}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
-\operatorname{FSOpenAppend}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSOpenAppend}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
-\operatorname{FSCreateWrite}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSCreateWrite}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
-\operatorname{FSReadFile}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSReadFile}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
-\operatorname{FSReadBytes}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSReadBytes}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
-\operatorname{FSWriteFile}(\mathsf{fs},\ \mathsf{path},\ \mathsf{data})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSWriteFile}(\mathsf{fs},\ \mathsf{path},\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
-\operatorname{FSWriteStdout}(\mathsf{fs},\ \mathsf{data})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSWriteStdout}(\mathsf{fs},\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
-\operatorname{FSWriteStderr}(\mathsf{fs},\ \mathsf{data})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSWriteStderr}(\mathsf{fs},\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
-\operatorname{FSExists}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ b\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSExists}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (b,\ \omega ') \\[0.16em]
-\operatorname{FSRemove}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSRemove}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
-\operatorname{FSOpenDir}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSOpenDir}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
-\operatorname{FSCreateDir}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSCreateDir}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
-\operatorname{FSEnsureDir}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSEnsureDir}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
-\operatorname{FSKind}(\mathsf{fs},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FSKind}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
+\operatorname{IOOpenRead}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{IOOpenRead}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
+\operatorname{IOOpenWrite}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{IOOpenWrite}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
+\operatorname{IOOpenAppend}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{IOOpenAppend}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
+\operatorname{IOCreateWrite}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{IOCreateWrite}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
+\operatorname{IOReadFile}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{IOReadFile}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
+\operatorname{IOReadBytes}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{IOReadBytes}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
+\operatorname{IOWriteFile}(\mathsf{io},\ \mathsf{path},\ \mathsf{data})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{IOWriteFile}(\mathsf{io},\ \mathsf{path},\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
+\operatorname{IOWriteStdout}(\mathsf{io},\ \mathsf{data})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{IOWriteStdout}(\mathsf{io},\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
+\operatorname{IOWriteStderr}(\mathsf{io},\ \mathsf{data})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{IOWriteStderr}(\mathsf{io},\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
+\operatorname{IOExists}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ b\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{IOExists}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (b,\ \omega ') \\[0.16em]
+\operatorname{IORemove}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{IORemove}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
+\operatorname{IOOpenDir}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{IOOpenDir}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
+\operatorname{IOCreateDir}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{IOCreateDir}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
+\operatorname{IOEnsureDir}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{IOEnsureDir}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
+\operatorname{IOKind}(\mathsf{io},\ \mathsf{path})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{IOKind}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
 \operatorname{FileReadAll}(h)\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FileReadAll}(h,\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
 \operatorname{FileReadAllBytes}(h)\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FileReadAllBytes}(h,\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
 \operatorname{FileWrite}(h,\ \mathsf{data})\ \Downarrow \ r\ \Leftrightarrow \ \exists \ \omega ,\ \omega '.\ \operatorname{FileWrite}(h,\ \mathsf{data},\ \omega )\ \Downarrow \ (r,\ \omega ') \\[0.16em]
@@ -174,51 +174,51 @@ $$
 \begin{array}{l}
 \operatorname{RestrictPath}(\mathsf{base},\ \mathsf{path})\ =\ p\ \Leftrightarrow \ \lnot \ \operatorname{AbsPath}(\mathsf{path})\ \land \ b\ =\ \operatorname{Canon}(\operatorname{Normalize}(\mathsf{base}))\ \land \ b\ \ne \ \bot \ \land \ p\ =\ \operatorname{Canon}(\operatorname{Normalize}(\operatorname{Join}(b,\ \mathsf{path})))\ \land \ p\ \ne \ \bot \ \land \ \operatorname{prefix}(p,\ b) \\[0.16em]
 \operatorname{RestrictPath}(\mathsf{base},\ \mathsf{path})\ =\ \bot \ \Leftrightarrow \ \operatorname{AbsPath}(\mathsf{path})\ \lor \ \operatorname{Canon}(\operatorname{Normalize}(\mathsf{base}))\ =\ \bot \ \lor \ \operatorname{Canon}(\operatorname{Normalize}(\operatorname{Join}(\operatorname{Canon}(\operatorname{Normalize}(\mathsf{base})),\ \mathsf{path})))\ =\ \bot \ \lor \ \lnot \ \operatorname{prefix}(\operatorname{Canon}(\operatorname{Normalize}(\operatorname{Join}(\operatorname{Canon}(\operatorname{Normalize}(\mathsf{base})),\ \mathsf{path}))),\ \operatorname{Canon}(\operatorname{Normalize}(\mathsf{base}))) \\[0.16em]
-\mathsf{FSOp}\ =\ \{\mathsf{FSOpenRead},\ \mathsf{FSOpenWrite},\ \mathsf{FSOpenAppend},\ \mathsf{FSCreateWrite},\ \mathsf{FSReadFile},\ \mathsf{FSReadBytes},\ \mathsf{FSWriteFile},\ \mathsf{FSWriteStdout},\ \mathsf{FSWriteStderr},\ \mathsf{FSExists},\ \mathsf{FSRemove},\ \mathsf{FSOpenDir},\ \mathsf{FSCreateDir},\ \mathsf{FSEnsureDir},\ \mathsf{FSKind}\} \\[0.16em]
-\operatorname{FSRestrict}(\mathsf{fs},\ \mathsf{base})\ \Downarrow \ \mathsf{fs}'\ \land \ \mathsf{Op}\ \in \ \mathsf{FSOp}\ \land \ \operatorname{RestrictPath}(\mathsf{base},\ p)\ =\ q\ \Rightarrow \ \operatorname{Op}(\mathsf{fs}',\ p)\ =\ \operatorname{Op}(\mathsf{fs},\ q) \\[0.16em]
-\operatorname{FSRestrict}(\mathsf{fs},\ \mathsf{base})\ \Downarrow \ \mathsf{fs}'\ \land \ \mathsf{Op}\ \in \ \mathsf{FSOp}\ \land \ \operatorname{RestrictPath}(\mathsf{base},\ p)\ =\ \bot \ \land \ \mathsf{Op}\ \ne \ \mathsf{FSExists}\ \Rightarrow \ \operatorname{Op}(\mathsf{fs}',\ p)\ =\ \mathsf{IoError}\mathbin{::} \mathsf{InvalidPath} \\[0.16em]
-\operatorname{FSRestrict}(\mathsf{fs},\ \mathsf{base})\ \Downarrow \ \mathsf{fs}'\ \land \ \operatorname{RestrictPath}(\mathsf{base},\ p)\ =\ \bot \ \Rightarrow \ \operatorname{FSExists}(\mathsf{fs}',\ p)\ =\ \mathsf{false}
+\mathsf{IOOp}\ =\ \{\mathsf{IOOpenRead},\ \mathsf{IOOpenWrite},\ \mathsf{IOOpenAppend},\ \mathsf{IOCreateWrite},\ \mathsf{IOReadFile},\ \mathsf{IOReadBytes},\ \mathsf{IOWriteFile},\ \mathsf{IOWriteStdout},\ \mathsf{IOWriteStderr},\ \mathsf{IOExists},\ \mathsf{IORemove},\ \mathsf{IOOpenDir},\ \mathsf{IOCreateDir},\ \mathsf{IOEnsureDir},\ \mathsf{IOKind}\} \\[0.16em]
+\operatorname{IORestrict}(\mathsf{io},\ \mathsf{base})\ \Downarrow \ \mathsf{io}'\ \land \ \mathsf{Op}\ \in \ \mathsf{IOOp}\ \land \ \operatorname{RestrictPath}(\mathsf{base},\ p)\ =\ q\ \Rightarrow \ \operatorname{Op}(\mathsf{io}',\ p)\ =\ \operatorname{Op}(\mathsf{io},\ q) \\[0.16em]
+\operatorname{IORestrict}(\mathsf{io},\ \mathsf{base})\ \Downarrow \ \mathsf{io}'\ \land \ \mathsf{Op}\ \in \ \mathsf{IOOp}\ \land \ \operatorname{RestrictPath}(\mathsf{base},\ p)\ =\ \bot \ \land \ \mathsf{Op}\ \ne \ \mathsf{IOExists}\ \Rightarrow \ \operatorname{Op}(\mathsf{io}',\ p)\ =\ \mathsf{IoError}\mathbin{::} \mathsf{InvalidPath} \\[0.16em]
+\operatorname{IORestrict}(\mathsf{io},\ \mathsf{base})\ \Downarrow \ \mathsf{io}'\ \land \ \operatorname{RestrictPath}(\mathsf{base},\ p)\ =\ \bot \ \Rightarrow \ \operatorname{IOExists}(\mathsf{io}',\ p)\ =\ \mathsf{false}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\mathsf{FSPathOp}_{0}\ =\ \{\mathsf{FSOpenRead},\ \mathsf{FSOpenWrite},\ \mathsf{FSOpenAppend},\ \mathsf{FSCreateWrite},\ \mathsf{FSReadFile},\ \mathsf{FSReadBytes},\ \mathsf{FSRemove},\ \mathsf{FSOpenDir},\ \mathsf{FSCreateDir},\ \mathsf{FSEnsureDir},\ \mathsf{FSKind}\} \\[0.16em]
-\mathsf{FSPathOp}_{1}\ =\ \{\mathsf{FSWriteFile}\} \\[0.16em]
-\mathsf{FSRequiresExisting}\ =\ \{\mathsf{FSOpenRead},\ \mathsf{FSOpenWrite},\ \mathsf{FSOpenAppend},\ \mathsf{FSReadFile},\ \mathsf{FSReadBytes},\ \mathsf{FSOpenDir},\ \mathsf{FSKind},\ \mathsf{FSRemove}\} \\[0.16em]
-\operatorname{PathInvalid}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Leftrightarrow \ \operatorname{Canon}(\operatorname{Normalize}(\mathsf{path}))\ =\ \bot  \\[0.16em]
+\mathsf{IOPathOp}_{0}\ =\ \{\mathsf{IOOpenRead},\ \mathsf{IOOpenWrite},\ \mathsf{IOOpenAppend},\ \mathsf{IOCreateWrite},\ \mathsf{IOReadFile},\ \mathsf{IOReadBytes},\ \mathsf{IORemove},\ \mathsf{IOOpenDir},\ \mathsf{IOCreateDir},\ \mathsf{IOEnsureDir},\ \mathsf{IOKind}\} \\[0.16em]
+\mathsf{IOPathOp}_{1}\ =\ \{\mathsf{IOWriteFile}\} \\[0.16em]
+\mathsf{IORequiresExisting}\ =\ \{\mathsf{IOOpenRead},\ \mathsf{IOOpenWrite},\ \mathsf{IOOpenAppend},\ \mathsf{IOReadFile},\ \mathsf{IOReadBytes},\ \mathsf{IOOpenDir},\ \mathsf{IOKind},\ \mathsf{IORemove}\} \\[0.16em]
+\operatorname{PathInvalid}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Leftrightarrow \ \operatorname{Canon}(\operatorname{Normalize}(\mathsf{path}))\ =\ \bot  \\[0.16em]
 \operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \Leftrightarrow \ \operatorname{Entries}(\omega )[\mathsf{path}]\ \mathsf{defined} \\[0.16em]
-\operatorname{PermissionDenied}(\mathsf{fs},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Leftrightarrow \ \operatorname{FailMap}(\omega )[\langle \mathsf{Op},\ \mathsf{path}\rangle ]\ =\ \mathsf{IoError}\mathbin{::} \mathsf{PermissionDenied} \\[0.16em]
-\operatorname{Busy}(\mathsf{fs},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Leftrightarrow \ \operatorname{FailMap}(\omega )[\langle \mathsf{Op},\ \mathsf{path}\rangle ]\ =\ \mathsf{IoError}\mathbin{::} \mathsf{Busy} \\[0.16em]
-\operatorname{OtherFailure}(\mathsf{fs},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Leftrightarrow \ \operatorname{FailMap}(\omega )[\langle \mathsf{Op},\ \mathsf{path}\rangle ]\ =\ \mathsf{IoError}\mathbin{::} \mathsf{IoFailure}
+\operatorname{PermissionDenied}(\mathsf{io},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Leftrightarrow \ \operatorname{FailMap}(\omega )[\langle \mathsf{Op},\ \mathsf{path}\rangle ]\ =\ \mathsf{IoError}\mathbin{::} \mathsf{PermissionDenied} \\[0.16em]
+\operatorname{Busy}(\mathsf{io},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Leftrightarrow \ \operatorname{FailMap}(\omega )[\langle \mathsf{Op},\ \mathsf{path}\rangle ]\ =\ \mathsf{IoError}\mathbin{::} \mathsf{Busy} \\[0.16em]
+\operatorname{OtherFailure}(\mathsf{io},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Leftrightarrow \ \operatorname{FailMap}(\omega )[\langle \mathsf{Op},\ \mathsf{path}\rangle ]\ =\ \mathsf{IoError}\mathbin{::} \mathsf{IoFailure}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\mathsf{Op}\ \in \ \mathsf{FSPathOp}_{0}\ \land \ \operatorname{PathInvalid}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Rightarrow \ \operatorname{Op}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{InvalidPath},\ \omega ) \\[0.16em]
-\mathsf{Op}\ \in \ \mathsf{FSPathOp}_{1}\ \land \ \operatorname{PathInvalid}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Rightarrow \ \operatorname{Op}(\mathsf{fs},\ \mathsf{path},\ \mathsf{data},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{InvalidPath},\ \omega ) \\[0.16em]
-\mathsf{Op}\ \in \ \mathsf{FSRequiresExisting}\ \land \ \lnot \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \Rightarrow \ \operatorname{Op}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{NotFound},\ \omega ) \\[0.16em]
-\operatorname{PermissionDenied}(\mathsf{fs},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Rightarrow \ \operatorname{Op}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{PermissionDenied},\ \omega ) \\[0.16em]
-\mathsf{Op}\ =\ \mathsf{FSCreateWrite}\ \land \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \Rightarrow \ \operatorname{Op}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{AlreadyExists},\ \omega ) \\[0.16em]
-\mathsf{Op}\ \in \ \{\mathsf{FSCreateDir},\ \mathsf{FSEnsureDir}\}\ \land \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \land \ \operatorname{EntryKind}(\omega ,\ \mathsf{path})\ \ne \ \texttt{Dir}\ \Rightarrow \ \operatorname{Op}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{AlreadyExists},\ \omega ) \\[0.16em]
-\mathsf{Op}\ =\ \mathsf{FSOpenDir}\ \land \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \land \ \operatorname{EntryKind}(\omega ,\ \mathsf{path})\ \ne \ \texttt{Dir}\ \Rightarrow \ \operatorname{Op}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{InvalidPath},\ \omega ) \\[0.16em]
-\operatorname{Busy}(\mathsf{fs},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Rightarrow \ \operatorname{Op}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{Busy},\ \omega ) \\[0.16em]
-\operatorname{OtherFailure}(\mathsf{fs},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Rightarrow \ \operatorname{Op}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{IoFailure},\ \omega )
+\mathsf{Op}\ \in \ \mathsf{IOPathOp}_{0}\ \land \ \operatorname{PathInvalid}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Rightarrow \ \operatorname{Op}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{InvalidPath},\ \omega ) \\[0.16em]
+\mathsf{Op}\ \in \ \mathsf{IOPathOp}_{1}\ \land \ \operatorname{PathInvalid}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Rightarrow \ \operatorname{Op}(\mathsf{io},\ \mathsf{path},\ \mathsf{data},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{InvalidPath},\ \omega ) \\[0.16em]
+\mathsf{Op}\ \in \ \mathsf{IORequiresExisting}\ \land \ \lnot \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \Rightarrow \ \operatorname{Op}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{NotFound},\ \omega ) \\[0.16em]
+\operatorname{PermissionDenied}(\mathsf{io},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Rightarrow \ \operatorname{Op}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{PermissionDenied},\ \omega ) \\[0.16em]
+\mathsf{Op}\ =\ \mathsf{IOCreateWrite}\ \land \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \Rightarrow \ \operatorname{Op}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{AlreadyExists},\ \omega ) \\[0.16em]
+\mathsf{Op}\ \in \ \{\mathsf{IOCreateDir},\ \mathsf{IOEnsureDir}\}\ \land \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \land \ \operatorname{EntryKind}(\omega ,\ \mathsf{path})\ \ne \ \texttt{Dir}\ \Rightarrow \ \operatorname{Op}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{AlreadyExists},\ \omega ) \\[0.16em]
+\mathsf{Op}\ =\ \mathsf{IOOpenDir}\ \land \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \land \ \operatorname{EntryKind}(\omega ,\ \mathsf{path})\ \ne \ \texttt{Dir}\ \Rightarrow \ \operatorname{Op}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{InvalidPath},\ \omega ) \\[0.16em]
+\operatorname{Busy}(\mathsf{io},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Rightarrow \ \operatorname{Op}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{Busy},\ \omega ) \\[0.16em]
+\operatorname{OtherFailure}(\mathsf{io},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Rightarrow \ \operatorname{Op}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{IoFailure},\ \omega )
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{FSReadFile}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ')\ \land \ \operatorname{FSReadBytes}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{bytes},\ \omega '')\ \land \ \lnot \ \operatorname{Utf8Valid}(\mathsf{bytes})\ \Rightarrow \ r\ =\ \mathsf{IoError}\mathbin{::} \mathsf{IoFailure} \\[0.16em]
+\operatorname{IOReadFile}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ')\ \land \ \operatorname{IOReadBytes}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{bytes},\ \omega '')\ \land \ \lnot \ \operatorname{Utf8Valid}(\mathsf{bytes})\ \Rightarrow \ r\ =\ \mathsf{IoError}\mathbin{::} \mathsf{IoFailure} \\[0.16em]
 \operatorname{FileReadAll}(h,\ \omega )\ \Downarrow \ (r,\ \omega ')\ \land \ \operatorname{FileReadAllBytes}(h,\ \omega )\ \Downarrow \ (\mathsf{bytes},\ \omega '')\ \land \ \lnot \ \operatorname{Utf8Valid}(\mathsf{bytes})\ \Rightarrow \ r\ =\ \mathsf{IoError}\mathbin{::} \mathsf{IoFailure}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{FSExists}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{true},\ \omega ')\ \Rightarrow \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \land \ \lnot \ \operatorname{PathInvalid}(\mathsf{fs},\ \mathsf{path},\ \omega ) \\[0.16em]
-\operatorname{FSExists}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{false},\ \omega ')\ \Rightarrow \ \operatorname{PathInvalid}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \lor \ \lnot \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})
+\operatorname{IOExists}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{true},\ \omega ')\ \Rightarrow \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \land \ \lnot \ \operatorname{PathInvalid}(\mathsf{io},\ \mathsf{path},\ \omega ) \\[0.16em]
+\operatorname{IOExists}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{false},\ \omega ')\ \Rightarrow \ \operatorname{PathInvalid}(\mathsf{io},\ \mathsf{path},\ \omega )\ \lor \ \lnot \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})
 \end{array}
 $$
 
@@ -245,26 +245,26 @@ $$
 \operatorname{LexBytes}(b_{1},\ b_{2})\ \Leftrightarrow \ (\exists \ k.\ 0\ \le \ k\ <\ \operatorname{min}(\mid b_{1}\mid ,\ \mid b_{2}\mid )\ \land \ (\forall \ i\ <\ k.\ b_{1}[i]\ =\ b_{2}[i])\ \land \ b_{1}[k]\ <\ b_{2}[k])\ \lor \ (\mid b_{1}\mid \ <\ \mid b_{2}\mid \ \land \ \forall \ i\ <\ \mid b_{1}\mid .\ b_{1}[i]\ =\ b_{2}[i]) \\[0.16em]
 \operatorname{EntryKey}(\mathsf{name})\ =\ \operatorname{CaseFold}(\operatorname{NFC}(\mathsf{name})) \\[0.16em]
 \operatorname{EntryOrder}(a,\ b)\ \Leftrightarrow \ \operatorname{LexBytes}(\operatorname{Utf8}(\operatorname{EntryKey}(a)),\ \operatorname{Utf8}(\operatorname{EntryKey}(b)))\ \lor \ (\operatorname{EntryKey}(a)\ =\ \operatorname{EntryKey}(b)\ \land \ \operatorname{LexBytes}(\operatorname{Utf8}(a),\ \operatorname{Utf8}(b))) \\[0.16em]
-\operatorname{DirSnapshot}(\mathsf{fs},\ \mathsf{path},\ \omega )\ = \\[0.16em]
+\operatorname{DirSnapshot}(\mathsf{io},\ \mathsf{path},\ \omega )\ = \\[0.16em]
 \ [\ \texttt{DirEntry}\{\texttt{path}:\ \operatorname{Join}(\mathsf{path},\ \mathsf{name}),\ \texttt{name}:\ \mathsf{name},\ \texttt{kind}:\ \operatorname{EntryKind}(\omega ,\ \operatorname{Join}(\mathsf{path},\ \mathsf{name}))\}\ \mid \ \mathsf{name}\ \in \ \operatorname{DirNames}(\omega ,\ \mathsf{path})\ \land \ \mathsf{name}\ \ne \ \texttt{"."}\ \land \ \mathsf{name}\ \ne \ \texttt{".."}\ ]\ \mathsf{if}\ \operatorname{Entries}(\omega )[\mathsf{path}]\ =\ \operatorname{DirEntry}(\_) \\[0.16em]
 \ []\quad \mathsf{otherwise} \\[0.16em]
-\operatorname{DirEntries}(\mathsf{fs},\ \mathsf{path},\ \omega )\ =\ \mathsf{sort}\_\{\lambda \ a,\ b.\ \operatorname{EntryOrder}(a.\mathsf{name},\ b.\mathsf{name})\}(\operatorname{DirSnapshot}(\mathsf{fs},\ \mathsf{path},\ \omega ))
+\operatorname{DirEntries}(\mathsf{io},\ \mathsf{path},\ \omega )\ =\ \mathsf{sort}\_\{\lambda \ a,\ b.\ \operatorname{EntryOrder}(a.\mathsf{name},\ b.\mathsf{name})\}(\operatorname{DirSnapshot}(\mathsf{io},\ \mathsf{path},\ \omega ))
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{FSOpenRead}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{File@Read}\{\texttt{handle}:\ h\},\ \omega ')\ \Rightarrow \ \operatorname{HandleStateOf}(\omega ',\ h)\ =\ \texttt{OpenRead}\ \land \ \operatorname{HandlePos}(\omega ',\ h)\ =\ 0\ \land \ \operatorname{HandlePath}(\omega ',\ h)\ =\ \mathsf{path}\ \land \ \operatorname{HandleLen}(\omega ',\ h)\ =\ \operatorname{FileLenAt}(\omega ,\ \mathsf{path}) \\[0.16em]
-\operatorname{FSOpenWrite}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{File@Write}\{\texttt{handle}:\ h\},\ \omega ')\ \Rightarrow \ \operatorname{HandleStateOf}(\omega ',\ h)\ =\ \texttt{OpenWrite}\ \land \ \operatorname{HandlePos}(\omega ',\ h)\ =\ 0\ \land \ \operatorname{HandlePath}(\omega ',\ h)\ =\ \mathsf{path}\ \land \ \operatorname{HandleLen}(\omega ',\ h)\ =\ \operatorname{FileLenAt}(\omega ,\ \mathsf{path}) \\[0.16em]
-\operatorname{FSOpenAppend}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{File@Append}\{\texttt{handle}:\ h\},\ \omega ')\ \Rightarrow \ \operatorname{HandleStateOf}(\omega ',\ h)\ =\ \texttt{OpenAppend}\ \land \ \operatorname{HandlePos}(\omega ',\ h)\ =\ \operatorname{FileLenAt}(\omega ,\ \mathsf{path})\ \land \ \operatorname{HandlePath}(\omega ',\ h)\ =\ \mathsf{path}\ \land \ \operatorname{HandleLen}(\omega ',\ h)\ =\ \operatorname{FileLenAt}(\omega ,\ \mathsf{path}) \\[0.16em]
-\operatorname{FSCreateWrite}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{File@Write}\{\texttt{handle}:\ h\},\ \omega ')\ \Rightarrow \ \operatorname{HandleStateOf}(\omega ',\ h)\ =\ \texttt{OpenWrite}\ \land \ \operatorname{HandlePos}(\omega ',\ h)\ =\ 0\ \land \ \operatorname{HandlePath}(\omega ',\ h)\ =\ \mathsf{path}\ \land \ \operatorname{HandleLen}(\omega ',\ h)\ =\ 0
+\operatorname{IOOpenRead}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{File@Read}\{\texttt{handle}:\ h\},\ \omega ')\ \Rightarrow \ \operatorname{HandleStateOf}(\omega ',\ h)\ =\ \texttt{OpenRead}\ \land \ \operatorname{HandlePos}(\omega ',\ h)\ =\ 0\ \land \ \operatorname{HandlePath}(\omega ',\ h)\ =\ \mathsf{path}\ \land \ \operatorname{HandleLen}(\omega ',\ h)\ =\ \operatorname{FileLenAt}(\omega ,\ \mathsf{path}) \\[0.16em]
+\operatorname{IOOpenWrite}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{File@Write}\{\texttt{handle}:\ h\},\ \omega ')\ \Rightarrow \ \operatorname{HandleStateOf}(\omega ',\ h)\ =\ \texttt{OpenWrite}\ \land \ \operatorname{HandlePos}(\omega ',\ h)\ =\ 0\ \land \ \operatorname{HandlePath}(\omega ',\ h)\ =\ \mathsf{path}\ \land \ \operatorname{HandleLen}(\omega ',\ h)\ =\ \operatorname{FileLenAt}(\omega ,\ \mathsf{path}) \\[0.16em]
+\operatorname{IOOpenAppend}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{File@Append}\{\texttt{handle}:\ h\},\ \omega ')\ \Rightarrow \ \operatorname{HandleStateOf}(\omega ',\ h)\ =\ \texttt{OpenAppend}\ \land \ \operatorname{HandlePos}(\omega ',\ h)\ =\ \operatorname{FileLenAt}(\omega ,\ \mathsf{path})\ \land \ \operatorname{HandlePath}(\omega ',\ h)\ =\ \mathsf{path}\ \land \ \operatorname{HandleLen}(\omega ',\ h)\ =\ \operatorname{FileLenAt}(\omega ,\ \mathsf{path}) \\[0.16em]
+\operatorname{IOCreateWrite}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{File@Write}\{\texttt{handle}:\ h\},\ \omega ')\ \Rightarrow \ \operatorname{HandleStateOf}(\omega ',\ h)\ =\ \texttt{OpenWrite}\ \land \ \operatorname{HandlePos}(\omega ',\ h)\ =\ 0\ \land \ \operatorname{HandlePath}(\omega ',\ h)\ =\ \mathsf{path}\ \land \ \operatorname{HandleLen}(\omega ',\ h)\ =\ 0
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{FSReadFile}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ')\ \Leftrightarrow \ \exists \ h,\ \omega_{1} ,\ \omega_{2} .\ \operatorname{FSOpenRead}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{File@Read}\{\texttt{handle}:\ h\},\ \omega_{1} )\ \land \ \operatorname{FileReadAll}(h,\ \omega_{1} )\ \Downarrow \ (r,\ \omega_{2} )\ \land \ \operatorname{FileClose}(h,\ \omega_{2} )\ \Downarrow \ (\mathsf{ok},\ \omega ') \\[0.16em]
-\operatorname{FSReadBytes}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ')\ \Leftrightarrow \ \exists \ h,\ \omega_{1} ,\ \omega_{2} .\ \operatorname{FSOpenRead}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{File@Read}\{\texttt{handle}:\ h\},\ \omega_{1} )\ \land \ \operatorname{FileReadAllBytes}(h,\ \omega_{1} )\ \Downarrow \ (r,\ \omega_{2} )\ \land \ \operatorname{FileClose}(h,\ \omega_{2} )\ \Downarrow \ (\mathsf{ok},\ \omega ')
+\operatorname{IOReadFile}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ')\ \Leftrightarrow \ \exists \ h,\ \omega_{1} ,\ \omega_{2} .\ \operatorname{IOOpenRead}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{File@Read}\{\texttt{handle}:\ h\},\ \omega_{1} )\ \land \ \operatorname{FileReadAll}(h,\ \omega_{1} )\ \Downarrow \ (r,\ \omega_{2} )\ \land \ \operatorname{FileClose}(h,\ \omega_{2} )\ \Downarrow \ (\mathsf{ok},\ \omega ') \\[0.16em]
+\operatorname{IOReadBytes}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (r,\ \omega ')\ \Leftrightarrow \ \exists \ h,\ \omega_{1} ,\ \omega_{2} .\ \operatorname{IOOpenRead}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{File@Read}\{\texttt{handle}:\ h\},\ \omega_{1} )\ \land \ \operatorname{FileReadAllBytes}(h,\ \omega_{1} )\ \Downarrow \ (r,\ \omega_{2} )\ \land \ \operatorname{FileClose}(h,\ \omega_{2} )\ \Downarrow \ (\mathsf{ok},\ \omega ')
 \end{array}
 $$
 
@@ -299,7 +299,7 @@ $$
 $$
 
 $$
-\operatorname{FSOpenDir}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{DirIter@Open}\{\texttt{handle}:\ h\},\ \omega ')\ \Rightarrow \ \operatorname{DirIterOpen}(\omega ',\ h)\ \land \ \operatorname{DirIterFS}(\omega ',\ h)\ =\ \mathsf{fs}\ \land \ \operatorname{DirIterPath}(\omega ',\ h)\ =\ \mathsf{path}\ \land \ \operatorname{DirIterEntries}(\omega ',\ h)\ =\ \operatorname{DirEntries}(\mathsf{fs},\ \mathsf{path},\ \omega )\ \land \ \operatorname{DirIterPos}(\omega ',\ h)\ =\ 0
+\operatorname{IOOpenDir}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\texttt{DirIter@Open}\{\texttt{handle}:\ h\},\ \omega ')\ \Rightarrow \ \operatorname{DirIterOpen}(\omega ',\ h)\ \land \ \operatorname{DirIterIO}(\omega ',\ h)\ =\ \mathsf{io}\ \land \ \operatorname{DirIterPath}(\omega ',\ h)\ =\ \mathsf{path}\ \land \ \operatorname{DirIterEntries}(\omega ',\ h)\ =\ \operatorname{DirEntries}(\mathsf{io},\ \mathsf{path},\ \omega )\ \land \ \operatorname{DirIterPos}(\omega ',\ h)\ =\ 0
 $$
 
 $$
@@ -450,163 +450,163 @@ $$
 \end{array}
 $$
 
-**(Prim-FS-OpenRead)**
+**(Prim-IO-OpenRead)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{FSOpenRead}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\[0.16em]
+\Gamma \ \vdash \ \operatorname{IOOpenRead}(v_{\mathsf{io}},\ p)\ \Downarrow \ r \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{open\_read},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{IO},\ \texttt{open\_read},\ v_{\mathsf{io}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
 \end{array}
 $$
 
-**(Prim-FS-OpenWrite)**
+**(Prim-IO-OpenWrite)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{FSOpenWrite}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\[0.16em]
+\Gamma \ \vdash \ \operatorname{IOOpenWrite}(v_{\mathsf{io}},\ p)\ \Downarrow \ r \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{open\_write},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{IO},\ \texttt{open\_write},\ v_{\mathsf{io}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
 \end{array}
 $$
 
-**(Prim-FS-OpenAppend)**
+**(Prim-IO-OpenAppend)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{FSOpenAppend}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\[0.16em]
+\Gamma \ \vdash \ \operatorname{IOOpenAppend}(v_{\mathsf{io}},\ p)\ \Downarrow \ r \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{open\_append},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{IO},\ \texttt{open\_append},\ v_{\mathsf{io}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
 \end{array}
 $$
 
-**(Prim-FS-CreateWrite)**
+**(Prim-IO-CreateWrite)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{FSCreateWrite}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\[0.16em]
+\Gamma \ \vdash \ \operatorname{IOCreateWrite}(v_{\mathsf{io}},\ p)\ \Downarrow \ r \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{create\_write},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{IO},\ \texttt{create\_write},\ v_{\mathsf{io}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
 \end{array}
 $$
 
-**(Prim-FS-ReadFile)**
+**(Prim-IO-ReadFile)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{FSReadFile}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\[0.16em]
+\Gamma \ \vdash \ \operatorname{IOReadFile}(v_{\mathsf{io}},\ p)\ \Downarrow \ r \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{read\_file},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{IO},\ \texttt{read\_file},\ v_{\mathsf{io}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
 \end{array}
 $$
 
-**(Prim-FS-ReadBytes)**
+**(Prim-IO-ReadBytes)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{FSReadBytes}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\[0.16em]
+\Gamma \ \vdash \ \operatorname{IOReadBytes}(v_{\mathsf{io}},\ p)\ \Downarrow \ r \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{read\_bytes},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{IO},\ \texttt{read\_bytes},\ v_{\mathsf{io}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
 \end{array}
 $$
 
-**(Prim-FS-WriteFile)**
+**(Prim-IO-WriteFile)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{FSWriteFile}(v_{\mathsf{fs}},\ p,\ d)\ \Downarrow \ r \\[0.16em]
+\Gamma \ \vdash \ \operatorname{IOWriteFile}(v_{\mathsf{io}},\ p,\ d)\ \Downarrow \ r \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{write\_file},\ v_{\mathsf{fs}},\ [p,\ d])\ \Downarrow \ \operatorname{Val}(r)
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{IO},\ \texttt{write\_file},\ v_{\mathsf{io}},\ [p,\ d])\ \Downarrow \ \operatorname{Val}(r)
 \end{array}
 $$
 
-**(Prim-FS-WriteStdout)**
+**(Prim-IO-WriteStdout)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{FSWriteStdout}(v_{\mathsf{fs}},\ d)\ \Downarrow \ r \\[0.16em]
+\Gamma \ \vdash \ \operatorname{IOWriteStdout}(v_{\mathsf{io}},\ d)\ \Downarrow \ r \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{write\_stdout},\ v_{\mathsf{fs}},\ [d])\ \Downarrow \ \operatorname{Val}(r)
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{IO},\ \texttt{write\_stdout},\ v_{\mathsf{io}},\ [d])\ \Downarrow \ \operatorname{Val}(r)
 \end{array}
 $$
 
-**(Prim-FS-WriteStderr)**
+**(Prim-IO-WriteStderr)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{FSWriteStderr}(v_{\mathsf{fs}},\ d)\ \Downarrow \ r \\[0.16em]
+\Gamma \ \vdash \ \operatorname{IOWriteStderr}(v_{\mathsf{io}},\ d)\ \Downarrow \ r \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{write\_stderr},\ v_{\mathsf{fs}},\ [d])\ \Downarrow \ \operatorname{Val}(r)
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{IO},\ \texttt{write\_stderr},\ v_{\mathsf{io}},\ [d])\ \Downarrow \ \operatorname{Val}(r)
 \end{array}
 $$
 
-**(Prim-FS-Exists)**
+**(Prim-IO-Exists)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{FSExists}(v_{\mathsf{fs}},\ p)\ \Downarrow \ b \\[0.16em]
+\Gamma \ \vdash \ \operatorname{IOExists}(v_{\mathsf{io}},\ p)\ \Downarrow \ b \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{exists},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(b)
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{IO},\ \texttt{exists},\ v_{\mathsf{io}},\ [p])\ \Downarrow \ \operatorname{Val}(b)
 \end{array}
 $$
 
-**(Prim-FS-Remove)**
+**(Prim-IO-Remove)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{FSRemove}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\[0.16em]
+\Gamma \ \vdash \ \operatorname{IORemove}(v_{\mathsf{io}},\ p)\ \Downarrow \ r \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{remove},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{IO},\ \texttt{remove},\ v_{\mathsf{io}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
 \end{array}
 $$
 
-**(Prim-FS-OpenDir)**
+**(Prim-IO-OpenDir)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{FSOpenDir}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\[0.16em]
+\Gamma \ \vdash \ \operatorname{IOOpenDir}(v_{\mathsf{io}},\ p)\ \Downarrow \ r \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{open\_dir},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{IO},\ \texttt{open\_dir},\ v_{\mathsf{io}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
 \end{array}
 $$
 
-**(Prim-FS-CreateDir)**
+**(Prim-IO-CreateDir)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{FSCreateDir}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\[0.16em]
+\Gamma \ \vdash \ \operatorname{IOCreateDir}(v_{\mathsf{io}},\ p)\ \Downarrow \ r \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{create\_dir},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{IO},\ \texttt{create\_dir},\ v_{\mathsf{io}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
 \end{array}
 $$
 
-**(Prim-FS-EnsureDir)**
+**(Prim-IO-EnsureDir)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{FSEnsureDir}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\[0.16em]
+\Gamma \ \vdash \ \operatorname{IOEnsureDir}(v_{\mathsf{io}},\ p)\ \Downarrow \ r \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{ensure\_dir},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{IO},\ \texttt{ensure\_dir},\ v_{\mathsf{io}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
 \end{array}
 $$
 
-**(Prim-FS-Kind)**
+**(Prim-IO-Kind)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{FSKind}(v_{\mathsf{fs}},\ p)\ \Downarrow \ r \\[0.16em]
+\Gamma \ \vdash \ \operatorname{IOKind}(v_{\mathsf{io}},\ p)\ \Downarrow \ r \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{kind},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{IO},\ \texttt{kind},\ v_{\mathsf{io}},\ [p])\ \Downarrow \ \operatorname{Val}(r)
 \end{array}
 $$
 
-**(Prim-FS-Restrict)**
+**(Prim-IO-Restrict)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{FSRestrict}(v_{\mathsf{fs}},\ p)\ \Downarrow \ v_{\mathsf{fs}}' \\[0.16em]
+\Gamma \ \vdash \ \operatorname{IORestrict}(v_{\mathsf{io}},\ p)\ \Downarrow \ v_{\mathsf{io}}' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{FileSystem},\ \texttt{restrict},\ v_{\mathsf{fs}},\ [p])\ \Downarrow \ \operatorname{Val}(v_{\mathsf{fs}}')
+\Gamma \ \vdash \ \operatorname{PrimCall}(\texttt{IO},\ \texttt{restrict},\ v_{\mathsf{io}},\ [p])\ \Downarrow \ \operatorname{Val}(v_{\mathsf{io}}')
 \end{array}
 $$
 

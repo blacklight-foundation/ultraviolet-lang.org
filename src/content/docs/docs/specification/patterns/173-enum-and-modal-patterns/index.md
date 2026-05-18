@@ -2,16 +2,16 @@
 title: "17.3 Enum and Modal Patterns"
 description: "17.3 Enum and Modal Patterns from 17. Patterns of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a"
+specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
 specChapter: "patterns"
 specSection: "173-enum-and-modal-patterns"
-generatedAt: "2026-05-14T07:35:34.990Z"
+generatedAt: "2026-05-18T22:15:57.711Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>ee95a2fbe369aa37741c11b97965a47120059090e499b53494a1b62608558a2a</code></span>
+  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -43,6 +43,12 @@ $$
 \Gamma \ \vdash \ \operatorname{ParsePatternAtom}(P)\ \Downarrow \ (P_{3},\ \operatorname{EnumPattern}(\mathsf{path},\ \mathsf{name},\ \mathsf{payload}_{\mathsf{opt}}))
 \end{array}
 $$
+
+Resolution classifies `A::B { ... }` by the resolved declarations. If `A::B`
+resolves as a record type path, the pattern is a `RecordPattern`. If `A` resolves
+as an enum type and `B` resolves as a record-payload variant, the pattern is an
+`EnumPattern` with record payload. If both are available in the same namespace
+relation, resolution emits `E-MOD-1307`.
 
 **(Parse-Pattern-Modal)**
 
@@ -118,9 +124,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseFieldPatternList}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{fs})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\}"}) \\[0.16em]
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseFieldPatternList}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{io})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\}"}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParseEnumPatternPayloadOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{RecordPayloadPattern}(\mathsf{fs}))
+\Gamma \ \vdash \ \operatorname{ParseEnumPatternPayloadOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{RecordPayloadPattern}(\mathsf{io}))
 \end{array}
 $$
 
@@ -138,9 +144,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseFieldPatternList}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{fs})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\}"}) \\[0.16em]
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseFieldPatternList}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{io})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\}"}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParseModalPatternPayloadOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{ModalRecordPayload}(\mathsf{fs}))
+\Gamma \ \vdash \ \operatorname{ParseModalPatternPayloadOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{ModalRecordPayload}(\mathsf{io}))
 \end{array}
 $$
 
@@ -227,9 +233,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{StripPerm}(T)\ =\ \operatorname{TypePath}(p)\quad \operatorname{EnumDecl}(p)\ =\ E\quad \operatorname{VariantPayload}(E,\ v)\ =\ \operatorname{RecordPayload}(\mathsf{fs}')\quad \forall \ \mathsf{fp}\ \in \ \mathsf{fs},\ \operatorname{EnumFieldType}(E,\ v,\ \operatorname{FieldName}(\mathsf{fp}))\ =\ T_{f}\ \land \ \Gamma \ \vdash \ \operatorname{PatOf}(\mathsf{fp})\ \triangleleft \ T_{f}\ \dashv \ B_{f}\quad B\ =\ \uplus \_\{\mathsf{fp}\ \in \ \mathsf{fs}\}\ B_{f} \\[0.16em]
+\operatorname{StripPerm}(T)\ =\ \operatorname{TypePath}(p)\quad \operatorname{EnumDecl}(p)\ =\ E\quad \operatorname{VariantPayload}(E,\ v)\ =\ \operatorname{RecordPayload}(\mathsf{io}')\quad \forall \ \mathsf{fp}\ \in \ \mathsf{io},\ \operatorname{EnumFieldType}(E,\ v,\ \operatorname{FieldName}(\mathsf{fp}))\ =\ T_{f}\ \land \ \Gamma \ \vdash \ \operatorname{PatOf}(\mathsf{fp})\ \triangleleft \ T_{f}\ \dashv \ B_{f}\quad B\ =\ \uplus \_\{\mathsf{fp}\ \in \ \mathsf{io}\}\ B_{f} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{EnumPattern}(p,\ v,\ \operatorname{RecordPayloadPattern}(\mathsf{fs}))\ \triangleleft \ T\ \dashv \ B
+\Gamma \ \vdash \ \operatorname{EnumPattern}(p,\ v,\ \operatorname{RecordPayloadPattern}(\mathsf{io}))\ \triangleleft \ T\ \dashv \ B
 \end{array}
 $$
 
@@ -237,9 +243,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{StripPerm}(T)\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\quad \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad S\ \in \ \operatorname{States}(M)\quad \forall \ \mathsf{fp}\ \in \ \mathsf{fs},\ \operatorname{ModalPayloadMap}(\mathsf{modal}_{\mathsf{ref}},\ S)(\operatorname{FieldName}(\mathsf{fp}))\ =\ T_{f}\ \land \ \Gamma \ \vdash \ \operatorname{PatOf}(\mathsf{fp})\ \triangleleft \ T_{f}\ \dashv \ B_{f}\quad B\ =\ \uplus \_\{\mathsf{fp}\ \in \ \mathsf{fs}\}\ B_{f} \\[0.16em]
+\operatorname{StripPerm}(T)\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\quad \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad S\ \in \ \operatorname{States}(M)\quad \forall \ \mathsf{fp}\ \in \ \mathsf{io},\ \operatorname{ModalPayloadMap}(\mathsf{modal}_{\mathsf{ref}},\ S)(\operatorname{FieldName}(\mathsf{fp}))\ =\ T_{f}\ \land \ \Gamma \ \vdash \ \operatorname{PatOf}(\mathsf{fp})\ \triangleleft \ T_{f}\ \dashv \ B_{f}\quad B\ =\ \uplus \_\{\mathsf{fp}\ \in \ \mathsf{io}\}\ B_{f} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ModalPattern}(S,\ \mathsf{fs})\ \triangleleft \ T\ \dashv \ B
+\Gamma \ \vdash \ \operatorname{ModalPattern}(S,\ \mathsf{io})\ \triangleleft \ T\ \dashv \ B
 \end{array}
 $$
 
@@ -247,9 +253,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{StripPerm}(T)\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)\quad \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad \forall \ \mathsf{fp}\ \in \ \mathsf{fs},\ \operatorname{ModalPayloadMap}(\mathsf{modal}_{\mathsf{ref}},\ S)(\operatorname{FieldName}(\mathsf{fp}))\ =\ T_{f}\ \land \ \Gamma \ \vdash \ \operatorname{PatOf}(\mathsf{fp})\ \triangleleft \ T_{f}\ \dashv \ B_{f}\quad B\ =\ \uplus \_\{\mathsf{fp}\ \in \ \mathsf{fs}\}\ B_{f} \\[0.16em]
+\operatorname{StripPerm}(T)\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)\quad \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad \forall \ \mathsf{fp}\ \in \ \mathsf{io},\ \operatorname{ModalPayloadMap}(\mathsf{modal}_{\mathsf{ref}},\ S)(\operatorname{FieldName}(\mathsf{fp}))\ =\ T_{f}\ \land \ \Gamma \ \vdash \ \operatorname{PatOf}(\mathsf{fp})\ \triangleleft \ T_{f}\ \dashv \ B_{f}\quad B\ =\ \uplus \_\{\mathsf{fp}\ \in \ \mathsf{io}\}\ B_{f} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ModalPattern}(S,\ \mathsf{fs})\ \triangleleft \ T\ \dashv \ B
+\Gamma \ \vdash \ \operatorname{ModalPattern}(S,\ \mathsf{io})\ \triangleleft \ T\ \dashv \ B
 \end{array}
 $$
 
@@ -272,9 +278,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{MatchRecord}(\mathsf{fs},\ v)\ \Downarrow \ B \\[0.16em]
+\Gamma \ \vdash \ \operatorname{MatchRecord}(\mathsf{io},\ v)\ \Downarrow \ B \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{MatchModal}(@S\{\mathsf{fs}\},\ \langle S,\ v\rangle )\ \Downarrow \ B
+\Gamma \ \vdash \ \operatorname{MatchModal}(@S\{\mathsf{io}\},\ \langle S,\ v\rangle )\ \Downarrow \ B
 \end{array}
 $$
 
@@ -302,9 +308,9 @@ $$
 
 $$
 \begin{array}{l}
-v\ =\ \operatorname{EnumValue}(\mathsf{path}',\ \operatorname{RecordPayload}(\mathsf{vec}_{f}))\quad \operatorname{EnumPath}(\mathsf{path}')\ =\ \mathsf{path}\quad \operatorname{VariantName}(\mathsf{path}')\ =\ \mathsf{name}\quad \Gamma \ \vdash \ \operatorname{MatchRecord}(\mathsf{fs},\ \operatorname{RecordPayload}(\mathsf{vec}_{f}))\ \Downarrow \ B \\[0.16em]
+v\ =\ \operatorname{EnumValue}(\mathsf{path}',\ \operatorname{RecordPayload}(\mathsf{vec}_{f}))\quad \operatorname{EnumPath}(\mathsf{path}')\ =\ \mathsf{path}\quad \operatorname{VariantName}(\mathsf{path}')\ =\ \mathsf{name}\quad \Gamma \ \vdash \ \operatorname{MatchRecord}(\mathsf{io},\ \operatorname{RecordPayload}(\mathsf{vec}_{f}))\ \Downarrow \ B \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{MatchPattern}(\operatorname{EnumPattern}(\mathsf{path},\ \mathsf{name},\ \operatorname{RecordPayloadPattern}(\mathsf{fs})),\ v)\ \Downarrow \ B
+\Gamma \ \vdash \ \operatorname{MatchPattern}(\operatorname{EnumPattern}(\mathsf{path},\ \mathsf{name},\ \operatorname{RecordPayloadPattern}(\mathsf{io})),\ v)\ \Downarrow \ B
 \end{array}
 $$
 
@@ -312,9 +318,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{MatchModal}(@S\{\mathsf{fs}\},\ \langle S,\ v\rangle )\ \Downarrow \ B \\[0.16em]
+\Gamma \ \vdash \ \operatorname{MatchModal}(@S\{\mathsf{io}\},\ \langle S,\ v\rangle )\ \Downarrow \ B \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{MatchPattern}(@S\{\mathsf{fs}\},\ \langle S,\ v\rangle )\ \Downarrow \ B
+\Gamma \ \vdash \ \operatorname{MatchPattern}(@S\{\mathsf{io}\},\ \langle S,\ v\rangle )\ \Downarrow \ B
 \end{array}
 $$
 
@@ -322,9 +328,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{MatchRecord}(\mathsf{fs},\ v)\ \Downarrow \ B \\[0.16em]
+\Gamma \ \vdash \ \operatorname{MatchRecord}(\mathsf{io},\ v)\ \Downarrow \ B \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{MatchPattern}(@S\{\mathsf{fs}\},\ v)\ \Downarrow \ B
+\Gamma \ \vdash \ \operatorname{MatchPattern}(@S\{\mathsf{io}\},\ v)\ \Downarrow \ B
 \end{array}
 $$
 
