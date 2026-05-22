@@ -1,2 +1,5 @@
+/install https://raw.githubusercontent.com/blacklight-foundation/ultraviolet/main/Tools/InstallUltraviolet.sh 302
+/install/ https://raw.githubusercontent.com/blacklight-foundation/ultraviolet/main/Tools/InstallUltraviolet.sh 302
+/install.ps1 https://raw.githubusercontent.com/blacklight-foundation/ultraviolet/main/Tools/InstallUltraviolet.ps1 302
 /funding /sponsor/ 301
 /funding/ /sponsor/ 301
