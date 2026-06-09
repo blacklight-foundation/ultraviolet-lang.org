@@ -18,3 +18,9 @@ dist/
 npm-debug.log*
 pnpm-debug.log*
 yarn-debug.log*
+
+# local scratch clone of the language repo
+temp-uv/
+
+# astro preview logs
+.astro-preview-*.log
