@@ -2,16 +2,16 @@
 title: "4.1 Source Loading and Normalization"
 description: "4.1 Source Loading and Normalization from 4. Source Text and Lexical Structure of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "source-text-and-lexical-structure"
 specSection: "41-source-loading-and-normalization"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -318,13 +318,13 @@ $$
 \operatorname{BeginsOperand}(t)\ \Leftrightarrow \ t.\mathsf{kind}\ \in \ \{\mathsf{Identifier},\ \mathsf{IntLiteral},\ \mathsf{FloatLiteral},\ \mathsf{StringLiteral},\ \mathsf{CharLiteral},\ \mathsf{BoolLiteral},\ \mathsf{NullLiteral}\}\ \lor \ (t.\mathsf{kind}\ =\ \mathsf{Punctuator}\ \land \ t.\mathsf{lexeme}\ \in \ \{\texttt{"("},\ \texttt{"["},\ \texttt{"\{"}\})\ \lor \ (t.\mathsf{kind}\ =\ \mathsf{Operator}\ \land \ t.\mathsf{lexeme}\ \in \ \{\texttt{"!"},\ \texttt{"-"},\ \texttt{"\&"},\ \texttt{"*"},\ \texttt{"\^{}"}\})\ \lor \ (t.\mathsf{kind}\ =\ \mathsf{Keyword}\ \land \ t.\mathsf{lexeme}\ \in \ \{\texttt{"if"},\ \texttt{"loop"},\ \texttt{"unsafe"},\ \texttt{"comptime"},\ \texttt{"quote"},\ \texttt{"move"},\ \texttt{"transmute"},\ \texttt{"widen"},\ \texttt{"parallel"},\ \texttt{"spawn"},\ \texttt{"dispatch"},\ \texttt{"yield"},\ \texttt{"sync"},\ \texttt{"race"},\ \texttt{"all"}\}) \\[0.16em]
 \mathsf{UnaryOnly}\ =\ \{\texttt{"!"},\ \texttt{"\~{}"},\ \texttt{"?"}\} \\[0.16em]
 \operatorname{Adjacent}(t_{1},\ t_{2})\ \Leftrightarrow \ t_{1}.\mathsf{span}.\mathsf{end}_{\mathsf{offset}}\ =\ t_{2}.\mathsf{span}.\mathsf{start}_{\mathsf{offset}} \\[0.16em]
-\operatorname{AttrCloseBefore}(K,\ i)\ \Leftrightarrow \ \exists \ j.\ j+1\ <\ i\ \land \ K[j].\mathsf{kind}\ =\ \mathsf{Punctuator}\ \land \ K[j].\mathsf{lexeme}\ =\ \texttt{"]"}\ \land \ K[j+1].\mathsf{kind}\ =\ \mathsf{Punctuator}\ \land \ K[j+1].\mathsf{lexeme}\ =\ \texttt{"]"}\ \land \ \operatorname{Adjacent}(K[j],\ K[j+1])\ \land \ \operatorname{Prev}(K,\ i)\ =\ K[j+1] \\[0.16em]
+\operatorname{AttrBefore}(K,\ i)\ \Leftrightarrow \ \exists \ j.\ j\ <\ i\ \land \ K[j].\mathsf{kind}\ =\ \mathsf{Operator}\ \land \ K[j].\mathsf{lexeme}\ =\ \texttt{"\#"}\ \land \ \operatorname{Prev}(K,\ i)\ \mathsf{is}\ \mathsf{the}\ \mathsf{final}\ \mathsf{token}\ \mathsf{of}\ \mathsf{the}\ \mathsf{attribute}\ \mathsf{specification}\ \mathsf{parsed}\ \mathsf{from}\ K[j] \\[0.16em]
 \operatorname{ElseCont}(K,\ i)\ \Leftrightarrow \ K[i].\mathsf{kind}\ =\ \mathsf{newline}\ \land \ \exists \ t,\ u.\ \operatorname{Prev}(K,\ i)\ =\ t\ \land \ \operatorname{Next}(K,\ i)\ =\ u\ \land \ t.\mathsf{kind}\ =\ \mathsf{Punctuator}\ \land \ t.\mathsf{lexeme}\ =\ \texttt{"\}"}\ \land \ u.\mathsf{kind}\ =\ \mathsf{Keyword}\ \land \ u.\mathsf{lexeme}\ =\ \texttt{"else"}
 \end{array}
 $$
 
 $$
-\operatorname{Continue}(K,\ i)\ \Leftrightarrow \ \operatorname{Depth}(K,\ i)\ >\ 0\ \lor \ (\exists \ t.\ \operatorname{Prev}(K,\ i)\ =\ t\ \land \ (t.\mathsf{lexeme}\ =\ \texttt{","}\ \lor \ (t.\mathsf{kind}\ =\ \mathsf{Operator}\ \land \ ((((t.\mathsf{lexeme}\ \in \ \mathsf{Ambig}\ \lor \ t.\mathsf{lexeme}\ \in \ \mathsf{RangeCont})\ \land \ \exists \ u.\ \operatorname{Next}(K,\ i)\ =\ u\ \land \ \operatorname{BeginsOperand}(u))\ \lor \ (t.\mathsf{lexeme}\ \notin \ \mathsf{UnaryOnly}\ \land \ t.\mathsf{lexeme}\ \notin \ \mathsf{RangeCont}))))))\ \lor \ (\exists \ u.\ \operatorname{Next}(K,\ i)\ =\ u\ \land \ u.\mathsf{lexeme}\ \in \ \{\texttt{"."},\ \texttt{"::"},\ \texttt{"\~{}>"}\})\ \lor \ (\exists \ u.\ \operatorname{AttrCloseBefore}(K,\ i)\ \land \ \operatorname{Next}(K,\ i)\ =\ u\ \land \ \operatorname{BeginsOperand}(u))\ \lor \ \operatorname{ElseCont}(K,\ i)
+\operatorname{Continue}(K,\ i)\ \Leftrightarrow \ \operatorname{Depth}(K,\ i)\ >\ 0\ \lor \ (\exists \ t.\ \operatorname{Prev}(K,\ i)\ =\ t\ \land \ (t.\mathsf{lexeme}\ =\ \texttt{","}\ \lor \ (t.\mathsf{kind}\ =\ \mathsf{Operator}\ \land \ ((((t.\mathsf{lexeme}\ \in \ \mathsf{Ambig}\ \lor \ t.\mathsf{lexeme}\ \in \ \mathsf{RangeCont})\ \land \ \exists \ u.\ \operatorname{Next}(K,\ i)\ =\ u\ \land \ \operatorname{BeginsOperand}(u))\ \lor \ (t.\mathsf{lexeme}\ \notin \ \mathsf{UnaryOnly}\ \land \ t.\mathsf{lexeme}\ \notin \ \mathsf{RangeCont}))))))\ \lor \ (\exists \ u.\ \operatorname{Next}(K,\ i)\ =\ u\ \land \ u.\mathsf{lexeme}\ \in \ \{\texttt{"."},\ \texttt{"::"},\ \texttt{"\~{}>"}\})\ \lor \ (\exists \ u.\ \operatorname{AttrBefore}(K,\ i)\ \land \ \operatorname{Next}(K,\ i)\ =\ u\ \land \ \operatorname{BeginsOperand}(u))\ \lor \ \operatorname{ElseCont}(K,\ i)
 $$
 
 For `t.lexeme ∈ RangeCont`, continuation across newline MUST require `Next(K, i)` to begin an operand. This permits split forms like `a .. \n b` and `.. \n b`, while allowing newline termination after complete `a ..` and `..` forms.

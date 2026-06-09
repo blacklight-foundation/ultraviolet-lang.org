@@ -2,16 +2,16 @@
 title: "3.6 Output Artifacts and Linking"
 description: "3.6 Output Artifacts and Linking from 3. Project and Compilation Model of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "project-and-compilation-model"
 specSection: "36-output-artifacts-and-linking"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -122,7 +122,7 @@ $$
 \begin{array}{l}
 O\ =\ \operatorname{OutputRoot}(P)\ = \\[0.16em]
 \ P.\mathsf{root}/P.\mathsf{assembly}.\mathsf{out}_{\mathsf{dir}}\ \mathsf{if}\ \mathsf{provided} \\[0.16em]
-\ P.\mathsf{root}/\texttt{build}\quad \mathsf{otherwise}
+\ P.\mathsf{root}/\texttt{Build}\quad \mathsf{otherwise}
 \end{array}
 $$
 
@@ -136,11 +136,14 @@ $$
 \begin{array}{l}
 \operatorname{OutputPaths}(R,\ A).\mathsf{root}\ = \\[0.16em]
 \ R/A.\mathsf{out}_{\mathsf{dir}}\ \mathsf{if}\ \mathsf{provided} \\[0.16em]
-\ R/\texttt{build}\quad \mathsf{otherwise} \\[0.16em]
-\operatorname{OutputPaths}(R,\ A).\mathsf{obj}_{\mathsf{dir}}\ =\ \operatorname{OutputPaths}(R,\ A).\mathsf{root}/\texttt{obj} \\[0.16em]
-\operatorname{OutputPaths}(R,\ A).\mathsf{ir}_{\mathsf{dir}}\ =\ \operatorname{OutputPaths}(R,\ A).\mathsf{root}/\texttt{ir} \\[0.16em]
-\operatorname{OutputPaths}(R,\ A).\mathsf{bin}_{\mathsf{dir}}\ =\ \operatorname{OutputPaths}(R,\ A).\mathsf{root}/\texttt{bin} \\[0.16em]
-\operatorname{OutputPaths}(R,\ A).\mathsf{lib}_{\mathsf{dir}}\ =\ \operatorname{OutputPaths}(R,\ A).\mathsf{root}/\texttt{lib}
+\ R/\texttt{Build}\quad \mathsf{otherwise} \\[0.16em]
+\operatorname{OutputPaths}(R,\ A).\mathsf{intermediate}_{\mathsf{dir}}\ =\ \operatorname{OutputPaths}(R,\ A).\mathsf{root}/\texttt{Intermediate} \\[0.16em]
+\operatorname{OutputPaths}(R,\ A).\mathsf{obj}_{\mathsf{dir}}\ =\ \operatorname{OutputPaths}(R,\ A).\mathsf{intermediate}_{\mathsf{dir}}/\texttt{Obj} \\[0.16em]
+\operatorname{OutputPaths}(R,\ A).\mathsf{ir}_{\mathsf{dir}}\ =\ \operatorname{OutputPaths}(R,\ A).\mathsf{intermediate}_{\mathsf{dir}}/\texttt{IR} \\[0.16em]
+\operatorname{OutputPaths}(R,\ A).\mathsf{bin}_{\mathsf{dir}}\ =\ \operatorname{OutputPaths}(R,\ A).\mathsf{root}/\texttt{Binary} \\[0.16em]
+\operatorname{OutputPaths}(R,\ A).\mathsf{lib}_{\mathsf{dir}}\ =\ \operatorname{OutputPaths}(R,\ A).\mathsf{root}/\texttt{Library} \\[0.16em]
+\operatorname{OutputPaths}(R,\ A).\mathsf{logs}_{\mathsf{dir}}\ =\ \operatorname{OutputPaths}(R,\ A).\mathsf{root}/\texttt{Logs} \\[0.16em]
+\operatorname{OutputPaths}(R,\ A).\mathsf{incremental}_{\mathsf{dir}}\ =\ \operatorname{OutputPaths}(R,\ A).\mathsf{intermediate}_{\mathsf{dir}}/\texttt{Incremental}
 \end{array}
 $$
 
@@ -160,12 +163,13 @@ $$
 $$
 \begin{array}{l}
 \operatorname{mangle}(s)\ =\ \operatorname{PathToPrefix}(s) \\[0.16em]
-\operatorname{MangleModulePath}(p)\ =\ \operatorname{mangle}(\operatorname{PathString}(\operatorname{PathKey}(p)))
+\operatorname{MangleModulePath}(p)\ =\ \operatorname{mangle}(\operatorname{PathString}(\operatorname{PathKey}(p))) \\[0.16em]
+\operatorname{ModuleOutputRel}(P,\ m)\ =\ \operatorname{Rel}(\operatorname{ModuleDirOf}(m,\ P.\mathsf{source}_{\mathsf{root}}),\ P.\mathsf{root})
 \end{array}
 $$
 
 $$
-\operatorname{obj}(m)\ =\ O\ /\ \texttt{obj}\ /\ (\operatorname{MangleModulePath}(p)\ \mathbin{++} \ \operatorname{ObjExt}(\mathsf{SelectedTargetProfile}))
+\operatorname{obj}(m)\ =\ O\ /\ \texttt{Intermediate}\ /\ \texttt{Obj}\ /\ \operatorname{ModuleOutputRel}(P,\ m)\ /\ (\operatorname{MangleModulePath}(p)\ \mathbin{++} \ \operatorname{ObjExt}(\mathsf{SelectedTargetProfile}))
 $$
 
 **Final Artifact Naming**
@@ -173,10 +177,10 @@ $$
 $$
 \begin{array}{l}
 \mathsf{libname}\ =\ \operatorname{LibraryPrefix}(\mathsf{SelectedTargetProfile})\ \mathbin{++} \ \mathsf{assembly}_{\mathsf{name}} \\[0.16em]
-\mathsf{exe}\ =\ O\ /\ \texttt{bin}\ /\ (\mathsf{assembly}_{\mathsf{name}}\ \mathbin{++} \ \operatorname{ExeSuffix}(\mathsf{SelectedTargetProfile})) \\[0.16em]
-\mathsf{shared}\ =\ O\ /\ \texttt{bin}\ /\ (\mathsf{libname}\ \mathbin{++} \ \operatorname{SharedLibSuffix}(\mathsf{SelectedTargetProfile})) \\[0.16em]
-\mathsf{static}\ =\ O\ /\ \texttt{lib}\ /\ (\mathsf{libname}\ \mathbin{++} \ \operatorname{StaticLibSuffix}(\mathsf{SelectedTargetProfile})) \\[0.16em]
-\mathsf{import}\ =\ O\ /\ \texttt{lib}\ /\ (\mathsf{libname}\ \mathbin{++} \ \operatorname{ImportLibSuffix}(\mathsf{SelectedTargetProfile}))
+\mathsf{exe}\ =\ O\ /\ \texttt{Binary}\ /\ (\mathsf{assembly}_{\mathsf{name}}\ \mathbin{++} \ \operatorname{ExeSuffix}(\mathsf{SelectedTargetProfile})) \\[0.16em]
+\mathsf{shared}\ =\ O\ /\ \texttt{Binary}\ /\ (\mathsf{libname}\ \mathbin{++} \ \operatorname{SharedLibSuffix}(\mathsf{SelectedTargetProfile})) \\[0.16em]
+\mathsf{static}\ =\ O\ /\ \texttt{Library}\ /\ (\mathsf{libname}\ \mathbin{++} \ \operatorname{StaticLibSuffix}(\mathsf{SelectedTargetProfile})) \\[0.16em]
+\mathsf{import}\ =\ O\ /\ \texttt{Library}\ /\ (\mathsf{libname}\ \mathbin{++} \ \operatorname{ImportLibSuffix}(\mathsf{SelectedTargetProfile}))
 \end{array}
 $$
 
@@ -223,19 +227,19 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ObjPath}(P,\ m)\ =\ O\ /\ \texttt{obj}\ /\ (\operatorname{MangleModulePath}(\operatorname{path}(m))\ \mathbin{++} \ \operatorname{ObjExt}(\mathsf{SelectedTargetProfile})) \\[0.16em]
-\operatorname{IRPath}(P,\ m,\ e)\ =\ O\ /\ \texttt{ir}\ /\ (\operatorname{MangleModulePath}(\operatorname{path}(m))\ \mathbin{++} \ \operatorname{ext}(e)) \\[0.16em]
+\operatorname{ObjPath}(P,\ m)\ =\ O\ /\ \texttt{Intermediate}\ /\ \texttt{Obj}\ /\ \operatorname{ModuleOutputRel}(P,\ m)\ /\ (\operatorname{MangleModulePath}(\operatorname{path}(m))\ \mathbin{++} \ \operatorname{ObjExt}(\mathsf{SelectedTargetProfile})) \\[0.16em]
+\operatorname{IRPath}(P,\ m,\ e)\ =\ O\ /\ \texttt{Intermediate}\ /\ \texttt{IR}\ /\ \operatorname{ModuleOutputRel}(P,\ m)\ /\ (\operatorname{MangleModulePath}(\operatorname{path}(m))\ \mathbin{++} \ \operatorname{ext}(e)) \\[0.16em]
 \operatorname{ExePath}(P)\ = \\[0.16em]
-\ O\ /\ \texttt{bin}\ /\ (\mathsf{assembly}_{\mathsf{name}}\ \mathbin{++} \ \operatorname{ExeSuffix}(\mathsf{SelectedTargetProfile}))\ \mathsf{if}\ \operatorname{Executable}(P) \\[0.16em]
+\ O\ /\ \texttt{Binary}\ /\ (\mathsf{assembly}_{\mathsf{name}}\ \mathbin{++} \ \operatorname{ExeSuffix}(\mathsf{SelectedTargetProfile}))\ \mathsf{if}\ \operatorname{Executable}(P) \\[0.16em]
 \ \bot \quad \mathsf{otherwise} \\[0.16em]
 \operatorname{SharedLibPath}(P)\ = \\[0.16em]
-\ O\ /\ \texttt{bin}\ /\ ((\operatorname{LibraryPrefix}(\mathsf{SelectedTargetProfile})\ \mathbin{++} \ \mathsf{assembly}_{\mathsf{name}})\ \mathbin{++} \ \operatorname{SharedLibSuffix}(\mathsf{SelectedTargetProfile}))\ \mathsf{if}\ \operatorname{SharedLibrary}(P) \\[0.16em]
+\ O\ /\ \texttt{Binary}\ /\ ((\operatorname{LibraryPrefix}(\mathsf{SelectedTargetProfile})\ \mathbin{++} \ \mathsf{assembly}_{\mathsf{name}})\ \mathbin{++} \ \operatorname{SharedLibSuffix}(\mathsf{SelectedTargetProfile}))\ \mathsf{if}\ \operatorname{SharedLibrary}(P) \\[0.16em]
 \ \bot \quad \mathsf{otherwise} \\[0.16em]
 \operatorname{StaticLibPath}(P)\ = \\[0.16em]
-\ O\ /\ \texttt{lib}\ /\ ((\operatorname{LibraryPrefix}(\mathsf{SelectedTargetProfile})\ \mathbin{++} \ \mathsf{assembly}_{\mathsf{name}})\ \mathbin{++} \ \operatorname{StaticLibSuffix}(\mathsf{SelectedTargetProfile}))\ \mathsf{if}\ \operatorname{StaticLibrary}(P) \\[0.16em]
+\ O\ /\ \texttt{Library}\ /\ ((\operatorname{LibraryPrefix}(\mathsf{SelectedTargetProfile})\ \mathbin{++} \ \mathsf{assembly}_{\mathsf{name}})\ \mathbin{++} \ \operatorname{StaticLibSuffix}(\mathsf{SelectedTargetProfile}))\ \mathsf{if}\ \operatorname{StaticLibrary}(P) \\[0.16em]
 \ \bot \quad \mathsf{otherwise} \\[0.16em]
 \operatorname{ImportLibPath}(P)\ = \\[0.16em]
-\ O\ /\ \texttt{lib}\ /\ ((\operatorname{LibraryPrefix}(\mathsf{SelectedTargetProfile})\ \mathbin{++} \ \mathsf{assembly}_{\mathsf{name}})\ \mathbin{++} \ \operatorname{ImportLibSuffix}(\mathsf{SelectedTargetProfile}))\ \mathsf{if}\ \operatorname{SharedLibrary}(P)\ \land \ \operatorname{EmitsImportLib}(\mathsf{SelectedTargetProfile}) \\[0.16em]
+\ O\ /\ \texttt{Library}\ /\ ((\operatorname{LibraryPrefix}(\mathsf{SelectedTargetProfile})\ \mathbin{++} \ \mathsf{assembly}_{\mathsf{name}})\ \mathbin{++} \ \operatorname{ImportLibSuffix}(\mathsf{SelectedTargetProfile}))\ \mathsf{if}\ \operatorname{SharedLibrary}(P)\ \land \ \operatorname{EmitsImportLib}(\mathsf{SelectedTargetProfile}) \\[0.16em]
 \ \bot \quad \mathsf{otherwise} \\[0.16em]
 \operatorname{PrimaryArtifact}(P)\ = \\[0.16em]
 \ \operatorname{ExePath}(P)\quad \mathsf{if}\ \operatorname{Executable}(P) \\[0.16em]
@@ -619,7 +623,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{Linkable}(P)\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{obj})\ \Downarrow \ \mathsf{ok}\quad (\lnot \ \operatorname{UsesBinDir}(P)\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{bin})\ \Downarrow \ \mathsf{ok})\quad (\lnot \ \operatorname{UsesLibDir}(P)\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{lib})\ \Downarrow \ \mathsf{ok})\quad (e\ =\ \texttt{none}\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{ir})\ \Downarrow \ \mathsf{ok})\quad \Gamma \ \vdash \ \operatorname{EmitObjects}(\mathsf{ms},\ P)\ \Downarrow \ \mathsf{Objs}\quad \Gamma \ \vdash \ \operatorname{EmitIR}(\mathsf{ms},\ P,\ e)\ \Downarrow \ \mathsf{IRs}\quad \Gamma \ \vdash \ \operatorname{Finalize}(\mathsf{Objs},\ P)\ \Downarrow \ \mathsf{ok} \\[0.16em]
+\operatorname{Linkable}(P)\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Intermediate})\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Logs})\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Intermediate}\ /\ \texttt{Obj})\ \Downarrow \ \mathsf{ok}\quad (\lnot \ \operatorname{UsesBinDir}(P)\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Binary})\ \Downarrow \ \mathsf{ok})\quad (\lnot \ \operatorname{UsesLibDir}(P)\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Library})\ \Downarrow \ \mathsf{ok})\quad (e\ =\ \texttt{none}\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Intermediate}\ /\ \texttt{IR})\ \Downarrow \ \mathsf{ok})\quad \Gamma \ \vdash \ \operatorname{EmitObjects}(\mathsf{ms},\ P)\ \Downarrow \ \mathsf{Objs}\quad \Gamma \ \vdash \ \operatorname{EmitIR}(\mathsf{ms},\ P,\ e)\ \Downarrow \ \mathsf{IRs}\quad \Gamma \ \vdash \ \operatorname{Finalize}(\mathsf{Objs},\ P)\ \Downarrow \ \mathsf{ok} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{OutputPipeline}(P)\ \Downarrow \ (\mathsf{Objs},\ \mathsf{IRs},\ \operatorname{PrimaryArtifact}(P))
 \end{array}
@@ -629,7 +633,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{Dependency}(P)\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{obj})\ \Downarrow \ \mathsf{ok}\quad (e\ =\ \texttt{none}\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{ir})\ \Downarrow \ \mathsf{ok})\quad \Gamma \ \vdash \ \operatorname{EmitObjects}(\mathsf{ms},\ P)\ \Downarrow \ \mathsf{Objs}\quad \Gamma \ \vdash \ \operatorname{EmitIR}(\mathsf{ms},\ P,\ e)\ \Downarrow \ \mathsf{IRs} \\[0.16em]
+\operatorname{Dependency}(P)\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Intermediate})\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Logs})\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Intermediate}\ /\ \texttt{Obj})\ \Downarrow \ \mathsf{ok}\quad (e\ =\ \texttt{none}\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Intermediate}\ /\ \texttt{IR})\ \Downarrow \ \mathsf{ok})\quad \Gamma \ \vdash \ \operatorname{EmitObjects}(\mathsf{ms},\ P)\ \Downarrow \ \mathsf{Objs}\quad \Gamma \ \vdash \ \operatorname{EmitIR}(\mathsf{ms},\ P,\ e)\ \Downarrow \ \mathsf{IRs} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{OutputPipeline}(P)\ \Downarrow \ (\mathsf{Objs},\ \mathsf{IRs},\ \bot )
 \end{array}
@@ -669,7 +673,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EnsureDir}(O)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{obj})\ \Downarrow \ \mathsf{ok}\quad (\lnot \ \operatorname{UsesBinDir}(P)\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{bin})\ \Downarrow \ \mathsf{ok})\quad (\lnot \ \operatorname{UsesLibDir}(P)\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{lib})\ \Downarrow \ \mathsf{ok})\quad (e\ =\ \texttt{none}\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{ir})\ \Downarrow \ \mathsf{ok}) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EnsureDir}(O)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Intermediate})\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Logs})\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Intermediate}\ /\ \texttt{Obj})\ \Downarrow \ \mathsf{ok}\quad (\lnot \ \operatorname{UsesBinDir}(P)\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Binary})\ \Downarrow \ \mathsf{ok})\quad (\lnot \ \operatorname{UsesLibDir}(P)\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Library})\ \Downarrow \ \mathsf{ok})\quad (e\ =\ \texttt{none}\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Intermediate}\ /\ \texttt{IR})\ \Downarrow \ \mathsf{ok}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{OutDirs}(P)\rangle \ \to \ \langle \operatorname{OutObjs}(P,\ \mathsf{ms},\ [])\rangle 
 \end{array}
@@ -679,7 +683,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EnsureDir}(O)\ \Uparrow \ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{obj})\ \Uparrow \ \lor \ (\operatorname{UsesBinDir}(P)\ \land \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{bin})\ \Uparrow )\ \lor \ (\operatorname{UsesLibDir}(P)\ \land \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{lib})\ \Uparrow )\ \lor \ (e\ \in \ \{\texttt{ll},\ \texttt{bc}\}\ \land \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{ir})\ \Uparrow ) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EnsureDir}(O)\ \Uparrow \ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Intermediate})\ \Uparrow \ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Logs})\ \Uparrow \ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Intermediate}\ /\ \texttt{Obj})\ \Uparrow \ \lor \ (\operatorname{UsesBinDir}(P)\ \land \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Binary})\ \Uparrow )\ \lor \ (\operatorname{UsesLibDir}(P)\ \land \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Library})\ \Uparrow )\ \lor \ (e\ \in \ \{\texttt{ll},\ \texttt{bc}\}\ \land \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Intermediate}\ /\ \texttt{IR})\ \Uparrow ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{OutDirs}(P)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Out}-\mathsf{Dirs}-\mathsf{Err}))\rangle 
 \end{array}

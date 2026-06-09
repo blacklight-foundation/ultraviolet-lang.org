@@ -2,16 +2,16 @@
 title: "21.5 Async-Key Integration"
 description: "21.5 Async-Key Integration from 21. Asynchronous Operations of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "asynchronous-operations"
 specSection: "215-async-key-integration"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -63,7 +63,7 @@ $$
 
 A closure that captures `shared` bindings and contains `yield` expressions MUST NOT hold keys across the yield point unless the `release` modifier is present.
 
-Bindings derived from shared data before a `yield release` are potentially stale after resumption. The staleness warning defined in Chapter 19 applies unless suppressed by `[[stale_ok]]`.
+Bindings derived from shared data before a `yield release` are potentially stale after resumption. The staleness warning defined in Chapter 19 applies unless suppressed by `#stale_ok`.
 
 Async capability requirements are:
 
@@ -128,7 +128,7 @@ C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_
 \end{array}
 $$
 
-Bindings marked by `StaleValueMarkIR` remain usable but MUST continue to trigger the Chapter 19 staleness warning unless suppressed by `[[stale_ok]]`.
+Bindings marked by `StaleValueMarkIR` remain usable but MUST continue to trigger the Chapter 19 staleness warning unless suppressed by `#stale_ok`.
 
 ### 21.5.7 Diagnostics
 

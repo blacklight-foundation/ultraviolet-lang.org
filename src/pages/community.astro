@@ -1,0 +1,128 @@
+---
+import NewsletterSignup from '../components/NewsletterSignup.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const repoUrl = 'https://github.com/blacklight-foundation/ultraviolet';
+
+const channels = [
+  {
+    label: 'Questions',
+    title: 'GitHub Discussions',
+    body: 'Ask questions, share what you are building, and propose ideas before opening large changes.',
+    href: `${repoUrl}/discussions`,
+    cta: 'Open Discussions',
+  },
+  {
+    label: 'Bugs',
+    title: 'Issue tracker',
+    body: 'Report compiler, runtime, toolchain, specification, and documentation problems against the alpha.',
+    href: `${repoUrl}/issues`,
+    cta: 'Open Issues',
+  },
+  {
+    label: 'Source',
+    title: 'Language repository',
+    body: 'Compiler, runtime, uv tool, specification, and conformance material — all public, Apache-2.0 licensed.',
+    href: repoUrl,
+    cta: 'Browse the repo',
+  },
+];
+
+const contributions = [
+  {
+    title: 'Test the alpha on your platform',
+    body: 'Run the installer or build from source, then report exactly what breaks. Install and build reports across platforms are the highest-leverage contribution right now.',
+    href: '/releases/#install',
+    cta: 'Get the installer',
+  },
+  {
+    title: 'Review the specification',
+    body: 'The specification is the source of truth. Ambiguities, contradictions, and unclear judgments are bugs — file them like any other defect.',
+    href: '/docs/specification/',
+    cta: 'Read the spec',
+  },
+  {
+    title: 'Improve docs and examples',
+    body: 'Docs gaps, broken walkthroughs, and missing examples block adopters before the compiler does. Propose fixes through Discussions or a pull request.',
+    href: `${repoUrl}/pulls`,
+    cta: 'Open pull requests',
+  },
+  {
+    title: 'Evaluate AI-written Ultraviolet',
+    body: 'Generate Ultraviolet with your preferred model, audit it against the review model, and share findings — this directly shapes the language hook.',
+    href: '/docs/ai-written-code-review/',
+    cta: 'Read the review model',
+  },
+];
+---
+
+<BaseLayout
+  title="Community"
+  description="Join the Ultraviolet community: ask questions in GitHub Discussions, report alpha bugs, contribute code, docs, and examples, and follow public updates."
+>
+  <article class="article-page status-page community-page">
+    <header>
+      <p class="eyebrow">Community</p>
+      <h1>Community</h1>
+      <p>
+        Ultraviolet is built in public. Questions, bug reports, spec review,
+        docs fixes, and code contributions all happen in the open — no money
+        required.
+      </p>
+      <div class="actions">
+        <a class="button primary" href={`${repoUrl}/discussions`} target="_blank" rel="noopener noreferrer">
+          Ask a question
+        </a>
+        <a class="button secondary" href={`${repoUrl}/issues`} target="_blank" rel="noopener noreferrer">
+          Report a bug
+        </a>
+      </div>
+    </header>
+
+    <section class="status-page-section" aria-labelledby="community-channels-heading">
+      <h2 id="community-channels-heading">Where things happen</h2>
+      <div class="status-card-grid">
+        {
+          channels.map((channel) => (
+            <a class="card post-card compact-card status-link-card" href={channel.href} target="_blank" rel="noopener noreferrer">
+              <span class="status-tag">{channel.label}</span>
+              <h3>{channel.title}</h3>
+              <p>{channel.body}</p>
+              <span class="card-cta">{channel.cta}</span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="status-page-section" aria-labelledby="community-contribute-heading">
+      <h2 id="community-contribute-heading">Ways to contribute during the alpha</h2>
+      <div class="grid two-col">
+        {
+          contributions.map((item) => (
+            <article class="card compact-card">
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+              <p><a class="card-cta" href={item.href}>{item.cta}</a></p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <NewsletterSignup
+      source="community"
+      heading="Follow public updates"
+      description="Compiler progress, release notes, documentation drops, and AI-generated-source research updates."
+    />
+
+    <section>
+      <h2>Financial support</h2>
+      <p>
+        If you would rather fund the work, Blacklight Foundation runs public
+        <a href="/sponsor/">support tiers and targeted funding goals</a> for
+        the alpha.
+      </p>
+    </section>
+  </article>
+</BaseLayout>

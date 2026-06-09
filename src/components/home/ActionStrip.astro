@@ -1,0 +1,24 @@
+---
+import type { QuickLink } from '../../data/homeContent';
+
+interface Props {
+  links: QuickLink[];
+}
+
+const { links } = Astro.props;
+---
+
+<section class="action-strip" aria-label="Primary project actions">
+  <div class="action-strip-inner">
+    {
+      links.map((link) => (
+        <a class={`action-strip-link${link.primary ? ' is-primary' : ''}`} href={link.href}>
+          <span>{link.label}</span>
+          <strong>{link.title}</strong>
+          <small>{link.body}</small>
+          <em>{link.cta}</em>
+        </a>
+      ))
+    }
+  </div>
+</section>

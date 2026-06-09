@@ -2,16 +2,16 @@
 title: "23.1 FfiSafe"
 description: "23.1 FfiSafe from 23. Foreign Function Interface of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "foreign-function-interface"
 specSection: "231-ffisafe"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -418,7 +418,7 @@ The following type categories MUST NOT satisfy `FfiSafeType`:
 - `Context`
 - Range types
 
-**RAII by-value rule.** If a type satisfies both `DropType` and `FfiSafeType`, then any by-value appearance of that type in an FFI signature requires the defining type to carry `[[ffi_pass_by_value]]`.
+**RAII by-value rule.** If a type satisfies both `DropType` and `FfiSafeType`, then any by-value appearance of that type in an FFI signature requires the defining type to carry `#ffi_pass_by_value`.
 
 **Generic Bounds.** Any type parameter that appears in a field type or variant payload of a type satisfying `FfiSafeType` MUST be bounded by a predicate requirement of the form `FfiSafe(X)` in the declaration's `|:` clause.
 
@@ -435,10 +435,10 @@ This section introduces no additional runtime mechanism. Dynamic boundary behavi
 | Code         | Severity | Detection    | Condition                                                      |
 | ------------ | -------- | ------------ | -------------------------------------------------------------- |
 | `E-TYP-2623` | Error    | Compile-time | Prohibited type category in `FfiSafeType`                      |
-| `E-TYP-2624` | Error    | Compile-time | `FfiSafeType` record without `[[layout(C)]]`                   |
-| `E-TYP-2625` | Error    | Compile-time | `FfiSafeType` enum without `[[layout(C)]]`                     |
+| `E-TYP-2624` | Error    | Compile-time | `FfiSafeType` record without `#layout(C)`                   |
+| `E-TYP-2625` | Error    | Compile-time | `FfiSafeType` enum without `#layout(C)`                     |
 | `E-TYP-2626` | Error    | Compile-time | `FfiSafeType` record has non-`FfiSafeType` field               |
 | `E-TYP-2627` | Error    | Compile-time | `FfiSafeType` enum has non-`FfiSafeType` payload field         |
 | `E-TYP-2628` | Error    | Compile-time | `FfiSafeType` requires complete layout                         |
 | `E-TYP-2629` | Error    | Compile-time | Generic `FfiSafeType` with unconstrained parameter             |
-| `E-TYP-2630` | Error    | Compile-time | By-value FFI use of `DropType` without `[[ffi_pass_by_value]]` |
+| `E-TYP-2630` | Error    | Compile-time | By-value FFI use of `DropType` without `#ffi_pass_by_value` |

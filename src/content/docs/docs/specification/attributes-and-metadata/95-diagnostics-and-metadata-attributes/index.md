@@ -2,16 +2,16 @@
 title: "9.5 Diagnostics and Metadata Attributes"
 description: "9.5 Diagnostics and Metadata Attributes from 9. Attributes and Metadata of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "attributes-and-metadata"
 specSection: "95-diagnostics-and-metadata-attributes"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -50,12 +50,12 @@ $$
 
 ### 9.5.4 Static Semantics
 
-**`[[deprecated]]`.** Marks a declaration as deprecated. When referenced, the implementation MUST emit a deprecation warning. If a message argument is present, the diagnostic SHOULD include it.
+**`#deprecated`.** Marks a declaration as deprecated. When referenced, the implementation MUST emit a deprecation warning. If a message argument is present, the diagnostic SHOULD include it.
 
-**`[[dynamic]]`.** Marks a declaration or expression as requiring runtime verification when static verification is insufficient.
+**`#dynamic`.** Marks a declaration or expression as requiring runtime verification when static verification is insufficient.
 
 Scope determination:
-1. `e` is within a `[[dynamic]]` scope if it is enclosed by a `[[dynamic]]` declaration, or by an attributed expression.
+1. `e` is within a `#dynamic` scope if it is enclosed by a `#dynamic` declaration, or by an attributed expression.
 2. Scope is lexical and does not propagate through procedure calls.
 
 $$
@@ -98,25 +98,25 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ClassProc}(C,\ m)\ \mathsf{has}\ [[\mathsf{dynamic}]]\quad \operatorname{ClassImpl}(T,\ C)\ \mathsf{has}\ \mathsf{override}\ m \\[0.16em]
+\operatorname{ClassProc}(C,\ m)\ \mathsf{has}\ \#\mathsf{dynamic}\quad \operatorname{ClassImpl}(T,\ C)\ \mathsf{has}\ \mathsf{override}\ m \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \operatorname{ComputeDynamicContext}(\mathsf{override}.\mathsf{body}.\mathsf{span},\ \operatorname{Ancestors}(\mathsf{override}))\ =\ \mathsf{true}
 \end{array}
 $$
 
-A class procedure's `[[dynamic]]` annotation propagates to implementations.
+A class procedure's `#dynamic` annotation propagates to implementations.
 
 **(DynamicContext-NoInherit-Call)**
 
 $$
 \begin{array}{l}
-\operatorname{CallExpr}(f,\ \mathsf{args})\ \mathsf{at}\ \mathsf{span}\ s\quad f\ \mathsf{is}\ [[\mathsf{dynamic}]]\quad s\ \nsubseteq \ f.\mathsf{span} \\[0.16em]
+\operatorname{CallExpr}(f,\ \mathsf{args})\ \mathsf{at}\ \mathsf{span}\ s\quad f\ \mathsf{is}\ \#\mathsf{dynamic}\quad s\ \nsubseteq \ f.\mathsf{span} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\operatorname{ComputeDynamicContext}(s,\ \operatorname{Ancestors}(s))\ \mathsf{does}\ \mathsf{not}\ \mathsf{consider}\ f's\ [[\mathsf{dynamic}]]
+\operatorname{ComputeDynamicContext}(s,\ \operatorname{Ancestors}(s))\ \mathsf{does}\ \mathsf{not}\ \mathsf{consider}\ f's\ \#\mathsf{dynamic}
 \end{array}
 $$
 
-`[[dynamic]]` scope is lexical and does not propagate through procedure calls.
+`#dynamic` scope is lexical and does not propagate through procedure calls.
 
 Effects:
 - Key system: runtime synchronization MUST be inserted exactly in the cases required by Chapter 19 and MUST NOT be inserted otherwise.
@@ -124,40 +124,40 @@ Effects:
 - Refinement types: runtime checks MUST be inserted exactly in the cases required by §14.8 and MUST NOT be inserted otherwise.
 
 Dynamic target restrictions:
-1. `[[dynamic]]` applied to a contract predicate expression is ill-formed.
-2. `[[dynamic]]` applied to a `type` alias declaration is ill-formed.
-3. `[[dynamic]]` applied to a field declaration is ill-formed.
+1. `#dynamic` applied to a contract predicate expression is ill-formed.
+2. `#dynamic` applied to a `type` alias declaration is ill-formed.
+3. `#dynamic` applied to a field declaration is ill-formed.
 
-If a `[[dynamic]]` scope results in no runtime checks or runtime synchronization, the implementation SHOULD emit a warning.
+If a `#dynamic` scope results in no runtime checks or runtime synchronization, the implementation SHOULD emit a warning.
 
-**`[[stale_ok]]`.** Suppresses staleness warnings for bindings derived from `shared` data across `release` or `yield release` boundaries. Valid only on `let` and `var` bindings. See Chapters 19 and 21.
+**`#stale_ok`.** Suppresses staleness warnings for bindings derived from `shared` data across `release` or `yield release` boundaries. Valid only on `let` and `var` bindings. See Chapters 19 and 21.
 
-**Verification-mode attributes.** `[[static]]` is interpreted only in foreign-contract contexts. Semantics are defined by §23.6. `[[dynamic]]` reuses the dynamic verification mode defined above.
+**Verification-mode attributes.** `#static` is interpreted only in foreign-contract contexts. Semantics are defined by §23.6. `#dynamic` reuses the dynamic verification mode defined above.
 
-**`[[reflect]]`.** Marks a `record`, `enum`, or `modal` declaration as reflectable during Phase 2. Reflection queries over such declarations are defined by §22.3. A conforming implementation MUST expose the declaration's canonical shape, member order, and attached attributes to the compile-time reflection environment.
+**`#reflect`.** Marks a `record`, `enum`, or `modal` declaration as reflectable during Phase 2. Reflection queries over such declarations are defined by §22.3. A conforming implementation MUST expose the declaration's canonical shape, member order, and attached attributes to the compile-time reflection environment.
 
-**`[[derive(... )]]`.** Schedules derive-target execution in Phase 2 for the annotated `record`, `enum`, or `modal` declaration. Derive target resolution, dependency ordering, and contract checking are defined by §22.5.
+**`#derive(... )`.** Schedules derive-target execution in Phase 2 for the annotated `record`, `enum`, or `modal` declaration. Derive target resolution, dependency ordering, and contract checking are defined by §22.5.
 
-**`[[emit]]`.** Grants the `TypeEmitter` capability to the annotated compile-time statement or compile-time expression. The target MUST be a `comptime` form. Emission ordering and generated-item visibility are defined by §22.4.
+**`#emit`.** Grants the `TypeEmitter` capability to the annotated compile-time statement or compile-time expression. The target MUST be a `comptime` form. Emission ordering and generated-item visibility are defined by §22.4.
 
-**`[[files]]`.** Grants the `ProjectFiles` capability to the annotated compile-time statement or compile-time expression. The target MUST be a `comptime` form. File snapshot and path-confinement semantics are defined by §22.2.
+**`#files`.** Grants the `ProjectFiles` capability to the annotated compile-time statement or compile-time expression. The target MUST be a `comptime` form. File snapshot and path-confinement semantics are defined by §22.2.
 
 ### 9.5.5 Dynamic Semantics
 
-`[[deprecated]]`, `[[stale_ok]]`, and `[[static]]` introduce no direct runtime behavior in this chapter.
+`#deprecated`, `#stale_ok`, and `#static` introduce no direct runtime behavior in this chapter.
 
-For `[[dynamic]]`, runtime synchronization or runtime verification MUST be inserted exactly when required by the owning chapters for keys, contracts, refinements, and foreign contracts, and MUST NOT be inserted otherwise.
+For `#dynamic`, runtime synchronization or runtime verification MUST be inserted exactly when required by the owning chapters for keys, contracts, refinements, and foreign contracts, and MUST NOT be inserted otherwise.
 
 ### 9.5.6 Lowering
 
-`[[dynamic]]` lowers by enabling runtime synchronization or runtime checks exactly where the owning semantic sections require them and nowhere else. `[[stale_ok]]` suppresses warnings only and does not affect lowering. `[[deprecated]]` introduces no lowering. `[[reflect]]`, `[[derive(... )]]`, `[[emit]]`, and `[[files]]` lower only through Phase 2 execution as defined by Chapter 22 and MUST introduce no direct Phase 4 runtime instrumentation.
+`#dynamic` lowers by enabling runtime synchronization or runtime checks exactly where the owning semantic sections require them and nowhere else. `#stale_ok` suppresses warnings only and does not affect lowering. `#deprecated` introduces no lowering. `#reflect`, `#derive(... )`, `#emit`, and `#files` lower only through Phase 2 execution as defined by Chapter 22 and MUST introduce no direct Phase 4 runtime instrumentation.
 
 ### 9.5.7 Diagnostics
 
 | Code         | Severity | Detection    | Condition                                               |
 | ------------ | -------- | ------------ | ------------------------------------------------------- |
-| `W-CNF-0601` | Warning  | Compile-time | Reference to declaration marked `[[deprecated]]`        |
-| `E-CON-0410` | Error    | Compile-time | `[[dynamic]]` applied to contract clause directly       |
-| `E-CON-0411` | Error    | Compile-time | `[[dynamic]]` applied to type alias declaration         |
-| `E-CON-0412` | Error    | Compile-time | `[[dynamic]]` applied to field declaration              |
-| `W-CON-0401` | Warning  | Compile-time | `[[dynamic]]` present but all proofs succeed statically |
+| `W-CNF-0601` | Warning  | Compile-time | Reference to declaration marked `#deprecated`        |
+| `E-CON-0410` | Error    | Compile-time | `#dynamic` applied to contract clause directly       |
+| `E-CON-0411` | Error    | Compile-time | `#dynamic` applied to type alias declaration         |
+| `E-CON-0412` | Error    | Compile-time | `#dynamic` applied to field declaration              |
+| `W-CON-0401` | Warning  | Compile-time | `#dynamic` present but all proofs succeed statically |

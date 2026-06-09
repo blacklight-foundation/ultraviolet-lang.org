@@ -1,0 +1,37 @@
+---
+import { fundingGoals } from '../../data/funding';
+---
+
+<section class="page-section support-summary-section">
+  <div class="grid two-col funding-summary">
+    <div class="section-heading">
+      <h2>Support public alpha work.</h2>
+      <p>
+        Blacklight Foundation funds compiler and runtime work, examples,
+        diagnostics, CI, documentation, CPU/GPU language work, training
+        corpus material, and community infrastructure for Ultraviolet.
+      </p>
+      <div class="actions">
+        <a class="button primary" href="/sponsor/#support-tiers">
+          See support options
+        </a>
+        <a class="button secondary" href="/sponsor/#funding-goals">
+          View funding goals
+        </a>
+      </div>
+    </div>
+    <div class="funding-rail">
+      {
+        fundingGoals.map((fund) => (
+          <article class="card funding-card">
+            <div>
+              <h3>{fund.title}</h3>
+              <p class="muted">{fund.purpose}</p>
+            </div>
+            <a class="card-cta" href="/sponsor/#funding-goals">View goal</a>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -35,7 +35,7 @@ This is separate from `unique`. A `unique` binding grants exclusive access; it d
 
 The specification models binding activity as a state machine. A `unique` binding can become inactive while a non-consuming admissible use is live, then return to active when that use ends.
 
-This matters for generated code because accidental reuse after a move or during an incompatible borrow becomes part of the type and binding-state review surface.
+This matters for generated code because accidental reuse after a move or during an incompatible permission access becomes part of the type and binding-state review surface.
 
 ## Receiver shorthand
 

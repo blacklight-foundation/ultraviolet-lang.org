@@ -2,16 +2,16 @@
 title: "9.3 Layout Attributes"
 description: "9.3 Layout Attributes from 9. Attributes and Metadata of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "attributes-and-metadata"
 specSection: "93-layout-attributes"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -40,7 +40,7 @@ Layout attributes are ordinary `AttributeSpec` entries attached to `RecordDecl` 
 
 ### 9.3.4 Static Semantics
 
-**`[[layout(C)]]`.** Specifies C-compatible memory layout.
+**`#layout(C)`.** Specifies C-compatible memory layout.
 
 For `record` declarations:
 1. Fields MUST be laid out in declaration order.
@@ -52,21 +52,21 @@ For `enum` declarations:
 2. Default tag type is `DiscType(E)` as defined by §12.7.
 3. Layout MUST conform to a tagged union per the target C ABI.
 
-**`[[layout(IntType)]]` (explicit discriminant).** For an `enum` marked `[[layout(IntType)]]` where `IntType` is `i8`–`i64` or `u8`–`u64`:
+**`#layout(IntType)` (explicit discriminant).** For an `enum` marked `#layout(IntType)` where `IntType` is `i8`–`i64` or `u8`–`u64`:
 1. The discriminant MUST use the specified integer type.
 2. Each variant's discriminant value MUST be representable in that type.
 3. This form is valid only on `enum` declarations.
 
-**`[[layout(packed)]]`.** Removes inter-field padding.
+**`#layout(packed)`.** Removes inter-field padding.
 
-For a `record` marked `[[layout(packed)]]`:
+For a `record` marked `#layout(packed)`:
 1. All inter-field padding is removed.
 2. Each field MUST be laid out with alignment 1.
 3. The record's overall alignment becomes 1.
 
 Taking a reference to a packed field MUST occur within an `unsafe` block. Outside `unsafe`, the program is ill-formed.
 
-**`[[layout(align(N))]]`.** Sets a minimum alignment.
+**`#layout(align(N))`.** Sets a minimum alignment.
 
 1. N MUST be a positive integer that is a power of two.
 2. Effective alignment is max(N, natural alignment).

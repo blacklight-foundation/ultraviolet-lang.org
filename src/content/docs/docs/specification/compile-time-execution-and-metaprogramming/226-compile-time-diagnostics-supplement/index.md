@@ -2,16 +2,16 @@
 title: "22.6 Compile-Time Diagnostics Supplement"
 description: "22.6 Compile-Time Diagnostics Supplement from 22. Compile-Time Execution and Metaprogramming of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "compile-time-execution-and-metaprogramming"
 specSection: "226-compile-time-diagnostics-supplement"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -38,14 +38,14 @@ This section owns compile-time execution, reflection, quoting, emission, file-ac
 | `E-CTE-0033` | Error    | Compile-time | Compile-time procedure contract predicate evaluates to false   |
 | `E-CTE-0034` | Error    | Compile-time | Compile-time procedure referenced from runtime context         |
 | `E-CTE-0040` | Error    | Compile-time | Emit operation without `TypeEmitter` capability                |
-| `E-CTE-0041` | Error    | Compile-time | `[[emit]]` applied to non-compile-time form                    |
+| `E-CTE-0041` | Error    | Compile-time | `#emit` applied to non-compile-time form                    |
 | `E-CTE-0042` | Error    | Compile-time | Emitted AST is ill-formed                                      |
 | `E-CTE-0050` | Error    | Compile-time | Reflection `fields` applied to non-record type                 |
 | `E-CTE-0051` | Error    | Compile-time | Reflection `variants` applied to non-enum type                 |
 | `E-CTE-0052` | Error    | Compile-time | Reflection `states` applied to non-modal type                  |
 | `E-CTE-0053` | Error    | Compile-time | Reflection requires incomplete or non-reflectable declaration  |
 | `E-CTE-0060` | Error    | Compile-time | File operation without `ProjectFiles` capability               |
-| `E-CTE-0061` | Error    | Compile-time | `[[files]]` applied to non-compile-time form                   |
+| `E-CTE-0061` | Error    | Compile-time | `#files` applied to non-compile-time form                   |
 | `E-CTE-0062` | Error    | Compile-time | Compile-time file path escapes project root                    |
 | `E-CTE-0063` | Error    | Compile-time | Absolute path used in compile-time file operation              |
 | `E-CTE-0064` | Error    | Compile-time | Compile-time file path not found                               |
@@ -69,7 +69,7 @@ This section owns compile-time execution, reflection, quoting, emission, file-ac
 | `E-CTE-0252` | Error    | Compile-time | Emitted AST fails well-formedness after insertion              |
 | `E-CTE-0253` | Error    | Compile-time | Type error in emitted code                                     |
 | `E-CTE-0310` | Error    | Compile-time | Unknown derive target name                                     |
-| `E-CTE-0311` | Error    | Compile-time | `[[derive(... )]]` applied to non-type declaration             |
+| `E-CTE-0311` | Error    | Compile-time | `#derive(... )` applied to non-type declaration             |
 | `E-CTE-0312` | Error    | Compile-time | Duplicate derive target in one derive attribute                |
 | `E-CTE-0320` | Error    | Compile-time | Derive target body violates compile-time restrictions          |
 | `E-CTE-0321` | Error    | Compile-time | Derive contract references unknown class                       |

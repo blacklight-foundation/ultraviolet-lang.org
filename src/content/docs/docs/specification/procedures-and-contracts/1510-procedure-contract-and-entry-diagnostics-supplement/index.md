@@ -2,16 +2,16 @@
 title: "15.10 Procedure, Contract, and Entry Diagnostics Supplement"
 description: "15.10 Procedure, Contract, and Entry Diagnostics Supplement from 15. Procedures and Contracts of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "procedures-and-contracts"
 specSection: "1510-procedure-contract-and-entry-diagnostics-supplement"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -36,7 +36,7 @@ This section owns diagnostics for procedure declarations, receiver constraints, 
 | `E-CON-0415` | Error    | Compile-time | Capability-requiring operation in `@entry` expression                              |
 | `E-CON-0416` | Error    | Compile-time | Side-effecting operation in `@entry` expression                                    |
 | `P-SEM-2850` | Panic    | Runtime      | Contract predicate failed at runtime                                               |
-| `E-SEM-2801` | Error    | Compile-time | Contract predicate not provable outside `[[dynamic]]` scope                        |
+| `E-SEM-2801` | Error    | Compile-time | Contract predicate not provable outside `#dynamic` scope                        |
 | `E-SEM-2802` | Error    | Compile-time | Impure expression in contract predicate                                            |
 | `E-SEM-2803` | Error    | Compile-time | Implementation strengthens class precondition                                      |
 | `E-SEM-2804` | Error    | Compile-time | Implementation weakens class postcondition                                         |

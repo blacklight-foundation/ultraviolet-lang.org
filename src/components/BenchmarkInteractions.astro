@@ -1,0 +1,486 @@
+<script is:inline>
+  (() => {
+    const benchmarkDashboard = document.querySelector('[data-benchmark-dashboard]');
+
+    const formatCompact = (value) => {
+      const numeric = Number(value || 0);
+      if (numeric >= 1000000) return `${(numeric / 1000000).toFixed(2)}M`;
+      if (numeric >= 1000) return `${Math.round(numeric / 1000)}k`;
+      return String(Math.round(numeric));
+    };
+
+    const formatCost = (value) => `$${Number(value || 0).toFixed(2)}`;
+
+    const titleFromCaseId = (caseId) => String(caseId || 'unknown')
+      .split('_')
+      .filter(Boolean)
+      .map((part) => `${part.charAt(0).toUpperCase()}${part.slice(1)}`)
+      .join(' ');
+
+    const formatMetricValue = (result, metric) => {
+      const value = result?.metricValues?.[metric.id] ?? 0;
+      if (metric.unit === 'percent') return `${Math.round(value)}%`;
+      if (metric.unit === 'tokens') return formatCompact(value);
+      if (metric.unit === 'usd') return formatCost(value);
+      return String(Math.round(value));
+    };
+
+    const getMetricValue = (result, metricId) => Number(result?.metricValues?.[metricId] ?? 0);
+
+    const getMetric = (dataset, metricId) => (
+      dataset.metricDefinitions.find((metric) => metric.id === metricId) || dataset.metricDefinitions[0]
+    );
+
+    const getTask = (dataset, taskId) => (
+      dataset.tasks.find((task) => task.id === taskId) || dataset.tasks[0]
+    );
+
+    const getTaskResults = (dataset, taskId) => (
+      dataset.results.filter((result) => result.taskId === taskId)
+    );
+
+    const getCheckMetrics = (checks = {}) => ([
+      {
+        id: 'compile',
+        label: 'Build',
+        passed: Boolean(checks.compile_or_typecheck_passed || checks.clean_build_passed),
+        value: checks.compile_or_typecheck_passed || checks.clean_build_passed ? 'passed' : 'blocked',
+      },
+      {
+        id: 'scanner',
+        label: 'Scanner',
+        passed: Boolean(checks.security_scanner_passed || checks.scanner),
+        value: checks.security_scanner_passed || checks.scanner ? 'clean' : 'review',
+      },
+      {
+        id: 'tests',
+        label: 'Tests',
+        passed: Boolean(checks.public_tests_passed || checks.hidden_tests_passed),
+        value: checks.public_tests_passed || checks.hidden_tests_passed ? 'passed' : 'blocked',
+      },
+      {
+        id: 'layout',
+        label: 'Layout',
+        passed: Boolean(checks.organization_passed),
+        value: checks.organization_passed ? 'valid' : 'review',
+      },
+    ]);
+
+    const getObservedScore = (metrics = {}, checks = {}) => {
+      const categoryWeights = [
+        ['project_organization', 10],
+        ['project_functionality_compilation', 30],
+        ['code_quality', 15],
+        ['performance_responsiveness', 10],
+        ['bugs_security_flaws', 20],
+      ];
+      const weightedScore = categoryWeights.reduce((sum, [metricId, weight]) => {
+        const value = metrics[metricId];
+        return sum + (typeof value === 'number' ? Math.max(0, Math.min(1, value)) * weight : 0);
+      }, 0);
+
+      if (weightedScore > 0) return Math.round((weightedScore / 85) * 100);
+
+      const checkValues = [
+        checks.compile_or_typecheck_passed || checks.clean_build_passed,
+        checks.public_tests_passed || checks.hidden_tests_passed,
+        checks.security_scanner_passed || checks.scanner,
+        checks.organization_passed,
+        checks.residual_bug_free,
+      ];
+      return Math.round((checkValues.filter(Boolean).length / checkValues.length) * 100);
+    };
+
+    const getRunLabel = (resultsOutput) => {
+      const match = resultsOutput?.match?.(/(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})/);
+      if (!match) return 'latest summary';
+      return `${match[1]}-${match[2]}-${match[3]} ${match[4]}:${match[5]}`;
+    };
+
+    const getPathParts = (relativePath) => {
+      const parts = String(relativePath || '').split('/');
+      const summaryIndex = parts.indexOf('summaries');
+      return {
+        suite: summaryIndex >= 0 ? parts[summaryIndex + 1] : 'generation',
+        caseId: summaryIndex >= 0 ? parts[summaryIndex + 2] : 'unknown_case',
+      };
+    };
+
+    const getAttemptCost = (attempt) => (
+      attempt?.model_cost?.total_cost_usd
+      ?? attempt?.token_usage?.total_cost_usd
+      ?? 0
+    );
+
+    const normalizeAttempt = (attempt, index) => ({
+      attempt: attempt?.attempt ?? index + 1,
+      cachedInput: attempt?.cached_input_tokens ?? attempt?.token_usage?.cached_input_tokens ?? 0,
+      costUsd: getAttemptCost(attempt),
+      inputTokens: attempt?.input_tokens ?? attempt?.token_usage?.input_tokens ?? 0,
+      outputTokens: attempt?.output_tokens ?? attempt?.token_usage?.output_tokens ?? 0,
+      reasoningTokens: attempt?.reasoning_tokens ?? attempt?.token_usage?.reasoning_tokens ?? 0,
+      success: Boolean(attempt?.success),
+      totalTokens: attempt?.total_tokens ?? attempt?.token_usage?.total_tokens ?? 0,
+      uncachedInput: attempt?.billable_uncached_input_tokens ?? attempt?.token_usage?.billable_uncached_input_tokens ?? 0,
+    });
+
+    const getCompileCommand = (language) => (
+      language?.last_result?.evidence?.commands?.find((command) => (
+        Array.isArray(command.command)
+        && command.command.some((arg) => typeof arg === 'string' && /(^|\/)uvc$/.test(arg))
+        && command.command.some((arg) => arg === 'build')
+      ))
+    );
+
+    const normalizeRemoteSummary = (summary, relativePath) => {
+      const pathParts = getPathParts(relativePath);
+      const suite = summary?.suite ?? pathParts.suite ?? 'generation';
+      const caseId = summary?.case_id ?? pathParts.caseId ?? 'unknown_case';
+      const taskId = `${suite}/${caseId}`;
+      const runLabel = getRunLabel(summary?.results_output);
+      const sourceUrl = `https://github.com/blacklight-foundation/uv-benchmarks/blob/main/${relativePath}`;
+
+      return (summary?.languages || []).map((language, index) => {
+        const languageId = language.language ?? summary?.aggregate_effort?.[index]?.language ?? 'unknown';
+        const aggregate = summary?.aggregate_effort?.find((item) => item.language === languageId)
+          ?? summary?.aggregate_effort?.[index]
+          ?? {};
+        const checks = language?.last_result?.checks || {};
+        const metrics = language?.last_result?.metrics || {};
+        const compileCommand = getCompileCommand(language);
+        const provider = summary?.provider ?? 'codex-cli';
+        const model = summary?.model
+          ?? language?.last_result?.model
+          ?? language?.last_result?.generation?.token_usage?.model
+          ?? 'unknown model';
+        const attempts = (language?.attempt_history || []).map(normalizeAttempt);
+        const totalTokens = aggregate.total_model_tokens
+          ?? language?.last_result?.generation?.total_tokens
+          ?? language?.total_tokens
+          ?? language?.token_usage?.total_tokens
+          ?? 0;
+        const costUsd = aggregate.total_model_cost_usd
+          ?? language?.last_result?.generation?.model_cost?.total_cost_usd
+          ?? language?.last_result?.generation?.token_usage?.total_cost_usd
+          ?? language?.model_cost?.total_cost_usd
+          ?? 0;
+        const turns = aggregate.total_model_turns
+          ?? language?.last_result?.generation?.turns
+          ?? language?.attempts
+          ?? attempts.length;
+        const modelKey = `${provider}/${model}/${languageId}`;
+
+        return {
+          id: `${taskId}/${modelKey}`,
+          attempts,
+          caseId,
+          checkMetrics: getCheckMetrics(checks),
+          compileDurationMs: compileCommand?.duration_ms ? Math.round(compileCommand.duration_ms) : 0,
+          compileSuccess: Boolean(checks.compile_or_typecheck_passed || checks.clean_build_passed),
+          costUsd,
+          diagnosticsOutput: compileCommand?.stderr_tail ?? '',
+          language: languageId,
+          metricValues: {
+            score: getObservedScore(metrics, checks),
+            tokens: totalTokens,
+            cost: costUsd,
+            turns,
+          },
+          model,
+          modelKey,
+          modelLabel: `${model} / ${languageId}`,
+          organizationPassed: Boolean(checks.organization_passed),
+          provider,
+          publicTestsPassed: Boolean(checks.public_tests_passed || checks.hidden_tests_passed),
+          runLabel,
+          scannerPassed: Boolean(checks.security_scanner_passed || checks.scanner),
+          sourceUrl,
+          suite,
+          success: Boolean(language?.success || language?.last_result?.generation?.success),
+          taskId,
+          totalTokens,
+          turns,
+        };
+      });
+    };
+
+    const mergeTasksFromResults = (tasks, results) => {
+      const taskMap = new Map(tasks.map((task) => [task.id, task]));
+      results.forEach((result) => {
+        if (taskMap.has(result.taskId)) return;
+        taskMap.set(result.taskId, {
+          id: result.taskId,
+          caseId: result.caseId,
+          category: 'observed_result',
+          coverageTrack: 'observed',
+          datasetPartition: 'observed',
+          label: titleFromCaseId(result.caseId),
+          suite: result.suite,
+          taskWeight: 1,
+        });
+      });
+      return Array.from(taskMap.values()).sort((left, right) => left.id.localeCompare(right.id));
+    };
+
+    const rebuildModels = (results) => {
+      const modelMap = new Map();
+      results.forEach((result) => {
+        if (modelMap.has(result.modelKey)) return;
+        modelMap.set(result.modelKey, {
+          key: result.modelKey,
+          label: result.modelLabel,
+          model: result.model,
+          provider: result.provider,
+        });
+      });
+      return Array.from(modelMap.values()).sort((left, right) => left.label.localeCompare(right.label));
+    };
+
+    const createText = (tagName, className, text) => {
+      const element = document.createElement(tagName);
+      if (className) element.className = className;
+      element.textContent = text;
+      return element;
+    };
+
+    const renderBenchmarkBars = (dashboard, dataset, state) => {
+      const bars = dashboard.querySelector('[data-benchmark-bars]');
+      const metric = getMetric(dataset, state.metricId);
+      const results = getTaskResults(dataset, state.taskId);
+      const maxValue = Math.max(1, ...results.map((result) => getMetricValue(result, metric.id)));
+
+      bars.replaceChildren();
+
+      if (results.length === 0) {
+        bars.append(createText('p', 'benchmark-empty-state', 'No observed result for this task yet.'));
+        return;
+      }
+
+      results.forEach((result) => {
+        const row = document.createElement('button');
+        const isActive = result.id === state.resultId;
+        row.type = 'button';
+        row.className = `benchmark-bar-row ${isActive ? 'is-active' : ''}`;
+        row.dataset.benchmarkResultId = result.id;
+        row.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+
+        const label = document.createElement('span');
+        label.className = 'benchmark-bar-label';
+        label.append(createText('strong', '', result.modelLabel));
+        label.append(createText('em', '', result.provider));
+
+        const track = document.createElement('span');
+        track.className = 'benchmark-bar-track';
+        track.setAttribute('aria-hidden', 'true');
+        const fill = document.createElement('span');
+        const width = Math.max(4, Math.min(100, (getMetricValue(result, metric.id) / maxValue) * 100));
+        fill.style.width = `${width}%`;
+        track.append(fill);
+
+        row.append(label, track, createText('span', 'benchmark-bar-value', formatMetricValue(result, metric)));
+        bars.append(row);
+      });
+    };
+
+    const renderBenchmarkDetail = (dashboard, dataset, state) => {
+      const detail = dashboard.querySelector('[data-benchmark-detail]');
+      const result = dataset.results.find((item) => item.id === state.resultId);
+      const scoreMetric = getMetric(dataset, 'score');
+
+      detail.replaceChildren();
+
+      if (!result) {
+        detail.append(createText('p', 'benchmark-empty-state', 'Select a populated cell to inspect the run.'));
+        return;
+      }
+
+      detail.append(createText('p', 'benchmark-detail-kicker', result.runLabel));
+      detail.append(createText('strong', '', result.modelLabel));
+
+      const details = document.createElement('dl');
+      [
+        ['Score', formatMetricValue(result, scoreMetric)],
+        ['Tokens', formatCompact(result.totalTokens)],
+        ['Cost', formatCost(result.costUsd)],
+      ].forEach(([term, description]) => {
+        const item = document.createElement('div');
+        item.append(createText('dt', '', term));
+        item.append(createText('dd', '', description));
+        details.append(item);
+      });
+      detail.append(details);
+
+      const checks = document.createElement('div');
+      checks.className = 'benchmark-check-list';
+      result.checkMetrics.forEach((check) => {
+        checks.append(createText('span', check.passed ? 'is-pass' : 'is-fail', `${check.label}: ${check.value}`));
+      });
+      detail.append(checks);
+    };
+
+    const renderBenchmarkMatrix = (dashboard, dataset, state) => {
+      const matrix = dashboard.querySelector('[data-benchmark-matrix]');
+      const metric = getMetric(dataset, state.metricId);
+
+      matrix.style.setProperty('--benchmark-model-count', String(Math.max(dataset.models.length, 1)));
+      matrix.replaceChildren();
+
+      matrix.append(createText('span', 'benchmark-matrix-corner', 'Task'));
+      dataset.models.forEach((model) => {
+        matrix.append(createText('span', 'benchmark-matrix-model', model.label));
+      });
+
+      dataset.tasks.forEach((task) => {
+        const taskButton = document.createElement('button');
+        taskButton.type = 'button';
+        taskButton.className = `benchmark-matrix-task ${task.id === state.taskId ? 'is-active' : ''}`;
+        taskButton.dataset.benchmarkTask = task.id;
+        taskButton.append(createText('strong', '', task.label));
+        taskButton.append(createText('span', '', `${task.suite} / ${task.coverageTrack}`));
+        matrix.append(taskButton);
+
+        dataset.models.forEach((model) => {
+          const result = dataset.results.find((item) => item.taskId === task.id && item.modelKey === model.key);
+
+          if (!result) {
+            matrix.append(createText('span', 'benchmark-matrix-cell is-empty', 'No run'));
+            return;
+          }
+
+          const cell = document.createElement('button');
+          cell.type = 'button';
+          cell.className = [
+            'benchmark-matrix-cell',
+            result.success ? 'is-pass' : 'is-fail',
+            result.id === state.resultId ? 'is-active' : '',
+          ].filter(Boolean).join(' ');
+          cell.dataset.benchmarkTask = task.id;
+          cell.dataset.benchmarkResultId = result.id;
+          cell.append(createText('strong', '', formatMetricValue(result, metric)));
+          cell.append(createText('span', '', result.success ? 'pass' : 'blocked'));
+          matrix.append(cell);
+        });
+      });
+    };
+
+    const renderBenchmarkDashboard = (dashboard, dataset, state) => {
+      if (!dataset.results.some((result) => result.id === state.resultId)) {
+        state.resultId = getTaskResults(dataset, state.taskId)[0]?.id ?? '';
+      }
+
+      const task = getTask(dataset, state.taskId);
+
+      dashboard.querySelector('[data-benchmark-chart-title]').textContent = 'By model';
+      dashboard.querySelector('[data-benchmark-chart-meta]').textContent = task ? `${task.suite} / ${task.caseId}` : 'No task selected';
+
+      dashboard.querySelectorAll('[data-benchmark-metric]').forEach((button) => {
+        const isActive = button.dataset.benchmarkMetric === state.metricId;
+        button.classList.toggle('is-active', isActive);
+        button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+
+      renderBenchmarkBars(dashboard, dataset, state);
+      renderBenchmarkDetail(dashboard, dataset, state);
+      renderBenchmarkMatrix(dashboard, dataset, state);
+    };
+
+    const initializeBenchmarkDashboard = (dashboard) => {
+      const payload = dashboard.querySelector('[data-benchmark-payload]');
+      if (!payload?.textContent) return;
+
+      let dataset;
+      try {
+        dataset = JSON.parse(payload.textContent);
+      } catch {
+        return;
+      }
+
+      const state = {
+        metricId: dataset.metricDefinitions[0]?.id || 'score',
+        taskId: dataset.results[0]?.taskId || dataset.tasks[0]?.id || '',
+        resultId: dataset.results[0]?.id || '',
+      };
+
+      dashboard.addEventListener('click', (event) => {
+        const target = event.target instanceof Element ? event.target : null;
+        if (!target) return;
+
+        const metricButton = target.closest('[data-benchmark-metric]');
+        if (metricButton && dashboard.contains(metricButton)) {
+          state.metricId = metricButton.dataset.benchmarkMetric;
+          renderBenchmarkDashboard(dashboard, dataset, state);
+          return;
+        }
+
+        const resultButton = target.closest('[data-benchmark-result-id]');
+        if (resultButton && dashboard.contains(resultButton)) {
+          state.resultId = resultButton.dataset.benchmarkResultId;
+          state.taskId = resultButton.dataset.benchmarkTask || dataset.results.find((result) => result.id === state.resultId)?.taskId || state.taskId;
+          renderBenchmarkDashboard(dashboard, dataset, state);
+          return;
+        }
+
+        const taskButton = target.closest('[data-benchmark-task]');
+        if (taskButton && dashboard.contains(taskButton)) {
+          state.taskId = taskButton.dataset.benchmarkTask;
+          state.resultId = getTaskResults(dataset, state.taskId)[0]?.id || '';
+          renderBenchmarkDashboard(dashboard, dataset, state);
+        }
+      });
+
+      renderBenchmarkDashboard(dashboard, dataset, state);
+
+      const status = dashboard.querySelector('[data-benchmark-status]');
+      const loadLiveResults = async () => {
+        if (!dashboard.dataset.liveUrl || !dashboard.dataset.rawRoot) return;
+
+        status.textContent = 'Updating';
+        status.classList.remove('is-live', 'is-stale');
+
+        const treeResponse = await fetch(dashboard.dataset.liveUrl, { cache: 'no-store' });
+        if (!treeResponse.ok) throw new Error(`GitHub returned ${treeResponse.status}`);
+        const treeData = await treeResponse.json();
+        const summaryPaths = (treeData.tree || [])
+          .map((item) => item.path)
+          .filter((itemPath) => /^submissions\/summaries\/.+\/[^/]*summary[^/]*\.json$/.test(itemPath))
+          .slice(0, 48);
+
+        if (summaryPaths.length === 0) throw new Error('No benchmark summaries found');
+
+        const remoteResults = (await Promise.all(summaryPaths.map(async (summaryPath) => {
+          const response = await fetch(`${dashboard.dataset.rawRoot}${summaryPath}`, { cache: 'no-store' });
+          if (!response.ok) return [];
+          const summary = await response.json();
+          return normalizeRemoteSummary(summary, summaryPath);
+        }))).flat();
+
+        if (remoteResults.length === 0) throw new Error('No benchmark result rows found');
+
+        dataset = {
+          ...dataset,
+          models: rebuildModels(remoteResults),
+          results: remoteResults,
+          statusLabel: 'Live',
+          tasks: mergeTasksFromResults(dataset.tasks, remoteResults),
+          updatedLabel: remoteResults.find((result) => result.runLabel !== 'latest summary')?.runLabel || 'GitHub live',
+        };
+        state.taskId = dataset.results[0]?.taskId || dataset.tasks[0]?.id || state.taskId;
+        state.resultId = dataset.results[0]?.id || state.resultId;
+        status.textContent = 'Live';
+        status.classList.add('is-live');
+        status.classList.remove('is-stale');
+        renderBenchmarkDashboard(dashboard, dataset, state);
+      };
+
+      loadLiveResults().catch(() => {
+        status.textContent = 'Snapshot';
+        status.classList.add('is-stale');
+        status.classList.remove('is-live');
+      });
+    };
+
+    if (benchmarkDashboard) {
+      initializeBenchmarkDashboard(benchmarkDashboard);
+    }
+  })();
+</script>

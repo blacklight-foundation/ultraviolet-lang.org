@@ -2,16 +2,16 @@
 title: "23.3 Exported Procedures and Hosted Exports"
 description: "23.3 Exported Procedures and Hosted Exports from 23. Foreign Function Interface of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "foreign-function-interface"
 specSection: "233-exported-procedures-and-hosted-exports"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -23,13 +23,13 @@ generated: true
 
 ### 23.3.1 Raw Exported Procedures
 
-A procedure becomes a raw exported procedure when it carries `[[export("abi")]]`. The attribute syntax is defined in §23.4.1.
+A procedure becomes a raw exported procedure when it carries `#export("abi")`. The attribute syntax is defined in §23.4.1.
 
 ### 23.3.2 Parsing
 
 Raw exported procedures are parsed by the ordinary procedure-declaration parser from §15.1.2.
 
-An ordinary `ProcedureDecl` is classified as a raw exported procedure when its attached attribute list contains `[[export("abi")]]` as parsed by §23.4.2.
+An ordinary `ProcedureDecl` is classified as a raw exported procedure when its attached attribute list contains `#export("abi")` as parsed by §23.4.2.
 
 ### 23.3.3 AST Representation / Form
 
@@ -39,7 +39,7 @@ This section introduces no dedicated raw-export AST node beyond `ProcedureDecl` 
 
 ### 23.3.4 Static Semantics
 
-**Raw Exported Procedure.** A Ultraviolet procedure made callable from foreign code via `[[export]]`.
+**Raw Exported Procedure.** A Ultraviolet procedure made callable from foreign code via `#export`.
 
 **Error Indicator Value.**
 
@@ -84,20 +84,20 @@ Export-side unwind frames are defined in §23.7. This section introduces no addi
 
 | Code         | Severity | Detection    | Condition                                        |
 | ------------ | -------- | ------------ | ------------------------------------------------ |
-| `E-SYS-3353` | Error    | Compile-time | `[[export]]` requires `public` visibility        |
-| `E-TYP-2631` | Error    | Compile-time | `[[export]]` catch requires zeroable return type |
+| `E-SYS-3353` | Error    | Compile-time | `#export` requires `public` visibility        |
+| `E-TYP-2631` | Error    | Compile-time | `#export` catch requires zeroable return type |
 
 Unsupported export-ABI-string rejection is owned by §23.2.7. Type-admissibility failures in `FfiSafeType` and by-value FFI use are owned by §23.1.7.
 
 ### 23.3.8 Hosted Exports
 
-A procedure becomes a hosted export when it carries `[[host_export("abi")]]`. A hosted export is not a raw FFI signature: the foreign-visible signature is derived from the source procedure plus an opaque hosted-library session handle.
+A procedure becomes a hosted export when it carries `#host_export("abi")`. A hosted export is not a raw FFI signature: the foreign-visible signature is derived from the source procedure plus an opaque hosted-library session handle.
 
 ### 23.3.9 Parsing
 
 Hosted exports are parsed by the ordinary procedure-declaration parser from §15.1.2.
 
-An ordinary `ProcedureDecl` is classified as a hosted export when its attached attribute list contains `[[host_export("abi")]]` as parsed by §23.4.2.
+An ordinary `ProcedureDecl` is classified as a hosted export when its attached attribute list contains `#host_export("abi")` as parsed by §23.4.2.
 
 ### 23.3.10 AST Representation / Form
 
@@ -366,7 +366,7 @@ For every hosted export `proc`, a conforming implementation MUST emit one foreig
 2. omits the first source parameter from the foreign-visible ABI;
 3. reconstructs the first source parameter from the session-owned `Context` value before entering the user procedure;
 4. rejects invalid, non-live, and busy handles according to §23.3.12 before any user code executes;
-5. applies the same `[[unwind]]` boundary rules as a raw exported procedure with the derived foreign-visible signature.
+5. applies the same `#unwind` boundary rules as a raw exported procedure with the derived foreign-visible signature.
 
 These hosted-export thunks are backend-generated boundary declarations. They are not the same declarations as the user-authored source procedures. A conforming backend MUST emit exactly one hosted-export thunk per `proc ∈ HostExports(P)` in the linked image of `P`, and that thunk MUST use `HostThunkLinkName(proc)` as its foreign symbol while calls from Ultraviolet code continue to target the source procedure body symbol `Mangle(proc)`. A conforming implementation MUST NOT expose `Mangle(proc)` itself as the hosted foreign entrypoint for `proc`; foreign code enters only through the generated thunk.
 
@@ -374,10 +374,10 @@ These hosted-export thunks are backend-generated boundary declarations. They are
 
 | Code         | Severity | Detection    | Condition                                                                            |
 | ------------ | -------- | ------------ | ------------------------------------------------------------------------------------ |
-| `E-TYP-2632` | Error    | Compile-time | `[[host_export]]` requires a leading `Context` bundle parameter                      |
-| `E-TYP-2633` | Error    | Compile-time | `[[host_export]]` leading `Context` bundle parameter MUST NOT use `move`             |
-| `E-TYP-2634` | Error    | Compile-time | Generic `[[host_export]]` procedure                                                  |
-| `E-TYP-2635` | Error    | Compile-time | `[[host_export]]` catch requires zeroable return type                                |
-| `E-TYP-2636` | Error    | Compile-time | `[[host_export]]` MUST use an explicit projected `Context` bundle, not raw `Context` |
+| `E-TYP-2632` | Error    | Compile-time | `#host_export` requires a leading `Context` bundle parameter                      |
+| `E-TYP-2633` | Error    | Compile-time | `#host_export` leading `Context` bundle parameter MUST NOT use `move`             |
+| `E-TYP-2634` | Error    | Compile-time | Generic `#host_export` procedure                                                  |
+| `E-TYP-2635` | Error    | Compile-time | `#host_export` catch requires zeroable return type                                |
+| `E-TYP-2636` | Error    | Compile-time | `#host_export` MUST use an explicit projected `Context` bundle, not raw `Context` |
 
 Type-admissibility failures in `FfiSafeType` and by-value FFI use for hosted-export visible parameters and returns are owned by §23.1.7.

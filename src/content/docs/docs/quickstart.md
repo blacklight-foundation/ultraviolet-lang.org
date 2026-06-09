@@ -8,11 +8,48 @@ description: Quickstart for the Ultraviolet public alpha.
   <span>The current repository contains the compiler, runtime, and <code>uv</code> source. The build path is being hardened toward the public specification.</span>
 </aside>
 
+## Install
+
+The installer downloads the latest packaged alpha from
+[GitHub releases](https://github.com/blacklight-foundation/ultraviolet/releases),
+verifies its SHA-256 checksum, and adds the `uv` command to your PATH.
+
+Linux x86_64 and macOS (Apple Silicon):
+
+```bash
+curl -fsSL https://ultraviolet-lang.org/install | sh
+```
+
+Windows x86_64:
+
+```powershell
+powershell -c "irm https://ultraviolet-lang.org/install.ps1 | iex"
+```
+
+Prefer manual downloads? Grab an archive directly from
+[GitHub releases](https://github.com/blacklight-foundation/ultraviolet/releases),
+or follow [Build the Compiler](/docs/build-the-compiler/) to build from
+source.
+
+### A note on the `uv` command name
+
+Ultraviolet's CLI is `uv`, which collides with Astral's Python package
+manager of the same name. The installer detects an existing Python `uv` and
+asks how to proceed: keep it available as `pyuv` and install Ultraviolet as
+`uv` (recommended), or install Ultraviolet's CLI as `uvc` and leave Python
+`uv` untouched.
+
+## Platform support
+
+Packaged alpha builds ship for Linux x86_64, macOS on Apple Silicon, and
+Windows x86_64. The first bootstrap target profile is Windows
+`x86_64-win64`. Other targets follow the [public roadmap](/roadmap/).
+
 ## Prerequisites
 
 - Git.
-- The bootstrap dependencies listed in the language repository.
-- A target profile. The first bootstrap target is Windows `x86_64-win64`.
+- The bootstrap dependencies listed in the language repository's
+  [build documentation](https://github.com/blacklight-foundation/ultraviolet).
 - A shell with standard build utilities.
 
 ## Clone

@@ -2,16 +2,16 @@
 title: "9.4 Optimization Attributes"
 description: "9.4 Optimization Attributes from 9. Attributes and Metadata of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "attributes-and-metadata"
 specSection: "94-optimization-attributes"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -40,15 +40,15 @@ Optimization attributes are ordinary `AttributeSpec` entries attached to `Proced
 
 ### 9.4.4 Static Semantics
 
-**`[[inline]]`.** The implementation SHOULD inline the procedure at call sites when feasible.
+**`#inline`.** The implementation SHOULD inline the procedure at call sites when feasible.
 
-**`[[inline(always)]]`.** The implementation SHOULD inline the procedure at all call sites. If inlining is not possible, such as for reultraviolet procedures or procedures whose address is taken, the implementation SHOULD emit a warning.
+**`#inline(always)`.** The implementation SHOULD inline the procedure at all call sites. If inlining is not possible, such as for reultraviolet procedures or procedures whose address is taken, the implementation SHOULD emit a warning.
 
-**`[[inline(default)]]`.** Equivalent to omitting the attribute.
+**`#inline(default)`.** Equivalent to omitting the attribute.
 
-**`[[inline(never)]]`.** The implementation MUST NOT inline the procedure. The procedure body MUST be emitted as a separate callable unit.
+**`#inline(never)`.** The implementation MUST NOT inline the procedure. The procedure body MUST be emitted as a separate callable unit.
 
-**`[[cold]]`.** Marks a procedure as unlikely to execute during typical runs. The implementation MAY use this as an optimization hint.
+**`#cold`.** Marks a procedure as unlikely to execute during typical runs. The implementation MAY use this as an optimization hint.
 
 ### 9.4.5 Dynamic Semantics
 
@@ -56,7 +56,7 @@ Optimization attributes do not change the language-level runtime semantics of th
 
 ### 9.4.6 Lowering
 
-`[[inline(always)]]` and `[[inline(never)]]` constrain procedure inlining decisions during lowering. `[[inline(never)]]` requires emission of a separate callable unit. `[[cold]]` MAY influence code layout or backend optimization heuristics.
+`#inline(always)` and `#inline(never)` constrain procedure inlining decisions during lowering. `#inline(never)` requires emission of a separate callable unit. `#cold` MAY influence code layout or backend optimization heuristics.
 
 ### 9.4.7 Diagnostics
 

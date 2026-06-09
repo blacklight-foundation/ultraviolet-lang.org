@@ -1,111 +1,190 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { roadmapMilestones } from '../data/funding';
+import type { RoadmapMilestone } from '../data/funding';
 
-const milestones = [
+// Engineering-first phases. "Now" is the unfunded baseline work already in
+// flight; "Next" features the milestones open for funding today; "Later"
+// lists scoped milestones queued behind them, grouped by track so the queue
+// stays scannable as it grows.
+const currentWork = [
   {
-    title: 'Bootstrap build hardening',
-    target: '$7,500',
-    status: 'Now',
-    tone: 'now',
-    deliverable:
-      'Compiler, runtime, and uv source build through a clear public alpha path.',
+    title: 'Compiler bootstrap hardening',
+    body: 'Hardening the source-build path toward the public specification on the first bootstrap target, x86_64-win64.',
+    href: '/docs/build-the-compiler/',
+    cta: 'Build guide',
   },
   {
-    title: 'First public example',
-    target: '$5,000',
-    status: 'Fundable',
-    tone: 'fundable',
-    deliverable: 'A clean clone/check/build/run path and first maintained .uv example.',
+    title: 'Release engineering and cadence',
+    body: 'Packaged alpha archives with checksums ship on GitHub releases for Linux, macOS, and Windows; current work hardens recurring releases and release notes.',
+    href: '/releases/',
+    cta: 'Release path',
   },
   {
-    title: 'CI smoke tests',
-    target: '$5,000',
-    status: 'Fundable',
-    tone: 'fundable',
-    deliverable: 'Public smoke tests, build workflow, and release checklist.',
-  },
-  {
-    title: 'Diagnostics examples',
-    target: '$15,000',
-    status: 'Planned',
-    tone: 'planned',
-    deliverable:
-      'Maintained examples that demonstrate compiler diagnostics, contracts, modals, permissions, keys, and CPU/GPU execution-domain code.',
-  },
-  {
-    title: 'Open LLM training corpus',
-    target: '$50,000',
-    status: 'Fundable',
-    tone: 'fundable',
-    deliverable:
-      'Open-licensed corpus of examples, constrained tasks, expected outputs, review annotations, diagnostics cases, and evaluation material for LLMs that generate Ultraviolet source.',
-  },
-  {
-    title: 'Self-hosting progress',
-    target: '$120,000/year',
-    status: 'Planned',
-    tone: 'planned',
-    deliverable:
-      'Sustained compiler, runtime, release, documentation, contributor, and self-hosting work.',
+    title: 'Specification and documentation publication',
+    body: 'Keeping the generated specification edition, docs, and examples aligned with the implementation as it converges.',
+    href: '/docs/specification/',
+    cta: 'Specification',
   },
 ];
+
+const nextMilestones = roadmapMilestones.filter((m) => m.tone === 'fundable');
+
+const categoryOrder: RoadmapMilestone['category'][] = [
+  'Developer Tooling',
+  'Core Compiler',
+  'Debugging & Diagnostics',
+];
+
+const laterTracks = categoryOrder
+  .map((category) => ({
+    category,
+    milestones: roadmapMilestones.filter(
+      (m) => m.tone === 'planned' && m.category === category,
+    ),
+  }))
+  .filter((track) => track.milestones.length > 0);
 ---
 
 <BaseLayout
   title="Public Alpha Roadmap"
-  description="Track the Ultraviolet public alpha roadmap, funding targets, milestone status, and next compiler, release, documentation, and training-corpus work."
+  description="Track the Ultraviolet public alpha roadmap: current engineering work, upcoming tooling and compiler milestones, and how funding accelerates each phase."
 >
   <article class="article-page status-page roadmap-page">
     <header>
       <p class="eyebrow">Project roadmap</p>
       <h1>Public Alpha Roadmap</h1>
       <p>
-        The near-term roadmap is alpha build hardening, a reliable public
-        command path, first examples, CI, diagnostics, training material for LLM
-        generation, and self-hosting progress.
+        What is being built now, what comes next, and what follows — with the
+        funding that accelerates each milestone listed alongside the
+        engineering deliverable.
       </p>
       <div class="actions">
-        <a class="button primary" href="/sponsor/#funding-goals">
-          Support a milestone
-        </a>
-        <a class="button secondary" href="/releases/">
+        <a class="button primary" href="/releases/">
           View release status
+        </a>
+        <a class="button secondary" href="/sponsor/#funding-goals">
+          Support a funding goal
         </a>
       </div>
     </header>
 
-    <section class="status-page-section" aria-labelledby="roadmap-milestones-heading">
-      <h2 id="roadmap-milestones-heading">Milestones</h2>
-      <div class="milestone-grid">
+    <section class="status-page-section" aria-labelledby="roadmap-now-heading">
+      <div class="category-header">
+        <h2 id="roadmap-now-heading">Now — in progress</h2>
+        <p>
+          Baseline alpha work underway today, independent of milestone
+          funding.
+        </p>
+      </div>
+      <div class="status-card-grid">
         {
-          milestones.map((milestone) => (
-            <article class="card milestone-card">
-              <div class="milestone-card-head">
-                <span class={`status-tag status-${milestone.tone}`}>{milestone.status}</span>
-                <h3>{milestone.title}</h3>
+          currentWork.map((item) => (
+            <a class="card post-card compact-card status-link-card" href={item.href}>
+              <span class="status-tag status-now">Now</span>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+              <span class="card-cta">{item.cta}</span>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="status-page-section" aria-labelledby="roadmap-next-heading">
+      <div class="category-header">
+        <h2 id="roadmap-next-heading">Next — open for funding</h2>
+        <p>
+          Scoped milestones with defined deliverables; each starts as soon as
+          its funding goal closes.
+        </p>
+      </div>
+      <div class="milestone-featured-grid">
+        {
+          nextMilestones.map((milestone) => (
+            <article class="milestone-featured">
+              <div class="milestone-featured-head">
+                <span class="status-tag status-next">Open for funding</span>
+                <span class="milestone-featured-category">{milestone.category}</span>
               </div>
+              <h3>{milestone.title}</h3>
               <p>{milestone.deliverable}</p>
-              <dl class="milestone-meta">
-                <div>
-                  <dt>Funding target</dt>
-                  <dd>{milestone.target}</dd>
-                </div>
-                <div>
-                  <dt>Status</dt>
-                  <dd>{milestone.status}</dd>
-                </div>
-              </dl>
-              <a
-                class="card-cta"
-                href="/sponsor/#funding-goals"
-                aria-label={`Support ${milestone.title}`}
-              >
-                Support this milestone
-              </a>
+              <div class="milestone-featured-foot">
+                <p class="milestone-featured-target">
+                  <strong>{milestone.target}</strong>
+                  <span>funding target</span>
+                </p>
+                <a
+                  class="button primary"
+                  href={milestone.payLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Sponsor milestone: ${milestone.title}`}
+                >
+                  Sponsor this milestone
+                </a>
+              </div>
             </article>
           ))
         }
       </div>
+    </section>
+
+    <section class="status-page-section" aria-labelledby="roadmap-later-heading">
+      <div class="category-header">
+        <h2 id="roadmap-later-heading">Later — scoped and queued</h2>
+        <p>
+          Sequenced behind the Next phase and grouped by track. Sponsorship
+          pulls a milestone forward.
+        </p>
+      </div>
+      {
+        laterTracks.map((track) => (
+          <section class="roadmap-track" aria-label={`${track.category} milestones`}>
+            <header class="roadmap-track-head">
+              <h3>{track.category}</h3>
+              <span>
+                {track.milestones.length}
+                {track.milestones.length === 1 ? ' milestone' : ' milestones'}
+              </span>
+            </header>
+            <ul class="roadmap-track-list">
+              {track.milestones.map((milestone) => (
+                <li class="roadmap-track-row">
+                  <div class="roadmap-track-info">
+                    <strong>{milestone.title}</strong>
+                    <p>{milestone.deliverable}</p>
+                  </div>
+                  <div class="roadmap-track-meta">
+                    <span class="roadmap-track-target">{milestone.target}</span>
+                    <a
+                      href={milestone.payLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Sponsor milestone: ${milestone.title}`}
+                    >
+                      Sponsor →
+                    </a>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </section>
+
+    <section class="status-page-section">
+      <h2>How this roadmap is maintained</h2>
+      <p>
+        Phases reflect engineering sequencing, not promises of dates. Work in
+        the Now phase ships through the
+        <a href="/releases/">release path</a> and is announced in
+        <a href="/blog/">Updates</a>. Funding goals and their breakdowns live
+        on the <a href="/sponsor/">support page</a>; contribution paths that
+        don't involve money live on the
+        <a href="/community/">community page</a>.
+      </p>
     </section>
   </article>
 </BaseLayout>

@@ -2,16 +2,16 @@
 title: "19.6 Dynamic Key Verification"
 description: "19.6 Dynamic Key Verification from 19. Key System of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "key-system"
 specSection: "196-dynamic-key-verification"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -23,7 +23,7 @@ generated: true
 
 ### 19.6.1 Syntax
 
-This section introduces no additional surface syntax. `[[dynamic]]` attribute syntax is defined by Chapter 9.
+This section introduces no additional surface syntax. `#dynamic` attribute syntax is defined by Chapter 9.
 
 ### 19.6.2 Parsing
 
@@ -85,7 +85,7 @@ When runtime synchronization is required:
 3. Keys are released on scope exit, including panic.
 4. Implementations MUST guarantee eventual progress when conflicting holders eventually release.
 
-Within `[[dynamic]]`, incomparable dynamic indices require a runtime ordering relation satisfying:
+Within `#dynamic`, incomparable dynamic indices require a runtime ordering relation satisfying:
 
 1. Totality.
 2. Antisymmetry.
@@ -121,6 +121,6 @@ When `InDynamicContext` and `StaticallySafe(P)` both hold, runtime synchronizati
 
 | Code         | Severity | Detection    | Condition                                                |
 | ------------ | -------- | ------------ | -------------------------------------------------------- |
-| `E-CON-0020` | Error    | Compile-time | Key safety not statically provable outside `[[dynamic]]` |
-| `I-CON-0011` | Info     | Compile-time | Runtime synchronization emitted under `[[dynamic]]`      |
-| `I-CON-0013` | Info     | Compile-time | Static key safety proven under `[[dynamic]]`             |
+| `E-CON-0020` | Error    | Compile-time | Key safety not statically provable outside `#dynamic` |
+| `I-CON-0011` | Info     | Compile-time | Runtime synchronization emitted under `#dynamic`      |
+| `I-CON-0013` | Info     | Compile-time | Static key safety proven under `#dynamic`             |

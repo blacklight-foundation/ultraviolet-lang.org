@@ -21,7 +21,9 @@ const defaultDescription = siteDescription;
 
 const { title = defaultTitle, description = defaultDescription } = Astro.props;
 const pageTitle =
-  title === defaultTitle ? defaultTitle : `${title} | ${defaultTitle}`;
+  title === defaultTitle
+    ? `${defaultTitle} – A high-visibility language for humans and AI`
+    : `${title} | ${defaultTitle}`;
 const site = Astro.site ?? new URL('https://ultraviolet-lang.org');
 const canonical = new URL(Astro.url.pathname, site).toString();
 const socialImage = new URL(socialImagePath, site).toString();
@@ -29,8 +31,8 @@ const socialImage = new URL(socialImagePath, site).toString();
 const navLinks = [
   { href: '/docs/', label: 'Docs' },
   { href: '/releases/', label: 'Releases' },
-  { href: '/playground/', label: 'Playground' },
   { href: '/roadmap/', label: 'Roadmap' },
+  { href: '/community/', label: 'Community' },
   { href: '/blog/', label: 'Updates' },
   {
     href: 'https://github.com/blacklight-foundation/ultraviolet',
@@ -43,6 +45,8 @@ const footerPrimaryLinks = [
   { href: '/releases/', label: 'Releases' },
   { href: '/playground/', label: 'Playground' },
   { href: '/roadmap/', label: 'Roadmap' },
+  { href: '/benchmarks/', label: 'Benchmarks' },
+  { href: '/community/', label: 'Community' },
   { href: '/blog/', label: 'Updates' },
   { href: '/sponsor/', label: 'Support' },
   {
@@ -59,10 +63,7 @@ const footerUtilityLinks = [
     href: 'https://github.com/blacklight-foundation/ultraviolet/blob/main/LICENSE.md',
     label: 'License',
   },
-  {
-    href: 'https://github.com/blacklight-foundation/ultraviolet/blob/main/SPECIFICATION.md',
-    label: 'Specification',
-  },
+  { href: '/docs/specification/', label: 'Specification' },
 ];
 ---
 
@@ -91,10 +92,18 @@ const footerUtilityLinks = [
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
     <meta name="twitter:image:alt" content={socialImageAlt} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet" />
     <script is:inline src="/newsletter-signup.js" defer></script>
     <slot name="head" />
   </head>
   <body>
+    <div class="announcement-banner">
+      <span class="announcement-badge">Public Alpha</span>
+      <span class="announcement-message">The Ultraviolet public alpha is available — install the compiler today.</span>
+      <a class="announcement-link" href="/releases/">Get the compiler →</a>
+    </div>
     <a class="skip-link" href="#content">Skip to content</a>
     <header class="site-header">
       <a class="brand" href="/" aria-label="Ultraviolet home">
@@ -111,15 +120,22 @@ const footerUtilityLinks = [
       <nav class="site-nav" aria-label="Primary navigation">
         {
           navLinks.map((link) => (
-            <a href={link.href}>
+            <a
+              href={link.href}
+              aria-current={
+                link.href.startsWith('/') && Astro.url.pathname.startsWith(link.href)
+                  ? 'page'
+                  : undefined
+              }
+            >
               {link.label}
             </a>
           ))
         }
       </nav>
       <div class="header-actions">
-        <a class="nav-secondary" href="/docs/">Start</a>
-        <a class="nav-cta" href="/sponsor/">Support</a>
+        <a class="nav-secondary" href="/sponsor/">Support</a>
+        <a class="nav-cta" href="/docs/quickstart/">Get started</a>
       </div>
     </header>
     <main id="content">
@@ -173,7 +189,7 @@ const footerUtilityLinks = [
               type="email"
               autocomplete="email"
               inputmode="email"
-              placeholder="Email for public alpha updates"
+              placeholder="Email for alpha updates"
               required
             />
             <input

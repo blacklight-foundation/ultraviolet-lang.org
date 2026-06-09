@@ -2,16 +2,16 @@
 title: "18.1 Blocks"
 description: "18.1 Blocks from 18. Statements and Blocks of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "statements-and-blocks"
 specSection: "181-blocks"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -176,7 +176,7 @@ $$
 ### 18.1.3 AST Representation / Form
 
 $$
-\mathsf{Stmt}\ =\ \{\operatorname{LetStmt}(\mathsf{binding}),\ \operatorname{VarStmt}(\mathsf{binding}),\ \operatorname{ErrorStmt}(\mathsf{span}),\ \operatorname{UsingLocalStmt}(\mathsf{source},\ \mathsf{alias},\ \mathsf{span}),\ \operatorname{AssignStmt}(\mathsf{place},\ \mathsf{expr}),\ \operatorname{CompoundAssignStmt}(\mathsf{place},\ \mathsf{op},\ \mathsf{expr}),\ \operatorname{ExprStmt}(\mathsf{expr}),\ \operatorname{DeferStmt}(\mathsf{block}),\ \operatorname{RegionStmt}(\mathsf{opts}_{\mathsf{opt}},\ \mathsf{alias}_{\mathsf{opt}},\ \mathsf{block}),\ \operatorname{FrameStmt}(\mathsf{target}_{\mathsf{opt}},\ \mathsf{block}),\ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{block},\ \mathsf{span}),\ \operatorname{ReturnStmt}(\mathsf{expr}_{\mathsf{opt}}),\ \operatorname{BreakStmt}(\mathsf{expr}_{\mathsf{opt}}),\ \mathsf{ContinueStmt},\ \operatorname{UnsafeBlockStmt}(\mathsf{block}),\ \operatorname{CtStmt}(\mathsf{body},\ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{span})\}
+\mathsf{Stmt}\ =\ \{\operatorname{LetStmt}(\mathsf{binding}),\ \operatorname{VarStmt}(\mathsf{binding}),\ \operatorname{ErrorStmt}(\mathsf{span}),\ \operatorname{UsingLocalStmt}(\mathsf{source},\ \mathsf{alias},\ \mathsf{span}),\ \operatorname{AssignStmt}(\mathsf{place},\ \mathsf{expr}),\ \operatorname{CompoundAssignStmt}(\mathsf{place},\ \mathsf{op},\ \mathsf{expr}),\ \operatorname{ExprStmt}(\mathsf{expr}),\ \operatorname{DeferStmt}(\mathsf{block}),\ \operatorname{RegionStmt}(\mathsf{opts}_{\mathsf{opt}},\ \mathsf{alias}_{\mathsf{opt}},\ \mathsf{block}),\ \operatorname{FrameStmt}(\mathsf{target}_{\mathsf{opt}},\ \mathsf{block}),\ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{block},\ \mathsf{span}),\ \operatorname{ReturnStmt}(\mathsf{expr}_{\mathsf{opt}}),\ \operatorname{BreakStmt}(\mathsf{expr}_{\mathsf{opt}}),\ \mathsf{ContinueStmt},\ \operatorname{UnsafeBlockStmt}(\mathsf{block}),\ \operatorname{CtStmt}(\mathsf{body},\ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{span})\}
 $$
 
 $$
@@ -405,7 +405,7 @@ $$
 
 $$
 \begin{array}{l}
-s\ \notin \ \{\operatorname{DeferStmt}(\_),\ \operatorname{RegionStmt}(\_,\ \_,\ \_),\ \operatorname{FrameStmt}(\_,\ \_),\ \operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \_,\ \_,\ \_)\}\quad \Gamma \ \vdash \ \operatorname{ExecSigma}(s,\ \sigma )\ \Downarrow \ (\mathsf{ok},\ \sigma ') \\[0.16em]
+s\ \notin \ \{\operatorname{DeferStmt}(\_),\ \operatorname{RegionStmt}(\_,\ \_,\ \_),\ \operatorname{FrameStmt}(\_,\ \_),\ \operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\}\quad \Gamma \ \vdash \ \operatorname{ExecSigma}(s,\ \sigma )\ \Downarrow \ (\mathsf{ok},\ \sigma ') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{Exec}(s,\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle 
 \end{array}
@@ -415,7 +415,7 @@ $$
 
 $$
 \begin{array}{l}
-s\ \notin \ \{\operatorname{DeferStmt}(\_),\ \operatorname{RegionStmt}(\_,\ \_,\ \_),\ \operatorname{FrameStmt}(\_,\ \_),\ \operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \_,\ \_,\ \_)\}\quad \Gamma \ \vdash \ \operatorname{ExecSigma}(s,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma ') \\[0.16em]
+s\ \notin \ \{\operatorname{DeferStmt}(\_),\ \operatorname{RegionStmt}(\_,\ \_,\ \_),\ \operatorname{FrameStmt}(\_,\ \_),\ \operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\}\quad \Gamma \ \vdash \ \operatorname{ExecSigma}(s,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma ') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \langle \operatorname{Exec}(s,\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma ')\rangle 
 \end{array}

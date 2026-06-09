@@ -1,0 +1,56 @@
+---
+import BenchmarkInteractions from '../components/BenchmarkInteractions.astro';
+import BenchmarkDashboard from '../components/home/BenchmarkDashboard.astro';
+import { loadBenchmarkMetrics } from '../data/benchmarkData';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const benchmarkMetrics = await loadBenchmarkMetrics();
+---
+
+<BaseLayout
+  title="Benchmarks"
+  description="Explore generated-code benchmark snapshots for Ultraviolet: build pass rates, test results, token usage, cost, and turns across AI models and tasks."
+>
+  <article class="article-page status-page benchmarks-page">
+    <header>
+      <p class="eyebrow">Generated-code benchmarks</p>
+      <h1>Benchmarks</h1>
+      <p>
+        The uv-benchmarks harness measures how AI models perform when writing
+        Ultraviolet on fixed tasks: whether the result builds, passes tests and
+        scanner checks, stays organized, and what it costs in tokens, dollars,
+        and turns.
+      </p>
+    </header>
+
+    <section class="status-page-section" aria-label="Benchmark explorer">
+      <BenchmarkDashboard metrics={benchmarkMetrics} />
+    </section>
+
+    <section id="methodology" class="status-page-section">
+      <h2>Methodology and reproducibility</h2>
+      <p>
+        Each run gives a model a fixed task specification and records the
+        outcome of the generated Ultraviolet project. Scores weight project
+        organization, build and functional checks, code quality, performance,
+        and bug or security findings; token, cost, and turn counts come from
+        the model provider's usage reporting for the run.
+      </p>
+      <p>
+        These results are snapshots, not independently reproducible claims
+        yet. The harness repository is being prepared for public release;
+        until it is published, treat the numbers above as indicative. The
+        status pill on the explorer shows whether you are viewing live harness
+        output or the bundled snapshot.
+      </p>
+      <p>
+        If you want to evaluate generated Ultraviolet yourself today, the
+        <a href="/docs/ai-written-code-review/">AI-written code review model</a>
+        describes what reviewers should check, and the
+        <a href="/docs/specification/">specification</a> defines the exact
+        rules the output must satisfy.
+      </p>
+    </section>
+  </article>
+  <BenchmarkInteractions />
+</BaseLayout>

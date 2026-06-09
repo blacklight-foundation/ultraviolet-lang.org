@@ -1,70 +1,94 @@
-export const fundingGoals = [
+export interface SupportTier {
+  amount: string;
+  title: string;
+  description: string;
+  cta: string;
+  href: string;
+  benefits: string[];
+}
+
+export interface FundingGoal {
+  title: string;
+  goal: string;
+  timeline: string;
+  purpose: string;
+  cta: string;
+  href: string;
+  payLink: string;
+  summary: string;
+  body: string;
+  outcome: string;
+  breakdown: string[];
+}
+
+export interface RoadmapMilestone {
+  title: string;
+  target: string;
+  status: string;
+  tone: 'now' | 'fundable' | 'planned';
+  category: 'Developer Tooling' | 'Core Compiler' | 'Debugging & Diagnostics';
+  deliverable: string;
+  payLink: string;
+}
+
+export const fundingGoals: FundingGoal[] = [
   {
-    title: 'Public Alpha Launch Fund',
-    goal: '$25,000',
+    title: 'LSP & Language Tooling Fund',
+    goal: '$15,000',
+    timeline: '45 to 60 days',
+    purpose: 'Fund the Language Server Protocol (LSP) engine to enable real-time IDE diagnostics and autocompletion.',
+    cta: 'Support this work',
+    href: '/sponsor/#funding-goals',
+    payLink: 'https://donate.stripe.com/fZu3cwffKaxxdVw9maeIw06',
+    summary: 'The LSP engine provides the foundation for developer tooling integration in VS Code, Neovim, and other editors.',
+    body: 'Funding goes towards parsing diagnostics output, implementing incremental document synchronization, and supporting hover information and autocompletion logic in the compiler daemon.',
+    outcome: 'A production-grade language server (ultraviolet-lsp) that developers and AI agents can run locally for real-time feedback.',
+    breakdown: [
+      '$5k LSP server protocol handling and incremental sync',
+      '$5k compiler daemon optimization for sub-second analysis',
+      '$3k IDE client extensions (VS Code & Neovim)',
+      '$2k documentation and test suite'
+    ],
+  },
+  {
+    title: 'Standard Library & Package Manager Fund',
+    goal: '$20,000',
+    timeline: '60 to 90 days',
+    purpose: 'Fund the initial release of the package manager (uvpm) and core standard library modules.',
+    cta: 'Support this work',
+    href: '/sponsor/#funding-goals',
+    payLink: 'https://donate.stripe.com/fZu3cwffKaxxdVw9maeIw06',
+    summary: 'Ultraviolet needs standard foundational libraries and a package manager to enable real-world application building.',
+    body: 'This fund supports developing uvpm (package manager) and foundational standard library modules, including I/O, file system access, networking, and JSON serialization/deserialization.',
+    outcome: 'Developers can resolve dependencies, publish packages, and write network and file system applications using standard APIs.',
+    breakdown: [
+      '$6k package manager CLI and registry client (uvpm)',
+      '$5k std::io and std::fs (sandboxed file/stream access)',
+      '$5k std::net (sandboxed TCP/UDP capability bindings)',
+      '$4k std::json and serialization utilities'
+    ],
+  },
+  {
+    title: 'Wasm Target & Compiler Playground Fund',
+    goal: '$10,000',
     timeline: '30 to 45 days',
-    purpose: 'Fund the first usable public alpha of Ultraviolet.',
+    purpose: 'Fund compiler support for WebAssembly (Wasm) and build an interactive browser-based playground.',
     cta: 'Support this work',
-    href: '/sponsor/#support-tiers',
-    summary: 'This fund supports the first usable public alpha of Ultraviolet.',
-    body:
-      'Funding goes toward alpha build hardening, a working build/check path, first examples, CI smoke tests, a release checklist, contributor onboarding, and public reporting.',
-    outcome:
-      'The goal is direct: a technical visitor should be able to find the compiler, build the current alpha, run a first example, and understand the next implementation steps.',
+    href: '/sponsor/#funding-goals',
+    payLink: 'https://donate.stripe.com/fZu3cwffKaxxdVw9maeIw06',
+    summary: 'WebAssembly capability lets developers experiment with Ultraviolet directly in the browser without local installs.',
+    body: 'Funding supports emitting WebAssembly code from the compiler backend, writing javascript-wasm bindings, and updating the online interactive playground to compile and run client-side.',
+    outcome: 'An online compilation playground where users can write, check, and execute Ultraviolet code instantly in their browser.',
     breakdown: [
-      '$7.5k bootstrap build hardening / repo consolidation',
-      '$5k working quickstart and first example',
-      '$5k CI smoke tests and release checklist',
-      '$5k contributor onboarding and issue cleanup',
-      '$2.5k first monthly report / support reporting / admin',
-    ],
-  },
-  {
-    title: 'Open LLM Training Corpus Fund',
-    goal: '$50,000',
-    timeline: '90 to 120 days',
-    purpose:
-      'Fund an open-source training corpus for LLMs that generate Ultraviolet source.',
-    cta: 'Support this work',
-    href: '/sponsor/#support-tiers',
-    summary:
-      'LLMs need precise examples, constraints, expected outputs, and diagnostics to generate Ultraviolet source in the intended form.',
-    body:
-      'This fund develops open-licensed materials for LLM training and evaluation: canonical examples, constrained programming tasks, expected source outputs, review annotations, diagnostics cases, and explanations of authority, effects, permissions, responsibility, and static-default design.',
-    outcome:
-      'The goal is to make Ultraviolet generation more consistent and make the resulting source easier for humans to inspect, audit, and improve.',
-    breakdown: [
-      '$12.5k corpus design, licensing, and data format',
-      '$10k canonical examples and explanations',
-      '$10k constrained tasks, prompts, and expected outputs',
-      '$7.5k review annotations, anti-patterns, and diagnostics cases',
-      '$5k evaluation harness, metadata, and dataset splits',
-      '$5k public release, public report, and maintenance pass',
-    ],
-  },
-  {
-    title: 'Maintainer-in-Residence Fund',
-    goal: '$120,000/year',
-    timeline: '12 months',
-    purpose:
-      'Fund sustained public compiler, documentation, release, and contributor work.',
-    cta: 'Support this work',
-    href: '/sponsor/#support-tiers',
-    summary: 'This fund supports one year of focused public maintainer work.',
-    body:
-      'The Maintainer-in-Residence Fund supports compiler development, release engineering, documentation, examples, diagnostics, contributor onboarding, public roadmap updates, reporting, infrastructure, and compliance.',
-    outcome:
-      'The goal is sustained public progress on the compiler, documentation, release process, and contributor surface.',
-    breakdown: [
-      '$80k maintainer/compiler work',
-      '$20k docs, examples, contributor support',
-      '$10k infrastructure, CI, hosting, tooling',
-      '$10k accounting, legal, reporting',
+      '$4k WebAssembly backend target support in uvc',
+      '$3k Wasm/JS runtime host and browser canvas interface',
+      '$2k Web playground UI improvements and examples',
+      '$1k continuous integration and hosting setup'
     ],
   },
 ];
 
-export const supportTiers = [
+export const supportTiers: SupportTier[] = [
   {
     amount: '$5',
     title: 'Community Supporter',
@@ -72,8 +96,8 @@ export const supportTiers = [
     cta: 'Support at $5',
     href: 'https://buy.stripe.com/bJeeVegjOdJJ04G69YeIw00',
     benefits: [
-      'supports public alpha updates',
-      'helps fund documentation and examples',
+      'Supports ongoing development and compiler maintenance',
+      'Access to public roadmap updates'
     ],
   },
   {
@@ -83,8 +107,8 @@ export const supportTiers = [
     cta: 'Support at $10',
     href: 'https://buy.stripe.com/28EcN63x27llbNo55UeIw01',
     benefits: [
-      'supports alpha build hardening work',
-      'helps fund public project updates',
+      'Supports public alpha testing and compiler build infrastructure',
+      'Access to public roadmap updates'
     ],
   },
   {
@@ -94,8 +118,8 @@ export const supportTiers = [
     cta: 'Support at $20',
     href: 'https://buy.stripe.com/bJe28s3x2499dVweGueIw02',
     benefits: [
-      'supports quickstart and examples',
-      'helps fund training corpus material',
+      'Supports compiler, runtime, and documentation improvements',
+      'Access to public roadmap updates'
     ],
   },
   {
@@ -105,8 +129,8 @@ export const supportTiers = [
     cta: 'Support at $50',
     href: 'https://buy.stripe.com/cNibJ21oUeNN8BceGueIw03',
     benefits: [
-      'supports CI and release infrastructure',
-      'helps fund diagnostics and examples',
+      'Helps maintain CI/CD pipelines and public package registry',
+      'Access to public roadmap updates'
     ],
   },
   {
@@ -116,8 +140,8 @@ export const supportTiers = [
     cta: 'Support at $75',
     href: 'https://buy.stripe.com/00w6oI2sYbBB04G55UeIw04',
     benefits: [
-      'supports open LLM training corpus work',
-      'helps fund public reporting and maintenance',
+      'Helps fund developer advocacy, tutorials, and community outreach',
+      'Access to public roadmap updates'
     ],
   },
   {
@@ -127,8 +151,8 @@ export const supportTiers = [
     cta: 'Support at $100',
     href: 'https://buy.stripe.com/3cIeVe3x2fRR18KfKyeIw05',
     benefits: [
-      'supports maintainer and release work',
-      'helps fund durable public infrastructure',
+      'Supports dedicated maintainer time and compiler optimization passes',
+      'Access to public roadmap updates'
     ],
   },
 ];
@@ -142,13 +166,138 @@ export const oneTimeDonation = {
 };
 
 export const supportFundedWork = [
-  'alpha build hardening',
-  'CI and releases',
+  'alpha compiler optimization',
+  'CI and release orchestration',
   'quickstart documentation',
-  'examples',
-  'diagnostics',
-  'CPU/GPU language work',
-  'open LLM training corpus',
-  'contributor onboarding',
+  'language server and LSP development',
+  'package manager (uvpm) infrastructure',
+  'structured diagnostics and debugging',
+  'sandboxed capability checks',
+  'contributor tooling and examples',
   'public roadmap and reporting',
+];
+
+export const roadmapMilestones: RoadmapMilestone[] = [
+  // 1. Developer Tooling
+  {
+    title: 'Language Server Protocol (LSP) Engine',
+    target: '$15,000',
+    status: 'Fundable',
+    tone: 'fundable',
+    category: 'Developer Tooling',
+    deliverable: 'Implement ultraviolet-lsp to provide real-time diagnostics, type hovers, and autocompletion in IDEs.',
+    payLink: 'https://donate.stripe.com/fZu3cwffKaxxdVw9maeIw06',
+  },
+  {
+    title: 'Standard Library & Package Manager (uvpm)',
+    target: '$20,000',
+    status: 'Fundable',
+    tone: 'fundable',
+    category: 'Developer Tooling',
+    deliverable: 'First public release of uvpm alongside core system capability modules (std::io, std::fs, std::net, std::json).',
+    payLink: 'https://donate.stripe.com/fZu3cwffKaxxdVw9maeIw06',
+  },
+  {
+    title: 'Auto-Formatter & Linter (uvfmt / uvlint)',
+    target: '$10,000',
+    status: 'Planned',
+    tone: 'planned',
+    category: 'Developer Tooling',
+    deliverable: 'Create the AST-preserving source formatter (uvfmt) and static safety linter (uvlint) to audit capability usage.',
+    payLink: 'https://donate.stripe.com/fZu3cwffKaxxdVw9maeIw06',
+  },
+  {
+    title: 'FFI Bindings Generator (uv-bindgen)',
+    target: '$15,000',
+    status: 'Planned',
+    tone: 'planned',
+    category: 'Developer Tooling',
+    deliverable: 'Tooling to automatically generate type-safe Ultraviolet capability declarations from C header (.h) interfaces.',
+    payLink: 'https://donate.stripe.com/fZu3cwffKaxxdVw9maeIw06',
+  },
+
+  // 2. Core Compiler
+  {
+    title: 'Static Responsibility Checker',
+    target: '$30,000',
+    status: 'Planned',
+    tone: 'planned',
+    category: 'Core Compiler',
+    deliverable: 'Enforce compiler verification checks on permission lifetimes, resource binding states, and responsibility transfers.',
+    payLink: 'https://donate.stripe.com/fZu3cwffKaxxdVw9maeIw06',
+  },
+  {
+    title: 'WebAssembly (Wasm) Target',
+    target: '$10,000',
+    status: 'Planned',
+    tone: 'planned',
+    category: 'Core Compiler',
+    deliverable: 'WebAssembly code generation target to run compiler output inside web browsers and support live playgrounds.',
+    payLink: 'https://donate.stripe.com/fZu3cwffKaxxdVw9maeIw06',
+  },
+  {
+    title: 'CPU + GPU Co-execution (WebGPU / SPIR-V)',
+    target: '$35,000',
+    status: 'Planned',
+    tone: 'planned',
+    category: 'Core Compiler',
+    deliverable: 'Enable the compiler to emit SPIR-V/WGSL kernels, compiling execution-domain loops directly to GPU compute shaders.',
+    payLink: 'https://donate.stripe.com/fZu3cwffKaxxdVw9maeIw06',
+  },
+  {
+    title: 'Self-Hosting Compiler',
+    target: '$80,000',
+    status: 'Planned',
+    tone: 'planned',
+    category: 'Core Compiler',
+    deliverable: 'Complete the self-hosting transition, compiling the Ultraviolet compiler using Ultraviolet itself.',
+    payLink: 'https://donate.stripe.com/fZu3cwffKaxxdVw9maeIw06',
+  },
+
+  // 3. Debugging & Diagnostics
+  {
+    title: 'Debug Symbol Generation (DWARF/PDB)',
+    target: '$15,000',
+    status: 'Planned',
+    tone: 'planned',
+    category: 'Debugging & Diagnostics',
+    deliverable: 'Emit debug mapping symbols (PDB on Windows, DWARF on Linux/macOS) from the compiler backend.',
+    payLink: 'https://donate.stripe.com/fZu3cwffKaxxdVw9maeIw06',
+  },
+  {
+    title: 'Debug Adapter Protocol (DAP) Server (ultraviolet-dap)',
+    target: '$20,000',
+    status: 'Planned',
+    tone: 'planned',
+    category: 'Debugging & Diagnostics',
+    deliverable: 'A standalone DAP implementation to interface native debug sessions with editors like VS Code and Neovim.',
+    payLink: 'https://donate.stripe.com/fZu3cwffKaxxdVw9maeIw06',
+  },
+  {
+    title: 'Runtime Responsibility & Permission Inspector',
+    target: '$25,000',
+    status: 'Planned',
+    tone: 'planned',
+    category: 'Debugging & Diagnostics',
+    deliverable: 'Debugger integration allowing interactive inspection of permission states and responsibility boundaries at runtime.',
+    payLink: 'https://donate.stripe.com/fZu3cwffKaxxdVw9maeIw06',
+  },
+  {
+    title: 'Structured Concurrency Task Visualizer',
+    target: '$20,000',
+    status: 'Planned',
+    tone: 'planned',
+    category: 'Debugging & Diagnostics',
+    deliverable: 'Visual hierarchy tree rendering of active concurrent tasks, execution domains, and cancellation tokens.',
+    payLink: 'https://donate.stripe.com/fZu3cwffKaxxdVw9maeIw06',
+  },
+  {
+    title: 'AI Agent Tooling & JSON Diagnostics Engine',
+    target: '$15,000',
+    status: 'Planned',
+    tone: 'planned',
+    category: 'Debugging & Diagnostics',
+    deliverable: 'Add a structured JSON diagnostics reporter (--format json) specifically optimized for LLMs and AI agent integrations.',
+    payLink: 'https://donate.stripe.com/fZu3cwffKaxxdVw9maeIw06',
+  },
 ];

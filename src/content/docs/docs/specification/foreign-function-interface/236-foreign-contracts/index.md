@@ -2,16 +2,16 @@
 title: "23.6 Foreign Contracts"
 description: "23.6 Foreign Contracts from 23. Foreign Function Interface of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "foreign-function-interface"
 specSection: "236-foreign-contracts"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,7 +24,7 @@ generated: true
 ### 23.6.1 Syntax
 
 ```text
-ffi_verification_attr    ::= "[[" ffi_verification_mode "]]"
+ffi_verification_attr    ::= "#" ffi_verification_mode
 ffi_verification_mode    ::= "static" | "dynamic"
 
 foreign_contract         ::= "|:" "@foreign_assumes" "(" predicate_expr ")"
@@ -202,11 +202,11 @@ Predicates MUST NOT reference:
 
 | Mode                   | Behavior                                     |
 | :--------------------- | :------------------------------------------- |
-| `[[static]]` (default) | Caller must prove predicates at compile time |
-| `[[dynamic]]`          | Runtime checks inserted before `unsafe` call |
+| `#static` (default) | Caller must prove predicates at compile time |
+| `#dynamic`          | Runtime checks inserted before `unsafe` call |
 
 $$
-\texttt{[[static]]}\ \mathsf{uses}\ \texttt{StaticProof}\ \mathsf{as}\ \mathsf{defined}\ \mathsf{in}\ \S 15.8.\ \texttt{[[dynamic]]}\ \mathsf{inserts}\ \texttt{ContractCheck(P, ForeignPre, s, rho\_emptyset)}\ \mathsf{immediately}\ \mathsf{before}\ \mathsf{the}\ \mathsf{foreign}\ \mathsf{call}.
+\texttt{\#static}\ \mathsf{uses}\ \texttt{StaticProof}\ \mathsf{as}\ \mathsf{defined}\ \mathsf{in}\ \S 15.8.\ \texttt{\#dynamic}\ \mathsf{inserts}\ \texttt{ContractCheck(P, ForeignPre, s, rho\_emptyset)}\ \mathsf{immediately}\ \mathsf{before}\ \mathsf{the}\ \mathsf{foreign}\ \mathsf{call}.
 $$
 
 #### 23.6.4.2 Foreign Postconditions
@@ -282,10 +282,10 @@ $$
 
 | Mode                   | Behavior                                                      |
 | :--------------------- | :------------------------------------------------------------ |
-| `[[static]]` (default) | Postconditions available as assumptions for downstream proofs |
-| `[[dynamic]]`          | Runtime assertions after foreign call returns                 |
+| `#static` (default) | Postconditions available as assumptions for downstream proofs |
+| `#dynamic`          | Runtime assertions after foreign call returns                 |
 
-`[[static]]` uses `StaticProof` as defined in §15.8 with `SuccessCond` and `ErrCond` gating the obligations.
+`#static` uses `StaticProof` as defined in §15.8 with `SuccessCond` and `ErrCond` gating the obligations.
 
 #### 23.6.4.3 Verification Summary
 
@@ -293,18 +293,18 @@ $$
 
 | Level         | Precondition Check | Postcondition Check      |
 | :------------ | :----------------- | :----------------------- |
-| `[[static]]`  | Compile-time proof | Available as assumptions |
-| `[[dynamic]]` | Runtime assertion  | Runtime assertion        |
+| `#static`  | Compile-time proof | Available as assumptions |
+| `#dynamic` | Runtime assertion  | Runtime assertion        |
 
 ### 23.6.5 Dynamic Semantics
 
 For foreign preconditions, a failed `ForeignPre` check triggers a panic.
 
-For foreign postconditions, in `[[dynamic]]` mode, the implementation MUST evaluate `ErrCond` and `NullCond` in left-to-right predicate order and insert runtime checks enforcing the implications above immediately after the foreign call returns. Each inserted check is `ContractCheck(P, ForeignPost, s, ρ_foreign_post)`. A failed runtime check triggers a panic with payload `ContractViolation(ForeignPost, P, s)` at the call site.
+For foreign postconditions, in `#dynamic` mode, the implementation MUST evaluate `ErrCond` and `NullCond` in left-to-right predicate order and insert runtime checks enforcing the implications above immediately after the foreign call returns. Each inserted check is `ContractCheck(P, ForeignPost, s, ρ_foreign_post)`. A failed runtime check triggers a panic with payload `ContractViolation(ForeignPost, P, s)` at the call site.
 
 ### 23.6.6 Lowering
 
-`[[dynamic]]` lowers foreign contracts by inserting `ContractCheck` before the foreign call for `ForeignPre` and after the foreign call for `ForeignPost`. `[[static]]` introduces no runtime checks.
+`#dynamic` lowers foreign contracts by inserting `ContractCheck` before the foreign call for `ForeignPre` and after the foreign call for `ForeignPost`. `#static` introduces no runtime checks.
 
 ### 23.6.7 Diagnostics
 

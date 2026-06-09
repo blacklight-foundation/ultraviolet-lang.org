@@ -2,16 +2,16 @@
 title: "6.1 Authority Model"
 description: "6.1 Authority Model from 6. Abstract Machine, Objects, Responsibility, and Authority of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "abstract-machine-objects-responsibility-and-authority"
 specSection: "61-authority-model"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -122,7 +122,7 @@ A conforming implementation MAY apply any transformation whose executions preser
 - the same observable-event trace at every sequence point;
 - the same relative order of drop actions required by `CleanupScope`, `Unwind`, and `Destroy`;
 - the same relative order of capability-mediated host effects and FFI-boundary effects induced by the source semantics;
-- the same panic, non-panic, and abort outcomes, including the same `[[unwind]]` boundary behavior;
+- the same panic, non-panic, and abort outcomes, including the same `#unwind` boundary behavior;
 - the same key-acquisition, key-release, and ordered-commit behavior required by Chapter `19`;
 - the same permission, provenance, and responsibility facts required by Chapters `6`, `10`, `18`, `23`, and `24`.
 

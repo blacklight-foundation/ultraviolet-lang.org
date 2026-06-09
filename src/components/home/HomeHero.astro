@@ -1,0 +1,51 @@
+---
+import AnnotatedCode from '../AnnotatedCode.astro';
+import CommandCopy from '../CommandCopy.astro';
+import { heroExample } from '../../data/homeContent';
+---
+
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <p class="eyebrow">Public alpha / Blacklight Foundation</p>
+      <h1>Ultraviolet</h1>
+      <p class="hero-lede">
+        A high-visibility, general-purpose language for humans and AI.
+      </p>
+      <div class="hero-actions">
+        <a class="button primary" href="/docs/quickstart/">Get Started</a>
+        <a class="button secondary" href="https://github.com/blacklight-foundation/ultraviolet" target="_blank" rel="noopener noreferrer">Open GitHub</a>
+      </div>
+      <div class="hero-install">
+        <div class="install-command-list">
+          <div class="install-command-row">
+            <span class="install-platform">Linux x86_64 / macOS (Apple Silicon)</span>
+            <CommandCopy command="curl -fsSL https://ultraviolet-lang.org/install | sh" />
+          </div>
+          <div class="install-command-row">
+            <span class="install-platform">Windows x86_64</span>
+            <CommandCopy command='powershell -c "irm https://ultraviolet-lang.org/install.ps1 | iex"' />
+          </div>
+        </div>
+        <p class="hero-install-note">
+          Installs the latest packaged alpha and verifies SHA-256 checksums.
+          Prefer manual downloads? Get archives from
+          <a href="https://github.com/blacklight-foundation/ultraviolet/releases" target="_blank" rel="noopener noreferrer">GitHub releases</a>
+          or <a href="/docs/build-the-compiler/">build from source</a>.
+        </p>
+      </div>
+    </div>
+
+    <div class="hero-code-panel" aria-label="Ultraviolet example: composed profile load">
+      <div class="code-panel-head">
+        <span>Profile.uv</span>
+        <span>{heroExample.title}</span>
+      </div>
+      <AnnotatedCode lines={heroExample.exampleLines} wrapClass="hero-code-wrap" codeClass="hero-code" />
+      <p class="hero-code-caption">
+        Hover any underlined construct for what it guarantees, or
+        <a href="#language-features">explore more examples below</a>.
+      </p>
+    </div>
+  </div>
+</section>

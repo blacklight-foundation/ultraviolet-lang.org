@@ -1,0 +1,50 @@
+---
+interface Props {
+  command: string;
+  label?: string;
+}
+
+const { command, label = 'Copy command' } = Astro.props;
+---
+
+<div class="command-strip">
+  <code>{command}</code>
+  <button
+    type="button"
+    class="command-copy-button"
+    data-copy-command={command}
+    aria-label={label}
+    aria-live="polite"
+  >Copy</button>
+</div>
+
+<script is:inline>
+  (() => {
+    if (window.__commandCopyBound) return;
+    window.__commandCopyBound = true;
+
+    document.addEventListener('click', async (event) => {
+      const target = event.target instanceof Element
+        ? event.target.closest('[data-copy-command]')
+        : null;
+      if (!target) return;
+
+      const command = target.getAttribute('data-copy-command') || '';
+      const restore = () => {
+        target.textContent = 'Copy';
+        target.classList.remove('is-copied', 'is-failed');
+      };
+
+      try {
+        await navigator.clipboard.writeText(command);
+        target.textContent = 'Copied';
+        target.classList.add('is-copied');
+      } catch {
+        target.textContent = 'Select and copy manually';
+        target.classList.add('is-failed');
+      }
+
+      window.setTimeout(restore, 2000);
+    });
+  })();
+</script>

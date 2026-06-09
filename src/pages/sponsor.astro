@@ -9,24 +9,24 @@ import {
 } from '../data/funding';
 
 const trustSignals = [
-  'Public repo',
+  'Public repository',
   'Public roadmap',
   'Foundation stewardship',
-  'Public reporting',
+  'Transparent reporting',
 ];
 
 const fundedAreas = [
   {
-    title: 'Buildable public alpha',
-    body: 'Build hardening, first examples, smoke tests, and a clear build/check path.',
+    title: 'Robust Developer Tooling',
+    body: 'Compiler speed optimization, Language Server Protocol (LSP) IDE integration, packages management, and formatting check paths.',
   },
   {
-    title: 'Open LLM training corpus',
-    body: 'Canonical examples, constrained tasks, expected outputs, diagnostics cases, CPU/GPU examples, and review annotations.',
+    title: 'Core Language Safety',
+    body: 'Enforcing runtime sandboxing, static defaults, explicit capability verification, and responsibility-transfer checks.',
   },
   {
-    title: 'Sustained maintainer time',
-    body: 'Release engineering, documentation, examples, contributor support, and public updates.',
+    title: 'Sustained Maintainer Support',
+    body: 'Release engineering orchestration, diagnostics tutorials, developer advocacy, and public roadmap reporting.',
   },
 ];
 ---
@@ -37,7 +37,7 @@ const fundedAreas = [
       <p class="eyebrow">Public alpha support</p>
       <h1>Support Ultraviolet</h1>
       <p>
-        Recurring support and targeted funding for the Ultraviolet public alpha.
+        General recurring sponsorship and targeted milestone funding to build a safe, high-visibility compiler.
       </p>
       <div class="actions">
         <a class="button primary" href="#support-tiers">Support now</a>
@@ -49,16 +49,15 @@ const fundedAreas = [
     <section class="support-intro">
       <h2>Why support?</h2>
       <p>
-        Ultraviolet is currently in alpha. The language is designed for AI
-        agents to write performant, safe, auditable code, and for humans to spot
-        problems in contracts, modals, permissions, keys, concurrency, and
-        CPU/GPU execution directly in source.
+        Ultraviolet is built from the ground up for safe, high-performance programming.
+        By centering language design around explicit capabilities, sandboxed system APIs,
+        and compiler-verified responsibility transfers, Ultraviolet prevents safety bugs before they run,
+        making it perfect for humans and AI agents alike.
       </p>
       <p>
-        Public support helps Blacklight Foundation turn the current alpha
-        compiler and specification into a buildable public project with docs,
-        examples, CI, diagnostics, CPU/GPU language work, an open LLM training
-        corpus, and public release infrastructure.
+        Your support enables the Blacklight Foundation to maintain Ultraviolet as a public utility—keeping
+        the compiler toolchain, documentation, packaging infrastructure, and specification completely free,
+        open-source, and independent.
       </p>
       <div class="foundation-steward-card">
         <img
@@ -68,7 +67,7 @@ const fundedAreas = [
           alt="Blacklight Foundation"
         />
         <p>
-          Donations and sponsorship support Blacklight Foundation's public
+          Donations and sponsorships support Blacklight Foundation's public
           Ultraviolet work.
         </p>
       </div>
@@ -80,15 +79,20 @@ const fundedAreas = [
     <section id="support-tiers">
       <h2>Recurring support</h2>
       <p>
-        Choose a monthly support amount and complete payment through Stripe.
+        Support the project with a recurring monthly contribution through Stripe. General sponsorship funds ongoing maintenance, package hosting, and documentation.
       </p>
       <div class="support-amount-grid">
         {
           supportTiers.map((tier) => (
-            <a class="support-amount" href={tier.href} aria-label={tier.cta}>
+            <a class="support-amount" href={tier.href} target="_blank" rel="noopener noreferrer" aria-label={tier.cta}>
               <span>{tier.amount}</span>
               <strong>{tier.title}</strong>
               <small>{tier.description}</small>
+              <ul class="tier-benefits-list">
+                {tier.benefits.map((b) => (
+                  <li>{b}</li>
+                ))}
+              </ul>
             </a>
           ))
         }
@@ -107,7 +111,7 @@ const fundedAreas = [
           contribution.
         </p>
       </div>
-      <a class="button primary" href={oneTimeDonation.href}>
+      <a class="button primary" href={oneTimeDonation.href} target="_blank" rel="noopener noreferrer">
         {oneTimeDonation.cta}
       </a>
     </section>
@@ -148,8 +152,8 @@ const fundedAreas = [
                 ))}
               </ul>
               <div class="actions">
-                <a class="button ghost" href={fund.href}>
-                  {fund.cta}
+                <a class="button ghost" href={fund.payLink} target="_blank" rel="noopener noreferrer">
+                  Sponsor this goal
                 </a>
               </div>
             </section>

@@ -2,16 +2,16 @@
 title: "15.2 Methods and Receivers"
 description: "15.2 Methods and Receivers from 15. Procedures and Contracts of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "procedures-and-contracts"
 specSection: "152-methods-and-receivers"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -148,9 +148,9 @@ $$
 $$
 \begin{array}{l}
 \mathsf{MethodDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{override},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{receiver},\ \mathsf{params},\ \mathsf{return}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle  \\[0.16em]
-\mathsf{Receiver}\ \in \ \{\operatorname{ReceiverShorthand}(\mathsf{perm}),\ \operatorname{ReceiverExplicit}(\mathsf{mode}_{\mathsf{opt}},\ \mathsf{type})\} \\[0.16em]
+\mathsf{Receiver}\ \in \ \{\operatorname{ReceiverShorthand}(\mathsf{perm}),\ \operatorname{ReceiverExplicit}(\mathsf{mode},\ \mathsf{type})\} \\[0.16em]
 \mathsf{perm}\ \in \ \{\texttt{const},\ \texttt{unique},\ \texttt{shared}\} \\[0.16em]
-\mathsf{mode}_{\mathsf{opt}}\ \in \ \{\texttt{move},\ \bot \}
+\mathsf{mode}\ \in \ \{\texttt{move},\ \bot \}
 \end{array}
 $$
 
@@ -171,14 +171,14 @@ $$
 \operatorname{RecvType}(T,\ \operatorname{ReceiverShorthand}(\texttt{const}))\ =\ \operatorname{TypePerm}(\texttt{const},\ T) \\[0.16em]
 \operatorname{RecvType}(T,\ \operatorname{ReceiverShorthand}(\texttt{unique}))\ =\ \operatorname{TypePerm}(\texttt{unique},\ T) \\[0.16em]
 \operatorname{RecvType}(T,\ \operatorname{ReceiverShorthand}(\texttt{shared}))\ =\ \operatorname{TypePerm}(\texttt{shared},\ T) \\[0.16em]
-\operatorname{RecvType}(T,\ \operatorname{ReceiverExplicit}(\mathsf{mode}_{\mathsf{opt}},\ \mathsf{ty}))\ =\ \operatorname{SubstSelf}(T,\ \mathsf{ty})
+\operatorname{RecvType}(T,\ \operatorname{ReceiverExplicit}(\mathsf{mode},\ \mathsf{ty}))\ =\ \operatorname{SubstSelf}(T,\ \mathsf{ty})
 \end{array}
 $$
 
 $$
 \begin{array}{l}
 \operatorname{RecvMode}(\operatorname{ReceiverShorthand}(\_))\ =\ \bot  \\[0.16em]
-\operatorname{RecvMode}(\operatorname{ReceiverExplicit}(\mathsf{mode}_{\mathsf{opt}},\ \_))\ =\ \mathsf{mode}_{\mathsf{opt}}
+\operatorname{RecvMode}(\operatorname{ReceiverExplicit}(\mathsf{mode},\ \_))\ =\ \mathsf{mode}
 \end{array}
 $$
 
@@ -208,7 +208,7 @@ SelfType(R, ty)
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ReceiverExplicit}(\mathsf{mode}_{\mathsf{opt}},\ \mathsf{ty})\ :\ \operatorname{Recv}(R,\ \operatorname{PermOf}(\mathsf{ty}),\ \mathsf{mode}_{\mathsf{opt}})
+\Gamma \ \vdash \ \operatorname{ReceiverExplicit}(\mathsf{mode},\ \mathsf{ty})\ :\ \operatorname{Recv}(R,\ \operatorname{PermOf}(\mathsf{ty}),\ \mathsf{mode})
 \end{array}
 $$
 
@@ -218,7 +218,7 @@ $$
 \begin{array}{l}
 \lnot \ \operatorname{SelfType}(R,\ \mathsf{ty}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ReceiverExplicit}(\mathsf{mode}_{\mathsf{opt}},\ \mathsf{ty})\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{ReceiverExplicit}(\mathsf{mode},\ \mathsf{ty})\ \Uparrow 
 \end{array}
 $$
 

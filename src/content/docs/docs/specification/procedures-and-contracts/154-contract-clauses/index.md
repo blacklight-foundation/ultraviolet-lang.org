@@ -2,16 +2,16 @@
 title: "15.4 Contract Clauses"
 description: "15.4 Contract Clauses from 15. Procedures and Contracts of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "procedures-and-contracts"
 specSection: "154-contract-clauses"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -25,9 +25,9 @@ generated: true
 
 ```text
 contract_clause    ::= "|:" contract_body
-contract_body      ::= precondition_expr
-                     | precondition_expr "=>" postcondition_expr
-                     | "=>" postcondition_expr
+contract_body      ::= precondition_expr "|=" postcondition_expr
+                     | "|=" postcondition_expr
+                     | precondition_expr
 precondition_expr  ::= predicate_expr
 postcondition_expr ::= predicate_expr
 ```
@@ -60,9 +60,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"=>"})\quad \Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{post}) \\[0.16em]
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"|="})\quad \Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{post}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParseContractBody}(P)\ \Downarrow \ (P_{1},\ \langle \bot ,\ \mathsf{post}\rangle )
+\Gamma \ \vdash \ \operatorname{ParseContractBody}(P)\ \Downarrow \ (P_{1},\ \langle \top ,\ \mathsf{post}\rangle )
 \end{array}
 $$
 
@@ -70,7 +70,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(P)\ \Downarrow \ (P_{1},\ \mathsf{pre})\quad \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"=>"})\quad \Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{post}) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(P)\ \Downarrow \ (P_{1},\ \mathsf{pre})\quad \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"|="})\quad \Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{post}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseContractBody}(P)\ \Downarrow \ (P_{2},\ \langle \mathsf{pre},\ \mathsf{post}\rangle )
 \end{array}
@@ -80,7 +80,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(P)\ \Downarrow \ (P_{1},\ \mathsf{pre})\quad \lnot \ \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"=>"}) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParsePredicateExpr}(P)\ \Downarrow \ (P_{1},\ \mathsf{pre})\quad \lnot \ \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"|="}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ParseContractBody}(P)\ \Downarrow \ (P_{1},\ \langle \mathsf{pre},\ \bot \rangle )
 \end{array}
@@ -104,7 +104,7 @@ $$
 \Gamma_{\mathsf{pre}} \ \vdash \ P_{\mathsf{pre}}\ :\ \texttt{bool}\quad \operatorname{pure}(P_{\mathsf{pre}}) \\[0.16em]
 \Gamma_{\mathsf{post}} \ \vdash \ P_{\mathsf{post}}\ :\ \texttt{bool}\quad \operatorname{pure}(P_{\mathsf{post}}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \texttt{|:}\ P_{\mathsf{pre}}\ \Rightarrow \ P_{\mathsf{post}}\ :\ \mathsf{WF}
+\Gamma \ \vdash \ \texttt{|:}\ P_{\mathsf{pre}}\ \texttt{|=}\ P_{\mathsf{post}}\ :\ \mathsf{WF}
 \end{array}
 $$
 
@@ -346,7 +346,7 @@ The following forms are never pure: assignment expressions, mutable method calls
 
 **Precondition Evaluation Context (Γ_pre)** includes the receiver binding (if present) and all procedure parameters at entry state. It excludes `@result`, `@entry`, module-scope bindings, enclosing locals, and body-local bindings.
 
-**Postcondition Evaluation Context (Γ_post)** includes the receiver, all procedure parameters, `@result`, and `@entry`. Mutable parameters and mutable receivers denote post-state values on the right of `=>`, while `@entry(...)` denotes entry-state values.
+**Postcondition Evaluation Context (Γ_post)** includes the receiver, all procedure parameters, `@result`, and `@entry`. Mutable parameters and mutable receivers denote post-state values on the right of `|=`, while `@entry(...)` denotes entry-state values.
 
 ### 15.4.5 Dynamic Semantics
 

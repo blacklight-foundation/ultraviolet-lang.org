@@ -2,16 +2,16 @@
 title: "22.2 Compile-Time Capabilities"
 description: "22.2 Compile-Time Capabilities from 22. Compile-Time Execution and Metaprogramming of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "compile-time-execution-and-metaprogramming"
 specSection: "222-compile-time-capabilities"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -23,7 +23,7 @@ generated: true
 
 ### 22.2.1 Syntax
 
-This section introduces no additional surface syntax beyond `[[emit]]`, `[[files]]`, and the built-in identifiers available in compile-time contexts.
+This section introduces no additional surface syntax beyond `#emit`, `#files`, and the built-in identifiers available in compile-time contexts.
 
 ### 22.2.2 Parsing
 
@@ -60,8 +60,8 @@ $$
 \begin{array}{l}
 \operatorname{HasCtCap}(\mathsf{node},\ \texttt{Introspect})\ \Leftrightarrow \ \mathsf{node}\ \mathsf{executes}\ \mathsf{in}\ \mathsf{Phase}\ 2 \\[0.16em]
 \operatorname{HasCtCap}(\mathsf{node},\ \texttt{ComptimeDiagnostics})\ \Leftrightarrow \ \mathsf{node}\ \mathsf{executes}\ \mathsf{in}\ \mathsf{Phase}\ 2 \\[0.16em]
-\operatorname{HasCtCap}(\mathsf{node},\ \texttt{TypeEmitter})\ \Leftrightarrow \ \mathsf{node}\ \mathsf{executes}\ \mathsf{in}\ \mathsf{Phase}\ 2\ \land \ (\texttt{[[emit]]}\ \mathsf{applies}\ \mathsf{to}\ \mathsf{node}\ \lor \ \mathsf{node}\ \mathsf{is}\ a\ \mathsf{derive}\ \mathsf{target}\ \mathsf{body}) \\[0.16em]
-\operatorname{HasCtCap}(\mathsf{node},\ \texttt{ProjectFiles})\ \Leftrightarrow \ \mathsf{node}\ \mathsf{executes}\ \mathsf{in}\ \mathsf{Phase}\ 2\ \land \ \texttt{[[files]]}\ \mathsf{applies}\ \mathsf{to}\ \mathsf{node}
+\operatorname{HasCtCap}(\mathsf{node},\ \texttt{TypeEmitter})\ \Leftrightarrow \ \mathsf{node}\ \mathsf{executes}\ \mathsf{in}\ \mathsf{Phase}\ 2\ \land \ (\texttt{\#emit}\ \mathsf{applies}\ \mathsf{to}\ \mathsf{node}\ \lor \ \mathsf{node}\ \mathsf{is}\ a\ \mathsf{derive}\ \mathsf{target}\ \mathsf{body}) \\[0.16em]
+\operatorname{HasCtCap}(\mathsf{node},\ \texttt{ProjectFiles})\ \Leftrightarrow \ \mathsf{node}\ \mathsf{executes}\ \mathsf{in}\ \mathsf{Phase}\ 2\ \land \ \texttt{\#files}\ \mathsf{applies}\ \mathsf{to}\ \mathsf{node}
 \end{array}
 $$
 
@@ -156,10 +156,10 @@ $$
 `Introspect` and `ComptimeDiagnostics` are available in every compile-time context.
 
 `TypeEmitter` is available only:
-- inside a `comptime` form annotated with `[[emit]]`
+- inside a `comptime` form annotated with `#emit`
 - inside the body of a derive target declaration
 
-`ProjectFiles` is available only inside a `comptime` form annotated with `[[files]]`.
+`ProjectFiles` is available only inside a `comptime` form annotated with `#files`.
 
 $$
 \operatorname{CtCapBindings}(\mathsf{node})\ =\ [\langle \texttt{introspect},\ \operatorname{TypePath}([\texttt{"Introspect"}])\rangle ,\ \langle \texttt{diagnostics},\ \operatorname{TypePath}([\texttt{"ComptimeDiagnostics"}])\rangle ]\ \mathbin{++} \ ([\langle \texttt{emitter},\ \operatorname{TypePath}([\texttt{"TypeEmitter"}])\rangle ]\ \mathsf{if}\ \operatorname{HasCtCap}(\mathsf{node},\ \texttt{TypeEmitter}),\ \mathsf{else}\ [])\ \mathbin{++} \ ([\langle \texttt{files},\ \operatorname{TypePath}([\texttt{"ProjectFiles"}])\rangle ]\ \mathsf{if}\ \operatorname{HasCtCap}(\mathsf{node},\ \texttt{ProjectFiles}),\ \mathsf{else}\ [])

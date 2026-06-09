@@ -2,16 +2,16 @@
 title: "15.5 Preconditions"
 description: "15.5 Preconditions from 15. Procedures and Contracts of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "procedures-and-contracts"
 specSection: "155-preconditions"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -23,7 +23,7 @@ generated: true
 
 ### 15.5.1 Syntax
 
-The precondition is the expression to the left of `=>` in a contract clause, or the entire contract expression when `=>` is absent.
+The precondition is the expression to the left of `|=` in a contract clause, or the entire contract expression when `|=` is absent.
 
 ### 15.5.2 Parsing
 
@@ -34,8 +34,8 @@ Preconditions are parsed as part of `ParseContractBody` in §15.4.2.
 $$
 \begin{array}{l}
 \operatorname{PreconditionOf}(\mathsf{contract}_{\mathsf{opt}})\ =\ \texttt{true}\quad \mathsf{if}\ \mathsf{contract}_{\mathsf{opt}}\ =\ \bot  \\[0.16em]
-\operatorname{PreconditionOf}(\langle \mathsf{pre},\ \mathsf{post}\rangle )\ =\ \texttt{true}\quad \mathsf{if}\ \mathsf{pre}\ =\ \bot  \\[0.16em]
-\operatorname{PreconditionOf}(\langle \mathsf{pre},\ \mathsf{post}\rangle )\ =\ \mathsf{pre}\quad \mathsf{if}\ \mathsf{pre}\ \ne \ \bot 
+\operatorname{PreconditionOf}(\langle \mathsf{pre},\ \mathsf{post}\rangle )\ =\ \texttt{true}\quad \mathsf{if}\ \mathsf{pre}\ =\ \top  \\[0.16em]
+\operatorname{PreconditionOf}(\langle \mathsf{pre},\ \mathsf{post}\rangle )\ =\ \mathsf{pre}\quad \mathsf{if}\ \mathsf{pre}\ \ne \ \top 
 \end{array}
 $$
 
@@ -61,8 +61,8 @@ Elision rules:
 | Contract Form      | Precondition |
 | ------------------ | ------------ |
 | `                  | : P`         | `P`    |
-| `                  | : P => Q`    | `P`    |
-| `                  | : => Q`      | `true` |
+| `                  | : P |= Q`    | `P`    |
+| `                  | : |= Q`      | `true` |
 | no contract clause | `true`       |
 
 The caller is responsible for satisfying the precondition.

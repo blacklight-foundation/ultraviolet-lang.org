@@ -2,16 +2,16 @@
 title: "19.5 Speculative Execution"
 description: "19.5 Speculative Execution from 19. Key System of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "key-system"
 specSection: "195-speculative-execution"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,16 +24,16 @@ generated: true
 ### 19.5.1 Syntax
 
 ```text
-speculative_block ::= "#" key_path_list "speculative" "write" block_expr
+speculative_block ::= "%speculative" "write" key_path_list block_expr
 ```
 
 ### 19.5.2 Parsing
 
-Speculative blocks use the key-block parser in §19.2.2 together with `Parse-KeyBlockMod-Speculative` and `Parse-KeyMode-Write`.
+Speculative blocks use the key-block parser in §19.2.2 together with `Parse-KeyBlockHead-SpeculativeWrite`.
 
 ### 19.5.3 AST Representation / Form
 
-Speculative execution is represented by `KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span)` with `Speculative ∈ mods`.
+Speculative execution is represented by `KeyBlockStmt(attrs_opt, SpeculativeWrite, paths, Write, options, body, span)`.
 
 $$
 \mathsf{ReadSet}\ =\ \wp (\mathsf{Path}\ \times \ \mathsf{Value})
@@ -64,7 +64,7 @@ $$
 
 $$
 \begin{array}{l}
-\#P\ \texttt{speculative}\ M\ \{B\}\quad M\ \ne \ \texttt{write} \\[0.16em]
+\texttt{\%speculative}\ M\ P\ \{B\}\quad M\ \ne \ \texttt{write} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \mathsf{Reject}
 \end{array}
@@ -74,7 +74,7 @@ $$
 
 $$
 \begin{array}{l}
-\#P\ \texttt{speculative write}\ \{B\}\quad \operatorname{Writes}(B)\ \nsubseteq \ \operatorname{CoveredPaths}(P) \\[0.16em]
+\texttt{\%speculative write}\ P\ \{B\}\quad \operatorname{Writes}(B)\ \nsubseteq \ \operatorname{CoveredPaths}(P) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \mathsf{Reject}
 \end{array}
@@ -102,7 +102,7 @@ Prohibited operations:
 
 $$
 \begin{array}{l}
-\#P\ \texttt{speculative write}\ \{B\}\quad \#Q\ \_\ \{\ldots \}\ \in \ \operatorname{Subexpressions}(B) \\[0.16em]
+\texttt{\%speculative write}\ P\ \{B\}\quad \operatorname{key_block_stmt}(Q,\ \ldots )\ \in \ \operatorname{Subexpressions}(B) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \mathsf{Reject}
 \end{array}
@@ -112,9 +112,9 @@ $$
 
 $$
 \begin{array}{l}
-\#P\ \texttt{speculative write}\ \{B\}\quad \exists \ c\ \in \ \operatorname{Subexpressions}(B).\ \operatorname{IsCallLike}(c)\ \land \ \lnot (\Gamma \ \vdash \ c\ \mathsf{pure})\quad c_{\mathsf{err}}\ =\ \operatorname{Code}(K-\mathsf{Spec}-\mathsf{No}-\mathsf{Impure}-\mathsf{Call}) \\[0.16em]
+\texttt{\%speculative write}\ P\ \{B\}\quad \exists \ c\ \in \ \operatorname{Subexpressions}(B).\ \operatorname{IsCallLike}(c)\ \land \ \lnot (\Gamma \ \vdash \ c\ \mathsf{pure})\quad c_{\mathsf{err}}\ =\ \operatorname{Code}(K-\mathsf{Spec}-\mathsf{No}-\mathsf{Impure}-\mathsf{Call}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-G\ \vdash \ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ B,\ \mathsf{span})\ \Uparrow \ c_{\mathsf{err}}
+G\ \vdash \ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ B,\ \mathsf{span})\ \Uparrow \ c_{\mathsf{err}}
 \end{array}
 $$
 
@@ -122,7 +122,7 @@ $$
 
 $$
 \begin{array}{l}
-\#P\ \texttt{speculative write}\ \{B\}\quad \exists \ x\ \in \ \operatorname{Subexpressions}(B).\ (\operatorname{IsMemoryOrderAnnotation}(x)\ \lor \ \operatorname{IsFenceExpr}(x)) \\[0.16em]
+\texttt{\%speculative write}\ P\ \{B\}\quad \exists \ x\ \in \ \operatorname{Subexpressions}(B).\ (\operatorname{IsMemoryOrderAnnotation}(x)\ \lor \ \operatorname{IsFenceExpr}(x)) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \mathsf{Reject}
 \end{array}
@@ -132,9 +132,9 @@ $$
 
 $$
 \begin{array}{l}
-\#P\ \texttt{speculative write}\ \{B\}\quad \operatorname{WaitExpr}(\_)\ \in \ \operatorname{Subexpressions}(B)\quad c\ =\ \operatorname{Code}(K-\mathsf{Spec}-\mathsf{No}-\mathsf{Wait}) \\[0.16em]
+\texttt{\%speculative write}\ P\ \{B\}\quad \operatorname{WaitExpr}(\_)\ \in \ \operatorname{Subexpressions}(B)\quad c\ =\ \operatorname{Code}(K-\mathsf{Spec}-\mathsf{No}-\mathsf{Wait}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ B,\ \mathsf{span})\ \Uparrow \ c
+\Gamma \ \vdash \ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ B,\ \mathsf{span})\ \Uparrow \ c
 \end{array}
 $$
 
@@ -142,45 +142,38 @@ $$
 
 $$
 \begin{array}{l}
-\#P\ \texttt{speculative write}\ \{B\}\quad \operatorname{DeferStmt}(\_)\ \in \ \operatorname{SubStatements}(B)\quad c\ =\ \operatorname{Code}(K-\mathsf{Spec}-\mathsf{No}-\mathsf{Defer}) \\[0.16em]
+\texttt{\%speculative write}\ P\ \{B\}\quad \operatorname{DeferStmt}(\_)\ \in \ \operatorname{SubStatements}(B)\quad c\ =\ \operatorname{Code}(K-\mathsf{Spec}-\mathsf{No}-\mathsf{Defer}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ B,\ \mathsf{span})\ \Uparrow \ c
+\Gamma \ \vdash \ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ B,\ \mathsf{span})\ \Uparrow \ c
 \end{array}
 $$
 
 **(K-Spec-No-Release)**
-
-$$
-\begin{array}{l}
-\mathsf{Speculative}\ \in \ \mathsf{mods}\quad \mathsf{Release}\ \in \ \mathsf{mods}\quad c\ =\ \operatorname{Code}(K-\mathsf{Spec}-\mathsf{No}-\mathsf{Release}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span})\ \Uparrow \ c
-\end{array}
-$$
+No concrete `key_block_stmt` can have both `SpeculativeWrite` and `Release` kind. Source that attempts to combine `%speculative` and `%release` is rejected during parsing.
 
 ### 19.5.5 Dynamic Semantics
 
 **Entry Rule**
 
 **(ExecSigma-KeyBlock-Speculative)**
+kind = SpeculativeWrite    retries = 0
 
 $$
 \begin{array}{l}
-\mathsf{Speculative}\ \in \ \mathsf{mods}\quad \mathsf{retries}\ =\ 0 \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\ \Downarrow \ \operatorname{SpecLoop}(\mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{retries},\ \sigma )
+\Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\ \Downarrow \ \operatorname{SpecLoop}(\mathsf{paths},\ \mathsf{mode},\ \mathsf{body},\ \mathsf{retries},\ \sigma )
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{SpecLoop}(\mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{retries},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\ \Leftrightarrow  \\[0.16em]
+\operatorname{SpecLoop}(\mathsf{paths},\ \mathsf{mode},\ \mathsf{body},\ \mathsf{retries},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\ \Leftrightarrow  \\[0.16em]
 \ R\ =\ \operatorname{SnapshotKeyedPaths}(\mathsf{paths},\ \sigma )\ \land  \\[0.16em]
 \ \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma )\ \Downarrow \ (\mathsf{out}_{\mathsf{body}},\ \sigma_{1} )\ \land  \\[0.16em]
 \ W\ =\ \operatorname{CollectWrites}(\sigma ,\ \sigma_{1} )\ \land  \\[0.16em]
 \ (\operatorname{SpeculativeCommit}(R,\ W)\ \Rightarrow \ \mathsf{out}\ =\ \mathsf{out}_{\mathsf{body}}\ \land \ \sigma '\ =\ \operatorname{ApplyWrites}(\sigma ,\ W))\ \land  \\[0.16em]
-\ (\lnot \operatorname{SpeculativeCommit}(R,\ W)\ \land \ \mathsf{retries}\ <\ \mathsf{MAX}_{\mathsf{SPECULATIVE}\_\mathsf{RETRIES}}\ \Rightarrow \ \operatorname{SpecLoop}(\mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{retries}\ +\ 1,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma '))\ \land  \\[0.16em]
-\ (\lnot \operatorname{SpeculativeCommit}(R,\ W)\ \land \ \mathsf{retries}\ =\ \mathsf{MAX}_{\mathsf{SPECULATIVE}\_\mathsf{RETRIES}}\ \Rightarrow \ \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods}\ \setminus \ \{\mathsf{Speculative}\},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma '))
+\ (\lnot \operatorname{SpeculativeCommit}(R,\ W)\ \land \ \mathsf{retries}\ <\ \mathsf{MAX}_{\mathsf{SPECULATIVE}\_\mathsf{RETRIES}}\ \Rightarrow \ \operatorname{SpecLoop}(\mathsf{paths},\ \mathsf{mode},\ \mathsf{body},\ \mathsf{retries}\ +\ 1,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma '))\ \land  \\[0.16em]
+\ (\lnot \operatorname{SpeculativeCommit}(R,\ W)\ \land \ \mathsf{retries}\ =\ \mathsf{MAX}_{\mathsf{SPECULATIVE}\_\mathsf{RETRIES}}\ \Rightarrow \ \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{Write},\ \mathsf{paths},\ \mathsf{Write},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma '))
 \end{array}
 $$
 
@@ -320,7 +313,7 @@ The snapshot step MUST be observationally equivalent to an atomic snapshot over 
 
 The state machine above is an abstract dynamic semantics.
 
-An implementation MAY conservatively realize `# ... speculative write { ... }` by directly selecting the fallback execution path, provided the resulting observable behavior is the same as some execution admitted by the abstract semantics. Such an implementation need not materialize successful speculative commit states at runtime.
+An implementation MAY conservatively realize `%speculative write ... { ... }` by directly selecting the fallback execution path, provided the resulting observable behavior is the same as some execution admitted by the abstract semantics. Such an implementation need not materialize successful speculative commit states at runtime.
 
 ### 19.5.6 Lowering
 
@@ -332,11 +325,11 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{Speculative}\ \in \ \mathsf{mods}\quad \Gamma \ \vdash \ \operatorname{LowerKeyPaths}(\mathsf{paths})\ \Downarrow \ \mathsf{Ps}\quad \mathsf{sorted}\ =\ \operatorname{CanonicalSort}(\mathsf{Ps})\quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
+\mathsf{kind}\ =\ \mathsf{SpeculativeWrite}\quad \Gamma \ \vdash \ \operatorname{LowerKeyPaths}(\mathsf{paths})\ \Downarrow \ \mathsf{Ps}\quad \mathsf{sorted}\ =\ \operatorname{CanonicalSort}(\mathsf{Ps})\quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
 \mathsf{IR}_{\mathsf{fallback}}\ =\ \operatorname{SeqIR}(\operatorname{SeqIRList}([\operatorname{SeqIR}(\operatorname{CheckConflict}(P_{i},\ \mathsf{Write}),\ \operatorname{AcquireKey}(P_{i},\ \mathsf{Write},\ \mathsf{CurrentScope}))\ \mid \ P_{i}\ \in \ \mathsf{sorted}]),\ \mathsf{IR}_{b},\ \operatorname{SeqIRList}([\operatorname{ReleaseKey}(P_{i},\ \mathsf{CurrentScope})\ \mid \ P_{i}\ \in \ \operatorname{Reverse}(\mathsf{sorted})])) \\[0.16em]
 \mathsf{IR}\ =\ \operatorname{SpecLoopIR}(\operatorname{SpecSnapshotIR}(\mathsf{sorted}),\ \mathsf{IR}_{b},\ \operatorname{SpecValidateIR}(\mathsf{sorted}),\ \operatorname{SpecCommitIR}(\mathsf{sorted}),\ \mathsf{SpecRetryIR},\ \operatorname{SpecFallbackIR}(\mathsf{IR}_{\mathsf{fallback}})) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}))\ \Downarrow \ \mathsf{IR}
+\Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}))\ \Downarrow \ \mathsf{IR}
 \end{array}
 $$
 
@@ -348,8 +341,8 @@ $$
 | `E-CON-0091` | Error    | Compile-time | Write to path outside keyed set in speculative block                   |
 | `E-CON-0092` | Error    | Compile-time | `wait` expression inside speculative block                             |
 | `E-CON-0093` | Error    | Compile-time | `defer` statement inside speculative block                             |
-| `E-CON-0094` | Error    | Compile-time | `speculative` combined with `release`                                  |
-| `E-CON-0095` | Error    | Compile-time | `speculative` without `write` modifier                                 |
+| `E-CON-0094` | Error    | Compile-time | Attempt to combine `%speculative` and `%release` key-block heads                                  |
+| `E-CON-0095` | Error    | Compile-time | `%speculative` not followed by `write`                                 |
 | `E-CON-0096` | Error    | Compile-time | Memory ordering annotation or fence operation inside speculative block |
 | `E-CON-0097` | Error    | Compile-time | Impure procedure call inside speculative block                         |
 | `W-CON-0020` | Warning  | Compile-time | Speculative block on large struct (may be inefficient)                 |

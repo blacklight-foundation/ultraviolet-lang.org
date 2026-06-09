@@ -2,16 +2,16 @@
 title: "19.3 Conflict Detection"
 description: "19.3 Conflict Detection from 19. Key System of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "key-system"
 specSection: "193-conflict-detection"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -252,9 +252,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{Ordered}\ \in \ \mathsf{mods}\quad \operatorname{OrderedComparable}([\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}]) \\[0.16em]
+\mathsf{options}.\mathsf{ordered}\quad \operatorname{OrderedComparable}([\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}]) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\operatorname{OrderedPathsOk}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}))
+\operatorname{OrderedPathsOk}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}))
 \end{array}
 $$
 
@@ -262,9 +262,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{Ordered}\ \in \ \mathsf{mods}\quad \lnot \ \operatorname{OrderedComparable}([\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}])\quad c\ =\ \operatorname{Code}(K-\mathsf{Ordered}-\mathsf{Base}-\mathsf{Err}) \\[0.16em]
+\mathsf{options}.\mathsf{ordered}\quad \lnot \ \operatorname{OrderedComparable}([\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}])\quad c\ =\ \operatorname{Code}(K-\mathsf{Ordered}-\mathsf{Base}-\mathsf{Err}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span})\ \Uparrow \ c
+\Gamma \ \vdash \ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span})\ \Uparrow \ c
 \end{array}
 $$
 
@@ -272,9 +272,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{Ordered}\ \in \ \mathsf{mods}\quad \operatorname{OrderedComparable}([\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}])\quad \operatorname{StaticallyComparableIndices}([\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}])\quad w\ =\ \operatorname{Code}(K-\mathsf{Ordered}-\mathsf{Redundant}-\mathsf{Warn}) \\[0.16em]
+\mathsf{options}.\mathsf{ordered}\quad \operatorname{OrderedComparable}([\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}])\quad \operatorname{StaticallyComparableIndices}([\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}])\quad w\ =\ \operatorname{Code}(K-\mathsf{Ordered}-\mathsf{Redundant}-\mathsf{Warn}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{WarnKeyBlock}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}))\ \Downarrow \ w
+\Gamma \ \vdash \ \operatorname{WarnKeyBlock}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}))\ \Downarrow \ w
 \end{array}
 $$
 
@@ -288,9 +288,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{LowerConflictChecks}(\mathsf{paths},\ \mathsf{mode}_{\mathsf{opt}})\ \Downarrow \ \mathsf{IR}\ \Leftrightarrow  \\[0.16em]
+\operatorname{LowerConflictChecks}(\mathsf{paths},\ \mathsf{mode})\ \Downarrow \ \mathsf{IR}\ \Leftrightarrow  \\[0.16em]
 \ \Gamma \ \vdash \ \operatorname{LowerKeyPaths}(\mathsf{paths})\ \Downarrow \ \mathsf{Ps}\ \land  \\[0.16em]
-\ \mathsf{mode}\ =\ \operatorname{ModeOf}(\mathsf{mode}_{\mathsf{opt}})\ \land  \\[0.16em]
 \ \mathsf{sorted}\ =\ \operatorname{CanonicalSort}(\mathsf{Ps})\ \land  \\[0.16em]
 \ \mathsf{IR}\ =\ \operatorname{SeqIRList}([\operatorname{CheckConflict}(P_{i},\ \mathsf{mode})\ \mid \ P_{i}\ \in \ \mathsf{sorted}])
 \end{array}
@@ -300,9 +299,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerConflictChecks}(\mathsf{paths},\ \mathsf{mode}_{\mathsf{opt}})\ \Downarrow \ \mathsf{IR} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerConflictChecks}(\mathsf{paths},\ \mathsf{mode})\ \Downarrow \ \mathsf{IR} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerKeyChecks}(\mathsf{paths},\ \mathsf{mode}_{\mathsf{opt}})\ \Downarrow \ \mathsf{IR}
+\Gamma \ \vdash \ \operatorname{LowerKeyChecks}(\mathsf{paths},\ \mathsf{mode})\ \Downarrow \ \mathsf{IR}
 \end{array}
 $$
 
@@ -312,8 +311,8 @@ $$
 | ------------ | -------- | ------------ | ----------------------------------------------------------------- |
 | `E-CON-0005` | Error    | Compile-time | Write access required but only Read available                     |
 | `E-CON-0010` | Error    | Compile-time | Potential conflict on dynamic indices (same statement)            |
-| `E-CON-0014` | Error    | Compile-time | `ordered` modifier on paths with different array bases            |
+| `E-CON-0014` | Error    | Compile-time | `ordered` key option on paths with different array bases            |
 | `E-CON-0060` | Error    | Compile-time | Read-then-write on same `shared` path without covering Write key  |
 | `W-CON-0004` | Warning  | Compile-time | Read-then-write may cause contention if parallelized              |
 | `W-CON-0006` | Warning  | Compile-time | Explicit read-then-write form used; compound assignment available |
-| `W-CON-0013` | Warning  | Compile-time | `ordered` modifier used with statically-comparable indices        |
+| `W-CON-0013` | Warning  | Compile-time | `ordered` key option used with statically-comparable indices        |

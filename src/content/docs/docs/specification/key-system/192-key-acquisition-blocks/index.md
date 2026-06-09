@@ -2,16 +2,16 @@
 title: "19.2 Key Acquisition Blocks"
 description: "19.2 Key Acquisition Blocks from 19. Key System of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "key-system"
 specSection: "192-key-acquisition-blocks"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,37 +24,41 @@ generated: true
 ### 19.2.1 Syntax
 
 ```text
-key_block_stmt ::= "#" key_path_list key_block_mod* key_mode_spec? block_expr
-key_path_list  ::= key_path_expr ("," key_path_expr)*
-key_block_mod  ::= "dynamic" | "speculative" | "ordered"
-key_mode_spec  ::= key_mode | release_modifier
+key_block_stmt ::= key_block_head key_path_list key_options? block_expr
+key_block_head ::= "%read"
+                 | "%write"
+                 | "%release" key_mode
+                 | "%speculative" "write"
 key_mode       ::= "read" | "write"
-release_modifier ::= "release" key_mode
+key_path_list  ::= key_path_expr ("," key_path_expr)*
+key_options    ::= "[" key_option ("," key_option)* ","? "]"
+key_option     ::= "ordered"
 ```
 
-`ordered` requests the same-base indexed-path checking defined in §19.3.4. Canonical path order remains the deterministic acquisition and conflict-resolution order for key blocks under §§19.2.5 and 19.3.5.
+The `ordered` option requests the same-base indexed-path checking defined in §19.3.4. It modifies acquisition over the whole parsed path set, not an individual path and not the head mode. Canonical path order remains the deterministic acquisition and conflict-resolution order for key blocks under §§19.2.5 and 19.3.5.
+
+`#dynamic` is an ordinary attribute applied to the key block statement. It is not part of `key_block_head`, `key_path_list`, or `key_options`.
 
 ### 19.2.2 Parsing
 
 Key-block parsing is defined by the following source rules:
 
+- `Parse-KeyBlockHead-Read`
+- `Parse-KeyBlockHead-Write`
+- `Parse-KeyBlockHead-Release`
+- `Parse-KeyBlockHead-SpeculativeWrite`
 - `Parse-KeyPathList-Cons`
 - `Parse-KeyPathListTail-End`
 - `Parse-KeyPathListTail-Comma`
-- `Parse-KeyBlockMod-Dynamic`
-- `Parse-KeyBlockMod-Ordered`
-- `Parse-KeyBlockMod-Speculative`
-- `Parse-KeyBlockMod-Release`
-- `Parse-KeyBlockModsOpt-None`
-- `Parse-KeyBlockModsOpt-Cons`
+- `Parse-KeyOptionsOpt-None`
+- `Parse-KeyOptionsOpt-Some`
+- `Parse-KeyOption-Ordered`
 - `Parse-KeyMode-Read`
 - `Parse-KeyMode-Write`
 - `Parse-KeyMode-Err`
-- `Parse-KeyModeOpt-None`
-- `Parse-KeyModeOpt-Some`
 - `Parse-KeyBlock-Stmt`
 
-`Parse-KeyBlockMod-Ordered` consumes the keyword `ordered` and contributes `Ordered` to the parsed modifier list. `Parse-KeyBlockMod-Release` consumes `release` followed by the required target mode.
+`Parse-KeyOption-Ordered` consumes `ordered` only inside the bracketed option list following the complete path list. `Parse-KeyBlockHead-Release` consumes `%release` followed by the required target mode. `Parse-KeyBlockHead-SpeculativeWrite` consumes `%speculative write`; any other token after `%speculative` is a syntax error.
 
 ### 19.2.3 AST Representation / Form
 
@@ -63,15 +67,11 @@ $$
 $$
 
 $$
-\mathsf{KeyModeOpt}\ \in \ \{\bot \}\ \cup \ \mathsf{KeyMode}
+\mathsf{KeyBlockKind}\ =\ \{\mathsf{Read},\ \mathsf{Write},\ \mathsf{Release},\ \mathsf{SpeculativeWrite}\}
 $$
 
 $$
-\mathsf{KeyBlockMod}\ =\ \{\mathsf{Dynamic},\ \mathsf{Speculative},\ \mathsf{Release},\ \mathsf{Ordered}\}
-$$
-
-$$
-\mathsf{KeyBlockMods}\ =\ [\mathsf{KeyBlockMod}]
+\mathsf{KeyBlockOptions}\ =\ \langle \mathsf{ordered}:\ \mathsf{bool}\rangle 
 $$
 
 $$
@@ -79,7 +79,7 @@ $$
 $$
 
 $$
-\mathsf{KeyBlockStmt}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}\rangle 
+\mathsf{KeyBlockStmt}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}\rangle 
 $$
 
 $$
@@ -111,9 +111,8 @@ Read < Write
 $$
 \begin{array}{l}
 \operatorname{ModeSufficient}(M_{\mathsf{held}},\ M_{\mathsf{required}})\ \Leftrightarrow \ M_{\mathsf{required}}\ \le \ M_{\mathsf{held}} \\[0.16em]
-\operatorname{BlockMode}(\operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \bot ,\ \_,\ \_))\ =\ \mathsf{Read} \\[0.16em]
-\operatorname{BlockMode}(\operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \mathsf{Read},\ \_,\ \_))\ =\ \mathsf{Read} \\[0.16em]
-\operatorname{BlockMode}(\operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \mathsf{Write},\ \_,\ \_))\ =\ \mathsf{Write}
+\operatorname{BlockMode}(\operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \mathsf{Read},\ \_,\ \_,\ \_))\ =\ \mathsf{Read} \\[0.16em]
+\operatorname{BlockMode}(\operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \mathsf{Write},\ \_,\ \_,\ \_))\ =\ \mathsf{Write}
 \end{array}
 $$
 
@@ -196,7 +195,7 @@ If `Covered(KeyPath(e), RequiredMode(e), Γ_keys)` holds, the access reuses the 
 
 Otherwise the ordinary access establishes an implicit acquisition as defined by **(Lower-KeyAccess-Uncovered)** in §19.1.6.
 
-Being outside an explicit `#` block does not by itself make an ordinary `shared` access invalid.
+Being outside an explicit key block does not by itself make an ordinary `shared` access invalid.
 
 **(K-Acquire-New)**
 
@@ -220,7 +219,7 @@ $$
 
 Subexpressions are evaluated left-to-right, depth-first. Key acquisition follows evaluation order.
 
-**Explicit `#` Blocks**
+**Explicit Key Blocks**
 
 **(K-Block-Acquire)**
 
@@ -300,8 +299,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode}_{\mathsf{opt}},\ \sigma )\ \Downarrow \ (\sigma ',\ \mathsf{keys})\ \Leftrightarrow  \\[0.16em]
-\ \mathsf{mode}\ =\ \operatorname{ModeOf}(\mathsf{mode}_{\mathsf{opt}})\ \land  \\[0.16em]
+\operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\sigma ',\ \mathsf{keys})\ \Leftrightarrow  \\[0.16em]
 \ \mathsf{keys}\ =\ \operatorname{CanonicalOrder}([\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}])\ \land  \\[0.16em]
 \ \forall \ k\ \in \ \mathsf{keys}.\ \operatorname{AcquireLock}(\sigma ,\ k,\ \mathsf{mode})\ \land  \\[0.16em]
 \ \sigma '\ =\ \sigma [\mathsf{held}_{\mathsf{keys}}\ :=\ \sigma .\mathsf{held}_{\mathsf{keys}}\ \cup \ \mathsf{keys}]
@@ -317,25 +315,13 @@ $$
 \end{array}
 $$
 
-$$
-\operatorname{ModeOf}(\bot )\ =\ \mathsf{Read}
-$$
-
-$$
-\operatorname{ModeOf}(\mathsf{Read})\ =\ \mathsf{Read}
-$$
-
-$$
-\operatorname{ModeOf}(\mathsf{Write})\ =\ \mathsf{Write}
-$$
-
 **(ExecSigma-KeyBlock)**
 
 $$
 \begin{array}{l}
-\mathsf{Speculative}\ \notin \ \mathsf{mods}\quad \mathsf{Release}\ \notin \ \mathsf{mods}\quad \Gamma \ \vdash \ \operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode}_{\mathsf{opt}},\ \sigma )\ \Downarrow \ (\sigma_{1} ,\ \mathsf{keys})\quad \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{keys},\ \sigma_{2} )\ \Downarrow \ \sigma_{3}  \\[0.16em]
+\mathsf{kind}\ \ne \ \mathsf{SpeculativeWrite}\quad \mathsf{kind}\ \ne \ \mathsf{Release}\quad \Gamma \ \vdash \ \operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\sigma_{1} ,\ \mathsf{keys})\quad \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{keys},\ \sigma_{2} )\ \Downarrow \ \sigma_{3}  \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\ \Downarrow \ (\operatorname{StmtOutOf}(\mathsf{out}),\ \sigma_{3} )
+\Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\ \Downarrow \ (\operatorname{StmtOutOf}(\mathsf{out}),\ \sigma_{3} )
 \end{array}
 $$
 
@@ -343,9 +329,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{Speculative}\ \notin \ \mathsf{mods}\quad \mathsf{Release}\ \notin \ \mathsf{mods}\quad \Gamma \ \vdash \ \operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode}_{\mathsf{opt}},\ \sigma )\ \Downarrow \ (\sigma_{1} ,\ \mathsf{keys})\quad \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{keys},\ \sigma_{2} )\ \Downarrow \ \sigma_{3}  \\[0.16em]
+\mathsf{kind}\ \ne \ \mathsf{SpeculativeWrite}\quad \mathsf{kind}\ \ne \ \mathsf{Release}\quad \Gamma \ \vdash \ \operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\sigma_{1} ,\ \mathsf{keys})\quad \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{keys},\ \sigma_{2} )\ \Downarrow \ \sigma_{3}  \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{3} )
+\Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{3} )
 \end{array}
 $$
 
@@ -353,9 +339,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{Speculative}\ \notin \ \mathsf{mods}\quad \Gamma \ \vdash \ \operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode}_{\mathsf{opt}},\ \sigma )\ \Downarrow \ (\sigma_{1} ,\ \mathsf{keys}) \\[0.16em]
+\mathsf{kind}\ \ne \ \mathsf{SpeculativeWrite}\quad \Gamma \ \vdash \ \operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\sigma_{1} ,\ \mathsf{keys}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Exec}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\rangle \ \to \ \langle \operatorname{KeyBody}(\mathsf{keys},\ \mathsf{body},\ \sigma_{1} )\rangle 
+\langle \operatorname{Exec}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\rangle \ \to \ \langle \operatorname{KeyBody}(\mathsf{keys},\ \mathsf{body},\ \sigma_{1} )\rangle 
 \end{array}
 $$
 
@@ -421,12 +407,12 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{Speculative}\ \notin \ \mathsf{mods}\quad \mathsf{Release}\ \notin \ \mathsf{mods}\quad \Gamma \ \vdash \ \operatorname{LowerKeyPaths}(\mathsf{paths})\ \Downarrow \ \mathsf{Ps}\quad \mathsf{mode}\ =\ \operatorname{ModeOf}(\mathsf{mode}_{\mathsf{opt}})\quad \mathsf{sorted}\ =\ \operatorname{CanonicalSort}(\mathsf{Ps})\quad S\ =\ \mathsf{CurrentScope} \\[0.16em]
+\mathsf{kind}\ \ne \ \mathsf{SpeculativeWrite}\quad \mathsf{kind}\ \ne \ \mathsf{Release}\quad \Gamma \ \vdash \ \operatorname{LowerKeyPaths}(\mathsf{paths})\ \Downarrow \ \mathsf{Ps}\quad \mathsf{sorted}\ =\ \operatorname{CanonicalSort}(\mathsf{Ps})\quad S\ =\ \mathsf{CurrentScope} \\[0.16em]
 \mathsf{IR}_{\mathsf{enter}}\ =\ \operatorname{SeqIRList}([\operatorname{SeqIR}(\operatorname{CheckConflict}(P_{i},\ \mathsf{mode}),\ \operatorname{AcquireKey}(P_{i},\ \mathsf{mode},\ S))\ \mid \ P_{i}\ \in \ \mathsf{sorted}]) \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
 \mathsf{IR}_{\mathsf{exit}}\ =\ \operatorname{SeqIRList}([\operatorname{ReleaseKey}(P_{i},\ S)\ \mid \ P_{i}\ \in \ \operatorname{Reverse}(\mathsf{sorted})]) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{\mathsf{enter}},\ \mathsf{IR}_{b},\ \mathsf{IR}_{\mathsf{exit}})
+\Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{\mathsf{enter}},\ \mathsf{IR}_{b},\ \mathsf{IR}_{\mathsf{exit}})
 \end{array}
 $$
 
@@ -449,9 +435,9 @@ Where a more specific Chapter 19 escape diagnostic applies, it takes precedence 
 | `E-CON-0001` | Error    | Compile-time | Access to `shared` path outside valid key context           |
 | `E-CON-0004` | Error    | Compile-time | Key escapes its defining scope                              |
 | `E-CON-0006` | Error    | Compile-time | Key acquisition in `defer` escapes to outer scope           |
-| `E-CON-0031` | Error    | Compile-time | `#` block path not in scope                                 |
-| `E-CON-0032` | Error    | Compile-time | `#` block path is not `shared`                              |
-| `E-CON-0070` | Error    | Compile-time | Write operation in `#` block without `write` modifier       |
+| `E-CON-0031` | Error    | Compile-time | Key block path not in scope                                 |
+| `E-CON-0032` | Error    | Compile-time | Key block path is not `shared`                              |
+| `E-CON-0070` | Error    | Compile-time | Write operation in `%read` key block       |
 | `E-CON-0085` | Error    | Compile-time | Escaping closure with `shared` capture lacks dependency set |
 | `E-CON-0086` | Error    | Compile-time | Escaping closure outlives captured local `shared` binding   |
 | `W-CON-0001` | Warning  | Compile-time | Fine-grained keys in tight loop (performance hint)          |

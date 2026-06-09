@@ -2,16 +2,16 @@
 title: "23.7 Boundary Unwinding"
 description: "23.7 Boundary Unwinding from 23. Foreign Function Interface of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "foreign-function-interface"
 specSection: "237-boundary-unwinding"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -23,7 +23,7 @@ generated: true
 
 ### 23.7.1 Syntax
 
-The only surface syntax owned by this section is `[[unwind(...)]],` defined in §23.4.1. This section introduces no additional concrete syntax.
+The only surface syntax owned by this section is `#unwind(...),` defined in §23.4.1. This section introduces no additional concrete syntax.
 
 ### 23.7.2 Parsing
 
@@ -31,7 +31,7 @@ This section introduces no additional parsing rules.
 
 ### 23.7.3 AST Representation / Form
 
-Boundary unwind policy is derived from the `[[unwind]]` attribute attached to a procedure declaration.
+Boundary unwind policy is derived from the `#unwind` attribute attached to a procedure declaration.
 
 $$
 \mathsf{UnwindModeValue}\ =\ \{\ \texttt{abort},\ \texttt{catch}\ \}
@@ -174,4 +174,4 @@ $$
 
 No additional named diagnostics are introduced here.
 
-`[[unwind]]` placement and argument-validation diagnostics are owned by §23.4.7.
+`#unwind` placement and argument-validation diagnostics are owned by §23.4.7.

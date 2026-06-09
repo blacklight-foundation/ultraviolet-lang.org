@@ -2,16 +2,16 @@
 title: "14.3 Classes"
 description: "14.3 Classes from 14. Abstraction and Polymorphism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "abstraction-and-polymorphism"
 specSection: "143-classes"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -276,14 +276,14 @@ $$
 \operatorname{RecvType}(T,\ \operatorname{ReceiverShorthand}(\texttt{const}))\ =\ \operatorname{TypePerm}(\texttt{const},\ T) \\[0.16em]
 \operatorname{RecvType}(T,\ \operatorname{ReceiverShorthand}(\texttt{unique}))\ =\ \operatorname{TypePerm}(\texttt{unique},\ T) \\[0.16em]
 \operatorname{RecvType}(T,\ \operatorname{ReceiverShorthand}(\texttt{shared}))\ =\ \operatorname{TypePerm}(\texttt{shared},\ T) \\[0.16em]
-\operatorname{RecvType}(T,\ \operatorname{ReceiverExplicit}(\mathsf{mode}_{\mathsf{opt}},\ \mathsf{ty}))\ =\ \operatorname{SubstSelf}(T,\ \mathsf{ty})
+\operatorname{RecvType}(T,\ \operatorname{ReceiverExplicit}(\mathsf{mode},\ \mathsf{ty}))\ =\ \operatorname{SubstSelf}(T,\ \mathsf{ty})
 \end{array}
 $$
 
 $$
 \begin{array}{l}
 \operatorname{RecvMode}(\operatorname{ReceiverShorthand}(\_))\ =\ \bot  \\[0.16em]
-\operatorname{RecvMode}(\operatorname{ReceiverExplicit}(\mathsf{mode}_{\mathsf{opt}},\ \_))\ =\ \mathsf{mode}_{\mathsf{opt}}
+\operatorname{RecvMode}(\operatorname{ReceiverExplicit}(\mathsf{mode},\ \_))\ =\ \mathsf{mode}
 \end{array}
 $$
 
@@ -469,7 +469,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \mathsf{params}_{\mathsf{gen}}\ =\ [P_{1},\ \ldots ,\ P_{n}]\quad \Gamma \ \vdash \ \langle P_{1};\ \ldots ;\ P_{n}\rangle \ \mathsf{wf}\quad \Gamma_{m} \ =\ \operatorname{BindTypeParams}(\Gamma ,\ \mathsf{params}_{\mathsf{gen}})\quad (r\ =\ \operatorname{ReceiverExplicit}(\mathsf{mode}_{\mathsf{opt}},\ \mathsf{ty})\ \Rightarrow \ \operatorname{SelfTypeClass}(\mathsf{ty}))\quad (r\ =\ \operatorname{ReceiverShorthand}(\_)\ \Rightarrow \ \mathsf{true})\quad \Gamma_{m} \ \vdash \ \operatorname{RecvType}(\mathsf{SelfVar},\ r)\ \mathsf{wf}\quad \mathsf{self}\ \notin \ \operatorname{ParamNames}(\mathsf{params})\quad \operatorname{Distinct}(\operatorname{ParamNames}(\mathsf{params}))\quad \forall \ \langle \_,\ \_,\ T_{i}\rangle \ \in \ \mathsf{params},\ \Gamma_{m} \ \vdash \ T_{i}\ \mathsf{wf}\quad (\mathsf{return}_{\mathsf{type}\_\mathsf{opt}}\ =\ \bot \ \lor \ \Gamma_{m} \ \vdash \ \mathsf{return}_{\mathsf{type}\_\mathsf{opt}}\ \mathsf{wf}) \\[0.16em]
+\mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \mathsf{params}_{\mathsf{gen}}\ =\ [P_{1},\ \ldots ,\ P_{n}]\quad \Gamma \ \vdash \ \langle P_{1};\ \ldots ;\ P_{n}\rangle \ \mathsf{wf}\quad \Gamma_{m} \ =\ \operatorname{BindTypeParams}(\Gamma ,\ \mathsf{params}_{\mathsf{gen}})\quad (r\ =\ \operatorname{ReceiverExplicit}(\mathsf{mode},\ \mathsf{ty})\ \Rightarrow \ \operatorname{SelfTypeClass}(\mathsf{ty}))\quad (r\ =\ \operatorname{ReceiverShorthand}(\_)\ \Rightarrow \ \mathsf{true})\quad \Gamma_{m} \ \vdash \ \operatorname{RecvType}(\mathsf{SelfVar},\ r)\ \mathsf{wf}\quad \mathsf{self}\ \notin \ \operatorname{ParamNames}(\mathsf{params})\quad \operatorname{Distinct}(\operatorname{ParamNames}(\mathsf{params}))\quad \forall \ \langle \_,\ \_,\ T_{i}\rangle \ \in \ \mathsf{params},\ \Gamma_{m} \ \vdash \ T_{i}\ \mathsf{wf}\quad (\mathsf{return}_{\mathsf{type}\_\mathsf{opt}}\ =\ \bot \ \lor \ \Gamma_{m} \ \vdash \ \mathsf{return}_{\mathsf{type}\_\mathsf{opt}}\ \mathsf{wf}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \langle \mathsf{ClassMethodDecl},\ \_,\ \_,\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ r,\ \mathsf{params},\ \mathsf{return}_{\mathsf{type}\_\mathsf{opt}},\ \_,\ \mathsf{body}_{\mathsf{opt}},\ \_,\ \_\rangle \ :\ \operatorname{ClassMethodOK}(\mathsf{Cl})
 \end{array}

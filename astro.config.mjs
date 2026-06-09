@@ -80,25 +80,12 @@ export default defineConfig({
             { label: 'Why Ultraviolet', slug: 'docs/why-ultraviolet' },
             { label: 'Quickstart', slug: 'docs/quickstart' },
             { label: 'First program', slug: 'docs/first-program' },
+            { label: 'Language tour', slug: 'docs/language-tour' },
             {
               label: 'Build the compiler',
               slug: 'docs/build-the-compiler',
             },
           ],
-        },
-        {
-          label: 'AI-written code review',
-          items: [
-            {
-              label: 'Review model',
-              slug: 'docs/ai-written-code-review',
-            },
-            { label: 'Language tour', slug: 'docs/language-tour' },
-          ],
-        },
-        {
-          label: 'Specification',
-          items: specificationSidebarItems,
         },
         {
           label: 'Modal programming',
@@ -166,9 +153,25 @@ export default defineConfig({
           ],
         },
         {
+          label: 'AI-written code review',
+          items: [
+            {
+              label: 'Review model',
+              slug: 'docs/ai-written-code-review',
+            },
+          ],
+        },
+        {
+          label: 'Specification',
+          collapsed: true,
+          items: specificationSidebarItems,
+        },
+        {
           label: 'Project',
           items: [
             { label: 'Roadmap', link: '/roadmap/' },
+            { label: 'Benchmarks', link: '/benchmarks/' },
+            { label: 'Community', link: '/community/' },
             { label: 'Support', link: '/sponsor/' },
             { label: 'Foundation', link: '/foundation/' },
           ],

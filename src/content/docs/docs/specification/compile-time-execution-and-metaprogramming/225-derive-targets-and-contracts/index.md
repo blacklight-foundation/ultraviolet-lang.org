@@ -2,16 +2,16 @@
 title: "22.5 Derive Targets and Contracts"
 description: "22.5 Derive Targets and Contracts from 22. Compile-Time Execution and Metaprogramming of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "compile-time-execution-and-metaprogramming"
 specSection: "225-derive-targets-and-contracts"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -37,9 +37,7 @@ $$
 \mathsf{DeriveParseJudg}\ =\ \{\mathsf{ParseDeriveAttr},\ \mathsf{ParseDeriveTargetList},\ \mathsf{ParseDeriveTargetDecl},\ \mathsf{ParseDeriveContractOpt},\ \mathsf{ParseDeriveClauseList},\ \mathsf{ParseDeriveClauseTail}\}
 $$
 
-$$
-\texttt{[[derive(... )]]}\ \mathsf{is}\ \mathsf{parsed}\ \mathsf{by}\ \mathsf{the}\ \mathsf{attribute}\ \mathsf{parser}\ \mathsf{in}\ \S 9.1.2;\ \mathsf{the}\ \texttt{derive}\ \mathsf{attribute}\ \mathsf{name}\ \mathsf{and}\ \mathsf{its}\ \mathsf{argument}\ \mathsf{list}\ \mathsf{are}\ \mathsf{interpreted}\ \mathsf{by}\ \mathsf{this}\ \mathsf{section}.
-$$
+`#derive(... )` is parsed by the attribute parser in §9.1.2; the `derive` attribute name and its argument list are interpreted by this section.
 
 **(Parse-DeriveTargetDecl)**
 
@@ -132,14 +130,15 @@ $$
 \end{array}
 $$
 
+DeriveRequest(ty_decl, name) exists when `#derive(name)` is attached to `ty_decl`.
+
 $$
 \begin{array}{l}
-\operatorname{DeriveRequest}(\mathsf{ty}_{\mathsf{decl}},\ \mathsf{name})\ \mathsf{exists}\ \mathsf{when}\ \texttt{[[derive(name)]]}\ \mathsf{is}\ \mathsf{attached}\ \mathsf{to}\ \texttt{ty\_decl}. \\[0.16em]
 \operatorname{DeriveAnnotated}(D)\ \Leftrightarrow \ \exists \ \mathsf{name}.\ \operatorname{DeriveRequest}(D,\ \mathsf{name}) \\[0.16em]
 \mathsf{DeriveExecJudg}\ =\ \{\mathsf{DeriveGraph},\ \mathsf{DeriveOrder},\ \mathsf{RunDeriveTarget},\ \mathsf{RunDeriveSet}\} \\[0.16em]
 \operatorname{DeriveEdge}(\mathsf{req}_{i},\ \mathsf{req}_{j})\ \Leftrightarrow \ \operatorname{DeriveReqs}(\mathsf{req}_{i}.\mathsf{target})\ \cap \ \operatorname{DeriveEmits}(\mathsf{req}_{j}.\mathsf{target})\ \ne \ \emptyset  \\[0.16em]
 \operatorname{DeriveGraph}(D)\ =\ \langle V,\ E\rangle \ \mathsf{where}\ V\ =\ [\mathsf{req}\ \mid \ \mathsf{req}\ =\ \operatorname{DeriveRequest}(D,\ \mathsf{name})]\ \mathsf{and}\ E\ =\ \{\langle v_{i},\ v_{j}\rangle \ \mid \ \operatorname{DeriveEdge}(v_{i},\ v_{j})\} \\[0.16em]
-\operatorname{DeriveOrder}(D)\ =\ \mathsf{order}\ \mathsf{iff}\ \operatorname{StableTopologicalOrder}(\operatorname{DeriveGraph}(D),\ [\mathsf{name}\ \mid \ \texttt{[[derive(name)]]}\ \mathsf{occurs}\ \mathsf{on}\ \texttt{D}\ \mathsf{in}\ \mathsf{source}\ \mathsf{order}])\ =\ \mathsf{order} \\[0.16em]
+\operatorname{DeriveOrder}(D)\ =\ \mathsf{order}\ \mathsf{iff}\ \operatorname{StableTopologicalOrder}(\operatorname{DeriveGraph}(D),\ [\mathsf{name}\ \mid \ \texttt{\#derive(name)}\ \mathsf{occurs}\ \mathsf{on}\ \texttt{D}\ \mathsf{in}\ \mathsf{source}\ \mathsf{order}])\ =\ \mathsf{order} \\[0.16em]
 \operatorname{StableTopologicalOrder}(\langle V,\ E\rangle ,\ \mathsf{seed})\ =\ \mathsf{order}\ \mathsf{iff}\ \texttt{order}\ \mathsf{is}\ a\ \mathsf{topological}\ \mathsf{ordering}\ \mathsf{of}\ \texttt{<V, E>}\ \mathsf{and}\ \mathsf{any}\ \mathsf{two}\ \mathsf{incomparable}\ \mathsf{vertices}\ \mathsf{preserve}\ \mathsf{their}\ \mathsf{relative}\ \mathsf{order}\ \mathsf{from}\ \texttt{seed}. \\[0.16em]
 \operatorname{TargetTypeOf}(D)\ =\ \operatorname{TypePath}(\operatorname{ItemPath}(D)) \\[0.16em]
 \operatorname{VisibleDeriveTarget}(\mathsf{name},\ \mathsf{site})\ =\ \mathsf{dt}\ \mathsf{iff}\ \texttt{dt}\ \mathsf{is}\ \mathsf{the}\ \mathsf{unique}\ \mathsf{visible}\ \texttt{DeriveTargetDecl(name, \_, \_, \_, \_)}\ \mathsf{at}\ \texttt{site}\ \mathsf{under}\ \mathsf{the}\ \mathsf{ordinary}\ \mathsf{item}-\mathsf{visibility}\ \mathsf{rules}. \\[0.16em]
@@ -149,11 +148,9 @@ $$
 
 ### 22.5.4 Static Semantics
 
-$$
-\texttt{[[derive(... )]]}\ \mathsf{is}\ \mathsf{valid}\ \mathsf{only}\ \mathsf{on}\ \texttt{record},\ \texttt{enum},\ \mathsf{and}\ \texttt{modal}\ \mathsf{declarations}.
-$$
+`#derive(... )` is valid only on `record`, `enum`, and `modal` declarations.
 
-Every derive target name in `[[derive(... )]]` MUST resolve to exactly one `derive target` declaration visible at the annotated declaration.
+Every derive target name in `#derive(... )` MUST resolve to exactly one `derive target` declaration visible at the annotated declaration.
 
 Within the body of a derive target declaration, the following bindings are available:
 - `target : Type`
@@ -167,7 +164,7 @@ For one annotated type declaration `D`, derive execution order is the topologica
 - vertices: all `DeriveRequest(D, name)`
 - edge `name_i -> name_j` when `DeriveReqs(name_i) ∩ DeriveEmits(name_j) ≠ ∅`
 
-If multiple derive targets are incomparable in that graph, source order in `[[derive(... )]]` is the tie-breaker.
+If multiple derive targets are incomparable in that graph, source order in `#derive(... )` is the tie-breaker.
 
 Before executing derive target `name` for type `D`, every class in `DeriveReqs(name)` MUST belong to `DeclaredImplNames(D)`.
 

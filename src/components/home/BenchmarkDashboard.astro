@@ -1,0 +1,198 @@
+---
+import type {
+  BenchmarkComparisonDataset,
+  BenchmarkComparisonResult,
+  BenchmarkMetricDefinition,
+  BenchmarkMetricId,
+} from '../../data/benchmarkData';
+
+interface Props {
+  metrics: BenchmarkComparisonDataset;
+}
+
+const { metrics: dataset } = Astro.props;
+
+const selectedTaskId = dataset.results[0]?.taskId ?? dataset.tasks[0]?.id ?? '';
+const selectedMetric = dataset.metricDefinitions[0];
+const selectedResults = dataset.results.filter((result) => result.taskId === selectedTaskId);
+const selectedResult = selectedResults[0];
+const selectedTask = dataset.tasks.find((task) => task.id === selectedTaskId) ?? dataset.tasks[0];
+const serializedDataset = JSON.stringify(dataset).replace(/</g, '\\u003c');
+
+const formatCompact = (value: number) => {
+  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(2)}M`;
+  if (value >= 1_000) return `${Math.round(value / 1000)}k`;
+  return String(Math.round(value));
+};
+
+const formatCost = (value: number) => `$${value.toFixed(2)}`;
+
+const formatMetricValue = (result: BenchmarkComparisonResult | undefined, metric: BenchmarkMetricDefinition) => {
+  const value = result?.metricValues[metric.id] ?? 0;
+
+  if (metric.unit === 'percent') return `${Math.round(value)}%`;
+  if (metric.unit === 'tokens') return formatCompact(value);
+  if (metric.unit === 'usd') return formatCost(value);
+  return String(Math.round(value));
+};
+
+const metricValue = (result: BenchmarkComparisonResult, metricId: BenchmarkMetricId) => result.metricValues[metricId] ?? 0;
+
+const maxMetricValue = Math.max(
+  1,
+  ...selectedResults.map((result) => metricValue(result, selectedMetric.id)),
+);
+
+const barWidth = (result: BenchmarkComparisonResult) => {
+  const value = metricValue(result, selectedMetric.id);
+  return `${Math.max(4, Math.min(100, (value / maxMetricValue) * 100))}%`;
+};
+
+const getResultFor = (taskId: string, modelKey: string) => (
+  dataset.results.find((result) => result.taskId === taskId && result.modelKey === modelKey)
+);
+
+---
+
+<div
+  class="benchmark-dashboard-panel"
+  aria-label="Interactive benchmark comparison from uv-benchmarks"
+  data-benchmark-dashboard
+  data-live-url={dataset.liveTreeUrl}
+  data-raw-root={dataset.rawRootUrl}
+>
+  <script is:inline type="application/json" data-benchmark-payload set:html={serializedDataset}></script>
+
+  <div class="benchmark-live-head">
+    <div>
+      <h3>Benchmark Explorer</h3>
+    </div>
+    <div class="benchmark-live-actions">
+      <span class={`benchmark-live-pill ${dataset.statusLabel === 'Snapshot' ? 'is-stale' : ''}`} data-benchmark-status>
+        {dataset.statusLabel}
+      </span>
+      <a class="benchmark-source-link" href="#methodology">Methodology</a>
+    </div>
+  </div>
+
+  <div class="benchmark-toolbar" aria-label="Benchmark controls">
+    <div class="benchmark-metric-switch" role="group" aria-label="Metric">
+      {dataset.metricDefinitions.map((metric, index) => (
+        <button
+          type="button"
+          class={`benchmark-metric-button ${index === 0 ? 'is-active' : ''}`}
+          data-benchmark-metric={metric.id}
+          aria-pressed={index === 0 ? 'true' : 'false'}
+        >
+          {metric.label}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <div class="benchmark-comparison-grid">
+    <div class="benchmark-chart-shell">
+      <div class="benchmark-plot-head">
+        <span data-benchmark-chart-title>By model</span>
+        <span data-benchmark-chart-meta>{selectedTask?.suite} / {selectedTask?.caseId}</span>
+      </div>
+
+      <div class="benchmark-model-bars" data-benchmark-bars>
+        {selectedResults.length > 0 ? selectedResults.map((result, index) => (
+          <button
+            type="button"
+            class={`benchmark-bar-row ${index === 0 ? 'is-active' : ''}`}
+            data-benchmark-result-id={result.id}
+            aria-pressed={index === 0 ? 'true' : 'false'}
+          >
+            <span class="benchmark-bar-label">
+              <strong>{result.modelLabel}</strong>
+              <em>{result.provider}</em>
+            </span>
+            <span class="benchmark-bar-track" aria-hidden="true">
+              <span style={`width: ${barWidth(result)}`}></span>
+            </span>
+            <span class="benchmark-bar-value">{formatMetricValue(result, selectedMetric)}</span>
+          </button>
+        )) : (
+          <p class="benchmark-empty-state">No observed result for this task yet.</p>
+        )}
+      </div>
+    </div>
+
+    <div class="benchmark-detail-panel" data-benchmark-detail>
+      {selectedResult ? (
+        <>
+          <p class="benchmark-detail-kicker">{selectedResult.runLabel}</p>
+          <strong>{selectedResult.modelLabel}</strong>
+          <dl>
+            <div>
+              <dt>Score</dt>
+              <dd>{formatMetricValue(selectedResult, dataset.metricDefinitions[0])}</dd>
+            </div>
+            <div>
+              <dt>Tokens</dt>
+              <dd>{formatCompact(selectedResult.totalTokens)}</dd>
+            </div>
+            <div>
+              <dt>Cost</dt>
+              <dd>{formatCost(selectedResult.costUsd)}</dd>
+            </div>
+          </dl>
+          <div class="benchmark-check-list">
+            {selectedResult.checkMetrics.map((check) => (
+              <span class={check.passed ? 'is-pass' : 'is-fail'}>{check.label}: {check.value}</span>
+            ))}
+          </div>
+        </>
+      ) : (
+        <p class="benchmark-empty-state">Select a populated cell to inspect the run.</p>
+      )}
+    </div>
+  </div>
+
+  <div class="benchmark-matrix-shell">
+    <div class="benchmark-token-head">
+      <span>Tasks</span>
+    </div>
+    <div
+      class="benchmark-matrix-grid"
+      data-benchmark-matrix
+      style={`--benchmark-model-count: ${Math.max(dataset.models.length, 1)}`}
+    >
+      <span class="benchmark-matrix-corner">Task</span>
+      {dataset.models.map((model) => (
+        <span class="benchmark-matrix-model">{model.label}</span>
+      ))}
+      {dataset.tasks.map((task) => (
+        <>
+          <button
+            type="button"
+            class={`benchmark-matrix-task ${task.id === selectedTaskId ? 'is-active' : ''}`}
+            data-benchmark-task={task.id}
+          >
+            <strong>{task.label}</strong>
+            <span>{task.suite} / {task.coverageTrack}</span>
+          </button>
+          {dataset.models.map((model) => {
+            const result = getResultFor(task.id, model.key);
+            return result ? (
+              <button
+                type="button"
+                class={`benchmark-matrix-cell ${result.success ? 'is-pass' : 'is-fail'} ${result.id === selectedResult?.id ? 'is-active' : ''}`}
+                data-benchmark-task={task.id}
+                data-benchmark-result-id={result.id}
+              >
+                <strong>{formatMetricValue(result, selectedMetric)}</strong>
+                <span>{result.success ? 'pass' : 'blocked'}</span>
+              </button>
+            ) : (
+              <span class="benchmark-matrix-cell is-empty">No run</span>
+            );
+          })}
+        </>
+      ))}
+    </div>
+  </div>
+
+</div>

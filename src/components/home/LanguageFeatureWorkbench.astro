@@ -1,0 +1,55 @@
+---
+import AnnotatedCode from '../AnnotatedCode.astro';
+import { languageFeatures } from '../../data/homeContent';
+---
+
+<section class="band" id="language-features">
+  <div class="page-section compact-section">
+    <div class="section-heading">
+      <h2>Language features</h2>
+    </div>
+    <div class="feature-workbench">
+      <div class="feature-index" aria-label="Language feature examples">
+        {
+          languageFeatures.map((principle, index) => (
+            <button
+              class={`feature-index-item${index === 0 ? ' is-active' : ''}`}
+              type="button"
+              data-feature-card
+              data-feature-index={index}
+              aria-controls={`feature-example-${index}`}
+              aria-label={`${principle.title}: ${principle.body}`}
+              aria-pressed={index === 0 ? 'true' : 'false'}
+            >
+              <span class="feature-index-title">{principle.title}</span>
+            </button>
+          ))
+        }
+      </div>
+      <div class="feature-reader" data-feature-panel-shell aria-live="polite">
+      {
+        languageFeatures.map((principle, index) => (
+          <article
+            id={`feature-example-${index}`}
+            class={`feature-example-slide${index === 0 ? ' is-active' : ''}`}
+            data-feature-panel
+            data-feature-index={index}
+            aria-hidden={index === 0 ? 'false' : 'true'}
+          >
+            <div class="feature-example-panel-head">
+              <div>
+                <h3>{principle.title}</h3>
+                <p>{principle.body}</p>
+              </div>
+              <a class="feature-doc-link" href={principle.href}>
+                Open docs
+              </a>
+            </div>
+            <AnnotatedCode lines={principle.exampleLines} />
+          </article>
+        ))
+      }
+      </div>
+    </div>
+  </div>
+</section>

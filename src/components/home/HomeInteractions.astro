@@ -1,0 +1,130 @@
+<script is:inline>
+  (() => {
+    const tooltipHiders = [];
+
+    const bindCodeTooltips = (scope) => {
+      const tooltip = scope.querySelector('[data-code-tooltip]');
+      if (!tooltip) return () => {};
+
+      const hideTooltip = () => {
+        tooltip.classList.remove('is-visible');
+        tooltip.setAttribute('aria-hidden', 'true');
+      };
+
+      const showTooltip = (term) => {
+        tooltip.textContent = `${term.dataset.title || ''}\n${term.dataset.body || ''}\nOpen docs`;
+        tooltip.classList.add('is-visible');
+        tooltip.setAttribute('aria-hidden', 'false');
+
+        const scopeRect = scope.getBoundingClientRect();
+        const termRect = term.getBoundingClientRect();
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const padding = 10;
+        const maxLeft = Math.max(padding, scopeRect.width - tooltipRect.width - padding);
+        const preferredLeft = termRect.left - scopeRect.left + (termRect.width / 2) - (tooltipRect.width / 2);
+        const left = Math.max(padding, Math.min(preferredLeft, maxLeft));
+        const preferredTop = termRect.top - scopeRect.top - tooltipRect.height - 8;
+        const fallbackTop = termRect.bottom - scopeRect.top + 8;
+        const maxTop = Math.max(padding, scopeRect.height - tooltipRect.height - padding);
+        const top = preferredTop >= padding
+          ? Math.min(preferredTop, maxTop)
+          : Math.min(Math.max(fallbackTop, padding), maxTop);
+
+        tooltip.style.left = `${left}px`;
+        tooltip.style.top = `${top}px`;
+      };
+
+      scope.addEventListener('mouseover', (event) => {
+        const term = event.target.closest('.code-term');
+        if (term && scope.contains(term)) {
+          showTooltip(term);
+        }
+      });
+
+      scope.addEventListener('mouseout', (event) => {
+        const term = event.target.closest('.code-term');
+        if (term && !term.contains(event.relatedTarget)) {
+          hideTooltip();
+        }
+      });
+
+      scope.addEventListener('focusin', (event) => {
+        const term = event.target.closest('.code-term');
+        if (term && scope.contains(term)) {
+          showTooltip(term);
+        }
+      });
+
+      scope.addEventListener('focusout', (event) => {
+        const term = event.target.closest('.code-term');
+        if (term) {
+          hideTooltip();
+        }
+      });
+
+      scope.querySelectorAll('.annotated-code').forEach((codeBlock) => {
+        codeBlock.addEventListener('scroll', hideTooltip);
+      });
+
+      tooltipHiders.push(hideTooltip);
+      return hideTooltip;
+    };
+
+    const hideAllTooltips = () => {
+      tooltipHiders.forEach((hideTooltip) => hideTooltip());
+    };
+
+    const featureCards = Array.from(document.querySelectorAll('[data-feature-card]'));
+    const featurePanels = Array.from(document.querySelectorAll('[data-feature-panel]'));
+    let activeFeatureIndex = 0;
+
+    const setActiveFeature = (nextIndex) => {
+      const clampedIndex = (nextIndex + featureCards.length) % featureCards.length;
+      activeFeatureIndex = clampedIndex;
+      hideAllTooltips();
+
+      featureCards.forEach((card, index) => {
+        const isActive = index === clampedIndex;
+        card.classList.toggle('is-active', isActive);
+        card.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+
+      featurePanels.forEach((panel, index) => {
+        const isActive = index === clampedIndex;
+        panel.classList.toggle('is-active', isActive);
+        panel.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+      });
+    };
+
+    featureCards.forEach((card, index) => {
+      card.addEventListener('mouseenter', () => setActiveFeature(index));
+      card.addEventListener('focusin', () => setActiveFeature(index));
+      card.addEventListener('click', () => setActiveFeature(index));
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          setActiveFeature(index);
+        }
+
+        if (event.key === 'Escape') {
+          setActiveFeature(0);
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-feature-example]').forEach((example) => {
+      bindCodeTooltips(example);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        setActiveFeature(0);
+        hideAllTooltips();
+      }
+    });
+
+    setActiveFeature(activeFeatureIndex);
+    window.addEventListener('resize', hideAllTooltips);
+    window.addEventListener('scroll', hideAllTooltips, { passive: true });
+  })();
+</script>

@@ -2,16 +2,16 @@
 title: "9.6 Source-Native Test Attributes"
 description: "9.6 Source-Native Test Attributes from 9. Attributes and Metadata of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "attributes-and-metadata"
 specSection: "96-source-native-test-attributes"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -32,7 +32,7 @@ test_attribute_arg  ::= "name" ":" string_literal
 
 ### 9.6.2 Parsing
 
-`[[test]]` is parsed by the ordinary attribute parser from §9.1.2. The `name`
+`#test` is parsed by the ordinary attribute parser from §9.1.2. The `name`
 argument is represented as `⟨name, string_literal⟩`. Each `covers(...)` argument
 
 $$
@@ -58,7 +58,7 @@ $$
 
 ### 9.6.4 Static Semantics
 
-`[[test]]` is valid only on ordinary source procedures.
+`#test` is valid only on ordinary source procedures.
 
 $$
 \texttt{AttrArgsOk(test, args)}\ \mathsf{holds}\ \mathsf{exactly}\ \mathsf{when}:
@@ -70,7 +70,7 @@ $$
 4. every coverage reference names one row in the obligation ledger using
    `obligation-id@Linternal_spec_line`.
 
-A `[[test]]` procedure MUST:
+A `#test` procedure MUST:
 
 1. have a body;
 2. be non-generic;
@@ -86,7 +86,7 @@ authority needed by effectful compiler tests.
 
 ### 9.6.5 Dynamic Semantics
 
-`[[test]]` does not change ordinary procedure execution. During test execution,
+`#test` does not change ordinary procedure execution. During test execution,
 the runner calls each discovered test procedure. A test passes when the procedure
 returns normally and its postcondition is satisfied. A test fails when the
 procedure returns normally and its postcondition is violated. A test errors when
@@ -95,7 +95,7 @@ authority, or cannot be invoked by the generated harness.
 
 ### 9.6.6 Lowering
 
-`[[test]]` does not lower into production program artifacts.
+`#test` does not lower into production program artifacts.
 
 $$
 \mathsf{TestArg}\ =\ \bot \ \mid \ s\ \mathsf{where}\ s\ \mathsf{is}\ \mathsf{the}\ \mathsf{optional}\ \mathsf{positional}\ \mathsf{argument}\ \mathsf{to}\ \texttt{uv test}.
@@ -174,12 +174,12 @@ stable test identity. `name: "..."` is a display label.
 
 | Code         | Severity | Detection    | Condition                                        |
 | ------------ | -------- | ------------ | ------------------------------------------------ |
-| `E-MOD-2452` | Error    | Compile-time | `[[test]]` applied outside an ordinary procedure |
-| `E-TST-0101` | Error    | Compile-time | Malformed `[[test]]` argument                    |
-| `E-TST-0102` | Error    | Compile-time | Duplicate `[[test]]` name argument               |
+| `E-MOD-2452` | Error    | Compile-time | `#test` applied outside an ordinary procedure |
+| `E-TST-0101` | Error    | Compile-time | Malformed `#test` argument                    |
+| `E-TST-0102` | Error    | Compile-time | Duplicate `#test` name argument               |
 | `E-TST-0103` | Error    | Compile-time | Malformed `covers(...)` argument                 |
-| `E-TST-0104` | Error    | Compile-time | Invalid `[[test]]` procedure shape               |
+| `E-TST-0104` | Error    | Compile-time | Invalid `#test` procedure shape               |
 | `E-TST-0105` | Error    | Compile-time | Invalid `TestAuthority` parameter                  |
-| `E-TST-0106` | Error    | Compile-time | `[[test]]` procedure missing postcondition       |
+| `E-TST-0106` | Error    | Compile-time | `#test` procedure missing postcondition       |
 | `E-TST-0107` | Error    | Compile-time | Unknown audit coverage reference                 |
 | `E-TST-0108` | Error    | Compile-time | Unknown `uv test` target                         |

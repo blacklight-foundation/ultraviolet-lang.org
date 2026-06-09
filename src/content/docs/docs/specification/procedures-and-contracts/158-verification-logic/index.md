@@ -2,16 +2,16 @@
 title: "15.8 Verification Logic"
 description: "15.8 Verification Logic from 15. Procedures and Contracts of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "procedures-and-contracts"
 specSection: "158-verification-logic"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -355,7 +355,7 @@ $$
 
 $$
 \begin{array}{l}
-f\ \mathsf{has}\ \mathsf{contract}\ \mid :\ P_{\mathsf{pre}}\ \Rightarrow \ P_{\mathsf{post}}\quad \operatorname{InDynamicContext}(f)\quad \lnot \ \operatorname{StaticProof}(\Gamma_{\mathsf{exit}} ,\ P_{\mathsf{post}}) \\[0.16em]
+f\ \mathsf{has}\ \mathsf{contract}\ \mid :\ P_{\mathsf{pre}}\ \mid =\ P_{\mathsf{post}}\quad \operatorname{InDynamicContext}(f)\quad \lnot \ \operatorname{StaticProof}(\Gamma_{\mathsf{exit}} ,\ P_{\mathsf{post}}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \mathsf{Before}\ \mathsf{each}\ \mathsf{return}\ \mathsf{from}\ f\ \mathsf{with}\ \mathsf{value}\ v,\ \mathsf{insert}:\ \operatorname{ContractCheck}(P_{\mathsf{post}},\ \mathsf{Post},\ \operatorname{span}(\mathsf{contract}),\ \rho_{\mathsf{post}} )
 \end{array}

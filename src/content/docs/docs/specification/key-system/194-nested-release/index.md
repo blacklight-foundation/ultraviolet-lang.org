@@ -2,16 +2,16 @@
 title: "19.4 Nested Release"
 description: "19.4 Nested Release from 19. Key System of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
 specChapter: "key-system"
 specSection: "194-nested-release"
-generatedAt: "2026-05-18T22:15:57.711Z"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -23,7 +23,7 @@ generated: true
 
 ### 19.4.1 Syntax
 
-This section introduces no additional surface syntax beyond the `release_modifier` form in §19.2.1.
+This section introduces no additional surface syntax beyond the `%release` key-block head in §19.2.1.
 
 ### 19.4.2 Parsing
 
@@ -31,7 +31,7 @@ This section introduces no additional parsing rules beyond §19.2.2.
 
 ### 19.4.3 AST Representation / Form
 
-Nested release is represented by `KeyBlockStmt(attrs_opt, paths, mods, mode_opt, body, span)` with `Release ∈ mods`.
+Nested release is represented by `KeyBlockStmt(attrs_opt, Release, paths, mode, options, body, span)`.
 
 ### 19.4.4 Static Semantics
 
@@ -39,11 +39,11 @@ Nested release is represented by `KeyBlockStmt(attrs_opt, paths, mods, mode_opt,
 
 $$
 \begin{array}{l}
-\operatorname{Held}(P,\ M_{\mathsf{outer}},\ \Gamma_{\mathsf{keys}} )\quad \#P\ M_{\mathsf{inner}}\ \{\ \ldots \ \} \\[0.16em]
+\operatorname{Held}(P,\ M_{\mathsf{outer}},\ \Gamma_{\mathsf{keys}} )\quad \mathsf{key}\ \mathsf{block}\ \mathsf{for}\ P\ \mathsf{has}\ \mathsf{mode}\ M_{\mathsf{inner}} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \mathsf{if}\ M_{\mathsf{inner}}\ =\ M_{\mathsf{outer}}: \\[0.16em]
 \ \mathsf{Covered} \\[0.16em]
-\mathsf{otherwise}\ \mathsf{if}\ M_{\mathsf{inner}}\ \ne \ M_{\mathsf{outer}}\ \land \ \texttt{release}\ \in \ \mathsf{modifiers}: \\[0.16em]
+\mathsf{otherwise}\ \mathsf{if}\ M_{\mathsf{inner}}\ \ne \ M_{\mathsf{outer}}\ \land \ \mathsf{kind}\ =\ \mathsf{Release}: \\[0.16em]
 \ \mathsf{Release}-\mathsf{and}-\mathsf{Reacquire} \\[0.16em]
 \mathsf{otherwise}: \\[0.16em]
 \ \mathsf{Reject}
@@ -55,7 +55,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{SharedParam}(\mathsf{proc},\ i)\ \Leftrightarrow \ \mathsf{the}\ i-\mathsf{th}\ \mathsf{formal}\ \mathsf{parameter}\ \mathsf{of}\ \mathsf{proc}\ \mathsf{has}\ \mathsf{type}\ \texttt{shared}\ T\ \mathsf{for}\ \mathsf{some}\ T \\[0.16em]
-\operatorname{DirectCalleeAccesses}(\mathsf{proc})\ =\ \{\langle i,\ \mathsf{rel},\ M\rangle \ \mid \ \operatorname{SharedParam}(\mathsf{proc},\ i)\ \land \ \mathsf{proc}.\mathsf{body}\ \mathsf{contains}\ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span})\ \land \ q\ \in \ \mathsf{paths}\ \land \ \operatorname{KeyPath}(q)\ =\ \operatorname{name}(\mathsf{param}_{i})\ \mathbin{++} \ \mathsf{rel}\ \land \ M\ =\ \operatorname{BlockMode}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}))\} \\[0.16em]
+\operatorname{DirectCalleeAccesses}(\mathsf{proc})\ =\ \{\langle i,\ \mathsf{rel},\ M\rangle \ \mid \ \operatorname{SharedParam}(\mathsf{proc},\ i)\ \land \ \mathsf{proc}.\mathsf{body}\ \mathsf{contains}\ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span})\ \land \ q\ \in \ \mathsf{paths}\ \land \ \operatorname{KeyPath}(q)\ =\ \operatorname{name}(\mathsf{param}_{i})\ \mathbin{++} \ \mathsf{rel}\ \land \ M\ =\ \operatorname{BlockMode}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}))\} \\[0.16em]
 \operatorname{CalleeAccessSummary}(\mathsf{proc})\ \mathsf{is}\ \mathsf{the}\ \mathsf{least}\ \mathsf{set}\ A\ \mathsf{such}\ \mathsf{that}\ \operatorname{DirectCalleeAccesses}(\mathsf{proc})\ \subseteq \ A\ \mathsf{and},\ \mathsf{for}\ \mathsf{every}\ \mathsf{directly}\ \mathsf{resolved}\ \mathsf{call}\ \texttt{g(a\_1, ..., a\_n)}\ \mathsf{in}\ \mathsf{proc}.\mathsf{body},\ \mathsf{every}\ \langle j,\ \mathsf{rel},\ M\rangle \ \in \ \operatorname{CalleeAccessSummary}(g),\ \mathsf{and}\ \mathsf{every}\ i\ \mathsf{with}\ \operatorname{SharedParam}(\mathsf{proc},\ i)\ \mathsf{and}\ \operatorname{KeyPath}(a_{j})\ =\ \operatorname{name}(\mathsf{param}_{i})\ \mathbin{++} \ \mathsf{rel}_{0},\ \langle i,\ \mathsf{rel}_{0}\ \mathbin{++} \ \mathsf{rel},\ M\rangle \ \in \ A. \\[0.16em]
 \operatorname{InstantiateCalleeAccess}(v,\ \langle i,\ \mathsf{rel},\ M\rangle )\ =\ \langle Q,\ M\rangle \ \Leftrightarrow \ \operatorname{KeyPath}(v)\ =\ Q_{0}\ \land \ Q\ =\ Q_{0}\ \mathbin{++} \ \mathsf{rel} \\[0.16em]
 \operatorname{CalleeAccesses}(Q)\ \mathsf{at}\ \mathsf{call}\ \mathsf{site}\ \texttt{call(f, a\_1, ..., a\_n)}\ \mathsf{iff}\ \exists \ \langle i,\ \mathsf{rel},\ M\rangle \ \in \ \operatorname{CalleeAccessSummary}(f).\ \operatorname{InstantiateCalleeAccess}(a_{i},\ \langle i,\ \mathsf{rel},\ M\rangle )\ =\ \langle Q,\ M\rangle 
@@ -84,21 +84,21 @@ $$
 \end{array}
 $$
 
-`[[stale_ok]]` suppresses the stale-after-release warning on a binding derived from `shared` data across a `release` boundary. Attribute syntax and attachment are defined in §9.5.
+`#stale_ok` suppresses the stale-after-release warning on a binding derived from `shared` data across a `release` boundary. Attribute syntax and attachment are defined in §9.5.
 
 **(K-Release-SameMode-Err)**
 
 $$
 \begin{array}{l}
-\mathsf{Release}\ \in \ \mathsf{modifiers}\quad \operatorname{Held}(P,\ M_{\mathsf{outer}},\ \Gamma_{\mathsf{keys}} )\quad P\ \in \ \{\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}\}\quad \operatorname{BlockMode}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{modifiers},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}))\ =\ M_{\mathsf{outer}}\quad c\ =\ \operatorname{Code}(K-\mathsf{Release}-\mathsf{SameMode}-\mathsf{Err}) \\[0.16em]
+\mathsf{kind}\ =\ \mathsf{Release}\quad \operatorname{Held}(P,\ M_{\mathsf{outer}},\ \Gamma_{\mathsf{keys}} )\quad P\ \in \ \{\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}\}\quad \operatorname{BlockMode}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}))\ =\ M_{\mathsf{outer}}\quad c\ =\ \operatorname{Code}(K-\mathsf{Release}-\mathsf{SameMode}-\mathsf{Err}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{modifiers},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span})\ \Uparrow \ c
+\Gamma \ \vdash \ \operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span})\ \Uparrow \ c
 \end{array}
 $$
 
 ### 19.4.5 Dynamic Semantics
 
-When entering `#path release <target> { body }`:
+When entering `%release <target> path { body }`:
 
 1. Release the outer key held by the enclosing block.
 2. Acquire the target-mode key for `path`.
@@ -110,7 +110,7 @@ When entering `#path release <target> { body }`:
 
 $$
 \begin{array}{l}
-\operatorname{Held}(P,\ M_{\mathsf{outer}},\ S_{\mathsf{outer}})\quad \#P\ \texttt{release}\ M_{\mathsf{inner}}\ \{\ B\ \} \\[0.16em]
+\operatorname{Held}(P,\ M_{\mathsf{outer}},\ S_{\mathsf{outer}})\quad \texttt{\%release}\ M_{\mathsf{inner}}\ P\ \{\ B\ \} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \operatorname{Release}(P,\ \Gamma_{\mathsf{keys}} );
 \end{array}
@@ -155,9 +155,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{Release}\ \in \ \mathsf{mods}\quad \mathsf{outer}\ =\ \operatorname{HeldKeysForPaths}(\mathsf{paths},\ \sigma )\quad \Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{outer},\ \sigma )\ \Downarrow \ \sigma_{1} \quad \sigma_{2} \ =\ \operatorname{MarkKeysReleased}(\sigma_{1} ,\ \mathsf{outer})\quad \Gamma \ \vdash \ \operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode}_{\mathsf{opt}},\ \sigma_{2} )\ \Downarrow \ (\sigma_{3} ,\ \mathsf{inner})\quad \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma_{3} )\ \Downarrow \ (\mathsf{out},\ \sigma_{4} )\quad \Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{inner},\ \sigma_{4} )\ \Downarrow \ \sigma_{5} \quad \sigma_{6} \ =\ \operatorname{ClearReleased}(\sigma_{5} ,\ \mathsf{outer})\quad \Gamma \ \vdash \ \operatorname{ReacquireHeldKeysSigma}(\mathsf{outer},\ \sigma_{6} )\ \Downarrow \ \sigma_{7}  \\[0.16em]
+\mathsf{kind}\ =\ \mathsf{Release}\quad \mathsf{outer}\ =\ \operatorname{HeldKeysForPaths}(\mathsf{paths},\ \sigma )\quad \Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{outer},\ \sigma )\ \Downarrow \ \sigma_{1} \quad \sigma_{2} \ =\ \operatorname{MarkKeysReleased}(\sigma_{1} ,\ \mathsf{outer})\quad \Gamma \ \vdash \ \operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode},\ \sigma_{2} )\ \Downarrow \ (\sigma_{3} ,\ \mathsf{inner})\quad \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma_{3} )\ \Downarrow \ (\mathsf{out},\ \sigma_{4} )\quad \Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{inner},\ \sigma_{4} )\ \Downarrow \ \sigma_{5} \quad \sigma_{6} \ =\ \operatorname{ClearReleased}(\sigma_{5} ,\ \mathsf{outer})\quad \Gamma \ \vdash \ \operatorname{ReacquireHeldKeysSigma}(\mathsf{outer},\ \sigma_{6} )\ \Downarrow \ \sigma_{7}  \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\ \Downarrow \ (\operatorname{StmtOutOf}(\mathsf{out}),\ \sigma_{7} )
+\Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\ \Downarrow \ (\operatorname{StmtOutOf}(\mathsf{out}),\ \sigma_{7} )
 \end{array}
 $$
 
@@ -167,14 +167,14 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{Release}\ \in \ \mathsf{mods}\quad \Gamma \ \vdash \ \operatorname{LowerKeyPaths}(\mathsf{paths})\ \Downarrow \ \mathsf{Ps}\quad \mathsf{outer}\ =\ \operatorname{EnclosingHeldKeys}(\mathsf{Ps})\quad \mathsf{mode}\ =\ \operatorname{ModeOf}(\mathsf{mode}_{\mathsf{opt}})\quad \mathsf{sorted}\ =\ \operatorname{CanonicalSort}(\mathsf{Ps}) \\[0.16em]
+\mathsf{kind}\ =\ \mathsf{Release}\quad \Gamma \ \vdash \ \operatorname{LowerKeyPaths}(\mathsf{paths})\ \Downarrow \ \mathsf{Ps}\quad \mathsf{outer}\ =\ \operatorname{EnclosingHeldKeys}(\mathsf{Ps})\quad \mathsf{sorted}\ =\ \operatorname{CanonicalSort}(\mathsf{Ps}) \\[0.16em]
 \mathsf{IR}_{\mathsf{release}\_\mathsf{outer}}\ =\ \operatorname{SeqIRList}([\operatorname{ReleaseKey}(\operatorname{PathOf}(k),\ \operatorname{KeyScopeOf}(k))\ \mid \ k\ \in \ \operatorname{Reverse}(\mathsf{outer})]) \\[0.16em]
 \mathsf{IR}_{\mathsf{acquire}\_\mathsf{inner}}\ =\ \operatorname{SeqIRList}([\operatorname{SeqIR}(\operatorname{CheckConflict}(P_{i},\ \mathsf{mode}),\ \operatorname{AcquireKey}(P_{i},\ \mathsf{mode},\ \mathsf{CurrentScope}))\ \mid \ P_{i}\ \in \ \mathsf{sorted}]) \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
 \mathsf{IR}_{\mathsf{release}\_\mathsf{inner}}\ =\ \operatorname{SeqIRList}([\operatorname{ReleaseKey}(P_{i},\ \mathsf{CurrentScope})\ \mid \ P_{i}\ \in \ \operatorname{Reverse}(\mathsf{sorted})]) \\[0.16em]
 \mathsf{IR}_{\mathsf{reacquire}\_\mathsf{outer}}\ =\ \operatorname{SeqIRList}([\operatorname{AcquireKey}(\operatorname{PathOf}(k),\ \operatorname{KeyModeOf}(k),\ \operatorname{KeyScopeOf}(k))\ \mid \ k\ \in \ \mathsf{outer}]) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{paths},\ \mathsf{mods},\ \mathsf{mode}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span}))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{\mathsf{release}\_\mathsf{outer}},\ \mathsf{IR}_{\mathsf{acquire}\_\mathsf{inner}},\ \mathsf{IR}_{b},\ \mathsf{IR}_{\mathsf{release}\_\mathsf{inner}},\ \mathsf{IR}_{\mathsf{reacquire}\_\mathsf{outer}})
+\Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{\mathsf{release}\_\mathsf{outer}},\ \mathsf{IR}_{\mathsf{acquire}\_\mathsf{inner}},\ \mathsf{IR}_{b},\ \mathsf{IR}_{\mathsf{release}\_\mathsf{inner}},\ \mathsf{IR}_{\mathsf{reacquire}\_\mathsf{outer}})
 \end{array}
 $$
 
@@ -182,8 +182,8 @@ $$
 
 | Code         | Severity | Detection    | Condition                                           |
 | ------------ | -------- | ------------ | --------------------------------------------------- |
-| `E-CON-0012` | Error    | Compile-time | Nested mode change without `release` modifier       |
-| `E-CON-0018` | Error    | Compile-time | `release` with target mode matching outer mode      |
+| `E-CON-0012` | Error    | Compile-time | Nested mode change without `%release` key-block head       |
+| `E-CON-0018` | Error    | Compile-time | `%release` with target mode matching outer mode      |
 | `W-CON-0005` | Warning  | Compile-time | Callee access pattern unknown; assuming full access |
-| `W-CON-0010` | Warning  | Compile-time | `release` block permits interleaving                |
+| `W-CON-0010` | Warning  | Compile-time | `%release` block permits interleaving                |
 | `W-CON-0011` | Warning  | Compile-time | Access to potentially stale binding after release   |

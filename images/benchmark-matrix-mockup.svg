@@ -1,0 +1,219 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Benchmark Explorer matrix-first layout mockup</title>
+  <desc id="desc">A dark Ultraviolet-style benchmark panel with metric tabs, a task-by-model matrix, and a selected-run detail strip.</desc>
+  <defs>
+    <linearGradient id="page-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#051018"/>
+      <stop offset="0.48" stop-color="#020304"/>
+      <stop offset="1" stop-color="#101016"/>
+    </linearGradient>
+    <radialGradient id="panel-glow" cx="20%" cy="0%" r="85%">
+      <stop offset="0" stop-color="#a78bfa" stop-opacity="0.14"/>
+      <stop offset="0.46" stop-color="#67e8f9" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#06070a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="panel-fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#151820"/>
+      <stop offset="1" stop-color="#090a0d"/>
+    </linearGradient>
+    <linearGradient id="cell-score" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2a203f"/>
+      <stop offset="1" stop-color="#171a21"/>
+    </linearGradient>
+    <linearGradient id="cell-empty" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#14171d"/>
+      <stop offset="1" stop-color="#0b0d11"/>
+    </linearGradient>
+    <linearGradient id="accent-line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#a78bfa"/>
+      <stop offset="1" stop-color="#67e8f9"/>
+    </linearGradient>
+    <pattern id="diagonal-grid" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M 0 0 L 0 8" stroke="#ffffff" stroke-opacity="0.035" stroke-width="1"/>
+    </pattern>
+    <filter id="soft-shadow" x="-12%" y="-12%" width="124%" height="124%">
+      <feDropShadow dx="0" dy="26" stdDeviation="24" flood-color="#000000" flood-opacity="0.42"/>
+    </filter>
+    <style>
+      .ui { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .mono { font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace; }
+      .text { fill: #f7f8f8; }
+      .strong { fill: #ffffff; font-weight: 760; }
+      .muted { fill: #9aa1ad; }
+      .muted-2 { fill: #d8dee8; }
+      .cyan { fill: #67e8f9; }
+      .purple { fill: #a78bfa; }
+      .green { fill: #86efac; }
+      .red { fill: #fda4af; }
+      .amber { fill: #facc15; }
+      .label { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+      .small { font-size: 12px; }
+      .micro { font-size: 10px; letter-spacing: 0.04em; }
+      .body { font-size: 15px; }
+      .h1 { font-size: 24px; font-weight: 760; }
+      .metric { font-size: 16px; font-weight: 700; }
+      .task { font-size: 13px; font-weight: 750; }
+      .cell-value { font-size: 15px; font-weight: 800; }
+      .pill-text { font-size: 10px; font-weight: 800; letter-spacing: 0.03em; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="760" fill="url(#page-bg)"/>
+  <rect width="1200" height="760" fill="url(#diagonal-grid)"/>
+  <circle cx="1020" cy="72" r="310" fill="#67e8f9" opacity="0.045"/>
+  <circle cx="218" cy="-40" r="320" fill="#a78bfa" opacity="0.09"/>
+
+  <g class="ui" filter="url(#soft-shadow)">
+    <rect x="90" y="70" width="1020" height="620" rx="18" fill="url(#panel-fill)" stroke="#363739" stroke-opacity="0.78"/>
+    <rect x="90" y="70" width="1020" height="620" rx="18" fill="url(#panel-glow)"/>
+
+    <g transform="translate(122 104)">
+      <text class="h1 strong" x="0" y="22">Benchmark Explorer</text>
+      <g transform="translate(748 0)">
+        <rect x="0" y="0" width="88" height="26" rx="13" fill="#151611" stroke="#facc15" stroke-opacity="0.28"/>
+        <circle cx="14" cy="13" r="4" fill="#facc15"/>
+        <text class="mono pill-text amber" x="25" y="17">SNAPSHOT</text>
+        <rect x="98" y="0" width="68" height="26" rx="13" fill="#111820" stroke="#67e8f9" stroke-opacity="0.2"/>
+        <text class="mono pill-text cyan" x="116" y="17">GITHUB</text>
+      </g>
+      <line x1="0" y1="44" x2="956" y2="44" stroke="#ffffff" stroke-opacity="0.08"/>
+    </g>
+
+    <g transform="translate(122 164)">
+      <rect x="0" y="0" width="956" height="42" rx="8" fill="#0d1118" stroke="#ffffff" stroke-opacity="0.1"/>
+      <rect x="0" y="0" width="239" height="42" rx="8" fill="#211d31"/>
+      <line x1="239" y1="0" x2="239" y2="42" stroke="#ffffff" stroke-opacity="0.09"/>
+      <line x1="478" y1="0" x2="478" y2="42" stroke="#ffffff" stroke-opacity="0.09"/>
+      <line x1="717" y1="0" x2="717" y2="42" stroke="#ffffff" stroke-opacity="0.09"/>
+      <text class="metric strong" x="119.5" y="27" text-anchor="middle">Score</text>
+      <text class="metric muted" x="358.5" y="27" text-anchor="middle">Tokens</text>
+      <text class="metric muted" x="597.5" y="27" text-anchor="middle">Cost</text>
+      <text class="metric muted" x="836.5" y="27" text-anchor="middle">Turns</text>
+    </g>
+
+    <g transform="translate(122 226)">
+      <text class="mono label muted" x="0" y="0">Tasks x models</text>
+      <text class="mono micro muted" x="0" y="20">Click a task/model cell to inspect a run. Empty cells stay explicit.</text>
+      <rect x="0" y="34" width="956" height="330" rx="10" fill="#0a0c10" stroke="#ffffff" stroke-opacity="0.08"/>
+
+      <g class="mono" transform="translate(0 34)">
+        <rect x="0" y="0" width="956" height="42" fill="#12161d"/>
+        <text class="label muted" x="18" y="27">Task</text>
+        <text class="label muted-2" x="438" y="27">gpt-5.5 / uv</text>
+        <text class="label muted" x="626" y="27">gpt-5.4 / uv</text>
+        <text class="label muted" x="814" y="27">claude-4.5 / uv</text>
+        <line x1="410" y1="0" x2="410" y2="330" stroke="#ffffff" stroke-opacity="0.08"/>
+        <line x1="598" y1="0" x2="598" y2="330" stroke="#ffffff" stroke-opacity="0.08"/>
+        <line x1="786" y1="0" x2="786" y2="330" stroke="#ffffff" stroke-opacity="0.08"/>
+
+        <g transform="translate(0 42)">
+          <rect x="0" y="0" width="956" height="46" fill="#0c0f14"/>
+          <line x1="0" y1="46" x2="956" y2="46" stroke="#ffffff" stroke-opacity="0.07"/>
+          <text class="task strong" x="18" y="19">Service adapter retry state bug</text>
+          <text class="micro muted" x="18" y="35">bugbench / integration ecosystem</text>
+          <rect x="410" y="0" width="188" height="46" fill="url(#cell-empty)"/>
+          <text class="small muted" x="438" y="28">No run</text>
+          <rect x="598" y="0" width="188" height="46" fill="url(#cell-empty)"/>
+          <text class="small muted" x="626" y="28">No run</text>
+          <rect x="786" y="0" width="170" height="46" fill="url(#cell-empty)"/>
+          <text class="small muted" x="814" y="28">No run</text>
+        </g>
+
+        <g transform="translate(0 88)">
+          <rect x="0" y="0" width="956" height="46" fill="#0a0d12"/>
+          <line x1="0" y1="46" x2="956" y2="46" stroke="#ffffff" stroke-opacity="0.07"/>
+          <text class="task strong" x="18" y="19">Config migration preserve behavior</text>
+          <text class="micro muted" x="18" y="35">generation / maintenance</text>
+          <rect x="410" y="0" width="188" height="46" fill="url(#cell-empty)"/>
+          <text class="small muted" x="438" y="28">No run</text>
+          <rect x="598" y="0" width="188" height="46" fill="url(#cell-empty)"/>
+          <text class="small muted" x="626" y="28">No run</text>
+          <rect x="786" y="0" width="170" height="46" fill="url(#cell-empty)"/>
+          <text class="small muted" x="814" y="28">No run</text>
+        </g>
+
+        <g transform="translate(0 134)">
+          <rect x="0" y="0" width="956" height="54" fill="#11101a" stroke="#a78bfa" stroke-opacity="0.42"/>
+          <text class="task strong" x="18" y="20">CSV invoice transform</text>
+          <text class="micro muted" x="18" y="37">generation / general application</text>
+          <rect x="410" y="0" width="188" height="54" fill="url(#cell-score)" stroke="#a78bfa" stroke-opacity="0.44"/>
+          <text class="cell-value red" x="438" y="24">21%</text>
+          <text class="micro muted-2" x="438" y="40">blocked</text>
+          <rect x="474" y="18" width="84" height="6" rx="3" fill="#232b3a"/>
+          <rect x="474" y="18" width="24" height="6" rx="3" fill="url(#accent-line)"/>
+          <rect x="598" y="0" width="188" height="54" fill="url(#cell-empty)"/>
+          <text class="small muted" x="626" y="31">No run</text>
+          <rect x="786" y="0" width="170" height="54" fill="url(#cell-empty)"/>
+          <text class="small muted" x="814" y="31">No run</text>
+        </g>
+
+        <g transform="translate(0 188)">
+          <rect x="0" y="0" width="956" height="46" fill="#0a0d12"/>
+          <line x1="0" y1="46" x2="956" y2="46" stroke="#ffffff" stroke-opacity="0.07"/>
+          <text class="task strong" x="18" y="19">Dependency resolution plan</text>
+          <text class="micro muted" x="18" y="35">generation / algorithmic</text>
+          <rect x="410" y="0" width="188" height="46" fill="url(#cell-empty)"/>
+          <text class="small muted" x="438" y="28">No run</text>
+          <rect x="598" y="0" width="188" height="46" fill="url(#cell-empty)"/>
+          <text class="small muted" x="626" y="28">No run</text>
+          <rect x="786" y="0" width="170" height="46" fill="url(#cell-empty)"/>
+          <text class="small muted" x="814" y="28">No run</text>
+        </g>
+
+        <g transform="translate(0 234)">
+          <rect x="0" y="0" width="956" height="46" fill="#0c0f14"/>
+          <line x1="0" y1="46" x2="956" y2="46" stroke="#ffffff" stroke-opacity="0.07"/>
+          <text class="task strong" x="18" y="19">Resource scope lifecycle</text>
+          <text class="micro muted" x="18" y="35">generation / systems safety</text>
+          <rect x="410" y="0" width="188" height="46" fill="url(#cell-empty)"/>
+          <text class="small muted" x="438" y="28">No run</text>
+          <rect x="598" y="0" width="188" height="46" fill="url(#cell-empty)"/>
+          <text class="small muted" x="626" y="28">No run</text>
+          <rect x="786" y="0" width="170" height="46" fill="url(#cell-empty)"/>
+          <text class="small muted" x="814" y="28">No run</text>
+        </g>
+
+        <g transform="translate(0 280)">
+          <rect x="0" y="0" width="956" height="50" fill="#0a0d12"/>
+          <text class="task strong" x="18" y="20">Service adapter contract</text>
+          <text class="micro muted" x="18" y="36">generation / integration ecosystem</text>
+          <rect x="410" y="0" width="188" height="50" fill="url(#cell-empty)"/>
+          <text class="small muted" x="438" y="30">No run</text>
+          <rect x="598" y="0" width="188" height="50" fill="url(#cell-empty)"/>
+          <text class="small muted" x="626" y="30">No run</text>
+          <rect x="786" y="0" width="170" height="50" fill="url(#cell-empty)"/>
+          <text class="small muted" x="814" y="30">No run</text>
+        </g>
+      </g>
+    </g>
+
+    <g transform="translate(122 610)">
+      <rect x="0" y="0" width="956" height="62" rx="10" fill="#0d1016" stroke="#ffffff" stroke-opacity="0.08"/>
+      <rect x="0" y="0" width="956" height="62" rx="10" fill="url(#panel-glow)" opacity="0.42"/>
+      <text class="mono label muted" x="18" y="18">Selected run</text>
+      <text class="body strong" x="18" y="36">CSV invoice transform / gpt-5.5 / uv</text>
+
+      <g class="mono" transform="translate(386 12)">
+        <text class="micro muted" x="0" y="0">SCORE</text>
+        <text class="cell-value strong" x="0" y="22">21%</text>
+        <text class="micro muted" x="82" y="0">TOKENS</text>
+        <text class="cell-value strong" x="82" y="22">978k</text>
+        <text class="micro muted" x="174" y="0">COST</text>
+        <text class="cell-value strong" x="174" y="22">$5.22</text>
+        <text class="micro muted" x="258" y="0">TURNS</text>
+        <text class="cell-value strong" x="258" y="22">2</text>
+      </g>
+
+      <g class="mono" transform="translate(724 7)">
+        <rect x="0" y="0" width="104" height="24" rx="6" fill="#201113" stroke="#fda4af" stroke-opacity="0.28"/>
+        <text class="pill-text red" x="11" y="16">BUILD: BLOCKED</text>
+        <rect x="114" y="0" width="108" height="24" rx="6" fill="#0b1b14" stroke="#86efac" stroke-opacity="0.24"/>
+        <text class="pill-text green" x="125" y="16">SCANNER: CLEAN</text>
+        <rect x="0" y="30" width="104" height="24" rx="6" fill="#201113" stroke="#fda4af" stroke-opacity="0.28"/>
+        <text class="pill-text red" x="11" y="46">TESTS: BLOCKED</text>
+        <rect x="114" y="30" width="96" height="24" rx="6" fill="#0b1b14" stroke="#86efac" stroke-opacity="0.24"/>
+        <text class="pill-text green" x="125" y="46">LAYOUT: VALID</text>
+      </g>
+    </g>
+  </g>
+</svg>

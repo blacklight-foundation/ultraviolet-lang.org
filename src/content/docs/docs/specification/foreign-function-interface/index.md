@@ -2,18 +2,18 @@
 title: "Foreign Function Interface"
 description: "23. Foreign Function Interface section index for the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16"
-generatedAt: "2026-05-18T22:15:57.711Z"
+specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+generatedAt: "2026-05-20T01:05:16.171Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>124e667896a0ef463507ad35c8d3053aa7217019eaeac67ab09630d3939a7c16</code></span>
+  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
 </div>
 
 
-**FFI Boundary.** A call to an `extern` procedure or an invocation of a `[[export]]` or `[[host_export]]` procedure from foreign code crosses the foreign-function boundary.
+**FFI Boundary.** A call to an `extern` procedure or an invocation of a `#export` or `#host_export` procedure from foreign code crosses the foreign-function boundary.
 
 $$
 \operatorname{FFIBoundary}(\mathsf{proc})\ \Leftrightarrow \ \mathsf{proc}\ =\ \operatorname{ExternProcDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \lor \ (\mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \land \ (\operatorname{ExportAttr}(\mathsf{proc})\ \mathsf{defined}\ \lor \ \operatorname{HostExportAttr}(\mathsf{proc})\ \mathsf{defined}))
