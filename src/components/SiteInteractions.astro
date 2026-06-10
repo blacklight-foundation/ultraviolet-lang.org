@@ -1,0 +1,206 @@
+<script is:inline>
+  (() => {
+    if (window.__uvSiteInteractionsBound) return;
+    window.__uvSiteInteractionsBound = true;
+
+    const setButtonLabel = (button, label) => {
+      button.textContent = label;
+    };
+
+    if (!window.__commandCopyBound) {
+      window.__commandCopyBound = true;
+      document.addEventListener('click', async (event) => {
+        const button = event.target instanceof Element
+          ? event.target.closest('[data-copy-command]')
+          : null;
+        if (!button) return;
+
+        const command = button.getAttribute('data-copy-command') || '';
+        const label = button.getAttribute('data-copy-label') || button.textContent || 'Copy';
+        const restore = () => {
+          setButtonLabel(button, label);
+          button.classList.remove('is-copied', 'is-failed');
+        };
+
+        try {
+          await navigator.clipboard.writeText(command);
+          setButtonLabel(button, 'copied');
+          button.classList.add('is-copied');
+        } catch {
+          setButtonLabel(button, 'select');
+          button.classList.add('is-failed');
+        }
+
+        window.setTimeout(restore, 1800);
+      });
+    }
+
+    document.querySelectorAll('[data-install-tabs]').forEach((root) => {
+      const tabs = Array.from(root.querySelectorAll('[data-install-tab]'));
+      const panels = Array.from(root.querySelectorAll('[data-install-panel]'));
+
+      const setActive = (nextIndex) => {
+        tabs.forEach((tab, index) => {
+          const isActive = index === nextIndex;
+          tab.classList.toggle('active', isActive);
+          tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+          tab.tabIndex = isActive ? 0 : -1;
+        });
+
+        panels.forEach((panel, index) => {
+          panel.hidden = index !== nextIndex;
+        });
+      };
+
+      tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => setActive(index));
+        tab.addEventListener('keydown', (event) => {
+          if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+          event.preventDefault();
+          const direction = event.key === 'ArrowRight' ? 1 : -1;
+          const nextIndex = (index + direction + tabs.length) % tabs.length;
+          setActive(nextIndex);
+          tabs[nextIndex]?.focus();
+        });
+      });
+
+      setActive(0);
+    });
+
+    document.querySelectorAll('[data-feature-tabs]').forEach((root) => {
+      const tabs = Array.from(root.querySelectorAll('[data-feature-tab]'));
+      const panels = Array.from(root.querySelectorAll('[data-feature-panel]'));
+
+      const setActive = (nextIndex) => {
+        tabs.forEach((tab, index) => {
+          const isActive = index === nextIndex;
+          tab.classList.toggle('active', isActive);
+          tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+          tab.tabIndex = isActive ? 0 : -1;
+        });
+
+        panels.forEach((panel, index) => {
+          const isActive = index === nextIndex;
+          panel.hidden = !isActive;
+          panel.classList.toggle('active', isActive);
+        });
+      };
+
+      tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => setActive(index));
+        tab.addEventListener('keydown', (event) => {
+          if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+          event.preventDefault();
+          const direction = event.key === 'ArrowRight' ? 1 : -1;
+          const nextIndex = (index + direction + tabs.length) % tabs.length;
+          setActive(nextIndex);
+          tabs[nextIndex]?.focus();
+        });
+      });
+
+      setActive(0);
+    });
+
+    document.querySelectorAll('[data-support-picker]').forEach((root) => {
+      const options = Array.from(root.querySelectorAll('[data-support-tier]'));
+      const cta = root.querySelector('[data-support-cta]');
+
+      const setActive = (nextIndex) => {
+        options.forEach((option, index) => {
+          const isActive = index === nextIndex;
+          option.classList.toggle('selected', isActive);
+          option.setAttribute('aria-checked', isActive ? 'true' : 'false');
+          option.tabIndex = isActive ? 0 : -1;
+        });
+
+        const active = options[nextIndex];
+        if (cta && active) {
+          cta.textContent = active.getAttribute('data-support-label') || cta.textContent;
+          cta.setAttribute('href', active.getAttribute('data-support-href') || '#');
+        }
+      };
+
+      options.forEach((option, index) => {
+        option.addEventListener('click', () => setActive(index));
+        option.addEventListener('keydown', (event) => {
+          if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+          event.preventDefault();
+          const direction = event.key === 'ArrowRight' ? 1 : -1;
+          const nextIndex = (index + direction + options.length) % options.length;
+          setActive(nextIndex);
+          options[nextIndex]?.focus();
+        });
+      });
+
+      setActive(Math.min(2, options.length - 1));
+    });
+
+    const tooltipHiders = [];
+    const bindCodeTooltips = (scope) => {
+      const tooltip = scope.querySelector('[data-code-tooltip]');
+      if (!tooltip) return;
+
+      const hideTooltip = () => {
+        tooltip.classList.remove('is-visible');
+        tooltip.setAttribute('aria-hidden', 'true');
+      };
+
+      const showTooltip = (term) => {
+        tooltip.textContent = `${term.dataset.title || ''}\n${term.dataset.body || ''}\nOpen docs`;
+        tooltip.classList.add('is-visible');
+        tooltip.setAttribute('aria-hidden', 'false');
+
+        const scopeRect = scope.getBoundingClientRect();
+        const termRect = term.getBoundingClientRect();
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const padding = 10;
+        const maxLeft = Math.max(padding, scopeRect.width - tooltipRect.width - padding);
+        const preferredLeft = termRect.left - scopeRect.left + (termRect.width / 2) - (tooltipRect.width / 2);
+        const left = Math.max(padding, Math.min(preferredLeft, maxLeft));
+        const preferredTop = termRect.top - scopeRect.top - tooltipRect.height - 8;
+        const fallbackTop = termRect.bottom - scopeRect.top + 8;
+        const maxTop = Math.max(padding, scopeRect.height - tooltipRect.height - padding);
+        const top = preferredTop >= padding
+          ? Math.min(preferredTop, maxTop)
+          : Math.min(Math.max(fallbackTop, padding), maxTop);
+
+        tooltip.style.left = `${left}px`;
+        tooltip.style.top = `${top}px`;
+      };
+
+      scope.addEventListener('mouseover', (event) => {
+        const term = event.target instanceof Element
+          ? event.target.closest('.code-term')
+          : null;
+        if (term && scope.contains(term)) showTooltip(term);
+      });
+
+      scope.addEventListener('mouseout', (event) => {
+        const term = event.target instanceof Element
+          ? event.target.closest('.code-term')
+          : null;
+        const relatedTarget = event.relatedTarget instanceof Node
+          ? event.relatedTarget
+          : null;
+        if (term && !term.contains(relatedTarget)) hideTooltip();
+      });
+
+      scope.addEventListener('focusin', (event) => {
+        const term = event.target instanceof Element
+          ? event.target.closest('.code-term')
+          : null;
+        if (term && scope.contains(term)) showTooltip(term);
+      });
+
+      scope.addEventListener('focusout', hideTooltip);
+      scope.querySelectorAll('.annotated-code').forEach((codeBlock) => {
+        codeBlock.addEventListener('scroll', hideTooltip);
+      });
+      tooltipHiders.push(hideTooltip);
+    };
+
+    document.querySelectorAll('[data-feature-example]').forEach(bindCodeTooltips);
+    window.addEventListener('resize', () => tooltipHiders.forEach((hide) => hide()));
+    window.addEventListener('scroll', () => tooltipHiders.forEach((hide) => hide()), { passive: true });
+  })();
+</script>

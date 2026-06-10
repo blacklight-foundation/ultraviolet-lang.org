@@ -3,32 +3,26 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { roadmapMilestones } from '../data/funding';
 import type { RoadmapMilestone } from '../data/funding';
 
-// Engineering-first phases. "Now" is the unfunded baseline work already in
-// flight; "Next" features the milestones open for funding today; "Later"
-// lists scoped milestones queued behind them, grouped by track so the queue
-// stays scannable as it grows.
 const currentWork = [
   {
     title: 'Compiler bootstrap hardening',
     body: 'Hardening the source-build path toward the public specification on the first bootstrap target, x86_64-win64.',
     href: '/docs/build-the-compiler/',
-    cta: 'Build guide',
   },
   {
     title: 'Release engineering and cadence',
-    body: 'Packaged alpha archives with checksums ship on GitHub releases for Linux, macOS, and Windows; current work hardens recurring releases and release notes.',
+    body: 'Packaged alpha archives with checksums ship on GitHub releases; current work hardens recurring releases and release notes.',
     href: '/releases/',
-    cta: 'Release path',
   },
   {
-    title: 'Specification and documentation publication',
+    title: 'Specification and documentation',
     body: 'Keeping the generated specification edition, docs, and examples aligned with the implementation as it converges.',
     href: '/docs/specification/',
-    cta: 'Specification',
   },
 ];
 
-const nextMilestones = roadmapMilestones.filter((m) => m.tone === 'fundable');
+const nextMilestones = roadmapMilestones.filter((milestone) => milestone.tone === 'fundable');
+const plannedMilestones = roadmapMilestones.filter((milestone) => milestone.tone === 'planned');
 
 const categoryOrder: RoadmapMilestone['category'][] = [
   'Developer Tooling',
@@ -39,9 +33,7 @@ const categoryOrder: RoadmapMilestone['category'][] = [
 const laterTracks = categoryOrder
   .map((category) => ({
     category,
-    milestones: roadmapMilestones.filter(
-      (m) => m.tone === 'planned' && m.category === category,
-    ),
+    milestones: plannedMilestones.filter((milestone) => milestone.category === category),
   }))
   .filter((track) => track.milestones.length > 0);
 ---
@@ -50,72 +42,74 @@ const laterTracks = categoryOrder
   title="Public Alpha Roadmap"
   description="Track the Ultraviolet public alpha roadmap: current engineering work, upcoming tooling and compiler milestones, and how funding accelerates each phase."
 >
-  <article class="article-page status-page roadmap-page">
-    <header>
-      <p class="eyebrow">Project roadmap</p>
-      <h1>Public Alpha Roadmap</h1>
-      <p>
-        What is being built now, what comes next, and what follows — with the
-        funding that accelerates each milestone listed alongside the
-        engineering deliverable.
-      </p>
-      <div class="actions">
-        <a class="button primary" href="/releases/">
-          View release status
-        </a>
-        <a class="button secondary" href="/sponsor/#funding-goals">
-          Support a funding goal
-        </a>
+  <article class="ddp-page roadmap-page">
+    <header class="ddp-head">
+      <div class="dd-wrap ddp-head-in">
+        <p class="ddp-kicker">Project roadmap</p>
+        <h1 class="ddp-h1">Public Alpha Roadmap</h1>
+        <p class="ddp-lede">
+          What is being built now, what comes next, and what follows — with the
+          funding that accelerates each milestone listed alongside the
+          engineering deliverable.
+        </p>
+        <div class="ddp-actions">
+          <a class="dd-btn-primary" href="/releases/">View release status</a>
+          <a class="dd-btn-ghost" href="/sponsor/#funding-goals">Support a funding goal</a>
+        </div>
       </div>
     </header>
 
-    <section class="status-page-section" aria-labelledby="roadmap-now-heading">
-      <div class="category-header">
-        <h2 id="roadmap-now-heading">Now — in progress</h2>
-        <p>
-          Baseline alpha work underway today, independent of milestone
-          funding.
-        </p>
+    <div class="dd-wrap">
+      <div class="ddp-counts" aria-label="Roadmap counts">
+        <div class="ddp-count"><b>{currentWork.length}</b><span>in progress now</span></div>
+        <div class="ddp-count"><b>{nextMilestones.length}</b><span>open for funding</span></div>
+        <div class="ddp-count"><b>{plannedMilestones.length}</b><span>scoped and queued</span></div>
       </div>
-      <div class="status-card-grid">
+
+      <section class="ddp-section" aria-labelledby="roadmap-now-heading">
+        <div class="ddp-section-head">
+          <span class="dd-section-no"><b>01</b> / NOW</span>
+          <div>
+            <h2 class="ddp-h2" id="roadmap-now-heading">In progress.</h2>
+            <p class="dd-section-sub">
+              Baseline alpha work underway today, independent of milestone funding.
+            </p>
+          </div>
+        </div>
         {
           currentWork.map((item) => (
-            <a class="card post-card compact-card status-link-card" href={item.href}>
-              <span class="status-tag status-now">Now</span>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-              <span class="card-cta">{item.cta}</span>
+            <a class="ddp-row ddp-row-three ddp-linked-row" href={item.href}>
+              <p class="ddp-row-t">{item.title}</p>
+              <p class="ddp-row-d">{item.body}</p>
+              <span class="ddp-row-status"><span class="ddp-tag now">Now</span></span>
             </a>
           ))
         }
-      </div>
-    </section>
+      </section>
 
-    <section class="status-page-section" aria-labelledby="roadmap-next-heading">
-      <div class="category-header">
-        <h2 id="roadmap-next-heading">Next — open for funding</h2>
-        <p>
-          Scoped milestones with defined deliverables; each starts as soon as
-          its funding goal closes.
-        </p>
-      </div>
-      <div class="milestone-featured-grid">
+      <section class="ddp-section" aria-labelledby="roadmap-next-heading">
+        <div class="ddp-section-head">
+          <span class="dd-section-no"><b>02</b> / NEXT</span>
+          <div>
+            <h2 class="ddp-h2" id="roadmap-next-heading">Open for funding.</h2>
+            <p class="dd-section-sub">
+              Scoped milestones with defined deliverables; each starts as soon
+              as its funding goal closes.
+            </p>
+          </div>
+        </div>
         {
           nextMilestones.map((milestone) => (
-            <article class="milestone-featured">
-              <div class="milestone-featured-head">
-                <span class="status-tag status-next">Open for funding</span>
-                <span class="milestone-featured-category">{milestone.category}</span>
-              </div>
-              <h3>{milestone.title}</h3>
-              <p>{milestone.deliverable}</p>
-              <div class="milestone-featured-foot">
-                <p class="milestone-featured-target">
-                  <strong>{milestone.target}</strong>
-                  <span>funding target</span>
-                </p>
+            <article class="ddp-row fundable">
+              <p class="ddp-row-t">
+                {milestone.title}
+                <span class="ddp-row-cat">{milestone.category}</span>
+              </p>
+              <p class="ddp-row-d">{milestone.deliverable}</p>
+              <span class="ddp-row-target">{milestone.target}</span>
+              <span class="ddp-row-cta">
                 <a
-                  class="button primary"
+                  class="dd-btn-primary"
                   href={milestone.payLink}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -123,68 +117,46 @@ const laterTracks = categoryOrder
                 >
                   Sponsor this milestone
                 </a>
-              </div>
+              </span>
             </article>
           ))
         }
-      </div>
-    </section>
+      </section>
 
-    <section class="status-page-section" aria-labelledby="roadmap-later-heading">
-      <div class="category-header">
-        <h2 id="roadmap-later-heading">Later — scoped and queued</h2>
-        <p>
-          Sequenced behind the Next phase and grouped by track. Sponsorship
-          pulls a milestone forward.
-        </p>
-      </div>
-      {
-        laterTracks.map((track) => (
-          <section class="roadmap-track" aria-label={`${track.category} milestones`}>
-            <header class="roadmap-track-head">
-              <h3>{track.category}</h3>
-              <span>
-                {track.milestones.length}
-                {track.milestones.length === 1 ? ' milestone' : ' milestones'}
-              </span>
-            </header>
-            <ul class="roadmap-track-list">
+      <section class="ddp-section" aria-labelledby="roadmap-later-heading">
+        <div class="ddp-section-head">
+          <span class="dd-section-no"><b>03</b> / LATER</span>
+          <div>
+            <h2 class="ddp-h2" id="roadmap-later-heading">Scoped and queued.</h2>
+            <p class="dd-section-sub">
+              Sequenced behind the Next phase and grouped by track. Sponsorship
+              pulls a milestone forward.
+            </p>
+          </div>
+        </div>
+        {
+          laterTracks.map((track) => (
+            <section aria-label={`${track.category} milestones`}>
+              <div class="ddp-track-head">
+                <h3>{track.category}</h3>
+                <span>
+                  {track.milestones.length}
+                  {track.milestones.length === 1 ? ' milestone' : ' milestones'}
+                </span>
+              </div>
               {track.milestones.map((milestone) => (
-                <li class="roadmap-track-row">
-                  <div class="roadmap-track-info">
-                    <strong>{milestone.title}</strong>
-                    <p>{milestone.deliverable}</p>
-                  </div>
-                  <div class="roadmap-track-meta">
-                    <span class="roadmap-track-target">{milestone.target}</span>
-                    <a
-                      href={milestone.payLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Sponsor milestone: ${milestone.title}`}
-                    >
-                      Sponsor →
-                    </a>
-                  </div>
-                </li>
+                <article class="ddp-row">
+                  <p class="ddp-row-t">{milestone.title}</p>
+                  <p class="ddp-row-d">{milestone.deliverable}</p>
+                  <span class="ddp-row-target">{milestone.target}</span>
+                  <span class="ddp-row-status"><span class="ddp-tag planned">Planned</span></span>
+                </article>
               ))}
-            </ul>
-          </section>
-        ))
-      }
-    </section>
-
-    <section class="status-page-section">
-      <h2>How this roadmap is maintained</h2>
-      <p>
-        Phases reflect engineering sequencing, not promises of dates. Work in
-        the Now phase ships through the
-        <a href="/releases/">release path</a> and is announced in
-        <a href="/blog/">Updates</a>. Funding goals and their breakdowns live
-        on the <a href="/sponsor/">support page</a>; contribution paths that
-        don't involve money live on the
-        <a href="/community/">community page</a>.
-      </p>
-    </section>
+            </section>
+          ))
+        }
+      </section>
+      <div class="ddp-bottom-pad"></div>
+    </div>
   </article>
 </BaseLayout>

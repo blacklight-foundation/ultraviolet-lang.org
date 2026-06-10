@@ -1,17 +1,189 @@
 ---
-import ActionStrip from '../components/home/ActionStrip.astro';
-import HomeHero from '../components/home/HomeHero.astro';
-import HomeInteractions from '../components/home/HomeInteractions.astro';
-import LanguageFeatureWorkbench from '../components/home/LanguageFeatureWorkbench.astro';
-import SupportSummary from '../components/home/SupportSummary.astro';
-import { quickLinks } from '../data/homeContent';
+import AnnotatedCode from '../components/AnnotatedCode.astro';
+import InstallTabs from '../components/InstallTabs.astro';
+import ReleaseStatusStrip from '../components/ReleaseStatusStrip.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { fundingGoals } from '../data/funding';
+import { heroExample, languageFeatures } from '../data/homeContent';
+
+const featureGroupOrder = [
+  {
+    name: 'Review & safety',
+    titles: [
+      'Modal programming',
+      'Contracts',
+      'Permissions and binding state',
+      'Capability Context',
+    ],
+  },
+  {
+    name: 'Concurrency & compute',
+    titles: [
+      'Structured parallelism',
+      'Async operations',
+      'CPU + GPU programming',
+      'Keyed shared access',
+    ],
+  },
+  {
+    name: 'Systems & interop',
+    titles: [
+      'Abstraction and polymorphism',
+      'Compile-time generation',
+      'Foreign function interface',
+      'Memory regions and frames',
+    ],
+  },
+];
+
+const featureGroups = featureGroupOrder.map((group) => ({
+  name: group.name,
+  items: group.titles
+    .map((title) => languageFeatures.find((feature) => feature.title === title))
+    .filter((feature): feature is (typeof languageFeatures)[number] => Boolean(feature)),
+}));
+
+const orderedFeatures = featureGroups.flatMap((group) => group.items);
 ---
 
 <BaseLayout title="Ultraviolet">
-  <HomeHero />
-  <ActionStrip links={quickLinks} />
-  <LanguageFeatureWorkbench />
-  <SupportSummary />
-  <HomeInteractions />
+  <section class="dd-hero">
+    <div class="dd-wrap">
+      <p class="dd-kicker">Public alpha · Blacklight Foundation</p>
+      <h1 class="dd-h1">Ultraviolet</h1>
+      <p class="dd-lede">
+        A high-visibility, general-purpose language for <em>humans and AI</em>.
+      </p>
+      <div class="dd-hero-actions">
+        <a class="dd-btn-primary" href="/docs/quickstart/">Get started</a>
+        <a class="dd-btn-ghost" href="https://github.com/blacklight-foundation/ultraviolet">Open GitHub</a>
+      </div>
+      <InstallTabs />
+      <p class="dd-install-note">
+        Installs the latest packaged alpha and verifies SHA-256 checksums.
+        Prefer manual downloads? <a href="/releases/">GitHub releases</a> or
+        <a href="/docs/build-the-compiler/">build from source</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="dd-artifact" aria-labelledby="hero-artifact-heading">
+    <div class="dd-panel">
+      <div class="dd-panel-head">
+        <span>profile.uv</span>
+        <span class="tag" id="hero-artifact-heading">Async operations</span>
+      </div>
+      <AnnotatedCode lines={heroExample.exampleLines} codeClass="dd-artifact-code" />
+    </div>
+    <p class="dd-artifact-caption">
+      {heroExample.body} Hover any <u>underlined construct</u> to see what it means.
+    </p>
+  </section>
+
+  <div class="dd-status-spacer">
+    <ReleaseStatusStrip />
+  </div>
+
+  <section class="dd-section" aria-labelledby="language-heading">
+    <div class="dd-wrap">
+      <div class="dd-section-head">
+        <span class="dd-section-no"><b>01</b> / LANGUAGE</span>
+        <div>
+          <h2 class="dd-h2" id="language-heading">A language that shows its work.</h2>
+          <p class="dd-section-sub">
+            Twelve language systems designed so that what the compiler checks is
+            also what the reader sees. Pick a feature to see real Ultraviolet
+            source.
+          </p>
+        </div>
+      </div>
+
+      <div class="dd-workbench" data-feature-tabs>
+        <div class="dd-rail" role="tablist" aria-label="Language features">
+          {
+            featureGroups.map((group) => (
+              <div class="dd-rail-block">
+                <p class="dd-rail-group">{group.name}</p>
+                {group.items.map((feature) => {
+                  const index = orderedFeatures.indexOf(feature);
+                  return (
+                    <button
+                      type="button"
+                      id={`feature-tab-${index}`}
+                      role="tab"
+                      aria-selected={index === 0 ? 'true' : 'false'}
+                      aria-controls={`feature-panel-${index}`}
+                      class:list={['dd-tab', index === 0 && 'active']}
+                      data-feature-tab={index}
+                    >
+                      {feature.title}
+                    </button>
+                  );
+                })}
+              </div>
+            ))
+          }
+        </div>
+
+        <div class="dd-reader" aria-live="polite">
+          {
+            orderedFeatures.map((feature, index) => (
+              <section
+                id={`feature-panel-${index}`}
+                role="tabpanel"
+                aria-labelledby={`feature-tab-${index}`}
+                class:list={['dd-reader-panel', index === 0 && 'active']}
+                data-feature-panel={index}
+                hidden={index !== 0}
+              >
+                <div class="dd-reader-head">
+                  <div>
+                    <p class="dd-reader-title">{feature.title}</p>
+                    <p class="dd-reader-body">{feature.body}</p>
+                  </div>
+                  <a class="dd-reader-docs" href={feature.href}>Open docs →</a>
+                </div>
+                <div class="dd-reader-file">
+                  <span>{feature.exampleTitle}</span>
+                  <span class="tag">
+                    {featureGroups.find((group) => group.items.includes(feature))?.name}
+                  </span>
+                </div>
+                <AnnotatedCode lines={feature.exampleLines} codeClass="dd-reader-code" />
+              </section>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="dd-fundband" aria-labelledby="stewardship-heading">
+    <div class="dd-wrap dd-fundband-in">
+      <div>
+        <span class="dd-section-no"><b>02</b> / STEWARDSHIP</span>
+        <h2 class="dd-h2" id="stewardship-heading">What your support builds.</h2>
+        <p class="dd-fund-lede">
+          Blacklight Foundation funds compiler and runtime work, examples,
+          diagnostics, CI, documentation, and community infrastructure — with
+          public goals and public reporting.
+        </p>
+        <a class="dd-btn-ghost" href="/sponsor/">See support options</a>
+      </div>
+      <div>
+        {
+          fundingGoals.slice(0, 3).map((fund, index) => (
+            <article class="dd-fundrow">
+              <span class="dd-fundrow-no">{String(index + 1).padStart(2, '0')}</span>
+              <span>
+                <p class="dd-fundrow-t">{fund.title}</p>
+                <p class="dd-fundrow-d">{fund.purpose}</p>
+              </span>
+              <a class="dd-fundrow-link" href="/sponsor/#funding-goals">View goal →</a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
 </BaseLayout>

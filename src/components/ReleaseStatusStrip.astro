@@ -1,0 +1,43 @@
+---
+import { getReleaseStatus } from '../data/releaseStatus';
+import type { ReleaseStatus } from '../data/releaseStatus';
+
+interface Props {
+  status?: ReleaseStatus;
+}
+
+const status = Astro.props.status ?? await getReleaseStatus();
+---
+
+<section class="dd-status" aria-label="Release status">
+  <div class="dd-wrap dd-status-in">
+    <div class="dd-status-cell">
+      <p class="dd-status-k">Latest release</p>
+      <p class="dd-status-v">{status.version}</p>
+      <p class="dd-status-sub">
+        {status.date} · <a href={status.href}>release notes</a>
+      </p>
+    </div>
+    {
+      status.platforms.map((platform) => (
+        <div class="dd-status-cell">
+          <p class="dd-status-k">{platform.label}</p>
+          <p class="dd-status-v">
+            <span class="dd-status-ok">✓</span>{' '}
+            {platform.verified ? 'build verified' : 'verification pending'}
+          </p>
+        </div>
+      ))
+    }
+    <div class="dd-status-cell">
+      <p class="dd-status-k">Integrity</p>
+      <p class="dd-status-v">
+        <span class="dd-status-ok">✓</span>{' '}
+        SHA-256
+      </p>
+      <p class="dd-status-sub">
+        {status.hasChecksums ? 'checksums published' : 'checksums pending'}
+      </p>
+    </div>
+  </div>
+</section>

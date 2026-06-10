@@ -7,14 +7,15 @@ interface Props {
   lines: LanguageFeature['exampleLines'];
   wrapClass?: string;
   codeClass?: string;
+  lineStart?: number;
 }
 
-const { lines, wrapClass = '', codeClass = '' } = Astro.props;
+const { lines, wrapClass = '', codeClass = '', lineStart = 1 } = Astro.props;
 ---
 
 <div class={`feature-example-code-wrap ${wrapClass}`.trim()} data-feature-example>
-  <pre class={`annotated-code feature-code ${codeClass}`.trim()}><code>{lines.map((line) => (
-    <span class="code-line">{line.length === 0 ? '\u00A0' : line.map((part) => {
+  <pre class={`annotated-code feature-code ${codeClass}`.trim()}><code>{lines.map((line, index) => (
+    <span class="code-line"><span class="code-line-number" aria-hidden="true">{String(lineStart + index).padStart(2, '0')}</span><span class="code-line-source">{line.length === 0 ? '\u00A0' : line.map((part) => {
       if (typeof part === 'string') {
         return highlightPart(part).map(token => {
           if (token.type === 'text') return token.text;
@@ -31,7 +32,7 @@ const { lines, wrapClass = '', codeClass = '' } = Astro.props;
           aria-label={`${part.text}: ${explainer.title}. ${explainer.body}`}
         >{part.text}</a>
       );
-    })}</span>
+    })}</span></span>
   ))}</code></pre>
   <div class="code-tooltip" data-code-tooltip aria-hidden="true"></div>
 </div>

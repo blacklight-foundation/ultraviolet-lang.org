@@ -1,30 +1,10 @@
 ---
-import CommandCopy from '../components/CommandCopy.astro';
+import InstallTabs from '../components/InstallTabs.astro';
+import ReleaseStatusStrip from '../components/ReleaseStatusStrip.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getReleaseStatus } from '../data/releaseStatus';
 
-const releaseLinks = [
-  {
-    label: 'Release notes',
-    title: 'GitHub releases',
-    body: 'Published notes, tags, and artifacts for public compiler drops.',
-    href: 'https://github.com/blacklight-foundation/ultraviolet/releases',
-    cta: 'Open releases',
-  },
-  {
-    label: 'Build guide',
-    title: 'Local compiler build',
-    body: 'Prerequisites and bootstrap steps for building the compiler locally.',
-    href: '/docs/build-the-compiler/',
-    cta: 'Open build guide',
-  },
-  {
-    label: 'First run',
-    title: 'Start with the quickstart',
-    body: 'Create a manifest, write a first source file, and run the command surface.',
-    href: '/docs/quickstart/',
-    cta: 'Open quickstart',
-  },
-];
+const releaseStatus = await getReleaseStatus();
 
 const releaseTimeline = [
   {
@@ -46,116 +26,112 @@ const releaseTimeline = [
     body: 'Supported-target policy, recurring release notes, diagnostics examples, and public reports.',
   },
 ];
-
-const installTargets = [
-  {
-    platform: 'Linux x86_64 / macOS (Apple Silicon)',
-    command: 'curl -fsSL https://ultraviolet-lang.org/install | sh',
-  },
-  {
-    platform: 'Windows x86_64',
-    command: 'powershell -c "irm https://ultraviolet-lang.org/install.ps1 | iex"',
-  },
-];
 ---
 
 <BaseLayout
   title="Compiler Releases"
   description="Find the current Ultraviolet compiler release path, source-build instructions, the install script, and public alpha release status."
 >
-  <article class="article-page status-page releases-page">
-    <header>
-      <p class="eyebrow">Compiler downloads</p>
-      <h1>Compiler Releases</h1>
-      <p>
-        Install the packaged alpha with one command, download archives
-        directly from GitHub releases, or build from source.
-      </p>
-      <div class="actions">
-        <a class="button primary" href="#install">
-          Get the installer
-        </a>
-        <a class="button secondary" href="https://github.com/blacklight-foundation/ultraviolet/releases">
-          Open GitHub releases
-        </a>
+  <article class="ddp-page releases-page">
+    <header class="ddp-head">
+      <div class="dd-wrap ddp-head-in">
+        <p class="ddp-kicker">Compiler downloads</p>
+        <h1 class="ddp-h1">Compiler Releases</h1>
+        <p class="ddp-lede">
+          Install the packaged alpha with one command, download archives
+          directly from GitHub releases, or build from source.
+        </p>
+        <div class="ddp-actions">
+          <a class="dd-btn-primary" href="#install">Get the installer</a>
+          <a class="dd-btn-ghost" href={releaseStatus.href}>Open GitHub releases</a>
+        </div>
       </div>
     </header>
 
-    <section class="card release-current" aria-labelledby="release-status-heading">
-      <div>
-        <span class="status-kicker">Available now</span>
-        <h2 id="release-status-heading">Packaged alpha builds.</h2>
-      </div>
-      <p>
-        Packaged archives with SHA-256 checksums ship for Linux x86_64, macOS
-        on Apple Silicon, and Windows x86_64. Building from source remains
-        fully supported.
-      </p>
-      <a class="button secondary" href="/docs/build-the-compiler/">
-        Open build guide
-      </a>
-    </section>
+    <ReleaseStatusStrip status={releaseStatus} />
 
-    <section id="install" class="status-page-section" aria-labelledby="install-script-heading">
-      <h2 id="install-script-heading">Install script</h2>
-      <p>
-        The installer downloads the latest packaged alpha from GitHub
-        releases, verifies its SHA-256 checksum, and adds the
-        <code>uv</code> command to your PATH.
-      </p>
-      <div class="install-command-list">
-        {
-          installTargets.map((target) => (
-            <div class="install-command-row">
-              <span class="install-platform">{target.platform}</span>
-              <CommandCopy command={target.command} />
-            </div>
-          ))
-        }
-      </div>
-      <p class="install-note">
-        Already using Python's <code>uv</code>? The installer detects the
-        conflict and asks: it can keep the existing tool available as
-        <code>pyuv</code>, or install Ultraviolet's CLI as <code>uvc</code>
-        instead.
-      </p>
-    </section>
+    <div class="dd-wrap">
+      <section class="ddp-section" id="install" aria-labelledby="install-heading">
+        <div class="ddp-section-head">
+          <span class="dd-section-no"><b>01</b> / INSTALL</span>
+          <div>
+            <h2 class="ddp-h2" id="install-heading">One command.</h2>
+            <p class="dd-section-sub">
+              The installer downloads the latest packaged alpha from GitHub
+              releases, verifies its SHA-256 checksum, and adds the <code>uv</code>
+              command to your PATH.
+            </p>
+          </div>
+        </div>
+        <div class="ddp-install-block">
+          <InstallTabs left />
+        </div>
+        <p class="ddp-fineprint">
+          Already using Python's <code>uv</code>? The installer detects the
+          conflict and asks: it can keep the existing tool available as
+          <code>pyuv</code>, or install Ultraviolet's CLI as <code>uvc</code>
+          instead.
+        </p>
+        <div class="ddp-linkrow">
+          <a href={releaseStatus.href}>Manual downloads on GitHub →</a>
+          <a href="/docs/build-the-compiler/">Build from source →</a>
+          <a href="/docs/quickstart/">Quickstart: first program →</a>
+        </div>
+      </section>
 
-    <section class="status-page-section">
-      <h2>Release paths</h2>
-      <div class="status-card-grid">
-        {
-          releaseLinks.map((link) => (
-            <a class="card post-card compact-card status-link-card" href={link.href}>
-              <span class="status-tag">{link.label}</span>
-              <h3>{link.title}</h3>
-              <p>{link.body}</p>
-              <span class="card-cta">{link.cta}</span>
-            </a>
-          ))
-        }
-      </div>
-    </section>
+      <section class="ddp-section" aria-labelledby="artifacts-heading">
+        <div class="ddp-section-head">
+          <span class="dd-section-no"><b>02</b> / ARTIFACTS</span>
+          <div>
+            <h2 class="ddp-h2" id="artifacts-heading">What ships in {releaseStatus.version}.</h2>
+            <p class="dd-section-sub">
+              Every archive is built in CI and published with its SHA-256
+              checksum. The install script verifies before unpacking.
+            </p>
+          </div>
+        </div>
+        <div class="ddp-artifact-table" role="table" aria-label="Release artifacts">
+          <div class="ddp-artifact-row ddp-artifact-head" role="row">
+            <span role="columnheader">Target</span>
+            <span role="columnheader">Archive</span>
+            <span role="columnheader">Checksum</span>
+            <span role="columnheader">CI</span>
+          </div>
+          {
+            releaseStatus.artifacts.map((artifact) => (
+              <a class="ddp-artifact-row" href={artifact.href} role="row">
+                <span class="target" role="cell">{artifact.target}</span>
+                <span class="file" role="cell">{artifact.file}</span>
+                <span class="sum" role="cell">{artifact.sum}</span>
+                <span class="ok" role="cell">
+                  {artifact.verified ? '✓ verified' : 'pending'}
+                </span>
+              </a>
+            ))
+          }
+        </div>
+      </section>
 
-    <section class="status-page-section">
-      <h2>Release timeline</h2>
-      <div class="timeline">
-        {
-          releaseTimeline.map((item) => (
-            <article class="timeline-item">
-              <div>
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-              </div>
-              <span class={`status-tag status-${item.tone}`}>{item.status}</span>
-            </article>
-          ))
-        }
-      </div>
-      <p>
-        See the <a href="/roadmap/">public alpha roadmap</a> for current work,
-        funded milestones, and delivery status.
-      </p>
-    </section>
+      <section class="ddp-section" aria-labelledby="release-path-heading">
+        <div class="ddp-section-head">
+          <span class="dd-section-no"><b>03</b> / RELEASE PATH</span>
+          <h2 class="ddp-h2" id="release-path-heading">Where release engineering stands.</h2>
+        </div>
+        <div>
+          {
+            releaseTimeline.map((item) => (
+              <article class="ddp-row ddp-row-three">
+                <p class="ddp-row-t">{item.title}</p>
+                <p class="ddp-row-d">{item.body}</p>
+                <span class="ddp-row-status">
+                  <span class={`ddp-tag ${item.tone}`}>{item.status}</span>
+                </span>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+      <div class="ddp-bottom-pad"></div>
+    </div>
   </article>
 </BaseLayout>

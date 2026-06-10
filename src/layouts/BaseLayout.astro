@@ -1,5 +1,6 @@
 ---
 import '../styles/site.css';
+import SiteInteractions from '../components/SiteInteractions.astro';
 import { oneTimeDonation } from '../data/funding';
 import {
   siteDescription,
@@ -65,6 +66,12 @@ const footerUtilityLinks = [
   },
   { href: '/docs/specification/', label: 'Specification' },
 ];
+
+const headerTicks = Array.from({ length: 60 }, (_, index) => index);
+
+const isActiveLink = (href: string) => (
+  href.startsWith('/') && Astro.url.pathname.startsWith(href)
+);
 ---
 
 <!doctype html>
@@ -94,48 +101,49 @@ const footerUtilityLinks = [
     <meta name="twitter:image:alt" content={socialImageAlt} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
     <script is:inline src="/newsletter-signup.js" defer></script>
     <slot name="head" />
   </head>
   <body>
-    <div class="announcement-banner">
-      <span class="announcement-badge">Public Alpha</span>
-      <span class="announcement-message">The Ultraviolet public alpha is available — install the compiler today.</span>
-      <a class="announcement-link" href="/releases/">Get the compiler →</a>
-    </div>
     <a class="skip-link" href="#content">Skip to content</a>
     <header class="site-header">
-      <a class="brand" href="/" aria-label="Ultraviolet home">
-        <span class="brand-mark" aria-hidden="true">
-          <img
-            src="/images/ultraviolet_logo_dark_256.png"
-            width="256"
-            height="256"
-            alt=""
-          />
-        </span>
-        <span class="brand-text">Ultraviolet</span>
-      </a>
-      <nav class="site-nav" aria-label="Primary navigation">
+      <div class="site-header-inner">
+        <a class="brand" href="/" aria-label="Ultraviolet home">
+          <span class="brand-mark" aria-hidden="true">
+            <img
+              src="/images/ultraviolet_logo_dark_256.png"
+              width="256"
+              height="256"
+              alt=""
+            />
+          </span>
+          <span class="brand-text">Ultraviolet</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary navigation">
+          {
+            navLinks.map((link) => (
+              <a
+                href={link.href}
+                aria-current={isActiveLink(link.href) ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            ))
+          }
+        </nav>
+        <div class="header-actions">
+          <a class="nav-secondary" href="/sponsor/">Support</a>
+          <a class="nav-cta" href="/docs/quickstart/">Get started</a>
+        </div>
+      </div>
+      <div class="site-header-ticks" aria-hidden="true">
         {
-          navLinks.map((link) => (
-            <a
-              href={link.href}
-              aria-current={
-                link.href.startsWith('/') && Astro.url.pathname.startsWith(link.href)
-                  ? 'page'
-                  : undefined
-              }
-            >
-              {link.label}
-            </a>
+          headerTicks.map((tick) => (
+            <span class:list={['site-header-tick', tick % 10 === 0 && 'major']}></span>
           ))
         }
-      </nav>
-      <div class="header-actions">
-        <a class="nav-secondary" href="/sponsor/">Support</a>
-        <a class="nav-cta" href="/docs/quickstart/">Get started</a>
+        <span class="site-header-band"></span>
       </div>
     </header>
     <main id="content">
@@ -143,35 +151,33 @@ const footerUtilityLinks = [
     </main>
     <footer class="site-footer">
       <div class="footer-inner">
-        <div class="footer-primary">
-          <a class="footer-brand" href="/">
-            <span class="footer-brand-mark" aria-hidden="true">
-              <img
-                src="/images/ultraviolet_logo_dark_256.png"
-                width="256"
-                height="256"
-                alt=""
-              />
-            </span>
-            <span>Ultraviolet</span>
-          </a>
-          <div class="footer-stewardship">
+        <div class="footer-grid">
+          <div>
+            <a class="footer-brand" href="/">
+              <span class="footer-brand-mark" aria-hidden="true">
+                <img
+                  src="/images/ultraviolet_logo_dark_256.png"
+                  width="256"
+                  height="256"
+                  alt=""
+                />
+              </span>
+              <span>Ultraviolet</span>
+            </a>
             <p class="footer-summary">
               A high-visibility, general-purpose programming language for
               humans and AI, stewarded by Blacklight Foundation.
             </p>
+            <nav class="footer-links" aria-label="Footer primary navigation">
+              {
+                footerPrimaryLinks.map((link) => (
+                  <a href={link.href}>
+                    {link.label}
+                  </a>
+                ))
+              }
+            </nav>
           </div>
-          <nav class="footer-links" aria-label="Footer primary navigation">
-            {
-              footerPrimaryLinks.map((link) => (
-                <a href={link.href}>
-                  {link.label}
-                </a>
-              ))
-            }
-          </nav>
-        </div>
-        <div class="footer-secondary">
           <form
             class="footer-signup"
             data-newsletter-form
@@ -180,27 +186,30 @@ const footerUtilityLinks = [
             novalidate
           >
             <input type="hidden" name="source" value="footer" />
+            <p class="footer-news-label">Public alpha updates</p>
             <label class="sr-only" for="footer-newsletter-email">
               Email address
             </label>
-            <input
-              id="footer-newsletter-email"
-              name="email"
-              type="email"
-              autocomplete="email"
-              inputmode="email"
-              placeholder="Email for alpha updates"
-              required
-            />
-            <input
-              class="newsletter-honeypot"
-              name="company"
-              type="text"
-              tabindex="-1"
-              autocomplete="off"
-              aria-hidden="true"
-            />
-            <button type="submit">Subscribe</button>
+            <div class="footer-news-row">
+              <input
+                id="footer-newsletter-email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                inputmode="email"
+                placeholder="you@example.com"
+                required
+              />
+              <input
+                class="newsletter-honeypot"
+                name="company"
+                type="text"
+                tabindex="-1"
+                autocomplete="off"
+                aria-hidden="true"
+              />
+              <button type="submit">Subscribe</button>
+            </div>
             <p
               class="footer-signup-status"
               data-newsletter-status
@@ -209,7 +218,10 @@ const footerUtilityLinks = [
             >
             </p>
           </form>
-          <nav class="footer-links footer-utility-links" aria-label="Footer utility navigation">
+        </div>
+        <div class="footer-legal">
+          <span>&copy; 2026 Blacklight Foundation · Currently in alpha</span>
+          <nav class="footer-utility-links" aria-label="Footer utility navigation">
             {
               footerUtilityLinks.map((link) => (
                 <a href={link.href}>
@@ -218,24 +230,9 @@ const footerUtilityLinks = [
               ))
             }
           </nav>
-          <div class="footer-meta">
-            <a
-              class="footer-foundation-mark"
-              href="/foundation/"
-              aria-label="Blacklight Foundation"
-            >
-              <img
-                src="/images/blacklight_wordmark_vertical.png"
-                width="600"
-                height="600"
-                alt=""
-              />
-            </a>
-            <span>&copy; 2026 Blacklight Foundation</span>
-            <span>Currently in alpha.</span>
-          </div>
         </div>
       </div>
     </footer>
+    <SiteInteractions />
   </body>
 </html>

@@ -1,10 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import NewsletterSignup from '../components/NewsletterSignup.astro';
 import {
   fundingGoals,
   oneTimeDonation,
-  supportFundedWork,
   supportTiers,
 } from '../data/funding';
 
@@ -15,172 +13,162 @@ const trustSignals = [
   'Transparent reporting',
 ];
 
-const fundedAreas = [
-  {
-    title: 'Robust Developer Tooling',
-    body: 'Compiler speed optimization, Language Server Protocol (LSP) IDE integration, packages management, and formatting check paths.',
-  },
-  {
-    title: 'Core Language Safety',
-    body: 'Enforcing runtime sandboxing, static defaults, explicit capability verification, and responsibility-transfer checks.',
-  },
-  {
-    title: 'Sustained Maintainer Support',
-    body: 'Release engineering orchestration, diagnostics tutorials, developer advocacy, and public roadmap reporting.',
-  },
-];
+const selectedTierIndex = Math.min(2, supportTiers.length - 1);
+const selectedTier = supportTiers[selectedTierIndex];
+
+const splitBreakdown = (item: string) => {
+  const [amount, ...rest] = item.split(' ');
+  return { amount, detail: rest.join(' ') };
+};
 ---
 
-<BaseLayout title="Support Ultraviolet">
-  <article class="article-page support-page">
-    <header>
-      <p class="eyebrow">Public alpha support</p>
-      <h1>Support Ultraviolet</h1>
-      <p>
-        General recurring sponsorship and targeted milestone funding to build a safe, high-visibility compiler.
-      </p>
-      <div class="actions">
-        <a class="button primary" href="#support-tiers">Support now</a>
-        <a class="button secondary" href="#funding-goals">Funding goals</a>
-        <a class="button ghost" href="#donate">Donate once</a>
+<BaseLayout
+  title="Support Ultraviolet"
+  description="Support Ultraviolet through monthly sponsorship or targeted public alpha funding goals."
+>
+  <article class="ddp-page support-page">
+    <header class="ddp-head">
+      <div class="dd-wrap ddp-head-in">
+        <p class="ddp-kicker">Public alpha support</p>
+        <h1 class="ddp-h1">Support Ultraviolet</h1>
+        <p class="ddp-lede">
+          Your support enables Blacklight Foundation to maintain Ultraviolet as a
+          public utility — keeping the compiler toolchain, documentation,
+          packaging infrastructure, and specification completely free,
+          open-source, and independent.
+        </p>
+        <div class="ddp-trust" aria-label="Trust signals">
+          {trustSignals.map((signal) => <span class="ddp-tag">{signal}</span>)}
+        </div>
       </div>
     </header>
 
-    <section class="support-intro">
-      <h2>Why support?</h2>
-      <p>
-        Ultraviolet is built from the ground up for safe, high-performance programming.
-        By centering language design around explicit capabilities, sandboxed system APIs,
-        and compiler-verified responsibility transfers, Ultraviolet prevents safety bugs before they run,
-        making it perfect for humans and AI agents alike.
-      </p>
-      <p>
-        Your support enables the Blacklight Foundation to maintain Ultraviolet as a public utility—keeping
-        the compiler toolchain, documentation, packaging infrastructure, and specification completely free,
-        open-source, and independent.
-      </p>
-      <div class="foundation-steward-card">
-        <img
-          src="/images/blacklight_wordmark_vertical.png"
-          width="600"
-          height="600"
-          alt="Blacklight Foundation"
-        />
-        <p>
-          Donations and sponsorships support Blacklight Foundation's public
-          Ultraviolet work.
+    <div class="dd-wrap">
+      <section class="ddp-section" aria-label="Support paths">
+        <div class="ddp-fork">
+          <div class="ddp-fork-cell">
+            <p class="label">Path A · Recurring</p>
+            <p class="t">Monthly sponsorship</p>
+            <p class="d">
+              General support that funds ongoing maintenance, package hosting,
+              CI, and documentation. Pick an amount, pay through Stripe.
+            </p>
+            <a class="dd-btn-primary" href="#choose">Choose an amount ↓</a>
+          </div>
+          <div class="ddp-fork-cell">
+            <p class="label">Path B · Targeted</p>
+            <p class="t">Fund a milestone</p>
+            <p class="d">
+              One-time contributions toward a scoped deliverable — LSP tooling,
+              the standard library, or the Wasm playground — each with a
+              published cost breakdown.
+            </p>
+            <a class="dd-btn-ghost" href="#funding-goals">See funding goals ↓</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="ddp-section" id="choose" aria-labelledby="recurring-heading" data-support-picker>
+        <div class="ddp-section-head">
+          <span class="dd-section-no"><b>01</b> / RECURRING</span>
+          <div>
+            <h2 class="ddp-h2" id="recurring-heading">Choose a monthly amount.</h2>
+            <p class="dd-section-sub">
+              Every tier funds the same public work and includes public roadmap
+              updates — the amount is up to you.
+            </p>
+          </div>
+        </div>
+        <div class="ddp-amounts" role="radiogroup" aria-label="Monthly support amount">
+          {
+            supportTiers.map((tier, index) => (
+              <button
+                type="button"
+                role="radio"
+                aria-checked={index === selectedTierIndex ? 'true' : 'false'}
+                class:list={['ddp-amount', index === selectedTierIndex && 'selected']}
+                data-support-tier={index}
+                data-support-label={`Support at ${tier.amount}/month`}
+                data-support-href={tier.href}
+              >
+                {tier.amount === '$20' && <span class="rec">Most common</span>}
+                <span class="amt">{tier.amount}</span>
+                <span class="name">{tier.title}</span>
+              </button>
+            ))
+          }
+        </div>
+        <div class="ddp-amount-foot">
+          <p class="ddp-benefit-line">
+            Funds <b>compiler maintenance, package hosting, CI/CD, and documentation</b>
+            {' '}· includes public roadmap updates · cancel anytime.
+          </p>
+          <a
+            class="dd-btn-primary"
+            href={selectedTier.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-support-cta
+          >
+            Support at {selectedTier.amount}/month
+          </a>
+        </div>
+        <p class="ddp-fineprint">
+          For invoices, ACH, custom recognition, grant paperwork, or larger
+          support arrangements, email
+          <a href="mailto:sponsors@ultraviolet-lang.org">sponsors@ultraviolet-lang.org</a>
         </p>
-      </div>
-      <div class="trust-strip" aria-label="Trust signals">
-        {trustSignals.map((signal) => <span>{signal}</span>)}
-      </div>
-    </section>
+        <div class="ddp-donate-row" id="donate">
+          <div>
+            <p class="t">{oneTimeDonation.title}</p>
+            <p class="d">{oneTimeDonation.description}</p>
+          </div>
+          <a class="dd-btn-ghost" href={oneTimeDonation.href} target="_blank" rel="noopener noreferrer">
+            {oneTimeDonation.cta}
+          </a>
+        </div>
+      </section>
 
-    <section id="support-tiers">
-      <h2>Recurring support</h2>
-      <p>
-        Support the project with a recurring monthly contribution through Stripe. General sponsorship funds ongoing maintenance, package hosting, and documentation.
-      </p>
-      <div class="support-amount-grid">
+      <section class="ddp-section" id="funding-goals" aria-labelledby="targeted-heading">
+        <div class="ddp-section-head">
+          <span class="dd-section-no"><b>02</b> / TARGETED</span>
+          <div>
+            <h2 class="ddp-h2" id="targeted-heading">Targeted funding goals.</h2>
+            <p class="dd-section-sub">
+              Each goal funds a scoped milestone with a public deliverable and a
+              published cost breakdown.
+            </p>
+          </div>
+        </div>
         {
-          supportTiers.map((tier) => (
-            <a class="support-amount" href={tier.href} target="_blank" rel="noopener noreferrer" aria-label={tier.cta}>
-              <span>{tier.amount}</span>
-              <strong>{tier.title}</strong>
-              <small>{tier.description}</small>
-              <ul class="tier-benefits-list">
-                {tier.benefits.map((b) => (
-                  <li>{b}</li>
-                ))}
-              </ul>
-            </a>
-          ))
-        }
-      </div>
-      <p>
-        For invoices, ACH, custom recognition, grant paperwork, or larger
-        support arrangements, email <a href="mailto:sponsors@ultraviolet-lang.org">sponsors@ultraviolet-lang.org</a>
-      </p>
-    </section>
-
-    <section id="donate" class="card donation-card">
-      <div>
-        <h2>{oneTimeDonation.title}</h2>
-        <p>
-          {oneTimeDonation.description} Use this for a flexible one-time
-          contribution.
-        </p>
-      </div>
-      <a class="button primary" href={oneTimeDonation.href} target="_blank" rel="noopener noreferrer">
-        {oneTimeDonation.cta}
-      </a>
-    </section>
-
-    <section>
-      <h2>What support funds</h2>
-      <div class="grid three-col">
-        {
-          fundedAreas.map((item) => (
-            <article class="card compact-card">
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
+          fundingGoals.map((fund) => (
+            <article class="ddp-goal">
+              <div>
+                <p class="ddp-goal-t">{fund.title}</p>
+                <span class="ddp-goal-amount"><b>{fund.goal}</b>funding goal</span>
+                <p class="ddp-goal-timeline">Timeline: {fund.timeline}</p>
+                <a class="dd-btn-ghost" href={fund.payLink} target="_blank" rel="noopener noreferrer">
+                  {fund.cta}
+                </a>
+              </div>
+              <div class="ddp-goal-body">
+                <p>{fund.summary}</p>
+                <p><b>Outcome:</b> {fund.outcome}</p>
+              </div>
+              <div>
+                <p class="ddp-goal-breakdown-label">Breakdown</p>
+                <ul class="ddp-goal-breakdown">
+                  {fund.breakdown.map((item) => {
+                    const breakdown = splitBreakdown(item);
+                    return <li><b>{breakdown.amount}</b> {breakdown.detail}</li>;
+                  })}
+                </ul>
+              </div>
             </article>
           ))
         }
-      </div>
-    </section>
-
-    <section id="funding-goals">
-      <h2>Targeted funding goals</h2>
-      <div class="funding-goal-list">
-        {
-          fundingGoals.map((fund) => (
-            <section class="card funding-card funding-goal-card">
-              <div>
-                <h3>{fund.title}</h3>
-                <p class="funding-goal">Goal: {fund.goal}</p>
-                <p class="funding-timeline">Timeline: {fund.timeline}</p>
-              </div>
-              <div>
-                <p>{fund.summary}</p>
-                <p>{fund.body}</p>
-                <p>{fund.outcome}</p>
-              </div>
-              <ul class="plain-list funding-breakdown">
-                {fund.breakdown.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-              <div class="actions">
-                <a class="button ghost" href={fund.payLink} target="_blank" rel="noopener noreferrer">
-                  Sponsor this goal
-                </a>
-              </div>
-            </section>
-          ))
-        }
-      </div>
-    </section>
-
-    <section>
-      <h2>Public work covered by support</h2>
-      <ul class="plain-list">
-        {supportFundedWork.map((item) => <li>{item}</li>)}
-      </ul>
-    </section>
-
-    <NewsletterSignup
-      source="support"
-      heading="Follow the public alpha"
-      description="Get compiler progress, funding milestones, and public alpha updates."
-    />
-
-    <section>
-      <h2>Contact</h2>
-      <p>
-        Questions, invoices, ACH, grant paperwork, and larger support
-        conversations can start by email: <a href="mailto:sponsors@ultraviolet-lang.org">sponsors@ultraviolet-lang.org</a>
-      </p>
-    </section>
+      </section>
+      <div class="ddp-bottom-pad"></div>
+    </div>
   </article>
 </BaseLayout>

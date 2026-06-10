@@ -1,0 +1,64 @@
+---
+interface Props {
+  left?: boolean;
+}
+
+const { left = false } = Astro.props;
+const installTargets = [
+  {
+    label: 'Linux / macOS',
+    platform: 'Linux x86_64 / macOS (Apple Silicon)',
+    command: 'curl -fsSL https://ultraviolet-lang.org/install | sh',
+  },
+  {
+    label: 'Windows',
+    platform: 'Windows x86_64',
+    command: 'powershell -c "irm https://ultraviolet-lang.org/install.ps1 | iex"',
+  },
+];
+const idBase = left ? 'install-left' : 'install-main';
+---
+
+<div class:list={['dd-install', left && 'left']} data-install-tabs>
+  <div class="dd-install-tabs" role="tablist" aria-label="Install platform">
+    {
+      installTargets.map((target, index) => (
+        <button
+          type="button"
+          id={`${idBase}-tab-${index}`}
+          role="tab"
+          aria-selected={index === 0 ? 'true' : 'false'}
+          aria-controls={`${idBase}-panel-${index}`}
+          class:list={['dd-install-tab', index === 0 && 'active']}
+          data-install-tab={index}
+        >
+          {target.label}
+        </button>
+      ))
+    }
+  </div>
+  {
+    installTargets.map((target, index) => (
+      <div
+        id={`${idBase}-panel-${index}`}
+        role="tabpanel"
+        aria-labelledby={`${idBase}-tab-${index}`}
+        class="dd-install-panel"
+        data-install-panel={index}
+        hidden={index !== 0}
+      >
+        <p class="dd-install-platform">{target.platform}</p>
+        <div class="dd-install-cmdrow">
+          <code class="dd-install-cmd"><span class="dollar">$</span>{target.command}</code>
+          <button
+            class="dd-copy"
+            type="button"
+            data-copy-command={target.command}
+            data-copy-label="copy"
+            aria-label={`Copy install command for ${target.platform}`}
+          >copy</button>
+        </div>
+      </div>
+    ))
+  }
+</div>
