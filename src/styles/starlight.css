@@ -844,6 +844,23 @@ body {
   z-index: 100;
 }
 
+.page > .header::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  height: 2px;
+  background: radial-gradient(
+    ellipse clamp(90px, 18vw, 260px) 100% at calc(var(--uv-scroll-progress, 0) * 100%) 50%,
+    rgba(157, 123, 255, 0.82),
+    rgba(157, 123, 255, 0.28) 45%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
 .page > .header::after {
   content: "";
   position: absolute;
@@ -852,7 +869,6 @@ body {
   left: 0;
   height: 9px;
   background:
-    linear-gradient(90deg, rgba(157, 123, 255, 0.7), transparent 18%) var(--uv-scroll-band-position, 0%) bottom / 18% 2px no-repeat,
     repeating-linear-gradient(90deg, rgba(226, 230, 242, 0.13) 0 1px, transparent 1px calc(100% / 6)) bottom left / 100% 8px no-repeat,
     repeating-linear-gradient(90deg, rgba(226, 230, 242, 0.05) 0 1px, transparent 1px calc(100% / 60)) bottom left / 100% 4px no-repeat;
   pointer-events: none;

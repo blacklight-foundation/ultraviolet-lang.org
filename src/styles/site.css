@@ -4593,7 +4593,12 @@ select {
   left: 0;
   width: auto;
   height: 2px;
-  background: linear-gradient(90deg, rgba(157, 123, 255, 0.7), transparent) var(--uv-scroll-band-position, 0%) bottom / 18% 2px no-repeat;
+  background: radial-gradient(
+    ellipse clamp(90px, 18vw, 260px) 100% at calc(var(--uv-scroll-progress, 0) * 100%) 50%,
+    rgba(157, 123, 255, 0.82),
+    rgba(157, 123, 255, 0.28) 45%,
+    transparent 100%
+  );
 }
 
 .site-footer {

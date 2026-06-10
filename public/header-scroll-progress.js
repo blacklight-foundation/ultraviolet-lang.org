@@ -16,7 +16,6 @@
     const progress = max_scroll > 0 ? clamp(scroll_top / max_scroll) : 0;
 
     root.style.setProperty('--uv-scroll-progress', progress.toFixed(5));
-    root.style.setProperty('--uv-scroll-band-position', `${(progress * 100).toFixed(3)}%`);
   };
 
   const schedule = () => {
