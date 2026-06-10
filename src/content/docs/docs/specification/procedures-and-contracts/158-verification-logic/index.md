@@ -2,16 +2,16 @@
 title: "15.8 Verification Logic"
 description: "15.8 Verification Logic from 15. Procedures and Contracts of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "procedures-and-contracts"
 specSection: "158-verification-logic"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -291,7 +291,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{EvalSigma}(P[\rho ],\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{true}),\ \sigma ') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{CheckStart}(P,\ k,\ s,\ \rho ,\ \sigma )\rangle \ \to \ \langle \operatorname{CheckDone}(\sigma ')\rangle 
+\langle \operatorname{CheckStart}(P,\ k,\ s,\ \rho ,\ \sigma )\rangle \ \to \ \langle \operatorname{CheckDone}(\sigma ')\rangle
 \end{array}
 $$
 
@@ -301,7 +301,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{EvalSigma}(P[\rho ],\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{false}),\ \sigma ') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{CheckStart}(P,\ k,\ s,\ \rho ,\ \sigma )\rangle \ \to \ \langle \operatorname{CheckPanic}(\sigma ')\rangle 
+\langle \operatorname{CheckStart}(P,\ k,\ s,\ \rho ,\ \sigma )\rangle \ \to \ \langle \operatorname{CheckPanic}(\sigma ')\rangle
 \end{array}
 $$
 
@@ -311,7 +311,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{EvalSigma}(P[\rho ],\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma ') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{CheckStart}(P,\ k,\ s,\ \rho ,\ \sigma )\rangle \ \to \ \langle \operatorname{CheckPanic}(\sigma ')\rangle 
+\langle \operatorname{CheckStart}(P,\ k,\ s,\ \rho ,\ \sigma )\rangle \ \to \ \langle \operatorname{CheckPanic}(\sigma ')\rangle
 \end{array}
 $$
 
@@ -319,7 +319,7 @@ $$
 
 $$
 \begin{array}{l}
-\langle \operatorname{CheckStart}(P,\ k,\ s,\ \rho ,\ \sigma )\rangle \ \to *\ \langle \operatorname{CheckDone}(\sigma ')\rangle  \\[0.16em]
+\langle \operatorname{CheckStart}(P,\ k,\ s,\ \rho ,\ \sigma )\rangle \ \to *\ \langle \operatorname{CheckDone}(\sigma ')\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ContractCheck}(P,\ k,\ s,\ \rho ,\ \sigma )\ \Downarrow \ \sigma '
 \end{array}
@@ -329,7 +329,7 @@ $$
 
 $$
 \begin{array}{l}
-\langle \operatorname{CheckStart}(P,\ k,\ s,\ \rho ,\ \sigma )\rangle \ \to *\ \langle \operatorname{CheckPanic}(\sigma ')\rangle  \\[0.16em]
+\langle \operatorname{CheckStart}(P,\ k,\ s,\ \rho ,\ \sigma )\rangle \ \to *\ \langle \operatorname{CheckPanic}(\sigma ')\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ContractCheck}(P,\ k,\ s,\ \rho ,\ \sigma )\ \Uparrow \ \mathsf{panic}
 \end{array}

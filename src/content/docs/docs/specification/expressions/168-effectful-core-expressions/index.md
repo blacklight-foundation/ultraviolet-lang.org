@@ -2,16 +2,16 @@
 title: "16.8 Effectful Core Expressions"
 description: "16.8 Effectful Core Expressions from 16. Expressions of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "expressions"
 specSection: "168-effectful-core-expressions"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -110,7 +110,7 @@ $$
 ### 16.8.3 AST Representation / Form
 
 $$
-\mathsf{Expr}\ =\ \operatorname{UnsafeBlockExpr}(\mathsf{body})\ \mid \ \operatorname{MoveExpr}(\mathsf{place})\ \mid \ \operatorname{CopyExpr}(\mathsf{expr})\ \mid \ \operatorname{AddressOf}(\mathsf{place})\ \mid \ \operatorname{Deref}(\mathsf{expr})\ \mid \ \operatorname{AllocExpr}(\mathsf{region}_{\mathsf{opt}},\ \mathsf{expr})\ \mid \ \operatorname{Propagate}(\mathsf{expr})\ \mid \ \ldots 
+\mathsf{Expr}\ =\ \operatorname{UnsafeBlockExpr}(\mathsf{body})\ \mid \ \operatorname{MoveExpr}(\mathsf{place})\ \mid \ \operatorname{CopyExpr}(\mathsf{expr})\ \mid \ \operatorname{AddressOf}(\mathsf{place})\ \mid \ \operatorname{Deref}(\mathsf{expr})\ \mid \ \operatorname{AllocExpr}(\mathsf{region}_{\mathsf{opt}},\ \mathsf{expr})\ \mid \ \operatorname{Propagate}(\mathsf{expr})\ \mid \ \ldots
 $$
 
 ResolveExpr-Alloc-Explicit-ByAlias rewrites:
@@ -147,9 +147,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ b\ \Leftarrow \ T\ \dashv \ \emptyset  \\[0.16em]
+\Gamma ;\ R;\ L\ \vdash \ b\ \Leftarrow \ T\ \dashv \ \emptyset \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{UnsafeBlockExpr}(b)\ \Leftarrow \ T\ \dashv \ \emptyset 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{UnsafeBlockExpr}(b)\ \Leftarrow \ T\ \dashv \ \emptyset
 \end{array}
 $$
 
@@ -277,7 +277,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad E\ =\ \operatorname{TypePrim}(\texttt{"!"})\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ U\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0230) \\[0.16em]
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad E\ =\ \operatorname{TypePrim}(\texttt{"!"})\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ U\quad c\ =\ \operatorname{Code}(\mathsf{Async}-\mathsf{Try}-\mathsf{Infallible}-\mathsf{Err}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Propagate}(e)\ \Uparrow \ c
 \end{array}
@@ -389,7 +389,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \bot \quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{OutcomeSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle T_{r},\ E_{r}\rangle \quad \operatorname{ModalCase}(v)\ =\ \langle \texttt{@Value},\ v_{s}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \bot \quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{OutcomeSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle T_{r},\ E_{r}\rangle \quad \operatorname{ModalCase}(v)\ =\ \langle \texttt{@Value},\ v_{s}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Propagate}(e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{FieldValue}(v_{s},\ \texttt{value})),\ \sigma_{1} )
 \end{array}
@@ -399,7 +399,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{ModalCase}(v)\ =\ \langle \texttt{@Value},\ v_{s}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{ModalCase}(v)\ =\ \langle \texttt{@Value},\ v_{s}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Propagate}(e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{FieldValue}(v_{s},\ \texttt{value})),\ \sigma_{1} )
 \end{array}
@@ -409,7 +409,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \bot \quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{OutcomeSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle T_{r},\ E_{r}\rangle \quad \operatorname{ModalCase}(v)\ =\ \langle \texttt{@Error},\ v_{e}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \bot \quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{OutcomeSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle T_{r},\ E_{r}\rangle \quad \operatorname{ModalCase}(v)\ =\ \langle \texttt{@Error},\ v_{e}\rangle \\[0.16em]
 \mathsf{out}\ =\ \texttt{Outcome}<T_{r},\ E_{r}>\texttt{@Error}\{\texttt{error}:\ \operatorname{FieldValue}(v_{e},\ \texttt{error})\} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Propagate}(e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\operatorname{Return}(\mathsf{out})),\ \sigma_{1} )
@@ -420,7 +420,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad E\ \ne \ \operatorname{TypePrim}(\texttt{"!"})\quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{ModalCase}(v)\ =\ \langle \texttt{@Error},\ v_{e}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad E\ \ne \ \operatorname{TypePrim}(\texttt{"!"})\quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{ModalCase}(v)\ =\ \langle \texttt{@Error},\ v_{e}\rangle \\[0.16em]
 \mathsf{async}_{\mathsf{failed}}\ =\ \operatorname{RecordValue}(\operatorname{ModalStateRef}([\texttt{Async}],\ \texttt{@Failed}),\ [\langle \texttt{error},\ \operatorname{FieldValue}(v_{e},\ \texttt{error})\rangle ]) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Propagate}(e),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\operatorname{Fail}(\mathsf{async}_{\mathsf{failed}})),\ \sigma_{1} )
@@ -431,7 +431,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \bot \quad \operatorname{SuccessMember}(\operatorname{RetType}(\Gamma ),\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{s},\ v_{s}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \bot \quad \operatorname{SuccessMember}(\operatorname{RetType}(\Gamma ),\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{s},\ v_{s}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Propagate}(e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{s}),\ \sigma_{1} )
 \end{array}
@@ -441,7 +441,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \operatorname{SuccessMemberAsync}(E,\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{s},\ v_{s}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{AsyncSig}(\operatorname{RetType}(\Gamma ))\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \operatorname{SuccessMemberAsync}(E,\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{s},\ v_{s}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Propagate}(e),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{s}),\ \sigma_{1} )
 \end{array}
@@ -490,9 +490,9 @@ $$
 
 $$
 \begin{array}{l}
-\langle e\rangle \ \to \ \langle e'\rangle  \\[0.16em]
+\langle e\rangle \ \to \ \langle e'\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle e,\ \sigma \rangle \ \to \ \langle e',\ \sigma \rangle 
+\langle e,\ \sigma \rangle \ \to \ \langle e',\ \sigma \rangle
 \end{array}
 $$
 
@@ -502,7 +502,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \operatorname{ActiveTarget}(\sigma_{1} )\ =\ r\quad \operatorname{RegionAlloc}(\sigma_{1} ,\ r,\ v)\ \Downarrow \ (\sigma_{2} ,\ v') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{AllocExpr}(\bot ,\ e),\ \sigma \rangle \ \to \ \langle \operatorname{Val}(v'),\ \sigma_{2} \rangle 
+\langle \operatorname{AllocExpr}(\bot ,\ e),\ \sigma \rangle \ \to \ \langle \operatorname{Val}(v'),\ \sigma_{2} \rangle
 \end{array}
 $$
 
@@ -512,7 +512,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{AllocExpr}(\bot ,\ e),\ \sigma \rangle \ \to \ \langle \operatorname{Ctrl}(\kappa ),\ \sigma_{1} \rangle 
+\langle \operatorname{AllocExpr}(\bot ,\ e),\ \sigma \rangle \ \to \ \langle \operatorname{Ctrl}(\kappa ),\ \sigma_{1} \rangle
 \end{array}
 $$
 
@@ -522,7 +522,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \operatorname{LookupVal}(\sigma_{1} ,\ r)\ =\ v_{r}\quad \operatorname{RegionHandleOf}(v_{r})\ =\ h\quad \operatorname{ResolveTarget}(\sigma_{1} ,\ h)\ =\ r_{t}\quad \operatorname{RegionAlloc}(\sigma_{1} ,\ r_{t},\ v)\ \Downarrow \ (\sigma_{2} ,\ v') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{AllocExpr}(r,\ e),\ \sigma \rangle \ \to \ \langle \operatorname{Val}(v'),\ \sigma_{2} \rangle 
+\langle \operatorname{AllocExpr}(r,\ e),\ \sigma \rangle \ \to \ \langle \operatorname{Val}(v'),\ \sigma_{2} \rangle
 \end{array}
 $$
 
@@ -532,7 +532,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{AllocExpr}(r,\ e),\ \sigma \rangle \ \to \ \langle \operatorname{Ctrl}(\kappa ),\ \sigma_{1} \rangle 
+\langle \operatorname{AllocExpr}(r,\ e),\ \sigma \rangle \ \to \ \langle \operatorname{Ctrl}(\kappa ),\ \sigma_{1} \rangle
 \end{array}
 $$
 
@@ -542,7 +542,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}),\ \sigma \rangle \ \to \ \langle \mathsf{out},\ \sigma '\rangle 
+\langle \operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}),\ \sigma \rangle \ \to \ \langle \mathsf{out},\ \sigma '\rangle
 \end{array}
 $$
 
@@ -552,7 +552,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(b,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnsafeBlockExpr}(b),\ \sigma \rangle \ \to \ \langle \mathsf{out},\ \sigma '\rangle 
+\langle \operatorname{UnsafeBlockExpr}(b),\ \sigma \rangle \ \to \ \langle \mathsf{out},\ \sigma '\rangle
 \end{array}
 $$
 
@@ -562,7 +562,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\ell ,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\quad \ell \ \in \ \{\operatorname{LoopInfinite}(\_,\ \_),\ \operatorname{LoopConditional}(\_,\ \_,\ \_),\ \operatorname{LoopIter}(\_,\ \_,\ \_,\ \_,\ \_)\} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \ell ,\ \sigma \rangle \ \to \ \langle \mathsf{out},\ \sigma '\rangle 
+\langle \ell ,\ \sigma \rangle \ \to \ \langle \mathsf{out},\ \sigma '\rangle
 \end{array}
 $$
 
@@ -572,7 +572,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\quad e\ \notin \ \{\operatorname{AllocExpr}(\_,\ \_),\ \operatorname{BlockExpr}(\_,\ \_),\ \operatorname{UnsafeBlockExpr}(\_),\ \operatorname{LoopInfinite}(\_,\ \_),\ \operatorname{LoopConditional}(\_,\ \_,\ \_),\ \operatorname{LoopIter}(\_,\ \_,\ \_,\ \_,\ \_)\} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle e,\ \sigma \rangle \ \to \ \langle \mathsf{out},\ \sigma '\rangle 
+\langle e,\ \sigma \rangle \ \to \ \langle \mathsf{out},\ \sigma '\rangle
 \end{array}
 $$
 
@@ -582,9 +582,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerBlock}(b)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerBlock}(b)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{UnsafeBlockExpr}(b))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{UnsafeBlockExpr}(b))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 
@@ -592,9 +592,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerMovePlace}(p)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerMovePlace}(p)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MoveExpr}(p))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MoveExpr}(p))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 
@@ -602,9 +602,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerCopyObject}(\operatorname{ExprType}(e),\ v)\ \Downarrow \ \langle \mathsf{IR}_{c},\ v_{\mathsf{copy}}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerCopyObject}(\operatorname{ExprType}(e),\ v)\ \Downarrow \ \langle \mathsf{IR}_{c},\ v_{\mathsf{copy}}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{CopyExpr}(e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{c}),\ v_{\mathsf{copy}}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{CopyExpr}(e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{c}),\ v_{\mathsf{copy}}\rangle
 \end{array}
 $$
 
@@ -612,9 +612,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerAddrOf}(p)\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{addr}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerAddrOf}(p)\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{addr}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{AddressOf}(p))\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{Ptr}@\operatorname{Valid}(\mathsf{addr})\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{AddressOf}(p))\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{Ptr}@\operatorname{Valid}(\mathsf{addr})\rangle
 \end{array}
 $$
 
@@ -622,9 +622,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v_{\mathsf{ptr}}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerRawDeref}(v_{\mathsf{ptr}})\ \Downarrow \ \langle \mathsf{IR}_{d},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v_{\mathsf{ptr}}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerRawDeref}(v_{\mathsf{ptr}})\ \Downarrow \ \langle \mathsf{IR}_{d},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Deref}(e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{d}),\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Deref}(e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{d}),\ v\rangle
 \end{array}
 $$
 
@@ -632,9 +632,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{AllocExpr}(r_{\mathsf{opt}},\ e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{AllocIR}(r_{\mathsf{opt}},\ v)),\ v_{\mathsf{alloc}}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{AllocExpr}(r_{\mathsf{opt}},\ e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{AllocIR}(r_{\mathsf{opt}},\ v)),\ v_{\mathsf{alloc}}\rangle
 \end{array}
 $$
 
@@ -644,7 +644,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{OutcomeState}(v)\ =\ \texttt{@Value}\quad \operatorname{OutcomeField}(v,\ \texttt{value})\ =\ v_{s} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Propagate}(e))\ \Downarrow \ \langle \mathsf{IR}_{e},\ v_{s}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Propagate}(e))\ \Downarrow \ \langle \mathsf{IR}_{e},\ v_{s}\rangle
 \end{array}
 $$
 
@@ -654,7 +654,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{OutcomeSig}(U)\ =\ \langle T_{s},\ E_{s}\rangle \quad \operatorname{OutcomeState}(v)\ =\ \texttt{@Error}\quad \operatorname{OutcomeField}(v,\ \texttt{error})\ =\ v_{e} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Propagate}(e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{ReturnIR}(\texttt{Outcome@Error}\{\texttt{error}:\ v_{e}\})),\ v_{\mathsf{unreach}}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Propagate}(e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{ReturnIR}(\texttt{Outcome@Error}\{\texttt{error}:\ v_{e}\})),\ v_{\mathsf{unreach}}\rangle
 \end{array}
 $$
 
@@ -662,9 +662,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{SuccessMember}(\operatorname{RetType}(\Gamma ),\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{s},\ v_{s}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{SuccessMember}(\operatorname{RetType}(\Gamma ),\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{s},\ v_{s}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Propagate}(e))\ \Downarrow \ \langle \mathsf{IR}_{e},\ v_{s}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Propagate}(e))\ \Downarrow \ \langle \mathsf{IR}_{e},\ v_{s}\rangle
 \end{array}
 $$
 
@@ -674,7 +674,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad U\ =\ \operatorname{ExprType}(e)\quad \operatorname{SuccessMember}(\operatorname{RetType}(\Gamma ),\ U)\ =\ T_{s}\quad \operatorname{UnionCase}(v)\ =\ \langle T_{e},\ v_{e}\rangle \quad T_{e}\ \ne \ T_{s} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Propagate}(e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{ReturnIR}(v_{e})),\ v_{\mathsf{unreach}}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Propagate}(e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{ReturnIR}(v_{e})),\ v_{\mathsf{unreach}}\rangle
 \end{array}
 $$
 

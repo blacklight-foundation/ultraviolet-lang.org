@@ -2,16 +2,16 @@
 title: "24.6 Runtime Interface"
 description: "24.6 Runtime Interface from 24. Common Lowering, Program Lifecycle, and Backend of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "common-lowering-program-lifecycle-and-backend"
 specSection: "246-runtime-interface"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -30,16 +30,16 @@ $$
 $$
 
 $$
-\operatorname{BuiltinModalLayoutSpec}(\texttt{Region})\ =\ \langle 16,\ 8,\ \mathsf{u8},\ \langle 8,\ 8\rangle \rangle 
+\operatorname{BuiltinModalLayoutSpec}(\texttt{Region})\ =\ \langle 16,\ 8,\ \mathsf{u8},\ \langle 8,\ 8\rangle \rangle
 $$
 
 **(BuiltinModalLayout)**
 
 $$
 \begin{array}{l}
-\operatorname{BuiltinModalLayoutSpec}(\mathsf{modal})\ =\ \langle \mathsf{size},\ \mathsf{align},\ \mathsf{disc},\ \mathsf{payload}\rangle  \\[0.16em]
+\operatorname{BuiltinModalLayoutSpec}(\mathsf{modal})\ =\ \langle \mathsf{size},\ \mathsf{align},\ \mathsf{disc},\ \mathsf{payload}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinModalLayout}(\mathsf{modal})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ [\langle \texttt{disc},\ \mathsf{disc}\rangle ,\ \langle \texttt{payload},\ \mathsf{payload}\rangle ]\rangle 
+\Gamma \ \vdash \ \operatorname{BuiltinModalLayout}(\mathsf{modal})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ [\langle \texttt{disc},\ \mathsf{disc}\rangle ,\ \langle \texttt{payload},\ \mathsf{payload}\rangle ]\rangle
 \end{array}
 $$
 
@@ -58,7 +58,7 @@ $$
 \ \langle \texttt{CancelToken::Active::cancel},\ \operatorname{PathSig}([\texttt{"CancelToken"},\ \texttt{"Active"},\ \texttt{"cancel"}])\rangle , \\[0.16em]
 \ \langle \texttt{CancelToken::Active::is\_cancelled},\ \operatorname{PathSig}([\texttt{"CancelToken"},\ \texttt{"Active"},\ \texttt{"is\_cancelled"}])\rangle , \\[0.16em]
 \ \langle \texttt{CancelToken::Active::child},\ \operatorname{PathSig}([\texttt{"CancelToken"},\ \texttt{"Active"},\ \texttt{"child"}])\rangle , \\[0.16em]
-\ \langle \texttt{CancelToken::Active::wait\_cancelled},\ \operatorname{PathSig}([\texttt{"CancelToken"},\ \texttt{"Active"},\ \texttt{"wait\_cancelled"}])\rangle  \\[0.16em]
+\ \langle \texttt{CancelToken::Active::wait\_cancelled},\ \operatorname{PathSig}([\texttt{"CancelToken"},\ \texttt{"Active"},\ \texttt{"wait\_cancelled"}])\rangle \\[0.16em]
 ]
 \end{array}
 $$
@@ -482,7 +482,7 @@ $$
 \begin{array}{l}
 \operatorname{StringMethod}(\mathsf{method})\quad \mathsf{method}\ \notin \ \mathsf{StringBuiltins} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinSym}(\mathsf{method})\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{BuiltinSym}(\mathsf{method})\ \Uparrow
 \end{array}
 $$
 
@@ -492,7 +492,7 @@ $$
 \begin{array}{l}
 \operatorname{BytesMethod}(\mathsf{method})\quad \mathsf{method}\ \notin \ \mathsf{BytesBuiltins} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BuiltinSym}(\mathsf{method})\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{BuiltinSym}(\mathsf{method})\ \Uparrow
 \end{array}
 $$
 
@@ -524,7 +524,7 @@ StringDropSym undefined
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \mathsf{StringDropSym}\ \Uparrow 
+\Gamma \ \vdash \ \mathsf{StringDropSym}\ \Uparrow
 \end{array}
 $$
 
@@ -534,7 +534,7 @@ BytesDropSym undefined
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \mathsf{BytesDropSym}\ \Uparrow 
+\Gamma \ \vdash \ \mathsf{BytesDropSym}\ \Uparrow
 \end{array}
 $$
 
@@ -549,7 +549,7 @@ $$
 \mathsf{IOBuiltinMethods}\ =\ \{\texttt{IO::open\_read},\ \texttt{IO::open\_write},\ \texttt{IO::open\_append},\ \texttt{IO::create\_write},\ \texttt{IO::read\_file},\ \texttt{IO::read\_bytes},\ \texttt{IO::write\_file},\ \texttt{IO::write\_stdout},\ \texttt{IO::write\_stderr},\ \texttt{IO::exists},\ \texttt{IO::remove},\ \texttt{IO::open\_dir},\ \texttt{IO::create\_dir},\ \texttt{IO::ensure\_dir},\ \texttt{IO::kind},\ \texttt{IO::restrict}\} \\[0.16em]
 \mathsf{NetworkBuiltinMethods}\ =\ \{\texttt{Network::restrict\_to\_host}\} \\[0.16em]
 \mathsf{HeapAllocatorBuiltinMethods}\ =\ \{\texttt{HeapAllocator::with\_quota},\ \texttt{HeapAllocator::alloc\_raw},\ \texttt{HeapAllocator::dealloc\_raw}\} \\[0.16em]
-\mathsf{SystemBuiltinMethods}\ =\ \{\texttt{System::name}\ \mid \ \langle \mathsf{name},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{SystemInterface}\} \\[0.16em]
+\mathsf{SystemBuiltinMethods}\ =\ \{\texttt{System::name}\ \mid \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{SystemInterface}\} \\[0.16em]
 \mathsf{ReactorBuiltinMethods}\ =\ \{\texttt{Reactor::run},\ \texttt{Reactor::register}\} \\[0.16em]
 \mathsf{TimeBuiltinMethods}\ =\ \{\texttt{Time::monotonic},\ \texttt{Time::wall},\ \texttt{MonotonicTime::now},\ \texttt{MonotonicTime::resolution},\ \texttt{MonotonicTime::elapsed},\ \texttt{MonotonicTime::coarsen},\ \texttt{WallTime::now\_utc},\ \texttt{WallTime::resolution},\ \texttt{WallTime::coarsen}\} \\[0.16em]
 \mathsf{BuiltinMethods}\ =\ \mathsf{StringBuiltins}\ \cup \ \mathsf{BytesBuiltins}\ \cup \ \mathsf{IOBuiltinMethods}\ \cup \ \mathsf{NetworkBuiltinMethods}\ \cup \ \mathsf{HeapAllocatorBuiltinMethods}\ \cup \ \mathsf{SystemBuiltinMethods}\ \cup \ \mathsf{ReactorBuiltinMethods}\ \cup \ \mathsf{TimeBuiltinMethods} \\[0.16em]
@@ -559,37 +559,37 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{BuiltinSig}(\texttt{IO}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{IO},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{IO}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{IO},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
-\operatorname{BuiltinSig}(\texttt{Network}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{Network},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{Network}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{Network},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
-\operatorname{BuiltinSig}(\texttt{HeapAllocator}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{HeapAllocator},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{HeapAllocator}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{HeapAllocator},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
-\operatorname{BuiltinSig}(\texttt{System}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{const},\ \operatorname{TypePath}([\texttt{"System"}]))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{SystemMethodSig}(\mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
-\operatorname{BuiltinSig}(\texttt{Reactor}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{Reactor},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{Reactor}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{Reactor},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
-\operatorname{BuiltinSig}(\texttt{Time}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{Time},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{Time}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{Time},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
-\operatorname{BuiltinSig}(\texttt{MonotonicTime}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{MonotonicTime},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{MonotonicTime}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{MonotonicTime},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
-\operatorname{BuiltinSig}(\texttt{WallTime}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{WallTime},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{WallTime}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{WallTime},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
-\operatorname{BuiltinSig}(\mathsf{method})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{StringBytesBuiltinSig}(\mathsf{method})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle 
+\operatorname{BuiltinSig}(\texttt{IO}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{IO},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{IO}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{IO},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \\[0.16em]
+\operatorname{BuiltinSig}(\texttt{Network}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{Network},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{Network}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{Network},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \\[0.16em]
+\operatorname{BuiltinSig}(\texttt{HeapAllocator}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{HeapAllocator},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{HeapAllocator}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{HeapAllocator},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \\[0.16em]
+\operatorname{BuiltinSig}(\texttt{System}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{System},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{System}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{System},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \\[0.16em]
+\operatorname{BuiltinSig}(\texttt{Reactor}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{Reactor},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{Reactor}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{Reactor},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \\[0.16em]
+\operatorname{BuiltinSig}(\texttt{Time}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{Time},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{Time}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{Time},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \\[0.16em]
+\operatorname{BuiltinSig}(\texttt{MonotonicTime}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{MonotonicTime},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{MonotonicTime}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{MonotonicTime},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \\[0.16em]
+\operatorname{BuiltinSig}(\texttt{WallTime}\mathbin{::} \mathsf{name})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\operatorname{CapRecv}(\texttt{WallTime},\ \mathsf{name}),\ \operatorname{TypeDynamic}(\texttt{WallTime}))\rangle ]\ \mathbin{++} \ \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{CapMethodSig}(\texttt{WallTime},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \\[0.16em]
+\operatorname{BuiltinSig}(\mathsf{method})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{StringBytesBuiltinSig}(\mathsf{method})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{RuntimeSig}(\mathsf{PanicSym})\ =\ \langle [\langle \bot ,\ \texttt{code},\ \operatorname{TypePrim}(\texttt{"u32"})\rangle ],\ \operatorname{TypePrim}(\texttt{"!"})\rangle  \\[0.16em]
-\operatorname{RuntimeSig}(\mathsf{ContextInitSym})\ =\ \langle [],\ \operatorname{TypePath}([\texttt{"Context"}])\rangle  \\[0.16em]
-\operatorname{RuntimeSig}(\mathsf{StringDropSym})\ =\ \langle [\langle \texttt{move},\ \texttt{value},\ \operatorname{TypeString}(\texttt{@Managed})\rangle ],\ \operatorname{TypePrim}(\texttt{"()"})\rangle  \\[0.16em]
-\operatorname{RuntimeSig}(\mathsf{BytesDropSym})\ =\ \langle [\langle \texttt{move},\ \texttt{value},\ \operatorname{TypeBytes}(\texttt{@Managed})\rangle ],\ \operatorname{TypePrim}(\texttt{"()"})\rangle  \\[0.16em]
-\operatorname{BuiltinModalProcSig}(\mathsf{proc})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \mathsf{proc}\ \in \ \mathsf{RegionProcs}\ \land \ \operatorname{RegionProcSig}(\mathsf{proc})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
-\operatorname{BuiltinModalProcSig}(\texttt{CancelToken::new})\ =\ \langle [],\ \operatorname{TypeModalState}([\texttt{"CancelToken"}],\ \texttt{@Active})\rangle  \\[0.16em]
-\operatorname{BuiltinModalProcSig}(\texttt{CancelToken::Active::cancel})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{shared},\ \operatorname{TypeModalState}([\texttt{"CancelToken"}],\ \texttt{@Active}))\rangle ],\ \operatorname{TypePrim}(\texttt{"()"})\rangle  \\[0.16em]
-\operatorname{BuiltinModalProcSig}(\texttt{CancelToken::Active::is\_cancelled})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{const},\ \operatorname{TypeModalState}([\texttt{"CancelToken"}],\ \texttt{@Active}))\rangle ],\ \operatorname{TypePrim}(\texttt{"bool"})\rangle  \\[0.16em]
-\operatorname{BuiltinModalProcSig}(\texttt{CancelToken::Active::child})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{const},\ \operatorname{TypeModalState}([\texttt{"CancelToken"}],\ \texttt{@Active}))\rangle ],\ \operatorname{TypeModalState}([\texttt{"CancelToken"}],\ \texttt{@Active})\rangle  \\[0.16em]
-\operatorname{BuiltinModalProcSig}(\texttt{CancelToken::Active::wait\_cancelled})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{const},\ \operatorname{TypeModalState}([\texttt{"CancelToken"}],\ \texttt{@Active}))\rangle ],\ \operatorname{TypePath}([\texttt{"Async"}],\ [\operatorname{TypePrim}(\texttt{"()"})])\rangle  \\[0.16em]
+\operatorname{RuntimeSig}(\mathsf{PanicSym})\ =\ \langle [\langle \bot ,\ \texttt{code},\ \operatorname{TypePrim}(\texttt{"u32"})\rangle ],\ \operatorname{TypePrim}(\texttt{"!"})\rangle \\[0.16em]
+\operatorname{RuntimeSig}(\mathsf{ContextInitSym})\ =\ \langle [],\ \operatorname{TypePath}([\texttt{"Context"}])\rangle \\[0.16em]
+\operatorname{RuntimeSig}(\mathsf{StringDropSym})\ =\ \langle [\langle \texttt{move},\ \texttt{value},\ \operatorname{TypeString}(\texttt{@Managed})\rangle ],\ \operatorname{TypePrim}(\texttt{"()"})\rangle \\[0.16em]
+\operatorname{RuntimeSig}(\mathsf{BytesDropSym})\ =\ \langle [\langle \texttt{move},\ \texttt{value},\ \operatorname{TypeBytes}(\texttt{@Managed})\rangle ],\ \operatorname{TypePrim}(\texttt{"()"})\rangle \\[0.16em]
+\operatorname{BuiltinModalProcSig}(\mathsf{proc})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \mathsf{proc}\ \in \ \mathsf{RegionProcs}\ \land \ \operatorname{RegionProcSig}(\mathsf{proc})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \\[0.16em]
+\operatorname{BuiltinModalProcSig}(\texttt{CancelToken::new})\ =\ \langle [],\ \operatorname{TypeModalState}([\texttt{"CancelToken"}],\ \texttt{@Active})\rangle \\[0.16em]
+\operatorname{BuiltinModalProcSig}(\texttt{CancelToken::Active::cancel})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{shared},\ \operatorname{TypeModalState}([\texttt{"CancelToken"}],\ \texttt{@Active}))\rangle ],\ \operatorname{TypePrim}(\texttt{"()"})\rangle \\[0.16em]
+\operatorname{BuiltinModalProcSig}(\texttt{CancelToken::Active::is\_cancelled})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{const},\ \operatorname{TypeModalState}([\texttt{"CancelToken"}],\ \texttt{@Active}))\rangle ],\ \operatorname{TypePrim}(\texttt{"bool"})\rangle \\[0.16em]
+\operatorname{BuiltinModalProcSig}(\texttt{CancelToken::Active::child})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{const},\ \operatorname{TypeModalState}([\texttt{"CancelToken"}],\ \texttt{@Active}))\rangle ],\ \operatorname{TypeModalState}([\texttt{"CancelToken"}],\ \texttt{@Active})\rangle \\[0.16em]
+\operatorname{BuiltinModalProcSig}(\texttt{CancelToken::Active::wait\_cancelled})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{const},\ \operatorname{TypeModalState}([\texttt{"CancelToken"}],\ \texttt{@Active}))\rangle ],\ \operatorname{TypePath}([\texttt{"Async"}],\ [\operatorname{TypePrim}(\texttt{"()"})])\rangle \\[0.16em]
 \operatorname{RuntimeSig}(\mathsf{sym})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle ,\ \langle \bot ,\ \texttt{size},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle ,\ \langle \bot ,\ \texttt{align},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle ],\ \operatorname{TypeRawPtr}(\texttt{mut},\ \operatorname{TypePrim}(\texttt{"u8"}))\rangle \ \Leftrightarrow \ \mathsf{sym}\ =\ \operatorname{BuiltinModalSym}(\texttt{Region::alloc}) \\[0.16em]
 \operatorname{RuntimeSig}(\mathsf{sym})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle ],\ \operatorname{TypePrim}(\texttt{"usize"})\rangle \ \Leftrightarrow \ \mathsf{sym}\ =\ \operatorname{BuiltinModalSym}(\texttt{Region::mark}) \\[0.16em]
 \operatorname{RuntimeSig}(\mathsf{sym})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle ,\ \langle \bot ,\ \texttt{mark},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle ],\ \operatorname{TypePrim}(\texttt{"()"})\rangle \ \Leftrightarrow \ \mathsf{sym}\ =\ \operatorname{BuiltinModalSym}(\texttt{Region::reset\_to}) \\[0.16em]
 \operatorname{RuntimeSig}(\mathsf{sym})\ =\ \langle [\langle \bot ,\ \texttt{addr},\ \operatorname{TypeRawPtr}(\texttt{imm},\ \operatorname{TypePrim}(\texttt{"u8"}))\rangle ],\ \operatorname{TypePrim}(\texttt{"bool"})\rangle \ \Leftrightarrow \ \mathsf{sym}\ =\ \mathsf{RegionAddrIsActiveSym} \\[0.16em]
 \operatorname{RuntimeSig}(\mathsf{sym})\ =\ \langle [\langle \bot ,\ \texttt{addr},\ \operatorname{TypeRawPtr}(\texttt{imm},\ \operatorname{TypePrim}(\texttt{"u8"}))\rangle ,\ \langle \bot ,\ \texttt{base},\ \operatorname{TypeRawPtr}(\texttt{imm},\ \operatorname{TypePrim}(\texttt{"u8"}))\rangle ],\ \operatorname{TypePrim}(\texttt{"()"})\rangle \ \Leftrightarrow \ \mathsf{sym}\ =\ \mathsf{RegionAddrTagFromSym} \\[0.16em]
-\operatorname{RuntimeSig}(\mathsf{sym})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \mathsf{sym}\ =\ \operatorname{BuiltinModalSym}(\mathsf{proc})\ \land \ \mathsf{proc}\ \notin \ \{\texttt{Region::alloc},\ \texttt{Region::mark},\ \texttt{Region::reset\_to}\}\ \land \ \operatorname{BuiltinModalProcSig}(\mathsf{proc})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
-\operatorname{RuntimeSig}(\mathsf{sym})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \mathsf{sym}\ =\ \operatorname{BuiltinSym}(\mathsf{method})\ \land \ \operatorname{BuiltinSig}(\mathsf{method})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle 
+\operatorname{RuntimeSig}(\mathsf{sym})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \mathsf{sym}\ =\ \operatorname{BuiltinModalSym}(\mathsf{proc})\ \land \ \mathsf{proc}\ \notin \ \{\texttt{Region::alloc},\ \texttt{Region::mark},\ \texttt{Region::reset\_to}\}\ \land \ \operatorname{BuiltinModalProcSig}(\mathsf{proc})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \\[0.16em]
+\operatorname{RuntimeSig}(\mathsf{sym})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \mathsf{sym}\ =\ \operatorname{BuiltinSym}(\mathsf{method})\ \land \ \operatorname{BuiltinSig}(\mathsf{method})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle
 \end{array}
 $$
 

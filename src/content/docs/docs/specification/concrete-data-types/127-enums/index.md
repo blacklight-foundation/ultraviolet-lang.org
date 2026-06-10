@@ -2,16 +2,16 @@
 title: "12.7 Enums"
 description: "12.7 Enums from 12. Concrete Data Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "concrete-data-types"
 specSection: "127-enums"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,7 +24,7 @@ generated: true
 ### 12.7.1 Syntax
 
 ```text
-enum_decl        ::= attribute_list? visibility? "enum" identifier generic_params? implements_clause? predicate_clause? enum_body invariant_clause?
+enum_decl        ::= attribute_list? visibility? "enum" identifier generic_params? implements_clause? predicate_clause? enum_body type_invariant?
 enum_body        ::= "{" variant_members? "}"
 variant_members  ::= variant (terminator variant)* terminator?
 variant          ::= identifier variant_payload_opt variant_discriminant_opt
@@ -164,16 +164,16 @@ Enum literal surface forms are parsed first as qualified names or qualified appl
 
 $$
 \begin{array}{l}
-\mathsf{EnumDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{implements},\ \mathsf{variants},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}\rangle  \\[0.16em]
+\mathsf{EnumDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{implements},\ \mathsf{variants},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}\rangle \\[0.16em]
 \mathsf{EnumDecl}.\mathsf{implements}\ \in \ [\mathsf{ClassPath}]
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\mathsf{VariantDecl}\ =\ \langle \mathsf{name},\ \mathsf{payload}_{\mathsf{opt}},\ \mathsf{discriminant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle  \\[0.16em]
+\mathsf{VariantDecl}\ =\ \langle \mathsf{name},\ \mathsf{payload}_{\mathsf{opt}},\ \mathsf{discriminant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle \\[0.16em]
 \mathsf{VariantPayload}\ \in \ \{\mathsf{TuplePayload}\ =\ [\mathsf{Type}],\ \mathsf{RecordPayload}\ =\ [\mathsf{FieldDecl}]\} \\[0.16em]
-\forall \ f\ \in \ \mathsf{RecordPayload}.\ f.\mathsf{init}_{\mathsf{opt}}\ =\ \bot 
+\forall \ f\ \in \ \mathsf{RecordPayload}.\ f.\mathsf{init}_{\mathsf{opt}}\ =\ \bot
 \end{array}
 $$
 
@@ -191,14 +191,7 @@ $$
 
 ### 12.7.4 Static Semantics
 
-**(Bind-Enum)**
-
-$$
-\begin{array}{l}
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ItemBindings}(\operatorname{EnumDecl}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_),\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Type},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
-\end{array}
-$$
+Rule **(Bind-Enum)** is defined once by §7.5.
 
 $$
 \begin{array}{l}
@@ -212,49 +205,13 @@ $$
 \Gamma \ \vdash \ \mathsf{payload}_{\mathsf{opt}}\ \mathsf{wf}\ \Leftrightarrow \ \operatorname{PayloadOptWF}(\mathsf{payload}_{\mathsf{opt}})
 $$
 
-**(Resolve-EnumUnit)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{path})\ \Downarrow \ p\quad \operatorname{EnumDecl}(p)\ =\ E\quad \operatorname{VariantPayload}(E,\ \mathsf{name})\ =\ \bot  \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveEnumUnit}(\mathsf{path},\ \mathsf{name})\ \Downarrow \ p
-\end{array}
-$$
-
-**(Resolve-EnumTuple)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{path})\ \Downarrow \ p\quad \operatorname{EnumDecl}(p)\ =\ E\quad \operatorname{VariantPayload}(E,\ \mathsf{name})\ =\ \operatorname{TuplePayload}(\_) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveEnumTuple}(\mathsf{path},\ \mathsf{name})\ \Downarrow \ p
-\end{array}
-$$
-
-**(Resolve-EnumRecord)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{path})\ \Downarrow \ p\quad \operatorname{EnumDecl}(p)\ =\ E\quad \operatorname{VariantPayload}(E,\ \mathsf{name})\ =\ \operatorname{RecordPayload}(\_) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveEnumRecord}(\mathsf{path},\ \mathsf{name})\ \Downarrow \ p
-\end{array}
-$$
+Rules **(Resolve-EnumUnit)**, **(Resolve-EnumTuple)**, **(Resolve-EnumRecord)** are defined once by §7.6.
 
 When an enum record payload literal is checked against an expected `TypeApply(p, args)`,
 the payload field types are checked under `DefaultArgs(TypeParamsOf(p), args)` and the
 result expression type is the expected `TypeApply(p, args)`.
 
-**(ResolveQual-Name-Enum)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ResolveQualified}(\mathsf{path},\ \mathsf{name},\ \mathsf{ValueKind})\ \uparrow \quad \Gamma \ \vdash \ \operatorname{ResolveRecordPath}(\mathsf{path},\ \mathsf{name})\ \uparrow \quad \Gamma \ \vdash \ \operatorname{ResolveEnumUnit}(\mathsf{path},\ \mathsf{name})\ \Downarrow \ p \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveQualifiedForm}(\operatorname{QualifiedName}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \operatorname{EnumLiteral}(\operatorname{FullPath}(p,\ \mathsf{name}),\ \bot )
-\end{array}
-$$
+Rule **(ResolveQual-Name-Enum)** is defined once by §7.6.
 
 **(ResolveQual-Apply-Enum-Tuple)**
 
@@ -289,7 +246,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{DiscOf}(v,\ n)\ = \\[0.16em]
-\ n\quad \mathsf{if}\ \operatorname{disc_opt}(v)\ =\ \bot  \\[0.16em]
+\ n\quad \mathsf{if}\ \operatorname{disc_opt}(v)\ =\ \bot \\[0.16em]
 \ \operatorname{DiscValue}(\mathsf{tok})\quad \mathsf{if}\ \operatorname{disc_opt}(v)\ =\ \mathsf{tok} \\[0.16em]
 \operatorname{DiscValue}(\mathsf{tok})\ =\ \operatorname{IntValue}(\mathsf{tok}) \\[0.16em]
 \operatorname{DiscSeq}([],\ n)\ =\ [] \\[0.16em]
@@ -404,7 +361,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{EnumDecl}(\operatorname{EnumPath}(\mathsf{path}))\ =\ E\quad v\ =\ \operatorname{VariantName}(\mathsf{path})\quad \operatorname{VariantPayload}(E,\ v)\ =\ \bot  \\[0.16em]
+\operatorname{EnumDecl}(\operatorname{EnumPath}(\mathsf{path}))\ =\ E\quad v\ =\ \operatorname{VariantName}(\mathsf{path})\quad \operatorname{VariantPayload}(E,\ v)\ =\ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{EnumLiteral}(\mathsf{path},\ \bot )\ :\ \operatorname{TypePath}(\operatorname{EnumPath}(\mathsf{path}))
 \end{array}
@@ -424,7 +381,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{EnumDecl}(\operatorname{EnumPath}(\mathsf{path}))\ =\ E\quad v\ =\ \operatorname{VariantName}(\mathsf{path})\quad \operatorname{VariantPayload}(E,\ v)\ =\ \operatorname{TuplePayload}([T_{1},\ \ldots ,\ T_{n}])\quad \forall \ i,\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ \Leftarrow \ T_{i}\ \dashv \ \emptyset  \\[0.16em]
+\operatorname{EnumDecl}(\operatorname{EnumPath}(\mathsf{path}))\ =\ E\quad v\ =\ \operatorname{VariantName}(\mathsf{path})\quad \operatorname{VariantPayload}(E,\ v)\ =\ \operatorname{TuplePayload}([T_{1},\ \ldots ,\ T_{n}])\quad \forall \ i,\ \Gamma ;\ R;\ L\ \vdash \ e_{i}\ \Leftarrow \ T_{i}\ \dashv \ \emptyset \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{EnumLiteral}(\mathsf{path},\ \operatorname{Paren}([e_{1},\ \ldots ,\ e_{n}]))\ :\ \operatorname{TypePath}(\operatorname{EnumPath}(\mathsf{path}))
 \end{array}
@@ -444,7 +401,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{EnumDecl}(\operatorname{EnumPath}(\mathsf{path}))\ =\ E\quad v\ =\ \operatorname{VariantName}(\mathsf{path})\quad \operatorname{VariantPayload}(E,\ v)\ =\ \operatorname{RecordPayload}(\mathsf{io})\quad \operatorname{Distinct}(\operatorname{FieldInitNames}(\mathsf{fields}))\quad \operatorname{FieldInitSet}(\mathsf{fields})\ =\ \operatorname{VariantFieldNameSet}(\mathsf{io})\quad \forall \ \langle f,\ e\rangle \ \in \ \mathsf{fields},\ \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ \operatorname{EnumFieldType}(E,\ v,\ f)\ \dashv \ \emptyset  \\[0.16em]
+\operatorname{EnumDecl}(\operatorname{EnumPath}(\mathsf{path}))\ =\ E\quad v\ =\ \operatorname{VariantName}(\mathsf{path})\quad \operatorname{VariantPayload}(E,\ v)\ =\ \operatorname{RecordPayload}(\mathsf{io})\quad \operatorname{Distinct}(\operatorname{FieldInitNames}(\mathsf{fields}))\quad \operatorname{FieldInitSet}(\mathsf{fields})\ =\ \operatorname{VariantFieldNameSet}(\mathsf{io})\quad \forall \ \langle f,\ e\rangle \ \in \ \mathsf{fields},\ \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ \operatorname{EnumFieldType}(E,\ v,\ f)\ \dashv \ \emptyset \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{EnumLiteral}(\mathsf{path},\ \operatorname{Brace}(\mathsf{fields}))\ :\ \operatorname{TypePath}(\operatorname{EnumPath}(\mathsf{path}))
 \end{array}
@@ -520,13 +477,13 @@ $$
 $$
 \begin{array}{l}
 \operatorname{EnumDisc}(E,\ \mathsf{name})\ =\ d\ \Leftrightarrow \ \operatorname{EnumDiscriminants}(E)\ \Downarrow \ \mathsf{ds}\ \land \ \operatorname{VariantIndex}(E,\ \mathsf{name})\ =\ i\ \land \ \mathsf{ds}[i]\ =\ d \\[0.16em]
-\operatorname{VariantPayloadOpt}(v)\ =\ \mathsf{payload}_{\mathsf{opt}}\ \Leftrightarrow \ v\ =\ \langle \mathsf{name},\ \mathsf{payload}_{\mathsf{opt}},\ \mathsf{disc}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle  \\[0.16em]
-\operatorname{VariantSize}(v)\ =\ 0\ \Leftrightarrow \ \operatorname{VariantPayloadOpt}(v)\ =\ \bot  \\[0.16em]
-\operatorname{VariantAlign}(v)\ =\ 1\ \Leftrightarrow \ \operatorname{VariantPayloadOpt}(v)\ =\ \bot  \\[0.16em]
-\operatorname{VariantSize}(v)\ =\ s\ \Leftrightarrow \ \operatorname{VariantPayloadOpt}(v)\ =\ \operatorname{TuplePayload}([T_{1},\ \ldots ,\ T_{k}])\ \land \ \operatorname{TupleLayout}([T_{1},\ \ldots ,\ T_{k}])\ \Downarrow \ \langle s,\ a,\ \_\rangle  \\[0.16em]
-\operatorname{VariantAlign}(v)\ =\ a\ \Leftrightarrow \ \operatorname{VariantPayloadOpt}(v)\ =\ \operatorname{TuplePayload}([T_{1},\ \ldots ,\ T_{k}])\ \land \ \operatorname{TupleLayout}([T_{1},\ \ldots ,\ T_{k}])\ \Downarrow \ \langle s,\ a,\ \_\rangle  \\[0.16em]
-\operatorname{VariantSize}(v)\ =\ s\ \Leftrightarrow \ \operatorname{VariantPayloadOpt}(v)\ =\ \operatorname{RecordPayload}(\mathsf{fields})\ \land \ \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle s,\ a,\ \_\rangle  \\[0.16em]
-\operatorname{VariantAlign}(v)\ =\ a\ \Leftrightarrow \ \operatorname{VariantPayloadOpt}(v)\ =\ \operatorname{RecordPayload}(\mathsf{fields})\ \land \ \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle s,\ a,\ \_\rangle  \\[0.16em]
+\operatorname{VariantPayloadOpt}(v)\ =\ \mathsf{payload}_{\mathsf{opt}}\ \Leftrightarrow \ v\ =\ \langle \mathsf{name},\ \mathsf{payload}_{\mathsf{opt}},\ \mathsf{disc}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle \\[0.16em]
+\operatorname{VariantSize}(v)\ =\ 0\ \Leftrightarrow \ \operatorname{VariantPayloadOpt}(v)\ =\ \bot \\[0.16em]
+\operatorname{VariantAlign}(v)\ =\ 1\ \Leftrightarrow \ \operatorname{VariantPayloadOpt}(v)\ =\ \bot \\[0.16em]
+\operatorname{VariantSize}(v)\ =\ s\ \Leftrightarrow \ \operatorname{VariantPayloadOpt}(v)\ =\ \operatorname{TuplePayload}([T_{1},\ \ldots ,\ T_{k}])\ \land \ \operatorname{TupleLayout}([T_{1},\ \ldots ,\ T_{k}])\ \Downarrow \ \langle s,\ a,\ \_\rangle \\[0.16em]
+\operatorname{VariantAlign}(v)\ =\ a\ \Leftrightarrow \ \operatorname{VariantPayloadOpt}(v)\ =\ \operatorname{TuplePayload}([T_{1},\ \ldots ,\ T_{k}])\ \land \ \operatorname{TupleLayout}([T_{1},\ \ldots ,\ T_{k}])\ \Downarrow \ \langle s,\ a,\ \_\rangle \\[0.16em]
+\operatorname{VariantSize}(v)\ =\ s\ \Leftrightarrow \ \operatorname{VariantPayloadOpt}(v)\ =\ \operatorname{RecordPayload}(\mathsf{fields})\ \land \ \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle s,\ a,\ \_\rangle \\[0.16em]
+\operatorname{VariantAlign}(v)\ =\ a\ \Leftrightarrow \ \operatorname{VariantPayloadOpt}(v)\ =\ \operatorname{RecordPayload}(\mathsf{fields})\ \land \ \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle s,\ a,\ \_\rangle \\[0.16em]
 \operatorname{PayloadSize}(E)\ =\ \mathsf{max}\_\{v\ \in \ \operatorname{Variants}(E)\}(\operatorname{VariantSize}(v)) \\[0.16em]
 \operatorname{PayloadAlign}(E)\ =\ \mathsf{max}\_\{v\ \in \ \operatorname{Variants}(E)\}(\operatorname{VariantAlign}(v)) \\[0.16em]
 \operatorname{EnumDiscType}(E)\ =\ \operatorname{DiscType}(E) \\[0.16em]
@@ -542,7 +499,7 @@ $$
 \begin{array}{l}
 \mathsf{size}\ =\ \operatorname{EnumSize}(E)\quad \mathsf{align}\ =\ \operatorname{EnumAlign}(E) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{EnumLayout}(E)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \operatorname{EnumDiscType}(E),\ \operatorname{PayloadSize}(E)\rangle 
+\Gamma \ \vdash \ \operatorname{EnumLayout}(E)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \operatorname{EnumDiscType}(E),\ \operatorname{PayloadSize}(E)\rangle
 \end{array}
 $$
 
@@ -550,7 +507,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}(p)\quad \operatorname{EnumDecl}(p)\ =\ E\quad \operatorname{EnumLayout}(E)\ \Downarrow \ \langle \mathsf{size},\ \_,\ \_,\ \_\rangle  \\[0.16em]
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{EnumDecl}(p)\ =\ E\quad \operatorname{EnumLayout}(E)\ \Downarrow \ \langle \mathsf{size},\ \_,\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{sizeof}(T)\ =\ \mathsf{size}
 \end{array}
@@ -560,7 +517,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}(p)\quad \operatorname{EnumDecl}(p)\ =\ E\quad \operatorname{EnumLayout}(E)\ \Downarrow \ \langle \_,\ \mathsf{align},\ \_,\ \_\rangle  \\[0.16em]
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{EnumDecl}(p)\ =\ E\quad \operatorname{EnumLayout}(E)\ \Downarrow \ \langle \_,\ \mathsf{align},\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{alignof}(T)\ =\ \mathsf{align}
 \end{array}
@@ -570,9 +527,9 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}(p)\quad \operatorname{EnumDecl}(p)\ =\ E\quad \operatorname{EnumLayout}(E)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_,\ \_\rangle  \\[0.16em]
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{EnumDecl}(p)\ =\ E\quad \operatorname{EnumLayout}(E)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle
 \end{array}
 $$
 
@@ -590,7 +547,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{EnumLiteral}(\mathsf{path},\ \bot ))\ \Downarrow \ \langle \varepsilon ,\ \operatorname{EnumValue}(\mathsf{path},\ \bot )\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{EnumLiteral}(\mathsf{path},\ \bot ))\ \Downarrow \ \langle \varepsilon ,\ \operatorname{EnumValue}(\mathsf{path},\ \bot )\rangle
 \end{array}
 $$
 
@@ -598,9 +555,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerList}(\mathsf{es})\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{vec}_{v}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerList}(\mathsf{es})\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{vec}_{v}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{EnumLiteral}(\mathsf{path},\ \operatorname{Paren}(\mathsf{es})))\ \Downarrow \ \langle \mathsf{IR},\ \operatorname{EnumValue}(\mathsf{path},\ \operatorname{TuplePayload}(\mathsf{vec}_{v}))\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{EnumLiteral}(\mathsf{path},\ \operatorname{Paren}(\mathsf{es})))\ \Downarrow \ \langle \mathsf{IR},\ \operatorname{EnumValue}(\mathsf{path},\ \operatorname{TuplePayload}(\mathsf{vec}_{v}))\rangle
 \end{array}
 $$
 
@@ -608,9 +565,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerFieldInits}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{vec}_{f}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerFieldInits}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{vec}_{f}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{EnumLiteral}(\mathsf{path},\ \operatorname{Brace}(\mathsf{fields})))\ \Downarrow \ \langle \mathsf{IR},\ \operatorname{EnumValue}(\mathsf{path},\ \operatorname{RecordPayload}(\mathsf{vec}_{f}))\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{EnumLiteral}(\mathsf{path},\ \operatorname{Brace}(\mathsf{fields})))\ \Downarrow \ \langle \mathsf{IR},\ \operatorname{EnumValue}(\mathsf{path},\ \operatorname{RecordPayload}(\mathsf{vec}_{f}))\rangle
 \end{array}
 $$
 
@@ -618,12 +575,12 @@ $$
 
 | Code         | Severity | Detection    | Condition                                        |
 | ------------ | -------- | ------------ | ------------------------------------------------ |
-| `E-TYP-1920` | Error    | Compile-time | Enum discriminant is not an integer literal      |
-| `E-TYP-1921` | Error    | Compile-time | Enum discriminant literal is invalid             |
-| `E-TYP-1922` | Error    | Compile-time | Enum discriminant must be non-negative           |
-| `E-TYP-1923` | Error    | Compile-time | Duplicate enum discriminant value                |
-| `E-TYP-2001` | Error    | Compile-time | Enum declaration contains no variants            |
-| `E-TYP-2002` | Error    | Compile-time | Duplicate variant name in enum declaration       |
-| `E-TYP-2007` | Error    | Compile-time | Unknown variant name in enum construction        |
-| `E-TYP-2008` | Error    | Compile-time | Variant payload arity mismatch                   |
-| `E-TYP-2009` | Error    | Compile-time | Missing field initializer in record-like variant |
+| `E-TYP-1920` | Error    | Compile-time | Enum discriminant is not an integer literal (`Enum-Disc-NotInt`) |
+| `E-TYP-1921` | Error    | Compile-time | Enum discriminant literal is invalid (`Enum-Disc-Invalid`) |
+| `E-TYP-1922` | Error    | Compile-time | Enum discriminant must be non-negative (`Enum-Disc-Negative`) |
+| `E-TYP-1923` | Error    | Compile-time | Duplicate enum discriminant value (`Enum-Disc-Dup`) |
+| `E-TYP-2001` | Error    | Compile-time | Enum declaration contains no variants (`Enum-Empty-Err`) |
+| `E-TYP-2002` | Error    | Compile-time | Duplicate variant name in enum declaration (`Enum-Variant-Dup`) |
+| `E-TYP-2007` | Error    | Compile-time | Unknown variant name in enum construction (`Enum-Lit-Unknown`) |
+| `E-TYP-2008` | Error    | Compile-time | Variant payload arity mismatch (`Enum-Lit-Tuple-Arity-Err`) |
+| `E-TYP-2009` | Error    | Compile-time | Missing field initializer in record-like variant (`Enum-Lit-Record-MissingField`) |

@@ -2,16 +2,16 @@
 title: "6.2 Host Primitives"
 description: "6.2 Host Primitives from 6. Abstract Machine, Objects, Responsibility, and Authority of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "abstract-machine-objects-responsibility-and-authority"
 specSection: "62-host-primitives"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -26,7 +26,7 @@ $$
 \mathsf{IOPrim}\ =\ \{\mathsf{IOOpenRead},\ \mathsf{IOOpenWrite},\ \mathsf{IOOpenAppend},\ \mathsf{IOCreateWrite},\ \mathsf{IOReadFile},\ \mathsf{IOReadBytes},\ \mathsf{IOWriteFile},\ \mathsf{IOWriteStdout},\ \mathsf{IOWriteStderr},\ \mathsf{IOExists},\ \mathsf{IORemove},\ \mathsf{IOOpenDir},\ \mathsf{IOCreateDir},\ \mathsf{IOEnsureDir},\ \mathsf{IOKind},\ \mathsf{IORestrict}\} \\[0.16em]
 \mathsf{FilePrim}\ =\ \{\mathsf{FileReadAll},\ \mathsf{FileReadAllBytes},\ \mathsf{FileWrite},\ \mathsf{FileFlush},\ \mathsf{FileClose}\} \\[0.16em]
 \mathsf{DirPrim}\ =\ \{\mathsf{DirNext},\ \mathsf{DirClose}\} \\[0.16em]
-\mathsf{SystemPrim}\ =\ \{\mathsf{SystemGetEnv},\ \mathsf{SystemExit},\ \mathsf{SystemRun}\} \\[0.16em]
+\mathsf{SystemPrim}\ =\ \{\mathsf{SystemGetEnv},\ \mathsf{SystemExecutablePath},\ \mathsf{SystemArgumentCount},\ \mathsf{SystemArgument},\ \mathsf{SystemCurrentDirectory},\ \mathsf{SystemExit},\ \mathsf{SystemRun}\} \\[0.16em]
 \mathsf{NetworkPrim}\ =\ \{\mathsf{NetRestrictHost}\} \\[0.16em]
 \mathsf{HeapPrim}\ =\ \{\mathsf{HeapWithQuota},\ \mathsf{HeapAllocRaw},\ \mathsf{HeapDeallocRaw}\} \\[0.16em]
 \mathsf{ReactorPrim}\ =\ \{\mathsf{ReactorRun},\ \mathsf{ReactorRegister}\} \\[0.16em]
@@ -46,7 +46,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{MapsToDiagOrRuntime}(p)\ \Leftrightarrow \ p\ \in \ \mathsf{HostPrimDiag}\ \cup \ \mathsf{HostPrimRuntime} \\[0.16em]
-\operatorname{HostPrimFail}(p)\ \Leftrightarrow \ p\ \in \ \mathsf{HostPrim}\ \land \ \exists \ \mathsf{args}.\ \Gamma \ \vdash \ \operatorname{p}(\mathsf{args})\ \Uparrow 
+\operatorname{HostPrimFail}(p)\ \Leftrightarrow \ p\ \in \ \mathsf{HostPrim}\ \land \ \exists \ \mathsf{args}.\ \Gamma \ \vdash \ \operatorname{p}(\mathsf{args})\ \Uparrow
 \end{array}
 $$
 
@@ -96,9 +96,9 @@ type is `DirEntry | ()`, so exhausted iteration returns the `()` member inside
 
 $$
 \begin{array}{l}
-\mathsf{Handle}\ =\ \mathbb{N}  \\[0.16em]
+\mathsf{Handle}\ =\ \mathbb{N} \\[0.16em]
 \mathsf{Entry}\ \mathbin{::} =\ \operatorname{FileEntry}(\mathsf{bytes})\ \mid \ \operatorname{DirEntry}(\mathsf{names})\ \mid \ \mathsf{OtherEntry} \\[0.16em]
-\mathsf{IOState}\ =\ \langle \mathsf{entries},\ \mathsf{handles},\ \mathsf{diriters},\ \mathsf{flushed},\ \mathsf{failmap}\rangle  \\[0.16em]
+\mathsf{IOState}\ =\ \langle \mathsf{entries},\ \mathsf{handles},\ \mathsf{diriters},\ \mathsf{flushed},\ \mathsf{failmap}\rangle \\[0.16em]
 \operatorname{Entries}(\langle \mathsf{entries},\ \mathsf{handles},\ \mathsf{diriters},\ \mathsf{flushed},\ \mathsf{failmap}\rangle )\ =\ \mathsf{entries} \\[0.16em]
 \operatorname{Handles}(\langle \mathsf{entries},\ \mathsf{handles},\ \mathsf{diriters},\ \mathsf{flushed},\ \mathsf{failmap}\rangle )\ =\ \mathsf{handles} \\[0.16em]
 \operatorname{DirIters}(\langle \mathsf{entries},\ \mathsf{handles},\ \mathsf{diriters},\ \mathsf{flushed},\ \mathsf{failmap}\rangle )\ =\ \mathsf{diriters} \\[0.16em]
@@ -186,7 +186,7 @@ $$
 \mathsf{IOPathOp}_{0}\ =\ \{\mathsf{IOOpenRead},\ \mathsf{IOOpenWrite},\ \mathsf{IOOpenAppend},\ \mathsf{IOCreateWrite},\ \mathsf{IOReadFile},\ \mathsf{IOReadBytes},\ \mathsf{IORemove},\ \mathsf{IOOpenDir},\ \mathsf{IOCreateDir},\ \mathsf{IOEnsureDir},\ \mathsf{IOKind}\} \\[0.16em]
 \mathsf{IOPathOp}_{1}\ =\ \{\mathsf{IOWriteFile}\} \\[0.16em]
 \mathsf{IORequiresExisting}\ =\ \{\mathsf{IOOpenRead},\ \mathsf{IOOpenWrite},\ \mathsf{IOOpenAppend},\ \mathsf{IOReadFile},\ \mathsf{IOReadBytes},\ \mathsf{IOOpenDir},\ \mathsf{IOKind},\ \mathsf{IORemove}\} \\[0.16em]
-\operatorname{PathInvalid}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Leftrightarrow \ \operatorname{Canon}(\operatorname{Normalize}(\mathsf{path}))\ =\ \bot  \\[0.16em]
+\operatorname{PathInvalid}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Leftrightarrow \ \operatorname{Canon}(\operatorname{Normalize}(\mathsf{path}))\ =\ \bot \\[0.16em]
 \operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \Leftrightarrow \ \operatorname{Entries}(\omega )[\mathsf{path}]\ \mathsf{defined} \\[0.16em]
 \operatorname{PermissionDenied}(\mathsf{io},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Leftrightarrow \ \operatorname{FailMap}(\omega )[\langle \mathsf{Op},\ \mathsf{path}\rangle ]\ =\ \mathsf{IoError}\mathbin{::} \mathsf{PermissionDenied} \\[0.16em]
 \operatorname{Busy}(\mathsf{io},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Leftrightarrow \ \operatorname{FailMap}(\omega )[\langle \mathsf{Op},\ \mathsf{path}\rangle ]\ =\ \mathsf{IoError}\mathbin{::} \mathsf{Busy} \\[0.16em]
@@ -207,6 +207,35 @@ $$
 \operatorname{OtherFailure}(\mathsf{io},\ \mathsf{path},\ \mathsf{Op},\ \omega )\ \Rightarrow \ \operatorname{Op}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{IoFailure},\ \omega )
 \end{array}
 $$
+
+$$
+\begin{array}{l}
+\operatorname{NonEmptyDir}(\omega ,\ \mathsf{path})\ \Leftrightarrow \ \operatorname{Entries}(\omega )[\mathsf{path}]\ =\ \operatorname{DirEntry}(\mathsf{names})\ \land \ \exists \ \mathsf{name}\ \in \ \mathsf{names}.\ \mathsf{name}\ \ne \ \texttt{"."}\ \land \ \mathsf{name}\ \ne \ \texttt{".."} \\[0.16em]
+\operatorname{ParentPath}(\mathsf{path})\ = \\[0.16em]
+\ \texttt{"\textbackslash{}""}\ \mathsf{if}\ \mid \operatorname{PathComps}(\mathsf{path})\mid \ \le \ 1 \\[0.16em]
+\ \operatorname{JoinComp}([\ \operatorname{PathComps}(\mathsf{path})[i]\ \mid \ 0\ \le \ i\ <\ \mid \operatorname{PathComps}(\mathsf{path})\mid \ -\ 1\ ])\ \mathsf{otherwise} \\[0.16em]
+\operatorname{RemoveName}(\mathsf{names},\ \mathsf{name})\ =\ [\ n\ \mid \ n\ \in \ \mathsf{names}\ \land \ n\ \ne \ \mathsf{name}\ ] \\[0.16em]
+\operatorname{RemoveEntryAt}(\omega ,\ \mathsf{path},\ q)\ = \\[0.16em]
+\ \operatorname{DirEntry}(\operatorname{RemoveName}(\mathsf{names},\ \operatorname{Basename}(\mathsf{path})))\ \mathsf{if}\ q\ =\ \operatorname{ParentPath}(\mathsf{path})\ \land \ \operatorname{Entries}(\omega )[q]\ =\ \operatorname{DirEntry}(\mathsf{names}) \\[0.16em]
+\ \operatorname{Entries}(\omega )[q]\quad \mathsf{otherwise} \\[0.16em]
+\operatorname{IORemoveEntries}(\omega ,\ \mathsf{path})\ =\ \{\ q\ \mapsto \ \operatorname{RemoveEntryAt}(\omega ,\ \mathsf{path},\ q)\ \mid \ q\ \in \ \operatorname{dom}(\operatorname{Entries}(\omega ))\ \land \ q\ \ne \ \mathsf{path}\ \} \\[0.16em]
+\operatorname{IORemoveClear}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Leftrightarrow \ \lnot \ \operatorname{PathInvalid}(\mathsf{io},\ \mathsf{path},\ \omega )\ \land \ \operatorname{EntryExists}(\omega ,\ \mathsf{path})\ \land \ \lnot \ \operatorname{PermissionDenied}(\mathsf{io},\ \mathsf{path},\ \mathsf{IORemove},\ \omega )\ \land \ \lnot \ \operatorname{Busy}(\mathsf{io},\ \mathsf{path},\ \mathsf{IORemove},\ \omega )\ \land \ \lnot \ \operatorname{OtherFailure}(\mathsf{io},\ \mathsf{path},\ \mathsf{IORemove},\ \omega )
+\end{array}
+$$
+
+$$
+\begin{array}{l}
+\operatorname{IORemoveClear}(\mathsf{io},\ \mathsf{path},\ \omega )\ \land \ \operatorname{Entries}(\omega )[\mathsf{path}]\ =\ \operatorname{FileEntry}(\_)\ \land \ \operatorname{IORemove}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ ((),\ \omega ')\ \Rightarrow \ \operatorname{Entries}(\omega ')\ =\ \operatorname{IORemoveEntries}(\omega ,\ \mathsf{path})\ \land \ \operatorname{Handles}(\omega ')\ =\ \operatorname{Handles}(\omega )\ \land \ \operatorname{DirIters}(\omega ')\ =\ \operatorname{DirIters}(\omega )\ \land \ \operatorname{FlushedSet}(\omega ')\ =\ \operatorname{FlushedSet}(\omega )\ \land \ \operatorname{FailMap}(\omega ')\ =\ \operatorname{FailMap}(\omega ) \\[0.16em]
+\operatorname{IORemoveClear}(\mathsf{io},\ \mathsf{path},\ \omega )\ \land \ \operatorname{Entries}(\omega )[\mathsf{path}]\ =\ \mathsf{OtherEntry}\ \land \ \operatorname{IORemove}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ ((),\ \omega ')\ \Rightarrow \ \operatorname{Entries}(\omega ')\ =\ \operatorname{IORemoveEntries}(\omega ,\ \mathsf{path})\ \land \ \operatorname{Handles}(\omega ')\ =\ \operatorname{Handles}(\omega )\ \land \ \operatorname{DirIters}(\omega ')\ =\ \operatorname{DirIters}(\omega )\ \land \ \operatorname{FlushedSet}(\omega ')\ =\ \operatorname{FlushedSet}(\omega )\ \land \ \operatorname{FailMap}(\omega ')\ =\ \operatorname{FailMap}(\omega ) \\[0.16em]
+\operatorname{IORemoveClear}(\mathsf{io},\ \mathsf{path},\ \omega )\ \land \ \operatorname{Entries}(\omega )[\mathsf{path}]\ =\ \operatorname{DirEntry}(\_)\ \land \ \lnot \ \operatorname{NonEmptyDir}(\omega ,\ \mathsf{path})\ \land \ \operatorname{IORemove}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ ((),\ \omega ')\ \Rightarrow \ \operatorname{Entries}(\omega ')\ =\ \operatorname{IORemoveEntries}(\omega ,\ \mathsf{path})\ \land \ \operatorname{Handles}(\omega ')\ =\ \operatorname{Handles}(\omega )\ \land \ \operatorname{DirIters}(\omega ')\ =\ \operatorname{DirIters}(\omega )\ \land \ \operatorname{FlushedSet}(\omega ')\ =\ \operatorname{FlushedSet}(\omega )\ \land \ \operatorname{FailMap}(\omega ')\ =\ \operatorname{FailMap}(\omega ) \\[0.16em]
+\operatorname{IORemoveClear}(\mathsf{io},\ \mathsf{path},\ \omega )\ \land \ \operatorname{NonEmptyDir}(\omega ,\ \mathsf{path})\ \Rightarrow \ \operatorname{IORemove}(\mathsf{io},\ \mathsf{path},\ \omega )\ \Downarrow \ (\mathsf{IoError}\mathbin{::} \mathsf{DirectoryNotEmpty},\ \omega )
+\end{array}
+$$
+
+`IORemove` is not recursive. A successful `IORemove` removes exactly the named
+entry and the corresponding name from its parent directory entry. It does not
+remove descendant entries, and it does not follow `OtherEntry` entries such as
+symbolic links.
 
 $$
 \begin{array}{l}
@@ -318,10 +347,10 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{SysState}\ =\ \langle \mathsf{env},\ \mathsf{exit}_{\mathsf{code}\_\mathsf{opt}}\rangle  \\[0.16em]
+\mathsf{SysState}\ =\ \langle \mathsf{env},\ \mathsf{exit}_{\mathsf{code}\_\mathsf{opt}}\rangle \\[0.16em]
 \operatorname{Env}(\langle \mathsf{env},\ \mathsf{exit}_{\mathsf{code}\_\mathsf{opt}}\rangle )\ =\ \mathsf{env} \\[0.16em]
 \operatorname{ExitCode}(\langle \mathsf{env},\ \mathsf{exit}_{\mathsf{code}\_\mathsf{opt}}\rangle )\ =\ \mathsf{exit}_{\mathsf{code}\_\mathsf{opt}} \\[0.16em]
-\operatorname{SetExitCode}(\langle \mathsf{env},\ \_\rangle ,\ \mathsf{code})\ =\ \langle \mathsf{env},\ \mathsf{code}\rangle 
+\operatorname{SetExitCode}(\langle \mathsf{env},\ \_\rangle ,\ \mathsf{code})\ =\ \langle \mathsf{env},\ \mathsf{code}\rangle
 \end{array}
 $$
 

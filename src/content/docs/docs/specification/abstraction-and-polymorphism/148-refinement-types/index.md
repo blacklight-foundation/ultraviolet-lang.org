@@ -2,16 +2,16 @@
 title: "14.8 Refinement Types"
 description: "14.8 Refinement Types from 14. Abstraction and Polymorphism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "abstraction-and-polymorphism"
 specSection: "148-refinement-types"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,12 +24,12 @@ generated: true
 ### 14.8.1 Syntax
 
 ```text
-refinement_type       ::= type "|:" "{" predicate_expr "}"
-type_alias_decl       ::= visibility? "type" identifier "=" type "|:" "{" predicate_expr "}"
-param_with_constraint ::= identifier ":" type "|:" "{" predicate_expr "}"
+type_alias_decl ::= visibility? "type" identifier "=" type "|:" "{" predicate_expr "}"
 ```
 
 Within a standalone refinement type, `self` denotes the constrained value.
+
+There is no separate parameter-constraint production: a `refinement_clause` on a parameter's type is an inline parameter constraint. Its predicate references the parameter by name and MUST NOT use `self` (`E-TYP-1956`).
 
 ### 14.8.2 Parsing
 
@@ -61,8 +61,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{Type}\ =\ \operatorname{TypeRefine}(\mathsf{base},\ \mathsf{pred})\ \mid \ \ldots  \\[0.16em]
-\mathsf{TypeRefine}\ =\ \langle \mathsf{base},\ \mathsf{pred}\rangle 
+\mathsf{Type}\ =\ \operatorname{TypeRefine}(\mathsf{base},\ \mathsf{pred})\ \mid \ \ldots \\[0.16em]
+\mathsf{TypeRefine}\ =\ \langle \mathsf{base},\ \mathsf{pred}\rangle
 \end{array}
 $$
 
@@ -72,25 +72,7 @@ $$
 
 ### 14.8.4 Static Semantics
 
-**(T-Equiv-Refine)**
-
-$$
-\begin{array}{l}
-T\ =\ \operatorname{TypeRefine}(T_{0},\ P_{1})\quad U\ =\ \operatorname{TypeRefine}(U_{0},\ P_{2})\quad \Gamma \ \vdash \ T_{0}\ \equiv \ U_{0}\quad \operatorname{PredicateEquiv}(P_{1},\ P_{2}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ \equiv \ U
-\end{array}
-$$
-
-**(T-Equiv-Refine-Norm)**
-
-$$
-\begin{array}{l}
-T\ =\ \operatorname{TypeRefine}(\operatorname{TypeRefine}(T_{0},\ P_{1}),\ P_{2})\quad U\ =\ \operatorname{TypeRefine}(T_{0},\ P_{1}\ \land \ P_{2}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ \equiv \ U
-\end{array}
-$$
+Rules **(T-Equiv-Refine)**, **(T-Equiv-Refine-Norm)** are defined once by §8.1.
 
 **(WF-Refine-Type)**
 
@@ -146,15 +128,7 @@ Refinement types do not alter the underlying value representation. Failed dynami
 
 ### 14.8.6 Lowering
 
-**(LLVMTy-Refine)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau  \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMTy}(\operatorname{TypeRefine}(T,\ P))\ \Downarrow \ \tau 
-\end{array}
-$$
+Rule **(LLVMTy-Refine)** is defined once by §24.7.7.
 
 Feature-local lowering consists only of optional runtime predicate checks when static verification is not discharged inside `#dynamic` scopes.
 

@@ -2,16 +2,16 @@
 title: "8.2 Subtyping"
 description: "8.2 Subtyping from 8. Type System Core of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "type-system-core"
 specSection: "82-subtyping"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -48,7 +48,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ \in \ \mathcal{T}  \\[0.16em]
+T\ \in \ \mathcal{T} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{TypePrim}(\texttt{"!"})\ \mathrel{<:} \ T
 \end{array}
@@ -188,7 +188,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(T)\ =\ \langle \mathsf{Out}_{1},\ \mathsf{In}_{1},\ \mathsf{Result}_{1},\ E_{1}\rangle \quad \operatorname{AsyncSig}(U)\ =\ \langle \mathsf{Out}_{2},\ \mathsf{In}_{2},\ \mathsf{Result}_{2},\ E_{2}\rangle  \\[0.16em]
+\operatorname{AsyncSig}(T)\ =\ \langle \mathsf{Out}_{1},\ \mathsf{In}_{1},\ \mathsf{Result}_{1},\ E_{1}\rangle \quad \operatorname{AsyncSig}(U)\ =\ \langle \mathsf{Out}_{2},\ \mathsf{In}_{2},\ \mathsf{Result}_{2},\ E_{2}\rangle \\[0.16em]
 \Gamma \ \vdash \ \mathsf{Out}_{1}\ \mathrel{<:} \ \mathsf{Out}_{2}\quad \Gamma \ \vdash \ \mathsf{In}_{2}\ \mathrel{<:} \ \mathsf{In}_{1}\quad \Gamma \ \vdash \ \mathsf{Result}_{1}\ \mathrel{<:} \ \mathsf{Result}_{2}\quad \Gamma \ \vdash \ E_{1}\ \mathrel{<:} \ E_{2} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ U
@@ -229,10 +229,10 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{VarianceSatisfied}(v,\ T,\ U)\ \Leftrightarrow  \\[0.16em]
-\ (v\ =\ \texttt{+}\ \land \ \Gamma \ \vdash \ T\ \mathrel{<:} \ U)\ \lor  \\[0.16em]
-\ (v\ =\ \texttt{-}\ \land \ \Gamma \ \vdash \ U\ \mathrel{<:} \ T)\ \lor  \\[0.16em]
-\ (v\ =\ \texttt{=}\ \land \ \Gamma \ \vdash \ T\ \equiv \ U)\ \lor  \\[0.16em]
+\operatorname{VarianceSatisfied}(v,\ T,\ U)\ \Leftrightarrow \\[0.16em]
+\ (v\ =\ \texttt{+}\ \land \ \Gamma \ \vdash \ T\ \mathrel{<:} \ U)\ \lor \\[0.16em]
+\ (v\ =\ \texttt{-}\ \land \ \Gamma \ \vdash \ U\ \mathrel{<:} \ T)\ \lor \\[0.16em]
+\ (v\ =\ \texttt{=}\ \land \ \Gamma \ \vdash \ T\ \equiv \ U)\ \lor \\[0.16em]
 \ (v\ =\ \texttt{+/-})
 \end{array}
 $$
@@ -247,41 +247,13 @@ T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U
 \end{array}
 $$
 
-**(Sub-Generic-Invariant-Err)**
-
-$$
-\begin{array}{l}
-T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}])\quad \exists \ i,\ \operatorname{VarianceOf}(\mathsf{path},\ i)\ =\ \texttt{=}\ \land \ \lnot (\Gamma \ \vdash \ T_{i}\ \equiv \ U_{i})\quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-1520) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ \mathrel{<:} \ U\ \Uparrow \ c
-\end{array}
-$$
-
-**(Sub-Generic-Covariant-Err)**
-
-$$
-\begin{array}{l}
-T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}])\quad \exists \ i,\ \operatorname{VarianceOf}(\mathsf{path},\ i)\ =\ \texttt{+}\ \land \ \lnot (\Gamma \ \vdash \ T_{i}\ \mathrel{<:} \ U_{i})\quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-1521) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ \mathrel{<:} \ U\ \Uparrow \ c
-\end{array}
-$$
-
-**(Sub-Generic-Contravariant-Err)**
-
-$$
-\begin{array}{l}
-T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}])\quad \exists \ i,\ \operatorname{VarianceOf}(\mathsf{path},\ i)\ =\ \texttt{-}\ \land \ \lnot (\Gamma \ \vdash \ U_{i}\ \mathrel{<:} \ T_{i})\quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-1521) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ \mathrel{<:} \ U\ \Uparrow \ c
-\end{array}
-$$
+Failure of `VarianceSatisfied` makes `Sub-Generic` inapplicable; diagnostics for variance violations are emitted only at use sites that require the subtype relationship (§14.2.4).
 
 **(Sub-Refl)**
 
 $$
 \begin{array}{l}
-T\ \in \ \mathcal{T}  \\[0.16em]
+T\ \in \ \mathcal{T} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathrel{<:} \ T
 \end{array}

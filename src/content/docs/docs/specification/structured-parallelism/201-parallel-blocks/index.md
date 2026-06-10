@@ -2,16 +2,16 @@
 title: "20.1 Parallel Blocks"
 description: "20.1 Parallel Blocks from 20. Structured Parallelism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "structured-parallelism"
 specSection: "201-parallel-blocks"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -37,22 +37,58 @@ ct_usize_expr        ::= expression
 
 ### 20.1.2 Parsing
 
-Parallel-block parsing is defined by the following source rules:
+**(Parse-ParallelOpt-Cancel)**
 
-- `Parse-Parallel-Expr`
-- `Parse-ParallelOptsOpt-None`
-- `Parse-ParallelOptsOpt-Yes`
-- `Parse-ParallelOptList-Empty`
-- `Parse-ParallelOptList-Cons`
-- `Parse-ParallelOptListTail-End`
-- `Parse-ParallelOptListTail-TrailingComma`
-- `Parse-ParallelOptListTail-Comma`
-- `Parse-ParallelOpt-Cancel`
-- `Parse-ParallelOpt-Name`
-- `Parse-ParallelOpt-Workgroup`
-- `Parse-ParallelOpt-Workgroups`
+$$
+\begin{array}{l}
+\operatorname{IsCtxIdent}(\operatorname{Tok}(P),\ \texttt{"cancel"})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseParallelOpt}(P)\ \Downarrow \ (P_{1},\ \operatorname{Cancel}(e))
+\end{array}
+$$
 
-`Parse-Parallel-Expr` parses the domain expression with `ParseExpr_NoBrace`, then parses the optional option list, then parses the block body.
+**(Parse-ParallelOpt-Name)**
+
+$$
+\begin{array}{l}
+\operatorname{IsCtxIdent}(\operatorname{Tok}(P),\ \texttt{"name"})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{":"})\quad \operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))).\mathsf{kind}\ =\ \mathsf{StringLiteral}\quad s\ =\ \operatorname{StringValue}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P)))) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseParallelOpt}(P)\ \Downarrow \ (\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P))),\ \operatorname{Name}(s))
+\end{array}
+$$
+
+**(Parse-ParallelOpt-Workgroup)**
+
+$$
+\begin{array}{l}
+\operatorname{IsCtxIdent}(\operatorname{Tok}(P),\ \texttt{"workgroup"})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseParallelOpt}(P)\ \Downarrow \ (P_{1},\ \operatorname{Workgroup}(e))
+\end{array}
+$$
+
+**(Parse-ParallelOpt-Workgroups)**
+
+$$
+\begin{array}{l}
+\operatorname{IsCtxIdent}(\operatorname{Tok}(P),\ \texttt{"workgroups"})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseParallelOpt}(P)\ \Downarrow \ (P_{1},\ \operatorname{Workgroups}(e))
+\end{array}
+$$
+
+**(Parse-Parallel-Expr)**
+
+$$
+\begin{array}{l}
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{"parallel"})\quad \Gamma \ \vdash \ \operatorname{ParseExpr_NoBrace}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{domain}) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseOptListOpt}(\mathsf{ParseParallelOpt},\ P_{1})\ \Downarrow \ (P_{2},\ \mathsf{opts})\quad \Gamma \ \vdash \ \operatorname{ParseBlockExpr}(P_{2})\ \Downarrow \ (P_{3},\ \mathsf{body}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParsePrimaryExpr}(P)\ \Downarrow \ (P_{3},\ \operatorname{ParallelExpr}(\mathsf{domain},\ \mathsf{opts},\ \mathsf{body}))
+\end{array}
+$$
+
+The option-list rules instantiate the shared schema of §5.5 with `El = ParseParallelOpt`. The `dim3_const` shape of `workgroup`/`workgroups` operands is validated by §20.1.4, not by the parser.
 
 ### 20.1.3 AST Representation / Form
 
@@ -65,7 +101,7 @@ $$
 $$
 
 $$
-\mathsf{Expr}\ =\ \ldots \ \mid \ \operatorname{ParallelExpr}(\mathsf{domain},\ \mathsf{opts},\ \mathsf{body})\ \mid \ \ldots 
+\mathsf{Expr}\ =\ \ldots \ \mid \ \operatorname{ParallelExpr}(\mathsf{domain},\ \mathsf{opts},\ \mathsf{body})\ \mid \ \ldots
 $$
 
 $$
@@ -109,9 +145,9 @@ $$
 
 $$
 \begin{array}{l}
-G\ \vdash \ \operatorname{Dim3Const}((e_{1},\ e_{2},\ e_{3}))\ \Downarrow \ (x,\ y,\ z)\ \Leftrightarrow  \\[0.16em]
-\ G\ \vdash \ e_{1}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\ \land \ G\ \vdash \ \operatorname{ConstLen}(e_{1})\ \Downarrow \ x\ \land \ x\ >\ 0\ \land  \\[0.16em]
-\ G\ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\ \land \ G\ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ y\ \land \ y\ >\ 0\ \land  \\[0.16em]
+G\ \vdash \ \operatorname{Dim3Const}((e_{1},\ e_{2},\ e_{3}))\ \Downarrow \ (x,\ y,\ z)\ \Leftrightarrow \\[0.16em]
+\ G\ \vdash \ e_{1}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\ \land \ G\ \vdash \ \operatorname{ConstLen}(e_{1})\ \Downarrow \ x\ \land \ x\ >\ 0\ \land \\[0.16em]
+\ G\ \vdash \ e_{2}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\ \land \ G\ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ y\ \land \ y\ >\ 0\ \land \\[0.16em]
 \ G\ \vdash \ e_{3}\ :\ \operatorname{TypePrim}(\texttt{"usize"})\ \land \ G\ \vdash \ \operatorname{ConstLen}(e_{3})\ \Downarrow \ z\ \land \ z\ >\ 0
 \end{array}
 $$
@@ -220,14 +256,14 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ComputeTopologyParallel}(\mathsf{opts})\ =\ \mathsf{topo}\ \Leftrightarrow  \\[0.16em]
-\ \mathsf{wg}\ =\ \mathsf{if}\ \operatorname{WorkgroupOpt}(\mathsf{opts})\ \ne \ \bot \ \mathsf{then}\ \operatorname{WorkgroupOpt}(\mathsf{opts})\ \mathsf{else}\ \mathsf{DEFAULT}_{\mathsf{GPU}\_\mathsf{WORKGROUP}}\ \land  \\[0.16em]
-\ \mathsf{ng}\ =\ \mathsf{if}\ \operatorname{WorkgroupsOpt}(\mathsf{opts})\ \ne \ \bot \ \mathsf{then}\ \operatorname{WorkgroupsOpt}(\mathsf{opts})\ \mathsf{else}\ \mathsf{DEFAULT}_{\mathsf{GPU}\_\mathsf{WORKGROUPS}}\ \land  \\[0.16em]
-\ \mathsf{topo}\ =\ \langle  \\[0.16em]
+\operatorname{ComputeTopologyParallel}(\mathsf{opts})\ =\ \mathsf{topo}\ \Leftrightarrow \\[0.16em]
+\ \mathsf{wg}\ =\ \mathsf{if}\ \operatorname{WorkgroupOpt}(\mathsf{opts})\ \ne \ \bot \ \mathsf{then}\ \operatorname{WorkgroupOpt}(\mathsf{opts})\ \mathsf{else}\ \mathsf{DEFAULT}_{\mathsf{GPU}\_\mathsf{WORKGROUP}}\ \land \\[0.16em]
+\ \mathsf{ng}\ =\ \mathsf{if}\ \operatorname{WorkgroupsOpt}(\mathsf{opts})\ \ne \ \bot \ \mathsf{then}\ \operatorname{WorkgroupsOpt}(\mathsf{opts})\ \mathsf{else}\ \mathsf{DEFAULT}_{\mathsf{GPU}\_\mathsf{WORKGROUPS}}\ \land \\[0.16em]
+\ \mathsf{topo}\ =\ \langle \\[0.16em]
 \quad \mathsf{WorkgroupSize}\ :=\ \mathsf{wg}, \\[0.16em]
 \quad \mathsf{NumWorkgroups}\ :=\ \mathsf{ng}, \\[0.16em]
 \quad \mathsf{GlobalSize}\ :=\ (\mathsf{wg}.0\ \times \ \mathsf{ng}.0,\ \mathsf{wg}.1\ \times \ \mathsf{ng}.1,\ \mathsf{wg}.2\ \times \ \mathsf{ng}.2) \\[0.16em]
-\ \rangle 
+\ \rangle
 \end{array}
 $$
 
@@ -277,9 +313,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(D)\ \Downarrow \ \langle \mathsf{IR}_{d},\ v_{d}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(B)\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(D)\ \Downarrow \ \langle \mathsf{IR}_{d},\ v_{d}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(B)\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{ParallelExpr}(D,\ \mathsf{opts},\ B))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{d},\ \operatorname{ParallelBegin}(v_{d},\ \mathsf{opts}),\ \mathsf{IR}_{b},\ \mathsf{ParallelJoin}),\ v_{b}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{ParallelExpr}(D,\ \mathsf{opts},\ B))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{d},\ \operatorname{ParallelBegin}(v_{d},\ \mathsf{opts}),\ \mathsf{IR}_{b},\ \mathsf{ParallelJoin}),\ v_{b}\rangle
 \end{array}
 $$
 
@@ -288,5 +324,5 @@ $$
 | Code         | Severity | Detection    | Condition                                        |
 | ------------ | -------- | ------------ | ------------------------------------------------ |
 | `E-CON-0101` | Error    | Compile-time | `spawn` outside parallel                         |
-| `E-CON-0102` | Error    | Compile-time | Domain expression not `ExecutionDomain`          |
-| `E-CON-0103` | Error    | Compile-time | Invalid parallel domain or option parameter type |
+| `E-CON-0102` | Error    | Compile-time | Domain expression not `ExecutionDomain` (`Parallel-Domain-Param-Err`) |
+| `E-CON-0103` | Error    | Compile-time | Invalid parallel domain or option parameter type (`Dim3Const-Err`) |

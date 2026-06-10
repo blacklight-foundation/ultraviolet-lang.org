@@ -2,16 +2,16 @@
 title: "14.4 Implementations"
 description: "14.4 Implementations from 14. Abstraction and Polymorphism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "abstraction-and-polymorphism"
 specSection: "144-implementations"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -135,7 +135,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{NoDefaultMethods}(\mathsf{Cl})\ \Leftrightarrow \ \forall \ m\ \in \ \operatorname{ClassMethods}(\mathsf{Cl}).\ m.\mathsf{body}\ =\ \bot  \\[0.16em]
+\operatorname{NoDefaultMethods}(\mathsf{Cl})\ \Leftrightarrow \ \forall \ m\ \in \ \operatorname{ClassMethods}(\mathsf{Cl}).\ m.\mathsf{body}\ =\ \bot \\[0.16em]
 \operatorname{AbstractsImplemented}(T)\ \Leftrightarrow \ \forall \ \mathsf{Cl}\ \in \ \operatorname{Implements}(T).\ \forall \ m\ \in \ \operatorname{ClassMethodTable}(\mathsf{Cl}).\ (m.\mathsf{body}\ =\ \bot \ \Rightarrow \ \operatorname{MethodByName}(T,\ m.\mathsf{name})\ \ne \ \bot )
 \end{array}
 $$
@@ -154,9 +154,9 @@ $$
 
 $$
 \begin{array}{l}
-m\ \in \ \operatorname{ClassMethodTable}(\mathsf{Cl})\quad m.\mathsf{body}\ =\ \bot \quad \operatorname{MethodByName}(T,\ m.\mathsf{name})\ =\ \bot  \\[0.16em]
+m\ \in \ \operatorname{ClassMethodTable}(\mathsf{Cl})\quad m.\mathsf{body}\ =\ \bot \quad \operatorname{MethodByName}(T,\ m.\mathsf{name})\ =\ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow 
+\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow
 \end{array}
 $$
 
@@ -166,7 +166,7 @@ $$
 \begin{array}{l}
 a\ \in \ \operatorname{A_abs}(\mathsf{Cl})\quad \lnot (T\ \mathsf{binds}\ a\ \mathsf{for}\ \mathsf{Cl}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow 
+\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow
 \end{array}
 $$
 
@@ -176,7 +176,7 @@ $$
 \begin{array}{l}
 m\ \in \ \operatorname{ClassMethodTable}(\mathsf{Cl})\quad m.\mathsf{body}\ =\ \bot \quad \operatorname{MethodByName}(T,\ m.\mathsf{name})\ =\ m'\quad \lnot \ \operatorname{SigMatch}(T,\ m',\ m) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow 
+\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow
 \end{array}
 $$
 
@@ -186,7 +186,7 @@ $$
 \begin{array}{l}
 m\ \in \ \operatorname{ClassMethodTable}(\mathsf{Cl})\quad m.\mathsf{body}\ =\ \bot \quad \operatorname{MethodByName}(T,\ m.\mathsf{name})\ =\ m'\quad \operatorname{SigMatch}(T,\ m',\ m)\quad m'.\mathsf{override}\ =\ \mathsf{true} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow 
+\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow
 \end{array}
 $$
 
@@ -194,7 +194,7 @@ $$
 
 $$
 \begin{array}{l}
-m\ \in \ \operatorname{ClassMethodTable}(\mathsf{Cl})\quad m.\mathsf{body}\ \ne \ \bot \quad \operatorname{MethodByName}(T,\ m.\mathsf{name})\ =\ \bot  \\[0.16em]
+m\ \in \ \operatorname{ClassMethodTable}(\mathsf{Cl})\quad m.\mathsf{body}\ \ne \ \bot \quad \operatorname{MethodByName}(T,\ m.\mathsf{name})\ =\ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathsf{uses}\ \mathsf{default}\ m
 \end{array}
@@ -216,7 +216,7 @@ $$
 \begin{array}{l}
 m\ \in \ \operatorname{ClassMethodTable}(\mathsf{Cl})\quad m.\mathsf{body}\ \ne \ \bot \quad \operatorname{MethodByName}(T,\ m.\mathsf{name})\ =\ m'\quad \operatorname{SigMatch}(T,\ m',\ m)\quad m'.\mathsf{override}\ =\ \mathsf{false} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow 
+\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow
 \end{array}
 $$
 
@@ -226,7 +226,7 @@ $$
 \begin{array}{l}
 m\ \in \ \operatorname{ClassMethodTable}(\mathsf{Cl})\quad m.\mathsf{body}\ \ne \ \bot \quad \operatorname{MethodByName}(T,\ m.\mathsf{name})\ =\ m'\quad \lnot \ \operatorname{SigMatch}(T,\ m',\ m) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow 
+\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow
 \end{array}
 $$
 
@@ -234,9 +234,9 @@ $$
 
 $$
 \begin{array}{l}
-m'\ \in \ \operatorname{Methods}(T)\quad m'.\mathsf{override}\ =\ \mathsf{true}\quad \lnot \ \exists \ \mathsf{Cl}\ \in \ \operatorname{Implements}(T).\ \exists \ m\ \in \ \operatorname{ClassMethodTable}(\mathsf{Cl}).\ m.\mathsf{name}\ =\ m'.\mathsf{name}\ \land \ m.\mathsf{body}\ \ne \ \bot  \\[0.16em]
+m'\ \in \ \operatorname{Methods}(T)\quad m'.\mathsf{override}\ =\ \mathsf{true}\quad \lnot \ \exists \ \mathsf{Cl}\ \in \ \operatorname{Implements}(T).\ \exists \ m\ \in \ \operatorname{ClassMethodTable}(\mathsf{Cl}).\ m.\mathsf{name}\ =\ m'.\mathsf{name}\ \land \ m.\mathsf{body}\ \ne \ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow 
+\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow
 \end{array}
 $$
 
@@ -256,7 +256,7 @@ $$
 \begin{array}{l}
 f\ :\ T_{c}\ \in \ \operatorname{ClassFieldTable}(\mathsf{Cl})\quad \lnot \ \exists \ T_{i}.\ f\ :\ T_{i}\ \in \ \operatorname{Fields}(T) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow 
+\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow
 \end{array}
 $$
 
@@ -266,7 +266,7 @@ $$
 \begin{array}{l}
 f\ :\ T_{c}\ \in \ \operatorname{ClassFieldTable}(\mathsf{Cl})\quad f\ :\ T_{i}\ \in \ \operatorname{Fields}(T)\quad \lnot (\Gamma \ \vdash \ T_{i}\ \mathrel{<:} \ T_{c}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow 
+\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow
 \end{array}
 $$
 
@@ -276,7 +276,7 @@ $$
 \begin{array}{l}
 \lnot \ \operatorname{Distinct}(\operatorname{Implements}(T)) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow 
+\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow
 \end{array}
 $$
 
@@ -286,7 +286,7 @@ $$
 \begin{array}{l}
 \mathsf{Cl}\ \in \ \operatorname{Implements}(T)\quad \lnot \ \operatorname{ImplOrphanOk}(T,\ \mathsf{Cl}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow 
+\Gamma \ \vdash \ T\ :\ \mathsf{ImplementsOk}\ \Uparrow
 \end{array}
 $$
 

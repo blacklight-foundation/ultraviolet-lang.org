@@ -2,16 +2,16 @@
 title: "8.3 Type Inference"
 description: "8.3 Type Inference from 8. Type System Core of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "type-system-core"
 specSection: "83-type-inference"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -45,7 +45,7 @@ $$
 \begin{array}{l}
 \mathsf{Subst}\ =\ \mathsf{TVar}\ \rightharpoonup \ \mathsf{Type} \\[0.16em]
 \operatorname{Dom}(\theta )\ =\ \{\alpha \ \mid \ \theta (\alpha )\ \mathsf{defined}\} \\[0.16em]
-\mathsf{Id}\ =\ \emptyset 
+\mathsf{Id}\ =\ \emptyset
 \end{array}
 $$
 
@@ -78,7 +78,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStart}(\emptyset )\rangle \ \to \ \langle \operatorname{UnifyDone}(\mathsf{Id})\rangle 
+\langle \operatorname{UnifyStart}(\emptyset )\rangle \ \to \ \langle \operatorname{UnifyDone}(\mathsf{Id})\rangle
 \end{array}
 $$
 
@@ -88,7 +88,7 @@ $$
 \begin{array}{l}
 T\ =\ U \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(C,\ \theta )\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(C,\ \theta )\rangle
 \end{array}
 $$
 
@@ -98,7 +98,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TVar}(\alpha )\quad \alpha \ \notin \ \operatorname{TVars}(U) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}([\alpha \ \mapsto \ U]C,\ [\alpha \ \mapsto \ U]\ \circ \ \theta )\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}([\alpha \ \mapsto \ U]C,\ [\alpha \ \mapsto \ U]\ \circ \ \theta )\rangle
 \end{array}
 $$
 
@@ -108,7 +108,7 @@ $$
 \begin{array}{l}
 U\ =\ \operatorname{TVar}(\alpha )\quad \alpha \ \notin \ \operatorname{TVars}(T) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}([\alpha \ \mapsto \ T]C,\ [\alpha \ \mapsto \ T]\ \circ \ \theta )\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}([\alpha \ \mapsto \ T]C,\ [\alpha \ \mapsto \ T]\ \circ \ \theta )\rangle
 \end{array}
 $$
 
@@ -118,7 +118,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TVar}(\alpha )\quad \alpha \ \in \ \operatorname{TVars}(U)\quad T\ \ne \ U \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle
 \end{array}
 $$
 
@@ -128,7 +128,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeTuple}([U_{1},\ \ldots ,\ U_{n}]) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{1},\ U_{1}),\ \ldots ,\ (T_{n},\ U_{n})\}\ \cup \ C,\ \theta )\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{1},\ U_{1}),\ \ldots ,\ (T_{n},\ U_{n})\}\ \cup \ C,\ \theta )\rangle
 \end{array}
 $$
 
@@ -138,7 +138,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeTuple}([U_{1},\ \ldots ,\ U_{m}])\quad n\ \ne \ m \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle
 \end{array}
 $$
 
@@ -148,7 +148,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeArray}(T_{0},\ e_{0})\quad U\ =\ \operatorname{TypeArray}(U_{0},\ e_{1})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{0})\ \Downarrow \ n\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{1})\ \Downarrow \ n \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle
 \end{array}
 $$
 
@@ -158,7 +158,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeArray}(T_{0},\ e_{0})\quad U\ =\ \operatorname{TypeArray}(U_{0},\ e_{1})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{0})\ \Downarrow \ n_{0}\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{1})\ \Downarrow \ n_{1}\quad n_{0}\ \ne \ n_{1} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle
 \end{array}
 $$
 
@@ -168,7 +168,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeSlice}(T_{0})\quad U\ =\ \operatorname{TypeSlice}(U_{0}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle
 \end{array}
 $$
 
@@ -178,7 +178,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypePerm}(p,\ T_{0})\quad U\ =\ \operatorname{TypePerm}(p,\ U_{0}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle
 \end{array}
 $$
 
@@ -188,7 +188,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypePerm}(p,\ T_{0})\quad U\ =\ \operatorname{TypePerm}(q,\ U_{0})\quad p\ \ne \ q \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle
 \end{array}
 $$
 
@@ -199,7 +199,7 @@ $$
 T\ =\ \operatorname{TypeFunc}([(m_{1},\ T_{1}),\ \ldots ,\ (m_{n},\ T_{n})],\ R_{T}) \\[0.16em]
 U\ =\ \operatorname{TypeFunc}([(m_{1},\ U_{1}),\ \ldots ,\ (m_{n},\ U_{n})],\ R_{U}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{1},\ U_{1}),\ \ldots ,\ (T_{n},\ U_{n}),\ (R_{T},\ R_{U})\}\ \cup \ C,\ \theta )\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{1},\ U_{1}),\ \ldots ,\ (T_{n},\ U_{n}),\ (R_{T},\ R_{U})\}\ \cup \ C,\ \theta )\rangle
 \end{array}
 $$
 
@@ -209,7 +209,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeFunc}(\mathsf{ps}_{T},\ R_{T})\quad U\ =\ \operatorname{TypeFunc}(\mathsf{ps}_{U},\ R_{U})\quad \lnot \ \exists \ n,\ \mathsf{vec}\{m\},\ \mathsf{vec}\{T\},\ \mathsf{vec}\{U\}.\ \mathsf{ps}_{T}\ =\ [(m_{1},\ T_{1}),\ \ldots ,\ (m_{n},\ T_{n})]\ \land \ \mathsf{ps}_{U}\ =\ [(m_{1},\ U_{1}),\ \ldots ,\ (m_{n},\ U_{n})] \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle
 \end{array}
 $$
 
@@ -219,7 +219,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeClosure}([(m_{1},\ T_{1}),\ \ldots ,\ (m_{n},\ T_{n})],\ R_{T},\ D)\quad U\ =\ \operatorname{TypeClosure}([(m_{1},\ U_{1}),\ \ldots ,\ (m_{n},\ U_{n})],\ R_{U},\ D) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{1},\ U_{1}),\ \ldots ,\ (T_{n},\ U_{n}),\ (R_{T},\ R_{U})\}\ \cup \ C,\ \theta )\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{1},\ U_{1}),\ \ldots ,\ (T_{n},\ U_{n}),\ (R_{T},\ R_{U})\}\ \cup \ C,\ \theta )\rangle
 \end{array}
 $$
 
@@ -229,7 +229,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeClosure}(\mathsf{ps}_{T},\ R_{T},\ D_{T})\quad U\ =\ \operatorname{TypeClosure}(\mathsf{ps}_{U},\ R_{U},\ D_{U})\quad (D_{T}\ \ne \ D_{U}\ \lor \ \lnot \ \exists \ n,\ \mathsf{vec}\{m\},\ \mathsf{vec}\{T\},\ \mathsf{vec}\{U\}.\ \mathsf{ps}_{T}\ =\ [(m_{1},\ T_{1}),\ \ldots ,\ (m_{n},\ T_{n})]\ \land \ \mathsf{ps}_{U}\ =\ [(m_{1},\ U_{1}),\ \ldots ,\ (m_{n},\ U_{n})]) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle
 \end{array}
 $$
 
@@ -239,7 +239,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypePtr}(T_{0},\ s)\quad U\ =\ \operatorname{TypePtr}(U_{0},\ s) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle
 \end{array}
 $$
 
@@ -249,7 +249,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypePtr}(T_{0},\ s_{0})\quad U\ =\ \operatorname{TypePtr}(U_{0},\ s_{1})\quad s_{0}\ \ne \ s_{1} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle
 \end{array}
 $$
 
@@ -259,7 +259,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeRawPtr}(q,\ T_{0})\quad U\ =\ \operatorname{TypeRawPtr}(q,\ U_{0}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle
 \end{array}
 $$
 
@@ -269,7 +269,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeRawPtr}(q_{0},\ T_{0})\quad U\ =\ \operatorname{TypeRawPtr}(q_{1},\ U_{0})\quad q_{0}\ \ne \ q_{1} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle
 \end{array}
 $$
 
@@ -279,7 +279,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeApply}(\mathsf{path},\ [T_{1},\ \ldots ,\ T_{n}])\quad U\ =\ \operatorname{TypeApply}(\mathsf{path},\ [U_{1},\ \ldots ,\ U_{n}]) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{1},\ U_{1}),\ \ldots ,\ (T_{n},\ U_{n})\}\ \cup \ C,\ \theta )\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{1},\ U_{1}),\ \ldots ,\ (T_{n},\ U_{n})\}\ \cup \ C,\ \theta )\rangle
 \end{array}
 $$
 
@@ -289,7 +289,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeApply}(\mathsf{path}_{T},\ \mathsf{Ts})\quad U\ =\ \operatorname{TypeApply}(\mathsf{path}_{U},\ \mathsf{Us})\quad (\mathsf{path}_{T}\ \ne \ \mathsf{path}_{U}\ \lor \ \mid \mathsf{Ts}\mid \ \ne \ \mid \mathsf{Us}\mid ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle
 \end{array}
 $$
 
@@ -299,7 +299,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeRange}(T_{0})\quad U\ =\ \operatorname{TypeRange}(U_{0}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle
 \end{array}
 $$
 
@@ -309,7 +309,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeRangeInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeInclusive}(U_{0}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle
 \end{array}
 $$
 
@@ -319,7 +319,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeRangeFrom}(T_{0})\quad U\ =\ \operatorname{TypeRangeFrom}(U_{0}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle
 \end{array}
 $$
 
@@ -329,7 +329,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeRangeTo}(T_{0})\quad U\ =\ \operatorname{TypeRangeTo}(U_{0}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle
 \end{array}
 $$
 
@@ -339,7 +339,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeRangeToInclusive}(T_{0})\quad U\ =\ \operatorname{TypeRangeToInclusive}(U_{0}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle
 \end{array}
 $$
 
@@ -347,9 +347,9 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRefine}(T_{0},\ \mathsf{pred})\quad U\ =\ \operatorname{TypeRefine}(U_{0},\ \mathsf{pred}) \\[0.16em]
+T\ =\ \operatorname{TypeRefine}(T_{0},\ \mathsf{pred}_{T})\quad U\ =\ \operatorname{TypeRefine}(U_{0},\ \mathsf{pred}_{U})\quad \operatorname{PredNorm}(\mathsf{pred}_{T})\ =\ \operatorname{PredNorm}(\mathsf{pred}_{U}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(\{(T_{0},\ U_{0})\}\ \cup \ C,\ \theta )\rangle
 \end{array}
 $$
 
@@ -357,9 +357,9 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRefine}(T_{0},\ \mathsf{pred}_{T})\quad U\ =\ \operatorname{TypeRefine}(U_{0},\ \mathsf{pred}_{U})\quad \mathsf{pred}_{T}\ \ne \ \mathsf{pred}_{U} \\[0.16em]
+T\ =\ \operatorname{TypeRefine}(T_{0},\ \mathsf{pred}_{T})\quad U\ =\ \operatorname{TypeRefine}(U_{0},\ \mathsf{pred}_{U})\quad \operatorname{PredNorm}(\mathsf{pred}_{T})\ \ne \ \operatorname{PredNorm}(\mathsf{pred}_{U}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle
 \end{array}
 $$
 
@@ -369,44 +369,98 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypePrim}(p_{T})\quad U\ =\ \operatorname{TypePrim}(p_{U})\quad p_{T}\ \ne \ p_{U} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle
 \end{array}
 $$
+
+**(Unify-Union-Eq)**
+
+$$
+\begin{array}{l}
+T\ =\ \operatorname{TypeUnion}(\mathsf{Ts})\quad U\ =\ \operatorname{TypeUnion}(\mathsf{Us})\quad \operatorname{TVars}(T)\ =\ \emptyset \quad \operatorname{TVars}(U)\ =\ \emptyset \quad \operatorname{UnionSort}(\mathsf{Ts})\ =\ \operatorname{UnionSort}(\mathsf{Us}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \operatorname{UnifyStep}(C,\ \theta )\rangle
+\end{array}
+$$
+
+**(Unify-Union-Fail)**
+
+$$
+\begin{array}{l}
+T\ =\ \operatorname{TypeUnion}(\mathsf{Ts})\quad U\ =\ \operatorname{TypeUnion}(\mathsf{Us})\quad (\operatorname{TVars}(T)\ \ne \ \emptyset \ \lor \ \operatorname{TVars}(U)\ \ne \ \emptyset \ \lor \ \operatorname{UnionSort}(\mathsf{Ts})\ \ne \ \operatorname{UnionSort}(\mathsf{Us})) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle
+\end{array}
+$$
+
+Unification over unions is order-insensitive but member-syntactic; unions containing unsolved type variables do not unify. `T-Equiv-Union` remains permutation-closed over `≡` and strictly contains the solver's relation; the solver is the decidable approximation.
 
 **(Unify-Rigid-Fail)**
 
 $$
 \begin{array}{l}
-((T\ =\ \operatorname{TypeUnion}(\_)\ \land \ U\ =\ \operatorname{TypeUnion}(\_))\ \lor  \\[0.16em]
-\ (T\ =\ \operatorname{TypePath}(\_)\ \land \ U\ =\ \operatorname{TypePath}(\_))\ \lor  \\[0.16em]
-\ (T\ =\ \operatorname{TypeString}(\_)\ \land \ U\ =\ \operatorname{TypeString}(\_))\ \lor  \\[0.16em]
-\ (T\ =\ \operatorname{TypeBytes}(\_)\ \land \ U\ =\ \operatorname{TypeBytes}(\_))\ \lor  \\[0.16em]
-\ (T\ =\ \operatorname{TypeDynamic}(\_)\ \land \ U\ =\ \operatorname{TypeDynamic}(\_))\ \lor  \\[0.16em]
-\ (T\ =\ \operatorname{TypeOpaque}(\_)\ \land \ U\ =\ \operatorname{TypeOpaque}(\_))\ \lor  \\[0.16em]
-\ (T\ =\ \operatorname{TypeModalState}(\_,\ \_)\ \land \ U\ =\ \operatorname{TypeModalState}(\_,\ \_))\ \lor  \\[0.16em]
+((T\ =\ \operatorname{TypePath}(\_)\ \land \ U\ =\ \operatorname{TypePath}(\_))\ \lor \\[0.16em]
+\ (T\ =\ \operatorname{TypeString}(\_)\ \land \ U\ =\ \operatorname{TypeString}(\_))\ \lor \\[0.16em]
+\ (T\ =\ \operatorname{TypeBytes}(\_)\ \land \ U\ =\ \operatorname{TypeBytes}(\_))\ \lor \\[0.16em]
+\ (T\ =\ \operatorname{TypeDynamic}(\_)\ \land \ U\ =\ \operatorname{TypeDynamic}(\_))\ \lor \\[0.16em]
+\ (T\ =\ \operatorname{TypeOpaque}(\_)\ \land \ U\ =\ \operatorname{TypeOpaque}(\_))\ \lor \\[0.16em]
+\ (T\ =\ \operatorname{TypeModalState}(\_,\ \_)\ \land \ U\ =\ \operatorname{TypeModalState}(\_,\ \_))\ \lor \\[0.16em]
 \ (T\ =\ \mathsf{TypeRangeFull}\ \land \ U\ =\ \mathsf{TypeRangeFull}))\quad T\ \ne \ U \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle
 \end{array}
 $$
+
+$$
+\begin{array}{l}
+\operatorname{HeadCtor}(\operatorname{TypePrim}(n))\ =\ n \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeTuple}(\_))\ =\ \texttt{tuple} \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeArray}(\_,\ \_))\ =\ \texttt{array} \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeSlice}(\_))\ =\ \texttt{slice} \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeUnion}(\_))\ =\ \texttt{union} \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeFunc}(\_,\ \_))\ =\ \texttt{function} \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeClosure}(\_,\ \_,\ \_))\ =\ \texttt{closure} \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypePtr}(\_,\ \_))\ =\ \texttt{ptr} \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeRawPtr}(\_,\ \_))\ =\ \texttt{rawptr} \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypePerm}(\_,\ \_))\ =\ \texttt{perm} \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeString}(\_))\ =\ \texttt{string} \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeBytes}(\_))\ =\ \texttt{bytes} \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeDynamic}(p))\ =\ \langle \texttt{dyn\_class},\ p\rangle \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeOpaque}(p))\ =\ \langle \texttt{opaque},\ p\rangle \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeRefine}(\_,\ \_))\ =\ \texttt{refinement} \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeModalState}(\_,\ \_))\ =\ \texttt{modal\_state} \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeRange}(\_))\ =\ \texttt{range} \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeRangeInclusive}(\_))\ =\ \texttt{range\_inclusive} \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeRangeFrom}(\_))\ =\ \texttt{range\_from} \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeRangeTo}(\_))\ =\ \texttt{range\_to} \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeRangeToInclusive}(\_))\ =\ \texttt{range\_to\_inclusive} \\[0.16em]
+\operatorname{HeadCtor}(\mathsf{TypeRangeFull})\ =\ \texttt{range\_full} \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypeApply}(p,\ \_))\ =\ \langle \texttt{apply},\ p\rangle \\[0.16em]
+\operatorname{HeadCtor}(\operatorname{TypePath}(p))\ =\ \langle \texttt{path},\ p\rangle
+\end{array}
+$$
+
+`HeadCtor` is the head-constructor discriminator for unification; it is distinct from the deep constructor census `TypeCtor` of §1.1.
 
 **(Unify-Ctor-Mismatch)**
 
 $$
 \begin{array}{l}
-\operatorname{TypeCtor}(T)\ \ne \ \operatorname{TypeCtor}(U)\quad T\ \notin \ \mathsf{TVar}\quad U\ \notin \ \mathsf{TVar} \\[0.16em]
+\operatorname{HeadCtor}(T)\ \ne \ \operatorname{HeadCtor}(U)\quad T\ \notin \ \mathsf{TVar}\quad U\ \notin \ \mathsf{TVar} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle 
+\langle \operatorname{UnifyStep}(\{(T,\ U)\}\ \cup \ C,\ \theta )\rangle \ \to \ \langle \mathsf{UnifyFail}\rangle
 \end{array}
 $$
+
+A decomposition rule and a failure rule never apply to the same constraint pair: failure rules apply only when no decomposition rule and no variable rule applies to that pair.
 
 **(Unify-Ok)**
 
 $$
 \begin{array}{l}
-\langle \operatorname{UnifyStart}(C)\rangle \ \to *\ \langle \operatorname{UnifyDone}(\theta )\rangle  \\[0.16em]
+\langle \operatorname{UnifyStart}(C)\rangle \ \to *\ \langle \operatorname{UnifyDone}(\theta )\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{Unify}(C)\ \Downarrow \ \theta 
+\Gamma \ \vdash \ \operatorname{Unify}(C)\ \Downarrow \ \theta
 \end{array}
 $$
 
@@ -424,9 +478,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{Unify}(C)\ \Downarrow \ \theta  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{Unify}(C)\ \Downarrow \ \theta \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{Solve}(C)\ \Downarrow \ \theta 
+\Gamma \ \vdash \ \operatorname{Solve}(C)\ \Downarrow \ \theta
 \end{array}
 $$
 
@@ -446,7 +500,7 @@ $$
 \begin{array}{l}
 \Gamma ;\ R;\ L\ \vdash \ e\ :\ T \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ e\ \Rightarrow \ T\ \dashv \ \emptyset 
+\Gamma ;\ R;\ L\ \vdash \ e\ \Rightarrow \ T\ \dashv \ \emptyset
 \end{array}
 $$
 
@@ -454,9 +508,9 @@ $$
 
 $$
 \begin{array}{l}
-(x\ :\ T)\ \in \ \Gamma  \\[0.16em]
+(x\ :\ T)\ \in \ \Gamma \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{Identifier}(x)\ \Rightarrow \ T\ \dashv \ \emptyset 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{Identifier}(x)\ \Rightarrow \ T\ \dashv \ \emptyset
 \end{array}
 $$
 
@@ -465,7 +519,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{TupleExpr}([])\ \Rightarrow \ \operatorname{TypePrim}(\texttt{"()"})\ \dashv \ \emptyset 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{TupleExpr}([])\ \Rightarrow \ \operatorname{TypePrim}(\texttt{"()"})\ \dashv \ \emptyset
 \end{array}
 $$
 
@@ -525,7 +579,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypePtr}(U,\ s)\quad s\ \in \ \{\texttt{Null},\ \bot \} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{PtrNullExpr}\ \Leftarrow \ T\ \dashv \ \emptyset 
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{PtrNullExpr}\ \Leftarrow \ T\ \dashv \ \emptyset
 \end{array}
 $$
 

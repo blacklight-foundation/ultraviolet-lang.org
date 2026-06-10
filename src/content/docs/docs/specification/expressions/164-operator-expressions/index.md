@@ -2,16 +2,16 @@
 title: "16.4 Operator Expressions"
 description: "16.4 Operator Expressions from 16. Expressions of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "expressions"
 specSection: "164-operator-expressions"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -68,7 +68,7 @@ $$
 $$
 \begin{array}{l}
 \mathsf{RangeKind}\ =\ \{\texttt{To},\ \texttt{ToInclusive},\ \texttt{Full},\ \texttt{From},\ \texttt{Exclusive},\ \texttt{Inclusive}\} \\[0.16em]
-\mathsf{Expr}\ =\ \operatorname{Unary}(\mathsf{op},\ \mathsf{expr})\ \mid \ \operatorname{Binary}(\mathsf{op},\ \mathsf{left},\ \mathsf{right})\ \mid \ \operatorname{Range}(\mathsf{kind},\ \mathsf{lo}_{\mathsf{opt}},\ \mathsf{hi}_{\mathsf{opt}})\ \mid \ \ldots 
+\mathsf{Expr}\ =\ \operatorname{Unary}(\mathsf{op},\ \mathsf{expr})\ \mid \ \operatorname{Binary}(\mathsf{op},\ \mathsf{left},\ \mathsf{right})\ \mid \ \operatorname{Range}(\mathsf{kind},\ \mathsf{lo}_{\mathsf{opt}},\ \mathsf{hi}_{\mathsf{opt}})\ \mid \ \ldots
 \end{array}
 $$
 
@@ -85,7 +85,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{EqType}(T)\ \Leftrightarrow \ (\operatorname{StripPerm}(T)\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{NumericTypes}\ \cup \ \{\texttt{bool},\ \texttt{char}\})\ \lor \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypePtr}(U,\ s)\ \lor \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeRawPtr}(q,\ U)\ \lor \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeString}(\mathsf{st})\ \lor \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeBytes}(\mathsf{st}) \\[0.16em]
+\operatorname{NominalTypePath}(T,\ p)\ \Leftrightarrow \ T\ =\ \operatorname{TypePath}(p)\ \lor \ T\ =\ \operatorname{TypeApply}(p,\ \_) \\[0.16em]
+\operatorname{UnitEnumType}(T)\ \Leftrightarrow \ \exists \ p,\ E.\ \operatorname{NominalTypePath}(\operatorname{StripPerm}(T),\ p)\ \land \ \operatorname{EnumDecl}(p)\ =\ E\ \land \ \operatorname{Variants}(E)\ \ne \ []\ \land \ \forall \ v\ \in \ \operatorname{Variants}(E).\ \operatorname{VariantPayload}(E,\ v.\mathsf{name})\ =\ \bot \\[0.16em]
+\operatorname{EqType}(T)\ \Leftrightarrow \ (\operatorname{StripPerm}(T)\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{NumericTypes}\ \cup \ \{\texttt{bool},\ \texttt{char}\})\ \lor \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypePtr}(U,\ s)\ \lor \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeRawPtr}(q,\ U)\ \lor \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeString}(\mathsf{st})\ \lor \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeBytes}(\mathsf{st})\ \lor \ \operatorname{UnitEnumType}(T) \\[0.16em]
 \operatorname{OrdType}(T)\ \Leftrightarrow \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{IntTypes}\ \cup \ \mathsf{FloatTypes}\ \cup \ \{\texttt{char}\} \\[0.16em]
 \operatorname{IsRangeType}(T)\ \Leftrightarrow \ T\ =\ \operatorname{TypeRange}(\_)\ \lor \ T\ =\ \operatorname{TypeRangeInclusive}(\_)\ \lor \ T\ =\ \operatorname{TypeRangeFrom}(\_)\ \lor \ T\ =\ \operatorname{TypeRangeTo}(\_)\ \lor \ T\ =\ \operatorname{TypeRangeToInclusive}(\_)\ \lor \ T\ =\ \mathsf{TypeRangeFull}
 \end{array}
@@ -214,11 +216,25 @@ $$
 \operatorname{Cmp}(\texttt{"<"},\ v_{1},\ v_{2})\ =\ b\ \Leftrightarrow \ \operatorname{OrdValue}(v_{1},\ v_{2})\ \land \ ((\exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ ((\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ \mathsf{false})\ \lor \ (\lnot \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ x_{1}\ =\ \operatorname{FloatValValue}(v_{1})\ \land \ x_{2}\ =\ \operatorname{FloatValValue}(v_{2})\ \land \ b\ =\ (x_{1}\ <\ x_{2})))\ \lor \ (\exists \ x_{1},\ x_{2}.\ \operatorname{OrdScalar}(v_{1})\ =\ x_{1}\ \land \ \operatorname{OrdScalar}(v_{2})\ =\ x_{2}\ \land \ b\ =\ (x_{1}\ <\ x_{2}))) \\[0.16em]
 \operatorname{Cmp}(\texttt{"<="},\ v_{1},\ v_{2})\ =\ b\ \Leftrightarrow \ \operatorname{OrdValue}(v_{1},\ v_{2})\ \land \ ((\exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ ((\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ \mathsf{false})\ \lor \ (\lnot \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ x_{1}\ =\ \operatorname{FloatValValue}(v_{1})\ \land \ x_{2}\ =\ \operatorname{FloatValValue}(v_{2})\ \land \ b\ =\ (x_{1}\ \le \ x_{2})))\ \lor \ (\exists \ x_{1},\ x_{2}.\ \operatorname{OrdScalar}(v_{1})\ =\ x_{1}\ \land \ \operatorname{OrdScalar}(v_{2})\ =\ x_{2}\ \land \ b\ =\ (x_{1}\ \le \ x_{2}))) \\[0.16em]
 \operatorname{Cmp}(\texttt{">"},\ v_{1},\ v_{2})\ =\ b\ \Leftrightarrow \ \operatorname{OrdValue}(v_{1},\ v_{2})\ \land \ ((\exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ ((\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ \mathsf{false})\ \lor \ (\lnot \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ x_{1}\ =\ \operatorname{FloatValValue}(v_{1})\ \land \ x_{2}\ =\ \operatorname{FloatValValue}(v_{2})\ \land \ b\ =\ (x_{1}\ >\ x_{2})))\ \lor \ (\exists \ x_{1},\ x_{2}.\ \operatorname{OrdScalar}(v_{1})\ =\ x_{1}\ \land \ \operatorname{OrdScalar}(v_{2})\ =\ x_{2}\ \land \ b\ =\ (x_{1}\ >\ x_{2}))) \\[0.16em]
-\operatorname{Cmp}(\texttt{">="},\ v_{1},\ v_{2})\ =\ b\ \Leftrightarrow \ \operatorname{OrdValue}(v_{1},\ v_{2})\ \land \ ((\exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ ((\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ \mathsf{false})\ \lor \ (\lnot \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ x_{1}\ =\ \operatorname{FloatValValue}(v_{1})\ \land \ x_{2}\ =\ \operatorname{FloatValValue}(v_{2})\ \land \ b\ =\ (x_{1}\ \ge \ x_{2})))\ \lor \ (\exists \ x_{1},\ x_{2}.\ \operatorname{OrdScalar}(v_{1})\ =\ x_{1}\ \land \ \operatorname{OrdScalar}(v_{2})\ =\ x_{2}\ \land \ b\ =\ (x_{1}\ \ge \ x_{2}))) \\[0.16em]
+\operatorname{Cmp}(\texttt{">="},\ v_{1},\ v_{2})\ =\ b\ \Leftrightarrow \ \operatorname{OrdValue}(v_{1},\ v_{2})\ \land \ ((\exists \ t.\ \operatorname{FloatValue}(v_{1},\ t)\ \land \ \operatorname{FloatValue}(v_{2},\ t)\ \land \ ((\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ b\ =\ \mathsf{false})\ \lor \ (\lnot \ (\operatorname{IsNaN}(t,\ v_{1})\ \lor \ \operatorname{IsNaN}(t,\ v_{2}))\ \land \ x_{1}\ =\ \operatorname{FloatValValue}(v_{1})\ \land \ x_{2}\ =\ \operatorname{FloatValValue}(v_{2})\ \land \ b\ =\ (x_{1}\ \ge \ x_{2})))\ \lor \ (\exists \ x_{1},\ x_{2}.\ \operatorname{OrdScalar}(v_{1})\ =\ x_{1}\ \land \ \operatorname{OrdScalar}(v_{2})\ =\ x_{2}\ \land \ b\ =\ (x_{1}\ \ge \ x_{2})))
+\end{array}
+$$
+
+For `UnitEnumType(T)`, equality compares the enum discriminant values. Enum declarations reject duplicate discriminants, so this is equivalent to variant identity.
+
+$$
+\begin{array}{l}
 \operatorname{BitAt}(u,\ i)\ =\ b\ \Leftrightarrow \ b\ \in \ \{0,\ 1\}\ \land \ \exists \ q,\ r.\ u\ =\ q\ \cdot \ 2^\{i\ +\ 1\}\ +\ b\ \cdot \ 2^i\ +\ r\ \land \ 0\ \le \ r\ <\ 2^i \\[0.16em]
 \operatorname{BitNot}(v)\ =\ v'\ \Leftrightarrow \ \exists \ t,\ x,\ w,\ u,\ u'.\ v\ =\ \operatorname{IntVal}(t,\ x)\ \land \ w\ =\ \operatorname{IntWidth}(t)\ \land \ u\ =\ \operatorname{ToUnsigned}(w,\ x)\ \land \ u'\ =\ (2^w\ -\ 1)\ -\ u\ \land \ ((t\ \in \ \mathsf{SignedIntTypes}\ \land \ v'\ =\ \operatorname{IntVal}(t,\ \operatorname{ToSigned}(w,\ u')))\ \lor \ (t\ \in \ \mathsf{UnsignedIntTypes}\ \land \ v'\ =\ \operatorname{IntVal}(t,\ u'))) \\[0.16em]
 \operatorname{BitOp}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ =\ v\ \Leftrightarrow \ v_{1}\ =\ \operatorname{IntVal}(t,\ x_{1})\ \land \ v_{2}\ =\ \operatorname{IntVal}(t,\ x_{2})\ \land \ w\ =\ \operatorname{IntWidth}(t)\ \land \ u_{1}\ =\ \operatorname{ToUnsigned}(w,\ x_{1})\ \land \ u_{2}\ =\ \operatorname{ToUnsigned}(w,\ x_{2})\ \land \ u\ =\ \sum \_\{i=0\}^\{w-1\}\ b_{i}\ 2^i\ \land \ \forall \ i.\ 0\ \le \ i\ <\ w\ \Rightarrow \ ((\mathsf{op}\ =\ \texttt{"\&"}\ \land \ b_{i}\ =\ \operatorname{BitAt}(u_{1},\ i)\ \cdot \ \operatorname{BitAt}(u_{2},\ i))\ \lor \ (\mathsf{op}\ =\ \texttt{"|"}\ \land \ b_{i}\ =\ \operatorname{max}(\operatorname{BitAt}(u_{1},\ i),\ \operatorname{BitAt}(u_{2},\ i)))\ \lor \ (\mathsf{op}\ =\ \texttt{"\^{}"}\ \land \ b_{i}\ =\ (\operatorname{BitAt}(u_{1},\ i)\ +\ \operatorname{BitAt}(u_{2},\ i))\ \mathsf{mod}\ 2))\ \land \ ((t\ \in \ \mathsf{SignedIntTypes}\ \land \ v\ =\ \operatorname{IntVal}(t,\ \operatorname{ToSigned}(w,\ u)))\ \lor \ (t\ \in \ \mathsf{UnsignedIntTypes}\ \land \ v\ =\ \operatorname{IntVal}(t,\ u))) \\[0.16em]
-\operatorname{ShiftOp}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ =\ v\ \Leftrightarrow \ v_{1}\ =\ \operatorname{IntVal}(t,\ x_{1})\ \land \ v_{2}\ =\ \operatorname{IntVal}(\texttt{"u32"},\ n)\ \land \ w\ =\ \operatorname{IntWidth}(t)\ \land \ 0\ \le \ n\ <\ w\ \land \ u_{1}\ =\ \operatorname{ToUnsigned}(w,\ x_{1})\ \land \ ((\mathsf{op}\ =\ \texttt{"<<"}\ \land \ u\ =\ (u_{1}\ \cdot \ 2^n)\ \mathsf{mod}\ 2^w)\ \lor \ (\mathsf{op}\ =\ \texttt{">>"}\ \land \ u\ =\ \lfloor u_{1}\ /\ 2^n\rfloor ))\ \land \ ((t\ \in \ \mathsf{SignedIntTypes}\ \land \ v\ =\ \operatorname{IntVal}(t,\ \operatorname{ToSigned}(w,\ u)))\ \lor \ (t\ \in \ \mathsf{UnsignedIntTypes}\ \land \ v\ =\ \operatorname{IntVal}(t,\ u))) \\[0.16em]
+\operatorname{ShiftOp}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ =\ v\ \Leftrightarrow \ v_{1}\ =\ \operatorname{IntVal}(t,\ x_{1})\ \land \ v_{2}\ =\ \operatorname{IntVal}(\texttt{"u32"},\ n)\ \land \ w\ =\ \operatorname{IntWidth}(t)\ \land \ 0\ \le \ n\ <\ w\ \land \ ((\mathsf{op}\ =\ \texttt{"<<"}\ \land \ u_{1}\ =\ \operatorname{ToUnsigned}(w,\ x_{1})\ \land \ u\ =\ (u_{1}\ \cdot \ 2^n)\ \mathsf{mod}\ 2^w\ \land \ ((t\ \in \ \mathsf{SignedIntTypes}\ \land \ v\ =\ \operatorname{IntVal}(t,\ \operatorname{ToSigned}(w,\ u)))\ \lor \ (t\ \in \ \mathsf{UnsignedIntTypes}\ \land \ v\ =\ \operatorname{IntVal}(t,\ u))))\ \lor \ (\mathsf{op}\ =\ \texttt{">>"}\ \land \ v\ =\ \operatorname{IntVal}(t,\ \lfloor x_{1}\ /\ 2^n\rfloor )))
+\end{array}
+$$
+
+`⌊·⌋` rounds toward negative infinity. `>>` is therefore an arithmetic (sign-extending) shift on signed operands and a logical shift on unsigned operands. The right operand of `<<` and `>>` MUST have type `u32`. A shift amount `n ≥ IntWidth(t)` leaves `ShiftOp` undefined; evaluation panics with reason `Shift`.
+
+$$
+\begin{array}{l}
 \operatorname{PowInt}(x,\ n)\ =\ y\ \Leftrightarrow \ n\ \in \ \mathbb{N} \ \land \ ((n\ =\ 0\ \land \ y\ =\ 1)\ \lor \ (n\ >\ 0\ \land \ y\ =\ x\ \cdot \ \operatorname{PowInt}(x,\ n\ -\ 1))) \\[0.16em]
 \operatorname{PowFloat}(t,\ x_{1},\ x_{2})\ =\ x\ \Leftrightarrow \ t\ \in \ \mathsf{FloatTypes}\ \land \ x_{1}\ \in \ \operatorname{FloatValueSet}(t)\ \land \ x_{2}\ \in \ \operatorname{FloatValueSet}(t)\ \land \ x\ \mathsf{is}\ \mathsf{the}\ \mathsf{IEEE}\ 754-2019\ \mathsf{pow}\ \mathsf{result}\ \mathsf{of}\ x_{1},\ x_{2}\ \mathsf{in}\ \mathsf{format}\ \operatorname{FloatFormat}(t) \\[0.16em]
 \operatorname{IEEEArith}(\mathsf{op},\ t,\ v_{1},\ v_{2})\ =\ v\ \Leftrightarrow \ v_{1}\ =\ \operatorname{FloatVal}(t,\ x_{1})\ \land \ v_{2}\ =\ \operatorname{FloatVal}(t,\ x_{2})\ \land \ \mathsf{op}\ \in \ \mathsf{ArithOps}\ \land \ ((\mathsf{op}\ \in \ \{\texttt{"+"},\ \texttt{"-"},\ \texttt{"*"},\ \texttt{"/"}\}\ \land \ x\ \mathsf{is}\ \mathsf{the}\ \mathsf{IEEE}\ 754-2019\ \mathsf{result}\ \mathsf{of}\ \mathsf{applying}\ \mathsf{op}\ \mathsf{to}\ x_{1},\ x_{2}\ \mathsf{in}\ \mathsf{format}\ \operatorname{FloatFormat}(t))\ \lor \ (\mathsf{op}\ =\ \texttt{"\%"}\ \land \ x\ \mathsf{is}\ \mathsf{the}\ \mathsf{IEEE}\ 754-2019\ \mathsf{remainder}\ \mathsf{of}\ x_{1},\ x_{2}\ \mathsf{in}\ \mathsf{format}\ \operatorname{FloatFormat}(t))\ \lor \ (\mathsf{op}\ =\ \texttt{"**"}\ \land \ \operatorname{PowFloat}(t,\ x_{1},\ x_{2})\ =\ x))\ \land \ v\ =\ \operatorname{FloatVal}(t,\ x) \\[0.16em]
@@ -318,7 +334,7 @@ $$
 \end{array}
 $$
 
-If `UnOp` or `BinOp` is undefined, evaluation produces `Ctrl(Panic)`. The old draft defines NaN-sensitive comparison behavior through `Cmp`; ordered float comparisons with NaN yield `false`, `==` yields `false`, and `!=` yields `true`.
+If `UnOp` or `BinOp` is undefined, evaluation produces `Ctrl(Panic)`. Ordered float comparisons with a NaN operand yield `false`; `==` with a NaN operand yields `false`; `!=` with a NaN operand yields `true`.
 
 ### 16.4.6 Lowering
 
@@ -326,9 +342,9 @@ If `UnOp` or `BinOp` is undefined, evaluation produces `Ctrl(Panic)`. The old dr
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerUnOp}(\mathsf{op},\ e)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerUnOp}(\mathsf{op},\ e)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Unary}(\mathsf{op},\ e))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Unary}(\mathsf{op},\ e))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 
@@ -336,9 +352,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(e_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(e_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Binary}(\texttt{"\&\&"},\ e_{1},\ e_{2}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{1},\ \operatorname{IfIR}(v_{1},\ \mathsf{IR}_{2},\ v_{2},\ \varepsilon ,\ \mathsf{false})),\ v_{\mathsf{and}}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Binary}(\texttt{"\&\&"},\ e_{1},\ e_{2}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{1},\ \operatorname{IfIR}(v_{1},\ \mathsf{IR}_{2},\ v_{2},\ \varepsilon ,\ \mathsf{false})),\ v_{\mathsf{and}}\rangle
 \end{array}
 $$
 
@@ -346,9 +362,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(e_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(e_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Binary}(\texttt{"||"},\ e_{1},\ e_{2}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{1},\ \operatorname{IfIR}(v_{1},\ \varepsilon ,\ \mathsf{true},\ \mathsf{IR}_{2},\ v_{2})),\ v_{\mathsf{or}}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Binary}(\texttt{"||"},\ e_{1},\ e_{2}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{1},\ \operatorname{IfIR}(v_{1},\ \varepsilon ,\ \mathsf{true},\ \mathsf{IR}_{2},\ v_{2})),\ v_{\mathsf{or}}\rangle
 \end{array}
 $$
 
@@ -356,9 +372,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{op}\ \notin \ \{\texttt{"\&\&"},\ \texttt{"||"}\}\quad \Gamma \ \vdash \ \operatorname{LowerBinOp}(\mathsf{op},\ e_{1},\ e_{2})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\mathsf{op}\ \notin \ \{\texttt{"\&\&"},\ \texttt{"||"}\}\quad \Gamma \ \vdash \ \operatorname{LowerBinOp}(\mathsf{op},\ e_{1},\ e_{2})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Binary}(\mathsf{op},\ e_{1},\ e_{2}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Binary}(\mathsf{op},\ e_{1},\ e_{2}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 
@@ -366,9 +382,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerRangeExpr}(\operatorname{Range}(\mathsf{kind},\ \mathsf{lo}_{\mathsf{opt}},\ \mathsf{hi}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerRangeExpr}(\operatorname{Range}(\mathsf{kind},\ \mathsf{lo}_{\mathsf{opt}},\ \mathsf{hi}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Range}(\mathsf{kind},\ \mathsf{lo}_{\mathsf{opt}},\ \mathsf{hi}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Range}(\mathsf{kind},\ \mathsf{lo}_{\mathsf{opt}},\ \mathsf{hi}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 
@@ -385,7 +401,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad T\ =\ \operatorname{ExprType}(e)\quad \lnot \ \operatorname{NeedsUnOpPanicCheck}(\mathsf{op},\ T)\quad v_{r}\ =\ \operatorname{FreshTemp}(\texttt{"unop"}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerUnOp}(\mathsf{op},\ e)\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{UnOpIR}(\mathsf{op},\ v,\ v_{r})),\ v_{r}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerUnOp}(\mathsf{op},\ e)\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{UnOpIR}(\mathsf{op},\ v,\ v_{r})),\ v_{r}\rangle
 \end{array}
 $$
 
@@ -395,13 +411,47 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad T\ =\ \operatorname{ExprType}(e)\quad \operatorname{NeedsUnOpPanicCheck}(\mathsf{op},\ T)\quad r\ =\ \operatorname{OpPanicReason}(\mathsf{op})\quad v_{r}\ =\ \operatorname{FreshTemp}(\texttt{"unop"}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerUnOp}(\mathsf{op},\ e)\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{CheckOpIR}(\mathsf{op},\ v,\ r),\ \mathsf{PanicCheckIR},\ \operatorname{UnOpIR}(\mathsf{op},\ v,\ v_{r})),\ v_{r}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerUnOp}(\mathsf{op},\ e)\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{CheckOpIR}(\mathsf{op},\ v,\ r),\ \mathsf{PanicCheckIR},\ \operatorname{UnOpIR}(\mathsf{op},\ v,\ v_{r})),\ v_{r}\rangle
 \end{array}
 $$
 
 For unary `-`, overflow checks MUST be emitted only when `NeedsUnOpPanicCheck` holds. Unary `-` on floating operands MUST NOT lower an overflow check.
 
-`Lower-BinOp-Ok`, `Lower-BinOp-Panic`, and `Lower-Range-Full` through `Lower-Range-Exclusive` define the remaining panic-triggering and range-value construction behavior.
+$$
+\begin{array}{l}
+\operatorname{BinOpPanicReasons}(\mathsf{op},\ T)\ = \\[0.16em]
+\ [\mathsf{Overflow}]\quad \mathsf{if}\ \mathsf{op}\ \in \ \{\texttt{"+"},\ \texttt{"-"},\ \texttt{"*"},\ \texttt{"**"}\}\ \land \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{IntTypes} \\[0.16em]
+\ [\mathsf{DivZero},\ \mathsf{Overflow}]\ \mathsf{if}\ \mathsf{op}\ \in \ \{\texttt{"/"},\ \texttt{"\%"}\}\ \land \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{IntTypes} \\[0.16em]
+\ [\mathsf{Shift}]\quad \mathsf{if}\ \mathsf{op}\ \in \ \{\texttt{"<<"},\ \texttt{">>"}\} \\[0.16em]
+\ []\quad \mathsf{otherwise}
+\end{array}
+$$
+
+$$
+\operatorname{NeedsBinOpPanicCheck}(\mathsf{op},\ T)\ \Leftrightarrow \ \operatorname{BinOpPanicReasons}(\mathsf{op},\ T)\ \ne \ []
+$$
+
+**(Lower-BinOp-Ok)**
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(e_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle \quad T\ =\ \operatorname{ExprType}(e_{1})\quad \lnot \ \operatorname{NeedsBinOpPanicCheck}(\mathsf{op},\ T)\quad v_{r}\ =\ \operatorname{FreshTemp}(\texttt{"binop"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerBinOp}(\mathsf{op},\ e_{1},\ e_{2})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{1},\ \mathsf{IR}_{2},\ \operatorname{BinOpIR}(\mathsf{op},\ v_{1},\ v_{2},\ v_{r})),\ v_{r}\rangle
+\end{array}
+$$
+
+**(Lower-BinOp-Panic)**
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(e_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle \quad T\ =\ \operatorname{ExprType}(e_{1})\quad \mathsf{rs}\ =\ \operatorname{BinOpPanicReasons}(\mathsf{op},\ T)\quad \mathsf{rs}\ \ne \ []\quad v_{r}\ =\ \operatorname{FreshTemp}(\texttt{"binop"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerBinOp}(\mathsf{op},\ e_{1},\ e_{2})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{1},\ \mathsf{IR}_{2},\ \operatorname{CheckBinOpIR}(\mathsf{op},\ v_{1},\ v_{2},\ \mathsf{rs}),\ \mathsf{PanicCheckIR},\ \operatorname{BinOpIR}(\mathsf{op},\ v_{1},\ v_{2},\ v_{r})),\ v_{r}\rangle
+\end{array}
+$$
+
+`CheckBinOpIR` evaluates each reason in `rs` exactly as the corresponding `PanicSite` of §24.5.2 (`DivZeroCheck`, `OverflowCheck`, `ShiftCheck`). `Lower-Range-Full` through `Lower-Range-Exclusive` (§12.5.6) define range-value construction.
 
 ### 16.4.7 Diagnostics
 

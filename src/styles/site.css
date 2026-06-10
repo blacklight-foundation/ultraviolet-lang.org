@@ -4588,11 +4588,12 @@ select {
 
 .site-header-band {
   position: absolute;
+  right: 0;
   bottom: -1px;
   left: 0;
-  width: 18%;
+  width: auto;
   height: 2px;
-  background: linear-gradient(90deg, rgba(157, 123, 255, 0.7), transparent);
+  background: linear-gradient(90deg, rgba(157, 123, 255, 0.7), transparent) var(--uv-scroll-band-position, 0%) bottom / 18% 2px no-repeat;
 }
 
 .site-footer {

@@ -2,16 +2,16 @@
 title: "24.7 Backend Requirements"
 description: "24.7 Backend Requirements from 24. Common Lowering, Program Lifecycle, and Backend of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "common-lowering-program-lifecycle-and-backend"
 specSection: "247-backend-requirements"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -78,7 +78,7 @@ $$
 \begin{array}{l}
 \operatorname{StripPerm}(T)\ =\ \operatorname{TypePtr}(U,\ s)\quad s\ \in \ \{\bot ,\ \texttt{Null},\ \texttt{Expired}\} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMPtrAttrs}(T)\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{LLVMPtrAttrs}(T)\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -88,7 +88,7 @@ $$
 \begin{array}{l}
 \operatorname{StripPerm}(T)\ =\ \operatorname{TypeRawPtr}(q,\ U) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMPtrAttrs}(T)\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{LLVMPtrAttrs}(T)\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -109,7 +109,7 @@ $$
 \begin{array}{l}
 \operatorname{StripPerm}(T)\ =\ \operatorname{TypeRawPtr}(\_,\ \_) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMArgAttrs}(T)\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{LLVMArgAttrs}(T)\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -119,7 +119,7 @@ $$
 \begin{array}{l}
 \operatorname{StripPerm}(T)\ \notin \ \{\operatorname{TypePtr}(\_,\ \_),\ \operatorname{TypeRawPtr}(\_,\ \_),\ \operatorname{TypeFunc}(\_,\ \_)\} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMArgAttrs}(T)\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{LLVMArgAttrs}(T)\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -248,9 +248,9 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePrim}(\mathsf{name})\quad \operatorname{LLVMPrim}(\mathsf{name})\ =\ \tau  \\[0.16em]
+T\ =\ \operatorname{TypePrim}(\mathsf{name})\quad \operatorname{LLVMPrim}(\mathsf{name})\ =\ \tau \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau 
+\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau
 \end{array}
 $$
 
@@ -258,9 +258,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMTy}(\operatorname{TypePerm}(p,\ T))\ \Downarrow \ \tau 
+\Gamma \ \vdash \ \operatorname{LLVMTy}(\operatorname{TypePerm}(p,\ T))\ \Downarrow \ \tau
 \end{array}
 $$
 
@@ -268,9 +268,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMTy}(\operatorname{TypeRefine}(T,\ P))\ \Downarrow \ \tau 
+\Gamma \ \vdash \ \operatorname{LLVMTy}(\operatorname{TypeRefine}(T,\ P))\ \Downarrow \ \tau
 \end{array}
 $$
 
@@ -278,9 +278,9 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePtr}(U,\ s)\quad \operatorname{LLVMPtrTy}(T)\ =\ \tau  \\[0.16em]
+T\ =\ \operatorname{TypePtr}(U,\ s)\quad \operatorname{LLVMPtrTy}(T)\ =\ \tau \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau 
+\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau
 \end{array}
 $$
 
@@ -288,9 +288,9 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeRawPtr}(q,\ U)\quad \operatorname{LLVMPtrTy}(T)\ =\ \tau  \\[0.16em]
+T\ =\ \operatorname{TypeRawPtr}(q,\ U)\quad \operatorname{LLVMPtrTy}(T)\ =\ \tau \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau 
+\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau
 \end{array}
 $$
 
@@ -298,9 +298,9 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeFunc}(\mathsf{params},\ R)\quad \operatorname{LLVMPtrTy}(T)\ =\ \tau  \\[0.16em]
+T\ =\ \operatorname{TypeFunc}(\mathsf{params},\ R)\quad \operatorname{LLVMPtrTy}(T)\ =\ \tau \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau 
+\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau
 \end{array}
 $$
 
@@ -318,9 +318,9 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}(p)\quad \operatorname{AliasBody}(p)\ =\ \mathsf{ty}\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(\mathsf{ty})\ \Downarrow \ \tau  \\[0.16em]
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{AliasBody}(p)\ =\ \mathsf{ty}\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(\mathsf{ty})\ \Downarrow \ \tau \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau 
+\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau
 \end{array}
 $$
 
@@ -348,7 +348,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeArray}(T_{0},\ e)\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e)\ \Downarrow \ n\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(T_{0})\ \Downarrow \ \tau  \\[0.16em]
+T\ =\ \operatorname{TypeArray}(T_{0},\ e)\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e)\ \Downarrow \ n\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(T_{0})\ \Downarrow \ \tau \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \operatorname{LLVMArray}(n,\ \tau )
 \end{array}
@@ -358,7 +358,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeSlice}(T_{0})\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(\operatorname{TypePrim}(\texttt{"usize"}))\ \Downarrow \ \tau_{u}  \\[0.16em]
+T\ =\ \operatorname{TypeSlice}(T_{0})\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(\operatorname{TypePrim}(\texttt{"usize"}))\ \Downarrow \ \tau_{u} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \operatorname{LLVMStruct}([\operatorname{SlicePtrTy}(T_{0}),\ \tau_{u} ])
 \end{array}
@@ -437,9 +437,9 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeUnion}([T_{1},\ \ldots ,\ T_{n}])\quad \operatorname{NicheApplies}(T)\quad \operatorname{PayloadMember}(T)\ =\ T_{p}\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(T_{p})\ \Downarrow \ \tau  \\[0.16em]
+T\ =\ \operatorname{TypeUnion}([T_{1},\ \ldots ,\ T_{n}])\quad \operatorname{NicheApplies}(T)\quad \operatorname{PayloadMember}(T)\ =\ T_{p}\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(T_{p})\ \Downarrow \ \tau \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau 
+\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau
 \end{array}
 $$
 
@@ -457,9 +457,9 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\quad \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad \operatorname{NicheApplies}(\mathsf{modal}_{\mathsf{ref}})\quad \operatorname{PayloadState}(\mathsf{modal}_{\mathsf{ref}})\ =\ S_{p}\quad \operatorname{ModalSingleFieldPayload}(\mathsf{modal}_{\mathsf{ref}},\ S_{p})\ =\ T_{p}\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(T_{p})\ \Downarrow \ \tau  \\[0.16em]
+T\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\quad \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad \operatorname{NicheApplies}(\mathsf{modal}_{\mathsf{ref}})\quad \operatorname{PayloadState}(\mathsf{modal}_{\mathsf{ref}})\ =\ S_{p}\quad \operatorname{ModalSingleFieldPayload}(\mathsf{modal}_{\mathsf{ref}},\ S_{p})\ =\ T_{p}\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(T_{p})\ \Downarrow \ \tau \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau 
+\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau
 \end{array}
 $$
 
@@ -499,7 +499,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{DynLayout}(\mathsf{Cl})\ \Downarrow \ \langle \_,\ \_,\ [\langle \texttt{data},\ T_{d}\rangle ,\ \langle \texttt{vtable},\ T_{v}\rangle ]\rangle \quad \Gamma \ \vdash \ \operatorname{LLVMTy}(T_{d})\ \Downarrow \ \tau_{d} \quad \Gamma \ \vdash \ \operatorname{LLVMTy}(T_{v})\ \Downarrow \ \tau_{v}  \\[0.16em]
+\operatorname{DynLayout}(\mathsf{Cl})\ \Downarrow \ \langle \_,\ \_,\ [\langle \texttt{data},\ T_{d}\rangle ,\ \langle \texttt{vtable},\ T_{v}\rangle ]\rangle \quad \Gamma \ \vdash \ \operatorname{LLVMTy}(T_{d})\ \Downarrow \ \tau_{d} \quad \Gamma \ \vdash \ \operatorname{LLVMTy}(T_{v})\ \Downarrow \ \tau_{v} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LLVMTy}(\operatorname{TypeDynamic}(\mathsf{Cl}))\ \Downarrow \ \operatorname{LLVMStruct}([\tau_{d} ,\ \tau_{v} ])
 \end{array}
@@ -509,7 +509,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeString}(\texttt{@View})\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(\operatorname{TypePrim}(\texttt{"usize"}))\ \Downarrow \ \tau_{u}  \\[0.16em]
+T\ =\ \operatorname{TypeString}(\texttt{@View})\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(\operatorname{TypePrim}(\texttt{"usize"}))\ \Downarrow \ \tau_{u} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \operatorname{LLVMStruct}([\operatorname{LLVMPtrTy}(\operatorname{TypePtr}(\operatorname{TypePerm}(\texttt{const},\ \operatorname{TypePrim}(\texttt{"u8"})),\ \texttt{Valid})),\ \tau_{u} ])
 \end{array}
@@ -519,7 +519,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeString}(\texttt{@Managed})\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(\operatorname{TypePrim}(\texttt{"usize"}))\ \Downarrow \ \tau_{u}  \\[0.16em]
+T\ =\ \operatorname{TypeString}(\texttt{@Managed})\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(\operatorname{TypePrim}(\texttt{"usize"}))\ \Downarrow \ \tau_{u} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \operatorname{LLVMStruct}([\operatorname{LLVMPtrTy}(\operatorname{TypePtr}(\operatorname{TypePrim}(\texttt{"u8"}),\ \texttt{Valid})),\ \tau_{u} ,\ \tau_{u} ])
 \end{array}
@@ -529,7 +529,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeBytes}(\texttt{@View})\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(\operatorname{TypePrim}(\texttt{"usize"}))\ \Downarrow \ \tau_{u}  \\[0.16em]
+T\ =\ \operatorname{TypeBytes}(\texttt{@View})\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(\operatorname{TypePrim}(\texttt{"usize"}))\ \Downarrow \ \tau_{u} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \operatorname{LLVMStruct}([\operatorname{LLVMPtrTy}(\operatorname{TypePtr}(\operatorname{TypePerm}(\texttt{const},\ \operatorname{TypePrim}(\texttt{"u8"})),\ \texttt{Valid})),\ \tau_{u} ])
 \end{array}
@@ -539,7 +539,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeBytes}(\texttt{@Managed})\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(\operatorname{TypePrim}(\texttt{"usize"}))\ \Downarrow \ \tau_{u}  \\[0.16em]
+T\ =\ \operatorname{TypeBytes}(\texttt{@Managed})\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(\operatorname{TypePrim}(\texttt{"usize"}))\ \Downarrow \ \tau_{u} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \operatorname{LLVMStruct}([\operatorname{LLVMPtrTy}(\operatorname{TypePtr}(\operatorname{TypePrim}(\texttt{"u8"}),\ \texttt{Valid})),\ \tau_{u} ,\ \tau_{u} ])
 \end{array}
@@ -551,7 +551,7 @@ LLVMTy(T) undefined
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Uparrow
 \end{array}
 $$
 
@@ -587,7 +587,7 @@ $$
 $$
 \begin{array}{l}
 \mathsf{LLResult}\ =\ \{\langle I,\ v\rangle \ \mid \ I\ \in \ \mathsf{LLVMInstrList}\ \land \ v\ \in \ \mathsf{LLVMSSA}\ \cup \ \{\bot \}\} \\[0.16em]
-\operatorname{SeqLL}(\langle I_{1},\ v_{1}\rangle ,\ \langle I_{2},\ v_{2}\rangle )\ =\ \langle I_{1}\ \mathbin{++} \ I_{2},\ v_{2}\rangle 
+\operatorname{SeqLL}(\langle I_{1},\ v_{1}\rangle ,\ \langle I_{2},\ v_{2}\rangle )\ =\ \langle I_{1}\ \mathbin{++} \ I_{2},\ v_{2}\rangle
 \end{array}
 $$
 
@@ -596,7 +596,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\varepsilon )\ \Downarrow \ \langle [],\ \bot \rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\varepsilon )\ \Downarrow \ \langle [],\ \bot \rangle
 \end{array}
 $$
 
@@ -616,7 +616,7 @@ $$
 \operatorname{Store}(\mathsf{slot},\ v,\ T)\ =\ [\texttt{store}\ \operatorname{LLVMTy}(T)\ v,\ \mathsf{slot}\ :\ \operatorname{LLVMPtrTy}(T)] \\[0.16em]
 \operatorname{Memcpy}(\mathsf{dst},\ \mathsf{src},\ n)\ =\ [\texttt{call}\ \texttt{llvm.memcpy}(\mathsf{dst},\ \mathsf{src},\ n)] \\[0.16em]
 \operatorname{Memset}(\mathsf{dst},\ 0,\ n)\ =\ [\texttt{call}\ \texttt{llvm.memset}(\mathsf{dst},\ 0,\ n)] \\[0.16em]
-\operatorname{LoadVal}(\mathsf{slot},\ T)\ \Downarrow \ \langle \operatorname{Load}(\mathsf{slot},\ T),\ v\rangle 
+\operatorname{LoadVal}(\mathsf{slot},\ T)\ \Downarrow \ \langle \operatorname{Load}(\mathsf{slot},\ T),\ v\rangle
 \end{array}
 $$
 
@@ -676,7 +676,7 @@ $$
 \begin{array}{l}
 \operatorname{ProcModule}(\mathsf{sym})\ =\ m\ \Leftrightarrow \ \exists \ \mathsf{item},\ p.\ \mathsf{item}\ \in \ \{\mathsf{ProcedureDecl},\ \mathsf{MethodDecl},\ \mathsf{ClassMethodDecl},\ \mathsf{StateMethodDecl},\ \mathsf{TransitionDecl},\ \mathsf{DefaultImpl}\}\ \land \ \operatorname{ItemPath}(\mathsf{item})\ =\ p\ \land \ \Gamma \ \vdash \ \operatorname{Mangle}(\mathsf{item})\ \Downarrow \ \mathsf{sym}\ \land \ \operatorname{ModuleOfPath}(p)\ =\ m \\[0.16em]
 \operatorname{SigOf}(\mathsf{callee})\ = \\[0.16em]
-\ \langle \mathsf{params},\ \mathsf{ret}\rangle \quad \mathsf{if}\ \mathsf{callee}\ =\ \mathsf{sym}\ \land \ \Gamma \ \vdash \ \operatorname{Mangle}(d)\ \Downarrow \ \mathsf{sym}\ \land \ d\ \in \ \{\mathsf{ProcedureDecl},\ \mathsf{MethodDecl},\ \mathsf{DefaultImpl}\}\ \land \ \operatorname{Sig}(d)\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
+\ \langle \mathsf{params},\ \mathsf{ret}\rangle \quad \mathsf{if}\ \mathsf{callee}\ =\ \mathsf{sym}\ \land \ \Gamma \ \vdash \ \operatorname{Mangle}(d)\ \Downarrow \ \mathsf{sym}\ \land \ d\ \in \ \{\mathsf{ProcedureDecl},\ \mathsf{MethodDecl},\ \mathsf{DefaultImpl}\}\ \land \ \operatorname{Sig}(d)\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \\[0.16em]
 \ \operatorname{RuntimeSig}(\mathsf{sym})\ \mathsf{if}\ \mathsf{callee}\ =\ \mathsf{sym}\ \land \ \operatorname{RuntimeSig}(\mathsf{sym})\ \mathsf{defined} \\[0.16em]
 \ \langle \mathsf{params},\ \mathsf{ret}\rangle \quad \mathsf{if}\ \operatorname{ExprType}(\mathsf{callee})\ =\ \operatorname{TypeFunc}(\mathsf{params},\ \mathsf{ret}) \\[0.16em]
 \ \bot \quad \mathsf{otherwise} \\[0.16em]
@@ -759,7 +759,7 @@ $$
 \begin{array}{l}
 \operatorname{BuiltinModalSym}(\texttt{Region::alloc})\ \Downarrow \ \mathsf{sym}\quad r\ =\ \operatorname{InnermostActiveRegion}(\Gamma )\ \mathsf{if}\ r_{\mathsf{opt}}\ =\ \bot ,\ \mathsf{otherwise}\ r_{\mathsf{opt}}\quad \operatorname{TypeOf}(v)\ =\ T\quad \operatorname{sizeof}(T)\ =\ n\quad \operatorname{alignof}(T)\ =\ a\quad \Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{CallIR}(\mathsf{sym},\ [r,\ \operatorname{IntVal}(\texttt{usize},\ n),\ \operatorname{IntVal}(\texttt{usize},\ a)]))\ \Downarrow \ \langle I_{a},\ p\rangle \quad \operatorname{Store}(p,\ v,\ T)\ =\ I_{s} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{AllocIR}(r_{\mathsf{opt}},\ v))\ \Downarrow \ \langle I_{a}\ \mathbin{++} \ I_{s},\ p\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{AllocIR}(r_{\mathsf{opt}},\ v))\ \Downarrow \ \langle I_{a}\ \mathbin{++} \ I_{s},\ p\rangle
 \end{array}
 $$
 
@@ -769,7 +769,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{BindSlot}(x)\ \Downarrow \ \mathsf{slot}\quad \operatorname{TypeOf}(x)\ =\ T_{x} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{BindVarIR}(x,\ v))\ \Downarrow \ \langle [\operatorname{Store}(\mathsf{slot},\ v,\ T_{x})],\ \bot \rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{BindVarIR}(x,\ v))\ \Downarrow \ \langle [\operatorname{Store}(\mathsf{slot},\ v,\ T_{x})],\ \bot \rangle
 \end{array}
 $$
 
@@ -779,7 +779,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{BindSlot}(x)\ \Downarrow \ \mathsf{slot}\quad \operatorname{TypeOf}(x)\ =\ T_{x}\quad \Gamma \ \vdash \ \operatorname{BindValid}(x)\ \Downarrow \ \texttt{Valid} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadVarIR}(x))\ \Downarrow \ \langle [\operatorname{Load}(\mathsf{slot},\ T_{x})],\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadVarIR}(x))\ \Downarrow \ \langle [\operatorname{Load}(\mathsf{slot},\ T_{x})],\ v\rangle
 \end{array}
 $$
 
@@ -789,7 +789,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{BindValid}(x)\ \Downarrow \ s\quad s\ \ne \ \texttt{Valid} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadVarIR}(x))\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadVarIR}(x))\ \Uparrow
 \end{array}
 $$
 
@@ -801,9 +801,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{StaticSymPath}(\mathsf{path},\ \mathsf{name})\ =\ \mathsf{sym}\quad \operatorname{ProcModule}(\mathsf{sym})\ =\ m\quad T\ =\ \operatorname{StaticType}(\mathsf{sym})\quad \Gamma \ \vdash \ \operatorname{StateRef}(\mathsf{sym})\ \Downarrow \ \mathsf{slot}\quad \Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{CheckPoison}(m))\ \Downarrow \ \langle I_{p},\ \bot \rangle  \\[0.16em]
+\operatorname{StaticSymPath}(\mathsf{path},\ \mathsf{name})\ =\ \mathsf{sym}\quad \operatorname{ProcModule}(\mathsf{sym})\ =\ m\quad T\ =\ \operatorname{StaticType}(\mathsf{sym})\quad \Gamma \ \vdash \ \operatorname{StateRef}(\mathsf{sym})\ \Downarrow \ \mathsf{slot}\quad \Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{CheckPoison}(m))\ \Downarrow \ \langle I_{p},\ \bot \rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \langle I_{p}\ \mathbin{++} \ [\operatorname{Load}(\mathsf{slot},\ T)],\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \langle I_{p}\ \mathbin{++} \ [\operatorname{Load}(\mathsf{slot},\ T)],\ v\rangle
 \end{array}
 $$
 
@@ -813,7 +813,7 @@ $$
 \begin{array}{l}
 \operatorname{StaticSymPath}(\mathsf{path},\ \mathsf{name})\ =\ \mathsf{sym}\quad \operatorname{ProcModule}(\mathsf{sym})\ \mathsf{undefined}\quad T\ =\ \operatorname{StaticType}(\mathsf{sym})\quad \Gamma \ \vdash \ \operatorname{StateRef}(\mathsf{sym})\ \Downarrow \ \mathsf{slot} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \langle [\operatorname{Load}(\mathsf{slot},\ T)],\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \langle [\operatorname{Load}(\mathsf{slot},\ T)],\ v\rangle
 \end{array}
 $$
 
@@ -821,9 +821,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{sym}\ =\ \operatorname{PathSym}(\mathsf{path},\ \mathsf{name})\quad \operatorname{ProcSymbol}(\mathsf{sym})\quad \operatorname{ProcModule}(\mathsf{sym})\ =\ m\quad \Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{CheckPoison}(m))\ \Downarrow \ \langle I_{p},\ \bot \rangle  \\[0.16em]
+\mathsf{sym}\ =\ \operatorname{PathSym}(\mathsf{path},\ \mathsf{name})\quad \operatorname{ProcSymbol}(\mathsf{sym})\quad \operatorname{ProcModule}(\mathsf{sym})\ =\ m\quad \Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{CheckPoison}(m))\ \Downarrow \ \langle I_{p},\ \bot \rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \langle I_{p},\ \mathsf{sym}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \langle I_{p},\ \mathsf{sym}\rangle
 \end{array}
 $$
 
@@ -833,7 +833,7 @@ $$
 \begin{array}{l}
 \mathsf{sym}\ =\ \operatorname{PathSym}(\mathsf{path},\ \mathsf{name})\quad \operatorname{ProcSymbol}(\mathsf{sym})\quad \operatorname{ProcModule}(\mathsf{sym})\ \mathsf{undefined} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \langle \varepsilon ,\ \mathsf{sym}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \langle \varepsilon ,\ \mathsf{sym}\rangle
 \end{array}
 $$
 
@@ -843,7 +843,7 @@ $$
 \begin{array}{l}
 \mathsf{sym}\ =\ \operatorname{PathSym}(\mathsf{path},\ \mathsf{name})\quad \operatorname{RuntimeSig}(\mathsf{sym})\ \mathsf{defined} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \langle \varepsilon ,\ \mathsf{sym}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \langle \varepsilon ,\ \mathsf{sym}\rangle
 \end{array}
 $$
 
@@ -851,9 +851,9 @@ $$
 
 $$
 \begin{array}{l}
-p\ =\ \mathsf{path}\ \mathbin{++} \ [\mathsf{name}]\quad \operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{ModuleOfPath}(p)\ =\ m\quad \Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{CheckPoison}(m))\ \Downarrow \ \langle I_{p},\ \bot \rangle  \\[0.16em]
+p\ =\ \mathsf{path}\ \mathbin{++} \ [\mathsf{name}]\quad \operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{ModuleOfPath}(p)\ =\ m\quad \Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{CheckPoison}(m))\ \Downarrow \ \langle I_{p},\ \bot \rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \langle I_{p},\ \operatorname{RecordCtor}(p)\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \langle I_{p},\ \operatorname{RecordCtor}(p)\rangle
 \end{array}
 $$
 
@@ -863,7 +863,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{BindSlot}(x)\ \Downarrow \ \mathsf{slot}\quad \operatorname{TypeOf}(x)\ =\ T_{x}\quad \Gamma \ \vdash \ \operatorname{DropOnAssign}(x,\ \mathsf{slot})\ \Downarrow \ \mathsf{IR}_{d} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{StoreVarIR}(x,\ v))\ \Downarrow \ \langle \mathsf{IR}_{d}\ \mathbin{++} \ [\operatorname{Store}(\mathsf{slot},\ v,\ T_{x})],\ \bot \rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{StoreVarIR}(x,\ v))\ \Downarrow \ \langle \mathsf{IR}_{d}\ \mathbin{++} \ [\operatorname{Store}(\mathsf{slot},\ v,\ T_{x})],\ \bot \rangle
 \end{array}
 $$
 
@@ -873,7 +873,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{BindSlot}(x)\ \Downarrow \ \mathsf{slot}\quad \operatorname{TypeOf}(x)\ =\ T_{x} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{StoreVarNoDropIR}(x,\ v))\ \Downarrow \ \langle [\operatorname{Store}(\mathsf{slot},\ v,\ T_{x})],\ \bot \rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{StoreVarNoDropIR}(x,\ v))\ \Downarrow \ \langle [\operatorname{Store}(\mathsf{slot},\ v,\ T_{x})],\ \bot \rangle
 \end{array}
 $$
 
@@ -883,7 +883,7 @@ $$
 \begin{array}{l}
 x\ =\ \operatorname{PlaceRoot}(p)\quad \Gamma \ \vdash \ \operatorname{UpdateValid}(x,\ \operatorname{MoveStateIR}(p))\ \Downarrow \ v' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{MoveStateIR}(p))\ \Downarrow \ \langle \varepsilon ,\ \bot \rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{MoveStateIR}(p))\ \Downarrow \ \langle \varepsilon ,\ \bot \rangle
 \end{array}
 $$
 
@@ -893,7 +893,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{StaticType}(\mathsf{sym})\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau \quad \Gamma \ \vdash \ \operatorname{StateRef}(\mathsf{sym})\ \Downarrow \ \mathsf{slot} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{StoreGlobal}(\mathsf{sym},\ v))\ \Downarrow \ \langle [\operatorname{Store}(\mathsf{slot},\ v,\ T)],\ \bot \rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{StoreGlobal}(\mathsf{sym},\ v))\ \Downarrow \ \langle [\operatorname{Store}(\mathsf{slot},\ v,\ T)],\ \bot \rangle
 \end{array}
 $$
 
@@ -927,7 +927,7 @@ $$
 \begin{array}{l}
 \operatorname{PtrType}(v_{\mathsf{ptr}})\ =\ \operatorname{TypePtr}(T,\ \texttt{Valid}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadPtrIR}(v_{\mathsf{ptr}}))\ \Downarrow \ \langle [\operatorname{Load}(\operatorname{PtrAddr}(v_{\mathsf{ptr}}),\ T)],\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadPtrIR}(v_{\mathsf{ptr}}))\ \Downarrow \ \langle [\operatorname{Load}(\operatorname{PtrAddr}(v_{\mathsf{ptr}}),\ T)],\ v\rangle
 \end{array}
 $$
 
@@ -937,7 +937,7 @@ $$
 \begin{array}{l}
 \operatorname{PtrType}(v_{\mathsf{ptr}})\ =\ \operatorname{TypeRawPtr}(q,\ T) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadPtrIR}(v_{\mathsf{ptr}}))\ \Downarrow \ \langle [\operatorname{Load}(\operatorname{PtrAddr}(v_{\mathsf{ptr}}),\ T)],\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{ReadPtrIR}(v_{\mathsf{ptr}}))\ \Downarrow \ \langle [\operatorname{Load}(\operatorname{PtrAddr}(v_{\mathsf{ptr}}),\ T)],\ v\rangle
 \end{array}
 $$
 
@@ -967,7 +967,7 @@ $$
 \begin{array}{l}
 \operatorname{PtrType}(v_{\mathsf{ptr}})\ =\ \operatorname{TypePtr}(T,\ \texttt{Valid}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{WritePtrIR}(v_{\mathsf{ptr}},\ v))\ \Downarrow \ \langle [\operatorname{Store}(\operatorname{PtrAddr}(v_{\mathsf{ptr}}),\ v,\ T)],\ \bot \rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{WritePtrIR}(v_{\mathsf{ptr}},\ v))\ \Downarrow \ \langle [\operatorname{Store}(\operatorname{PtrAddr}(v_{\mathsf{ptr}}),\ v,\ T)],\ \bot \rangle
 \end{array}
 $$
 
@@ -997,7 +997,7 @@ $$
 \begin{array}{l}
 \operatorname{PtrType}(v_{\mathsf{ptr}})\ =\ \operatorname{TypeRawPtr}(\texttt{mut},\ T) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{WritePtrIR}(v_{\mathsf{ptr}},\ v))\ \Downarrow \ \langle [\operatorname{Store}(\operatorname{PtrAddr}(v_{\mathsf{ptr}}),\ v,\ T)],\ \bot \rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{WritePtrIR}(v_{\mathsf{ptr}},\ v))\ \Downarrow \ \langle [\operatorname{Store}(\operatorname{PtrAddr}(v_{\mathsf{ptr}}),\ v,\ T)],\ \bot \rangle
 \end{array}
 $$
 
@@ -1007,7 +1007,7 @@ $$
 \begin{array}{l}
 \operatorname{PtrType}(v_{\mathsf{ptr}})\ =\ \operatorname{TypeRawPtr}(\texttt{imm},\ T) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{WritePtrIR}(v_{\mathsf{ptr}},\ v))\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{WritePtrIR}(v_{\mathsf{ptr}},\ v))\ \Uparrow
 \end{array}
 $$
 
@@ -1030,12 +1030,12 @@ $$
 $$
 
 $$
-\operatorname{SRetAlloc}(R)\ \Downarrow \ \langle [\texttt{alloca}\ \operatorname{LLVMTy}(R)],\ p\rangle 
+\operatorname{SRetAlloc}(R)\ \Downarrow \ \langle [\texttt{alloca}\ \operatorname{LLVMTy}(R)],\ p\rangle
 $$
 
 $$
 \begin{array}{l}
-\operatorname{CallArgs}(\mathsf{sig},\ \mathsf{params},\ \mathsf{args},\ R)\ \Downarrow \ \langle I_{a},\ \mathsf{vec}_{a},\ p_{\mathsf{ret}}\rangle \ \Leftrightarrow  \\[0.16em]
+\operatorname{CallArgs}(\mathsf{sig},\ \mathsf{params},\ \mathsf{args},\ R)\ \Downarrow \ \langle I_{a},\ \mathsf{vec}_{a},\ p_{\mathsf{ret}}\rangle \ \Leftrightarrow \\[0.16em]
 \ I_{a}\ =\ \varepsilon \ \land \ \mathsf{vec}_{a}\ =\ \mathsf{args}\ \land \ p_{\mathsf{ret}}\ =\ \bot \quad \mathsf{if}\ \mathsf{sig}.\mathsf{sretSigma}\ =\ \mathsf{false} \\[0.16em]
 \ \exists \ p.\ \operatorname{SRetAlloc}(R)\ \Downarrow \ \langle I_{s},\ p\rangle \ \land \ I_{a}\ =\ I_{s}\ \land \ \mathsf{vec}_{a}\ =\ [p]\ \mathbin{++} \ \mathsf{args}\ \land \ p_{\mathsf{ret}}\ =\ p\quad \mathsf{if}\ \mathsf{sig}.\mathsf{sretSigma}\ =\ \mathsf{true}
 \end{array}
@@ -1043,14 +1043,14 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{CallInstr}(\mathsf{sig},\ f,\ \mathsf{vec}_{a})\ \Downarrow \ \langle [\texttt{call}\ \mathsf{sig}\ \operatorname{f}(\mathsf{vec}_{a})],\ v_{c}\rangle \ \Leftrightarrow  \\[0.16em]
+\operatorname{CallInstr}(\mathsf{sig},\ f,\ \mathsf{vec}_{a})\ \Downarrow \ \langle [\texttt{call}\ \mathsf{sig}\ \operatorname{f}(\mathsf{vec}_{a})],\ v_{c}\rangle \ \Leftrightarrow \\[0.16em]
 \ v_{c}\ =\ (\mathsf{sig}.\mathsf{llvm}_{\mathsf{ret}}\ =\ \texttt{void}\ \mathsf{Sigma}\ \bot \ :\ \mathsf{call}_{\mathsf{result}})
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{CallResult}(\mathsf{sig},\ R,\ p_{\mathsf{ret}},\ v_{c})\ \Downarrow \ \langle I_{r},\ v\rangle \ \Leftrightarrow  \\[0.16em]
+\operatorname{CallResult}(\mathsf{sig},\ R,\ p_{\mathsf{ret}},\ v_{c})\ \Downarrow \ \langle I_{r},\ v\rangle \ \Leftrightarrow \\[0.16em]
 \ I_{r}\ =\ \varepsilon \ \land \ v\ =\ v_{c}\quad \mathsf{if}\ \mathsf{sig}.\mathsf{sretSigma}\ =\ \mathsf{false} \\[0.16em]
 \ \operatorname{LoadVal}(p_{\mathsf{ret}},\ R)\ \Downarrow \ \langle I_{r},\ v\rangle \quad \mathsf{if}\ \mathsf{sig}.\mathsf{sretSigma}\ =\ \mathsf{true}
 \end{array}
@@ -1060,9 +1060,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{CallTarget}(\mathsf{callee})\ =\ f\quad f\ \ne \ \operatorname{RecordCtor}(\_)\quad \operatorname{LoweredSigOf}(f)\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \quad \operatorname{LLVMCallSig}(\mathsf{params},\ \mathsf{ret})\ \Downarrow \ \mathsf{sig}\quad \operatorname{CallPoison}(f)\ =\ \mathsf{IR}_{p}\quad \Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{IR}_{p})\ \Downarrow \ \langle I_{p},\ \bot \rangle \quad \operatorname{CallArgs}(\mathsf{sig},\ \mathsf{params},\ \mathsf{args},\ \mathsf{ret})\ \Downarrow \ \langle I_{a},\ \mathsf{vec}_{a},\ p_{\mathsf{ret}}\rangle \quad \operatorname{CallInstr}(\mathsf{sig},\ f,\ \mathsf{vec}_{a})\ \Downarrow \ \langle I_{c},\ v_{c}\rangle \quad \operatorname{CallResult}(\mathsf{sig},\ \mathsf{ret},\ p_{\mathsf{ret}},\ v_{c})\ \Downarrow \ \langle I_{r},\ v_{\mathsf{call}}\rangle  \\[0.16em]
+\operatorname{CallTarget}(\mathsf{callee})\ =\ f\quad f\ \ne \ \operatorname{RecordCtor}(\_)\quad \operatorname{LoweredSigOf}(f)\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \quad \operatorname{LLVMCallSig}(\mathsf{params},\ \mathsf{ret})\ \Downarrow \ \mathsf{sig}\quad \operatorname{CallPoison}(f)\ =\ \mathsf{IR}_{p}\quad \Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{IR}_{p})\ \Downarrow \ \langle I_{p},\ \bot \rangle \quad \operatorname{CallArgs}(\mathsf{sig},\ \mathsf{params},\ \mathsf{args},\ \mathsf{ret})\ \Downarrow \ \langle I_{a},\ \mathsf{vec}_{a},\ p_{\mathsf{ret}}\rangle \quad \operatorname{CallInstr}(\mathsf{sig},\ f,\ \mathsf{vec}_{a})\ \Downarrow \ \langle I_{c},\ v_{c}\rangle \quad \operatorname{CallResult}(\mathsf{sig},\ \mathsf{ret},\ p_{\mathsf{ret}},\ v_{c})\ \Downarrow \ \langle I_{r},\ v_{\mathsf{call}}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{CallIR}(\mathsf{callee},\ \mathsf{args}))\ \Downarrow \ \langle I_{p}\ \mathbin{++} \ I_{a}\ \mathbin{++} \ I_{c}\ \mathbin{++} \ I_{r},\ v_{\mathsf{call}}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{CallIR}(\mathsf{callee},\ \mathsf{args}))\ \Downarrow \ \langle I_{p}\ \mathbin{++} \ I_{a}\ \mathbin{++} \ I_{c}\ \mathbin{++} \ I_{r},\ v_{\mathsf{call}}\rangle
 \end{array}
 $$
 
@@ -1129,9 +1129,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{IfPhi}(v_{t},\ v_{f},\ l_{t},\ l_{f})\ \Downarrow \ \langle I_{\mathsf{phi}},\ v_{\mathsf{phi}}\rangle \ \Leftrightarrow  \\[0.16em]
-\ I_{\mathsf{phi}}\ =\ \varepsilon \ \land \ v_{\mathsf{phi}}\ =\ \bot \quad \mathsf{if}\ v_{t}\ =\ \bot \ \lor \ v_{f}\ =\ \bot  \\[0.16em]
-\ \exists \ T,\ \tau ,\ \mathsf{inc}.\ \operatorname{ValueType}(v_{t})\ =\ T\ \land \ \operatorname{ValueType}(v_{f})\ =\ T\ \land \ \Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau \ \land \ \mathsf{inc}\ =\ [\langle v_{t},\ l_{t}\rangle ,\ \langle v_{f},\ l_{f}\rangle ]\ \land \ I_{\mathsf{phi}}\ =\ [\operatorname{Phi}(\tau ,\ \mathsf{inc},\ v_{\mathsf{phi}})]\quad \mathsf{if}\ v_{t}\ \ne \ \bot \ \land \ v_{f}\ \ne \ \bot 
+\operatorname{IfPhi}(v_{t},\ v_{f},\ l_{t},\ l_{f})\ \Downarrow \ \langle I_{\mathsf{phi}},\ v_{\mathsf{phi}}\rangle \ \Leftrightarrow \\[0.16em]
+\ I_{\mathsf{phi}}\ =\ \varepsilon \ \land \ v_{\mathsf{phi}}\ =\ \bot \quad \mathsf{if}\ v_{t}\ =\ \bot \ \lor \ v_{f}\ =\ \bot \\[0.16em]
+\ \exists \ T,\ \tau ,\ \mathsf{inc}.\ \operatorname{ValueType}(v_{t})\ =\ T\ \land \ \operatorname{ValueType}(v_{f})\ =\ T\ \land \ \Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau \ \land \ \mathsf{inc}\ =\ [\langle v_{t},\ l_{t}\rangle ,\ \langle v_{f},\ l_{f}\rangle ]\ \land \ I_{\mathsf{phi}}\ =\ [\operatorname{Phi}(\tau ,\ \mathsf{inc},\ v_{\mathsf{phi}})]\quad \mathsf{if}\ v_{t}\ \ne \ \bot \ \land \ v_{f}\ \ne \ \bot
 \end{array}
 $$
 
@@ -1145,7 +1145,7 @@ $$
 \begin{array}{l}
 \operatorname{IfLabels}(\Gamma )\ =\ \langle l_{t},\ l_{f},\ l_{m}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{IR}_{t})\ \Downarrow \ \langle I_{t},\ v_{t}'\rangle \quad \Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{IR}_{f})\ \Downarrow \ \langle I_{f},\ v_{f}'\rangle \quad v_{t}'\ =\ v_{t}\quad v_{f}'\ =\ v_{f}\quad \operatorname{IfPhi}(v_{t},\ v_{f},\ l_{t},\ l_{f})\ \Downarrow \ \langle I_{\mathsf{phi}},\ v\rangle \quad I\ =\ [\operatorname{BrCond}(v_{c},\ l_{t},\ l_{f}),\ \operatorname{Label}(l_{t})]\ \mathbin{++} \ I_{t}\ \mathbin{++} \ [\operatorname{Br}(l_{m}),\ \operatorname{Label}(l_{f})]\ \mathbin{++} \ I_{f}\ \mathbin{++} \ [\operatorname{Br}(l_{m}),\ \operatorname{Label}(l_{m})]\ \mathbin{++} \ I_{\mathsf{phi}}\quad \operatorname{IfLowerForm}(I,\ v_{c},\ v_{t},\ v_{f},\ v) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{IfIR}(v_{c},\ \mathsf{IR}_{t},\ v_{t},\ \mathsf{IR}_{f},\ v_{f}))\ \Downarrow \ \langle I,\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{IfIR}(v_{c},\ \mathsf{IR}_{t},\ v_{t},\ \mathsf{IR}_{f},\ v_{f}))\ \Downarrow \ \langle I,\ v\rangle
 \end{array}
 $$
 
@@ -1162,9 +1162,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{IR}_{s})\ \Downarrow \ \langle I_{s},\ \bot \rangle \quad \Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{IR}_{t})\ \Downarrow \ \langle I_{t},\ v_{t}'\rangle \quad v_{t}'\ =\ v_{t}\quad \operatorname{BlockScope}(\mathsf{IR}_{s},\ \mathsf{IR}_{t})\ =\ \mathsf{scope}\quad \Gamma \ \vdash \ \operatorname{CleanupPlan}(\mathsf{scope})\ \Downarrow \ \mathsf{cs}\quad \Gamma \ \vdash \ \operatorname{EmitCleanup}(\mathsf{cs})\ \Downarrow \ \mathsf{IR}_{c}\quad \Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{IR}_{c})\ \Downarrow \ \langle I_{c},\ \bot \rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{IR}_{s})\ \Downarrow \ \langle I_{s},\ \bot \rangle \quad \Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{IR}_{t})\ \Downarrow \ \langle I_{t},\ v_{t}'\rangle \quad v_{t}'\ =\ v_{t}\quad \operatorname{BlockScope}(\mathsf{IR}_{s},\ \mathsf{IR}_{t})\ =\ \mathsf{scope}\quad \Gamma \ \vdash \ \operatorname{CleanupPlan}(\mathsf{scope})\ \Downarrow \ \mathsf{cs}\quad \Gamma \ \vdash \ \operatorname{EmitCleanup}(\mathsf{cs})\ \Downarrow \ \mathsf{IR}_{c}\quad \Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{IR}_{c})\ \Downarrow \ \langle I_{c},\ \bot \rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{BlockIR}(\mathsf{IR}_{s},\ \mathsf{IR}_{t},\ v_{t}))\ \Downarrow \ \langle I_{s}\ \mathbin{++} \ I_{t}\ \mathbin{++} \ I_{c},\ v_{t}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{BlockIR}(\mathsf{IR}_{s},\ \mathsf{IR}_{t},\ v_{t}))\ \Downarrow \ \langle I_{s}\ \mathbin{++} \ I_{t}\ \mathbin{++} \ I_{c},\ v_{t}\rangle
 \end{array}
 $$
 
@@ -1196,7 +1196,7 @@ LoopIRForm(loop)    LoopLowerForm(I, loop, v)
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{loop})\ \Downarrow \ \langle I,\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{loop})\ \Downarrow \ \langle I,\ v\rangle
 \end{array}
 $$
 
@@ -1206,7 +1206,7 @@ IfCaseIRForm(if_case)    IfCaseLowerForm(I, if_case, v)
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{if}_{\mathsf{case}})\ \Downarrow \ \langle I,\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{if}_{\mathsf{case}})\ \Downarrow \ \langle I,\ v\rangle
 \end{array}
 $$
 
@@ -1216,7 +1216,7 @@ RegionIRForm(region)    RegionLowerForm(I, region, v)
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{region})\ \Downarrow \ \langle I,\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{region})\ \Downarrow \ \langle I,\ v\rangle
 \end{array}
 $$
 
@@ -1226,7 +1226,7 @@ FrameIRForm(frame)    FrameLowerForm(I, frame, v)
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{frame})\ \Downarrow \ \langle I,\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{frame})\ \Downarrow \ \langle I,\ v\rangle
 \end{array}
 $$
 
@@ -1243,7 +1243,7 @@ BranchLowerForm(I, target)
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{BranchIR}(\mathsf{target}))\ \Downarrow \ \langle I,\ \bot \rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{BranchIR}(\mathsf{target}))\ \Downarrow \ \langle I,\ \bot \rangle
 \end{array}
 $$
 BranchLowerForm(I, v_c, t, f)
@@ -1251,7 +1251,7 @@ BranchLowerForm(I, v_c, t, f)
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{BranchIR}(v_{c},\ t,\ f))\ \Downarrow \ \langle I,\ \bot \rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{BranchIR}(v_{c},\ t,\ f))\ \Downarrow \ \langle I,\ \bot \rangle
 \end{array}
 $$
 
@@ -1265,7 +1265,7 @@ PhiLowerForm(I, T, inc, v)
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{PhiIR}(T,\ \mathsf{inc},\ v))\ \Downarrow \ \langle I,\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{PhiIR}(T,\ \mathsf{inc},\ v))\ \Downarrow \ \langle I,\ v\rangle
 \end{array}
 $$
 
@@ -1273,9 +1273,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerIRDecl}(d)\ \Uparrow  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerIRDecl}(d)\ \Uparrow \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRDecl}(d)\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{LowerIRDecl}(d)\ \Uparrow
 \end{array}
 $$
 
@@ -1283,9 +1283,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{op})\ \Uparrow  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{op})\ \Uparrow \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{op})\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\mathsf{op})\ \Uparrow
 \end{array}
 $$
 
@@ -1313,12 +1313,12 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{ResolveEntry}\_\pi ([],\ \mathsf{tag})\ =\ \bot  \\[0.16em]
+\mathsf{ResolveEntry}\_\pi ([],\ \mathsf{tag})\ =\ \bot \\[0.16em]
 \mathsf{ResolveEntry}\_\pi (\langle \mathsf{tag},\ \mathsf{target}\rangle \ \mathbin{::} \ \mathsf{es},\ t)\ = \\[0.16em]
 \ \langle \mathsf{tag},\ \mathsf{target}\rangle \quad \mathsf{if}\ t\ =\ \mathsf{tag} \\[0.16em]
 \ \mathsf{ResolveEntry}\_\pi (\mathsf{es},\ t)\quad \mathsf{otherwise} \\[0.16em]
-\mathsf{ResolveTarget}\_\pi (\langle \Sigma \_\pi ,\ \mathsf{RS}\rangle ,\ \mathsf{tag})\ =\ \mathsf{target}\ \Leftrightarrow \ \mathsf{ResolveEntry}\_\pi (\mathsf{RS},\ \mathsf{tag})\ =\ \langle \mathsf{tag},\ \mathsf{target}\rangle  \\[0.16em]
-\mathsf{BindProv}\_\Gamma (x)\ =\ \pi \ \Leftrightarrow \ \Gamma \ \mathsf{has}\ \mathsf{provenance}\ \mathsf{environment}\ \Omega \ \land \ \Gamma ;\ \Omega \ \vdash \ \operatorname{Identifier}(x)\ \Downarrow \ \pi  \\[0.16em]
+\mathsf{ResolveTarget}\_\pi (\langle \Sigma \_\pi ,\ \mathsf{RS}\rangle ,\ \mathsf{tag})\ =\ \mathsf{target}\ \Leftrightarrow \ \mathsf{ResolveEntry}\_\pi (\mathsf{RS},\ \mathsf{tag})\ =\ \langle \mathsf{tag},\ \mathsf{target}\rangle \\[0.16em]
+\mathsf{BindProv}\_\Gamma (x)\ =\ \pi \ \Leftrightarrow \ \Gamma \ \mathsf{has}\ \mathsf{provenance}\ \mathsf{environment}\ \Omega \ \land \ \Gamma ;\ \Omega \ \vdash \ \operatorname{Identifier}(x)\ \Downarrow \ \pi \\[0.16em]
 \operatorname{BindRegionTarget}(x)\ =\ r\ \Leftrightarrow \ \mathsf{BindProv}\_\Gamma (x)\ =\ \pi_{\mathsf{Region}} (\mathsf{tag})\ \land \ \mathsf{ResolveTarget}\_\pi (\Omega ,\ \mathsf{tag})\ =\ r
 \end{array}
 $$
@@ -1329,7 +1329,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{BindState}(\Gamma )\ =\ \mathfrak{B} \quad \operatorname{Lookup_B}(\mathfrak{B} ,\ x)\ =\ \langle s,\ \_,\ \_,\ \_\rangle  \\[0.16em]
+\operatorname{BindState}(\Gamma )\ =\ \mathfrak{B} \quad \operatorname{Lookup_B}(\mathfrak{B} ,\ x)\ =\ \langle s,\ \_,\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{BindValid}(x)\ \Downarrow \ s
 \end{array}
@@ -1417,7 +1417,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{op}\ =\ \operatorname{MoveStateIR}(p)\quad \operatorname{PlaceRoot}(p)\ =\ x\quad \operatorname{FieldHead}(p)\ =\ \bot  \\[0.16em]
+\mathsf{op}\ =\ \operatorname{MoveStateIR}(p)\quad \operatorname{PlaceRoot}(p)\ =\ x\quad \operatorname{FieldHead}(p)\ =\ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{UpdateValid}(x,\ \mathsf{op})\ \Downarrow \ \mathsf{Moved}
 \end{array}
@@ -1458,7 +1458,7 @@ $$
 \begin{array}{l}
 \lnot \ \operatorname{DropOnAssignApplicable}(x) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{DropOnAssign}(x,\ \mathsf{slot})\ \Downarrow \ \varepsilon 
+\Gamma \ \vdash \ \operatorname{DropOnAssign}(x,\ \mathsf{slot})\ \Downarrow \ \varepsilon
 \end{array}
 $$
 
@@ -1488,7 +1488,7 @@ $$
 \begin{array}{l}
 \operatorname{DropOnAssignApplicable}(x)\quad \operatorname{TypeOf}(x)\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{BindValid}(x)\ \Downarrow \ \mathsf{Moved} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{DropOnAssign}(x,\ \mathsf{slot})\ \Downarrow \ \varepsilon 
+\Gamma \ \vdash \ \operatorname{DropOnAssign}(x,\ \mathsf{slot})\ \Downarrow \ \varepsilon
 \end{array}
 $$
 
@@ -1508,7 +1508,7 @@ $$
 \begin{array}{l}
 \operatorname{DropOnAssignApplicable}(x)\quad \operatorname{TypeOf}(x)\ \in \ \{\operatorname{TypeArray}(\_,\ \_),\ \operatorname{TypeTuple}(\_),\ \operatorname{TypeUnion}(\_),\ \operatorname{TypeModalState}(\_,\ \_)\}\quad \operatorname{BindValid}(x)\ \Downarrow \ \mathsf{Moved} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{DropOnAssign}(x,\ \mathsf{slot})\ \Downarrow \ \varepsilon 
+\Gamma \ \vdash \ \operatorname{DropOnAssign}(x,\ \mathsf{slot})\ \Downarrow \ \varepsilon
 \end{array}
 $$
 
@@ -1518,7 +1518,7 @@ BindSlot(x) undefined
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BindSlot}(x)\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{BindSlot}(x)\ \Uparrow
 \end{array}
 $$
 
@@ -1528,7 +1528,7 @@ BindValid(x) undefined
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{BindValid}(x)\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{BindValid}(x)\ \Uparrow
 \end{array}
 $$
 
@@ -1538,7 +1538,7 @@ UpdateValid(x, op) undefined
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{UpdateValid}(x,\ \mathsf{op})\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{UpdateValid}(x,\ \mathsf{op})\ \Uparrow
 \end{array}
 $$
 
@@ -1548,7 +1548,7 @@ DropOnAssign(x, slot) undefined
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{DropOnAssign}(x,\ \mathsf{slot})\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{DropOnAssign}(x,\ \mathsf{slot})\ \Uparrow
 \end{array}
 $$
 
@@ -1573,7 +1573,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau \quad \operatorname{StripPerm}(T)\ =\ \operatorname{TypePtr}(U,\ \texttt{Valid}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMArgLower}(x,\ T,\ \texttt{ByValue})\ \Downarrow \ \langle \tau ,\ \operatorname{LLVMArgAttrsExt}(x,\ T)\ \cup \ \operatorname{LLVMPtrAttrs}(T)\rangle 
+\Gamma \ \vdash \ \operatorname{LLVMArgLower}(x,\ T,\ \texttt{ByValue})\ \Downarrow \ \langle \tau ,\ \operatorname{LLVMArgAttrsExt}(x,\ T)\ \cup \ \operatorname{LLVMPtrAttrs}(T)\rangle
 \end{array}
 $$
 
@@ -1583,7 +1583,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau \quad \operatorname{StripPerm}(T)\ \ne \ \operatorname{TypePtr}(\_,\ \texttt{Valid}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMArgLower}(x,\ T,\ \texttt{ByValue})\ \Downarrow \ \langle \tau ,\ \operatorname{LLVMArgAttrsExt}(x,\ T)\rangle 
+\Gamma \ \vdash \ \operatorname{LLVMArgLower}(x,\ T,\ \texttt{ByValue})\ \Downarrow \ \langle \tau ,\ \operatorname{LLVMArgAttrsExt}(x,\ T)\rangle
 \end{array}
 $$
 
@@ -1591,9 +1591,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMArgLower}(x,\ T,\ \texttt{ByRef})\ \Downarrow \ \langle \operatorname{LLVMPtrTy}(\operatorname{TypePtr}(\operatorname{TypePerm}(\texttt{const},\ T),\ \texttt{Valid})),\ \operatorname{LLVMPtrAttrs}(\operatorname{TypePtr}(\operatorname{TypePerm}(\texttt{const},\ T),\ \texttt{Valid}))\ \cup \ \operatorname{LLVMArgAttrsExt}(x,\ T)\rangle 
+\Gamma \ \vdash \ \operatorname{LLVMArgLower}(x,\ T,\ \texttt{ByRef})\ \Downarrow \ \langle \operatorname{LLVMPtrTy}(\operatorname{TypePtr}(\operatorname{TypePerm}(\texttt{const},\ T),\ \texttt{Valid})),\ \operatorname{LLVMPtrAttrs}(\operatorname{TypePtr}(\operatorname{TypePerm}(\texttt{const},\ T),\ \texttt{Valid}))\ \cup \ \operatorname{LLVMArgAttrsExt}(x,\ T)\rangle
 \end{array}
 $$
 
@@ -1613,7 +1613,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau \quad \operatorname{sizeof}(T)\ >\ 0 \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMRetLower}(T,\ \texttt{ByValue})\ \Downarrow \ \tau 
+\Gamma \ \vdash \ \operatorname{LLVMRetLower}(T,\ \texttt{ByValue})\ \Downarrow \ \tau
 \end{array}
 $$
 
@@ -1621,7 +1621,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LLVMRetLower}(T,\ \texttt{SRet})\ \Downarrow \ \texttt{void}
 \end{array}
@@ -1639,9 +1639,9 @@ $$
 
 $$
 \begin{array}{l}
-\langle [k_{1},\ \ldots ,\ k_{n}],\ k_{r},\ \mathsf{sretSigma}\rangle \ =\ \operatorname{ABICall}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R)\quad k_{r}\ =\ \texttt{ByValue}\quad \forall \ i,\ \Gamma \ \vdash \ \operatorname{LLVMArgLower}(x_{i},\ T_{i},\ k_{i})\ \Downarrow \ \langle \tau_{i} ,\ A_{i}\rangle \quad \Gamma \ \vdash \ \operatorname{LLVMRetLower}(R,\ \texttt{ByValue})\ \Downarrow \ \tau_{r}  \\[0.16em]
+\langle [k_{1},\ \ldots ,\ k_{n}],\ k_{r},\ \mathsf{sretSigma}\rangle \ =\ \operatorname{ABICall}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R)\quad k_{r}\ =\ \texttt{ByValue}\quad \forall \ i,\ \Gamma \ \vdash \ \operatorname{LLVMArgLower}(x_{i},\ T_{i},\ k_{i})\ \Downarrow \ \langle \tau_{i} ,\ A_{i}\rangle \quad \Gamma \ \vdash \ \operatorname{LLVMRetLower}(R,\ \texttt{ByValue})\ \Downarrow \ \tau_{r} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMCallSig}([\langle m_{1},\ x_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ x_{n},\ T_{n}\rangle ],\ R)\ \Downarrow \ \langle \operatorname{LLVMArgList}([\langle m_{1},\ x_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ x_{n},\ T_{n}\rangle ],\ [k_{1},\ \ldots ,\ k_{n}]),\ \tau_{r} ,\ \operatorname{LLVMAttrList}([\langle m_{1},\ x_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ x_{n},\ T_{n}\rangle ],\ [k_{1},\ \ldots ,\ k_{n}]),\ \mathsf{false}\rangle 
+\Gamma \ \vdash \ \operatorname{LLVMCallSig}([\langle m_{1},\ x_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ x_{n},\ T_{n}\rangle ],\ R)\ \Downarrow \ \langle \operatorname{LLVMArgList}([\langle m_{1},\ x_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ x_{n},\ T_{n}\rangle ],\ [k_{1},\ \ldots ,\ k_{n}]),\ \tau_{r} ,\ \operatorname{LLVMAttrList}([\langle m_{1},\ x_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ x_{n},\ T_{n}\rangle ],\ [k_{1},\ \ldots ,\ k_{n}]),\ \mathsf{false}\rangle
 \end{array}
 $$
 
@@ -1651,7 +1651,7 @@ $$
 \begin{array}{l}
 \langle [k_{1},\ \ldots ,\ k_{n}],\ k_{r},\ \mathsf{sretSigma}\rangle \ =\ \operatorname{ABICall}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R)\quad k_{r}\ =\ \texttt{SRet}\quad \mathsf{sret}_{\mathsf{param}}\ =\ \operatorname{LLVMPtrTy}(\operatorname{TypePtr}(\operatorname{TypePerm}(\texttt{unique},\ R),\ \texttt{Valid}))\quad A_{\mathsf{sret}}\ =\ \{\texttt{sret},\ \texttt{noalias}\}\ \cup \ \operatorname{LLVMPtrAttrs}(\operatorname{TypePtr}(\operatorname{TypePerm}(\texttt{unique},\ R),\ \texttt{Valid}))\quad \forall \ i,\ \Gamma \ \vdash \ \operatorname{LLVMArgLower}(x_{i},\ T_{i},\ k_{i})\ \Downarrow \ \langle \tau_{i} ,\ A_{i}\rangle \quad \Gamma \ \vdash \ \operatorname{LLVMRetLower}(R,\ \texttt{SRet})\ \Downarrow \ \texttt{void} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMCallSig}([\langle m_{1},\ x_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ x_{n},\ T_{n}\rangle ],\ R)\ \Downarrow \ \langle [\mathsf{sret}_{\mathsf{param}}]\ \mathbin{++} \ \operatorname{LLVMArgList}([\langle m_{1},\ x_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ x_{n},\ T_{n}\rangle ],\ [k_{1},\ \ldots ,\ k_{n}]),\ \texttt{void},\ [A_{\mathsf{sret}}]\ \mathbin{++} \ \operatorname{LLVMAttrList}([\langle m_{1},\ x_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ x_{n},\ T_{n}\rangle ],\ [k_{1},\ \ldots ,\ k_{n}]),\ \mathsf{true}\rangle 
+\Gamma \ \vdash \ \operatorname{LLVMCallSig}([\langle m_{1},\ x_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ x_{n},\ T_{n}\rangle ],\ R)\ \Downarrow \ \langle [\mathsf{sret}_{\mathsf{param}}]\ \mathbin{++} \ \operatorname{LLVMArgList}([\langle m_{1},\ x_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ x_{n},\ T_{n}\rangle ],\ [k_{1},\ \ldots ,\ k_{n}]),\ \texttt{void},\ [A_{\mathsf{sret}}]\ \mathbin{++} \ \operatorname{LLVMAttrList}([\langle m_{1},\ x_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ x_{n},\ T_{n}\rangle ],\ [k_{1},\ \ldots ,\ k_{n}]),\ \mathsf{true}\rangle
 \end{array}
 $$
 
@@ -1669,7 +1669,7 @@ LLVMArgLower(x, T, k) undefined
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMArgLower}(x,\ T,\ k)\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{LLVMArgLower}(x,\ T,\ k)\ \Uparrow
 \end{array}
 $$
 
@@ -1679,7 +1679,7 @@ LLVMRetLower(T, k) undefined
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMRetLower}(T,\ k)\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{LLVMRetLower}(T,\ k)\ \Uparrow
 \end{array}
 $$
 
@@ -1689,7 +1689,7 @@ LLVMCallSig(params, ret) undefined
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LLVMCallSig}(\mathsf{params},\ \mathsf{ret})\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{LLVMCallSig}(\mathsf{params},\ \mathsf{ret})\ \Uparrow
 \end{array}
 $$
 
@@ -1704,7 +1704,7 @@ $$
 \operatorname{DropGlueSym}(T)\ =\ \operatorname{PathSig}([\texttt{"ultraviolet"},\ \texttt{"runtime"},\ \texttt{"drop"}]\ \mathbin{++} \ \operatorname{PathOfType}(T)) \\[0.16em]
 \operatorname{VTableHeader}(T)\ =\ [\operatorname{sizeof}(T),\ \operatorname{alignof}(T),\ \operatorname{DropGlueSym}(T)] \\[0.16em]
 \mathsf{PtrTy}\ =\ \operatorname{LLVMPtrTy}(\operatorname{TypeRawPtr}(\texttt{imm},\ \operatorname{TypePrim}(\texttt{"()"}))) \\[0.16em]
-k\ =\ \mid \operatorname{VTable}(T,\ \mathsf{Cl})\mid  \\[0.16em]
+k\ =\ \mid \operatorname{VTable}(T,\ \mathsf{Cl})\mid \\[0.16em]
 \operatorname{VTableTy}(\mathsf{Cl})\ =\ \operatorname{LLVMStruct}([\operatorname{LLVMTy}(\operatorname{TypePrim}(\texttt{"usize"})),\ \operatorname{LLVMTy}(\operatorname{TypePrim}(\texttt{"usize"})),\ \mathsf{PtrTy}]\ \mathbin{++} \ [\mathsf{PtrTy}]^k) \\[0.16em]
 \mathsf{GlobalVTable}\ :\ \mathsf{Symbol}\ \times \ \mathsf{Header}\ \times \ \mathsf{Slots}\ \to \ \mathsf{IRDecl} \\[0.16em]
 \mathsf{LLVMGlobalVTable}\ :\ \mathsf{Symbol}\ \times \ \mathsf{Header}\ \times \ \mathsf{Slots}\ \to \ \mathsf{LLVMDecl}
@@ -1738,7 +1738,7 @@ EmitVTable(T, Cl) undefined
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{EmitVTable}(T,\ \mathsf{Cl})\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{EmitVTable}(T,\ \mathsf{Cl})\ \Uparrow
 \end{array}
 $$
 
@@ -1833,7 +1833,7 @@ EmitLiteralData(kind, bytes) undefined
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{EmitLiteralData}(\mathsf{kind},\ \mathsf{bytes})\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{EmitLiteralData}(\mathsf{kind},\ \mathsf{bytes})\ \Uparrow
 \end{array}
 $$
 
@@ -1894,7 +1894,7 @@ PoisonFlag(m) undefined
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PoisonFlag}(m)\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{PoisonFlag}(m)\ \Uparrow
 \end{array}
 $$
 
@@ -1904,7 +1904,7 @@ CheckPoison(m) undefined
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{CheckPoison}(m)\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{CheckPoison}(m)\ \Uparrow
 \end{array}
 $$
 
@@ -1914,6 +1914,6 @@ SetPoison(m) undefined
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{SetPoison}(m)\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{SetPoison}(m)\ \Uparrow
 \end{array}
 $$

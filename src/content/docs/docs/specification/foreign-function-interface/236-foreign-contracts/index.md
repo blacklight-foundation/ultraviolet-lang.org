@@ -2,16 +2,16 @@
 title: "23.6 Foreign Contracts"
 description: "23.6 Foreign Contracts from 23. Foreign Function Interface of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "foreign-function-interface"
 specSection: "236-foreign-contracts"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -232,7 +232,7 @@ ErrCond =
 
 $$
 \begin{array}{l}
-\ \bigwedge \_(P\ \in \ E)\ P\quad \mathsf{if}\ E\ \ne \ \emptyset  \\[0.16em]
+\ \bigwedge \_(P\ \in \ E)\ P\quad \mathsf{if}\ E\ \ne \ \emptyset \\[0.16em]
 \ \texttt{false}\quad \mathsf{otherwise}
 \end{array}
 $$
@@ -272,7 +272,7 @@ $$
 \mathsf{proc}\ =\ \operatorname{ExternProcDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \mathsf{foreign}_{\mathsf{contracts}\_\mathsf{opt}},\ \_,\ \_) \\[0.16em]
 \operatorname{NullResultEnsures}(\mathsf{proc})\ \ne \ []\quad R\ =\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\quad \lnot \ \operatorname{NullableFfiResult}(R) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \mathsf{proc}\ \Uparrow 
+\Gamma \ \vdash \ \mathsf{proc}\ \Uparrow
 \end{array}
 $$
 

@@ -2,16 +2,16 @@
 title: "16.1 Literal and Name Expressions"
 description: "16.1 Literal and Name Expressions from 16. Expressions of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "expressions"
 specSection: "161-literal-and-name-expressions"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -85,7 +85,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{Expr}\ =\ \operatorname{Literal}(\mathsf{lit})\ \mid \ \mathsf{PtrNullExpr}\ \mid \ \operatorname{Identifier}(\mathsf{name})\ \mid \ \operatorname{QualifiedName}(\mathsf{path},\ \mathsf{name})\ \mid \ \operatorname{Path}(\mathsf{path},\ \mathsf{name})\ \mid \ \operatorname{ErrorExpr}(\mathsf{span})\ \mid \ \ldots  \\[0.16em]
+\mathsf{Expr}\ =\ \operatorname{Literal}(\mathsf{lit})\ \mid \ \mathsf{PtrNullExpr}\ \mid \ \operatorname{Identifier}(\mathsf{name})\ \mid \ \operatorname{QualifiedName}(\mathsf{path},\ \mathsf{name})\ \mid \ \operatorname{Path}(\mathsf{path},\ \mathsf{name})\ \mid \ \operatorname{ErrorExpr}(\mathsf{span})\ \mid \ \ldots \\[0.16em]
 \mathsf{ExprSpan}\ :\ \mathsf{Expr}\ \to \ \mathsf{Span}
 \end{array}
 $$
@@ -102,11 +102,11 @@ If neither form resolves, the name-resolution pass rejects the expression.
 $$
 \begin{array}{l}
 \mathsf{ValuePathType}\ :\ \mathsf{Path}\ \times \ \mathsf{Ident}\ \rightharpoonup \ \mathsf{Type} \\[0.16em]
-\operatorname{BuiltinModalStaticSig}(\mathsf{path},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow  \\[0.16em]
-\ (\mathsf{path}\ =\ [\texttt{"Region"}]\ \land \ \mathsf{name}\ =\ \texttt{new\_scoped}\ \land \ \operatorname{RegionProcSig}(\texttt{Region::new\_scoped})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle )\ \lor  \\[0.16em]
+\operatorname{BuiltinModalStaticSig}(\mathsf{path},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \\[0.16em]
+\ (\mathsf{path}\ =\ [\texttt{"Region"}]\ \land \ \mathsf{name}\ =\ \texttt{new\_scoped}\ \land \ \operatorname{RegionProcSig}(\texttt{Region::new\_scoped})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle )\ \lor \\[0.16em]
 \ (\mathsf{path}\ =\ [\texttt{"CancelToken"}]\ \land \ \mathsf{name}\ =\ \texttt{new}\ \land \ \operatorname{BuiltinModalProcSig}(\texttt{CancelToken::new})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle ) \\[0.16em]
 \operatorname{ValuePathType}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{StaticType}(\mathsf{path},\ \mathsf{name})\ \mathsf{if}\ \operatorname{StaticType}(\mathsf{path},\ \mathsf{name})\ \mathsf{defined} \\[0.16em]
-\operatorname{ValuePathType}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{TypeFunc}([\langle \mathsf{mode},\ T\rangle \ \mid \ \langle \mathsf{mode},\ x,\ T\rangle \ \in \ \mathsf{params}],\ \mathsf{ret})\ \mathsf{if}\ \operatorname{BuiltinModalStaticSig}(\mathsf{path},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
+\operatorname{ValuePathType}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{TypeFunc}([\langle \mathsf{mode},\ T\rangle \ \mid \ \langle \mathsf{mode},\ x,\ T\rangle \ \in \ \mathsf{params}],\ \mathsf{ret})\ \mathsf{if}\ \operatorname{BuiltinModalStaticSig}(\mathsf{path},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \\[0.16em]
 \operatorname{ValuePathType}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{TypeFunc}([\langle \mathsf{mode},\ T\rangle \ \mid \ \langle \mathsf{mode},\ x,\ T\rangle \ \in \ \mathsf{params}],\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}}))\ \mathsf{if}\ \operatorname{DeclOf}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \_,\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \_,\ \_,\ \_)\ \land \ \operatorname{TypeParamsOpt}(\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\ =\ [] \\[0.16em]
 \operatorname{ValuePathType}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{TypeFunc}([\langle \mathsf{mode},\ T\rangle \ \mid \ \langle \mathsf{mode},\ x,\ T\rangle \ \in \ \mathsf{params}],\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}}))\ \mathsf{if}\ \operatorname{DeclOf}(\mathsf{path},\ \mathsf{name})\ =\ \operatorname{ExternProcDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{params},\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \_,\ \_,\ \_)
 \end{array}
@@ -133,9 +133,9 @@ $$
 \operatorname{StripIntSuffix}(s)\ =\ \langle s,\ \bot \rangle \ \Leftrightarrow \ \lnot \ \exists \ t.\ s\ =\ \mathsf{core}\ \mathbin{++} \ t\ \land \ t\ \in \ \mathsf{IntSuffixSet}\ \land \ \operatorname{IntCore}(\mathsf{core}) \\[0.16em]
 \operatorname{StripFloatSuffix}(s)\ =\ \langle \mathsf{core},\ t\rangle \ \Leftrightarrow \ s\ =\ \mathsf{core}\ \mathbin{++} \ t\ \land \ t\ \in \ \mathsf{FloatSuffixSet}\ \land \ \operatorname{FloatCore}(\mathsf{core}) \\[0.16em]
 \operatorname{StripFloatSuffix}(s)\ =\ \langle s,\ \bot \rangle \ \Leftrightarrow \ \operatorname{FloatCore}(s)\ \land \ \lnot \ \exists \ t.\ s\ =\ \mathsf{core}\ \mathbin{++} \ t\ \land \ t\ \in \ \mathsf{FloatSuffixSet}\ \land \ \operatorname{FloatCore}(\mathsf{core}) \\[0.16em]
-\operatorname{IntSuffix}(\mathsf{lit})\ =\ t\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\ \land \ \operatorname{StripIntSuffix}(\operatorname{Lexeme}(\mathsf{lit}))\ =\ \langle \_,\ t\rangle  \\[0.16em]
-\operatorname{FloatSuffix}(\mathsf{lit})\ =\ t\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\ \land \ \operatorname{StripFloatSuffix}(\operatorname{Lexeme}(\mathsf{lit}))\ =\ \langle \_,\ t\rangle  \\[0.16em]
-\operatorname{NoFloatSuffix}(\mathsf{lit})\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\ \land \ \operatorname{StripFloatSuffix}(\operatorname{Lexeme}(\mathsf{lit}))\ =\ \langle \_,\ \bot \rangle  \\[0.16em]
+\operatorname{IntSuffix}(\mathsf{lit})\ =\ t\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\ \land \ \operatorname{StripIntSuffix}(\operatorname{Lexeme}(\mathsf{lit}))\ =\ \langle \_,\ t\rangle \\[0.16em]
+\operatorname{FloatSuffix}(\mathsf{lit})\ =\ t\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\ \land \ \operatorname{StripFloatSuffix}(\operatorname{Lexeme}(\mathsf{lit}))\ =\ \langle \_,\ t\rangle \\[0.16em]
+\operatorname{NoFloatSuffix}(\mathsf{lit})\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\ \land \ \operatorname{StripFloatSuffix}(\operatorname{Lexeme}(\mathsf{lit}))\ =\ \langle \_,\ \bot \rangle \\[0.16em]
 \operatorname{IntValueCore}(s)\ =\ v\ \Leftrightarrow \ (s\ =\ \texttt{"0x"}\ \mathbin{++} \ h\ \land \ v\ =\ \operatorname{HexValue}(\operatorname{Digits}(h)))\ \lor \ (s\ =\ \texttt{"0o"}\ \mathbin{++} \ o\ \land \ v\ =\ \operatorname{OctValue}(\operatorname{Digits}(o)))\ \lor \ (s\ =\ \texttt{"0b"}\ \mathbin{++} \ b\ \land \ v\ =\ \operatorname{BinValue}(\operatorname{Digits}(b)))\ \lor \ (s\ \mathsf{matches}\ \texttt{decimal\_integer}\ \land \ v\ =\ \operatorname{DecValue}(\operatorname{Digits}(s))) \\[0.16em]
 \operatorname{IntValue}(\mathsf{lit})\ =\ v\ \Leftrightarrow \ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\ \land \ \operatorname{StripIntSuffix}(\operatorname{Lexeme}(\mathsf{lit}))\ =\ \langle \mathsf{core},\ \_\rangle \ \land \ \operatorname{IntValueCore}(\mathsf{core})\ =\ v \\[0.16em]
 \operatorname{FloatParts}(s)\ =\ \langle a,\ b,\ e\rangle \ \Leftrightarrow \ s\ =\ a\ \mathbin{++} \ \texttt{"."}\ \mathbin{++} \ b\ \mathbin{++} \ \mathsf{exp}\ \land \ (\mathsf{exp}\ =\ \texttt{""}\ \Rightarrow \ e\ =\ 0)\ \land \ (\mathsf{exp}\ \ne \ \texttt{""}\ \Rightarrow \ \mathsf{exp}\ =\ \texttt{"e"}\ \mathbin{++} \ \mathsf{sign}\ \mathbin{++} \ d\ \lor \ \mathsf{exp}\ =\ \texttt{"E"}\ \mathbin{++} \ \mathsf{sign}\ \mathbin{++} \ d)\ \land \ (\mathsf{sign}\ =\ \texttt{""}\ \Rightarrow \ e\ =\ \operatorname{DecValue}(\operatorname{Digits}(d)))\ \land \ (\mathsf{sign}\ =\ \texttt{"+"}\ \Rightarrow \ e\ =\ \operatorname{DecValue}(\operatorname{Digits}(d)))\ \land \ (\mathsf{sign}\ =\ \texttt{"-"}\ \Rightarrow \ e\ =\ -\operatorname{DecValue}(\operatorname{Digits}(d))) \\[0.16em]
@@ -221,7 +221,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{Literal}(\mathsf{lit})\ :\ T \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{Literal}(\mathsf{lit})\ \Rightarrow \ T\ \dashv \ \emptyset 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{Literal}(\mathsf{lit})\ \Rightarrow \ T\ \dashv \ \emptyset
 \end{array}
 $$
 
@@ -235,7 +235,7 @@ $$
 \begin{array}{l}
 \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\quad T\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{IntTypes}\quad \operatorname{InRange}(\operatorname{IntValue}(\mathsf{lit}),\ t) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{Literal}(\mathsf{lit})\ \Leftarrow \ T\ \dashv \ \emptyset 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{Literal}(\mathsf{lit})\ \Leftarrow \ T\ \dashv \ \emptyset
 \end{array}
 $$
 
@@ -245,7 +245,7 @@ $$
 \begin{array}{l}
 \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\quad \operatorname{FloatSuffix}(\mathsf{lit})\ =\ s\quad s\ \in \ \{\texttt{f16},\ \texttt{f32},\ \texttt{f64}\}\quad T\ =\ \operatorname{TypePrim}(s) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{Literal}(\mathsf{lit})\ \Leftarrow \ T\ \dashv \ \emptyset 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{Literal}(\mathsf{lit})\ \Leftarrow \ T\ \dashv \ \emptyset
 \end{array}
 $$
 
@@ -255,7 +255,7 @@ $$
 \begin{array}{l}
 \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\quad (\operatorname{FloatSuffix}(\mathsf{lit})\ =\ \texttt{f}\ \lor \ \operatorname{NoFloatSuffix}(\mathsf{lit}))\quad T\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{FloatTypes} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{Literal}(\mathsf{lit})\ \Leftarrow \ T\ \dashv \ \emptyset 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{Literal}(\mathsf{lit})\ \Leftarrow \ T\ \dashv \ \emptyset
 \end{array}
 $$
 
@@ -265,7 +265,7 @@ $$
 \begin{array}{l}
 \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{NullLiteral}\quad T\ =\ \operatorname{TypeRawPtr}(q,\ U) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{Literal}(\mathsf{lit})\ \Leftarrow \ T\ \dashv \ \emptyset 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{Literal}(\mathsf{lit})\ \Leftarrow \ T\ \dashv \ \emptyset
 \end{array}
 $$
 
@@ -273,35 +273,7 @@ $$
 \operatorname{PtrNullExpected}(T)\ \Leftrightarrow \ T\ =\ \operatorname{TypePtr}(U,\ s)\ \land \ s\ \in \ \{\texttt{Null},\ \bot \}
 $$
 
-**(Chk-Null-Ptr)**
-
-$$
-\begin{array}{l}
-T\ =\ \operatorname{TypePtr}(U,\ s)\quad s\ \in \ \{\texttt{Null},\ \bot \} \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{PtrNullExpr}\ \Leftarrow \ T\ \dashv \ \emptyset 
-\end{array}
-$$
-
-**(Syn-PtrNull-Err)**
-
-$$
-\begin{array}{l}
-c\ =\ \operatorname{Code}(\mathsf{PtrNull}-\mathsf{Infer}-\mathsf{Err}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{PtrNullExpr}\ \Rightarrow \ T\ \dashv \ C\ \Uparrow \ c
-\end{array}
-$$
-
-**(Chk-PtrNull-Err)**
-
-$$
-\begin{array}{l}
-\lnot \ \operatorname{PtrNullExpected}(T)\quad c\ =\ \operatorname{Code}(\mathsf{PtrNull}-\mathsf{Infer}-\mathsf{Err}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{PtrNullExpr}\ \Leftarrow \ T\ \dashv \ C\ \Uparrow \ c
-\end{array}
-$$
+Rules **(Chk-Null-Ptr)**, **(Syn-PtrNull-Err)**, **(Chk-PtrNull-Err)** are defined once by §8.3.
 
 **(T-Ident)**
 
@@ -407,7 +379,49 @@ $$
 \end{array}
 $$
 
-Name and path evaluation MAY panic if the referenced module is poisoned. The poisoned-module cases are defined by `EvalSigma-Ident-Poison`, `EvalSigma-Ident-Poison-RecordCtor`, `EvalSigma-Path-Poison`, and `EvalSigma-Path-Poison-RecordCtor`.
+Name and path evaluation panics if the referenced module is poisoned:
+
+**(EvalSigma-Ident-Poison)**
+
+$$
+\begin{array}{l}
+\operatorname{LookupBind}(\sigma ,\ x)\ \mathsf{undefined}\quad \Gamma \ \vdash \ \operatorname{ResolveValueName}(x)\ \Downarrow \ \mathsf{ent}\quad \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \mathsf{mp}\quad \operatorname{PoisonedModule}(\sigma ,\ \operatorname{PathOfModule}(\mathsf{mp})) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Identifier}(x),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma )
+\end{array}
+$$
+
+**(EvalSigma-Ident-Poison-RecordCtor)**
+
+$$
+\begin{array}{l}
+\operatorname{LookupBind}(\sigma ,\ x)\ \mathsf{undefined}\quad \Gamma \ \vdash \ \operatorname{ResolveValueName}(x)\ \Uparrow \quad \Gamma \ \vdash \ \operatorname{ResolveRecordPath}([],\ x)\ \Downarrow \ p\quad \operatorname{SplitLast}(p)\ =\ (\mathsf{mp},\ \_)\quad \operatorname{PoisonedModule}(\sigma ,\ \mathsf{mp}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Identifier}(x),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma )
+\end{array}
+$$
+
+**(EvalSigma-Path-Poison)**
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveQualified}(\mathsf{path},\ \mathsf{name},\ \mathsf{ValueKind})\ \Downarrow \ \mathsf{ent}\quad \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \mathsf{mp}\quad \operatorname{PoisonedModule}(\sigma ,\ \operatorname{PathOfModule}(\mathsf{mp})) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Path}(\mathsf{path},\ \mathsf{name}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma )
+\end{array}
+$$
+
+**(EvalSigma-Path-Poison-RecordCtor)**
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ResolveQualified}(\mathsf{path},\ \mathsf{name},\ \mathsf{ValueKind})\ \Uparrow \quad \Gamma \ \vdash \ \operatorname{ResolveRecordPath}(\mathsf{path},\ \mathsf{name})\ \Downarrow \ p\quad \operatorname{SplitLast}(p)\ =\ (\mathsf{mp},\ \_)\quad \operatorname{PoisonedModule}(\sigma ,\ \mathsf{mp}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Path}(\mathsf{path},\ \mathsf{name}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma )
+\end{array}
+$$
+
+The panic record carries reason `InitPanic(mp)` per §24.5.2; lowering of the poison check is defined by `CheckPoison` (§24.7.13).
 
 ### 16.1.6 Lowering
 
@@ -417,7 +431,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{ExprType}(\operatorname{Literal}(\ell ))\quad \operatorname{LiteralValue}(\ell ,\ T)\ =\ v \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Literal}(\ell ))\ \Downarrow \ \langle \varepsilon ,\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Literal}(\ell ))\ \Downarrow \ \langle \varepsilon ,\ v\rangle
 \end{array}
 $$
 
@@ -426,7 +440,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{PtrNullExpr})\ \Downarrow \ \langle \varepsilon ,\ \mathsf{Ptr}@\operatorname{Null}(0\mathsf{x0})\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{PtrNullExpr})\ \Downarrow \ \langle \varepsilon ,\ \mathsf{Ptr}@\operatorname{Null}(0\mathsf{x0})\rangle
 \end{array}
 $$
 
@@ -434,9 +448,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ResolveValueName}(x)\ \Downarrow \ \mathsf{ent}\quad \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \bot \quad \Gamma \ \vdash \ \operatorname{LowerReadPlace}(\operatorname{Identifier}(x))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveValueName}(x)\ \Downarrow \ \mathsf{ent}\quad \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \bot \quad \Gamma \ \vdash \ \operatorname{LowerReadPlace}(\operatorname{Identifier}(x))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Identifier}(x))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Identifier}(x))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 
@@ -446,7 +460,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ResolveValueName}(x)\ \Downarrow \ \mathsf{ent}\quad \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \mathsf{mp}\quad \mathsf{name}\ =\ (\mathsf{ent}.\mathsf{target}_{\mathsf{opt}}\ \mathsf{if}\ \mathsf{present},\ \mathsf{else}\ x)\quad \operatorname{PathOfModule}(\mathsf{mp})\ =\ \mathsf{path} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Identifier}(x))\ \Downarrow \ \langle \operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}),\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Identifier}(x))\ \Downarrow \ \langle \operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}),\ v\rangle
 \end{array}
 $$
 
@@ -455,7 +469,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Path}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \langle \operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}),\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Path}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \langle \operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}),\ v\rangle
 \end{array}
 $$
 
@@ -464,7 +478,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{ErrorExpr}(\mathsf{span}))\ \Downarrow \ \langle \operatorname{LowerPanic}(\operatorname{ErrorExpr}(\mathsf{span})),\ v_{\mathsf{unreach}}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{ErrorExpr}(\mathsf{span}))\ \Downarrow \ \langle \operatorname{LowerPanic}(\operatorname{ErrorExpr}(\mathsf{span})),\ v_{\mathsf{unreach}}\rangle
 \end{array}
 $$
 

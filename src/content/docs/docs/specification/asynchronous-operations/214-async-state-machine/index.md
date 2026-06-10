@@ -2,16 +2,16 @@
 title: "21.4 Async State Machine"
 description: "21.4 Async State Machine from 21. Asynchronous Operations of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "asynchronous-operations"
 specSection: "214-async-state-machine"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -38,9 +38,9 @@ Async-state-machine analysis uses the following helper forms:
 $$
 \begin{array}{l}
 \operatorname{SuspendExpr}(e)\ \Leftrightarrow \ e\ =\ \operatorname{YieldExpr}(\_,\ \_)\ \lor \ e\ =\ \operatorname{YieldFromExpr}(\_,\ \_) \\[0.16em]
-\operatorname{AsyncCreateExpr}(\operatorname{Call}(\_,\ \_))\ \Leftrightarrow \ \operatorname{AsyncSig}(\operatorname{ExprType}(\operatorname{Call}(\_,\ \_)))\ \ne \ \bot  \\[0.16em]
-\operatorname{AsyncCreateExpr}(\operatorname{MethodCall}(\_,\ \_,\ \_))\ \Leftrightarrow \ \operatorname{AsyncSig}(\operatorname{ExprType}(\operatorname{MethodCall}(\_,\ \_,\ \_)))\ \ne \ \bot  \\[0.16em]
-\operatorname{AsyncCreateExpr}(\operatorname{RaceExpr}(\_))\ \Leftrightarrow \ \operatorname{AsyncSig}(\operatorname{ExprType}(\operatorname{RaceExpr}(\_)))\ \ne \ \bot  \\[0.16em]
+\operatorname{AsyncCreateExpr}(\operatorname{Call}(\_,\ \_))\ \Leftrightarrow \ \operatorname{AsyncSig}(\operatorname{ExprType}(\operatorname{Call}(\_,\ \_)))\ \ne \ \bot \\[0.16em]
+\operatorname{AsyncCreateExpr}(\operatorname{MethodCall}(\_,\ \_,\ \_))\ \Leftrightarrow \ \operatorname{AsyncSig}(\operatorname{ExprType}(\operatorname{MethodCall}(\_,\ \_,\ \_)))\ \ne \ \bot \\[0.16em]
+\operatorname{AsyncCreateExpr}(\operatorname{RaceExpr}(\_))\ \Leftrightarrow \ \operatorname{AsyncSig}(\operatorname{ExprType}(\operatorname{RaceExpr}(\_)))\ \ne \ \bot \\[0.16em]
 \operatorname{AsyncCreateExpr}(\_)\ \Leftrightarrow \ \mathsf{false} \\[0.16em]
 \operatorname{AsyncCaptureArgs}(\operatorname{Call}(\_,\ \mathsf{args}))\ =\ [e\ \mid \ \langle \_,\ e,\ \_\rangle \ \in \ \mathsf{args}] \\[0.16em]
 \operatorname{AsyncCaptureArgs}(\operatorname{MethodCall}(\mathsf{base},\ \_,\ \mathsf{args}))\ =\ [\mathsf{base}]\ \mathbin{++} \ [e\ \mid \ \langle \_,\ e,\ \_\rangle \ \in \ \mathsf{args}] \\[0.16em]
@@ -92,7 +92,7 @@ $$
 \begin{array}{l}
 \operatorname{AsyncCreateExpr}(e)\quad \operatorname{AsyncCaptureArgs}(e)\ =\ \mathsf{args}\quad \exists \ e_{i}\ \in \ \mathsf{args}.\ \Gamma ;\ \Omega \ \vdash \ e_{i}\ \Downarrow \ \pi_{i} \ \land \ \pi_{i} \ <\ \operatorname{FrameProv}(\Gamma ,\ \Omega ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ \Omega \ \vdash \ e\ \Uparrow 
+\Gamma ;\ \Omega \ \vdash \ e\ \Uparrow
 \end{array}
 $$
 
@@ -100,7 +100,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncCreateExpr}(e)\quad \operatorname{AsyncCaptureArgs}(e)\ =\ \mathsf{args}\quad \forall \ e_{i}\ \in \ \mathsf{args},\ \Gamma ;\ \Omega \ \vdash \ e_{i}\ \Downarrow \ \pi_{i}  \\[0.16em]
+\operatorname{AsyncCreateExpr}(e)\quad \operatorname{AsyncCaptureArgs}(e)\ =\ \mathsf{args}\quad \forall \ e_{i}\ \in \ \mathsf{args},\ \Gamma ;\ \Omega \ \vdash \ e_{i}\ \Downarrow \ \pi_{i} \\[0.16em]
 \forall \ e_{i}\ \in \ \mathsf{args},\ \lnot (\pi_{i} \ <\ \operatorname{FrameProv}(\Gamma ,\ \Omega ))\quad \Gamma \ \vdash \ \operatorname{WarnAsyncCapture}(e)\ \Downarrow \ \mathsf{ok} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ \Omega \ \vdash \ e\ \Downarrow \ \operatorname{FrameProv}(\Gamma ,\ \Omega )
@@ -111,10 +111,10 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{stmt}\ \in \ \{\operatorname{AssignStmt}(p,\ e),\ \operatorname{CompoundAssignStmt}(p,\ \_,\ e)\}\quad \Gamma ;\ \Omega \ \vdash \ p\ \Downarrow \ \pi_{x} \quad \Gamma ;\ \Omega \ \vdash \ e\ \Downarrow \ \pi_{e}  \\[0.16em]
-\pi_{e} \ <\ \pi_{x} \quad \operatorname{AsyncSig}(\operatorname{ExprType}(e))\ \ne \ \bot  \\[0.16em]
+\mathsf{stmt}\ \in \ \{\operatorname{AssignStmt}(p,\ e),\ \operatorname{CompoundAssignStmt}(p,\ \_,\ e)\}\quad \Gamma ;\ \Omega \ \vdash \ p\ \Downarrow \ \pi_{x} \quad \Gamma ;\ \Omega \ \vdash \ e\ \Downarrow \ \pi_{e} \\[0.16em]
+\pi_{e} \ <\ \pi_{x} \quad \operatorname{AsyncSig}(\operatorname{ExprType}(e))\ \ne \ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ \Omega \ \vdash \ \mathsf{stmt}\ \Uparrow 
+\Gamma ;\ \Omega \ \vdash \ \mathsf{stmt}\ \Uparrow
 \end{array}
 $$
 

@@ -2,16 +2,16 @@
 title: "6.1 Authority Model"
 description: "6.1 Authority Model from 6. Abstract Machine, Objects, Responsibility, and Authority of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "abstract-machine-objects-responsibility-and-authority"
 specSection: "61-authority-model"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -26,25 +26,31 @@ The language adopts a no ambient authority discipline: observable external effec
 ### 6.1.1 Capability Universe
 
 $$
-\mathsf{CapToken}\ =\ \{\mathsf{IO},\ \mathsf{Network},\ \mathsf{HeapAllocator},\ \mathsf{Reactor},\ \mathsf{ExecutionDomain},\ \mathsf{System},\ \mathsf{Time}\}
+\mathsf{BuiltinCapabilityClass}\ =\ \{\mathsf{IO},\ \mathsf{Network},\ \mathsf{HeapAllocator},\ \mathsf{Reactor},\ \mathsf{ExecutionDomain},\ \mathsf{System},\ \mathsf{Time},\ \mathsf{MonotonicTime},\ \mathsf{WallTime}\}
 $$
 
 $$
-\mathsf{CapInType}\ :\ \mathsf{Type}\ \to \ \mathcal{P} (\mathsf{CapToken})
+\operatorname{CapClass}(p)\ \Leftrightarrow \ p\ \in \ \mathsf{BuiltinCapabilityClass}\ \lor \ (\operatorname{ClassDecl}(p)\ =\ C\ \land \ \exists \ B\ \in \ \operatorname{SuperclassPaths}(C).\ \operatorname{CapClass}(B))
+$$
+
+$$
+\mathsf{CapabilityClass}\ =\ \{\ p\ \mid \ \operatorname{CapClass}(p)\ \}
+$$
+
+Capability classes are ordinary classes. A user class that declares a capability superclass via `<:` is a capability class; the built-in classes above are the root capability classes.
+
+$$
+\begin{array}{l}
+\mathsf{CapInType}\ :\ \mathsf{Type}\ \to \ \mathcal{P} (\mathsf{CapabilityClass}) \\[0.16em]
+\mathsf{EffectiveCaps}\ :\ \mathsf{Type}\ \to \ \mathcal{P} (\mathsf{CapabilityClass})
+\end{array}
 $$
 
 $$
 \begin{array}{l}
 \operatorname{CapInType}(\operatorname{TypePath}([\texttt{Context}]))\ =\ \{\mathsf{IO},\ \mathsf{Network},\ \mathsf{HeapAllocator},\ \mathsf{Reactor},\ \mathsf{ExecutionDomain},\ \mathsf{System},\ \mathsf{Time}\} \\[0.16em]
-\operatorname{CapInType}(\operatorname{TypePath}([\texttt{System}]))\ =\ \{\mathsf{System}\} \\[0.16em]
-\operatorname{CapInType}(\operatorname{TypeDynamic}([\texttt{IO}]))\ =\ \{\mathsf{IO}\} \\[0.16em]
-\operatorname{CapInType}(\operatorname{TypeDynamic}([\texttt{Network}]))\ =\ \{\mathsf{Network}\} \\[0.16em]
-\operatorname{CapInType}(\operatorname{TypeDynamic}([\texttt{HeapAllocator}]))\ =\ \{\mathsf{HeapAllocator}\} \\[0.16em]
-\operatorname{CapInType}(\operatorname{TypeDynamic}([\texttt{Reactor}]))\ =\ \{\mathsf{Reactor}\} \\[0.16em]
-\operatorname{CapInType}(\operatorname{TypeDynamic}([\texttt{ExecutionDomain}]))\ =\ \{\mathsf{ExecutionDomain}\} \\[0.16em]
-\operatorname{CapInType}(\operatorname{TypeDynamic}([\texttt{Time}]))\ =\ \{\mathsf{Time}\} \\[0.16em]
-\operatorname{CapInType}(\operatorname{TypeDynamic}([\texttt{MonotonicTime}]))\ =\ \{\mathsf{Time}\} \\[0.16em]
-\operatorname{CapInType}(\operatorname{TypeDynamic}([\texttt{WallTime}]))\ =\ \{\mathsf{Time}\} \\[0.16em]
+\operatorname{CapInType}(\operatorname{TypeDynamic}([p]))\ =\ \{p\}\quad \mathsf{if}\ \operatorname{CapClass}(p) \\[0.16em]
+\operatorname{CapInType}(\operatorname{TypeDynamic}([p]))\ =\ \emptyset \quad \mathsf{if}\ \lnot \ \operatorname{CapClass}(p) \\[0.16em]
 \operatorname{CapInType}(\operatorname{TypePerm}(\_,\ T))\ =\ \operatorname{CapInType}(T) \\[0.16em]
 \operatorname{CapInType}(\operatorname{TypeTuple}(\mathsf{Ts}))\ =\ \bigcup \{\operatorname{CapInType}(T)\ \mid \ T\ \in \ \mathsf{Ts}\} \\[0.16em]
 \operatorname{CapInType}(\operatorname{TypeArray}(T,\ \_))\ =\ \operatorname{CapInType}(T) \\[0.16em]
@@ -55,6 +61,26 @@ $$
 CapInType(T) distributes structurally over compound nominal, modal, union, and applied types after alias expansion.
 
 Implementations MAY compute `CapInType` by least fixed-point over nominal and alias expansion. Cycles MUST terminate by memoization or an equivalent visited-node strategy.
+
+$$
+\operatorname{CapUp}(c)\ =\ \{c\}\ \cup \ \bigcup \{\ \operatorname{CapUp}(B)\ \mid \ \operatorname{ClassDecl}(c)\ =\ C\ \land \ B\ \in \ \operatorname{SuperclassPaths}(C)\ \land \ \operatorname{CapClass}(B)\ \}
+$$
+
+$$
+\begin{array}{l}
+\operatorname{CapDerive}(c)\ =\ \{c\}\ \cup \ \operatorname{DeriveSet}(c) \\[0.16em]
+\operatorname{DeriveSet}(\mathsf{Time})\ =\ \{\mathsf{MonotonicTime},\ \mathsf{WallTime}\} \\[0.16em]
+\operatorname{DeriveSet}(c)\ =\ \emptyset \quad \mathsf{for}\ \mathsf{every}\ \mathsf{other}\ \mathsf{built}-\mathsf{in}\ \mathsf{capability}\ \mathsf{class} \\[0.16em]
+\operatorname{DeriveSet}(c)\ =\ \bigcup \{\ \operatorname{CapDerive}(c')\ \mid \ c'\ \in \ \operatorname{CapResultClasses}(c)\ \}\quad \mathsf{for}\ \mathsf{user}\ \mathsf{capability}\ \mathsf{classes} \\[0.16em]
+\operatorname{CapResultClasses}(c)\ =\ \{\ p\ \mid \ \operatorname{CapClass}(p)\ \land \ \operatorname{TypeDynamic}([p])\ \mathsf{occurs}\ \mathsf{in}\ a\ \mathsf{method}\ \mathsf{result}\ \mathsf{type}\ \mathsf{of}\ \operatorname{ClassDecl}(c)\ \}
+\end{array}
+$$
+
+$$
+\operatorname{EffectiveCaps}(T)\ =\ \bigcup \{\ \operatorname{CapUp}(c)\ \cup \ \operatorname{CapDerive}(c)\ \mid \ c\ \in \ \operatorname{CapInType}(T)\ \}
+$$
+
+`CapUp` makes a derived capability satisfy requirements stated against its capability ancestors. `CapDerive` grants what a class's own interface can mint; it generalizes the built-in `Time` derivation of `MonotonicTime` and `WallTime`. Both close under the same least-fixed-point strategy as `CapInType`.
 
 ### 6.1.2 No Ambient Authority Requirements
 
@@ -67,10 +93,15 @@ Implementations MAY compute `CapInType` by least fixed-point over nominal and al
 - a built-in procedure or method whose receiver is a capability value.
 
 $$
-\operatorname{CapReq}(d)\ =\ \bigcup \{\operatorname{CapInType}(T_{i})\ \mid \ T_{i}\ \mathsf{is}\ \mathsf{the}\ \mathsf{type}\ \mathsf{of}\ a\ \mathsf{parameter}\ \mathsf{or}\ \mathsf{receiver}\ \mathsf{of}\ \mathsf{declaration}\ d\}
+\begin{array}{l}
+\operatorname{CapReq}(d)\ =\ \bigcup \{\operatorname{CapInType}(T_{i})\ \mid \ T_{i}\ \mathsf{is}\ \mathsf{the}\ \mathsf{type}\ \mathsf{of}\ a\ \mathsf{parameter}\ \mathsf{or}\ \mathsf{receiver}\ \mathsf{of}\ \mathsf{declaration}\ d\} \\[0.16em]
+\operatorname{EffectiveCapReq}(d)\ =\ \bigcup \{\operatorname{EffectiveCaps}(T_{i})\ \mid \ T_{i}\ \mathsf{is}\ \mathsf{the}\ \mathsf{type}\ \mathsf{of}\ a\ \mathsf{parameter}\ \mathsf{or}\ \mathsf{receiver}\ \mathsf{of}\ \mathsf{declaration}\ d\}
+\end{array}
 $$
 
-For every direct call from `d_src` to `d_tgt`, a conforming implementation MUST reject the program unless `CapReq(d_tgt) ⊆ CapReq(d_src)`.
+For every direct call from `d_src` to `d_tgt`, a conforming implementation MUST reject the program unless `CapReq(d_tgt) ⊆ EffectiveCapReq(d_src)`.
+
+**(NAA-4) User capabilities confer no new root authority.** Constructing a value of a user-defined capability class requires no ambient grant. A user-defined capability class confers authority only through the built-in capability values it encapsulates; every externally observable effect remains gated by NAA-3. Values of user-defined capability classes are subject to the attenuation requirements of §6.1.3 with respect to the capability values they encapsulate.
 
 ### 6.1.3 Attenuation Requirements
 

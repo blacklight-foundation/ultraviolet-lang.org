@@ -2,16 +2,16 @@
 title: "16.5 Cast and Transmute Expressions"
 description: "16.5 Cast and Transmute Expressions from 16. Expressions of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "expressions"
 specSection: "165-cast-and-transmute-expressions"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -69,7 +69,7 @@ $$
 ### 16.5.3 AST Representation / Form
 
 $$
-\mathsf{Expr}\ =\ \operatorname{Cast}(\mathsf{expr},\ \mathsf{type})\ \mid \ \operatorname{TransmuteExpr}(\mathsf{src}_{\mathsf{type}},\ \mathsf{dst}_{\mathsf{type}},\ \mathsf{expr})\ \mid \ \ldots 
+\mathsf{Expr}\ =\ \operatorname{Cast}(\mathsf{expr},\ \mathsf{type})\ \mid \ \operatorname{TransmuteExpr}(\mathsf{src}_{\mathsf{type}},\ \mathsf{dst}_{\mathsf{type}},\ \mathsf{expr})\ \mid \ \ldots
 $$
 
 `Unary("widen", e)` is owned by §13.5.3.
@@ -98,7 +98,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ :\ S\quad \lnot \ \operatorname{CastValid}(S,\ T)\quad c\ =\ \operatorname{Code}(E-\mathsf{SEM}-2528) \\[0.16em]
+\Gamma ;\ R;\ L\ \vdash \ e\ :\ S\quad \lnot \ \operatorname{CastValid}(S,\ T)\quad c\ =\ \operatorname{Code}(T-\mathsf{Cast}-\mathsf{Invalid}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{Cast}(e,\ T)\ \Uparrow \ c
 \end{array}
@@ -146,10 +146,10 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ValidTransmuteTarget}(T)\ \Leftrightarrow  \\[0.16em]
-\ T\ \in \ \{\texttt{i8},\ \texttt{i16},\ \texttt{i32},\ \texttt{i64},\ \texttt{i128},\ \texttt{u8},\ \texttt{u16},\ \texttt{u32},\ \texttt{u64},\ \texttt{u128},\ \texttt{isize},\ \texttt{usize},\ \texttt{f16},\ \texttt{f32},\ \texttt{f64}\}\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypeRawPtr}(\_,\ \_)\ \lor  \\[0.16em]
-\ (T\ =\ \operatorname{TypeArray}(E,\ \_)\ \land \ \operatorname{ValidTransmuteTarget}(E))\ \lor  \\[0.16em]
+\operatorname{ValidTransmuteTarget}(T)\ \Leftrightarrow \\[0.16em]
+\ T\ \in \ \{\texttt{i8},\ \texttt{i16},\ \texttt{i32},\ \texttt{i64},\ \texttt{i128},\ \texttt{u8},\ \texttt{u16},\ \texttt{u32},\ \texttt{u64},\ \texttt{u128},\ \texttt{isize},\ \texttt{usize},\ \texttt{f16},\ \texttt{f32},\ \texttt{f64}\}\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypeRawPtr}(\_,\ \_)\ \lor \\[0.16em]
+\ (T\ =\ \operatorname{TypeArray}(E,\ \_)\ \land \ \operatorname{ValidTransmuteTarget}(E))\ \lor \\[0.16em]
 \ (T\ =\ \operatorname{TypePath}(p)\ \land \ \operatorname{RecordDecl}(p)\ =\ R\ \land \ \operatorname{HasAttribute}(R,\ \texttt{layout(C)})\ \land \ \forall \ f\ \in \ \operatorname{Fields}(R).\ \operatorname{ValidTransmuteTarget}(\operatorname{FieldType}(R,\ f)))
 \end{array}
 $$
@@ -175,7 +175,7 @@ $$
 \operatorname{Mod_w}(x)\ =\ x\ \mathsf{mod}\ 2^w \\[0.16em]
 \operatorname{ToSigned}(w,\ x)\ =\ y\ \Leftrightarrow \ y\ \in \ [-2^\{w-1\},\ 2^\{w-1\}-1]\ \land \ y\ \equiv \ x\ \mathsf{mod}\ 2^w \\[0.16em]
 \operatorname{ToUnsigned}(w,\ x)\ =\ y\ \Leftrightarrow \ y\ \in \ [0,\ 2^w-1]\ \land \ y\ \equiv \ x\ \mathsf{mod}\ 2^w \\[0.16em]
-\mathsf{CodePoint}\ :\ \texttt{char}\ \to \ \mathbb{N}  \\[0.16em]
+\mathsf{CodePoint}\ :\ \texttt{char}\ \to \ \mathbb{N} \\[0.16em]
 \operatorname{IsScalar}(u)\ \Leftrightarrow \ u\ \in \ \mathsf{CharValueRange}
 \end{array}
 $$
@@ -355,9 +355,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerCast}(e,\ T)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerCast}(e,\ T)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Cast}(e,\ T))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Cast}(e,\ T))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 
@@ -365,13 +365,61 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerTransmute}(T_{1},\ T_{2},\ e)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerTransmute}(T_{1},\ T_{2},\ e)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{TransmuteExpr}(T_{1},\ T_{2},\ e))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{TransmuteExpr}(T_{1},\ T_{2},\ e))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 
-`Lower-Cast`, `Lower-Cast-Panic`, `Lower-Transmute`, and `Lower-Transmute-Err` define the runtime bit reinterpretation and panic behavior. `widen` lowering is defined in §13.5.6.
+$$
+\operatorname{CastNeedsCheck}(S,\ T)\ \Leftrightarrow \ (S\ =\ \operatorname{TypePrim}(s)\ \land \ s\ \in \ \mathsf{FloatTypes}\ \land \ T\ =\ \operatorname{TypePrim}(t)\ \land \ t\ \in \ \mathsf{IntTypes})\ \lor \ (S\ =\ \operatorname{TypePrim}(\texttt{"u32"})\ \land \ T\ =\ \operatorname{TypePrim}(\texttt{"char"}))
+$$
+
+**(Lower-Cast)**
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad S\ =\ \operatorname{ExprType}(e)\quad \lnot \ \operatorname{CastNeedsCheck}(S,\ T)\quad v_{r}\ =\ \operatorname{FreshTemp}(\texttt{"cast"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerCast}(e,\ T)\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{CastIR}(S,\ T,\ v,\ v_{r})),\ v_{r}\rangle
+\end{array}
+$$
+
+**(Lower-Cast-Panic)**
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad S\ =\ \operatorname{ExprType}(e)\quad \operatorname{CastNeedsCheck}(S,\ T)\quad v_{r}\ =\ \operatorname{FreshTemp}(\texttt{"cast"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerCast}(e,\ T)\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{CheckCastIR}(S,\ T,\ v),\ \mathsf{PanicCheckIR},\ \operatorname{CastIR}(S,\ T,\ v,\ v_{r})),\ v_{r}\rangle
+\end{array}
+$$
+
+$$
+\operatorname{InvalidPatterns}(T)\ \Leftrightarrow \ \exists \ \mathsf{bits}.\ \mid \mathsf{bits}\mid \ =\ \operatorname{sizeof}(T)\ \land \ \lnot \ \operatorname{ValidValue}(T,\ \mathsf{bits})
+$$
+
+**(Lower-Transmute)**
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \lnot \ \operatorname{InvalidPatterns}(T_{2})\quad v_{r}\ =\ \operatorname{FreshTemp}(\texttt{"transmute"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerTransmute}(T_{1},\ T_{2},\ e)\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{TransmuteIR}(T_{1},\ T_{2},\ v,\ v_{r})),\ v_{r}\rangle
+\end{array}
+$$
+
+**(Lower-Transmute-Err)**
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \operatorname{InvalidPatterns}(T_{2})\quad v_{r}\ =\ \operatorname{FreshTemp}(\texttt{"transmute"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerTransmute}(T_{1},\ T_{2},\ e)\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{CheckTransmuteIR}(T_{2},\ v),\ \mathsf{PanicCheckIR},\ \operatorname{TransmuteIR}(T_{1},\ T_{2},\ v,\ v_{r})),\ v_{r}\rangle
+\end{array}
+$$
+
+`CheckCastIR` panics with reason `Cast` exactly when `CastVal(S, T, v)` is undefined. `CheckTransmuteIR` panics with reason `Cast` exactly when the source bits are not `ValidValue` for `T_2`; this is the runtime counterpart of `W-SAF-0100`. `widen` lowering is defined in §13.5.6.
 
 ### 16.5.7 Diagnostics
 

@@ -2,16 +2,16 @@
 title: "9.2 Vendor Attributes"
 description: "9.2 Vendor Attributes from 9. Attributes and Metadata of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "attributes-and-metadata"
 specSection: "92-vendor-attributes"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -99,6 +99,6 @@ This section introduces no additional lowering rules.
 
 | Code         | Severity | Detection    | Condition                                               |
 | ------------ | -------- | ------------ | ------------------------------------------------------- |
-| `E-CNF-0402` | Error    | Compile-time | Reserved namespace `ultraviolet::...` used by user code |
+| `E-CNF-0402` | Error    | Compile-time | Reserved namespace `ultraviolet::...` used by user code (`Intro-Reserved-Ultraviolet-Err`) |
 
 Unknown attribute-name rejection is owned by §9.1.7.

@@ -2,16 +2,16 @@
 title: "17.4 Range Patterns"
 description: "17.4 Range Patterns from 17. Patterns of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "patterns"
 specSection: "174-range-patterns"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -85,7 +85,7 @@ $$
 \begin{array}{l}
 \operatorname{StripPerm}(T)\ =\ \operatorname{TypePrim}(t)\quad t\ \in \ \mathsf{IntTypes}\quad \operatorname{ConstPatInt}(p_{l})\ =\ n_{l}\quad \operatorname{ConstPatInt}(p_{h})\ =\ n_{h}\quad (\mathsf{kind}\ =\ \texttt{".."}\ \Rightarrow \ n_{l}\ <\ n_{h})\quad (\mathsf{kind}\ =\ \texttt{"..="}\ \Rightarrow \ n_{l}\ \le \ n_{h}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{RangePattern}(\mathsf{kind},\ p_{l},\ p_{h})\ \triangleleft \ T\ \dashv \ \emptyset 
+\Gamma \ \vdash \ \operatorname{RangePattern}(\mathsf{kind},\ p_{l},\ p_{h})\ \triangleleft \ T\ \dashv \ \emptyset
 \end{array}
 $$
 
@@ -121,7 +121,7 @@ $$
 \begin{array}{l}
 \operatorname{ConstPat}(p_{l})\ =\ v_{l}\quad \operatorname{ConstPat}(p_{h})\ =\ v_{h}\quad v_{l}\ \le \ v\ \le \ v_{h} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{MatchPattern}(p_{l}\ \texttt{..=}\ p_{h},\ v)\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{MatchPattern}(p_{l}\ \texttt{..=}\ p_{h},\ v)\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -129,7 +129,7 @@ $$
 \begin{array}{l}
 \operatorname{ConstPat}(p_{l})\ =\ v_{l}\quad \operatorname{ConstPat}(p_{h})\ =\ v_{h}\quad v_{l}\ \le \ v\ <\ v_{h} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{MatchPattern}(p_{l}\ \texttt{..}\ p_{h},\ v)\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{MatchPattern}(p_{l}\ \texttt{..}\ p_{h},\ v)\ \Downarrow \ \emptyset
 \end{array}
 $$
 

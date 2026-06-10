@@ -2,16 +2,16 @@
 title: "18.9 Control-Transfer Statements"
 description: "18.9 Control-Transfer Statements from 18. Statements and Blocks of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "statements-and-blocks"
 specSection: "189-control-transfer-statements"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -84,9 +84,9 @@ $$
 
 $$
 \begin{array}{l}
-R_{b}\ =\ \operatorname{BodyReturnType}(R)\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnDestExpr}(e)\ \Leftarrow \ R_{b}\ \dashv \ \emptyset  \\[0.16em]
+R_{b}\ =\ \operatorname{BodyReturnType}(R)\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnDestExpr}(e)\ \Leftarrow \ R_{b}\ \dashv \ \emptyset \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnStmt}(e)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnStmt}(e)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle
 \end{array}
 $$
 
@@ -96,7 +96,7 @@ $$
 \begin{array}{l}
 R_{b}\ =\ \operatorname{BodyReturnType}(R)\quad R_{b}\ =\ \operatorname{TypePrim}(\texttt{"()"}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnStmt}(\bot )\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnStmt}(\bot )\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle
 \end{array}
 $$
 
@@ -104,7 +104,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnDestExpr}(e)\ :\ T\quad \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ \mathsf{Result})\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0203) \\[0.16em]
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnDestExpr}(e)\ :\ T\quad \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ \mathsf{Result})\quad c\ =\ \operatorname{Code}(\mathsf{Return}-\mathsf{Async}-\mathsf{Type}-\mathsf{Err}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnStmt}(e)\ \Uparrow \ c
 \end{array}
@@ -114,7 +114,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \mathsf{Result}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0203) \\[0.16em]
+\operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \mathsf{Result}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})\quad c\ =\ \operatorname{Code}(\mathsf{Return}-\mathsf{Async}-\mathsf{Unit}-\mathsf{Err}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{ReturnStmt}(\bot )\ \Uparrow \ c
 \end{array}
@@ -146,7 +146,7 @@ $$
 \begin{array}{l}
 L\ =\ \texttt{loop}\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{BreakStmt}(e)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [T],\ \mathsf{false}\rangle 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{BreakStmt}(e)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [T],\ \mathsf{false}\rangle
 \end{array}
 $$
 
@@ -156,7 +156,7 @@ L = `loop`
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{BreakStmt}(\bot )\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{true}\rangle 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{BreakStmt}(\bot )\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{true}\rangle
 \end{array}
 $$
 
@@ -176,7 +176,7 @@ L = `loop`
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \mathsf{ContinueStmt}\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
+\Gamma ;\ R;\ L\ \vdash \ \mathsf{ContinueStmt}\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle
 \end{array}
 $$
 
@@ -269,7 +269,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerReturnDest}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerReturnDest}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{ReturnStmt}(e))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{ReturnIR}(v))
 \end{array}
@@ -288,7 +288,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{BreakStmt}(e))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{BreakIR}(v))
 \end{array}

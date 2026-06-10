@@ -2,16 +2,16 @@
 title: "5.6 ParseFile, Item Sequencing, and Terminators"
 description: "5.6 ParseFile, Item Sequencing, and Terminators from 5. Parsing and AST Infrastructure of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "parsing-and-ast-infrastructure"
 specSection: "56-parsefile-item-sequencing-and-terminators"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -27,7 +27,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{Tokenize}(S)\ \Downarrow \ (K_{\mathsf{raw}},\ D) \\[0.16em]
 K\ =\ \operatorname{Filter}(K_{\mathsf{raw}}) \\[0.16em]
-P_{0}\ =\ \langle K,\ 0,\ D,\ 0,\ 0,\ []\rangle 
+P_{0}\ =\ \langle K,\ 0,\ D,\ 0,\ 0,\ []\rangle
 \end{array}
 $$
 
@@ -37,7 +37,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ParseItems}(P_{0})\ \Downarrow \ (P_{1},\ I,\ \mathsf{MDoc}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParseFile}(S)\ \Downarrow \ \langle S.\mathsf{path},\ I,\ \mathsf{MDoc}\rangle 
+\Gamma \ \vdash \ \operatorname{ParseFile}(S)\ \Downarrow \ \langle S.\mathsf{path},\ I,\ \mathsf{MDoc}\rangle
 \end{array}
 $$
 

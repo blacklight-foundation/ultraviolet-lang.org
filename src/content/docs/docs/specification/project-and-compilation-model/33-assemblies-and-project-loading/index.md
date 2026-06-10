@@ -2,16 +2,16 @@
 title: "3.3 Assemblies and Project Loading"
 description: "3.3 Assemblies and Project Loading from 3. Project and Compilation Model of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "project-and-compilation-model"
 specSection: "33-assemblies-and-project-loading"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -46,7 +46,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ParseManifest}(R)\ \Downarrow \ T \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Start}(R,\ \mathsf{target})\rangle \ \to \ \langle \operatorname{Parsed}(R,\ \mathsf{target},\ T)\rangle 
+\langle \operatorname{Start}(R,\ \mathsf{target})\rangle \ \to \ \langle \operatorname{Parsed}(R,\ \mathsf{target},\ T)\rangle
 \end{array}
 $$
 
@@ -56,7 +56,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ParseManifest}(R)\ \Uparrow \ c \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Start}(R,\ \mathsf{target})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\langle \operatorname{Start}(R,\ \mathsf{target})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle
 \end{array}
 $$
 
@@ -66,7 +66,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ValidateManifest}(T)\ \Downarrow \ \mathsf{ok} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Parsed}(R,\ \mathsf{target},\ T)\rangle \ \to \ \langle \operatorname{Validated}(R,\ \mathsf{target},\ T)\rangle 
+\langle \operatorname{Parsed}(R,\ \mathsf{target},\ T)\rangle \ \to \ \langle \operatorname{Validated}(R,\ \mathsf{target},\ T)\rangle
 \end{array}
 $$
 
@@ -76,7 +76,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ValidateManifest}(T)\ \Uparrow \ c \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Parsed}(R,\ \mathsf{target},\ T)\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\langle \operatorname{Parsed}(R,\ \mathsf{target},\ T)\rangle \ \to \ \langle \operatorname{Error}(c)\rangle
 \end{array}
 $$
 
@@ -87,7 +87,7 @@ $$
 \operatorname{ChecksAsm}(t)\ =\ [\Gamma \ \vdash \ t\ :\ \mathsf{KnownKeys},\ \Gamma \ \vdash \ t\ :\ \mathsf{ReqTypes},\ \Gamma \ \vdash \ t\ :\ \mathsf{OutDirType},\ \Gamma \ \vdash \ t\ :\ \mathsf{EmitIRType},\ \Gamma \ \vdash \ t\ :\ \mathsf{LinkKindType},\ \Gamma \ \vdash \ t.\mathsf{name}\ :\ \mathsf{Name},\ \Gamma \ \vdash \ t.\mathsf{kind}\ :\ \mathsf{Kind},\ \Gamma \ \vdash \ t\ :\ \mathsf{LinkKindField},\ \Gamma \ \vdash \ t.\mathsf{emit}_{\mathsf{ir}}\ :\ \mathsf{EmitIR},\ \Gamma \ \vdash \ t.\mathsf{root}\ :\ \mathsf{RootPath},\ \Gamma \ \vdash \ t.\mathsf{out}_{\mathsf{dir}}\ :\ \mathsf{OutDirPath}] \\[0.16em]
 \operatorname{BaseChecks}(T)\ =\ [\Gamma \ \vdash \ T\ :\ \mathsf{TopKeys},\ \Gamma \ \vdash \ T\ :\ \mathsf{AssemblyTable},\ \Gamma \ \vdash \ T\ :\ \mathsf{AssemblyCount},\ \Gamma \ \vdash \ T\ :\ \mathsf{AssemblyNames}] \\[0.16em]
 \operatorname{AsmChecks}(T)\ = \\[0.16em]
-\ []\ \mathsf{if}\ \operatorname{AsmTables}(T)\ =\ \bot  \\[0.16em]
+\ []\ \mathsf{if}\ \operatorname{AsmTables}(T)\ =\ \bot \\[0.16em]
 \ \mathbin{++} \_\{t\ \in \ \operatorname{AsmTables}(T)\}\ \operatorname{ChecksAsm}(t)\ \mathsf{otherwise} \\[0.16em]
 \operatorname{Checks}(T)\ =\ \operatorname{BaseChecks}(T)\ \mathbin{++} \ \operatorname{AsmChecks}(T)
 \end{array}
@@ -95,9 +95,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{FirstFail}([])\ =\ \bot  \\[0.16em]
+\operatorname{FirstFail}([])\ =\ \bot \\[0.16em]
 \operatorname{FirstFail}(J\mathbin{::} \mathsf{Js})\ =\ c\ \Leftrightarrow \ \Gamma \ \vdash \ J\ \Uparrow \ c \\[0.16em]
-\operatorname{FirstFail}(J\mathbin{::} \mathsf{Js})\ =\ \operatorname{FirstFail}(\mathsf{Js})\ \Leftrightarrow \ \Gamma \ \vdash \ J\ \Downarrow \ \mathsf{ok}
+\operatorname{FirstFail}(J\mathbin{::} \mathsf{Js})\ =\ \operatorname{FirstFail}(\mathsf{Js})\ \Leftrightarrow \ \exists \ r.\ \Gamma \ \vdash \ J\ \Downarrow \ r
 \end{array}
 $$
 
@@ -105,7 +105,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{FirstFail}(\operatorname{Checks}(T))\ =\ \bot  \\[0.16em]
+\operatorname{FirstFail}(\operatorname{Checks}(T))\ =\ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ValidateManifest}(T)\ \Downarrow \ \mathsf{ok}
 \end{array}
@@ -127,7 +127,7 @@ $$
 \begin{array}{l}
 \mathsf{Ts}\ =\ \operatorname{AsmTables}(T) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Validated}(R,\ \mathsf{target},\ T)\rangle \ \to \ \langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ \mathsf{Ts},\ [])\rangle 
+\langle \operatorname{Validated}(R,\ \mathsf{target},\ T)\rangle \ \to \ \langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ \mathsf{Ts},\ [])\rangle
 \end{array}
 $$
 
@@ -137,7 +137,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{BuildAssembly}(R,\ t_{0})\ \Downarrow \ A \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ t_{0}\mathbin{::} \mathsf{ts},\ \mathsf{As})\rangle \ \to \ \langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ \mathsf{ts},\ \mathsf{As}\ \mathbin{++} \ [A])\rangle 
+\langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ t_{0}\mathbin{::} \mathsf{ts},\ \mathsf{As})\rangle \ \to \ \langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ \mathsf{ts},\ \mathsf{As}\ \mathbin{++} \ [A])\rangle
 \end{array}
 $$
 
@@ -147,7 +147,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{BuildAssembly}(R,\ t_{0})\ \Uparrow \ c \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ t_{0}\mathbin{::} \mathsf{ts},\ \mathsf{As})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ t_{0}\mathbin{::} \mathsf{ts},\ \mathsf{As})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle
 \end{array}
 $$
 
@@ -155,9 +155,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{OwnAssemblies}(\mathsf{As})\ \Downarrow \ \mathsf{As}'\quad \Gamma \ \vdash \ \operatorname{SelectAssembly}(\mathsf{As}',\ \mathsf{target})\ \Downarrow \ A_{0}\quad P\ =\ \langle \mathsf{root}\ =\ R,\ \mathsf{assemblies}\ =\ \mathsf{As}',\ \mathsf{assembly}\ =\ A_{0},\ \mathsf{source}_{\mathsf{root}}\ =\ A_{0}.\mathsf{source}_{\mathsf{root}},\ \mathsf{outputs}\ =\ A_{0}.\mathsf{outputs},\ \mathsf{modules}\ =\ A_{0}.\mathsf{modules},\ \mathsf{toolchain}\ =\ \operatorname{ToolchainConfig}(T),\ \mathsf{build}\ =\ \operatorname{BuildConfig}(T)\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{OwnAssemblies}(\mathsf{As})\ \Downarrow \ \mathsf{As}'\quad \Gamma \ \vdash \ \operatorname{SelectAssembly}(\mathsf{As}',\ \mathsf{target})\ \Downarrow \ A_{0}\quad P\ =\ \langle \mathsf{root}\ =\ R,\ \mathsf{assemblies}\ =\ \mathsf{As}',\ \mathsf{assembly}\ =\ A_{0},\ \mathsf{source}_{\mathsf{root}}\ =\ A_{0}.\mathsf{source}_{\mathsf{root}},\ \mathsf{outputs}\ =\ A_{0}.\mathsf{outputs},\ \mathsf{modules}\ =\ A_{0}.\mathsf{modules},\ \mathsf{toolchain}\ =\ \operatorname{ToolchainConfig}(T),\ \mathsf{build}\ =\ \operatorname{BuildConfig}(T)\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ [],\ \mathsf{As})\rangle \ \to \ \langle \operatorname{Discovered}(P)\rangle 
+\langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ [],\ \mathsf{As})\rangle \ \to \ \langle \operatorname{Discovered}(P)\rangle
 \end{array}
 $$
 
@@ -167,7 +167,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{OwnAssemblies}(\mathsf{As})\ \Uparrow \ c \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ [],\ \mathsf{As})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ [],\ \mathsf{As})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle
 \end{array}
 $$
 
@@ -177,7 +177,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{OwnAssemblies}(\mathsf{As})\ \Downarrow \ \mathsf{As}'\quad \Gamma \ \vdash \ \operatorname{SelectAssembly}(\mathsf{As}',\ \mathsf{target})\ \Uparrow \ c \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ [],\ \mathsf{As})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\langle \operatorname{ProjAsmScan}(R,\ \mathsf{target},\ T,\ [],\ \mathsf{As})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle
 \end{array}
 $$
 
@@ -229,7 +229,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{Resolve}(R,\ t.\mathsf{root})\ \Downarrow \ (R',\ S)\quad \Gamma \ \vdash \ S\ :\ \mathsf{SourceRoot}\quad \Gamma \ \vdash \ \operatorname{Modules}(S,\ t.\mathsf{name})\ \Downarrow \ M\quad L\ =\ \mathsf{sort}\_\{\prec_{\mathsf{mod}} \}(M)\quad A\ =\ \langle \mathsf{name}\ =\ t.\mathsf{name},\ \mathsf{kind}\ =\ t.\mathsf{kind},\ \mathsf{link}_{\mathsf{kind}}\ =\ \operatorname{AsmLinkKind}(t.\mathsf{kind},\ t.\mathsf{link}_{\mathsf{kind}}),\ \mathsf{root}\ =\ t.\mathsf{root},\ \mathsf{out}_{\mathsf{dir}}\ =\ t.\mathsf{out}_{\mathsf{dir}},\ \mathsf{emit}_{\mathsf{ir}}\ =\ t.\mathsf{emit}_{\mathsf{ir}},\ \mathsf{source}_{\mathsf{root}}\ =\ S,\ \mathsf{outputs}\ =\ \operatorname{OutputPaths}(R,\ t),\ \mathsf{modules}\ =\ L\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{Resolve}(R,\ t.\mathsf{root})\ \Downarrow \ (R',\ S)\quad \Gamma \ \vdash \ S\ :\ \mathsf{SourceRoot}\quad \Gamma \ \vdash \ \operatorname{Modules}(S,\ t.\mathsf{name})\ \Downarrow \ M\quad L\ =\ \mathsf{sort}\_\{\prec_{\mathsf{mod}} \}(M)\quad A\ =\ \langle \mathsf{name}\ =\ t.\mathsf{name},\ \mathsf{kind}\ =\ t.\mathsf{kind},\ \mathsf{link}_{\mathsf{kind}}\ =\ \operatorname{AsmLinkKind}(t.\mathsf{kind},\ t.\mathsf{link}_{\mathsf{kind}}),\ \mathsf{root}\ =\ t.\mathsf{root},\ \mathsf{out}_{\mathsf{dir}}\ =\ t.\mathsf{out}_{\mathsf{dir}},\ \mathsf{emit}_{\mathsf{ir}}\ =\ t.\mathsf{emit}_{\mathsf{ir}},\ \mathsf{source}_{\mathsf{root}}\ =\ S,\ \mathsf{outputs}\ =\ \operatorname{OutputPaths}(R,\ t),\ \mathsf{modules}\ =\ L\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{BuildAssembly}(R,\ t)\ \Downarrow \ A
 \end{array}
@@ -271,7 +271,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseManifest}(R)\ \Downarrow \ T\quad \Gamma \ \vdash \ \operatorname{ValidateManifest}(T)\ \Downarrow \ \mathsf{ok}\quad \operatorname{AsmTables}(T)\ =\ [t_{1},\ \ldots ,\ t_{n}]\quad \forall \ i,\ \Gamma \ \vdash \ \operatorname{BuildAssembly}(R,\ t_{i})\ \Downarrow \ A_{i}\quad \mathsf{As}\ =\ [A_{1},\ \ldots ,\ A_{n}]\quad \Gamma \ \vdash \ \operatorname{OwnAssemblies}(\mathsf{As})\ \Downarrow \ \mathsf{As}'\quad \Gamma \ \vdash \ \operatorname{SelectAssembly}(\mathsf{As}',\ \mathsf{target})\ \Downarrow \ A_{0}\quad P\ =\ \langle \mathsf{root}\ =\ R,\ \mathsf{assemblies}\ =\ \mathsf{As}',\ \mathsf{assembly}\ =\ A_{0},\ \mathsf{source}_{\mathsf{root}}\ =\ A_{0}.\mathsf{source}_{\mathsf{root}},\ \mathsf{outputs}\ =\ A_{0}.\mathsf{outputs},\ \mathsf{modules}\ =\ A_{0}.\mathsf{modules},\ \mathsf{toolchain}\ =\ \operatorname{ToolchainConfig}(T),\ \mathsf{build}\ =\ \operatorname{BuildConfig}(T)\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseManifest}(R)\ \Downarrow \ T\quad \Gamma \ \vdash \ \operatorname{ValidateManifest}(T)\ \Downarrow \ \mathsf{ok}\quad \operatorname{AsmTables}(T)\ =\ [t_{1},\ \ldots ,\ t_{n}]\quad \forall \ i,\ \Gamma \ \vdash \ \operatorname{BuildAssembly}(R,\ t_{i})\ \Downarrow \ A_{i}\quad \mathsf{As}\ =\ [A_{1},\ \ldots ,\ A_{n}]\quad \Gamma \ \vdash \ \operatorname{OwnAssemblies}(\mathsf{As})\ \Downarrow \ \mathsf{As}'\quad \Gamma \ \vdash \ \operatorname{SelectAssembly}(\mathsf{As}',\ \mathsf{target})\ \Downarrow \ A_{0}\quad P\ =\ \langle \mathsf{root}\ =\ R,\ \mathsf{assemblies}\ =\ \mathsf{As}',\ \mathsf{assembly}\ =\ A_{0},\ \mathsf{source}_{\mathsf{root}}\ =\ A_{0}.\mathsf{source}_{\mathsf{root}},\ \mathsf{outputs}\ =\ A_{0}.\mathsf{outputs},\ \mathsf{modules}\ =\ A_{0}.\mathsf{modules},\ \mathsf{toolchain}\ =\ \operatorname{ToolchainConfig}(T),\ \mathsf{build}\ =\ \operatorname{BuildConfig}(T)\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LoadProject}(R,\ \mathsf{target})\ \Downarrow \ P
 \end{array}
@@ -281,7 +281,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LoadProject}(R,\ \mathsf{target})\ \to *\ \langle \operatorname{Error}(c)\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LoadProject}(R,\ \mathsf{target})\ \to *\ \langle \operatorname{Error}(c)\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LoadProject}(R,\ \mathsf{target})\ \Uparrow \ c
 \end{array}

@@ -2,16 +2,16 @@
 title: "2.6 Diagnostic Rendering"
 description: "2.6 Diagnostic Rendering from 2. Diagnostic Infrastructure of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "diagnostic-infrastructure"
 specSection: "26-diagnostic-rendering"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,8 +24,8 @@ generated: true
 $$
 \begin{array}{l}
 \operatorname{Render}(d)\ = \\[0.16em]
-\ \mathsf{head}\ \mathbin{++} \ \mathsf{msg}\ \mathbin{++} \ \texttt{" @"}\ \mathbin{++} \ \mathsf{loc}\ \mathsf{if}\ d.\mathsf{span}\ \ne \ \bot  \\[0.16em]
-\ \mathsf{head}\ \mathbin{++} \ \mathsf{msg}\quad \mathsf{if}\ d.\mathsf{span}\ =\ \bot 
+\ \mathsf{head}\ \mathbin{++} \ \mathsf{msg}\ \mathbin{++} \ \texttt{" @"}\ \mathbin{++} \ \mathsf{loc}\ \mathsf{if}\ d.\mathsf{span}\ \ne \ \bot \\[0.16em]
+\ \mathsf{head}\ \mathbin{++} \ \mathsf{msg}\quad \mathsf{if}\ d.\mathsf{span}\ =\ \bot
 \end{array}
 $$
 
@@ -33,8 +33,8 @@ head =
 
 $$
 \begin{array}{l}
-\ d.\mathsf{code}\ \mathbin{++} \ \texttt{" ("}\ \mathbin{++} \ \mathsf{sev}\ \mathbin{++} \ \texttt{")"}\ \mathsf{if}\ d.\mathsf{code}\ \ne \ \bot  \\[0.16em]
-\ \mathsf{sev}\quad \mathsf{if}\ d.\mathsf{code}\ =\ \bot 
+\ d.\mathsf{code}\ \mathbin{++} \ \texttt{" ("}\ \mathbin{++} \ \mathsf{sev}\ \mathbin{++} \ \texttt{")"}\ \mathsf{if}\ d.\mathsf{code}\ \ne \ \bot \\[0.16em]
+\ \mathsf{sev}\quad \mathsf{if}\ d.\mathsf{code}\ =\ \bot
 \end{array}
 $$
 sev =
@@ -60,7 +60,7 @@ $$
 \ \mathbin{++} \ \texttt{"  --> "}\ \mathbin{++} \ \mathsf{loc}\ \mathbin{++} \ \texttt{"\textbackslash{}n"} \\[0.16em]
 \ \mathbin{++} \ \mathsf{gutter}\ \mathbin{++} \ \texttt{" | "}\ \mathbin{++} \ \operatorname{SourceLine}(S,\ d.\mathsf{span})\ \mathbin{++} \ \texttt{"\textbackslash{}n"} \\[0.16em]
 \ \mathbin{++} \ \mathsf{gutter}\ \mathbin{++} \ \texttt{" | "}\ \mathbin{++} \ \operatorname{Underline}(d.\mathsf{span}) \\[0.16em]
-\quad \mathsf{if}\ d.\mathsf{span}\ \ne \ \bot \ \land \ \operatorname{S}(d.\mathsf{span}.\mathsf{file})\ \ne \ \bot  \\[0.16em]
+\quad \mathsf{if}\ d.\mathsf{span}\ \ne \ \bot \ \land \ \operatorname{S}(d.\mathsf{span}.\mathsf{file})\ \ne \ \bot \\[0.16em]
 \ \mathsf{head}_{\mathsf{rich}}\ \mathbin{++} \ \mathsf{msg} \\[0.16em]
 \quad \mathsf{otherwise}
 \end{array}
@@ -69,8 +69,8 @@ $$
 $$
 \begin{array}{l}
 \mathsf{head}_{\mathsf{rich}}\ = \\[0.16em]
-\ \mathsf{sev}\ \mathbin{++} \ \texttt{"["}\ \mathbin{++} \ d.\mathsf{code}\ \mathbin{++} \ \texttt{"]"}\ \mathsf{if}\ d.\mathsf{code}\ \ne \ \bot  \\[0.16em]
-\ \mathsf{sev}\quad \mathsf{if}\ d.\mathsf{code}\ =\ \bot 
+\ \mathsf{sev}\ \mathbin{++} \ \texttt{"["}\ \mathbin{++} \ d.\mathsf{code}\ \mathbin{++} \ \texttt{"]"}\ \mathsf{if}\ d.\mathsf{code}\ \ne \ \bot \\[0.16em]
+\ \mathsf{sev}\quad \mathsf{if}\ d.\mathsf{code}\ =\ \bot
 \end{array}
 $$
 

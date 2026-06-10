@@ -2,16 +2,16 @@
 title: "15.6 Postconditions"
 description: "15.6 Postconditions from 15. Procedures and Contracts of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "procedures-and-contracts"
 specSection: "156-postconditions"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -26,6 +26,10 @@ generated: true
 ```text
 postcondition_expr ::= predicate_expr
 contract_intrinsic ::= "@result" | "@entry" "(" expression ")"
+
+(* Contract intrinsics parse in any primary-expression position; `@result`
+   outside a postcondition and `@entry` outside a contract predicate are
+   rejected statically (E-SEM-2806, E-CON-0415, E-CON-0416). *)
 ```
 
 ### 15.6.2 Parsing
@@ -53,14 +57,14 @@ $$
 ### 15.6.3 AST Representation / Form
 
 $$
-\mathsf{Expr}\ =\ \ldots \ \mid \ \mathsf{ContractResult}\ \mid \ \operatorname{ContractEntry}(\mathsf{expr})\ \mid \ \ldots 
+\mathsf{Expr}\ =\ \ldots \ \mid \ \mathsf{ContractResult}\ \mid \ \operatorname{ContractEntry}(\mathsf{expr})\ \mid \ \ldots
 $$
 
 $$
 \begin{array}{l}
-\operatorname{PostconditionOf}(\mathsf{contract}_{\mathsf{opt}})\ =\ \texttt{true}\quad \mathsf{if}\ \mathsf{contract}_{\mathsf{opt}}\ =\ \bot  \\[0.16em]
-\operatorname{PostconditionOf}(\langle \mathsf{pre},\ \mathsf{post}\rangle )\ =\ \texttt{true}\quad \mathsf{if}\ \mathsf{post}\ =\ \bot  \\[0.16em]
-\operatorname{PostconditionOf}(\langle \mathsf{pre},\ \mathsf{post}\rangle )\ =\ \mathsf{post}\quad \mathsf{if}\ \mathsf{post}\ \ne \ \bot 
+\operatorname{PostconditionOf}(\mathsf{contract}_{\mathsf{opt}})\ =\ \texttt{true}\quad \mathsf{if}\ \mathsf{contract}_{\mathsf{opt}}\ =\ \bot \\[0.16em]
+\operatorname{PostconditionOf}(\langle \mathsf{pre},\ \mathsf{post}\rangle )\ =\ \texttt{true}\quad \mathsf{if}\ \mathsf{post}\ =\ \bot \\[0.16em]
+\operatorname{PostconditionOf}(\langle \mathsf{pre},\ \mathsf{post}\rangle )\ =\ \mathsf{post}\quad \mathsf{if}\ \mathsf{post}\ \ne \ \bot
 \end{array}
 $$
 

@@ -2,16 +2,16 @@
 title: "20.2 Execution Domains"
 description: "20.2 Execution Domains from 20. Structured Parallelism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "structured-parallelism"
 specSection: "202-execution-domains"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -61,7 +61,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{GpuMemory}\ =\ \langle \mathsf{GlobalMem},\ \mathsf{SharedMem},\ \mathsf{PrivateMem}\rangle  \\[0.16em]
+\mathsf{GpuMemory}\ =\ \langle \mathsf{GlobalMem},\ \mathsf{SharedMem},\ \mathsf{PrivateMem}\rangle \\[0.16em]
 \mathsf{GlobalMem}\ :\ \mathsf{Addr}\ \rightharpoonup \ \mathsf{Value} \\[0.16em]
 \mathsf{SharedMem}\ :\ \mathsf{WorkgroupId}\ \times \ \mathsf{Addr}\ \rightharpoonup \ \mathsf{Value} \\[0.16em]
 \mathsf{PrivateMem}\ :\ \mathsf{WorkItemId}\ \times \ \mathsf{Addr}\ \rightharpoonup \ \mathsf{Value}
@@ -79,22 +79,22 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ComputeTopologyDispatch}(\mathsf{bounds},\ \mathsf{opts})\ =\ \mathsf{topo}\ \Leftrightarrow  \\[0.16em]
-\ \mathsf{wg}\ =\ \mathsf{if}\ \operatorname{WorkgroupOpt}(\mathsf{opts})\ \ne \ \bot \ \mathsf{then}\ \operatorname{WorkgroupOpt}(\mathsf{opts})\ \mathsf{else}\ \mathsf{DEFAULT}_{\mathsf{GPU}\_\mathsf{WORKGROUP}}\ \land  \\[0.16em]
-\ \mathsf{volume}\ =\ \mathsf{wg}.0\ \times \ \mathsf{wg}.1\ \times \ \mathsf{wg}.2\ \land  \\[0.16em]
-\ \mathsf{groups}\ =\ \operatorname{CeilDiv}(\mid \mathsf{bounds}\mid ,\ \mathsf{volume})\ \land  \\[0.16em]
-\ \mathsf{topo}\ =\ \langle  \\[0.16em]
+\operatorname{ComputeTopologyDispatch}(\mathsf{bounds},\ \mathsf{opts})\ =\ \mathsf{topo}\ \Leftrightarrow \\[0.16em]
+\ \mathsf{wg}\ =\ \mathsf{if}\ \operatorname{WorkgroupOpt}(\mathsf{opts})\ \ne \ \bot \ \mathsf{then}\ \operatorname{WorkgroupOpt}(\mathsf{opts})\ \mathsf{else}\ \mathsf{DEFAULT}_{\mathsf{GPU}\_\mathsf{WORKGROUP}}\ \land \\[0.16em]
+\ \mathsf{volume}\ =\ \mathsf{wg}.0\ \times \ \mathsf{wg}.1\ \times \ \mathsf{wg}.2\ \land \\[0.16em]
+\ \mathsf{groups}\ =\ \operatorname{CeilDiv}(\mid \mathsf{bounds}\mid ,\ \mathsf{volume})\ \land \\[0.16em]
+\ \mathsf{topo}\ =\ \langle \\[0.16em]
 \quad \mathsf{WorkgroupSize}\ :=\ \mathsf{wg}, \\[0.16em]
 \quad \mathsf{NumWorkgroups}\ :=\ (\mathsf{groups},\ 1,\ 1), \\[0.16em]
 \quad \mathsf{GlobalSize}\ :=\ (\mathsf{wg}.0\ \times \ \mathsf{groups},\ \mathsf{wg}.1,\ \mathsf{wg}.2) \\[0.16em]
-\ \rangle 
+\ \rangle
 \end{array}
 $$
 
 **GPU Execution Topology.** Work-items are organized into a 3-dimensional hierarchy of workgroups.
 
 $$
-\mathsf{GpuTopology}\ =\ \langle \mathsf{GlobalSize},\ \mathsf{WorkgroupSize},\ \mathsf{NumWorkgroups}\rangle 
+\mathsf{GpuTopology}\ =\ \langle \mathsf{GlobalSize},\ \mathsf{WorkgroupSize},\ \mathsf{NumWorkgroups}\rangle
 $$
 GlobalSize : (usize, usize, usize)
 WorkgroupSize : (usize, usize, usize)
@@ -123,7 +123,7 @@ $$
 \ \langle \texttt{gpu\_linear\_id},\ [],\ \operatorname{TypePrim}(\texttt{"usize"})\rangle , \\[0.16em]
 \ \langle \texttt{gpu\_barrier},\ [],\ \operatorname{TypePrim}(\texttt{"()"})\rangle , \\[0.16em]
 \ \langle \texttt{gpu\_memory\_barrier},\ [],\ \operatorname{TypePrim}(\texttt{"()"})\rangle , \\[0.16em]
-\ \langle \texttt{gpu\_workgroup\_barrier},\ [],\ \operatorname{TypePrim}(\texttt{"()"})\rangle  \\[0.16em]
+\ \langle \texttt{gpu\_workgroup\_barrier},\ [],\ \operatorname{TypePrim}(\texttt{"()"})\rangle \\[0.16em]
 \}
 \end{array}
 $$
@@ -133,15 +133,15 @@ $$
 $$
 
 $$
-\mathsf{GpuState}\ =\ \langle \mathsf{Topology},\ \mathsf{GlobalMem},\ \mathsf{WorkgroupStates}\rangle 
+\mathsf{GpuState}\ =\ \langle \mathsf{Topology},\ \mathsf{GlobalMem},\ \mathsf{WorkgroupStates}\rangle
 $$
 
 $$
-\mathsf{WorkgroupState}\ =\ \langle \mathsf{SharedMem},\ \mathsf{WorkItems},\ \mathsf{BarrierCount}\rangle 
+\mathsf{WorkgroupState}\ =\ \langle \mathsf{SharedMem},\ \mathsf{WorkItems},\ \mathsf{BarrierCount}\rangle
 $$
 
 $$
-\mathsf{GpuWorkItem}\ =\ \langle \mathsf{id},\ \mathsf{local}_{\mathsf{id}},\ \mathsf{workgroup}_{\mathsf{id}},\ \mathsf{expr},\ \mathsf{captures},\ \mathsf{status},\ \mathsf{private}_{\mathsf{mem}}\rangle 
+\mathsf{GpuWorkItem}\ =\ \langle \mathsf{id},\ \mathsf{local}_{\mathsf{id}},\ \mathsf{workgroup}_{\mathsf{id}},\ \mathsf{expr},\ \mathsf{captures},\ \mathsf{status},\ \mathsf{private}_{\mathsf{mem}}\rangle
 $$
 
 $$
@@ -201,15 +201,14 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ProhibitedGpuType}(T)\ \Leftrightarrow  \\[0.16em]
-\ T\ =\ \operatorname{TypeDynamic}(\_)\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypePath}([\texttt{"Context"}])\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypePath}([\texttt{"System"}])\ \lor  \\[0.16em]
-\ \operatorname{IsCapabilityType}(T)\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypeString}(\texttt{@Managed})\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypeBytes}(\texttt{@Managed})\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypePtr}(\_,\ \texttt{@Valid})\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypeModalState}(\_,\ \_)\ \lor  \\[0.16em]
+\operatorname{ProhibitedGpuType}(T)\ \Leftrightarrow \\[0.16em]
+\ T\ =\ \operatorname{TypeDynamic}(\_)\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypePath}([\texttt{"Context"}])\ \lor \\[0.16em]
+\ \operatorname{IsCapabilityType}(T)\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypeString}(\texttt{@Managed})\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypeBytes}(\texttt{@Managed})\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypePtr}(\_,\ \texttt{@Valid})\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypeModalState}(\_,\ \_)\ \lor \\[0.16em]
 \ \operatorname{ModalRefType}(T)
 \end{array}
 $$
@@ -320,7 +319,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ProhibitedGpuType}(T)\quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-2640) \\[0.16em]
+\operatorname{ProhibitedGpuType}(T)\quad c\ =\ \operatorname{Code}(\mathsf{GpuSafeType}-\mathsf{Err}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{GpuSafeType}(T)\ \Uparrow \ c
 \end{array}
@@ -330,7 +329,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \exists \ f\ :\ T_{f}\ \in \ \operatorname{Fields}(R).\ \Gamma \ \vdash \ \operatorname{GpuSafeType}(T_{f})\ \Uparrow \quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-2640) \\[0.16em]
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \exists \ f\ :\ T_{f}\ \in \ \operatorname{Fields}(R).\ \Gamma \ \vdash \ \operatorname{GpuSafeType}(T_{f})\ \Uparrow \quad c\ =\ \operatorname{Code}(\mathsf{GpuSafe}-\mathsf{Record}-\mathsf{Field}-\mathsf{Err}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{GpuSafeType}(T)\ \Uparrow \ c
 \end{array}
@@ -340,7 +339,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}(p)\quad (\operatorname{RecordDecl}(p)\ =\ R\ \lor \ \operatorname{EnumDecl}(p)\ =\ E)\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(\_.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \mathsf{params}_{\mathsf{gen}}\ \ne \ []\quad \lnot \ \operatorname{GpuSafePredicateClauseOk}(\mathsf{params}_{\mathsf{gen}},\ \_.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}})\quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-2642) \\[0.16em]
+T\ =\ \operatorname{TypePath}(p)\quad (\operatorname{RecordDecl}(p)\ =\ R\ \lor \ \operatorname{EnumDecl}(p)\ =\ E)\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(\_.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \mathsf{params}_{\mathsf{gen}}\ \ne \ []\quad \lnot \ \operatorname{GpuSafePredicateClauseOk}(\mathsf{params}_{\mathsf{gen}},\ \_.\mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}})\quad c\ =\ \operatorname{Code}(\mathsf{GpuSafe}-\mathsf{Generic}-\mathsf{Unbounded}-\mathsf{Err}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{GpuSafeType}(T)\ \Uparrow \ c
 \end{array}
@@ -370,7 +369,7 @@ $$
 
 $$
 \begin{array}{l}
-\lnot \operatorname{GpuContext}(\Gamma )\quad \mathsf{name}\ \in \ \mathsf{GpuIntrinsicNames}\ \setminus \ \{\texttt{gpu\_barrier},\ \texttt{gpu\_memory\_barrier},\ \texttt{gpu\_workgroup\_barrier}\}\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0154) \\[0.16em]
+\lnot \operatorname{GpuContext}(\Gamma )\quad \mathsf{name}\ \in \ \mathsf{GpuIntrinsicNames}\ \setminus \ \{\texttt{gpu\_barrier},\ \texttt{gpu\_memory\_barrier},\ \texttt{gpu\_workgroup\_barrier}\}\quad c\ =\ \operatorname{Code}(\mathsf{GpuIntrinsic}-\mathsf{Outside}-\mathsf{Err}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Call}(\operatorname{PathExpr}([\mathsf{name}]),\ [])\ \Uparrow \ c
 \end{array}
@@ -403,9 +402,9 @@ Inline-domain semantics:
 
 $$
 \begin{array}{l}
-\operatorname{GpuMemVisible}(\mathsf{addr},\ S,\ \mathsf{wg},\ \mathsf{wi})\ \Leftrightarrow  \\[0.16em]
-\ (S\ =\ \mathsf{Global})\ \lor  \\[0.16em]
-\ (S\ =\ \mathsf{Shared}\ \land \ \operatorname{WorkgroupOf}(\mathsf{wi})\ =\ \mathsf{wg})\ \lor  \\[0.16em]
+\operatorname{GpuMemVisible}(\mathsf{addr},\ S,\ \mathsf{wg},\ \mathsf{wi})\ \Leftrightarrow \\[0.16em]
+\ (S\ =\ \mathsf{Global})\ \lor \\[0.16em]
+\ (S\ =\ \mathsf{Shared}\ \land \ \operatorname{WorkgroupOf}(\mathsf{wi})\ =\ \mathsf{wg})\ \lor \\[0.16em]
 \ (S\ =\ \mathsf{Private}\ \land \ \mathsf{wi}\ =\ \mathsf{CurrentWorkItem})
 \end{array}
 $$
@@ -424,7 +423,7 @@ $$
 
 $$
 \begin{array}{l}
-G[\mathsf{gpu}_{\mathsf{workitem}}]\ =\ \mathsf{wi}\quad G[\mathsf{gpu}_{\mathsf{workgroup}}]\ =\ \mathsf{wg}\quad \lnot \operatorname{GpuMemVisible}(\mathsf{addr},\ S,\ \mathsf{wg},\ \mathsf{wi})\quad c\ =\ \operatorname{Code}(E-\mathsf{CON}-0150) \\[0.16em]
+G[\mathsf{gpu}_{\mathsf{workitem}}]\ =\ \mathsf{wi}\quad G[\mathsf{gpu}_{\mathsf{workgroup}}]\ =\ \mathsf{wg}\quad \lnot \operatorname{GpuMemVisible}(\mathsf{addr},\ S,\ \mathsf{wg},\ \mathsf{wi})\quad c\ =\ \operatorname{Code}(\mathsf{GpuPtr}-\mathsf{Deref}-\mathsf{Err}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 G\ \vdash \ \operatorname{Deref}(\operatorname{GpuPtr}(\mathsf{addr},\ S))\ \Uparrow \ c
 \end{array}
@@ -432,11 +431,11 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{TopologyValid}(\mathsf{topo})\ \Leftrightarrow  \\[0.16em]
-\ \mathsf{topo}.\mathsf{WorkgroupSize}.0\ >\ 0\ \land \ \mathsf{topo}.\mathsf{WorkgroupSize}.1\ >\ 0\ \land \ \mathsf{topo}.\mathsf{WorkgroupSize}.2\ >\ 0\ \land  \\[0.16em]
-\ \mathsf{topo}.\mathsf{WorkgroupSize}.0\ \times \ \mathsf{topo}.\mathsf{WorkgroupSize}.1\ \times \ \mathsf{topo}.\mathsf{WorkgroupSize}.2\ \le \ \mathsf{MAX}_{\mathsf{WORKGROUP}\_\mathsf{SIZE}}\ \land  \\[0.16em]
-\ \mathsf{topo}.\mathsf{GlobalSize}.0\ =\ \mathsf{topo}.\mathsf{WorkgroupSize}.0\ \times \ \mathsf{topo}.\mathsf{NumWorkgroups}.0\ \land  \\[0.16em]
-\ \mathsf{topo}.\mathsf{GlobalSize}.1\ =\ \mathsf{topo}.\mathsf{WorkgroupSize}.1\ \times \ \mathsf{topo}.\mathsf{NumWorkgroups}.1\ \land  \\[0.16em]
+\operatorname{TopologyValid}(\mathsf{topo})\ \Leftrightarrow \\[0.16em]
+\ \mathsf{topo}.\mathsf{WorkgroupSize}.0\ >\ 0\ \land \ \mathsf{topo}.\mathsf{WorkgroupSize}.1\ >\ 0\ \land \ \mathsf{topo}.\mathsf{WorkgroupSize}.2\ >\ 0\ \land \\[0.16em]
+\ \mathsf{topo}.\mathsf{WorkgroupSize}.0\ \times \ \mathsf{topo}.\mathsf{WorkgroupSize}.1\ \times \ \mathsf{topo}.\mathsf{WorkgroupSize}.2\ \le \ \mathsf{MAX}_{\mathsf{WORKGROUP}\_\mathsf{SIZE}}\ \land \\[0.16em]
+\ \mathsf{topo}.\mathsf{GlobalSize}.0\ =\ \mathsf{topo}.\mathsf{WorkgroupSize}.0\ \times \ \mathsf{topo}.\mathsf{NumWorkgroups}.0\ \land \\[0.16em]
+\ \mathsf{topo}.\mathsf{GlobalSize}.1\ =\ \mathsf{topo}.\mathsf{WorkgroupSize}.1\ \times \ \mathsf{topo}.\mathsf{NumWorkgroups}.1\ \land \\[0.16em]
 \ \mathsf{topo}.\mathsf{GlobalSize}.2\ =\ \mathsf{topo}.\mathsf{WorkgroupSize}.2\ \times \ \mathsf{topo}.\mathsf{NumWorkgroups}.2
 \end{array}
 $$
@@ -536,7 +535,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MethodCall}(\mathsf{ctx},\ \texttt{cpu},\ \mathsf{args}))\ \Downarrow \ \langle \operatorname{CpuDomainIR}(\mathsf{args}),\ \operatorname{CpuDomainVal}(\mathsf{args})\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MethodCall}(\mathsf{ctx},\ \texttt{cpu},\ \mathsf{args}))\ \Downarrow \ \langle \operatorname{CpuDomainIR}(\mathsf{args}),\ \operatorname{CpuDomainVal}(\mathsf{args})\rangle
 \end{array}
 $$
 
@@ -545,7 +544,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MethodCall}(\mathsf{ctx},\ \texttt{gpu},\ []))\ \Downarrow \ \langle \mathsf{GpuDomainIR},\ \mathsf{GpuDomainVal}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MethodCall}(\mathsf{ctx},\ \texttt{gpu},\ []))\ \Downarrow \ \langle \mathsf{GpuDomainIR},\ \mathsf{GpuDomainVal}\rangle
 \end{array}
 $$
 
@@ -554,7 +553,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MethodCall}(\mathsf{ctx},\ \texttt{inline},\ []))\ \Downarrow \ \langle \mathsf{InlineDomainIR},\ \mathsf{InlineDomainVal}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MethodCall}(\mathsf{ctx},\ \texttt{inline},\ []))\ \Downarrow \ \langle \mathsf{InlineDomainIR},\ \mathsf{InlineDomainVal}\rangle
 \end{array}
 $$
 
@@ -562,9 +561,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(D)\ \Downarrow \ \langle \mathsf{IR}_{d},\ v_{d}\rangle \quad \operatorname{IsGpuDomain}(v_{d})\quad \Gamma \ \vdash \ \operatorname{LowerBlock}(B)\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(D)\ \Downarrow \ \langle \mathsf{IR}_{d},\ v_{d}\rangle \quad \operatorname{IsGpuDomain}(v_{d})\quad \Gamma \ \vdash \ \operatorname{LowerBlock}(B)\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{ParallelExpr}(D,\ \mathsf{opts},\ B))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{d},\ \operatorname{KernelLaunchIR}(v_{d},\ \mathsf{opts}),\ \operatorname{GpuDispatchIR}(\mathsf{IR}_{b}),\ \mathsf{ParallelJoin}),\ v_{b}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{ParallelExpr}(D,\ \mathsf{opts},\ B))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{d},\ \operatorname{KernelLaunchIR}(v_{d},\ \mathsf{opts}),\ \operatorname{GpuDispatchIR}(\mathsf{IR}_{b}),\ \mathsf{ParallelJoin}),\ v_{b}\rangle
 \end{array}
 $$
 
@@ -573,7 +572,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Call}(\operatorname{PathExpr}([\texttt{gpu\_barrier}]),\ []))\ \Downarrow \ \langle \operatorname{GpuBarrierIR}(\texttt{full}),\ \mathsf{UnitVal}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Call}(\operatorname{PathExpr}([\texttt{gpu\_barrier}]),\ []))\ \Downarrow \ \langle \operatorname{GpuBarrierIR}(\texttt{full}),\ \mathsf{UnitVal}\rangle
 \end{array}
 $$
 
@@ -581,13 +580,13 @@ $$
 
 | Code         | Severity | Detection    | Condition                                          |
 | ------------ | -------- | ------------ | -------------------------------------------------- |
-| `E-CON-0150` | Error    | Compile-time | Host/heap memory access in GPU code                |
-| `E-CON-0154` | Error    | Compile-time | GPU intrinsic outside GPU context                  |
+| `E-CON-0150` | Error    | Compile-time | Host/heap memory access in GPU code (`GpuPtr-Deref-Err`) |
+| `E-CON-0154` | Error    | Compile-time | GPU intrinsic outside GPU context (`GpuIntrinsic-Outside-Err`) |
 | `E-CON-0155` | Error    | Compile-time | Key block in GPU context                           |
-| `E-CON-0156` | Error    | Compile-time | Barrier outside workgroup context                  |
-| `E-CON-0157` | Error    | Compile-time | Workgroup size exceeds device limit                |
+| `E-CON-0156` | Error    | Compile-time | Barrier outside workgroup context (`Barrier-Outside-Err`) |
+| `E-CON-0157` | Error    | Compile-time | Workgroup size exceeds device limit (`WorkgroupSize-Err`) |
 | `E-CON-0158` | Error    | Compile-time | Non-uniform control flow at barrier                |
 | `E-CON-0159` | Error    | Compile-time | Invalid `dim3_const` in GPU topology option        |
-| `E-TYP-2640` | Error    | Compile-time | Type not `GpuSafeType`                             |
-| `E-TYP-2641` | Error    | Compile-time | `GpuPtr` address space mismatch                    |
-| `E-TYP-2642` | Error    | Compile-time | Generic `GpuSafeType` with unconstrained parameter |
+| `E-TYP-2640` | Error    | Compile-time | Type not `GpuSafeType` (`GpuSafeType-Err`, `GpuSafe-Record-Field-Err`) |
+| `E-TYP-2641` | Error    | Compile-time | `GpuPtr` address space mismatch (`GpuPtr-AddrSpace-Err`) |
+| `E-TYP-2642` | Error    | Compile-time | Generic `GpuSafeType` with unconstrained parameter (`GpuSafe-Generic-Unbounded-Err`) |

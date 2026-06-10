@@ -2,16 +2,16 @@
 title: "22.4 Quote, Splice, and Emission"
 description: "22.4 Quote, Splice, and Emission from 22. Compile-Time Execution and Metaprogramming of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "compile-time-execution-and-metaprogramming"
 specSection: "224-quote-splice-and-emission"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -30,6 +30,10 @@ quote_pattern  ::= "quote" "pattern" "{" pattern "}"
 quoted_content ::= expression | statement | top_level_item
 splice_expr    ::= "$(" expression ")"
 splice_ident   ::= "$" identifier
+
+(* Splice forms parse in any primary-expression position; use outside quoted
+   content is rejected statically (E-CTE-0233). Within quoted content,
+   `splice_ident` is additionally admitted wherever `identifier` is admitted. *)
 ```
 
 ### 22.4.2 Parsing
@@ -92,7 +96,7 @@ $$
 \begin{array}{l}
 \mathsf{QuotedBody}\ =\ \operatorname{QuotedRaw}(\mathsf{tokens})\ \mid \ \operatorname{QuotedResolved}(\mathsf{kind},\ \mathsf{payload}) \\[0.16em]
 \mathsf{SpliceNode}\ =\ \operatorname{SpliceExprNode}(\mathsf{expr},\ \mathsf{span})\ \mid \ \operatorname{SpliceIdentNode}(\mathsf{name}_{\mathsf{expr}},\ \mathsf{span}) \\[0.16em]
-\mathsf{Hygiene}\ =\ \langle \mathsf{quote}_{\mathsf{site}},\ \mathsf{emit}_{\mathsf{site}},\ \mathsf{mark}\rangle 
+\mathsf{Hygiene}\ =\ \langle \mathsf{quote}_{\mathsf{site}},\ \mathsf{emit}_{\mathsf{site}},\ \mathsf{mark}\rangle
 \end{array}
 $$
 `quote_site` is the lexical origin of the quoted fragment. `emit_site` is the insertion site at which the fragment becomes part of the expanded program. `HygienizeAst` is applied when a quoted `Ast` fragment is inserted into the expanded program.
@@ -108,7 +112,7 @@ $$
 \operatorname{ExpectedAstKind}(\operatorname{TypePath}([\texttt{Ast},\ \texttt{Item}]))\ =\ \texttt{Item} \\[0.16em]
 \operatorname{ExpectedAstKind}(\operatorname{TypePath}([\texttt{Ast},\ \texttt{Type}]))\ =\ \texttt{Type} \\[0.16em]
 \operatorname{ExpectedAstKind}(\operatorname{TypePath}([\texttt{Ast},\ \texttt{Pattern}]))\ =\ \texttt{Pattern} \\[0.16em]
-\operatorname{ExpectedAstKind}(\operatorname{TypePath}([\texttt{Ast}]))\ =\ \bot 
+\operatorname{ExpectedAstKind}(\operatorname{TypePath}([\texttt{Ast}]))\ =\ \bot
 \end{array}
 $$
 
@@ -143,8 +147,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ResolveQuoteKind}(\operatorname{QuoteNode}(\mathsf{kind},\ \mathsf{body},\ \mathsf{span}),\ T_{\mathsf{exp}})\ =\ \mathsf{kind}\quad \mathsf{if}\ \mathsf{kind}\ \ne \ \bot  \\[0.16em]
-\operatorname{ResolveQuoteKind}(\operatorname{QuoteNode}(\bot ,\ \mathsf{body},\ \mathsf{span}),\ T_{\mathsf{exp}})\ =\ \mathsf{kind}\quad \mathsf{if}\ \operatorname{ExpectedAstKind}(T_{\mathsf{exp}})\ =\ \mathsf{kind}\ \land \ \mathsf{kind}\ \ne \ \bot  \\[0.16em]
+\operatorname{ResolveQuoteKind}(\operatorname{QuoteNode}(\mathsf{kind},\ \mathsf{body},\ \mathsf{span}),\ T_{\mathsf{exp}})\ =\ \mathsf{kind}\quad \mathsf{if}\ \mathsf{kind}\ \ne \ \bot \\[0.16em]
+\operatorname{ResolveQuoteKind}(\operatorname{QuoteNode}(\bot ,\ \mathsf{body},\ \mathsf{span}),\ T_{\mathsf{exp}})\ =\ \mathsf{kind}\quad \mathsf{if}\ \operatorname{ExpectedAstKind}(T_{\mathsf{exp}})\ =\ \mathsf{kind}\ \land \ \mathsf{kind}\ \ne \ \bot \\[0.16em]
 \operatorname{ResolveQuoteKind}(\operatorname{QuoteNode}(\bot ,\ \mathsf{body},\ \mathsf{span}),\ T_{\mathsf{exp}})\ =\ \mathsf{kind}\quad \mathsf{if}\ \operatorname{ExpectedAstKind}(T_{\mathsf{exp}})\ =\ \bot \ \land \ \texttt{kind}\ \mathsf{is}\ \mathsf{the}\ \mathsf{unique}\ \mathsf{member}\ \mathsf{of}\ \{\texttt{Expr},\ \texttt{Stmt},\ \texttt{Item}\}\ \mathsf{for}\ \mathsf{which}\ \texttt{ParseQuotedBody(kind, body)}\ \mathsf{succeeds}
 \end{array}
 $$

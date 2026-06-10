@@ -2,16 +2,16 @@
 title: "14.9 Capability Classes"
 description: "14.9 Capability Classes from 14. Abstraction and Polymorphism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "abstraction-and-polymorphism"
 specSection: "149-capability-classes"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -31,11 +31,10 @@ Capability classes have no feature-specific parser beyond ordinary class parsing
 
 ### 14.9.3 AST Representation / Form
 
+The capability-class universe is open and defined by `CapClass` in §6.1.1: the built-in root capability classes are `IO`, `Network`, `HeapAllocator`, `ExecutionDomain`, `System`, `Reactor`, `Time`, `MonotonicTime`, and `WallTime`, and user classes that declare a capability superclass via `<:` are capability classes.
+
 $$
-\begin{array}{l}
-\mathsf{CapClass}\ =\ \{\texttt{IO},\ \texttt{Network},\ \texttt{HeapAllocator},\ \texttt{ExecutionDomain},\ \texttt{Reactor},\ \texttt{Time},\ \texttt{MonotonicTime},\ \texttt{WallTime}\} \\[0.16em]
 \operatorname{CapType}(\mathsf{Cl})\ =\ \operatorname{TypeDynamic}(\mathsf{Cl})
-\end{array}
 $$
 
 IOInterface =
@@ -58,7 +57,7 @@ $$
 \ \langle \texttt{"create\_dir"},\ \texttt{const},\ [\langle \bot ,\ \texttt{path},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeApply}([\texttt{"Outcome"}],\ [\operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePath}([\texttt{"IoError"}])])\rangle , \\[0.16em]
 \ \langle \texttt{"ensure\_dir"},\ \texttt{const},\ [\langle \bot ,\ \texttt{path},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeApply}([\texttt{"Outcome"}],\ [\operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePath}([\texttt{"IoError"}])])\rangle , \\[0.16em]
 \ \langle \texttt{"kind"},\ \texttt{const},\ [\langle \bot ,\ \texttt{path},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeUnion}([\operatorname{TypePath}([\texttt{"FileKind"}]),\ \operatorname{TypePath}([\texttt{"IoError"}])])\rangle , \\[0.16em]
-\ \langle \texttt{"restrict"},\ \texttt{const},\ [\langle \bot ,\ \texttt{path},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeDynamic}(\texttt{IO})\rangle  \\[0.16em]
+\ \langle \texttt{"restrict"},\ \texttt{const},\ [\langle \bot ,\ \texttt{path},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeDynamic}(\texttt{IO})\rangle \\[0.16em]
 \}
 \end{array}
 $$
@@ -68,7 +67,7 @@ NetworkInterface =
 
 $$
 \begin{array}{l}
-\ \langle \texttt{"restrict\_to\_host"},\ \texttt{const},\ [\langle \bot ,\ \texttt{host},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeDynamic}(\texttt{Network})\rangle  \\[0.16em]
+\ \langle \texttt{"restrict\_to\_host"},\ \texttt{const},\ [\langle \bot ,\ \texttt{host},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeDynamic}(\texttt{Network})\rangle \\[0.16em]
 \}
 \end{array}
 $$
@@ -80,7 +79,7 @@ $$
 \begin{array}{l}
 \ \langle \texttt{"with\_quota"},\ \texttt{const},\ [\langle \bot ,\ \texttt{size},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle ],\ \operatorname{TypeDynamic}(\texttt{HeapAllocator})\rangle , \\[0.16em]
 \ \langle \texttt{"alloc\_raw"},\ \texttt{const},\ [\langle \bot ,\ \texttt{count},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle ],\ \operatorname{TypeRawPtr}(\texttt{mut},\ \operatorname{TypePrim}(\texttt{"u8"}))\rangle , \\[0.16em]
-\ \langle \texttt{"dealloc\_raw"},\ \texttt{const},\ [\langle \bot ,\ \texttt{ptr},\ \operatorname{TypeRawPtr}(\texttt{mut},\ \operatorname{TypePrim}(\texttt{"u8"}))\rangle ,\ \langle \bot ,\ \texttt{count},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle ],\ \operatorname{TypePrim}(\texttt{"()"})\rangle  \\[0.16em]
+\ \langle \texttt{"dealloc\_raw"},\ \texttt{const},\ [\langle \bot ,\ \texttt{ptr},\ \operatorname{TypeRawPtr}(\texttt{mut},\ \operatorname{TypePrim}(\texttt{"u8"}))\rangle ,\ \langle \bot ,\ \texttt{count},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle ],\ \operatorname{TypePrim}(\texttt{"()"})\rangle \\[0.16em]
 \}
 \end{array}
 $$
@@ -91,7 +90,7 @@ TimeInterface =
 $$
 \begin{array}{l}
 \ \langle \texttt{"monotonic"},\ \texttt{const},\ [],\ \operatorname{TypeDynamic}(\texttt{MonotonicTime})\rangle , \\[0.16em]
-\ \langle \texttt{"wall"},\ \texttt{const},\ [],\ \operatorname{TypeDynamic}(\texttt{WallTime})\rangle  \\[0.16em]
+\ \langle \texttt{"wall"},\ \texttt{const},\ [],\ \operatorname{TypeDynamic}(\texttt{WallTime})\rangle \\[0.16em]
 \}
 \end{array}
 $$
@@ -104,7 +103,7 @@ $$
 \ \langle \texttt{"now"},\ \texttt{const},\ [],\ \operatorname{TypePath}([\texttt{"MonotonicInstant"}])\rangle , \\[0.16em]
 \ \langle \texttt{"resolution"},\ \texttt{const},\ [],\ \operatorname{TypePath}([\texttt{"Duration"}])\rangle , \\[0.16em]
 \ \langle \texttt{"elapsed"},\ \texttt{const},\ [\langle \bot ,\ \texttt{start},\ \operatorname{TypePath}([\texttt{"MonotonicInstant"}])\rangle ,\ \langle \bot ,\ \texttt{end},\ \operatorname{TypePath}([\texttt{"MonotonicInstant"}])\rangle ],\ \operatorname{TypeApply}([\texttt{"Outcome"}],\ [\operatorname{TypePath}([\texttt{"Duration"}]),\ \operatorname{TypePath}([\texttt{"TimeError"}])])\rangle , \\[0.16em]
-\ \langle \texttt{"coarsen"},\ \texttt{const},\ [\langle \bot ,\ \texttt{resolution},\ \operatorname{TypePath}([\texttt{"Duration"}])\rangle ],\ \operatorname{TypeApply}([\texttt{"Outcome"}],\ [\operatorname{TypeDynamic}(\texttt{MonotonicTime}),\ \operatorname{TypePath}([\texttt{"TimeError"}])])\rangle  \\[0.16em]
+\ \langle \texttt{"coarsen"},\ \texttt{const},\ [\langle \bot ,\ \texttt{resolution},\ \operatorname{TypePath}([\texttt{"Duration"}])\rangle ],\ \operatorname{TypeApply}([\texttt{"Outcome"}],\ [\operatorname{TypeDynamic}(\texttt{MonotonicTime}),\ \operatorname{TypePath}([\texttt{"TimeError"}])])\rangle \\[0.16em]
 \}
 \end{array}
 $$
@@ -116,7 +115,7 @@ $$
 \begin{array}{l}
 \ \langle \texttt{"now\_utc"},\ \texttt{const},\ [],\ \operatorname{TypeApply}([\texttt{"Outcome"}],\ [\operatorname{TypePath}([\texttt{"UtcInstant"}]),\ \operatorname{TypePath}([\texttt{"TimeError"}])])\rangle , \\[0.16em]
 \ \langle \texttt{"resolution"},\ \texttt{const},\ [],\ \operatorname{TypeApply}([\texttt{"Outcome"}],\ [\operatorname{TypePath}([\texttt{"Duration"}]),\ \operatorname{TypePath}([\texttt{"TimeError"}])])\rangle , \\[0.16em]
-\ \langle \texttt{"coarsen"},\ \texttt{const},\ [\langle \bot ,\ \texttt{resolution},\ \operatorname{TypePath}([\texttt{"Duration"}])\rangle ],\ \operatorname{TypeApply}([\texttt{"Outcome"}],\ [\operatorname{TypeDynamic}(\texttt{WallTime}),\ \operatorname{TypePath}([\texttt{"TimeError"}])])\rangle  \\[0.16em]
+\ \langle \texttt{"coarsen"},\ \texttt{const},\ [\langle \bot ,\ \texttt{resolution},\ \operatorname{TypePath}([\texttt{"Duration"}])\rangle ],\ \operatorname{TypeApply}([\texttt{"Outcome"}],\ [\operatorname{TypeDynamic}(\texttt{WallTime}),\ \operatorname{TypePath}([\texttt{"TimeError"}])])\rangle \\[0.16em]
 \}
 \end{array}
 $$
@@ -140,7 +139,8 @@ $$
 \ \operatorname{VariantDecl}(\texttt{AlreadyExists},\ \bot ,\ \bot ,\ \bot ,\ \bot ), \\[0.16em]
 \ \operatorname{VariantDecl}(\texttt{InvalidPath},\ \bot ,\ \bot ,\ \bot ,\ \bot ), \\[0.16em]
 \ \operatorname{VariantDecl}(\texttt{Busy},\ \bot ,\ \bot ,\ \bot ,\ \bot ), \\[0.16em]
-\ \operatorname{VariantDecl}(\texttt{IoFailure},\ \bot ,\ \bot ,\ \bot ,\ \bot ) \\[0.16em]
+\ \operatorname{VariantDecl}(\texttt{IoFailure},\ \bot ,\ \bot ,\ \bot ,\ \bot ), \\[0.16em]
+\ \operatorname{VariantDecl}(\texttt{DirectoryNotEmpty},\ \bot ,\ \bot ,\ \bot ,\ \bot ) \\[0.16em]
 ] \\[0.16em]
 \mathsf{IoErrorDecl}\ =\ \operatorname{EnumDecl}(\bot ,\ \texttt{public},\ \texttt{IoError},\ \bot ,\ \bot ,\ [],\ \mathsf{IoErrorVariants},\ \bot ,\ \bot ,\ \bot )
 \end{array}
@@ -151,7 +151,7 @@ $$
 \mathsf{DirEntryFields}\ =\ [ \\[0.16em]
 \ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{name},\ \operatorname{TypeString}(\texttt{@Managed}),\ \bot ,\ \bot ,\ \bot \rangle , \\[0.16em]
 \ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{path},\ \operatorname{TypeString}(\texttt{@Managed}),\ \bot ,\ \bot ,\ \bot \rangle , \\[0.16em]
-\ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{kind},\ \operatorname{TypePath}([\texttt{"FileKind"}]),\ \bot ,\ \bot ,\ \bot \rangle  \\[0.16em]
+\ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{kind},\ \operatorname{TypePath}([\texttt{"FileKind"}]),\ \bot ,\ \bot ,\ \bot \rangle \\[0.16em]
 ] \\[0.16em]
 \mathsf{DirEntryDecl}\ =\ \operatorname{RecordDecl}(\bot ,\ \texttt{public},\ \texttt{DirEntry},\ \bot ,\ \bot ,\ [],\ \mathsf{DirEntryFields},\ \bot ,\ \bot ,\ \bot )
 \end{array}
@@ -183,7 +183,7 @@ $$
 $$
 \begin{array}{l}
 \mathsf{DurationFields}\ =\ [ \\[0.16em]
-\ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{nanoseconds},\ \operatorname{TypePrim}(\texttt{"u128"}),\ \bot ,\ \bot ,\ \bot \rangle  \\[0.16em]
+\ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{nanoseconds},\ \operatorname{TypePrim}(\texttt{"u128"}),\ \bot ,\ \bot ,\ \bot \rangle \\[0.16em]
 ] \\[0.16em]
 \mathsf{DurationDecl}\ =\ \operatorname{RecordDecl}(\bot ,\ \texttt{public},\ \texttt{Duration},\ \bot ,\ \bot ,\ [],\ \mathsf{DurationFields},\ \bot ,\ \bot ,\ \bot )
 \end{array}
@@ -193,7 +193,7 @@ $$
 \begin{array}{l}
 \mathsf{MonotonicInstantFields}\ =\ [ \\[0.16em]
 \ \langle \bot ,\ \texttt{private},\ \mathsf{false},\ \texttt{domain},\ \operatorname{TypePrim}(\texttt{"usize"}),\ \bot ,\ \bot ,\ \bot \rangle , \\[0.16em]
-\ \langle \bot ,\ \texttt{private},\ \mathsf{false},\ \texttt{ticks},\ \operatorname{TypePrim}(\texttt{"u128"}),\ \bot ,\ \bot ,\ \bot \rangle  \\[0.16em]
+\ \langle \bot ,\ \texttt{private},\ \mathsf{false},\ \texttt{ticks},\ \operatorname{TypePrim}(\texttt{"u128"}),\ \bot ,\ \bot ,\ \bot \rangle \\[0.16em]
 ] \\[0.16em]
 \mathsf{MonotonicInstantDecl}\ =\ \operatorname{RecordDecl}(\bot ,\ \texttt{public},\ \texttt{MonotonicInstant},\ \bot ,\ \bot ,\ [],\ \mathsf{MonotonicInstantFields},\ \bot ,\ \bot ,\ \bot )
 \end{array}
@@ -202,7 +202,7 @@ $$
 $$
 \begin{array}{l}
 \mathsf{UtcInstantFields}\ =\ [ \\[0.16em]
-\ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{unix\_nanoseconds},\ \operatorname{TypePrim}(\texttt{"i128"}),\ \bot ,\ \bot ,\ \bot \rangle  \\[0.16em]
+\ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{unix\_nanoseconds},\ \operatorname{TypePrim}(\texttt{"i128"}),\ \bot ,\ \bot ,\ \bot \rangle \\[0.16em]
 ] \\[0.16em]
 \mathsf{UtcInstantDecl}\ =\ \operatorname{RecordDecl}(\bot ,\ \texttt{public},\ \texttt{UtcInstant},\ \bot ,\ \bot ,\ [],\ \mathsf{UtcInstantFields},\ \bot ,\ \bot ,\ \bot )
 \end{array}
@@ -214,9 +214,9 @@ $$
 \ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{io},\ \operatorname{TypeDynamic}(\texttt{IO}),\ \bot ,\ \bot ,\ \bot \rangle , \\[0.16em]
 \ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{net},\ \operatorname{TypeDynamic}(\texttt{Network}),\ \bot ,\ \bot ,\ \bot \rangle , \\[0.16em]
 \ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{heap},\ \operatorname{TypeDynamic}(\texttt{HeapAllocator}),\ \bot ,\ \bot ,\ \bot \rangle , \\[0.16em]
-\ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{sys},\ \operatorname{TypePath}([\texttt{"System"}]),\ \bot ,\ \bot ,\ \bot \rangle , \\[0.16em]
+\ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{sys},\ \operatorname{TypeDynamic}(\texttt{System}),\ \bot ,\ \bot ,\ \bot \rangle , \\[0.16em]
 \ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{reactor},\ \operatorname{TypeDynamic}(\texttt{Reactor}),\ \bot ,\ \bot ,\ \bot \rangle , \\[0.16em]
-\ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{time},\ \operatorname{TypeDynamic}(\texttt{Time}),\ \bot ,\ \bot ,\ \bot \rangle  \\[0.16em]
+\ \langle \bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{time},\ \operatorname{TypeDynamic}(\texttt{Time}),\ \bot ,\ \bot ,\ \bot \rangle \\[0.16em]
 ] \\[0.16em]
 \mathsf{ContextMethods}\ =\ [ \\[0.16em]
 \ \operatorname{MethodDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{"cpu"},\ \bot ,\ \operatorname{ReceiverShorthand}(\texttt{const}),\ [],\ \operatorname{TypeDynamic}(\texttt{ExecutionDomain}),\ \bot ,\ \bot ,\ \bot ,\ \bot ), \\[0.16em]
@@ -233,24 +233,24 @@ SystemInterface =
 
 $$
 \begin{array}{l}
-\ \langle \texttt{"exit"},\ [\langle \bot ,\ \texttt{code},\ \operatorname{TypePrim}(\texttt{"i32"})\rangle ],\ \operatorname{TypePrim}(\texttt{"!"})\rangle , \\[0.16em]
-\ \langle \texttt{"get\_env"},\ [\langle \bot ,\ \texttt{key},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeString}(\texttt{@View})\rangle , \\[0.16em]
-\ \langle \texttt{"executable\_path"},\ [],\ \operatorname{TypeString}(\texttt{@View})\rangle , \\[0.16em]
-\ \langle \texttt{"argument\_count"},\ [],\ \operatorname{TypePrim}(\texttt{"usize"})\rangle , \\[0.16em]
-\ \langle \texttt{"argument"},\ [\langle \bot ,\ \texttt{index},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle ],\ \operatorname{TypeString}(\texttt{@View})\rangle , \\[0.16em]
-\ \langle \texttt{"current\_directory"},\ [],\ \operatorname{TypeString}(\texttt{@View})\rangle , \\[0.16em]
-\ \langle \texttt{"run"},\ [\langle \bot ,\ \texttt{command},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypePrim}(\texttt{"i32"})\rangle  \\[0.16em]
+\ \langle \texttt{"exit"},\ \texttt{const},\ [\langle \bot ,\ \texttt{code},\ \operatorname{TypePrim}(\texttt{"i32"})\rangle ],\ \operatorname{TypePrim}(\texttt{"!"})\rangle , \\[0.16em]
+\ \langle \texttt{"get\_env"},\ \texttt{const},\ [\langle \bot ,\ \texttt{key},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeString}(\texttt{@View})\rangle , \\[0.16em]
+\ \langle \texttt{"executable\_path"},\ \texttt{const},\ [],\ \operatorname{TypeString}(\texttt{@View})\rangle , \\[0.16em]
+\ \langle \texttt{"argument\_count"},\ \texttt{const},\ [],\ \operatorname{TypePrim}(\texttt{"usize"})\rangle , \\[0.16em]
+\ \langle \texttt{"argument"},\ \texttt{const},\ [\langle \bot ,\ \texttt{index},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle ],\ \operatorname{TypeString}(\texttt{@View})\rangle , \\[0.16em]
+\ \langle \texttt{"current\_directory"},\ \texttt{const},\ [],\ \operatorname{TypeString}(\texttt{@View})\rangle , \\[0.16em]
+\ \langle \texttt{"run"},\ \texttt{const},\ [\langle \bot ,\ \texttt{command},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypePrim}(\texttt{"i32"})\rangle \\[0.16em]
 \} \\[0.16em]
 \mathsf{SystemMembers}\ =\ [ \\[0.16em]
-\ \operatorname{MethodDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{"exit"},\ \bot ,\ \operatorname{ReceiverShorthand}(\texttt{const}),\ [\langle \bot ,\ \texttt{code},\ \operatorname{TypePrim}(\texttt{"i32"})\rangle ],\ \operatorname{TypePrim}(\texttt{"!"}),\ \bot ,\ \bot ,\ \bot ,\ \bot ), \\[0.16em]
-\ \operatorname{MethodDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{"get\_env"},\ \bot ,\ \operatorname{ReceiverShorthand}(\texttt{const}),\ [\langle \bot ,\ \texttt{key},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeString}(\texttt{@View}),\ \bot ,\ \bot ,\ \bot ,\ \bot ), \\[0.16em]
-\ \operatorname{MethodDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{"executable\_path"},\ \bot ,\ \operatorname{ReceiverShorthand}(\texttt{const}),\ [],\ \operatorname{TypeString}(\texttt{@View}),\ \bot ,\ \bot ,\ \bot ,\ \bot ), \\[0.16em]
-\ \operatorname{MethodDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{"argument\_count"},\ \bot ,\ \operatorname{ReceiverShorthand}(\texttt{const}),\ [],\ \operatorname{TypePrim}(\texttt{"usize"}),\ \bot ,\ \bot ,\ \bot ,\ \bot ), \\[0.16em]
-\ \operatorname{MethodDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{"argument"},\ \bot ,\ \operatorname{ReceiverShorthand}(\texttt{const}),\ [\langle \bot ,\ \texttt{index},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle ],\ \operatorname{TypeString}(\texttt{@View}),\ \bot ,\ \bot ,\ \bot ,\ \bot ), \\[0.16em]
-\ \operatorname{MethodDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{"current\_directory"},\ \bot ,\ \operatorname{ReceiverShorthand}(\texttt{const}),\ [],\ \operatorname{TypeString}(\texttt{@View}),\ \bot ,\ \bot ,\ \bot ,\ \bot ), \\[0.16em]
-\ \operatorname{MethodDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{"run"},\ \bot ,\ \operatorname{ReceiverShorthand}(\texttt{const}),\ [\langle \bot ,\ \texttt{command},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypePrim}(\texttt{"i32"}),\ \bot ,\ \bot ,\ \bot ,\ \bot ) \\[0.16em]
+\ \operatorname{ClassMethodDecl}(\bot ,\ \texttt{public},\ \texttt{"exit"},\ \bot ,\ \operatorname{ReceiverShorthand}(\texttt{const}),\ [\langle \bot ,\ \texttt{code},\ \operatorname{TypePrim}(\texttt{"i32"})\rangle ],\ \operatorname{TypePrim}(\texttt{"!"}),\ \bot ,\ \bot ,\ \bot ,\ \bot ), \\[0.16em]
+\ \operatorname{ClassMethodDecl}(\bot ,\ \texttt{public},\ \texttt{"get\_env"},\ \bot ,\ \operatorname{ReceiverShorthand}(\texttt{const}),\ [\langle \bot ,\ \texttt{key},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeString}(\texttt{@View}),\ \bot ,\ \bot ,\ \bot ,\ \bot ), \\[0.16em]
+\ \operatorname{ClassMethodDecl}(\bot ,\ \texttt{public},\ \texttt{"executable\_path"},\ \bot ,\ \operatorname{ReceiverShorthand}(\texttt{const}),\ [],\ \operatorname{TypeString}(\texttt{@View}),\ \bot ,\ \bot ,\ \bot ,\ \bot ), \\[0.16em]
+\ \operatorname{ClassMethodDecl}(\bot ,\ \texttt{public},\ \texttt{"argument\_count"},\ \bot ,\ \operatorname{ReceiverShorthand}(\texttt{const}),\ [],\ \operatorname{TypePrim}(\texttt{"usize"}),\ \bot ,\ \bot ,\ \bot ,\ \bot ), \\[0.16em]
+\ \operatorname{ClassMethodDecl}(\bot ,\ \texttt{public},\ \texttt{"argument"},\ \bot ,\ \operatorname{ReceiverShorthand}(\texttt{const}),\ [\langle \bot ,\ \texttt{index},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle ],\ \operatorname{TypeString}(\texttt{@View}),\ \bot ,\ \bot ,\ \bot ,\ \bot ), \\[0.16em]
+\ \operatorname{ClassMethodDecl}(\bot ,\ \texttt{public},\ \texttt{"current\_directory"},\ \bot ,\ \operatorname{ReceiverShorthand}(\texttt{const}),\ [],\ \operatorname{TypeString}(\texttt{@View}),\ \bot ,\ \bot ,\ \bot ,\ \bot ), \\[0.16em]
+\ \operatorname{ClassMethodDecl}(\bot ,\ \texttt{public},\ \texttt{"run"},\ \bot ,\ \operatorname{ReceiverShorthand}(\texttt{const}),\ [\langle \bot ,\ \texttt{command},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypePrim}(\texttt{"i32"}),\ \bot ,\ \bot ,\ \bot ,\ \bot ) \\[0.16em]
 ] \\[0.16em]
-\mathsf{SystemDecl}\ =\ \operatorname{RecordDecl}(\bot ,\ \texttt{public},\ \texttt{System},\ \bot ,\ \bot ,\ [],\ \mathsf{SystemMembers},\ \bot ,\ \bot ,\ \bot )
+\mathsf{SystemDecl}\ =\ \operatorname{ClassDecl}(\bot ,\ \texttt{public},\ \mathsf{false},\ \texttt{System},\ \bot ,\ \bot ,\ [],\ \mathsf{SystemMembers},\ \bot ,\ \bot )
 \end{array}
 $$
 
@@ -284,11 +284,11 @@ $$
 \operatorname{CapMethodSig}(\texttt{IO},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{IOInterface} \\[0.16em]
 \operatorname{CapMethodSig}(\texttt{Network},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{NetworkInterface} \\[0.16em]
 \operatorname{CapMethodSig}(\texttt{HeapAllocator},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{HeapAllocatorInterface} \\[0.16em]
-\operatorname{CapMethodSig}(\texttt{Reactor},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{LookupClassMethod}(\texttt{Reactor},\ \mathsf{name})\ =\ m\ \land \ \operatorname{Sig_T}(\mathsf{SelfVar},\ m)\ =\ \langle \_,\ \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
+\operatorname{CapMethodSig}(\texttt{System},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{SystemInterface} \\[0.16em]
+\operatorname{CapMethodSig}(\texttt{Reactor},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{LookupClassMethod}(\texttt{Reactor},\ \mathsf{name})\ =\ m\ \land \ \operatorname{Sig_T}(\mathsf{SelfVar},\ m)\ =\ \langle \_,\ \mathsf{params},\ \mathsf{ret}\rangle \\[0.16em]
 \operatorname{CapMethodSig}(\texttt{Time},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{TimeInterface} \\[0.16em]
 \operatorname{CapMethodSig}(\texttt{MonotonicTime},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{MonotonicTimeInterface} \\[0.16em]
-\operatorname{CapMethodSig}(\texttt{WallTime},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{WallTimeInterface} \\[0.16em]
-\operatorname{SystemMethodSig}(\mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{SystemInterface}
+\operatorname{CapMethodSig}(\texttt{WallTime},\ \mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{WallTimeInterface}
 \end{array}
 $$
 
@@ -297,6 +297,7 @@ $$
 \operatorname{CapRecv}(\texttt{IO},\ \mathsf{name})\ =\ \mathsf{recv}\ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{IOInterface} \\[0.16em]
 \operatorname{CapRecv}(\texttt{Network},\ \mathsf{name})\ =\ \mathsf{recv}\ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{NetworkInterface} \\[0.16em]
 \operatorname{CapRecv}(\texttt{HeapAllocator},\ \mathsf{name})\ =\ \mathsf{recv}\ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{HeapAllocatorInterface} \\[0.16em]
+\operatorname{CapRecv}(\texttt{System},\ \mathsf{name})\ =\ \mathsf{recv}\ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{SystemInterface} \\[0.16em]
 \operatorname{CapRecv}(\texttt{Reactor},\ \mathsf{name})\ =\ \mathsf{recv}\ \Leftrightarrow \ \operatorname{LookupClassMethod}(\texttt{Reactor},\ \mathsf{name})\ =\ m\ \land \ \operatorname{RecvPerm}(\mathsf{SelfVar},\ m.\mathsf{receiver})\ =\ \mathsf{recv} \\[0.16em]
 \operatorname{CapRecv}(\texttt{Time},\ \mathsf{name})\ =\ \mathsf{recv}\ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{TimeInterface} \\[0.16em]
 \operatorname{CapRecv}(\texttt{MonotonicTime},\ \mathsf{name})\ =\ \mathsf{recv}\ \Leftrightarrow \ \langle \mathsf{name},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{MonotonicTimeInterface} \\[0.16em]
@@ -308,17 +309,17 @@ $$
 \begin{array}{l}
 \mathsf{LowerCallJudg}\ =\ \{\mathsf{MethodSymbol},\ \mathsf{BuiltinMethodSym},\ \mathsf{LowerMethodCall},\ \mathsf{LowerArgs},\ \mathsf{LowerRecvArg}\} \\[0.16em]
 \operatorname{ModalStateOf}(T)\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)\ \Leftrightarrow \ \operatorname{StripPerm}(T)\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S) \\[0.16em]
-\mathsf{BuiltinCapClass}\ =\ \{\texttt{IO},\ \texttt{Network},\ \texttt{HeapAllocator},\ \texttt{Reactor},\ \texttt{Time},\ \texttt{MonotonicTime},\ \texttt{WallTime}\}
+\mathsf{BuiltinCapClass}\ =\ \{\texttt{IO},\ \texttt{Network},\ \texttt{HeapAllocator},\ \texttt{ExecutionDomain},\ \texttt{System},\ \texttt{Reactor},\ \texttt{Time},\ \texttt{MonotonicTime},\ \texttt{WallTime}\}
 \end{array}
 $$
 
 ### 14.9.4 Static Semantics
 
-Capability classes are ordinary classes in the type system. A parameter of type `$Class` accepts any concrete type implementing `Class`.
+Capability classes are ordinary classes in the type system. A parameter of type `$Class` accepts any concrete type implementing `Class`. A class is a capability class iff `CapClass` (§6.1.1) holds; capability classhood is determined by the superclass relation alone and MUST NOT depend on attributes or naming.
 
 Capability classes MAY be used as generic bounds exactly like any other class bound.
 
-The built-in capability class names `IO`, `Network`, `HeapAllocator`, `ExecutionDomain`, `Reactor`, `Time`, `MonotonicTime`, and `WallTime` are reserved. Type-system use of those names is via `CapType(Cl) = TypeDynamic(Cl)`.
+The built-in capability class names `IO`, `Network`, `HeapAllocator`, `ExecutionDomain`, `System`, `Reactor`, `Time`, `MonotonicTime`, and `WallTime` are reserved. Type-system use of those names is via `CapType(Cl) = TypeDynamic(Cl)`.
 
 Calls to `HeapAllocator.alloc_raw` and `HeapAllocator.dealloc_raw` require `unsafe` context.
 
@@ -356,7 +357,6 @@ $$
 \operatorname{RecordDecl}([\texttt{"MonotonicInstant"}])\ =\ \mathsf{MonotonicInstantDecl} \\[0.16em]
 \operatorname{RecordDecl}([\texttt{"UtcInstant"}])\ =\ \mathsf{UtcInstantDecl} \\[0.16em]
 \operatorname{RecordDecl}([\texttt{"Context"}])\ =\ \mathsf{ContextDecl} \\[0.16em]
-\operatorname{RecordDecl}([\texttt{"System"}])\ =\ \mathsf{SystemDecl} \\[0.16em]
 \operatorname{EnumDecl}([\texttt{"FileKind"}])\ =\ \mathsf{FileKindDecl} \\[0.16em]
 \operatorname{EnumDecl}([\texttt{"IoError"}])\ =\ \mathsf{IoErrorDecl} \\[0.16em]
 \operatorname{EnumDecl}([\texttt{"AllocationError"}])\ =\ \mathsf{AllocationErrorDecl} \\[0.16em]
@@ -376,9 +376,9 @@ $$
 \Sigma .\mathsf{Types}[\texttt{"AllocationError"}]\ =\ \mathsf{AllocationErrorDecl} \\[0.16em]
 \Sigma .\mathsf{Types}[\texttt{"TimeError"}]\ =\ \mathsf{TimeErrorDecl} \\[0.16em]
 \Sigma .\mathsf{Types}[\texttt{"Context"}]\ =\ \mathsf{ContextDecl} \\[0.16em]
-\Sigma .\mathsf{Types}[\texttt{"System"}]\ =\ \mathsf{SystemDecl} \\[0.16em]
 \Sigma .\mathsf{Types}[\texttt{"CpuSet"}]\ =\ \mathsf{CpuSetDecl} \\[0.16em]
-\Sigma .\mathsf{Types}[\texttt{"Priority"}]\ =\ \mathsf{PriorityDecl}
+\Sigma .\mathsf{Types}[\texttt{"Priority"}]\ =\ \mathsf{PriorityDecl} \\[0.16em]
+\Sigma .\mathsf{Classes}[\texttt{"System"}]\ =\ \mathsf{SystemDecl}
 \end{array}
 $$
 
@@ -391,7 +391,7 @@ $$
 \operatorname{ContextBundleFieldType}(\texttt{io})\ =\ \operatorname{TypeDynamic}(\texttt{IO}) \\[0.16em]
 \operatorname{ContextBundleFieldType}(\texttt{net})\ =\ \operatorname{TypeDynamic}(\texttt{Network}) \\[0.16em]
 \operatorname{ContextBundleFieldType}(\texttt{heap})\ =\ \operatorname{TypeDynamic}(\texttt{HeapAllocator}) \\[0.16em]
-\operatorname{ContextBundleFieldType}(\texttt{sys})\ =\ \operatorname{TypePath}([\texttt{"System"}]) \\[0.16em]
+\operatorname{ContextBundleFieldType}(\texttt{sys})\ =\ \operatorname{TypeDynamic}(\texttt{System}) \\[0.16em]
 \operatorname{ContextBundleFieldType}(\texttt{reactor})\ =\ \operatorname{TypeDynamic}(\texttt{Reactor}) \\[0.16em]
 \operatorname{ContextBundleFieldType}(\texttt{time})\ =\ \operatorname{TypeDynamic}(\texttt{Time}) \\[0.16em]
 \operatorname{ContextBundleFieldType}(\texttt{cpu})\ =\ \operatorname{TypeDynamic}(\texttt{ExecutionDomain}) \\[0.16em]
@@ -428,8 +428,8 @@ $$
 $$
 \begin{array}{l}
 \operatorname{ContextBundleBuild}(T,\ v_{\mathsf{ctx}})\ \Downarrow \ v_{\mathsf{ctx}}\ \Leftrightarrow \ \operatorname{AliasNorm}(T)\ =\ \operatorname{TypePath}([\texttt{"Context"}]) \\[0.16em]
-\operatorname{ContextBundleBuild}(T,\ v_{\mathsf{ctx}})\ \Downarrow \ \operatorname{RecordValue}(\operatorname{TypePath}(p),\ \mathsf{fs}_{\mathsf{out}})\ \Leftrightarrow  \\[0.16em]
-\ \operatorname{AliasNorm}(T)\ =\ \operatorname{TypePath}(p)\ \land \ p\ \ne \ [\texttt{"Context"}]\ \land \ \operatorname{RecordDecl}(p)\ =\ R\ \land  \\[0.16em]
+\operatorname{ContextBundleBuild}(T,\ v_{\mathsf{ctx}})\ \Downarrow \ \operatorname{RecordValue}(\operatorname{TypePath}(p),\ \mathsf{fs}_{\mathsf{out}})\ \Leftrightarrow \\[0.16em]
+\ \operatorname{AliasNorm}(T)\ =\ \operatorname{TypePath}(p)\ \land \ p\ \ne \ [\texttt{"Context"}]\ \land \ \operatorname{RecordDecl}(p)\ =\ R\ \land \\[0.16em]
 \ \mathsf{fs}_{\mathsf{out}}\ =\ [\langle f.\mathsf{name},\ v_{f}\rangle \ \mid \ f\ \in \ \operatorname{Fields}(R)\ \land \ ((\exists \ T_{f}.\ \operatorname{ContextBundleFieldType}(f.\mathsf{name})\ =\ T_{f}\ \land \ \operatorname{StripPerm}(f.\mathsf{type})\ =\ T_{f}\ \land \ \operatorname{ContextBundleFieldValue}(v_{\mathsf{ctx}},\ f.\mathsf{name})\ \Downarrow \ v_{f})\ \lor \ (\operatorname{ContextBundleType}(\operatorname{StripPerm}(f.\mathsf{type}))\ \land \ \operatorname{ContextBundleBuild}(\operatorname{StripPerm}(f.\mathsf{type}),\ v_{\mathsf{ctx}})\ \Downarrow \ v_{f}))]
 \end{array}
 $$
@@ -444,7 +444,7 @@ Capability classes introduce no separate dispatch model. Built-in capability ope
 
 ### 14.9.6 Lowering
 
-Calls on dynamic receivers of builtin capability classes `IO`, `Network`, `HeapAllocator`, `Reactor`, `Time`, `MonotonicTime`, and `WallTime` lower to builtin method symbols rather than emitted vtable-call sequences. Other capability classes lower through the ordinary dynamic-dispatch path of §14.6.
+Calls on dynamic receivers of builtin capability classes `IO`, `Network`, `HeapAllocator`, `ExecutionDomain`, `System`, `Reactor`, `Time`, `MonotonicTime`, and `WallTime` lower to builtin method symbols rather than emitted vtable-call sequences. Other capability classes lower through the ordinary dynamic-dispatch path of §14.6.
 
 ### 14.9.7 Diagnostics
 

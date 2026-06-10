@@ -2,16 +2,16 @@
 title: "16.7 Control Expressions"
 description: "16.7 Control Expressions from 16. Expressions of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "expressions"
 specSection: "167-control-expressions"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -107,13 +107,13 @@ $$
 ### 16.7.3 AST Representation / Form
 
 $$
-\mathsf{Expr}\ =\ \operatorname{IfExpr}(\mathsf{cond},\ \mathsf{then}_{\mathsf{block}},\ \mathsf{else}_{\mathsf{opt}})\ \mid \ \operatorname{IfIsExpr}(\mathsf{scrutinee},\ \mathsf{pattern},\ \mathsf{then}_{\mathsf{block}},\ \mathsf{else}_{\mathsf{opt}})\ \mid \ \operatorname{IfCaseExpr}(\mathsf{scrutinee},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}})\ \mid \ \operatorname{LoopInfinite}(\mathsf{inv}_{\mathsf{opt}},\ \mathsf{body})\ \mid \ \operatorname{LoopConditional}(\mathsf{cond},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body})\ \mid \ \operatorname{LoopIter}(\mathsf{pattern},\ \mathsf{type}_{\mathsf{opt}},\ \mathsf{iter},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body})\ \mid \ \operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}})\ \mid \ \ldots 
+\mathsf{Expr}\ =\ \operatorname{IfExpr}(\mathsf{cond},\ \mathsf{then}_{\mathsf{block}},\ \mathsf{else}_{\mathsf{opt}})\ \mid \ \operatorname{IfIsExpr}(\mathsf{scrutinee},\ \mathsf{pattern},\ \mathsf{then}_{\mathsf{block}},\ \mathsf{else}_{\mathsf{opt}})\ \mid \ \operatorname{IfCaseExpr}(\mathsf{scrutinee},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}})\ \mid \ \operatorname{LoopInfinite}(\mathsf{inv}_{\mathsf{opt}},\ \mathsf{body})\ \mid \ \operatorname{LoopConditional}(\mathsf{cond},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body})\ \mid \ \operatorname{LoopIter}(\mathsf{pattern},\ \mathsf{type}_{\mathsf{opt}},\ \mathsf{iter},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body})\ \mid \ \operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}})\ \mid \ \ldots
 $$
 
 $$
 \begin{array}{l}
 \mathsf{LoopInvariantOpt}\ \in \ \{\bot \}\ \cup \ \mathsf{Expr} \\[0.16em]
-\mathsf{IfCase}\ =\ \langle \mathsf{pattern},\ \mathsf{body}\rangle 
+\mathsf{IfCase}\ =\ \langle \mathsf{pattern},\ \mathsf{body}\rangle
 \end{array}
 $$
 
@@ -227,7 +227,7 @@ $$
 
 $$
 \begin{array}{l}
-(\Gamma ;\ R;\ L\ \vdash \ \mathsf{iter}\ :\ T_{\mathsf{iter}})\quad \operatorname{LoopIterableType}(T_{\mathsf{iter}},\ T)\quad (\operatorname{RangeLoopType}(T_{\mathsf{iter}},\ T)\ \Rightarrow \ \operatorname{ImplementsStep}(T))\quad (\operatorname{BoundedRangeLoopType}(T_{\mathsf{iter}},\ T)\ \Rightarrow \ \operatorname{ImplementsEq}(T))\quad (\mathsf{ty}_{\mathsf{opt}}\ =\ \bot \ \Rightarrow \ T_{p}\ =\ T)\quad (\mathsf{ty}_{\mathsf{opt}}\ =\ T_{a}\ \Rightarrow \ \Gamma \ \vdash \ T\ \mathrel{<:} \ T_{a}\ \land \ T_{p}\ =\ T_{a})\quad \Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ T_{p}\ \dashv \ B\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}))\quad \operatorname{LoopInvOk}(\mathsf{inv}_{\mathsf{opt}})\quad \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \operatorname{IntroAll}(\Gamma_{0} ,\ B)\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} ;\ R;\ \texttt{loop}\ \vdash \ \operatorname{BlockInfo}(\mathsf{body})\ \Downarrow \ \langle T_{b},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \operatorname{LoopTypeFin}(\mathsf{Brk},\ \mathsf{BrkVoid})\ =\ T_{r} \\[0.16em]
+(\Gamma ;\ R;\ L\ \vdash \ \mathsf{iter}\ :\ T_{\mathsf{iter}})\quad \operatorname{LoopIterableType}(T_{\mathsf{iter}},\ T)\quad (\operatorname{RangeLoopType}(T_{\mathsf{iter}},\ T)\ \Rightarrow \ \operatorname{ImplementsDiscrete}(T))\quad (\operatorname{BoundedRangeLoopType}(T_{\mathsf{iter}},\ T)\ \Rightarrow \ \operatorname{ImplementsEq}(T))\quad (\mathsf{ty}_{\mathsf{opt}}\ =\ \bot \ \Rightarrow \ T_{p}\ =\ T)\quad (\mathsf{ty}_{\mathsf{opt}}\ =\ T_{a}\ \Rightarrow \ \Gamma \ \vdash \ T\ \mathrel{<:} \ T_{a}\ \land \ T_{p}\ =\ T_{a})\quad \Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ T_{p}\ \dashv \ B\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}))\quad \operatorname{LoopInvOk}(\mathsf{inv}_{\mathsf{opt}})\quad \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \operatorname{IntroAll}(\Gamma_{0} ,\ B)\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} ;\ R;\ \texttt{loop}\ \vdash \ \operatorname{BlockInfo}(\mathsf{body})\ \Downarrow \ \langle T_{b},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \operatorname{LoopTypeFin}(\mathsf{Brk},\ \mathsf{BrkVoid})\ =\ T_{r} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LoopIter}(\mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{iter},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body})\ :\ T_{r}
 \end{array}
@@ -251,7 +251,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{false}),\ \sigma_{1} )\quad \mathsf{else}_{\mathsf{opt}}\ =\ \bot  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{cond},\ \sigma )\ \Downarrow \ (\operatorname{Val}(\mathsf{false}),\ \sigma_{1} )\quad \mathsf{else}_{\mathsf{opt}}\ =\ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{IfExpr}(\mathsf{cond},\ \mathsf{then}_{\mathsf{block}},\ \mathsf{else}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\operatorname{Val}(()),\ \sigma_{1} )
 \end{array}
@@ -344,7 +344,7 @@ $$
 \begin{array}{l}
 \mathsf{IterJudg}\ =\ \{\operatorname{IterInit}(v)\ \Downarrow \ \mathsf{it},\ \operatorname{IterNext}(\mathsf{it})\ \Downarrow \ (\operatorname{opt}(v),\ \mathsf{it}')\} \\[0.16em]
 \mathsf{Iter}\ =\ \{\operatorname{SeqIter}(v,\ i)\ \mid \ \operatorname{Len}(v)\ \mathsf{defined}\ \land \ i\ \in \ \mathbb{N} \}\ \cup \ \{\operatorname{RangeIterExclusive}(\mathsf{cur},\ \mathsf{hi})\}\ \cup \ \{\operatorname{RangeIterInclusive}(\mathsf{cur},\ \mathsf{hi})\}\ \cup \ \{\operatorname{RangeIterFrom}(\mathsf{cur})\}\ \cup \ \{\mathsf{IterDone}\} \\[0.16em]
-\operatorname{Successor}(v)\ \Downarrow \ v'\ \Leftrightarrow \ \texttt{Step::successor}\ \mathsf{applied}\ \mathsf{to}\ v\ \mathsf{returns}\ v' \\[0.16em]
+\operatorname{Successor}(v)\ \Downarrow \ v'\ \Leftrightarrow \ \texttt{Discrete::successor}\ \mathsf{applied}\ \mathsf{to}\ v\ \mathsf{returns}\ v' \\[0.16em]
 \operatorname{EqHolds}(v_{1},\ v_{2})\ \Leftrightarrow \ \texttt{Eq::eq}\ \mathsf{applied}\ \mathsf{to}\ \langle v_{1},\ v_{2}\rangle \ \mathsf{returns}\ \texttt{true}
 \end{array}
 $$
@@ -554,9 +554,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{cond})\ \Downarrow \ \langle \mathsf{IR}_{c},\ v_{c}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(b_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(b_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{cond})\ \Downarrow \ \langle \mathsf{IR}_{c},\ v_{c}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(b_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(b_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{IfExpr}(\mathsf{cond},\ b_{1},\ b_{2}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{c},\ \operatorname{IfIR}(v_{c},\ \mathsf{IR}_{1},\ v_{1},\ \mathsf{IR}_{2},\ v_{2})),\ v_{\mathsf{if}}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{IfExpr}(\mathsf{cond},\ b_{1},\ b_{2}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{c},\ \operatorname{IfIR}(v_{c},\ \mathsf{IR}_{1},\ v_{1},\ \mathsf{IR}_{2},\ v_{2})),\ v_{\mathsf{if}}\rangle
 \end{array}
 $$
 
@@ -564,9 +564,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerIfCases}(\mathsf{scrut},\ [\langle \mathsf{pat},\ b_{t}\rangle ],\ \mathsf{else}_{\mathsf{opt}})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerIfCases}(\mathsf{scrut},\ [\langle \mathsf{pat},\ b_{t}\rangle ],\ \mathsf{else}_{\mathsf{opt}})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{IfIsExpr}(\mathsf{scrut},\ \mathsf{pat},\ b_{t},\ \mathsf{else}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{IfIsExpr}(\mathsf{scrut},\ \mathsf{pat},\ b_{t},\ \mathsf{else}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 
@@ -574,9 +574,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerIfCases}(\mathsf{scrut},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerIfCases}(\mathsf{scrut},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{IfCaseExpr}(\mathsf{scrut},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{IfCaseExpr}(\mathsf{scrut},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 
@@ -586,9 +586,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerBlock}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerBlock}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 

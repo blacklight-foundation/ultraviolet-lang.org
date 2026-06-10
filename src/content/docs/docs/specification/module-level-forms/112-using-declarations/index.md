@@ -2,16 +2,16 @@
 title: "11.2 Using Declarations"
 description: "11.2 Using Declarations from 11. Module-Level Forms of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "module-level-forms"
 specSection: "112-using-declarations"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -131,7 +131,7 @@ $$
 `UsingDecl` is a top-level AST item with one of three clause forms.
 
 $$
-\mathsf{UsingDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{clause},\ \mathsf{span},\ \mathsf{doc}\rangle 
+\mathsf{UsingDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{clause},\ \mathsf{span},\ \mathsf{doc}\rangle
 $$
 
 $$
@@ -139,7 +139,7 @@ $$
 \mathsf{UsingClause}\ \in \ \{ \\[0.16em]
 \ \mathsf{UsingItem}\ =\ \langle \mathsf{module}_{\mathsf{path}},\ \mathsf{name},\ \mathsf{alias}_{\mathsf{opt}}\rangle , \\[0.16em]
 \ \mathsf{UsingList}\ =\ \langle \mathsf{module}_{\mathsf{path}},\ \mathsf{specs}\rangle , \\[0.16em]
-\ \mathsf{UsingWildcard}\ =\ \langle \mathsf{module}_{\mathsf{path}}\rangle  \\[0.16em]
+\ \mathsf{UsingWildcard}\ =\ \langle \mathsf{module}_{\mathsf{path}}\rangle \\[0.16em]
 \}
 \end{array}
 $$
@@ -155,7 +155,7 @@ Using-path resolution and import coverage are defined by §11.5.4. Accessibility
 $$
 \begin{array}{l}
 \operatorname{UsingSpecName}(\langle \mathsf{name},\ \mathsf{alias}_{\mathsf{opt}}\rangle )\ = \\[0.16em]
-\ \mathsf{alias}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{alias}_{\mathsf{opt}}\ \ne \ \bot  \\[0.16em]
+\ \mathsf{alias}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{alias}_{\mathsf{opt}}\ \ne \ \bot \\[0.16em]
 \ \mathsf{name}\quad \mathsf{otherwise}
 \end{array}
 $$
@@ -188,7 +188,7 @@ $$
 
 $$
 \begin{array}{l}
-u\ =\ \langle \mathsf{UsingDecl},\ \mathsf{vis},\ \langle \mathsf{UsingList},\ \mathsf{mp}_{\mathsf{raw}},\ \mathsf{specs}\rangle ,\ \_,\ \_\rangle \quad \operatorname{Distinct}(\operatorname{UsingSpecNames}(\mathsf{specs}))\quad \Gamma \ \vdash \ \operatorname{ResolveImportPath}(\mathsf{mp}_{\mathsf{raw}})\ \Downarrow \ \mathsf{mp}\quad \Gamma \ \vdash \ \operatorname{ImportOk}(m,\ \mathsf{mp})\ \Downarrow \ \mathsf{ok}\quad \forall \ i,\ s_{i}\ =\ \langle \mathsf{name}_{i},\ \mathsf{alias}_{i}\rangle \quad \operatorname{NameMap}(P,\ \mathsf{mp})[\operatorname{IdKey}(\mathsf{name}_{i})]\ =\ \langle k_{i},\ \_,\ \_,\ \_\rangle \quad k_{i}\ \in \ \{\mathsf{Value},\ \mathsf{Type},\ \mathsf{Class}\}\quad \Gamma \ \vdash \ \operatorname{CanAccess}(m,\ \operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name}_{i}))\ \Downarrow \ \mathsf{ok}\quad (\mathsf{vis}\ =\ \texttt{public}\ \Rightarrow \ \operatorname{Vis}(\operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name}_{i}))\ =\ \texttt{public})\quad \mathsf{bind}_{i}\ =\ \langle \operatorname{UsingSpecName}(s_{i}),\ \langle k_{i},\ \mathsf{mp},\ \mathsf{name}_{i},\ \mathsf{Using}\rangle \rangle  \\[0.16em]
+u\ =\ \langle \mathsf{UsingDecl},\ \mathsf{vis},\ \langle \mathsf{UsingList},\ \mathsf{mp}_{\mathsf{raw}},\ \mathsf{specs}\rangle ,\ \_,\ \_\rangle \quad \operatorname{Distinct}(\operatorname{UsingSpecNames}(\mathsf{specs}))\quad \Gamma \ \vdash \ \operatorname{ResolveImportPath}(\mathsf{mp}_{\mathsf{raw}})\ \Downarrow \ \mathsf{mp}\quad \Gamma \ \vdash \ \operatorname{ImportOk}(m,\ \mathsf{mp})\ \Downarrow \ \mathsf{ok}\quad \forall \ i,\ s_{i}\ =\ \langle \mathsf{name}_{i},\ \mathsf{alias}_{i}\rangle \quad \operatorname{NameMap}(P,\ \mathsf{mp})[\operatorname{IdKey}(\mathsf{name}_{i})]\ =\ \langle k_{i},\ \_,\ \_,\ \_\rangle \quad k_{i}\ \in \ \{\mathsf{Value},\ \mathsf{Type},\ \mathsf{Class}\}\quad \Gamma \ \vdash \ \operatorname{CanAccess}(m,\ \operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name}_{i}))\ \Downarrow \ \mathsf{ok}\quad (\mathsf{vis}\ =\ \texttt{public}\ \Rightarrow \ \operatorname{Vis}(\operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name}_{i}))\ =\ \texttt{public})\quad \mathsf{bind}_{i}\ =\ \langle \operatorname{UsingSpecName}(s_{i}),\ \langle k_{i},\ \mathsf{mp},\ \mathsf{name}_{i},\ \mathsf{Using}\rangle \rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{UsingNames}(u)\ \Downarrow \ [\mathsf{bind}_{1},\ \ldots ,\ \mathsf{bind}_{n}]
 \end{array}
@@ -208,7 +208,7 @@ $$
 
 $$
 \begin{array}{l}
-u\ =\ \langle \mathsf{UsingDecl},\ \mathsf{vis},\ \langle \mathsf{UsingWildcard},\ \mathsf{mp}_{\mathsf{raw}}\rangle ,\ \_,\ \_\rangle \quad \Gamma \ \vdash \ \operatorname{ResolveImportPath}(\mathsf{mp}_{\mathsf{raw}})\ \Downarrow \ \mathsf{mp}\quad \Gamma \ \vdash \ \operatorname{ImportOk}(m,\ \mathsf{mp})\ \Downarrow \ \mathsf{ok}\quad \lnot \ \operatorname{PublicAPI}(m)\quad \mathsf{Items}\ =\ \{\ \mathsf{name}\ \mid \ \mathsf{name}\ \in \ \operatorname{ItemNames}(\mathsf{mp})\ \land \ \Gamma \ \vdash \ \operatorname{CanAccess}(m,\ \operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name}))\ \Downarrow \ \mathsf{ok}\ \}\quad (\mathsf{vis}\ =\ \texttt{public}\ \Rightarrow \ \forall \ \mathsf{name}\ \in \ \mathsf{Items}.\ \operatorname{Vis}(\operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name}))\ =\ \texttt{public})\quad \forall \ \mathsf{name}\ \in \ \mathsf{Items},\ \operatorname{NameMap}(P,\ \mathsf{mp})[\operatorname{IdKey}(\mathsf{name})]\ =\ \langle k,\ \_,\ \_,\ \_\rangle \quad k\ \in \ \{\mathsf{Value},\ \mathsf{Type},\ \mathsf{Class}\}\quad \mathsf{bind}_{\mathsf{name}}\ =\ \langle \mathsf{name},\ \langle k,\ \mathsf{mp},\ \mathsf{name},\ \mathsf{Using}\rangle \rangle  \\[0.16em]
+u\ =\ \langle \mathsf{UsingDecl},\ \mathsf{vis},\ \langle \mathsf{UsingWildcard},\ \mathsf{mp}_{\mathsf{raw}}\rangle ,\ \_,\ \_\rangle \quad \Gamma \ \vdash \ \operatorname{ResolveImportPath}(\mathsf{mp}_{\mathsf{raw}})\ \Downarrow \ \mathsf{mp}\quad \Gamma \ \vdash \ \operatorname{ImportOk}(m,\ \mathsf{mp})\ \Downarrow \ \mathsf{ok}\quad \lnot \ \operatorname{PublicAPI}(m)\quad \mathsf{Items}\ =\ \{\ \mathsf{name}\ \mid \ \mathsf{name}\ \in \ \operatorname{ItemNames}(\mathsf{mp})\ \land \ \Gamma \ \vdash \ \operatorname{CanAccess}(m,\ \operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name}))\ \Downarrow \ \mathsf{ok}\ \}\quad (\mathsf{vis}\ =\ \texttt{public}\ \Rightarrow \ \forall \ \mathsf{name}\ \in \ \mathsf{Items}.\ \operatorname{Vis}(\operatorname{DeclOf}(\mathsf{mp},\ \mathsf{name}))\ =\ \texttt{public})\quad \forall \ \mathsf{name}\ \in \ \mathsf{Items},\ \operatorname{NameMap}(P,\ \mathsf{mp})[\operatorname{IdKey}(\mathsf{name})]\ =\ \langle k,\ \_,\ \_,\ \_\rangle \quad k\ \in \ \{\mathsf{Value},\ \mathsf{Type},\ \mathsf{Class}\}\quad \mathsf{bind}_{\mathsf{name}}\ =\ \langle \mathsf{name},\ \langle k,\ \mathsf{mp},\ \mathsf{name},\ \mathsf{Using}\rangle \rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{UsingNames}(u)\ \Downarrow \ [\mathsf{bind}_{\mathsf{name}}\ \mid \ \mathsf{name}\ \in \ \mathsf{Items}]
 \end{array}
@@ -234,25 +234,7 @@ u\ =\ \langle \mathsf{UsingDecl},\ \texttt{public},\ \langle \mathsf{UsingList},
 \end{array}
 $$
 
-**(Bind-Using)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{UsingNames}(u)\ \Downarrow \ B \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ItemBindings}(u,\ p)\ \Downarrow \ B
-\end{array}
-$$
-
-**(Bind-Using-Err)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{UsingNames}(u)\ \Uparrow \ c \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ItemBindings}(u,\ p)\ \Uparrow \ c
-\end{array}
-$$
+Rules **(Bind-Using)** and **(Bind-Using-Err)** are defined once by §7.5.
 
 **(ResolveItem-Using)**
 
@@ -275,9 +257,9 @@ $$
 
 | Code         | Severity | Detection    | Condition                                        |
 | ------------ | -------- | ------------ | ------------------------------------------------ |
-| `E-MOD-1204` | Error    | Compile-time | Using path does not resolve to an item           |
-| `E-MOD-1205` | Error    | Compile-time | Attempt to `public using` a non-public item      |
-| `E-MOD-1206` | Error    | Compile-time | Duplicate item in a `using` list                 |
+| `E-MOD-1204` | Error    | Compile-time | Using path does not resolve to an item (`Resolve-Using-None`) |
+| `E-MOD-1205` | Error    | Compile-time | Attempt to `public using` a non-public item (`Using-List-Public-Err`, `Using-Path-Item-Public-Err`) |
+| `E-MOD-1206` | Error    | Compile-time | Duplicate item in a `using` list (`Using-List-Dup`) |
 | `W-MOD-1201` | Warning  | Compile-time | Wildcard `using` in a module exposing public API |
 
 Missing required cross-assembly imports are owned by §11.5.7.

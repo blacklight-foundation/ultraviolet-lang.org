@@ -2,16 +2,16 @@
 title: "4.2 Lexical Analysis"
 description: "4.2 Lexical Analysis from 4. Source Text and Lexical Structure of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "source-text-and-lexical-structure"
 specSection: "42-lexical-analysis"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -30,7 +30,7 @@ B = S.text
 $$
 \begin{array}{l}
 n\ =\ S.\mathsf{byte}_{\mathsf{len}} \\[0.16em]
-\operatorname{LexerInput}(S)\ =\ \langle T,\ B,\ n\rangle 
+\operatorname{LexerInput}(S)\ =\ \langle T,\ B,\ n\rangle
 \end{array}
 $$
 
@@ -38,7 +38,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{LexerOutput}(S)\ =\ \langle K,\ D\rangle  \\[0.16em]
+\operatorname{LexerOutput}(S)\ =\ \langle K,\ D\rangle \\[0.16em]
 K\ \in \ \mathsf{Token}*\quad D\ \in \ \mathsf{DocComment}*
 \end{array}
 $$
@@ -48,7 +48,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{EOFSpan}(S)\ =\ \operatorname{SpanOfText}(S,\ \mid T\mid ,\ \mid T\mid ) \\[0.16em]
-\operatorname{TokenEOF}(S)\ =\ \langle \mathsf{EOF},\ \varepsilon ,\ \operatorname{EOFSpan}(S)\rangle 
+\operatorname{TokenEOF}(S)\ =\ \langle \mathsf{EOF},\ \varepsilon ,\ \operatorname{EOFSpan}(S)\rangle
 \end{array}
 $$
 
@@ -64,7 +64,7 @@ $$
 **DocComment.**
 
 $$
-\mathsf{DocComment}\ =\ \langle \mathsf{kind},\ \mathsf{text},\ \mathsf{span}\rangle 
+\mathsf{DocComment}\ =\ \langle \mathsf{kind},\ \mathsf{text},\ \mathsf{span}\rangle
 $$
 
 $$
@@ -189,7 +189,7 @@ $$
 $$
 
 $$
-\mathsf{FutureReserved}\ =\ \emptyset 
+\mathsf{FutureReserved}\ =\ \emptyset
 $$
 
 **Keyword Predicate.**
@@ -212,7 +212,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{UniverseProtected}\ =\ \{\texttt{i8},\ \texttt{i16},\ \texttt{i32},\ \texttt{i64},\ \texttt{i128},\ \texttt{u8},\ \texttt{u16},\ \texttt{u32},\ \texttt{u64},\ \texttt{u128},\ \texttt{f16},\ \texttt{f32},\ \texttt{f64},\ \texttt{bool},\ \texttt{char},\ \texttt{usize},\ \texttt{isize},\ \texttt{Self},\ \texttt{Drop},\ \texttt{Bitcopy},\ \texttt{Clone},\ \texttt{Eq},\ \texttt{Hash},\ \texttt{Hasher},\ \texttt{Iterator},\ \texttt{Step},\ \texttt{FfiSafe},\ \texttt{string},\ \texttt{bytes},\ \texttt{Modal},\ \texttt{Region},\ \texttt{RegionOptions},\ \texttt{CancelToken},\ \texttt{Context},\ \texttt{TestAuthority},\ \texttt{System},\ \texttt{IO},\ \texttt{HeapAllocator},\ \texttt{Network},\ \texttt{ExecutionDomain},\ \texttt{Reactor},\ \texttt{Time},\ \texttt{MonotonicTime},\ \texttt{WallTime},\ \texttt{Duration},\ \texttt{MonotonicInstant},\ \texttt{UtcInstant},\ \texttt{TimeError},\ \texttt{CpuSet},\ \texttt{Priority},\ \texttt{Async},\ \texttt{Future},\ \texttt{Sequence},\ \texttt{Stream},\ \texttt{Pipe},\ \texttt{Exchange},\ \texttt{Tracked},\ \texttt{Spawned}\} \\[0.16em]
+\mathsf{UniverseProtected}\ =\ \{\texttt{i8},\ \texttt{i16},\ \texttt{i32},\ \texttt{i64},\ \texttt{i128},\ \texttt{u8},\ \texttt{u16},\ \texttt{u32},\ \texttt{u64},\ \texttt{u128},\ \texttt{f16},\ \texttt{f32},\ \texttt{f64},\ \texttt{bool},\ \texttt{char},\ \texttt{usize},\ \texttt{isize},\ \texttt{Self},\ \texttt{Drop},\ \texttt{Bitcopy},\ \texttt{Clone},\ \texttt{Eq},\ \texttt{Hash},\ \texttt{Hasher},\ \texttt{Iterator},\ \texttt{Discrete},\ \texttt{FfiSafe},\ \texttt{string},\ \texttt{bytes},\ \texttt{Modal},\ \texttt{Region},\ \texttt{RegionOptions},\ \texttt{CancelToken},\ \texttt{Context},\ \texttt{TestAuthority},\ \texttt{System},\ \texttt{IO},\ \texttt{HeapAllocator},\ \texttt{Network},\ \texttt{ExecutionDomain},\ \texttt{Reactor},\ \texttt{Time},\ \texttt{MonotonicTime},\ \texttt{WallTime},\ \texttt{Duration},\ \texttt{MonotonicInstant},\ \texttt{UtcInstant},\ \texttt{TimeError},\ \texttt{CpuSet},\ \texttt{Priority},\ \texttt{Async},\ \texttt{Future},\ \texttt{Sequence},\ \texttt{Stream},\ \texttt{Pipe},\ \texttt{Exchange},\ \texttt{Tracked},\ \texttt{Spawned}\} \\[0.16em]
 \mathsf{UniverseProtectedPhase}\ =\ \mathsf{Phase3}
 \end{array}
 $$
@@ -240,7 +240,7 @@ $$
 The attribute delimiter is the operator `#`. It prefixes exactly one attribute specification; repeated adjacent attributes form an attribute list.
 
 $$
-\mathsf{OperatorSet}\ \cap \ \mathsf{PunctuatorSet}\ =\ \emptyset 
+\mathsf{OperatorSet}\ \cap \ \mathsf{PunctuatorSet}\ =\ \emptyset
 $$
 
 ### 4.2.5 Comment and Whitespace Scanning
@@ -272,9 +272,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ScanLineComment}(T,\ i)\ \Downarrow \ j\quad \mathsf{kind}\ \ne \ \bot  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ScanLineComment}(T,\ i)\ \Downarrow \ j\quad \mathsf{kind}\ \ne \ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{DocComment}(T,\ i)\ \Downarrow \ \langle \mathsf{kind},\ \mathsf{body},\ \operatorname{SpanOfText}(S,\ i,\ j)\rangle 
+\Gamma \ \vdash \ \operatorname{DocComment}(T,\ i)\ \Downarrow \ \langle \mathsf{kind},\ \mathsf{body},\ \operatorname{SpanOfText}(S,\ i,\ j)\rangle
 \end{array}
 $$
 
@@ -297,7 +297,7 @@ T[i] = '/'    T[i+1] = '*'
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{BlockScan}(T,\ i,\ d,\ i_{0})\rangle \ \to \ \langle \operatorname{BlockScan}(T,\ i+2,\ d+1,\ i_{0})\rangle 
+\langle \operatorname{BlockScan}(T,\ i,\ d,\ i_{0})\rangle \ \to \ \langle \operatorname{BlockScan}(T,\ i+2,\ d+1,\ i_{0})\rangle
 \end{array}
 $$
 
@@ -307,7 +307,7 @@ T[i] = '*'    T[i+1] = '/'    d > 1
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{BlockScan}(T,\ i,\ d,\ i_{0})\rangle \ \to \ \langle \operatorname{BlockScan}(T,\ i+2,\ d-1,\ i_{0})\rangle 
+\langle \operatorname{BlockScan}(T,\ i,\ d,\ i_{0})\rangle \ \to \ \langle \operatorname{BlockScan}(T,\ i+2,\ d-1,\ i_{0})\rangle
 \end{array}
 $$
 
@@ -317,7 +317,7 @@ $$
 \begin{array}{l}
 T[i]\ =\ '*'\quad T[i+1]\ =\ '/'\quad d\ =\ 1 \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{BlockScan}(T,\ i,\ d,\ i_{0})\rangle \ \to \ \langle \operatorname{BlockDone}(i+2)\rangle 
+\langle \operatorname{BlockScan}(T,\ i,\ d,\ i_{0})\rangle \ \to \ \langle \operatorname{BlockDone}(i+2)\rangle
 \end{array}
 $$
 
@@ -327,7 +327,7 @@ $$
 \begin{array}{l}
 T[i..i+2]\ \ne \ \texttt{"/*"}\quad T[i..i+2]\ \ne \ \texttt{"*/"} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{BlockScan}(T,\ i,\ d,\ i_{0})\rangle \ \to \ \langle \operatorname{BlockScan}(T,\ i+1,\ d,\ i_{0})\rangle 
+\langle \operatorname{BlockScan}(T,\ i,\ d,\ i_{0})\rangle \ \to \ \langle \operatorname{BlockScan}(T,\ i+1,\ d,\ i_{0})\rangle
 \end{array}
 $$
 
@@ -781,7 +781,7 @@ $$
 \ \operatorname{StringTok}(T,\ i)\ \cup \ \operatorname{CharTok}(T,\ i)\ \mathsf{if}\ \operatorname{IsQuote}(T[i]) \\[0.16em]
 \ \operatorname{FloatTok}(T,\ i)\ \cup \ \operatorname{IntTok}(T,\ i)\quad \mathsf{if}\ \operatorname{DecDigit}(T[i]) \\[0.16em]
 \ \operatorname{IdentToken}(T,\ i)\quad \mathsf{if}\ \operatorname{IdentStart}(T[i]) \\[0.16em]
-\ \operatorname{OpTok}(T,\ i)\ \cup \ \operatorname{PuncTok}(T,\ i)\quad \mathsf{if}\ \operatorname{OpTok}(T,\ i)\ \ne \ \emptyset \ \lor \ \operatorname{PuncTok}(T,\ i)\ \ne \ \emptyset  \\[0.16em]
+\ \operatorname{OpTok}(T,\ i)\ \cup \ \operatorname{PuncTok}(T,\ i)\quad \mathsf{if}\ \operatorname{OpTok}(T,\ i)\ \ne \ \emptyset \ \lor \ \operatorname{PuncTok}(T,\ i)\ \ne \ \emptyset \\[0.16em]
 \ \emptyset \quad \mathsf{otherwise}
 \end{array}
 $$
@@ -806,7 +806,7 @@ $$
 $$
 
 $$
-\operatorname{PickLongest}(C)\ =\ \mathsf{argmax}\_\{(k,\ j)\ \in \ C\}\ \langle j,\ \operatorname{KindPriority}(k)\rangle 
+\operatorname{PickLongest}(C)\ =\ \mathsf{argmax}\_\{(k,\ j)\ \in \ C\}\ \langle j,\ \operatorname{KindPriority}(k)\rangle
 $$
 
 **(Max-Munch)**
@@ -846,7 +846,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{LineCommentRange}(T,\ i,\ j)\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{ScanLineComment}(T,\ i)\ \Downarrow \ j \\[0.16em]
-\operatorname{BlockCommentRange}(T,\ i,\ j)\ \Leftrightarrow \ T[i..i+2]\ =\ \texttt{"/*"}\ \land \ \langle \operatorname{BlockScan}(T,\ i,\ 0,\ i)\rangle \ \to *\ \langle \operatorname{BlockDone}(j)\rangle  \\[0.16em]
+\operatorname{BlockCommentRange}(T,\ i,\ j)\ \Leftrightarrow \ T[i..i+2]\ =\ \texttt{"/*"}\ \land \ \langle \operatorname{BlockScan}(T,\ i,\ 0,\ i)\rangle \ \to *\ \langle \operatorname{BlockDone}(j)\rangle \\[0.16em]
 \operatorname{StringRange}(T,\ i,\ j)\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{StringLiteral}(T,\ i)\ \Downarrow \ j \\[0.16em]
 \operatorname{CharRange}(T,\ i,\ j)\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{CharLiteral}(T,\ i)\ \Downarrow \ j \\[0.16em]
 \operatorname{InsideLiteralOrComment}(i)\ \Leftrightarrow \ \exists \ a,\ b.\ a\ \le \ i\ <\ b\ \land \ (\operatorname{LineCommentRange}(T,\ a,\ b)\ \lor \ \operatorname{BlockCommentRange}(T,\ a,\ b)\ \lor \ \operatorname{StringRange}(T,\ a,\ b)\ \lor \ \operatorname{CharRange}(T,\ a,\ b))
@@ -870,7 +870,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{NextNonNewline}(K,\ i)\ =\ \bot \ \Leftrightarrow \ \{\ j\ \mid \ j\ \ge \ i\ \land \ K[j].\mathsf{kind}\ \ne \ \mathsf{Newline}\ \}\ =\ \emptyset  \\[0.16em]
+\operatorname{NextNonNewline}(K,\ i)\ =\ \bot \ \Leftrightarrow \ \{\ j\ \mid \ j\ \ge \ i\ \land \ K[j].\mathsf{kind}\ \ne \ \mathsf{Newline}\ \}\ =\ \emptyset \\[0.16em]
 \operatorname{NextNonNewline}(K,\ i)\ =\ j\ \Leftrightarrow \ j\ =\ \mathsf{min}\{\ j\ \mid \ j\ \ge \ i\ \land \ K[j].\mathsf{kind}\ \ne \ \mathsf{Newline}\ \}
 \end{array}
 $$
@@ -881,13 +881,13 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{Balance}(K,\ j,\ m)\ =\ \mid \{\ x\ \mid \ j\ \le \ x\ \le \ m\ \land \ \operatorname{IsLBrace}(K[x])\ \}\mid \ -\ \mid \{\ x\ \mid \ j\ \le \ x\ \le \ m\ \land \ \operatorname{IsRBrace}(K[x])\ \}\mid  \\[0.16em]
-\operatorname{MatchBrace}(K,\ j)\ =\ \bot \ \Leftrightarrow \ \{\ k\ \mid \ k\ >\ j\ \land \ \operatorname{Balance}(K,\ j,\ k)\ =\ 0\ \land \ \forall \ m\ \in \ (j,\ k).\ \operatorname{Balance}(K,\ j,\ m)\ >\ 0\ \}\ =\ \emptyset 
+\operatorname{Balance}(K,\ j,\ m)\ =\ \mid \{\ x\ \mid \ j\ \le \ x\ \le \ m\ \land \ \operatorname{IsLBrace}(K[x])\ \}\mid \ -\ \mid \{\ x\ \mid \ j\ \le \ x\ \le \ m\ \land \ \operatorname{IsRBrace}(K[x])\ \}\mid \\[0.16em]
+\operatorname{MatchBrace}(K,\ j)\ =\ \bot \ \Leftrightarrow \ \{\ k\ \mid \ k\ >\ j\ \land \ \operatorname{Balance}(K,\ j,\ k)\ =\ 0\ \land \ \forall \ m\ \in \ (j,\ k).\ \operatorname{Balance}(K,\ j,\ m)\ >\ 0\ \}\ =\ \emptyset
 \end{array}
 $$
 
 $$
-\operatorname{SpanFrom}(t_{a},\ t_{b})\ =\ \langle t_{a}.\mathsf{span}.\mathsf{file},\ t_{a}.\mathsf{span}.\mathsf{start}_{\mathsf{offset}},\ t_{b}.\mathsf{span}.\mathsf{end}_{\mathsf{offset}},\ t_{a}.\mathsf{span}.\mathsf{start}_{\mathsf{line}},\ t_{a}.\mathsf{span}.\mathsf{start}_{\mathsf{col}},\ t_{b}.\mathsf{span}.\mathsf{end}_{\mathsf{line}},\ t_{b}.\mathsf{span}.\mathsf{end}_{\mathsf{col}}\rangle 
+\operatorname{SpanFrom}(t_{a},\ t_{b})\ =\ \langle t_{a}.\mathsf{span}.\mathsf{file},\ t_{a}.\mathsf{span}.\mathsf{start}_{\mathsf{offset}},\ t_{b}.\mathsf{span}.\mathsf{end}_{\mathsf{offset}},\ t_{a}.\mathsf{span}.\mathsf{start}_{\mathsf{line}},\ t_{a}.\mathsf{span}.\mathsf{start}_{\mathsf{col}},\ t_{b}.\mathsf{span}.\mathsf{end}_{\mathsf{line}},\ t_{b}.\mathsf{span}.\mathsf{end}_{\mathsf{col}}\rangle
 $$
 
 $$
@@ -977,7 +977,7 @@ T = S.scalars
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{LexStart}(S)\rangle \ \to \ \langle \operatorname{LexScan}(S,\ 0,\ [],\ [],\ [])\rangle 
+\langle \operatorname{LexStart}(S)\rangle \ \to \ \langle \operatorname{LexScan}(S,\ 0,\ [],\ [],\ [])\rangle
 \end{array}
 $$
 
@@ -985,9 +985,9 @@ $$
 
 $$
 \begin{array}{l}
-i\ \ge \ \mid T\mid  \\[0.16em]
+i\ \ge \ \mid T\mid \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexDone}(K,\ D,\ \mathsf{Sens})\rangle 
+\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexDone}(K,\ D,\ \mathsf{Sens})\rangle
 \end{array}
 $$
 
@@ -997,7 +997,7 @@ $$
 \begin{array}{l}
 \operatorname{Whitespace}(T[i]) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ i+1,\ K,\ D,\ \mathsf{Sens})\rangle 
+\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ i+1,\ K,\ D,\ \mathsf{Sens})\rangle
 \end{array}
 $$
 
@@ -1007,7 +1007,7 @@ T[i] = LF
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ i+1,\ K\ \mathbin{++} \ [\langle \mathsf{newline},\ \operatorname{Lexeme}(T,\ i,\ i+1),\ \operatorname{SpanOfText}(S,\ i,\ i+1)\rangle ],\ D,\ \mathsf{Sens})\rangle 
+\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ i+1,\ K\ \mathbin{++} \ [\langle \mathsf{newline},\ \operatorname{Lexeme}(T,\ i,\ i+1),\ \operatorname{SpanOfText}(S,\ i,\ i+1)\rangle ],\ D,\ \mathsf{Sens})\rangle
 \end{array}
 $$
 
@@ -1017,7 +1017,7 @@ $$
 \begin{array}{l}
 T[i..i+2]\ =\ \texttt{"//"}\quad T[i..i+3]\ \notin \ \{\texttt{"///"},\ \texttt{"//!"}\}\quad \Gamma \ \vdash \ \operatorname{ScanLineComment}(T,\ i)\ \Downarrow \ j \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ j,\ K,\ D,\ \mathsf{Sens})\rangle 
+\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ j,\ K,\ D,\ \mathsf{Sens})\rangle
 \end{array}
 $$
 
@@ -1027,7 +1027,7 @@ $$
 \begin{array}{l}
 T[i..i+3]\ \in \ \{\texttt{"///"},\ \texttt{"//!"}\}\quad \Gamma \ \vdash \ \operatorname{ScanLineComment}(T,\ i)\ \Downarrow \ j\quad \Gamma \ \vdash \ \operatorname{DocComment}(T,\ i)\ \Downarrow \ d \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ j,\ K,\ D\ \mathbin{++} \ [d],\ \mathsf{Sens})\rangle 
+\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ j,\ K,\ D\ \mathbin{++} \ [d],\ \mathsf{Sens})\rangle
 \end{array}
 $$
 
@@ -1035,9 +1035,9 @@ $$
 
 $$
 \begin{array}{l}
-T[i..i+2]\ =\ \texttt{"/*"}\quad \langle \operatorname{BlockScan}(T,\ i,\ 0,\ i)\rangle \ \to *\ \langle \operatorname{BlockDone}(j)\rangle  \\[0.16em]
+T[i..i+2]\ =\ \texttt{"/*"}\quad \langle \operatorname{BlockScan}(T,\ i,\ 0,\ i)\rangle \ \to *\ \langle \operatorname{BlockDone}(j)\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ j,\ K,\ D,\ \mathsf{Sens})\rangle 
+\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ j,\ K,\ D,\ \mathsf{Sens})\rangle
 \end{array}
 $$
 
@@ -1047,7 +1047,7 @@ $$
 \begin{array}{l}
 T[i]\ =\ \texttt{"\textbackslash{}""}\quad \operatorname{LineFeedOrEOFBeforeClose}(T,\ i)\quad c\ =\ \operatorname{Code}(\mathsf{Lex}-\mathsf{String}-\mathsf{Unterminated})\quad \Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{SpanOfText}(S,\ i,\ i+1))\quad j\ =\ \operatorname{StringTerminator}(T,\ i) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ j,\ K,\ D,\ \mathsf{Sens})\rangle 
+\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ j,\ K,\ D,\ \mathsf{Sens})\rangle
 \end{array}
 $$
 
@@ -1057,7 +1057,7 @@ $$
 \begin{array}{l}
 T[i]\ =\ \texttt{"'"}\quad \operatorname{LineFeedOrEOFBeforeClose}(T,\ i)\quad c\ =\ \operatorname{Code}(\mathsf{Lex}-\mathsf{Char}-\mathsf{Unterminated})\quad \Gamma \ \vdash \ \operatorname{Emit}(c,\ \operatorname{SpanOfText}(S,\ i,\ i+1))\quad j\ =\ \operatorname{CharTerminator}(T,\ i) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ j,\ K,\ D,\ \mathsf{Sens})\rangle 
+\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ j,\ K,\ D,\ \mathsf{Sens})\rangle
 \end{array}
 $$
 
@@ -1067,7 +1067,7 @@ $$
 \begin{array}{l}
 \operatorname{Sensitive}(T[i]) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ i+1,\ K,\ D,\ \mathsf{Sens}\ \mathbin{++} \ [i])\rangle 
+\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ i+1,\ K,\ D,\ \mathsf{Sens}\ \mathbin{++} \ [i])\rangle
 \end{array}
 $$
 
@@ -1088,7 +1088,7 @@ $$
 \begin{array}{l}
 \lnot \ \operatorname{Whitespace}(T[i])\quad T[i]\ \ne \ \mathsf{LF}\quad T[i..i+2]\ \notin \ \{\texttt{"//"},\ \texttt{"/*"}\}\quad \lnot \ \operatorname{Sensitive}(T[i])\quad \Gamma \ \vdash \ \operatorname{NextToken}(T,\ i)\ \Downarrow \ (k,\ j) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ j,\ K\ \mathbin{++} \ [\langle k,\ \operatorname{Lexeme}(T,\ i,\ j),\ \operatorname{SpanOfText}(S,\ i,\ j)\rangle ],\ D,\ \mathsf{Sens}\ \mathbin{++} \ \operatorname{SensitiveTok}(T,\ i,\ j,\ k))\rangle 
+\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexScan}(S,\ j,\ K\ \mathbin{++} \ [\langle k,\ \operatorname{Lexeme}(T,\ i,\ j),\ \operatorname{SpanOfText}(S,\ i,\ j)\rangle ],\ D,\ \mathsf{Sens}\ \mathbin{++} \ \operatorname{SensitiveTok}(T,\ i,\ j,\ k))\rangle
 \end{array}
 $$
 
@@ -1098,7 +1098,7 @@ $$
 \begin{array}{l}
 \lnot \ \operatorname{Whitespace}(T[i])\quad T[i]\ \ne \ \mathsf{LF}\quad T[i..i+2]\ \notin \ \{\texttt{"//"},\ \texttt{"/*"}\}\quad \lnot \ (T[i]\ =\ \texttt{"\textbackslash{}""}\ \land \ \operatorname{LineFeedOrEOFBeforeClose}(T,\ i))\quad \lnot \ (T[i]\ =\ \texttt{"'"}\ \land \ \operatorname{LineFeedOrEOFBeforeClose}(T,\ i))\quad \lnot \ \operatorname{Sensitive}(T[i])\quad \Gamma \ \vdash \ \operatorname{NextToken}(T,\ i)\ \Uparrow \ c \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexError}(c)\rangle 
+\langle \operatorname{LexScan}(S,\ i,\ K,\ D,\ \mathsf{Sens})\rangle \ \to \ \langle \operatorname{LexError}(c)\rangle
 \end{array}
 $$
 
@@ -1128,7 +1128,7 @@ $$
 
 $$
 \begin{array}{l}
-\langle \operatorname{LexStart}(S)\rangle \ \to *\ \langle \operatorname{LexError}(c)\rangle  \\[0.16em]
+\langle \operatorname{LexStart}(S)\rangle \ \to *\ \langle \operatorname{LexError}(c)\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Tokenize}(S)\ \Uparrow \ c
 \end{array}

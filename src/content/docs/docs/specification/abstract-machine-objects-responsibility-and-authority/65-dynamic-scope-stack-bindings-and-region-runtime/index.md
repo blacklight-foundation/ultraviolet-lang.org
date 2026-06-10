@@ -2,16 +2,16 @@
 title: "6.5 Dynamic Scope Stack, Bindings, and Region Runtime"
 description: "6.5 Dynamic Scope Stack, Bindings, and Region Runtime from 6. Abstract Machine, Objects, Responsibility, and Authority of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "abstract-machine-objects-responsibility-and-authority"
 specSection: "65-dynamic-scope-stack-bindings-and-region-runtime"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -25,7 +25,7 @@ generated: true
 
 $$
 \begin{array}{l}
-\mathsf{ScopeEntry}\ =\ \langle \mathsf{scope}_{\mathsf{id}},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle  \\[0.16em]
+\mathsf{ScopeEntry}\ =\ \langle \mathsf{scope}_{\mathsf{id}},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle \\[0.16em]
 \operatorname{ScopeId}(\langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle )\ =\ \mathsf{sid} \\[0.16em]
 \operatorname{ScopeCleanup}(\langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle )\ =\ \mathsf{cleanup} \\[0.16em]
 \operatorname{ScopeNames}(\langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle )\ =\ \mathsf{names} \\[0.16em]
@@ -39,7 +39,7 @@ $$
 \operatorname{ScopeStack}(\sigma )\ \in \ [\mathsf{ScopeEntry}] \\[0.16em]
 \operatorname{CurrentScope}(\sigma )\ =\ \mathsf{scope}\ \Leftrightarrow \ \operatorname{ScopeStack}(\sigma )\ =\ \mathsf{scope}\ \mathbin{::} \ \mathsf{ss} \\[0.16em]
 \operatorname{CurrentScopeId}(\sigma )\ =\ \operatorname{ScopeId}(\operatorname{CurrentScope}(\sigma )) \\[0.16em]
-\operatorname{ScopeEmpty}(\mathsf{sid})\ =\ \langle \mathsf{sid},\ [],\ \emptyset ,\ \emptyset ,\ \emptyset \rangle  \\[0.16em]
+\operatorname{ScopeEmpty}(\mathsf{sid})\ =\ \langle \mathsf{sid},\ [],\ \emptyset ,\ \emptyset ,\ \emptyset \rangle \\[0.16em]
 \operatorname{FreshScopeId}(\sigma )\ =\ \mathsf{sid}\ \Rightarrow \ \forall \ s\ \in \ \operatorname{ScopeStack}(\sigma ).\ \operatorname{ScopeId}(s)\ \ne \ \mathsf{sid}
 \end{array}
 $$
@@ -62,7 +62,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{CleanupList}(\mathsf{scope})\ =\ \operatorname{ScopeCleanup}(\mathsf{scope}) \\[0.16em]
-\operatorname{ScopeById}([],\ \mathsf{sid})\ =\ \bot  \\[0.16em]
+\operatorname{ScopeById}([],\ \mathsf{sid})\ =\ \bot \\[0.16em]
 \operatorname{ScopeById}(\mathsf{scope}\ \mathbin{::} \ \mathsf{ss},\ \mathsf{sid})\ = \\[0.16em]
 \ \mathsf{scope}\quad \mathsf{if}\ \operatorname{ScopeId}(\mathsf{scope})\ =\ \mathsf{sid} \\[0.16em]
 \ \operatorname{ScopeById}(\mathsf{ss},\ \mathsf{sid})\quad \mathsf{otherwise}
@@ -71,7 +71,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ReplaceScopeById}([],\ \mathsf{sid},\ \mathsf{scope}')\ =\ \bot  \\[0.16em]
+\operatorname{ReplaceScopeById}([],\ \mathsf{sid},\ \mathsf{scope}')\ =\ \bot \\[0.16em]
 \operatorname{ReplaceScopeById}(\mathsf{scope}\ \mathbin{::} \ \mathsf{ss},\ \mathsf{sid},\ \mathsf{scope}')\ = \\[0.16em]
 \ \mathsf{scope}'\ \mathbin{::} \ \mathsf{ss}\quad \mathsf{if}\ \operatorname{ScopeId}(\mathsf{scope})\ =\ \mathsf{sid} \\[0.16em]
 \ \mathsf{scope}\ \mathbin{::} \ \operatorname{ReplaceScopeById}(\mathsf{ss},\ \mathsf{sid},\ \mathsf{scope}')\ \mathsf{otherwise}
@@ -94,7 +94,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{Binding}\ =\ \langle \mathsf{scope}_{\mathsf{id}},\ \mathsf{bind}_{\mathsf{id}},\ \mathsf{name}\rangle  \\[0.16em]
+\mathsf{Binding}\ =\ \langle \mathsf{scope}_{\mathsf{id}},\ \mathsf{bind}_{\mathsf{id}},\ \mathsf{name}\rangle \\[0.16em]
 \mathsf{BindingValue}\ =\ \mathsf{Value}\ \cup \ \{\operatorname{Alias}(\mathsf{addr})\ \mid \ \mathsf{addr}\ \in \ \mathsf{Addr}\}
 \end{array}
 $$
@@ -112,7 +112,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{NearestScope}([],\ x)\ =\ \bot  \\[0.16em]
+\operatorname{NearestScope}([],\ x)\ =\ \bot \\[0.16em]
 \operatorname{NearestScope}(\mathsf{scope}\ \mathbin{::} \ \mathsf{ss},\ x)\ = \\[0.16em]
 \ \mathsf{scope}\quad \mathsf{if}\ \operatorname{ScopeNames}(\mathsf{scope})[x]\ \mathsf{defined} \\[0.16em]
 \ \operatorname{NearestScope}(\mathsf{ss},\ x)\quad \mathsf{otherwise}
@@ -199,8 +199,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ScopeValsUpdate}(\langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle ,\ \mathsf{bind}_{\mathsf{id}},\ v)\ =\ \langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals}[\mathsf{bind}_{\mathsf{id}}\ \mapsto \ v],\ \mathsf{states}\rangle  \\[0.16em]
-\operatorname{ScopeStatesUpdate}(\langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle ,\ \mathsf{bind}_{\mathsf{id}},\ s)\ =\ \langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}[\mathsf{bind}_{\mathsf{id}}\ \mapsto \ s]\rangle 
+\operatorname{ScopeValsUpdate}(\langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle ,\ \mathsf{bind}_{\mathsf{id}},\ v)\ =\ \langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals}[\mathsf{bind}_{\mathsf{id}}\ \mapsto \ v],\ \mathsf{states}\rangle \\[0.16em]
+\operatorname{ScopeStatesUpdate}(\langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}\rangle ,\ \mathsf{bind}_{\mathsf{id}},\ s)\ =\ \langle \mathsf{sid},\ \mathsf{cleanup},\ \mathsf{names},\ \mathsf{vals},\ \mathsf{states}[\mathsf{bind}_{\mathsf{id}}\ \mapsto \ s]\rangle
 \end{array}
 $$
 
@@ -245,7 +245,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{RegionEntry}\ =\ \langle \mathsf{tag},\ \mathsf{target},\ \mathsf{scope},\ \mathsf{mark}_{\mathsf{opt}}\rangle  \\[0.16em]
+\mathsf{RegionEntry}\ =\ \langle \mathsf{tag},\ \mathsf{target},\ \mathsf{scope},\ \mathsf{mark}_{\mathsf{opt}}\rangle \\[0.16em]
 \operatorname{RegionTagOf}(\langle \mathsf{tag},\ \mathsf{target},\ \mathsf{scope},\ \mathsf{mark}_{\mathsf{opt}}\rangle )\ =\ \mathsf{tag} \\[0.16em]
 \operatorname{RegionTargetOf}(\langle \mathsf{tag},\ \mathsf{target},\ \mathsf{scope},\ \mathsf{mark}_{\mathsf{opt}}\rangle )\ =\ \mathsf{target} \\[0.16em]
 \operatorname{RegionScopeOf}(\langle \mathsf{tag},\ \mathsf{target},\ \mathsf{scope},\ \mathsf{mark}_{\mathsf{opt}}\rangle )\ =\ \mathsf{scope} \\[0.16em]
@@ -285,7 +285,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{ArenaAppend}(\sigma ,\ r,\ \mathsf{addr})\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{ArenaAllocs}(\sigma ,\ r)\ =\ \mathsf{allocs}\ \land \ \operatorname{UpdateRegionArena}(\sigma ,\ \operatorname{RegionArena}(\sigma )[r\ \mapsto \ \mathsf{allocs}\ \mathbin{++} \ [\mathsf{addr}]])\ =\ \sigma ' \\[0.16em]
-\operatorname{ArenaMark}(\sigma ,\ r)\ =\ m\ \Leftrightarrow \ \operatorname{ArenaAllocs}(\sigma ,\ r)\ =\ \mathsf{allocs}\ \land \ m\ =\ \mid \mathsf{allocs}\mid  \\[0.16em]
+\operatorname{ArenaMark}(\sigma ,\ r)\ =\ m\ \Leftrightarrow \ \operatorname{ArenaAllocs}(\sigma ,\ r)\ =\ \mathsf{allocs}\ \land \ m\ =\ \mid \mathsf{allocs}\mid \\[0.16em]
 \operatorname{ArenaResetTo}(\sigma ,\ r,\ m)\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{ArenaAllocs}(\sigma ,\ r)\ =\ \mathsf{allocs}\ \land \ 0\ \le \ m\ \le \ \mid \mathsf{allocs}\mid \ \land \ \mathsf{allocs}'\ =\ \operatorname{Prefix}(\mathsf{allocs},\ m)\ \land \ \operatorname{UpdateRegionArena}(\sigma ,\ \operatorname{RegionArena}(\sigma )[r\ \mapsto \ \mathsf{allocs}'])\ =\ \sigma ' \\[0.16em]
 \operatorname{ArenaClear}(\sigma ,\ r)\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{ArenaResetTo}(\sigma ,\ r,\ 0)\ \Downarrow \ \sigma ' \\[0.16em]
 \operatorname{ArenaRemove}(\sigma ,\ r)\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{RegionArena}(\sigma ')\ =\ \operatorname{RegionArena}(\sigma )\ \setminus \ \{r\}\ \land \ \operatorname{ScopeStack}(\sigma ')\ =\ \operatorname{ScopeStack}(\sigma )\ \land \ \operatorname{AddrTags}(\sigma ')\ =\ \operatorname{AddrTags}(\sigma )\ \land \ \operatorname{RegionStack}(\sigma ')\ =\ \operatorname{RegionStack}(\sigma )\ \land \ \operatorname{PoisonedModules}(\sigma ')\ =\ \operatorname{PoisonedModules}(\sigma )
@@ -301,7 +301,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ResolveEntry}([],\ r)\ =\ \bot  \\[0.16em]
+\operatorname{ResolveEntry}([],\ r)\ =\ \bot \\[0.16em]
 \operatorname{ResolveEntry}(e\ \mathbin{::} \ \mathsf{es},\ r)\ = \\[0.16em]
 \ e\quad \mathsf{if}\ \operatorname{RegionTargetOf}(e)\ =\ r \\[0.16em]
 \ \operatorname{ResolveEntry}(\mathsf{es},\ r)\ \mathsf{otherwise}
@@ -333,7 +333,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{BindRegionAlias}(\sigma ,\ \bot ,\ r)\ \Downarrow \ \sigma  \\[0.16em]
+\operatorname{BindRegionAlias}(\sigma ,\ \bot ,\ r)\ \Downarrow \ \sigma \\[0.16em]
 \operatorname{BindRegionAlias}(\sigma ,\ x,\ r)\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{BindVal}(\sigma ,\ x,\ \operatorname{RegionValue}(\texttt{@Active},\ r))\ \Downarrow \ (\sigma ',\ b)
 \end{array}
 $$
@@ -358,7 +358,7 @@ $$
 \begin{array}{l}
 \operatorname{RetagRegions}([],\ r,\ \mathsf{tags})\ =\ []\ \Leftrightarrow \ \mathsf{tags}\ =\ [] \\[0.16em]
 \operatorname{RetagRegions}(e\ \mathbin{::} \ \mathsf{es},\ r,\ \mathsf{tags})\ = \\[0.16em]
-\ e'\ \mathbin{::} \ \operatorname{RetagRegions}(\mathsf{es},\ r,\ \mathsf{tags}')\quad \mathsf{if}\ \operatorname{RegionTargetOf}(e)\ =\ r\ \land \ \mathsf{tags}\ =\ \mathsf{tag}\ \mathbin{::} \ \mathsf{tags}'\ \land \ e'\ =\ \langle \mathsf{tag},\ \operatorname{RegionTargetOf}(e),\ \operatorname{RegionScopeOf}(e),\ \operatorname{RegionMarkOf}(e)\rangle  \\[0.16em]
+\ e'\ \mathbin{::} \ \operatorname{RetagRegions}(\mathsf{es},\ r,\ \mathsf{tags}')\quad \mathsf{if}\ \operatorname{RegionTargetOf}(e)\ =\ r\ \land \ \mathsf{tags}\ =\ \mathsf{tag}\ \mathbin{::} \ \mathsf{tags}'\ \land \ e'\ =\ \langle \mathsf{tag},\ \operatorname{RegionTargetOf}(e),\ \operatorname{RegionScopeOf}(e),\ \operatorname{RegionMarkOf}(e)\rangle \\[0.16em]
 \ e\ \mathbin{::} \ \operatorname{RetagRegions}(\mathsf{es},\ r,\ \mathsf{tags})\quad \mathsf{otherwise}
 \end{array}
 $$
@@ -383,7 +383,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{FrameMark}(\sigma ,\ r)\ =\ \operatorname{ArenaMark}(\sigma ,\ r) \\[0.16em]
-\operatorname{PopRegionScope}([],\ \mathsf{scope})\ =\ \bot  \\[0.16em]
+\operatorname{PopRegionScope}([],\ \mathsf{scope})\ =\ \bot \\[0.16em]
 \operatorname{PopRegionScope}(e\ \mathbin{::} \ \mathsf{es},\ \mathsf{scope})\ = \\[0.16em]
 \ \{\ \mathsf{es}\quad \mathsf{if}\ \operatorname{RegionScopeOf}(e)\ =\ \mathsf{scope} \\[0.16em]
 \quad \operatorname{PopRegionScope}(\mathsf{es},\ \mathsf{scope})\ \mathsf{otherwise}\ \} \\[0.16em]
@@ -485,7 +485,7 @@ $$
 \operatorname{FuncVal}(\mathsf{sym})\ \mathsf{defined}\ \Leftrightarrow \ \mathsf{sym}\ \in \ \mathsf{Symbol} \\[0.16em]
 \operatorname{ClosureVal}(\mathsf{env}_{\mathsf{ptr}},\ \mathsf{code}_{\mathsf{ptr}})\ \mathsf{defined}\ \Leftrightarrow \ (\mathsf{env}_{\mathsf{ptr}}\ =\ \mathsf{null}\ \lor \ \mathsf{env}_{\mathsf{ptr}}\ \in \ \mathsf{Addr})\ \land \ \mathsf{code}_{\mathsf{ptr}}\ \in \ \mathsf{Symbol} \\[0.16em]
 \mathsf{RangeVal}\ =\ \{\operatorname{RangeVal}(k,\ \mathsf{lo}_{\mathsf{opt}},\ \mathsf{hi}_{\mathsf{opt}})\ \mid \ k\ \in \ \mathsf{RangeKind}\} \\[0.16em]
-\operatorname{ModalVal}(S,\ v)\ =\ \langle S,\ v\rangle 
+\operatorname{ModalVal}(S,\ v)\ =\ \langle S,\ v\rangle
 \end{array}
 $$
 RecordValue(tr, io) defined
@@ -560,7 +560,7 @@ $$
 \operatorname{TagActive}(\sigma ,\ \operatorname{RegionTag}(\mathsf{tag}))\ \Leftrightarrow \ \exists \ e\ \in \ \operatorname{RegionStack}(\sigma ).\ \operatorname{RegionTagOf}(e)\ =\ \mathsf{tag} \\[0.16em]
 \operatorname{TagActive}(\sigma ,\ \operatorname{ScopeTag}(\mathsf{sid}))\ \Leftrightarrow \ \exists \ e\ \in \ \operatorname{ScopeStack}(\sigma ).\ \operatorname{ScopeId}(e)\ =\ \mathsf{sid} \\[0.16em]
 \operatorname{DynAddrState}(\sigma ,\ \mathsf{addr})\ = \\[0.16em]
-\ \{\ \texttt{Valid}\quad \mathsf{if}\ \operatorname{AddrTag}(\sigma ,\ \mathsf{addr})\ =\ \bot  \\[0.16em]
+\ \{\ \texttt{Valid}\quad \mathsf{if}\ \operatorname{AddrTag}(\sigma ,\ \mathsf{addr})\ =\ \bot \\[0.16em]
 \quad \texttt{Valid}\quad \mathsf{if}\ \operatorname{AddrTag}(\sigma ,\ \mathsf{addr})\ =\ \mathsf{tag}\ \ne \ \bot \ \land \ \operatorname{TagActive}(\sigma ,\ \mathsf{tag}) \\[0.16em]
 \quad \texttt{Expired}\ \mathsf{if}\ \operatorname{AddrTag}(\sigma ,\ \mathsf{addr})\ =\ \mathsf{tag}\ \ne \ \bot \ \land \ \lnot \ \operatorname{TagActive}(\sigma ,\ \mathsf{tag})\ \}
 \end{array}

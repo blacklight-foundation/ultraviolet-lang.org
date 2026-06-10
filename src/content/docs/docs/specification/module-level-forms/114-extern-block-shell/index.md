@@ -2,16 +2,16 @@
 title: "11.4 Extern Block Shell"
 description: "11.4 Extern Block Shell from 11. Module-Level Forms of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "module-level-forms"
 specSection: "114-extern-block-shell"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -96,7 +96,7 @@ $$
 ### 11.4.3 AST Representation / Form
 
 $$
-\mathsf{ExternBlock}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{abi}_{\mathsf{opt}},\ \mathsf{items},\ \mathsf{span},\ \mathsf{doc}\rangle 
+\mathsf{ExternBlock}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{abi}_{\mathsf{opt}},\ \mathsf{items},\ \mathsf{span},\ \mathsf{doc}\rangle
 $$
 
 $$
@@ -114,15 +114,7 @@ $$
 
 Block-level ABI validation and namespace binding are owned by this section. Signature admissibility and FFI boundary rules are defined by Chapter 23. `ExternAbiOk` is defined by §23.2.4.
 
-**(Bind-ExternBlock)**
-
-$$
-\begin{array}{l}
-B\ =\ [(\mathsf{name}_{i},\ \langle \mathsf{Value},\ p,\ \bot ,\ \mathsf{Decl}\rangle )\ \mid \ \operatorname{ExternProcDecl}(\_,\ \_,\ \mathsf{name}_{i},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \in \ \mathsf{items}] \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ItemBindings}(\langle \mathsf{ExternBlock},\ \_,\ \_,\ \_,\ \mathsf{items},\ \_,\ \_\rangle ,\ p)\ \Downarrow \ B
-\end{array}
-$$
+Rule **(Bind-ExternBlock)** is defined once by §7.5.
 
 **(WF-ExternBlock)**
 

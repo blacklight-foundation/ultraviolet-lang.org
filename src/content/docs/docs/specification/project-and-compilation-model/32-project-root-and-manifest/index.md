@@ -2,16 +2,16 @@
 title: "3.2 Project Root and Manifest"
 description: "3.2 Project Root and Manifest from 3. Project and Compilation Model of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "project-and-compilation-model"
 specSection: "32-project-root-and-manifest"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -182,7 +182,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{AsmLinkKind}(k,\ l)\ = \\[0.16em]
-\ \texttt{shared}\ \mathsf{if}\ k\ =\ \texttt{library}\ \land \ l\ =\ \bot  \\[0.16em]
+\ \texttt{shared}\ \mathsf{if}\ k\ =\ \texttt{library}\ \land \ l\ =\ \bot \\[0.16em]
 \ l\quad \mathsf{if}\ k\ =\ \texttt{library}\ \land \ l\ \in \ \mathsf{LinkKind} \\[0.16em]
 \ \bot \quad \mathsf{otherwise}
 \end{array}
@@ -229,7 +229,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsmTables}(T)\ \ne \ \bot  \\[0.16em]
+\operatorname{AsmTables}(T)\ \ne \ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ :\ \mathsf{AssemblyTable}
 \end{array}
@@ -450,7 +450,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{ToolchainConfig}(T)\ = \\[0.16em]
-\ \langle \mathsf{llvm}_{\mathsf{bin}}\ =\ T[\texttt{"toolchain"}][\texttt{"llvm\_bin"}],\ \mathsf{runtime}_{\mathsf{lib}}\ =\ T[\texttt{"toolchain"}][\texttt{"runtime\_lib"}],\ \mathsf{target}_{\mathsf{profile}}\ =\ T[\texttt{"toolchain"}][\texttt{"target\_profile"}]\rangle \ \mathsf{if}\ T[\texttt{"toolchain"}]\ \ne \ \bot  \\[0.16em]
+\ \langle \mathsf{llvm}_{\mathsf{bin}}\ =\ T[\texttt{"toolchain"}][\texttt{"llvm\_bin"}],\ \mathsf{runtime}_{\mathsf{lib}}\ =\ T[\texttt{"toolchain"}][\texttt{"runtime\_lib"}],\ \mathsf{target}_{\mathsf{profile}}\ =\ T[\texttt{"toolchain"}][\texttt{"target\_profile"}]\rangle \ \mathsf{if}\ T[\texttt{"toolchain"}]\ \ne \ \bot \\[0.16em]
 \ \langle \mathsf{llvm}_{\mathsf{bin}}\ =\ \bot ,\ \mathsf{runtime}_{\mathsf{lib}}\ =\ \bot ,\ \mathsf{target}_{\mathsf{profile}}\ =\ \bot \rangle \quad \mathsf{otherwise}
 \end{array}
 $$
@@ -458,8 +458,8 @@ $$
 $$
 \begin{array}{l}
 \operatorname{SelectedTargetProfile}(\mathsf{cli},\ T)\ = \\[0.16em]
-\ \mathsf{cli}\quad \mathsf{if}\ \mathsf{cli}\ \ne \ \bot  \\[0.16em]
-\ \operatorname{ToolchainConfig}(T).\mathsf{target}_{\mathsf{profile}}\ \mathsf{if}\ \mathsf{cli}\ =\ \bot \ \land \ \operatorname{ToolchainConfig}(T).\mathsf{target}_{\mathsf{profile}}\ \ne \ \bot  \\[0.16em]
+\ \mathsf{cli}\quad \mathsf{if}\ \mathsf{cli}\ \ne \ \bot \\[0.16em]
+\ \operatorname{ToolchainConfig}(T).\mathsf{target}_{\mathsf{profile}}\ \mathsf{if}\ \mathsf{cli}\ =\ \bot \ \land \ \operatorname{ToolchainConfig}(T).\mathsf{target}_{\mathsf{profile}}\ \ne \ \bot \\[0.16em]
 \ \mathsf{error}\quad \mathsf{otherwise}
 \end{array}
 $$
@@ -493,8 +493,8 @@ $$
 $$
 \begin{array}{l}
 \operatorname{BuildConfig}(T)\ = \\[0.16em]
-\ \langle \mathsf{incremental}\ =\ \mathsf{false},\ \mathsf{progress}\ =\ \mathsf{true}\rangle \quad \mathsf{if}\ T[\texttt{"build"}]\ =\ \bot  \\[0.16em]
-\ \langle \mathsf{incremental}\ =\ T[\texttt{"build"}][\texttt{"incremental"}],\ \mathsf{progress}\ =\ (T[\texttt{"build"}][\texttt{"progress"}]\ \mathsf{if}\ T[\texttt{"build"}][\texttt{"progress"}]\ \ne \ \bot \ \mathsf{else}\ \mathsf{true})\rangle \ \mathsf{if}\ T[\texttt{"build"}]\ \ne \ \bot \ \land \ T[\texttt{"build"}][\texttt{"incremental"}]\ \ne \ \bot  \\[0.16em]
+\ \langle \mathsf{incremental}\ =\ \mathsf{false},\ \mathsf{progress}\ =\ \mathsf{true}\rangle \quad \mathsf{if}\ T[\texttt{"build"}]\ =\ \bot \\[0.16em]
+\ \langle \mathsf{incremental}\ =\ T[\texttt{"build"}][\texttt{"incremental"}],\ \mathsf{progress}\ =\ (T[\texttt{"build"}][\texttt{"progress"}]\ \mathsf{if}\ T[\texttt{"build"}][\texttt{"progress"}]\ \ne \ \bot \ \mathsf{else}\ \mathsf{true})\rangle \ \mathsf{if}\ T[\texttt{"build"}]\ \ne \ \bot \ \land \ T[\texttt{"build"}][\texttt{"incremental"}]\ \ne \ \bot \\[0.16em]
 \ \langle \mathsf{incremental}\ =\ \mathsf{false},\ \mathsf{progress}\ =\ (T[\texttt{"build"}][\texttt{"progress"}]\ \mathsf{if}\ T[\texttt{"build"}][\texttt{"progress"}]\ \ne \ \bot \ \mathsf{else}\ \mathsf{true})\rangle \quad \mathsf{otherwise}
 \end{array}
 $$
@@ -560,7 +560,7 @@ $$
 b\ =\ \operatorname{Basename}(p) \\[0.16em]
 D\ =\ \{\ j\ \mid \ 0\ \le \ j\ <\ \mid b\mid \ \land \ b[j]\ =\ \texttt{"."}\ \} \\[0.16em]
 \operatorname{FileExt}(p)\ = \\[0.16em]
-\ \texttt{"\textbackslash{}""}\ \mathsf{if}\ D\ =\ \emptyset  \\[0.16em]
+\ \texttt{"\textbackslash{}""}\ \mathsf{if}\ D\ =\ \emptyset \\[0.16em]
 \ \texttt{"\textbackslash{}""}\ \mathsf{if}\ D\ \ne \ \emptyset \ \land \ \operatorname{max}(D)\ =\ 0 \\[0.16em]
 \ b[\operatorname{max}(D)..\mid b\mid )\ \mathsf{if}\ D\ \ne \ \emptyset \ \land \ \operatorname{max}(D)\ >\ 0
 \end{array}

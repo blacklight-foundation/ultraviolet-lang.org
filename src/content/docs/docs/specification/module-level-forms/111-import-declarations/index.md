@@ -2,16 +2,16 @@
 title: "11.1 Import Declarations"
 description: "11.1 Import Declarations from 11. Module-Level Forms of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "module-level-forms"
 specSection: "111-import-declarations"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -48,7 +48,7 @@ $$
 `ImportDecl` is a top-level AST item.
 
 $$
-\mathsf{ImportDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{path},\ \mathsf{alias}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}\rangle 
+\mathsf{ImportDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{path},\ \mathsf{alias}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}\rangle
 $$
 
 ### 11.1.4 Static Semantics
@@ -75,25 +75,7 @@ u\ =\ \langle \mathsf{ImportDecl},\ \_,\ \mathsf{path},\ \_,\ \_,\ \_\rangle \qu
 \end{array}
 $$
 
-**(Bind-Import)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ImportNames}(u)\ \Downarrow \ B \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ItemBindings}(u,\ p)\ \Downarrow \ B
-\end{array}
-$$
-
-**(Bind-Import-Err)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ImportNames}(u)\ \Uparrow \ c \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ItemBindings}(u,\ p)\ \Uparrow \ c
-\end{array}
-$$
+Rules **(Bind-Import)** and **(Bind-Import-Err)** are defined once by §7.5.
 
 **(ResolveItem-Import)**
 
@@ -116,6 +98,6 @@ $$
 
 | Code         | Severity | Detection    | Condition                                 |
 | ------------ | -------- | ------------ | ----------------------------------------- |
-| `E-MOD-1202` | Error    | Compile-time | Import of non-existent assembly or module |
+| `E-MOD-1202` | Error    | Compile-time | Import of non-existent assembly or module (`Resolve-Import-Err`) |
 
 Import-coverage violations are owned by §11.5.7. Accessibility violations are owned by Chapter 7.

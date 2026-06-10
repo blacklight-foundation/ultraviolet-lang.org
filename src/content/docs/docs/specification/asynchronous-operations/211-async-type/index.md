@@ -2,16 +2,16 @@
 title: "21.1 Async Type"
 description: "21.1 Async Type from 21. Asynchronous Operations of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "asynchronous-operations"
 specSection: "211-async-type"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -61,7 +61,7 @@ $$
 \ \langle \texttt{Out},\ [],\ \bot ,\ \bot \rangle , \\[0.16em]
 \ \langle \texttt{In},\ [],\ \operatorname{TypePrim}(\texttt{"()"}),\ \bot \rangle , \\[0.16em]
 \ \langle \texttt{Result},\ [],\ \operatorname{TypePrim}(\texttt{"()"}),\ \bot \rangle , \\[0.16em]
-\ \langle \texttt{E},\ [],\ \operatorname{TypePrim}(\texttt{"!"}),\ \bot \rangle  \\[0.16em]
+\ \langle \texttt{E},\ [],\ \operatorname{TypePrim}(\texttt{"!"}),\ \bot \rangle \\[0.16em]
 ] \\[0.16em]
 \mathsf{AsyncRef}\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ [\operatorname{TypePath}([\texttt{"Out"}]),\ \operatorname{TypePath}([\texttt{"In"}]),\ \operatorname{TypePath}([\texttt{"Result"}]),\ \operatorname{TypePath}([\texttt{"E"}])]) \\[0.16em]
 \mathsf{AsyncSuspendedFields}\ =\ [\langle \texttt{output},\ \operatorname{TypePath}([\texttt{"Out"}])\rangle ] \\[0.16em]
@@ -87,7 +87,7 @@ $$
 \quad \bot , \\[0.16em]
 \quad \bot , \\[0.16em]
 \quad \bot , \\[0.16em]
-\quad \bot  \\[0.16em]
+\quad \bot \\[0.16em]
 \ ) \\[0.16em]
 ] \\[0.16em]
 \mathsf{AsyncCompletedMembers}\ =\ [ \\[0.16em]
@@ -132,12 +132,12 @@ Alias normalization over built-in async aliases is defined by:
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(T)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \ \Leftrightarrow  \\[0.16em]
-\ \operatorname{AliasNorm}(T)\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ \mathsf{args})\ \land  \\[0.16em]
+\operatorname{AsyncSig}(T)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \ \Leftrightarrow \\[0.16em]
+\ \operatorname{AliasNorm}(T)\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ \mathsf{args})\ \land \\[0.16em]
 \ \operatorname{DefaultArgs}(\mathsf{AsyncParams},\ \mathsf{args})\ =\ [\mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E] \\[0.16em]
 \operatorname{AsyncSig}(T)\ =\ \bot \quad \mathsf{otherwise} \\[0.16em]
 \operatorname{BodyReturnType}(R)\ = \\[0.16em]
-\ \{\ \mathsf{Result}\quad \mathsf{if}\ \operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle  \\[0.16em]
+\ \{\ \mathsf{Result}\quad \mathsf{if}\ \operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \\[0.16em]
 \quad R\quad \mathsf{otherwise}\ \}
 \end{array}
 $$
@@ -151,18 +151,7 @@ supplied by the expected type and the ordinary permission rules allow introducin
 fresh value at that permission. Manual `resume` consumes a `unique` suspended async
 receiver and returns a `unique` async state value.
 
-`Async` subtyping is:
-
-**(Sub-Async)**
-
-$$
-\begin{array}{l}
-\operatorname{AsyncSig}(T)\ =\ \langle \mathsf{Out}_{1},\ \mathsf{In}_{1},\ \mathsf{Result}_{1},\ E_{1}\rangle \quad \operatorname{AsyncSig}(U)\ =\ \langle \mathsf{Out}_{2},\ \mathsf{In}_{2},\ \mathsf{Result}_{2},\ E_{2}\rangle  \\[0.16em]
-\Gamma \ \vdash \ \mathsf{Out}_{1}\ \mathrel{<:} \ \mathsf{Out}_{2}\quad \Gamma \ \vdash \ \mathsf{In}_{2}\ \mathrel{<:} \ \mathsf{In}_{1}\quad \Gamma \ \vdash \ \mathsf{Result}_{1}\ \mathrel{<:} \ \mathsf{Result}_{2}\quad \Gamma \ \vdash \ E_{1}\ \mathrel{<:} \ E_{2} \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ \mathrel{<:} \ U
-\end{array}
-$$
+`Async` subtyping is defined once by rule **(Sub-Async)** in §8.2.
 
 `Async` well-formedness is:
 
@@ -180,9 +169,9 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ \mathsf{args})\quad \operatorname{DefaultArgs}(\mathsf{AsyncParams},\ \mathsf{args})\ =\ \bot  \\[0.16em]
+T\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ \mathsf{args})\quad \operatorname{DefaultArgs}(\mathsf{AsyncParams},\ \mathsf{args})\ =\ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ \mathsf{wf}\ \Uparrow 
+\Gamma \ \vdash \ T\ \mathsf{wf}\ \Uparrow
 \end{array}
 $$
 
@@ -190,9 +179,9 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ \mathsf{args})\quad \operatorname{DefaultArgs}(\mathsf{AsyncParams},\ \mathsf{args})\ =\ \mathsf{args}'\quad \exists \ i.\ \Gamma \ \vdash \ \mathsf{args}'\_i\ \mathsf{wf}\ \Uparrow  \\[0.16em]
+T\ =\ \operatorname{TypeApply}([\texttt{"Async"}],\ \mathsf{args})\quad \operatorname{DefaultArgs}(\mathsf{AsyncParams},\ \mathsf{args})\ =\ \mathsf{args}'\quad \exists \ i.\ \Gamma \ \vdash \ \mathsf{args}'\_i\ \mathsf{wf}\ \Uparrow \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ \mathsf{wf}\ \Uparrow 
+\Gamma \ \vdash \ T\ \mathsf{wf}\ \Uparrow
 \end{array}
 $$
 
@@ -202,7 +191,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypePath}([\texttt{"Async"}]) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ \mathsf{wf}\ \Uparrow 
+\Gamma \ \vdash \ T\ \mathsf{wf}\ \Uparrow
 \end{array}
 $$
 
@@ -246,7 +235,7 @@ $$
 \begin{array}{l}
 \operatorname{AsyncSig}(T)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \mathsf{sig}\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \mathsf{states}\ =\ \operatorname{AsyncLoweredStates}(\mathsf{sig})\quad \mathsf{resume}_{\mathsf{ty}}\ =\ \operatorname{AsyncResumeType}(\mathsf{sig}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerAsyncType}(T)\ \Downarrow \ \langle \operatorname{AsyncStateTagIR}(\mathsf{states}),\ \operatorname{AsyncResumeSigIR}(\mathsf{In},\ \mathsf{resume}_{\mathsf{ty}})\rangle 
+\Gamma \ \vdash \ \operatorname{LowerAsyncType}(T)\ \Downarrow \ \langle \operatorname{AsyncStateTagIR}(\mathsf{states}),\ \operatorname{AsyncResumeSigIR}(\mathsf{In},\ \mathsf{resume}_{\mathsf{ty}})\rangle
 \end{array}
 $$
 

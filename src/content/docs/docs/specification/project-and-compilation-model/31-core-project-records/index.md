@@ -2,16 +2,16 @@
 title: "3.1 Core Project Records"
 description: "3.1 Core Project Records from 3. Project and Compilation Model of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "project-and-compilation-model"
 specSection: "31-core-project-records"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -30,7 +30,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{Project}\ =\ \langle \mathsf{root},\ \mathsf{assemblies},\ \mathsf{assembly},\ \mathsf{source}_{\mathsf{root}},\ \mathsf{outputs},\ \mathsf{modules},\ \mathsf{toolchain},\ \mathsf{build}\rangle  \\[0.16em]
+\mathsf{Project}\ =\ \langle \mathsf{root},\ \mathsf{assemblies},\ \mathsf{assembly},\ \mathsf{source}_{\mathsf{root}},\ \mathsf{outputs},\ \mathsf{modules},\ \mathsf{toolchain},\ \mathsf{build}\rangle \\[0.16em]
 \operatorname{Assemblies}(P)\ =\ P.\mathsf{assemblies} \\[0.16em]
 \operatorname{Assembly}(P)\ =\ P.\mathsf{assembly} \\[0.16em]
 \operatorname{AsmNames}(P)\ =\ [A.\mathsf{name}\ \mid \ A\ \in \ \operatorname{Assemblies}(P)] \\[0.16em]
@@ -55,7 +55,7 @@ $$
 \begin{array}{l}
 \mathsf{Phase0Checks}\ =\ \operatorname{RulesIn}(\{\texttt{"3"}\}) \\[0.16em]
 \mathsf{SourceChecks}\ =\ \operatorname{RulesIn}(\{\texttt{"4"},\ \texttt{"5"},\ \texttt{"6"},\ \texttt{"7"},\ \texttt{"8"},\ \texttt{"9"},\ \texttt{"10"},\ \texttt{"11"},\ \texttt{"12"},\ \texttt{"13"},\ \texttt{"14"},\ \texttt{"15"},\ \texttt{"16"},\ \texttt{"17"},\ \texttt{"18"},\ \texttt{"19"},\ \texttt{"20"},\ \texttt{"21"},\ \texttt{"22"},\ \texttt{"23"}\}) \\[0.16em]
-\mathsf{Phase0Checks}\ \cap \ \mathsf{SourceChecks}\ =\ \emptyset 
+\mathsf{Phase0Checks}\ \cap \ \mathsf{SourceChecks}\ =\ \emptyset
 \end{array}
 $$
 
@@ -96,7 +96,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{ImportLibOpt}(P)\ = \\[0.16em]
-\ \operatorname{ImportLibPath}(P)\ \mathsf{if}\ \operatorname{ImportLibPath}(P)\ \ne \ \bot  \\[0.16em]
+\ \operatorname{ImportLibPath}(P)\ \mathsf{if}\ \operatorname{ImportLibPath}(P)\ \ne \ \bot \\[0.16em]
 \ \bot \quad \mathsf{otherwise}
 \end{array}
 $$

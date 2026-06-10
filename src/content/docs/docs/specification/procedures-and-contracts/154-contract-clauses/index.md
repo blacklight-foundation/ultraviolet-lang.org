@@ -2,16 +2,16 @@
 title: "15.4 Contract Clauses"
 description: "15.4 Contract Clauses from 15. Procedures and Contracts of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "procedures-and-contracts"
 specSection: "154-contract-clauses"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -90,7 +90,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{ContractClause}\ =\ \langle \mathsf{pre},\ \mathsf{post}\rangle  \\[0.16em]
+\mathsf{ContractClause}\ =\ \langle \mathsf{pre},\ \mathsf{post}\rangle \\[0.16em]
 \mathsf{contract}_{\mathsf{opt}}\ \in \ \{\bot \}\ \cup \ \mathsf{ContractClause}
 \end{array}
 $$
@@ -334,8 +334,8 @@ Such calls are absent from runtime item lowering.
 $$
 \begin{array}{l}
 \operatorname{HasCapabilityParams}(P)\ \Leftrightarrow \ \exists \ \mathsf{param}\ \in \ \operatorname{Params}(P).\ \operatorname{IsCapabilityType}(\operatorname{ParamType}(\mathsf{param})) \\[0.16em]
-\operatorname{IsCapabilityType}(T)\ \Leftrightarrow \ \operatorname{CapInType}(T)\ \ne \ \emptyset  \\[0.16em]
-\operatorname{ContainsCapability}(T)\ \Leftrightarrow \ \operatorname{CapInType}(T)\ \ne \ \emptyset  \\[0.16em]
+\operatorname{IsCapabilityType}(T)\ \Leftrightarrow \ \operatorname{CapInType}(T)\ \ne \ \emptyset \\[0.16em]
+\operatorname{ContainsCapability}(T)\ \Leftrightarrow \ \operatorname{CapInType}(T)\ \ne \ \emptyset \\[0.16em]
 \operatorname{BuiltinPure}(f)\ \Leftrightarrow \ f\ \in \ \{\mathsf{sizeof},\ \mathsf{alignof},\ \mathsf{type}_{\mathsf{name}},\ \ldots \} \\[0.16em]
 \operatorname{IsPureProc}(P)\ \Leftrightarrow \ \forall \ \mathsf{stmt}\ \in \ \operatorname{Body}(P).\ \Gamma \ \vdash \ \mathsf{stmt}\ \mathsf{pure}_{\mathsf{stmt}}\ \land \ \lnot \operatorname{WritesGlobalState}(P) \\[0.16em]
 \operatorname{ComptimeProc}(f)\ \Leftrightarrow \ \operatorname{HasAttribute}(\operatorname{ProcDecl}(f),\ \texttt{comptime})

@@ -2,16 +2,16 @@
 title: "14.5 Associated Types"
 description: "14.5 Associated Types from 14. Abstraction and Polymorphism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "abstraction-and-polymorphism"
 specSection: "145-associated-types"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -84,7 +84,7 @@ $$
 ### 14.5.3 AST Representation / Form
 
 $$
-\mathsf{AssociatedTypeDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{type}_{\mathsf{opt}\_\mathsf{or}\_\mathsf{default}\_\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle 
+\mathsf{AssociatedTypeDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{type}_{\mathsf{opt}\_\mathsf{or}\_\mathsf{default}\_\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle
 $$
 
 $$
@@ -105,14 +105,14 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AssocTypeDefault}(\mathsf{Cl},\ \mathsf{name})\ =\ \mathsf{ty}\ \Leftrightarrow \ \exists \ a\ \in \ \operatorname{AssocTypeItems}(\mathsf{Cl}).\ a.\mathsf{name}\ =\ \mathsf{name}\ \land \ a.\mathsf{type}_{\mathsf{opt}\_\mathsf{or}\_\mathsf{default}\_\mathsf{opt}}\ =\ \mathsf{ty}\ \land \ \mathsf{ty}\ \ne \ \bot  \\[0.16em]
+\operatorname{AssocTypeDefault}(\mathsf{Cl},\ \mathsf{name})\ =\ \mathsf{ty}\ \Leftrightarrow \ \exists \ a\ \in \ \operatorname{AssocTypeItems}(\mathsf{Cl}).\ a.\mathsf{name}\ =\ \mathsf{name}\ \land \ a.\mathsf{type}_{\mathsf{opt}\_\mathsf{or}\_\mathsf{default}\_\mathsf{opt}}\ =\ \mathsf{ty}\ \land \ \mathsf{ty}\ \ne \ \bot \\[0.16em]
 \operatorname{AssocTypeDefault}(\mathsf{Cl},\ \mathsf{name})\ =\ \bot \ \Leftrightarrow \ \lnot \ \exists \ \mathsf{ty}.\ \operatorname{AssocTypeDefault}(\mathsf{Cl},\ \mathsf{name})\ =\ \mathsf{ty}
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{ImplAssocType}(\operatorname{TypePath}(p),\ \mathsf{name})\ =\ \mathsf{ty}\ \Leftrightarrow \ \operatorname{RecordDecl}(p)\ =\ R\ \land \ \exists \ a\ \in \ R.\mathsf{members}.\ a\ \mathsf{is}\ \mathsf{AssociatedTypeDecl}\ \land \ a.\mathsf{name}\ =\ \mathsf{name}\ \land \ a.\mathsf{type}_{\mathsf{opt}\_\mathsf{or}\_\mathsf{default}\_\mathsf{opt}}\ =\ \mathsf{ty}\ \land \ \mathsf{ty}\ \ne \ \bot  \\[0.16em]
+\operatorname{ImplAssocType}(\operatorname{TypePath}(p),\ \mathsf{name})\ =\ \mathsf{ty}\ \Leftrightarrow \ \operatorname{RecordDecl}(p)\ =\ R\ \land \ \exists \ a\ \in \ R.\mathsf{members}.\ a\ \mathsf{is}\ \mathsf{AssociatedTypeDecl}\ \land \ a.\mathsf{name}\ =\ \mathsf{name}\ \land \ a.\mathsf{type}_{\mathsf{opt}\_\mathsf{or}\_\mathsf{default}\_\mathsf{opt}}\ =\ \mathsf{ty}\ \land \ \mathsf{ty}\ \ne \ \bot \\[0.16em]
 \operatorname{ImplAssocType}(T,\ \mathsf{name})\ =\ \bot \ \Leftrightarrow \ \lnot \ \exists \ \mathsf{ty}.\ \operatorname{ImplAssocType}(T,\ \mathsf{name})\ =\ \mathsf{ty}
 \end{array}
 $$
@@ -125,12 +125,12 @@ $$
 \begin{array}{l}
 \operatorname{AssocTypeBinding}(T,\ \mathsf{Cl},\ \mathsf{name})\ =\ \mathsf{ty}\ \Leftrightarrow \ \operatorname{ImplAssocType}(T,\ \mathsf{name})\ =\ \mathsf{ty} \\[0.16em]
 \operatorname{AssocTypeBinding}(T,\ \mathsf{Cl},\ \mathsf{name})\ =\ \mathsf{ty}\ \Leftrightarrow \ \operatorname{ImplAssocType}(T,\ \mathsf{name})\ =\ \bot \ \land \ \operatorname{AssocTypeDefault}(\Sigma .\mathsf{Classes}[\mathsf{Cl}],\ \mathsf{name})\ =\ \mathsf{ty} \\[0.16em]
-\operatorname{AssocTypeBinding}(T,\ \mathsf{Cl},\ \mathsf{name})\ =\ \bot \ \Leftrightarrow \ \operatorname{ImplAssocType}(T,\ \mathsf{name})\ =\ \bot \ \land \ \operatorname{AssocTypeDefault}(\Sigma .\mathsf{Classes}[\mathsf{Cl}],\ \mathsf{name})\ =\ \bot 
+\operatorname{AssocTypeBinding}(T,\ \mathsf{Cl},\ \mathsf{name})\ =\ \bot \ \Leftrightarrow \ \operatorname{ImplAssocType}(T,\ \mathsf{name})\ =\ \bot \ \land \ \operatorname{AssocTypeDefault}(\Sigma .\mathsf{Classes}[\mathsf{Cl}],\ \mathsf{name})\ =\ \bot
 \end{array}
 $$
 
 $$
-T\ \mathsf{binds}\ \mathsf{name}\ \mathsf{for}\ \mathsf{Cl}\ \Leftrightarrow \ \operatorname{AssocTypeBinding}(T,\ \mathsf{Cl},\ \mathsf{name})\ \ne \ \bot 
+T\ \mathsf{binds}\ \mathsf{name}\ \mathsf{for}\ \mathsf{Cl}\ \Leftrightarrow \ \operatorname{AssocTypeBinding}(T,\ \mathsf{Cl},\ \mathsf{name})\ \ne \ \bot
 $$
 
 ### 14.5.4 Static Semantics

@@ -2,16 +2,16 @@
 title: "23.1 FfiSafe"
 description: "23.1 FfiSafe from 23. Foreign Function Interface of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "foreign-function-interface"
 specSection: "231-ffisafe"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -48,7 +48,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{HasLayoutC}(D)\ \Leftrightarrow \ \texttt{layout(C)}\ \mathsf{appears}\ \mathsf{in}\ D.\mathsf{attrs}_{\mathsf{opt}} \\[0.16em]
-\operatorname{PayloadTypes}(v)\ =\ []\quad \mathsf{if}\ v.\mathsf{payload}_{\mathsf{opt}}\ =\ \bot  \\[0.16em]
+\operatorname{PayloadTypes}(v)\ =\ []\quad \mathsf{if}\ v.\mathsf{payload}_{\mathsf{opt}}\ =\ \bot \\[0.16em]
 \operatorname{PayloadTypes}(v)\ =\ \mathsf{ts}\quad \mathsf{if}\ v.\mathsf{payload}_{\mathsf{opt}}\ =\ \operatorname{TuplePayload}(\mathsf{ts}) \\[0.16em]
 \operatorname{PayloadTypes}(v)\ =\ [T_{f}\ \mid \ \langle \_,\ f,\ T_{f},\ \_,\ \_,\ \_\rangle \ \in \ \mathsf{fields}]\quad \mathsf{if}\ v.\mathsf{payload}_{\mathsf{opt}}\ =\ \operatorname{RecordPayload}(\mathsf{fields})
 \end{array}
@@ -108,21 +108,21 @@ $$
 \operatorname{TypeParamsIn}(\operatorname{TypeFunc}(\mathsf{params}_{t},\ R),\ \mathsf{params})\ =\ \bigcup \_\{\langle \_,\ T\rangle \ \in \ \mathsf{params}_{t}\}\ \operatorname{TypeParamsIn}(T,\ \mathsf{params})\ \cup \ \operatorname{TypeParamsIn}(R,\ \mathsf{params}) \\[0.16em]
 \operatorname{TypeParamsIn}(\operatorname{TypePtr}(T,\ \_),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(T,\ \mathsf{params}) \\[0.16em]
 \operatorname{TypeParamsIn}(\operatorname{TypeRawPtr}(\_,\ T),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(T,\ \mathsf{params}) \\[0.16em]
-\operatorname{TypeParamsInModalRef}(\operatorname{TypePath}(\_),\ \mathsf{params})\ =\ \emptyset  \\[0.16em]
+\operatorname{TypeParamsInModalRef}(\operatorname{TypePath}(\_),\ \mathsf{params})\ =\ \emptyset \\[0.16em]
 \operatorname{TypeParamsInModalRef}(\operatorname{TypeApply}(\_,\ \mathsf{args}),\ \mathsf{params})\ =\ \bigcup \_\{a\ \in \ \mathsf{args}\}\ \operatorname{TypeParamsIn}(a,\ \mathsf{params}) \\[0.16em]
 \operatorname{TypeParamsIn}(\operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ \_),\ \mathsf{params})\ =\ \operatorname{TypeParamsInModalRef}(\mathsf{modal}_{\mathsf{ref}},\ \mathsf{params}) \\[0.16em]
-\operatorname{TypeParamsIn}(\operatorname{TypeString}(\_),\ \mathsf{params})\ =\ \emptyset  \\[0.16em]
-\operatorname{TypeParamsIn}(\operatorname{TypeBytes}(\_),\ \mathsf{params})\ =\ \emptyset  \\[0.16em]
-\operatorname{TypeParamsIn}(\operatorname{TypeModalState}(\_,\ \_),\ \mathsf{params})\ =\ \emptyset  \\[0.16em]
-\operatorname{TypeParamsIn}(\operatorname{TypeDynamic}(\_),\ \mathsf{params})\ =\ \emptyset  \\[0.16em]
-\operatorname{TypeParamsIn}(\operatorname{TypeOpaque}(\_),\ \mathsf{params})\ =\ \emptyset  \\[0.16em]
-\operatorname{TypeParamsIn}(\operatorname{TypePrim}(\_),\ \mathsf{params})\ =\ \emptyset  \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeString}(\_),\ \mathsf{params})\ =\ \emptyset \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeBytes}(\_),\ \mathsf{params})\ =\ \emptyset \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeModalState}(\_,\ \_),\ \mathsf{params})\ =\ \emptyset \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeDynamic}(\_),\ \mathsf{params})\ =\ \emptyset \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypeOpaque}(\_),\ \mathsf{params})\ =\ \emptyset \\[0.16em]
+\operatorname{TypeParamsIn}(\operatorname{TypePrim}(\_),\ \mathsf{params})\ =\ \emptyset \\[0.16em]
 \operatorname{TypeParamsIn}(\operatorname{TypeRange}(\mathsf{base}),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(\mathsf{base},\ \mathsf{params}) \\[0.16em]
 \operatorname{TypeParamsIn}(\operatorname{TypeRangeInclusive}(\mathsf{base}),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(\mathsf{base},\ \mathsf{params}) \\[0.16em]
 \operatorname{TypeParamsIn}(\operatorname{TypeRangeFrom}(\mathsf{base}),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(\mathsf{base},\ \mathsf{params}) \\[0.16em]
 \operatorname{TypeParamsIn}(\operatorname{TypeRangeTo}(\mathsf{base}),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(\mathsf{base},\ \mathsf{params}) \\[0.16em]
 \operatorname{TypeParamsIn}(\operatorname{TypeRangeToInclusive}(\mathsf{base}),\ \mathsf{params})\ =\ \operatorname{TypeParamsIn}(\mathsf{base},\ \mathsf{params}) \\[0.16em]
-\operatorname{TypeParamsIn}(\mathsf{TypeRangeFull},\ \mathsf{params})\ =\ \emptyset 
+\operatorname{TypeParamsIn}(\mathsf{TypeRangeFull},\ \mathsf{params})\ =\ \emptyset
 \end{array}
 $$
 
@@ -142,24 +142,24 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ProhibitedFfiType}(T)\ \Leftrightarrow  \\[0.16em]
-\ T\ =\ \operatorname{TypePrim}(\texttt{"bool"})\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypePtr}(\_,\ \_)\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypeModalState}(\_,\ \_)\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypeDynamic}(\_)\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypeOpaque}(\_)\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypeTuple}(\_)\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypeUnion}(\_)\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypeSlice}(\_)\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypeString}(\_)\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypeBytes}(\_)\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypeRange}(\_)\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypeRangeInclusive}(\_)\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypeRangeFrom}(\_)\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypeRangeTo}(\_)\ \lor  \\[0.16em]
-\ T\ =\ \operatorname{TypeRangeToInclusive}(\_)\ \lor  \\[0.16em]
-\ T\ =\ \mathsf{TypeRangeFull}\ \lor  \\[0.16em]
+\operatorname{ProhibitedFfiType}(T)\ \Leftrightarrow \\[0.16em]
+\ T\ =\ \operatorname{TypePrim}(\texttt{"bool"})\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypePtr}(\_,\ \_)\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypeModalState}(\_,\ \_)\ \lor \\[0.16em]
+\ T\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypeDynamic}(\_)\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypeOpaque}(\_)\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypeTuple}(\_)\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypeUnion}(\_)\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypeSlice}(\_)\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypeString}(\_)\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypeBytes}(\_)\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypeRange}(\_)\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypeRangeInclusive}(\_)\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypeRangeFrom}(\_)\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypeRangeTo}(\_)\ \lor \\[0.16em]
+\ T\ =\ \operatorname{TypeRangeToInclusive}(\_)\ \lor \\[0.16em]
+\ T\ =\ \mathsf{TypeRangeFull}\ \lor \\[0.16em]
 \ T\ =\ \operatorname{TypePath}([\texttt{"Context"}])
 \end{array}
 $$
@@ -434,11 +434,11 @@ This section introduces no additional runtime mechanism. Dynamic boundary behavi
 
 | Code         | Severity | Detection    | Condition                                                      |
 | ------------ | -------- | ------------ | -------------------------------------------------------------- |
-| `E-TYP-2623` | Error    | Compile-time | Prohibited type category in `FfiSafeType`                      |
-| `E-TYP-2624` | Error    | Compile-time | `FfiSafeType` record without `#layout(C)`                   |
-| `E-TYP-2625` | Error    | Compile-time | `FfiSafeType` enum without `#layout(C)`                     |
-| `E-TYP-2626` | Error    | Compile-time | `FfiSafeType` record has non-`FfiSafeType` field               |
-| `E-TYP-2627` | Error    | Compile-time | `FfiSafeType` enum has non-`FfiSafeType` payload field         |
-| `E-TYP-2628` | Error    | Compile-time | `FfiSafeType` requires complete layout                         |
-| `E-TYP-2629` | Error    | Compile-time | Generic `FfiSafeType` with unconstrained parameter             |
+| `E-TYP-2623` | Error    | Compile-time | Prohibited type category in `FfiSafeType` (`FfiSafe-Prohibited-Err`) |
+| `E-TYP-2624` | Error    | Compile-time | `FfiSafeType` record without `#layout(C)` (`FfiSafe-Record-LayoutC-Err`) |
+| `E-TYP-2625` | Error    | Compile-time | `FfiSafeType` enum without `#layout(C)` (`FfiSafe-Enum-LayoutC-Err`) |
+| `E-TYP-2626` | Error    | Compile-time | `FfiSafeType` record has non-`FfiSafeType` field (`FfiSafe-Record-Field-Err`) |
+| `E-TYP-2627` | Error    | Compile-time | `FfiSafeType` enum has non-`FfiSafeType` payload field (`FfiSafe-Enum-Field-Err`) |
+| `E-TYP-2628` | Error    | Compile-time | `FfiSafeType` requires complete layout (`FfiSafe-Incomplete-Err`) |
+| `E-TYP-2629` | Error    | Compile-time | Generic `FfiSafeType` with unconstrained parameter (`FfiSafe-Generic-Unbounded-Err`) |
 | `E-TYP-2630` | Error    | Compile-time | By-value FFI use of `DropType` without `#ffi_pass_by_value` |

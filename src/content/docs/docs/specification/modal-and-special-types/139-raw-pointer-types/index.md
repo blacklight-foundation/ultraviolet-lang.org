@@ -2,16 +2,16 @@
 title: "13.9 Raw Pointer Types"
 description: "13.9 Raw Pointer Types from 13. Modal and Special Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "modal-and-special-types"
 specSection: "139-raw-pointer-types"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -57,15 +57,7 @@ T\ =\ \operatorname{TypeRawPtr}(q,\ T_{0})\quad \Gamma \ \vdash \ T_{0}\ \mathsf
 \end{array}
 $$
 
-**(T-Deref-Raw)**
-
-$$
-\begin{array}{l}
-\operatorname{UnsafeSpan}(\operatorname{span}(\operatorname{Deref}(e)))\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ \operatorname{TypeRawPtr}(q,\ T)\quad \operatorname{BitcopyType}(T) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{Deref}(e)\ :\ T
-\end{array}
-$$
+Rule **(T-Deref-Raw)** is defined once by §16.8.4.
 
 **(P-Deref-Raw-Imm)**
 
@@ -155,35 +147,7 @@ $$
 
 ### 13.9.6 Lowering
 
-**(Size-RawPtr)**
-
-$$
-\begin{array}{l}
-T\ =\ \operatorname{TypeRawPtr}(q,\ T_{0}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{sizeof}(T)\ =\ \mathsf{PtrSize}
-\end{array}
-$$
-
-**(Align-RawPtr)**
-
-$$
-\begin{array}{l}
-T\ =\ \operatorname{TypeRawPtr}(q,\ T_{0}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{alignof}(T)\ =\ \mathsf{PtrAlign}
-\end{array}
-$$
-
-**(Layout-RawPtr)**
-
-$$
-\begin{array}{l}
-T\ =\ \operatorname{TypeRawPtr}(q,\ T_{0}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle \mathsf{PtrSize},\ \mathsf{PtrAlign}\rangle 
-\end{array}
-$$
+Rules **(Size-RawPtr)**, **(Align-RawPtr)**, **(Layout-RawPtr)** are defined once by §24.2.2.
 
 $$
 \begin{array}{l}

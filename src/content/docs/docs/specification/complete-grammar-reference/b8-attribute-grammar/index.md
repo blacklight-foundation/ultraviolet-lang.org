@@ -2,16 +2,16 @@
 title: "B.8 Attribute Grammar"
 description: "B.8 Attribute Grammar from Appendix B. Complete Grammar Reference of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "complete-grammar-reference"
 specSection: "b8-attribute-grammar"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -41,7 +41,7 @@ attribute_arg  ::= literal
 
 layout_attribute              ::= "#" "layout" "(" layout_args ")"
 layout_args                   ::= layout_kind ("," layout_kind)*
-layout_kind                   ::= "C" | "packed" | "align" "(" integer_literal ")" | int_type
+layout_kind                   ::= "C" | "packed" | "align" "(" integer_literal ")" | integer_type
 inline_attribute              ::= "#" "inline" ("(" inline_mode ")")?
 inline_mode                   ::= "always" | "never" | "default"
 cold_attribute                ::= "#" "cold"
@@ -63,3 +63,5 @@ ffi_pass_by_value_attribute   ::= "#" "ffi_pass_by_value"
 derive_attribute              ::= "#" "derive" "(" derive_target_list ")"
 derive_target_list            ::= identifier ("," identifier)*
 ```
+
+The `*_attribute` productions above are informative shape restatements: attributes parse through the generic `attribute` grammar, and each owning section validates its argument shape. The same applies to `ffi_verification_attr` and `ffi_verification_mode` in B.13.

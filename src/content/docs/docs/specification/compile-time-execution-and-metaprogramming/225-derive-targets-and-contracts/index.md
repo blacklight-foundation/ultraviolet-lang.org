@@ -2,16 +2,16 @@
 title: "22.5 Derive Targets and Contracts"
 description: "22.5 Derive Targets and Contracts from 22. Compile-Time Execution and Metaprogramming of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "compile-time-execution-and-metaprogramming"
 specSection: "225-derive-targets-and-contracts"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,7 +24,7 @@ generated: true
 ### 22.5.1 Syntax
 
 ```text
-derive_attribute    ::= attr_open "derive" "(" derive_target_list ")" attr_close
+derive_attribute    ::= "#" "derive" "(" derive_target_list ")"
 derive_target_list  ::= identifier ("," identifier)*
 derive_target_decl  ::= "derive" "target" identifier "(" "target" ":" "Type" ")" derive_contract_opt block_expr
 derive_contract_opt ::= "|:" derive_clause ("," derive_clause)*
@@ -136,7 +136,7 @@ $$
 \begin{array}{l}
 \operatorname{DeriveAnnotated}(D)\ \Leftrightarrow \ \exists \ \mathsf{name}.\ \operatorname{DeriveRequest}(D,\ \mathsf{name}) \\[0.16em]
 \mathsf{DeriveExecJudg}\ =\ \{\mathsf{DeriveGraph},\ \mathsf{DeriveOrder},\ \mathsf{RunDeriveTarget},\ \mathsf{RunDeriveSet}\} \\[0.16em]
-\operatorname{DeriveEdge}(\mathsf{req}_{i},\ \mathsf{req}_{j})\ \Leftrightarrow \ \operatorname{DeriveReqs}(\mathsf{req}_{i}.\mathsf{target})\ \cap \ \operatorname{DeriveEmits}(\mathsf{req}_{j}.\mathsf{target})\ \ne \ \emptyset  \\[0.16em]
+\operatorname{DeriveEdge}(\mathsf{req}_{i},\ \mathsf{req}_{j})\ \Leftrightarrow \ \operatorname{DeriveReqs}(\mathsf{req}_{i}.\mathsf{target})\ \cap \ \operatorname{DeriveEmits}(\mathsf{req}_{j}.\mathsf{target})\ \ne \ \emptyset \\[0.16em]
 \operatorname{DeriveGraph}(D)\ =\ \langle V,\ E\rangle \ \mathsf{where}\ V\ =\ [\mathsf{req}\ \mid \ \mathsf{req}\ =\ \operatorname{DeriveRequest}(D,\ \mathsf{name})]\ \mathsf{and}\ E\ =\ \{\langle v_{i},\ v_{j}\rangle \ \mid \ \operatorname{DeriveEdge}(v_{i},\ v_{j})\} \\[0.16em]
 \operatorname{DeriveOrder}(D)\ =\ \mathsf{order}\ \mathsf{iff}\ \operatorname{StableTopologicalOrder}(\operatorname{DeriveGraph}(D),\ [\mathsf{name}\ \mid \ \texttt{\#derive(name)}\ \mathsf{occurs}\ \mathsf{on}\ \texttt{D}\ \mathsf{in}\ \mathsf{source}\ \mathsf{order}])\ =\ \mathsf{order} \\[0.16em]
 \operatorname{StableTopologicalOrder}(\langle V,\ E\rangle ,\ \mathsf{seed})\ =\ \mathsf{order}\ \mathsf{iff}\ \texttt{order}\ \mathsf{is}\ a\ \mathsf{topological}\ \mathsf{ordering}\ \mathsf{of}\ \texttt{<V, E>}\ \mathsf{and}\ \mathsf{any}\ \mathsf{two}\ \mathsf{incomparable}\ \mathsf{vertices}\ \mathsf{preserve}\ \mathsf{their}\ \mathsf{relative}\ \mathsf{order}\ \mathsf{from}\ \texttt{seed}. \\[0.16em]
@@ -209,7 +209,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{dt}\ =\ \operatorname{DeriveTargetDecl}(\mathsf{name},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc})\quad \Xi_{0} \ =\ \operatorname{BindDeriveTargetInputs}(\Xi ,\ D)\quad \Gamma \ \vdash \ \operatorname{CtExec}(\Xi_{0} ,\ \Phi_{0} ,\ \mathsf{body})\ \Downarrow \ (\Xi_{1} ,\ \Phi_{1} )\quad \mathsf{items}\ =\ \operatorname{CtPendingEmits}(\Phi_{1} )\quad \Phi_{2} \ =\ \langle \operatorname{CtFiles}(\Phi_{1} ),\ \operatorname{CtProjectRoot}(\Phi_{1} ),\ \operatorname{CtDiags}(\Phi_{1} ),\ [],\ \operatorname{CtFreshSeed}(\Phi_{1} )\rangle  \\[0.16em]
+\mathsf{dt}\ =\ \operatorname{DeriveTargetDecl}(\mathsf{name},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc})\quad \Xi_{0} \ =\ \operatorname{BindDeriveTargetInputs}(\Xi ,\ D)\quad \Gamma \ \vdash \ \operatorname{CtExec}(\Xi_{0} ,\ \Phi_{0} ,\ \mathsf{body})\ \Downarrow \ (\Xi_{1} ,\ \Phi_{1} )\quad \mathsf{items}\ =\ \operatorname{CtPendingEmits}(\Phi_{1} )\quad \Phi_{2} \ =\ \langle \operatorname{CtFiles}(\Phi_{1} ),\ \operatorname{CtProjectRoot}(\Phi_{1} ),\ \operatorname{CtDiags}(\Phi_{1} ),\ [],\ \operatorname{CtFreshSeed}(\Phi_{1} )\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{RunDeriveTarget}(D,\ \mathsf{dt},\ \Xi ,\ \Phi_{0} )\ \Downarrow \ (\mathsf{items},\ \Xi_{1} ,\ \Phi_{2} )
 \end{array}

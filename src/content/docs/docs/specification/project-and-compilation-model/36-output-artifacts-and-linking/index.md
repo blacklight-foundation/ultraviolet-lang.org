@@ -2,16 +2,16 @@
 title: "3.6 Output Artifacts and Linking"
 description: "3.6 Output Artifacts and Linking from 3. Project and Compilation Model of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "project-and-compilation-model"
 specSection: "36-output-artifacts-and-linking"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -25,7 +25,7 @@ $$
 \begin{array}{l}
 \operatorname{AssemblyProject}(P,\ A)\ =\ P[\mathsf{assembly}\ :=\ A,\ \mathsf{source}_{\mathsf{root}}\ :=\ A.\mathsf{source}_{\mathsf{root}},\ \mathsf{outputs}\ :=\ A.\mathsf{outputs},\ \mathsf{modules}\ :=\ A.\mathsf{modules}] \\[0.16em]
 \operatorname{ModulePaths}(A)\ =\ \{\ m.\mathsf{path}\ \mid \ m\ \in \ A.\mathsf{modules}\ \} \\[0.16em]
-\operatorname{AsmImportGraph}(P)\ =\ \langle \operatorname{Assemblies}(P),\ E\rangle  \\[0.16em]
+\operatorname{AsmImportGraph}(P)\ =\ \langle \operatorname{Assemblies}(P),\ E\rangle \\[0.16em]
 E\ =\ \{\langle A,\ B\rangle \ \mid \ A\ \in \ \operatorname{Assemblies}(P)\ \land \ B\ \in \ \operatorname{Assemblies}(P)\ \land \ A\ \ne \ B\ \land \ \exists \ m\ \in \ A.\mathsf{modules},\ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{path},\ \mathsf{alias}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{ImportDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{path},\ \mathsf{alias}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc})\ \in \ \operatorname{ASTModule}(\operatorname{AssemblyProject}(P,\ A),\ m).\mathsf{items}\ \land \ \Gamma_{A} \ \vdash \ \operatorname{ResolveImportPath}(\mathsf{path})\ \Downarrow \ \mathsf{mp}\ \land \ \mathsf{mp}\ \in \ \operatorname{ModulePaths}(B)\} \\[0.16em]
 \Gamma_{A} \ =\ \Gamma [\mathsf{project}\ \mapsto \ \operatorname{AssemblyProject}(P,\ A)] \\[0.16em]
 \operatorname{Vertices}(\langle V,\ E\rangle )\ =\ V \\[0.16em]
@@ -392,10 +392,10 @@ $$
 $$
 \begin{array}{l}
 \operatorname{EmitIRFail}(m,\ P,\ \texttt{ll})\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Uparrow \ \lor \ (\exists \ b.\ \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ b\ \land \ \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{IRPath}(P,\ m,\ \texttt{ll}),\ b)\ \Uparrow ) \\[0.16em]
-\operatorname{EmitIRFail}(m,\ P,\ \texttt{bc})\ \Leftrightarrow  \\[0.16em]
-\ \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Uparrow \ \lor  \\[0.16em]
-\ (\exists \ t.\ \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ t\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Uparrow )\ \lor  \\[0.16em]
-\ (\exists \ t,\ a.\ \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ t\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Downarrow \ a\ \land \ \Gamma \ \vdash \ \operatorname{AssembleIR}(a,\ t)\ \Uparrow )\ \lor  \\[0.16em]
+\operatorname{EmitIRFail}(m,\ P,\ \texttt{bc})\ \Leftrightarrow \\[0.16em]
+\ \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Uparrow \ \lor \\[0.16em]
+\ (\exists \ t.\ \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ t\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Uparrow )\ \lor \\[0.16em]
+\ (\exists \ t,\ a.\ \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ t\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Downarrow \ a\ \land \ \Gamma \ \vdash \ \operatorname{AssembleIR}(a,\ t)\ \Uparrow )\ \lor \\[0.16em]
 \ (\exists \ t,\ a,\ b.\ \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ t\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Downarrow \ a\ \land \ \Gamma \ \vdash \ \operatorname{AssembleIR}(a,\ t)\ \Downarrow \ b\ \land \ \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{IRPath}(P,\ m,\ \texttt{bc}),\ b)\ \Uparrow )
 \end{array}
 $$
@@ -416,7 +416,7 @@ $$
 \mathsf{RuntimeLibName}\ =\ \operatorname{RuntimeLibNameFor}(\mathsf{SelectedTargetProfile}) \\[0.16em]
 \operatorname{CompilerExecutableDir}(P)\ =\ \operatorname{DirectoryOf}(\mathsf{CurrentCompilerExecutable}) \\[0.16em]
 \operatorname{LegacySidecarsBeside}(d)\ \Leftrightarrow \ \operatorname{exists}(d\ /\ \texttt{runtime})\ \lor \ \operatorname{exists}(d\ /\ \texttt{tools})\ \lor \ \operatorname{exists}(d\ /\ \texttt{bin})\ \lor \ \operatorname{exists}(d\ /\ \texttt{lib}) \\[0.16em]
-\operatorname{PackagedHostSidecarsBeside}(d)\ \Leftrightarrow \ \operatorname{exists}(d\ /\ \texttt{windows}\ /\ \texttt{tools})\ \lor \ \operatorname{exists}(d\ /\ \texttt{windows}\ /\ \texttt{bin})\ \lor \ \operatorname{exists}(d\ /\ \texttt{windows}\ /\ \texttt{lib})\ \lor \ \operatorname{exists}(d\ /\ \texttt{linux}\ /\ \texttt{tools})\ \lor \ \operatorname{exists}(d\ /\ \texttt{linux}\ /\ \texttt{bin})\ \lor \ \operatorname{exists}(d\ /\ \texttt{linux}\ /\ \texttt{lib}) \\[0.16em]
+\operatorname{PackagedHostSidecarsBeside}(d)\ \Leftrightarrow \ \operatorname{exists}(d\ /\ \texttt{windows}\ /\ \texttt{tools})\ \lor \ \operatorname{exists}(d\ /\ \texttt{windows}\ /\ \texttt{bin})\ \lor \ \operatorname{exists}(d\ /\ \texttt{windows}\ /\ \texttt{lib})\ \lor \ \operatorname{exists}(d\ /\ \texttt{macos}\ /\ \texttt{tools})\ \lor \ \operatorname{exists}(d\ /\ \texttt{macos}\ /\ \texttt{bin})\ \lor \ \operatorname{exists}(d\ /\ \texttt{macos}\ /\ \texttt{lib})\ \lor \ \operatorname{exists}(d\ /\ \texttt{linux}\ /\ \texttt{tools})\ \lor \ \operatorname{exists}(d\ /\ \texttt{linux}\ /\ \texttt{bin})\ \lor \ \operatorname{exists}(d\ /\ \texttt{linux}\ /\ \texttt{lib}) \\[0.16em]
 \operatorname{CompilerSupportRoot}(P)\ =\ \operatorname{CompilerExecutableDir}(P)\quad \mathsf{if}\ \operatorname{PackagedHostSidecarsBeside}(\operatorname{CompilerExecutableDir}(P)) \\[0.16em]
 \ \operatorname{CompilerExecutableDir}(P)\quad \mathsf{if}\ \operatorname{LegacySidecarsBeside}(\operatorname{CompilerExecutableDir}(P)) \\[0.16em]
 \ \operatorname{Parent}(\operatorname{CompilerExecutableDir}(P))\quad \mathsf{if}\ \operatorname{LegacySidecarsBeside}(\operatorname{Parent}(\operatorname{CompilerExecutableDir}(P))) \\[0.16em]
@@ -424,7 +424,7 @@ $$
 \operatorname{CompilerRuntimeLibPath}(P)\ =\ \operatorname{CompilerExecutableDir}(P)\ /\ \mathsf{RuntimeLibName}\quad \mathsf{if}\ \operatorname{exists}(\operatorname{CompilerExecutableDir}(P)\ /\ \mathsf{RuntimeLibName}) \\[0.16em]
 \ \operatorname{CompilerSupportRoot}(P)\ /\ \texttt{runtime}\ /\ \mathsf{RuntimeLibName}\quad \mathsf{otherwise} \\[0.16em]
 \operatorname{RuntimeLibPath}(P)\ = \\[0.16em]
-\ \operatorname{ToolchainConfig}(P).\mathsf{runtime}_{\mathsf{lib}}\ \mathsf{if}\ \operatorname{ToolchainConfig}(P).\mathsf{runtime}_{\mathsf{lib}}\ \ne \ \bot  \\[0.16em]
+\ \operatorname{ToolchainConfig}(P).\mathsf{runtime}_{\mathsf{lib}}\ \mathsf{if}\ \operatorname{ToolchainConfig}(P).\mathsf{runtime}_{\mathsf{lib}}\ \ne \ \bot \\[0.16em]
 \ \operatorname{CompilerRuntimeLibPath}(P)\quad \mathsf{otherwise}
 \end{array}
 $$
@@ -443,9 +443,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ReadBytes}(\operatorname{RuntimeLibPath}(P))\ \Uparrow  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ReadBytes}(\operatorname{RuntimeLibPath}(P))\ \Uparrow \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveRuntimeLib}(P)\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{ResolveRuntimeLib}(P)\ \Uparrow
 \end{array}
 $$
 
@@ -643,7 +643,7 @@ $$
 
 $$
 \begin{array}{l}
-\langle \operatorname{OutStart}(P)\rangle \ \to *\ \langle \operatorname{Error}(c)\rangle  \\[0.16em]
+\langle \operatorname{OutStart}(P)\rangle \ \to *\ \langle \operatorname{Error}(c)\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{OutputPipeline}(P)\ \Uparrow \ c
 \end{array}
@@ -665,7 +665,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutStart}(P)\rangle \ \to \ \langle \operatorname{OutDirs}(P)\rangle 
+\langle \operatorname{OutStart}(P)\rangle \ \to \ \langle \operatorname{OutDirs}(P)\rangle
 \end{array}
 $$
 
@@ -675,7 +675,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{EnsureDir}(O)\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Intermediate})\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Logs})\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Intermediate}\ /\ \texttt{Obj})\ \Downarrow \ \mathsf{ok}\quad (\lnot \ \operatorname{UsesBinDir}(P)\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Binary})\ \Downarrow \ \mathsf{ok})\quad (\lnot \ \operatorname{UsesLibDir}(P)\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Library})\ \Downarrow \ \mathsf{ok})\quad (e\ =\ \texttt{none}\ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Intermediate}\ /\ \texttt{IR})\ \Downarrow \ \mathsf{ok}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutDirs}(P)\rangle \ \to \ \langle \operatorname{OutObjs}(P,\ \mathsf{ms},\ [])\rangle 
+\langle \operatorname{OutDirs}(P)\rangle \ \to \ \langle \operatorname{OutObjs}(P,\ \mathsf{ms},\ [])\rangle
 \end{array}
 $$
 
@@ -685,7 +685,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{EnsureDir}(O)\ \Uparrow \ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Intermediate})\ \Uparrow \ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Logs})\ \Uparrow \ \lor \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Intermediate}\ /\ \texttt{Obj})\ \Uparrow \ \lor \ (\operatorname{UsesBinDir}(P)\ \land \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Binary})\ \Uparrow )\ \lor \ (\operatorname{UsesLibDir}(P)\ \land \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Library})\ \Uparrow )\ \lor \ (e\ \in \ \{\texttt{ll},\ \texttt{bc}\}\ \land \ \Gamma \ \vdash \ \operatorname{EnsureDir}(O\ /\ \texttt{Intermediate}\ /\ \texttt{IR})\ \Uparrow ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutDirs}(P)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Out}-\mathsf{Dirs}-\mathsf{Err}))\rangle 
+\langle \operatorname{OutDirs}(P)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Out}-\mathsf{Dirs}-\mathsf{Err}))\rangle
 \end{array}
 $$
 
@@ -695,7 +695,7 @@ $$
 \begin{array}{l}
 \lnot \ \operatorname{Distinct}(L\ \mathbin{++} \ \operatorname{ObjPaths}(P,\ \mathsf{ms})) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutObjs}(P,\ \mathsf{ms},\ L)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Out}-\mathsf{Obj}-\mathsf{Collision}))\rangle 
+\langle \operatorname{OutObjs}(P,\ \mathsf{ms},\ L)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Out}-\mathsf{Obj}-\mathsf{Collision}))\rangle
 \end{array}
 $$
 
@@ -705,7 +705,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{CodegenObj}(m)\ \Downarrow \ b\quad \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{ObjPath}(P,\ m),\ b)\ \Downarrow \ \mathsf{ok} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutObjs}(P,\ m\mathbin{::} \mathsf{ms},\ L)\rangle \ \to \ \langle \operatorname{OutObjs}(P,\ \mathsf{ms},\ L\ \mathbin{++} \ [\operatorname{ObjPath}(P,\ m)])\rangle 
+\langle \operatorname{OutObjs}(P,\ m\mathbin{::} \mathsf{ms},\ L)\rangle \ \to \ \langle \operatorname{OutObjs}(P,\ \mathsf{ms},\ L\ \mathbin{++} \ [\operatorname{ObjPath}(P,\ m)])\rangle
 \end{array}
 $$
 
@@ -715,7 +715,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{CodegenObj}(m)\ \Uparrow \ \lor \ (\Gamma \ \vdash \ \operatorname{CodegenObj}(m)\ \Downarrow \ b\ \land \ \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{ObjPath}(P,\ m),\ b)\ \Uparrow ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutObjs}(P,\ m\mathbin{::} \mathsf{ms},\ L)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Out}-\mathsf{Obj}-\mathsf{Err}))\rangle 
+\langle \operatorname{OutObjs}(P,\ m\mathbin{::} \mathsf{ms},\ L)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Out}-\mathsf{Obj}-\mathsf{Err}))\rangle
 \end{array}
 $$
 
@@ -724,7 +724,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutObjs}(P,\ [],\ L)\rangle \ \to \ \langle \operatorname{OutIR}(P,\ \operatorname{EmitModuleList}(P),\ L,\ [],\ e)\rangle 
+\langle \operatorname{OutObjs}(P,\ [],\ L)\rangle \ \to \ \langle \operatorname{OutIR}(P,\ \operatorname{EmitModuleList}(P),\ L,\ [],\ e)\rangle
 \end{array}
 $$
 
@@ -734,7 +734,7 @@ $$
 \begin{array}{l}
 e\ =\ \texttt{none}\quad \operatorname{Linkable}(P) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs})\rangle 
+\langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs})\rangle
 \end{array}
 $$
 
@@ -744,7 +744,7 @@ $$
 \begin{array}{l}
 e\ =\ \texttt{none}\quad \operatorname{Dependency}(P) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{OutDone}(\mathsf{Objs},\ \mathsf{IRs},\ \bot )\rangle 
+\langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{OutDone}(\mathsf{Objs},\ \mathsf{IRs},\ \bot )\rangle
 \end{array}
 $$
 
@@ -754,7 +754,7 @@ $$
 \begin{array}{l}
 e\ \in \ \{\texttt{ll},\ \texttt{bc}\}\quad \lnot \ \operatorname{Distinct}(\mathsf{IRs}\ \mathbin{++} \ \operatorname{IRPaths}(P,\ \mathsf{ms},\ e)) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Out}-\mathsf{IR}-\mathsf{Collision}))\rangle 
+\langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Out}-\mathsf{IR}-\mathsf{Collision}))\rangle
 \end{array}
 $$
 
@@ -764,7 +764,7 @@ $$
 \begin{array}{l}
 e\ =\ \texttt{ll}\quad \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ e)\ \Downarrow \ b\quad \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{IRPath}(P,\ m,\ e),\ b)\ \Downarrow \ \mathsf{ok} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutIR}(P,\ m\mathbin{::} \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs}\ \mathbin{++} \ [\operatorname{IRPath}(P,\ m,\ e)],\ e)\rangle 
+\langle \operatorname{OutIR}(P,\ m\mathbin{::} \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs}\ \mathbin{++} \ [\operatorname{IRPath}(P,\ m,\ e)],\ e)\rangle
 \end{array}
 $$
 
@@ -774,7 +774,7 @@ $$
 \begin{array}{l}
 e\ =\ \texttt{bc}\quad \Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ t\quad \Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Downarrow \ a\quad \Gamma \ \vdash \ \operatorname{AssembleIR}(a,\ t)\ \Downarrow \ b\quad \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{IRPath}(P,\ m,\ e),\ b)\ \Downarrow \ \mathsf{ok} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutIR}(P,\ m\mathbin{::} \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs}\ \mathbin{++} \ [\operatorname{IRPath}(P,\ m,\ e)],\ e)\rangle 
+\langle \operatorname{OutIR}(P,\ m\mathbin{::} \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs}\ \mathbin{++} \ [\operatorname{IRPath}(P,\ m,\ e)],\ e)\rangle
 \end{array}
 $$
 
@@ -782,10 +782,10 @@ $$
 
 $$
 \begin{array}{l}
-(e\ =\ \texttt{ll}\ \land \ (\Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ e)\ \Uparrow \ \lor \ (\Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ e)\ \Downarrow \ b\ \land \ \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{IRPath}(P,\ m,\ e),\ b)\ \Uparrow )))\ \lor  \\[0.16em]
+(e\ =\ \texttt{ll}\ \land \ (\Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ e)\ \Uparrow \ \lor \ (\Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ e)\ \Downarrow \ b\ \land \ \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{IRPath}(P,\ m,\ e),\ b)\ \Uparrow )))\ \lor \\[0.16em]
 (e\ =\ \texttt{bc}\ \land \ (\Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Uparrow \ \lor \ (\Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ t\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Uparrow )\ \lor \ (\Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ t\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Downarrow \ a\ \land \ \Gamma \ \vdash \ \operatorname{AssembleIR}(a,\ t)\ \Uparrow )\ \lor \ (\Gamma \ \vdash \ \operatorname{CodegenIR}(m,\ \texttt{ll})\ \Downarrow \ t\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Downarrow \ a\ \land \ \Gamma \ \vdash \ \operatorname{AssembleIR}(a,\ t)\ \Downarrow \ b\ \land \ \Gamma \ \vdash \ \operatorname{WriteFile}(\operatorname{IRPath}(P,\ m,\ e),\ b)\ \Uparrow ))) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutIR}(P,\ m\mathbin{::} \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Out}-\mathsf{IR}-\mathsf{Err}))\rangle 
+\langle \operatorname{OutIR}(P,\ m\mathbin{::} \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Out}-\mathsf{IR}-\mathsf{Err}))\rangle
 \end{array}
 $$
 
@@ -795,7 +795,7 @@ $$
 \begin{array}{l}
 e\ \in \ \{\texttt{ll},\ \texttt{bc}\}\quad \mathsf{ms}\ =\ []\quad \operatorname{Linkable}(P) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs})\rangle 
+\langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs})\rangle
 \end{array}
 $$
 
@@ -805,7 +805,7 @@ $$
 \begin{array}{l}
 e\ \in \ \{\texttt{ll},\ \texttt{bc}\}\quad \mathsf{ms}\ =\ []\quad \operatorname{Dependency}(P) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{OutDone}(\mathsf{Objs},\ \mathsf{IRs},\ \bot )\rangle 
+\langle \operatorname{OutIR}(P,\ \mathsf{ms},\ \mathsf{Objs},\ \mathsf{IRs},\ e)\rangle \ \to \ \langle \operatorname{OutDone}(\mathsf{Objs},\ \mathsf{IRs},\ \bot )\rangle
 \end{array}
 $$
 
@@ -815,7 +815,7 @@ $$
 \begin{array}{l}
 \operatorname{Executable}(P)\ \lor \ \operatorname{SharedLibrary}(P)\quad \Gamma \ \vdash \ \operatorname{Link}(\mathsf{Objs},\ P)\ \Downarrow \ \mathsf{ok} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs})\rangle \ \to \ \langle \operatorname{OutDone}(\mathsf{Objs},\ \mathsf{IRs},\ \operatorname{PrimaryArtifact}(P))\rangle 
+\langle \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs})\rangle \ \to \ \langle \operatorname{OutDone}(\mathsf{Objs},\ \mathsf{IRs},\ \operatorname{PrimaryArtifact}(P))\rangle
 \end{array}
 $$
 
@@ -825,7 +825,7 @@ $$
 \begin{array}{l}
 \operatorname{Executable}(P)\ \lor \ \operatorname{SharedLibrary}(P)\quad \Gamma \ \vdash \ \operatorname{Link}(\mathsf{Objs},\ P)\ \Uparrow \ c \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\langle \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle
 \end{array}
 $$
 
@@ -835,7 +835,7 @@ $$
 \begin{array}{l}
 \operatorname{StaticLibrary}(P)\quad \Gamma \ \vdash \ \operatorname{Archive}(\mathsf{Objs},\ P)\ \Downarrow \ \mathsf{ok} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs})\rangle \ \to \ \langle \operatorname{OutDone}(\mathsf{Objs},\ \mathsf{IRs},\ \operatorname{PrimaryArtifact}(P))\rangle 
+\langle \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs})\rangle \ \to \ \langle \operatorname{OutDone}(\mathsf{Objs},\ \mathsf{IRs},\ \operatorname{PrimaryArtifact}(P))\rangle
 \end{array}
 $$
 
@@ -845,6 +845,6 @@ $$
 \begin{array}{l}
 \operatorname{StaticLibrary}(P)\quad \Gamma \ \vdash \ \operatorname{Archive}(\mathsf{Objs},\ P)\ \Uparrow \ c \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\langle \operatorname{OutFinal}(P,\ \mathsf{Objs},\ \mathsf{IRs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle
 \end{array}
 $$

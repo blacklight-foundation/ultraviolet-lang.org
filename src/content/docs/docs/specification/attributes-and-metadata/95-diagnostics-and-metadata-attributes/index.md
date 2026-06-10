@@ -2,16 +2,16 @@
 title: "9.5 Diagnostics and Metadata Attributes"
 description: "9.5 Diagnostics and Metadata Attributes from 9. Attributes and Metadata of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "attributes-and-metadata"
 specSection: "95-diagnostics-and-metadata-attributes"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -34,7 +34,7 @@ These attributes are parsed by the general attribute parser in §9.1.2.
 $$
 \begin{array}{l}
 \operatorname{ExprAttrList}(e)\ =\ A\quad \mathsf{if}\ \operatorname{ExprAttrs}(e)\ =\ A \\[0.16em]
-\operatorname{ExprAttrList}(e)\ =\ []\ \mathsf{if}\ \operatorname{ExprAttrs}(e)\ =\ \bot  \\[0.16em]
+\operatorname{ExprAttrList}(e)\ =\ []\ \mathsf{if}\ \operatorname{ExprAttrs}(e)\ =\ \bot \\[0.16em]
 \operatorname{ExprAttrByName}(e,\ n)\ =\ [a\ \mid \ a\ \in \ \operatorname{ExprAttrList}(e)\ \land \ a.\mathsf{name}\ =\ n]
 \end{array}
 $$
@@ -81,7 +81,7 @@ $$
 \begin{array}{l}
 \operatorname{FindInnermostDynamic}(s,\ \mathsf{ancestors})\ = \\[0.16em]
 \ \mathsf{let}\ \mathsf{dynamic}_{\mathsf{ancestors}}\ =\ [a\ \mid \ a\ \in \ \mathsf{ancestors}\ \land \ (\operatorname{DynamicDecl}(a)\ \lor \ \operatorname{DynamicExpr}(a))\ \land \ s\ \subseteq \ a.\mathsf{span}] \\[0.16em]
-\ \mathsf{if}\ \mathsf{dynamic}_{\mathsf{ancestors}}\ =\ []\ \mathsf{then}\ \bot  \\[0.16em]
+\ \mathsf{if}\ \mathsf{dynamic}_{\mathsf{ancestors}}\ =\ []\ \mathsf{then}\ \bot \\[0.16em]
 \ \mathsf{else}\ \operatorname{Some}(\operatorname{MinimalSpan}(\mathsf{dynamic}_{\mathsf{ancestors}}))
 \end{array}
 $$
@@ -91,7 +91,7 @@ $$
 $$
 
 $$
-\operatorname{MinimalSpan}(\mathsf{forms})\ =\ \mathsf{argmin}\_\{f\ \in \ \mathsf{forms}\}\ \mid f.\mathsf{span}\mid 
+\operatorname{MinimalSpan}(\mathsf{forms})\ =\ \mathsf{argmin}\_\{f\ \in \ \mathsf{forms}\}\ \mid f.\mathsf{span}\mid
 $$
 
 **(DynamicContext-Override)**

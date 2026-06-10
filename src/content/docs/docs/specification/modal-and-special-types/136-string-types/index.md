@@ -2,16 +2,16 @@
 title: "13.6 String Types"
 description: "13.6 String Types from 13. Modal and Special Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "modal-and-special-types"
 specSection: "136-string-types"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -93,7 +93,7 @@ $$
 \ \langle \texttt{string::clone\_with},\ [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{const},\ \operatorname{TypeString}(\texttt{@Managed}))\rangle ,\ \langle \bot ,\ \texttt{heap},\ \operatorname{TypeDynamic}(\texttt{HeapAllocator})\rangle ],\ \operatorname{TypeApply}([\texttt{"Outcome"}],\ [\operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeString}(\texttt{@Managed})),\ \operatorname{TypePath}([\texttt{"AllocationError"}])])\rangle , \\[0.16em]
 \ \langle \texttt{string::append},\ [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeString}(\texttt{@Managed}))\rangle ,\ \langle \bot ,\ \texttt{data},\ \operatorname{TypeString}(\texttt{@View})\rangle ,\ \langle \bot ,\ \texttt{heap},\ \operatorname{TypeDynamic}(\texttt{HeapAllocator})\rangle ],\ \operatorname{TypeApply}([\texttt{"Outcome"}],\ [\operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePath}([\texttt{"AllocationError"}])])\rangle , \\[0.16em]
 \ \langle \texttt{string::length},\ [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{const},\ \operatorname{TypeString}(\texttt{@View}))\rangle ],\ \operatorname{TypePrim}(\texttt{"usize"})\rangle , \\[0.16em]
-\ \langle \texttt{string::is\_empty},\ [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{const},\ \operatorname{TypeString}(\texttt{@View}))\rangle ],\ \operatorname{TypePrim}(\texttt{"bool"})\rangle  \\[0.16em]
+\ \langle \texttt{string::is\_empty},\ [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{const},\ \operatorname{TypeString}(\texttt{@View}))\rangle ],\ \operatorname{TypePrim}(\texttt{"bool"})\rangle \\[0.16em]
 \}
 \end{array}
 $$
@@ -133,7 +133,7 @@ $$
 $$
 \begin{array}{l}
 \mathsf{ByteSeq}\ =\ \operatorname{List}(\texttt{u8}) \\[0.16em]
-\mathsf{SB}\ =\ \langle \mathsf{StrBuf},\ \mathsf{BytesBuf},\ \mathsf{BytesCap}\rangle  \\[0.16em]
+\mathsf{SB}\ =\ \langle \mathsf{StrBuf},\ \mathsf{BytesBuf},\ \mathsf{BytesCap}\rangle \\[0.16em]
 \mathsf{StrBuf}\ :\ \texttt{string@Managed}\ \rightharpoonup \ \mathsf{ByteSeq} \\[0.16em]
 \mathsf{BytesBuf}\ :\ \texttt{bytes@Managed}\ \rightharpoonup \ \mathsf{ByteSeq} \\[0.16em]
 \mathsf{BytesCap}\ :\ \texttt{bytes@Managed}\ \rightharpoonup \ \texttt{usize}
@@ -147,7 +147,7 @@ $$
 \ \operatorname{StrBuf}(v)\quad \mathsf{if}\ v:\texttt{string@Managed} \\[0.16em]
 \ \operatorname{BytesBuf}(v)\ \mathsf{if}\ v:\texttt{bytes@Managed} \\[0.16em]
 \ \operatorname{ViewBytes}(v)\ \mathsf{if}\ v:\texttt{string@View}\ \mathsf{or}\ v:\texttt{bytes@View} \\[0.16em]
-\operatorname{ByteLen}(\mathsf{SB},\ v)\ =\ \mid \operatorname{ByteSeqOf}(\mathsf{SB},\ v)\mid 
+\operatorname{ByteLen}(\mathsf{SB},\ v)\ =\ \mid \operatorname{ByteSeqOf}(\mathsf{SB},\ v)\mid
 \end{array}
 $$
 
@@ -181,7 +181,7 @@ For any string literal `lit`, evaluation MUST allocate `StringBytes(lit)` in sta
 
 $$
 \begin{array}{l}
-r\ =\ v\quad \mathsf{SB}'\ =\ \langle \mathsf{StrBuf}[v\ \mapsto \ \operatorname{ByteSeqOf}(\mathsf{SB},\ \mathsf{source})],\ \mathsf{BytesBuf},\ \mathsf{BytesCap}\rangle  \\[0.16em]
+r\ =\ v\quad \mathsf{SB}'\ =\ \langle \mathsf{StrBuf}[v\ \mapsto \ \operatorname{ByteSeqOf}(\mathsf{SB},\ \mathsf{source})],\ \mathsf{BytesBuf},\ \mathsf{BytesCap}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{StringFrom}(\mathsf{SB},\ \mathsf{source},\ \mathsf{heap})\ \Downarrow \ (r,\ \mathsf{SB}')
 \end{array}
@@ -221,7 +221,7 @@ $$
 
 $$
 \begin{array}{l}
-r\ =\ v\quad \mathsf{SB}'\ =\ \langle \mathsf{StrBuf}[v\ \mapsto \ \operatorname{ByteSeqOf}(\mathsf{SB},\ \mathsf{self})],\ \mathsf{BytesBuf},\ \mathsf{BytesCap}\rangle  \\[0.16em]
+r\ =\ v\quad \mathsf{SB}'\ =\ \langle \mathsf{StrBuf}[v\ \mapsto \ \operatorname{ByteSeqOf}(\mathsf{SB},\ \mathsf{self})],\ \mathsf{BytesBuf},\ \mathsf{BytesCap}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{StringToManaged}(\mathsf{SB},\ \mathsf{self},\ \mathsf{heap})\ \Downarrow \ (r,\ \mathsf{SB}')
 \end{array}
@@ -241,7 +241,7 @@ $$
 
 $$
 \begin{array}{l}
-r\ =\ v\quad \mathsf{SB}'\ =\ \langle \mathsf{StrBuf}[v\ \mapsto \ \operatorname{ByteSeqOf}(\mathsf{SB},\ \mathsf{self})],\ \mathsf{BytesBuf},\ \mathsf{BytesCap}\rangle  \\[0.16em]
+r\ =\ v\quad \mathsf{SB}'\ =\ \langle \mathsf{StrBuf}[v\ \mapsto \ \operatorname{ByteSeqOf}(\mathsf{SB},\ \mathsf{self})],\ \mathsf{BytesBuf},\ \mathsf{BytesCap}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{StringCloneWith}(\mathsf{SB},\ \mathsf{self},\ \mathsf{heap})\ \Downarrow \ (r,\ \mathsf{SB}')
 \end{array}
@@ -261,7 +261,7 @@ $$
 
 $$
 \begin{array}{l}
-r\ =\ ()\quad \mathsf{StrBuf}'\ =\ \mathsf{StrBuf}[\mathsf{self}\ \mapsto \ \operatorname{ByteSeqOf}(\mathsf{SB},\ \mathsf{self})\ \mathbin{++} \ \operatorname{ByteSeqOf}(\mathsf{SB},\ \mathsf{data})]\quad \mathsf{SB}'\ =\ \langle \mathsf{StrBuf}',\ \mathsf{BytesBuf},\ \mathsf{BytesCap}\rangle  \\[0.16em]
+r\ =\ ()\quad \mathsf{StrBuf}'\ =\ \mathsf{StrBuf}[\mathsf{self}\ \mapsto \ \operatorname{ByteSeqOf}(\mathsf{SB},\ \mathsf{self})\ \mathbin{++} \ \operatorname{ByteSeqOf}(\mathsf{SB},\ \mathsf{data})]\quad \mathsf{SB}'\ =\ \langle \mathsf{StrBuf}',\ \mathsf{BytesBuf},\ \mathsf{BytesCap}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{StringAppend}(\mathsf{SB},\ \mathsf{self},\ \mathsf{data},\ \mathsf{heap})\ \Downarrow \ (r,\ \mathsf{SB}')
 \end{array}
@@ -299,8 +299,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{StringViewOf}(v_{\mathsf{managed}})\ =\ v_{\mathsf{view}}\ \Leftrightarrow  \\[0.16em]
-\ v_{\mathsf{managed}}\ =\ \operatorname{ManagedString}(\mathsf{ptr},\ \mathsf{len},\ \mathsf{cap})\ \land  \\[0.16em]
+\operatorname{StringViewOf}(v_{\mathsf{managed}})\ =\ v_{\mathsf{view}}\ \Leftrightarrow \\[0.16em]
+\ v_{\mathsf{managed}}\ =\ \operatorname{ManagedString}(\mathsf{ptr},\ \mathsf{len},\ \mathsf{cap})\ \land \\[0.16em]
 \ v_{\mathsf{view}}\ =\ \operatorname{ViewString}(\mathsf{ptr},\ \mathsf{len})
 \end{array}
 $$
@@ -318,7 +318,7 @@ $$
 \begin{array}{l}
 \mathsf{StringManagedFields}\ =\ [\langle \texttt{pointer},\ \operatorname{TypePtr}(\operatorname{TypePrim}(\texttt{"u8"}),\ \texttt{Valid})\rangle ,\ \langle \texttt{length},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle ,\ \langle \texttt{capacity},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle ] \\[0.16em]
 \mathsf{StringManagedOffsets}\ =\ [0,\ \mathsf{PtrSize},\ 2\ \times \ \mathsf{PtrSize}] \\[0.16em]
-\operatorname{RecordLayout}(\mathsf{StringManagedFields})\ =\ \langle 3\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign},\ \mathsf{StringManagedOffsets}\rangle 
+\operatorname{RecordLayout}(\mathsf{StringManagedFields})\ =\ \langle 3\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign},\ \mathsf{StringManagedOffsets}\rangle
 \end{array}
 $$
 
@@ -326,7 +326,7 @@ $$
 \begin{array}{l}
 \mathsf{StringViewFields}\ =\ [\langle \texttt{pointer},\ \operatorname{TypePtr}(\operatorname{TypePerm}(\texttt{const},\ \operatorname{TypePrim}(\texttt{"u8"})),\ \texttt{Valid})\rangle ,\ \langle \texttt{length},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle ] \\[0.16em]
 \mathsf{StringViewOffsets}\ =\ [0,\ \mathsf{PtrSize}] \\[0.16em]
-\operatorname{RecordLayout}(\mathsf{StringViewFields})\ =\ \langle 2\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign},\ \mathsf{StringViewOffsets}\rangle 
+\operatorname{RecordLayout}(\mathsf{StringViewFields})\ =\ \langle 2\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign},\ \mathsf{StringViewOffsets}\rangle
 \end{array}
 $$
 
@@ -356,7 +356,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeString}(\texttt{@Managed}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle 3\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle 3\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign}\rangle
 \end{array}
 $$
 
@@ -386,7 +386,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeString}(\texttt{@View}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle 2\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle 2\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign}\rangle
 \end{array}
 $$
 
@@ -394,7 +394,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeString}(\bot )\quad \Gamma \ \vdash \ \operatorname{ModalLayout}(\texttt{string})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_,\ \_\rangle  \\[0.16em]
+T\ =\ \operatorname{TypeString}(\bot )\quad \Gamma \ \vdash \ \operatorname{ModalLayout}(\texttt{string})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{sizeof}(T)\ =\ \mathsf{size}
 \end{array}
@@ -404,7 +404,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeString}(\bot )\quad \Gamma \ \vdash \ \operatorname{ModalLayout}(\texttt{string})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_,\ \_\rangle  \\[0.16em]
+T\ =\ \operatorname{TypeString}(\bot )\quad \Gamma \ \vdash \ \operatorname{ModalLayout}(\texttt{string})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{alignof}(T)\ =\ \mathsf{align}
 \end{array}

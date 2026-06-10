@@ -2,16 +2,16 @@
 title: "1.2 Behavior Types"
 description: "1.2 Behavior Types from 1. Conformance and Notation of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "conformance-and-notation"
 specSection: "12-behavior-types"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -25,12 +25,13 @@ generated: true
 
 $$
 \begin{array}{l}
-\mathsf{StaticJudgSet}\ =\ \mathsf{WFModulePathJudg}\ \cup \ \mathsf{LinkJudg}\ \cup \ \mathsf{ParseJudgment}\ \cup \ \mathsf{ResolvePathJudg}\ \cup \ \mathsf{ResolveExprListJudg}\ \cup \ \mathsf{ResolveEnumPayloadJudg}\ \cup \ \mathsf{ResolveCalleeJudg}\ \cup \ \mathsf{ResolveIfCaseJudg}\ \cup \ \mathsf{ResolveStmtSeqJudg}\ \cup \ \mathsf{TypeEqJudg}\ \cup \ \mathsf{ConstLenJudg}\ \cup \ \mathsf{SubtypingJudg}\ \cup \ \mathsf{PermAdmitsJudg}\ \cup \ \mathsf{ArgsOkTJudg}\ \cup \ \mathsf{TypeInfJudg}\ \cup \ \mathsf{StmtJudg}\ \cup \ \mathsf{PatJudg}\ \cup \ \mathsf{ExprJudg}\ \cup \ \mathsf{CaseJudg}\ \cup \ \mathsf{DeclJudg}\ \cup \ \mathsf{BJudgment}\ \cup \ \mathsf{ArgPassJudg}\ \cup \ \mathsf{ProvPlaceJudg}\ \cup \ \mathsf{ProvExprJudg}\ \cup \ \mathsf{ProvStmtJudg}\ \cup \ \mathsf{BlockProvJudg}\ \cup \ \mathsf{ArgsOkJudg}\ \cup \ \mathsf{TypeWFJudg}\ \cup \ \mathsf{StringBytesJudg}\ \cup \ \mathsf{BitcopyDropJudg}\ \cup \ \mathsf{BitcopyJudg}\ \cup \ \mathsf{CloneJudg}\ \cup \ \mathsf{DropJudg}\ \cup \ \mathsf{FfiSafeJudg}\ \cup \ \mathsf{TypeRefsJudg}\ \cup \ \mathsf{ValueRefsJudg}\ \cup \ \mathsf{CodegenJudg}\ \cup \ \mathsf{LayoutJudg}\ \cup \ \mathsf{EncodeConstJudg}\ \cup \ \mathsf{ValidValueJudg}\ \cup \ \mathsf{RecordLayoutJudg}\ \cup \ \mathsf{UnionLayoutJudg}\ \cup \ \mathsf{TupleLayoutJudg}\ \cup \ \mathsf{RangeLayoutJudg}\ \cup \ \mathsf{EnumLayoutJudg}\ \cup \ \mathsf{ModalLayoutJudg}\ \cup \ \mathsf{DynLayoutJudg}\ \cup \ \mathsf{ABITyJudg}\ \cup \ \mathsf{ABIParamJudg}\ \cup \ \mathsf{ABIRetJudg}\ \cup \ \mathsf{ABICallJudg}\ \cup \ \mathsf{LowerCallJudg}\ \cup \ \mathsf{MangleJudg}\ \cup \ \mathsf{LinkageJudg}\ \cup \ \mathsf{EvalOrderJudg}\ \cup \ \mathsf{LowerExprJudg}\ \cup \ \mathsf{LowerStmtJudg}\ \cup \ \mathsf{PatternLowerJudg}\ \cup \ \mathsf{LowerBindJudg}\ \cup \ \mathsf{GlobalsJudg}\ \cup \ \mathsf{ConstInitJudg}\ \cup \ \mathsf{CleanupJudg}\ \cup \ \mathsf{RuntimeIfcJudg}\ \cup \ \mathsf{DynDispatchJudg}\ \cup \ \mathsf{ChecksJudg}\ \cup \ \mathsf{LLVMAttrJudg}\ \cup \ \mathsf{RuntimeDeclJudg}\ \cup \ \mathsf{LLVMTyJudg}\ \cup \ \mathsf{LLVMEmitJudg}\ \cup \ \mathsf{LowerIRJudg}\ \cup \ \mathsf{BindStorageJudg}\ \cup \ \mathsf{LLVMCallJudg}\ \cup \ \mathsf{VTableJudg}\ \cup \ \mathsf{LiteralEmitJudg}\ \cup \ \mathsf{BuiltinSymJudg}\ \cup \ \mathsf{DropHookJudg}\ \cup \ \mathsf{EntryJudg}\ \cup \ \mathsf{PoisonJudg} \\[0.16em]
+\mathsf{StaticJudgSet}\ =\ \mathsf{WFModulePathJudg}\ \cup \ \mathsf{LinkJudg}\ \cup \ \mathsf{ParseJudgment}\ \cup \ \mathsf{ResolvePathJudg}\ \cup \ \mathsf{ResolveExprListJudg}\ \cup \ \mathsf{ResolveEnumPayloadJudg}\ \cup \ \mathsf{ResolveCalleeJudg}\ \cup \ \mathsf{ResolveIfCaseJudg}\ \cup \ \mathsf{ResolveStmtSeqJudg}\ \cup \ \mathsf{TypeEqJudg}\ \cup \ \mathsf{ConstLenJudg}\ \cup \ \mathsf{SubtypingJudg}\ \cup \ \mathsf{PermAdmitsJudg}\ \cup \ \mathsf{ArgsOkTJudg}\ \cup \ \mathsf{TypeInfJudg}\ \cup \ \mathsf{StmtJudg}\ \cup \ \mathsf{PatJudg}\ \cup \ \mathsf{ExprJudg}\ \cup \ \mathsf{CaseJudg}\ \cup \ \mathsf{DeclJudg}\ \cup \ \mathsf{BJudgment}\ \cup \ \mathsf{ArgPassJudg}\ \cup \ \mathsf{ProvPlaceJudg}\ \cup \ \mathsf{ProvExprJudg}\ \cup \ \mathsf{ProvStmtJudg}\ \cup \ \mathsf{BlockProvJudg}\ \cup \ \mathsf{ArgsOkJudg}\ \cup \ \mathsf{TypeWFJudg}\ \cup \ \mathsf{StringBytesJudg}\ \cup \ \mathsf{BitcopyDropJudg}\ \cup \ \mathsf{BitcopyJudg}\ \cup \ \mathsf{CloneJudg}\ \cup \ \mathsf{DropJudg}\ \cup \ \mathsf{FfiSafeJudg}\ \cup \ \mathsf{TypeRefsJudg}\ \cup \ \mathsf{ValueRefsJudg}\ \cup \ \mathsf{CodegenJudg}\ \cup \ \mathsf{LayoutJudg}\ \cup \ \mathsf{EncodeConstJudg}\ \cup \ \mathsf{ValidValueJudg}\ \cup \ \mathsf{RecordLayoutJudg}\ \cup \ \mathsf{UnionLayoutJudg}\ \cup \ \mathsf{TupleLayoutJudg}\ \cup \ \mathsf{RangeLayoutJudg}\ \cup \ \mathsf{EnumLayoutJudg}\ \cup \ \mathsf{ModalLayoutJudg}\ \cup \ \mathsf{DynLayoutJudg}\ \cup \ \mathsf{ABITyJudg}\ \cup \ \mathsf{ABIParamJudg}\ \cup \ \mathsf{ABIRetJudg}\ \cup \ \mathsf{ABICallJudg}\ \cup \ \mathsf{LowerCallJudg}\ \cup \ \mathsf{MangleJudg}\ \cup \ \mathsf{LinkageJudg}\ \cup \ \mathsf{EvalOrderJudg}\ \cup \ \mathsf{LowerExprJudg}\ \cup \ \mathsf{LowerStmtJudg}\ \cup \ \mathsf{PatternLowerJudg}\ \cup \ \mathsf{LowerBindJudg}\ \cup \ \mathsf{GlobalsJudg}\ \cup \ \mathsf{ConstInitJudg}\ \cup \ \mathsf{CleanupJudg}\ \cup \ \mathsf{RuntimeIfcJudg}\ \cup \ \mathsf{DynDispatchJudg}\ \cup \ \mathsf{ChecksJudg}\ \cup \ \mathsf{LLVMAttrJudg}\ \cup \ \mathsf{RuntimeDeclJudg}\ \cup \ \mathsf{LLVMTyJudg}\ \cup \ \mathsf{LLVMEmitJudg}\ \cup \ \mathsf{LowerIRJudg}\ \cup \ \mathsf{BindStorageJudg}\ \cup \ \mathsf{LLVMCallJudg}\ \cup \ \mathsf{VTableJudg}\ \cup \ \mathsf{LiteralEmitJudg}\ \cup \ \mathsf{BuiltinSymJudg}\ \cup \ \mathsf{DropHookJudg}\ \cup \ \mathsf{EntryJudg}\ \cup \ \mathsf{PoisonJudg}\ \cup \ \mathsf{KeyRMWJudg} \\[0.16em]
+\mathsf{KeyRMWJudg}\ =\ \{\mathsf{RMWOk}\} \\[0.16em]
 \mathsf{StaticRuleSet}\ =\ \{\ r\ \mid \ \operatorname{Conclusion}(r)\ \in \ \mathsf{StaticJudgSet}\ \} \\[0.16em]
 \operatorname{Conclusion}(r)\ =\ J\quad (r\ \mathsf{is}\ \mathsf{written}\ (\pi_{1} \ \ldots \ \pi_{k} )\ /\ J) \\[0.16em]
 \operatorname{Premises}(r)\ =\ [\pi_{1} ,\ \ldots ,\ \pi_{k} ]\quad (r\ \mathsf{is}\ \mathsf{written}\ (\pi_{1} \ \ldots \ \pi_{k} )\ /\ \_) \\[0.16em]
-\operatorname{Subject}(\Gamma \ \vdash \ j)\ =\ j_{0}\ \mathsf{where}\ j_{0}\ \mathsf{is}\ \mathsf{the}\ \mathsf{leftmost}\ \mathsf{term}\ \mathsf{to}\ \mathsf{the}\ \mathsf{right}\ \mathsf{of}\ \vdash  \\[0.16em]
-\operatorname{EnvOf}(\Gamma \ \vdash \ j)\ =\ \Gamma  \\[0.16em]
+\operatorname{Subject}(\Gamma \ \vdash \ j)\ =\ j_{0}\ \mathsf{where}\ j_{0}\ \mathsf{is}\ \mathsf{the}\ \mathsf{leftmost}\ \mathsf{term}\ \mathsf{to}\ \mathsf{the}\ \mathsf{right}\ \mathsf{of}\ \vdash \\[0.16em]
+\operatorname{EnvOf}(\Gamma \ \vdash \ j)\ =\ \Gamma \\[0.16em]
 \theta \ \mathsf{ranges}\ \mathsf{over}\ \mathsf{substitutions}\ \mathsf{of}\ \mathsf{metavariables}\ \mathsf{in}\ r \\[0.16em]
 \operatorname{Applies}(r,\ x)\ \Leftrightarrow \ \exists \ \theta .\ \operatorname{Subject}(\operatorname{Conclusion}(r)[\theta ])\ =\ x \\[0.16em]
 \operatorname{PremisesHold}(r,\ x)\ \Leftrightarrow \ \exists \ \theta .\ \operatorname{Subject}(\operatorname{Conclusion}(r)[\theta ])\ =\ x\ \land \ \Gamma_{r} \ =\ \operatorname{EnvOf}(\operatorname{Conclusion}(r)[\theta ])\ \land \ \forall \ \pi \ \in \ \operatorname{Premises}(r)[\theta ].\ \pi \ \ne \ \bot \ \land \ (\pi \ \mathsf{is}\ a\ \mathsf{judgment}\ \Rightarrow \ \Gamma_{r} \ \vdash \ \pi ) \\[0.16em]
@@ -41,7 +42,7 @@ $$
 **Undefinedness Policy.**
 
 $$
-\operatorname{StaticUndefined}(J)\ \Leftrightarrow \ \exists \ r.\ \operatorname{Conclusion}(r)\ =\ J\ \land \ \exists \ \pi \ \in \ \operatorname{Premises}(r).\ \pi \ =\ \bot 
+\operatorname{StaticUndefined}(J)\ \Leftrightarrow \ \exists \ r.\ \operatorname{Conclusion}(r)\ =\ J\ \land \ \exists \ \pi \ \in \ \operatorname{Premises}(r).\ \pi \ =\ \bot
 $$
 
 $$
@@ -68,9 +69,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{StaticUndefined}(J)\quad \operatorname{Code}(\operatorname{DiagIdOf}(J))\ =\ \bot  \\[0.16em]
+\operatorname{StaticUndefined}(J)\quad \operatorname{Code}(\operatorname{DiagIdOf}(J))\ =\ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ J\ \Uparrow 
+\Gamma \ \vdash \ J\ \Uparrow
 \end{array}
 $$
 
@@ -80,13 +81,13 @@ If OutsideConformance holds, this specification imposes no requirements on obser
 **Static vs. Runtime Checks.**
 
 $$
-\mathsf{CheckKind}\ =\ \{\mathsf{PatternExhaustiveness},\ \mathsf{TypeCompatibility},\ \mathsf{PermissionViolations},\ \mathsf{ProvenanceEscape},\ \mathsf{ArrayBounds},\ \mathsf{SafePointerValidity},\ \mathsf{IntegerOverflow},\ \mathsf{SliceBounds},\ \mathsf{IntDivisionByZero}\}
+\mathsf{CheckKind}\ =\ \{\mathsf{PatternExhaustiveness},\ \mathsf{TypeCompatibility},\ \mathsf{PermissionViolations},\ \mathsf{ProvenanceEscape},\ \mathsf{ArrayBounds},\ \mathsf{SafePointerValidity},\ \mathsf{IntegerOverflow},\ \mathsf{SliceBounds},\ \mathsf{IntDivisionByZero},\ \mathsf{ShiftRange},\ \mathsf{CastRange}\}
 $$
 
 $$
 \begin{array}{l}
 \mathsf{StaticCheck}\ =\ \{\mathsf{PatternExhaustiveness},\ \mathsf{TypeCompatibility},\ \mathsf{PermissionViolations},\ \mathsf{ProvenanceEscape},\ \mathsf{ArrayBounds},\ \mathsf{SafePointerValidity}\} \\[0.16em]
-\mathsf{RuntimeCheck}\ =\ \{\mathsf{IntegerOverflow},\ \mathsf{SliceBounds},\ \mathsf{IntDivisionByZero}\}
+\mathsf{RuntimeCheck}\ =\ \{\mathsf{IntegerOverflow},\ \mathsf{SliceBounds},\ \mathsf{IntDivisionByZero},\ \mathsf{ShiftRange},\ \mathsf{CastRange}\}
 \end{array}
 $$
 
@@ -94,9 +95,13 @@ $$
 \begin{array}{l}
 \operatorname{RuntimeBehavior}(\mathsf{IntegerOverflow})\ =\ \mathsf{Panic} \\[0.16em]
 \operatorname{RuntimeBehavior}(\mathsf{SliceBounds})\ =\ \mathsf{Panic} \\[0.16em]
-\operatorname{RuntimeBehavior}(\mathsf{IntDivisionByZero})\ =\ \mathsf{Panic}
+\operatorname{RuntimeBehavior}(\mathsf{IntDivisionByZero})\ =\ \mathsf{Panic} \\[0.16em]
+\operatorname{RuntimeBehavior}(\mathsf{ShiftRange})\ =\ \mathsf{Panic} \\[0.16em]
+\operatorname{RuntimeBehavior}(\mathsf{CastRange})\ =\ \mathsf{Panic}
 \end{array}
 $$
+
+The complete runtime panic taxonomy, including panic reasons, codes, and lowering sites, is defined by §24.5.2.
 
 $$
 \mathsf{ResourceExhaustion}\ \Rightarrow \ \mathsf{OutsideConformance}

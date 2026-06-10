@@ -2,16 +2,16 @@
 title: "B.2 Type Grammar"
 description: "B.2 Type Grammar from Appendix B. Complete Grammar Reference of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "complete-grammar-reference"
 specSection: "b2-type-grammar"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,6 +24,7 @@ generated: true
 ```text
 type                ::= permission? non_permission_type refinement_clause?
 non_permission_type ::= union_type | non_union_type
+non_union_type      ::= primitive_type | tuple_type | array_type | slice_type | function_type | closure_type | safe_pointer_type | raw_pointer_type | string_type | bytes_type | dynamic_type | opaque_type | state_specific_type | nominal_type
 permission          ::= "const" | "unique" | "shared"
 
 primitive_type ::= integer_type | float_type | bool_type | char_type | unit_type | never_type | string_type | bytes_type
@@ -38,8 +39,7 @@ unit_type      ::= "(" ")"
 never_type     ::= "!"
 
 tuple_type       ::= "(" ")" | "(" type ";)" | "(" type ("," type)+ ")"
-tuple_elements   ::= type ";" | type ("," type)+
-array_type       ::= "[" type ";" expr "]"
+array_type       ::= "[" type ";" expression "]"
 slice_type       ::= "[" type "]"
 union_type       ::= non_union_type ("|" non_union_type)+
 
@@ -54,7 +54,6 @@ bytes_type   ::= "bytes" ("@" bytes_state)?
 string_state ::= "Managed" | "View"
 bytes_state  ::= "Managed" | "View"
 
-pointer_type      ::= safe_pointer_type | raw_pointer_type
 safe_pointer_type ::= "Ptr" "<" type ">" ("@" pointer_state)?
 pointer_state     ::= "Valid" | "Null" | "Expired"
 raw_pointer_type  ::= "*" raw_pointer_qual type
@@ -82,8 +81,6 @@ generic_args       ::= "<" type_arg_list ">"
 type_arg_list      ::= type ("," type)* ","?
 
 refinement_clause     ::= "|:" "{" predicate_expr "}"
-refinement_type       ::= type refinement_clause
-param_with_constraint ::= identifier ":" type "|:" "{" predicate_expr "}"
 
 modal_type_name     ::= type_path generic_args?
 state_specific_type ::= modal_type_name "@" state_name

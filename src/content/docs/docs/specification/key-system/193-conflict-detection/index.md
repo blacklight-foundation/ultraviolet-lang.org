@@ -2,16 +2,16 @@
 title: "19.3 Conflict Detection"
 description: "19.3 Conflict Detection from 19. Key System of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "key-system"
 specSection: "193-conflict-detection"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -41,18 +41,18 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{KeyPathLess}(p_{1},\ p_{2})\ \Leftrightarrow  \\[0.16em]
-\ \mathsf{segments}_{1}\ =\ \operatorname{PathSegments}(p_{1})\ \land  \\[0.16em]
-\ \mathsf{segments}_{2}\ =\ \operatorname{PathSegments}(p_{2})\ \land  \\[0.16em]
+\operatorname{KeyPathLess}(p_{1},\ p_{2})\ \Leftrightarrow \\[0.16em]
+\ \mathsf{segments}_{1}\ =\ \operatorname{PathSegments}(p_{1})\ \land \\[0.16em]
+\ \mathsf{segments}_{2}\ =\ \operatorname{PathSegments}(p_{2})\ \land \\[0.16em]
 \ \operatorname{LexLess}(\mathsf{segments}_{1},\ \mathsf{segments}_{2},\ \mathsf{SegmentLess})
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{SegmentLess}(s_{1},\ s_{2})\ \Leftrightarrow  \\[0.16em]
-\ (\operatorname{IsIdent}(s_{1})\ \land \ \operatorname{IsIdent}(s_{2})\ \land \ \operatorname{Utf8LexLess}(\operatorname{Name}(s_{1}),\ \operatorname{Name}(s_{2})))\ \lor  \\[0.16em]
-\ (\operatorname{IsIndex}(s_{1})\ \land \ \operatorname{IsIndex}(s_{2})\ \land \ \operatorname{IndexValue}(s_{1})\ <\ \operatorname{IndexValue}(s_{2}))\ \lor  \\[0.16em]
+\operatorname{SegmentLess}(s_{1},\ s_{2})\ \Leftrightarrow \\[0.16em]
+\ (\operatorname{IsIdent}(s_{1})\ \land \ \operatorname{IsIdent}(s_{2})\ \land \ \operatorname{Utf8LexLess}(\operatorname{Name}(s_{1}),\ \operatorname{Name}(s_{2})))\ \lor \\[0.16em]
+\ (\operatorname{IsIndex}(s_{1})\ \land \ \operatorname{IsIndex}(s_{2})\ \land \ \operatorname{IndexValue}(s_{1})\ <\ \operatorname{IndexValue}(s_{2}))\ \lor \\[0.16em]
 \ (\operatorname{IsIdent}(s_{1})\ \land \ \operatorname{IsIndex}(s_{2}))
 \end{array}
 $$
@@ -128,7 +128,7 @@ Two index expressions `e_1` and `e_2` are provably equivalent iff one of the fol
 1. Both are the same integer literal.
 2. Both are references to the same `const` binding.
 3. Both are references to the same generic const parameter.
-4. Both are references to the same variable binding in scope.
+4. Both are references to the same variable binding in scope, and the binding is immutable (`let`) or has no intervening mutation between the two references.
 5. Both normalize to the same canonical form under constant folding.
 
 These clauses are sufficient proof cases.
@@ -175,11 +175,13 @@ An implementation MAY conservatively recognize any sound subset of them. Failure
 
 $$
 \begin{array}{l}
-P_{1}\ =\ a[e_{1}]\quad P_{2}\ =\ a[e_{2}]\quad \operatorname{SameStatement}(P_{1},\ P_{2})\quad (\operatorname{Dynamic}(e_{1})\ \lor \ \operatorname{Dynamic}(e_{2}))\quad \lnot \ \operatorname{ProvablyDisjoint}(e_{1},\ e_{2}) \\[0.16em]
+P_{1}\ =\ a[e_{1}]\quad P_{2}\ =\ a[e_{2}]\quad S\ =\ \operatorname{StatementOf}(P_{1})\quad S\ =\ \operatorname{StatementOf}(P_{2})\quad (\operatorname{Dynamic}(e_{1})\ \lor \ \operatorname{Dynamic}(e_{2}))\quad \lnot \ \operatorname{ProvablyDisjoint}(e_{1},\ e_{2})\quad c\ =\ \operatorname{Code}(K-\mathsf{Dynamic}-\mathsf{Index}-\mathsf{Conflict}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\mathsf{Reject}
+\Gamma \ \vdash \ S\ \Uparrow \ c
 \end{array}
 $$
+
+`StatementOf(P)` is the statement containing the access path occurrence `P`.
 
 **Read-Then-Write Prohibition**
 
@@ -203,9 +205,9 @@ Other write forms continue to be governed by `RequiredMode`, `Covered`, and the 
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ P\ :\ \texttt{shared}\ T\quad \operatorname{ReadThenWrite}(P,\ S)\quad \lnot \ \exists \ (Q,\ \mathsf{Write},\ S')\ \in \ \Gamma_{\mathsf{keys}} \ :\ \operatorname{Prefix}(Q,\ P) \\[0.16em]
+\Gamma \ \vdash \ P\ :\ \texttt{shared}\ T\quad \operatorname{ReadThenWrite}(P,\ S)\quad \lnot \ \exists \ (Q,\ \mathsf{Write},\ S')\ \in \ \Gamma_{\mathsf{keys}} \ :\ \operatorname{Prefix}(Q,\ P)\quad c\ =\ \operatorname{Code}(K-\mathsf{Read}-\mathsf{Write}-\mathsf{Reject}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\mathsf{Reject}
+\Gamma \ \vdash \ S\ \Uparrow \ c
 \end{array}
 $$
 
@@ -215,7 +217,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ P\ :\ \texttt{shared}\ T\quad \operatorname{ReadThenWrite}(P,\ S)\quad \exists \ (Q,\ \mathsf{Write},\ S')\ \in \ \Gamma_{\mathsf{keys}} \ :\ \operatorname{Prefix}(Q,\ P) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\mathsf{Permitted}
+\Gamma \ \vdash \ \operatorname{RMWOk}(P,\ S)
 \end{array}
 $$
 
@@ -242,7 +244,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{NonIndexShape}(P)\ =\ [\mathsf{seg}\ \mid \ \mathsf{seg}\ \in \ \operatorname{PathSegments}(P)\ \land \ \lnot \ \operatorname{IsIndex}(\mathsf{seg})] \\[0.16em]
-\operatorname{OrderedBase}(P)\ =\ \langle \operatorname{Root}(P),\ \operatorname{NonIndexShape}(P)\rangle  \\[0.16em]
+\operatorname{OrderedBase}(P)\ =\ \langle \operatorname{Root}(P),\ \operatorname{NonIndexShape}(P)\rangle \\[0.16em]
 \operatorname{OrderedComparable}(\mathsf{paths})\ \Leftrightarrow \ \forall \ P,\ Q\ \in \ \mathsf{paths}.\ \operatorname{OrderedBase}(P)\ =\ \operatorname{OrderedBase}(Q) \\[0.16em]
 \operatorname{StaticallyComparableIndices}(\mathsf{paths})\ \Leftrightarrow \ \forall \ P,\ Q\ \in \ \mathsf{paths}.\ \operatorname{OrderedBase}(P)\ =\ \operatorname{OrderedBase}(Q)\ \Rightarrow \ \operatorname{PathSegments}(P)\ \mathsf{and}\ \operatorname{PathSegments}(Q)\ \mathsf{differ}\ \mathsf{only}\ \mathsf{at}\ \mathsf{index}\ \mathsf{segments}\ \mathsf{whose}\ \mathsf{values}\ \mathsf{are}\ \mathsf{compile}-\mathsf{time}\ \mathsf{comparable}\ \mathsf{under}\ \texttt{IndexValue}
 \end{array}
@@ -288,9 +290,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{LowerConflictChecks}(\mathsf{paths},\ \mathsf{mode})\ \Downarrow \ \mathsf{IR}\ \Leftrightarrow  \\[0.16em]
-\ \Gamma \ \vdash \ \operatorname{LowerKeyPaths}(\mathsf{paths})\ \Downarrow \ \mathsf{Ps}\ \land  \\[0.16em]
-\ \mathsf{sorted}\ =\ \operatorname{CanonicalSort}(\mathsf{Ps})\ \land  \\[0.16em]
+\operatorname{LowerConflictChecks}(\mathsf{paths},\ \mathsf{mode})\ \Downarrow \ \mathsf{IR}\ \Leftrightarrow \\[0.16em]
+\ \Gamma \ \vdash \ \operatorname{LowerKeyPaths}(\mathsf{paths})\ \Downarrow \ \mathsf{Ps}\ \land \\[0.16em]
+\ \mathsf{sorted}\ =\ \operatorname{CanonicalSort}(\mathsf{Ps})\ \land \\[0.16em]
 \ \mathsf{IR}\ =\ \operatorname{SeqIRList}([\operatorname{CheckConflict}(P_{i},\ \mathsf{mode})\ \mid \ P_{i}\ \in \ \mathsf{sorted}])
 \end{array}
 $$
@@ -310,9 +312,9 @@ $$
 | Code         | Severity | Detection    | Condition                                                         |
 | ------------ | -------- | ------------ | ----------------------------------------------------------------- |
 | `E-CON-0005` | Error    | Compile-time | Write access required but only Read available                     |
-| `E-CON-0010` | Error    | Compile-time | Potential conflict on dynamic indices (same statement)            |
-| `E-CON-0014` | Error    | Compile-time | `ordered` key option on paths with different array bases            |
-| `E-CON-0060` | Error    | Compile-time | Read-then-write on same `shared` path without covering Write key  |
-| `W-CON-0004` | Warning  | Compile-time | Read-then-write may cause contention if parallelized              |
-| `W-CON-0006` | Warning  | Compile-time | Explicit read-then-write form used; compound assignment available |
-| `W-CON-0013` | Warning  | Compile-time | `ordered` key option used with statically-comparable indices        |
+| `E-CON-0010` | Error    | Compile-time | Potential conflict on dynamic indices (same statement) (`K-Dynamic-Index-Conflict`) |
+| `E-CON-0014` | Error    | Compile-time | `ordered` key option on paths with different array bases (`K-Ordered-Base-Err`) |
+| `E-CON-0060` | Error    | Compile-time | Read-then-write on same `shared` path without covering Write key (`K-Read-Write-Reject`) |
+| `W-CON-0004` | Warning  | Compile-time | Read-then-write may cause contention if parallelized (`K-RMW-Contention-Warn`) |
+| `W-CON-0006` | Warning  | Compile-time | Explicit read-then-write form used; compound assignment available (`K-RMW-Explicit-Warn`) |
+| `W-CON-0013` | Warning  | Compile-time | `ordered` key option used with statically-comparable indices (`K-Ordered-Redundant-Warn`) |

@@ -2,16 +2,16 @@
 title: "7.1 Scope Context and Identifiers"
 description: "7.1 Scope Context and Identifiers from 7. Name Resolution and Visibility of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "name-resolution-and-visibility"
 specSection: "71-scope-context-and-identifiers"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -30,7 +30,7 @@ $$
 
 $$
 \begin{array}{l}
-\Sigma \ =\ \langle \Sigma .\mathsf{Mods},\ \Sigma .\mathsf{Types},\ \Sigma .\mathsf{Classes}\rangle  \\[0.16em]
+\Sigma \ =\ \langle \Sigma .\mathsf{Mods},\ \Sigma .\mathsf{Types},\ \Sigma .\mathsf{Classes}\rangle \\[0.16em]
 \Sigma .\mathsf{Mods}\ \in \ [\mathsf{ASTModule}] \\[0.16em]
 \Sigma .\mathsf{Types}\ :\ \mathsf{Path}\ \rightharpoonup \ \mathsf{TypeDecl} \\[0.16em]
 \Sigma .\mathsf{Classes}\ :\ \mathsf{Path}\ \rightharpoonup \ \mathsf{ClassDecl}
@@ -39,9 +39,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ =\ \langle P,\ \Sigma ,\ m,\ S\rangle  \\[0.16em]
+\Gamma \ =\ \langle P,\ \Sigma ,\ m,\ S\rangle \\[0.16em]
 \operatorname{Project}(\Gamma )\ =\ P \\[0.16em]
-\operatorname{ResCtx}(\Gamma )\ =\ \langle \Sigma ,\ m\rangle  \\[0.16em]
+\operatorname{ResCtx}(\Gamma )\ =\ \langle \Sigma ,\ m\rangle \\[0.16em]
 \operatorname{CurrentModule}(\Gamma )\ =\ m \\[0.16em]
 \operatorname{Scopes}(\Gamma )\ =\ S
 \end{array}
@@ -51,7 +51,7 @@ $$
 \begin{array}{l}
 \mathsf{EntityKind}\ =\ \{\mathsf{Value},\ \mathsf{Type},\ \mathsf{Class},\ \mathsf{ModuleAlias}\} \\[0.16em]
 \mathsf{EntitySource}\ =\ \{\mathsf{Decl},\ \mathsf{Using},\ \mathsf{RegionAlias}\} \\[0.16em]
-\mathsf{Entity}\ =\ \langle \mathsf{kind},\ \mathsf{origin}_{\mathsf{opt}},\ \mathsf{target}_{\mathsf{opt}},\ \mathsf{source}\rangle  \\[0.16em]
+\mathsf{Entity}\ =\ \langle \mathsf{kind},\ \mathsf{origin}_{\mathsf{opt}},\ \mathsf{target}_{\mathsf{opt}},\ \mathsf{source}\rangle \\[0.16em]
 \mathsf{origin}_{\mathsf{opt}}\ \in \ \mathsf{ModulePath}\ \cup \ \{\bot \} \\[0.16em]
 \mathsf{target}_{\mathsf{opt}}\ \in \ \mathsf{Identifier}\ \cup \ \{\bot \}
 \end{array}
@@ -98,7 +98,7 @@ $$
 $$
 \begin{array}{l}
 \mathsf{PrimTypeNames}\ =\ \{\texttt{i8},\ \texttt{i16},\ \texttt{i32},\ \texttt{i64},\ \texttt{i128},\ \texttt{u8},\ \texttt{u16},\ \texttt{u32},\ \texttt{u64},\ \texttt{u128},\ \texttt{f16},\ \texttt{f32},\ \texttt{f64},\ \texttt{bool},\ \texttt{char},\ \texttt{usize},\ \texttt{isize}\} \\[0.16em]
-\mathsf{SpecialTypeNames}\ =\ \{\texttt{Self},\ \texttt{Drop},\ \texttt{Bitcopy},\ \texttt{Clone},\ \texttt{Eq},\ \texttt{Hash},\ \texttt{Hasher},\ \texttt{Iterator},\ \texttt{Step},\ \texttt{FfiSafe},\ \texttt{string},\ \texttt{bytes},\ \texttt{Modal},\ \texttt{Region},\ \texttt{RegionOptions},\ \texttt{CancelToken},\ \texttt{Context},\ \texttt{TestAuthority},\ \texttt{System},\ \texttt{IO},\ \texttt{HeapAllocator},\ \texttt{Network},\ \texttt{ExecutionDomain},\ \texttt{CpuSet},\ \texttt{Priority},\ \texttt{Reactor},\ \texttt{Time},\ \texttt{MonotonicTime},\ \texttt{WallTime},\ \texttt{Duration},\ \texttt{MonotonicInstant},\ \texttt{UtcInstant},\ \texttt{TimeError}\} \\[0.16em]
+\mathsf{SpecialTypeNames}\ =\ \{\texttt{Self},\ \texttt{Drop},\ \texttt{Bitcopy},\ \texttt{Clone},\ \texttt{Eq},\ \texttt{Hash},\ \texttt{Hasher},\ \texttt{Iterator},\ \texttt{Discrete},\ \texttt{FfiSafe},\ \texttt{string},\ \texttt{bytes},\ \texttt{Modal},\ \texttt{Region},\ \texttt{RegionOptions},\ \texttt{CancelToken},\ \texttt{Context},\ \texttt{TestAuthority},\ \texttt{System},\ \texttt{IO},\ \texttt{HeapAllocator},\ \texttt{Network},\ \texttt{ExecutionDomain},\ \texttt{CpuSet},\ \texttt{Priority},\ \texttt{Reactor},\ \texttt{Time},\ \texttt{MonotonicTime},\ \texttt{WallTime},\ \texttt{Duration},\ \texttt{MonotonicInstant},\ \texttt{UtcInstant},\ \texttt{TimeError}\} \\[0.16em]
 \mathsf{AsyncTypeNames}\ =\ \{\texttt{Async},\ \texttt{Future},\ \texttt{Sequence},\ \texttt{Stream},\ \texttt{Pipe},\ \texttt{Exchange},\ \texttt{Tracked}\}
 \end{array}
 $$

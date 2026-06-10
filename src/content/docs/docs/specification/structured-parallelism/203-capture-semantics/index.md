@@ -2,16 +2,16 @@
 title: "20.3 Capture Semantics"
 description: "20.3 Capture Semantics from 20. Structured Parallelism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "structured-parallelism"
 specSection: "203-capture-semantics"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -151,7 +151,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{GpuContext}(\Gamma )\quad \Gamma [x]\ =\ \langle \texttt{shared},\ T,\ \_,\ \_\rangle  \\[0.16em]
+\operatorname{GpuContext}(\Gamma )\quad \Gamma [x]\ =\ \langle \texttt{shared},\ T,\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \mathsf{Reject}
 \end{array}
@@ -195,9 +195,9 @@ No parallel-specific lowering rule was found. Generic closure-environment loweri
 
 | Code         | Severity | Detection    | Condition                                 |
 | ------------ | -------- | ------------ | ----------------------------------------- |
-| `E-CON-0120` | Error    | Compile-time | Implicit capture of `unique` binding      |
-| `E-CON-0121` | Error    | Compile-time | Move of already-moved binding             |
-| `E-CON-0122` | Error    | Compile-time | Move of binding from outer parallel scope |
+| `E-CON-0120` | Error    | Compile-time | Implicit capture of `unique` binding (`Capture-Unique-Err`) |
+| `E-CON-0121` | Error    | Compile-time | Move of already-moved binding (`B-Closure-MoveCapture-Moved-Err`) |
+| `E-CON-0122` | Error    | Compile-time | Move of binding from outer parallel scope (`Parallel-Closure-Capture-OuterMove-Err`) |
 | `E-CON-0131` | Error    | Compile-time | `spawn` in escaping closure               |
 | `E-CON-0151` | Error    | Compile-time | `shared` capture in GPU context           |
 | `E-CON-0153` | Error    | Compile-time | Non-GpuSafe type in GPU capture           |

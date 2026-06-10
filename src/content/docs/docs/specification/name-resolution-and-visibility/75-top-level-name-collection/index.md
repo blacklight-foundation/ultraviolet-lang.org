@@ -2,16 +2,16 @@
 title: "7.5 Top-Level Name Collection"
 description: "7.5 Top-Level Name Collection from 7. Name Resolution and Visibility of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "name-resolution-and-visibility"
 specSection: "75-top-level-name-collection"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -29,7 +29,7 @@ $$
 \begin{array}{l}
 \mathsf{BindKind}\ =\ \{\mathsf{Value},\ \mathsf{Type},\ \mathsf{Class},\ \mathsf{ModuleAlias}\} \\[0.16em]
 \mathsf{BindSource}\ =\ \{\mathsf{Decl},\ \mathsf{Using},\ \mathsf{Import}\} \\[0.16em]
-\mathsf{NameInfo}\ =\ \langle \mathsf{kind},\ \mathsf{origin},\ \mathsf{target}_{\mathsf{opt}},\ \mathsf{source}\rangle 
+\mathsf{NameInfo}\ =\ \langle \mathsf{kind},\ \mathsf{origin},\ \mathsf{target}_{\mathsf{opt}},\ \mathsf{source}\rangle
 \end{array}
 $$
 
@@ -129,7 +129,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{UsingSpecName}(\langle \mathsf{name},\ \mathsf{alias}_{\mathsf{opt}}\rangle )\ = \\[0.16em]
-\ \mathsf{alias}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{alias}_{\mathsf{opt}}\ \ne \ \bot  \\[0.16em]
+\ \mathsf{alias}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{alias}_{\mathsf{opt}}\ \ne \ \bot \\[0.16em]
 \ \mathsf{name}\quad \mathsf{otherwise}
 \end{array}
 $$
@@ -139,7 +139,7 @@ $$
 $$
 
 $$
-\Gamma \ \vdash \ \operatorname{DeclNames}([],\ p)\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{DeclNames}([],\ p)\ \Downarrow \ \emptyset
 $$
 
 **(DeclNames-Using)**
@@ -148,7 +148,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{DeclNames}(\mathsf{rest},\ p)\ \Downarrow \ D \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{DeclNames}(\langle \mathsf{UsingDecl},\ \_,\ \_,\ \_,\ \_\rangle \ \mathbin{::} \ \mathsf{rest},\ p)\ \Downarrow \ D
+\Gamma \ \vdash \ \operatorname{DeclNames}(\operatorname{UsingDecl}(\_,\ \_,\ \_,\ \_,\ \_)\ \mathbin{::} \ \mathsf{rest},\ p)\ \Downarrow \ D
 \end{array}
 $$
 
@@ -156,7 +156,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{it}\ \ne \ \langle \mathsf{UsingDecl},\ \_,\ \_,\ \_,\ \_\rangle \quad \Gamma \ \vdash \ \operatorname{ItemBindings}(\mathsf{it},\ p)\ \Downarrow \ B\quad \Gamma \ \vdash \ \operatorname{DeclNames}(\mathsf{rest},\ p)\ \Downarrow \ D \\[0.16em]
+\mathsf{it}\ \ne \ \operatorname{UsingDecl}(\_,\ \_,\ \_,\ \_,\ \_)\quad \Gamma \ \vdash \ \operatorname{ItemBindings}(\mathsf{it},\ p)\ \Downarrow \ B\quad \Gamma \ \vdash \ \operatorname{DeclNames}(\mathsf{rest},\ p)\ \Downarrow \ D \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{DeclNames}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest},\ p)\ \Downarrow \ \operatorname{Names}(B)\ \cup \ D
 \end{array}
@@ -173,7 +173,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ItemBindings}(\langle \mathsf{ProcedureDecl},\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_\rangle ,\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Value},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\operatorname{ProcedureDecl}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_),\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Value},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
 \end{array}
 $$
 
@@ -183,7 +183,7 @@ $$
 \begin{array}{l}
 B\ =\ [(\mathsf{name}_{i},\ \langle \mathsf{Value},\ p,\ \bot ,\ \mathsf{Decl}\rangle )\ \mid \ \operatorname{ExternProcDecl}(\_,\ \_,\ \mathsf{name}_{i},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \in \ \mathsf{items}] \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ItemBindings}(\langle \mathsf{ExternBlock},\ \_,\ \_,\ \_,\ \mathsf{items},\ \_,\ \_\rangle ,\ p)\ \Downarrow \ B
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\operatorname{ExternBlock}(\_,\ \_,\ \_,\ \mathsf{items},\ \_,\ \_),\ p)\ \Downarrow \ B
 \end{array}
 $$
 
@@ -192,7 +192,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ItemBindings}(\langle \mathsf{RecordDecl},\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_\rangle ,\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Type},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\operatorname{RecordDecl}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_),\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Type},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
 \end{array}
 $$
 
@@ -201,7 +201,16 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ItemBindings}(\langle \mathsf{EnumDecl},\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_\rangle ,\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Type},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\operatorname{EnumDecl}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_),\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Type},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
+\end{array}
+$$
+
+**(Bind-Modal)**
+
+$$
+\begin{array}{l}
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\operatorname{ModalDecl}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_),\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Type},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
 \end{array}
 $$
 
@@ -210,7 +219,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ItemBindings}(\langle \mathsf{ClassDecl},\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_\rangle ,\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Class},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\operatorname{ClassDecl}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_),\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Class},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
 \end{array}
 $$
 
@@ -219,7 +228,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ItemBindings}(\langle \mathsf{TypeAliasDecl},\ \_,\ \mathsf{name},\ \_,\ \_,\ \_\rangle ,\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Type},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\operatorname{TypeAliasDecl}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_),\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Type},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
 \end{array}
 $$
 
@@ -229,7 +238,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{PatNames}(\mathsf{pat})\ \Downarrow \ N \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ItemBindings}(\langle \mathsf{StaticDecl},\ \_,\ \_,\ \langle \mathsf{pat},\ \_,\ \_,\ \_,\ \_\rangle ,\ \_,\ \_\rangle ,\ p)\ \Downarrow \ [(n,\ \langle \mathsf{Value},\ p,\ \bot ,\ \mathsf{Decl}\rangle )\ \mid \ n\ \in \ N]
+\Gamma \ \vdash \ \operatorname{ItemBindings}(\operatorname{StaticDecl}(\_,\ \_,\ \_,\ \langle \mathsf{pat},\ \_,\ \_,\ \_,\ \_\rangle ,\ \_,\ \_),\ p)\ \Downarrow \ [(n,\ \langle \mathsf{Value},\ p,\ \bot ,\ \mathsf{Decl}\rangle )\ \mid \ n\ \in \ N]
 \end{array}
 $$
 
@@ -336,7 +345,7 @@ $$
 \begin{array}{l}
 \operatorname{Names}(B)\ =\ \{\ n\ \mid \ (n,\ \_)\ \in \ B\ \} \\[0.16em]
 \operatorname{NoDup}(B)\ \Leftrightarrow \ \operatorname{Distinct}(\operatorname{Names}(B)) \\[0.16em]
-\operatorname{DisjointNames}(B,\ N)\ \Leftrightarrow \ \operatorname{Names}(B)\ \cap \ \operatorname{dom}(N)\ =\ \emptyset  \\[0.16em]
+\operatorname{DisjointNames}(B,\ N)\ \Leftrightarrow \ \operatorname{Names}(B)\ \cap \ \operatorname{dom}(N)\ =\ \emptyset \\[0.16em]
 N\ \cup \ B\ =\ \{\ (n,\ v)\ \mid \ (n,\ v)\ \in \ N\ \lor \ (n,\ v)\ \in \ B\ \} \\[0.16em]
 \operatorname{NameInfoOf}(B,\ n)\ =\ \mathsf{info}\ \Leftrightarrow \ (n,\ \mathsf{info})\ \in \ B \\[0.16em]
 \operatorname{NameSource}(B,\ n)\ =\ \mathsf{src}\ \Leftrightarrow \ \operatorname{NameInfoOf}(B,\ n)\ =\ \mathsf{info}\ \land \ \mathsf{info}.\mathsf{source}\ =\ \mathsf{src} \\[0.16em]
@@ -354,7 +363,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{NamesStart}(M)\rangle \ \to \ \langle \operatorname{NamesScan}(M.\mathsf{items},\ M.\mathsf{path},\ \emptyset )\rangle 
+\langle \operatorname{NamesStart}(M)\rangle \ \to \ \langle \operatorname{NamesScan}(M.\mathsf{items},\ M.\mathsf{path},\ \emptyset )\rangle
 \end{array}
 $$
 
@@ -364,7 +373,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ItemBindings}(\mathsf{it},\ p)\ \Downarrow \ B\quad \operatorname{DisjointNames}(B,\ N)\quad \operatorname{NoDup}(B) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{NamesScan}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest},\ p,\ N)\rangle \ \to \ \langle \operatorname{NamesScan}(\mathsf{rest},\ p,\ N\ \cup \ B)\rangle 
+\langle \operatorname{NamesScan}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest},\ p,\ N)\rangle \ \to \ \langle \operatorname{NamesScan}(\mathsf{rest},\ p,\ N\ \cup \ B)\rangle
 \end{array}
 $$
 
@@ -374,7 +383,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ItemBindings}(\mathsf{it},\ p)\ \Downarrow \ B\quad (\lnot \ \operatorname{DisjointNames}(B,\ N)\ \lor \ \lnot \ \operatorname{NoDup}(B))\quad \operatorname{UsingImportConflict}(B,\ N) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{NamesScan}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest},\ p,\ N)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Import}-\mathsf{Using}-\mathsf{Name}-\mathsf{Conflict}))\rangle 
+\langle \operatorname{NamesScan}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest},\ p,\ N)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Import}-\mathsf{Using}-\mathsf{Name}-\mathsf{Conflict}))\rangle
 \end{array}
 $$
 
@@ -384,7 +393,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ItemBindings}(\mathsf{it},\ p)\ \Downarrow \ B\quad (\lnot \ \operatorname{DisjointNames}(B,\ N)\ \lor \ \lnot \ \operatorname{NoDup}(B))\quad \lnot \ \operatorname{UsingImportConflict}(B,\ N) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{NamesScan}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest},\ p,\ N)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Names}-\mathsf{Step}-\mathsf{Dup}))\rangle 
+\langle \operatorname{NamesScan}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest},\ p,\ N)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Names}-\mathsf{Step}-\mathsf{Dup}))\rangle
 \end{array}
 $$
 
@@ -394,7 +403,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ItemBindings}(\mathsf{it},\ p)\ \Uparrow \ c \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{NamesScan}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest},\ p,\ N)\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\langle \operatorname{NamesScan}(\mathsf{it}\ \mathbin{::} \ \mathsf{rest},\ p,\ N)\rangle \ \to \ \langle \operatorname{Error}(c)\rangle
 \end{array}
 $$
 
@@ -403,6 +412,6 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{NamesScan}([],\ p,\ N)\rangle \ \to \ \langle \operatorname{NamesDone}(N)\rangle 
+\langle \operatorname{NamesScan}([],\ p,\ N)\rangle \ \to \ \langle \operatorname{NamesDone}(N)\rangle
 \end{array}
 $$

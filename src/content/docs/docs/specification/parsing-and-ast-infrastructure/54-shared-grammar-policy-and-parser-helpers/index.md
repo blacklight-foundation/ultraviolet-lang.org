@@ -2,16 +2,16 @@
 title: "5.4 Shared Grammar Policy and Parser Helpers"
 description: "5.4 Shared Grammar Policy and Parser Helpers from 5. Parsing and AST Infrastructure of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "parsing-and-ast-infrastructure"
 specSection: "54-shared-grammar-policy-and-parser-helpers"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -248,3 +248,9 @@ $$
 \Gamma \ \vdash \ \operatorname{ParseKeyBoundaryOpt}(P)\ \Downarrow \ (P,\ \mathsf{false})
 \end{array}
 $$
+
+$$
+\operatorname{IsCtxIdent}(t,\ s)\ \Leftrightarrow \ t.\mathsf{kind}\ =\ \mathsf{Identifier}\ \land \ t.\mathsf{lexeme}\ =\ s
+$$
+
+`IsCtxIdent` recognizes contextual keywords; the recognized lexeme remains an ordinary identifier in every other position.

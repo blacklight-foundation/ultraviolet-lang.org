@@ -2,16 +2,16 @@
 title: "15.10 Procedure, Contract, and Entry Diagnostics Supplement"
 description: "15.10 Procedure, Contract, and Entry Diagnostics Supplement from 15. Procedures and Contracts of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "procedures-and-contracts"
 specSection: "1510-procedure-contract-and-entry-diagnostics-supplement"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -29,10 +29,10 @@ This section owns diagnostics for procedure declarations, receiver constraints, 
 | `E-TYP-1508` | Error    | Compile-time | Procedure declaration requires explicit return type annotation                     |
 | `E-TYP-1912` | Error    | Compile-time | Explicit receiver type must be `Self` for record methods                           |
 | `E-MOD-2411` | Error    | Compile-time | Missing move expression at call site for transferring provenance-bearing parameter |
-| `E-MOD-2430` | Error    | Compile-time | Multiple `main` procedures defined                                                 |
-| `E-MOD-2431` | Error    | Compile-time | Invalid `main` signature                                                           |
-| `E-MOD-2432` | Error    | Compile-time | `main` is generic (has type parameters)                                            |
-| `E-MOD-2434` | Error    | Compile-time | Missing `main` procedure                                                           |
+| `E-MOD-2430` | Error    | Compile-time | Multiple `main` procedures defined (`Main-Multiple`) |
+| `E-MOD-2431` | Error    | Compile-time | Invalid `main` signature (`Main-Signature-Err`) |
+| `E-MOD-2432` | Error    | Compile-time | `main` is generic (has type parameters) (`Main-Generic-Err`) |
+| `E-MOD-2434` | Error    | Compile-time | Missing `main` procedure (`Main-Missing`) |
 | `E-CON-0415` | Error    | Compile-time | Capability-requiring operation in `@entry` expression                              |
 | `E-CON-0416` | Error    | Compile-time | Side-effecting operation in `@entry` expression                                    |
 | `P-SEM-2850` | Panic    | Runtime      | Contract predicate failed at runtime                                               |

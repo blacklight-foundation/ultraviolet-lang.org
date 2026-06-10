@@ -2,16 +2,16 @@
 title: "14.3 Classes"
 description: "14.3 Classes from 14. Abstraction and Polymorphism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "abstraction-and-polymorphism"
 specSection: "143-classes"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -178,7 +178,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{ClassDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{modal},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{supers},\ \mathsf{items},\ \mathsf{span},\ \mathsf{doc}\rangle  \\[0.16em]
+\mathsf{ClassDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{modal},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{supers},\ \mathsf{items},\ \mathsf{span},\ \mathsf{doc}\rangle \\[0.16em]
 \mathsf{ClassDecl}.\mathsf{supers}\ \in \ [\mathsf{ClassPath}]
 \end{array}
 $$
@@ -189,7 +189,7 @@ $$
 \ \mathsf{ClassFieldDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{boundary},\ \mathsf{name},\ \mathsf{type},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle , \\[0.16em]
 \ \mathsf{ClassMethodDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{receiver},\ \mathsf{params},\ \mathsf{return}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle , \\[0.16em]
 \ \mathsf{AssociatedTypeDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{type}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle , \\[0.16em]
-\ \mathsf{AbstractStateDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{fields},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle  \\[0.16em]
+\ \mathsf{AbstractStateDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{fields},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle \\[0.16em]
 \}
 \end{array}
 $$
@@ -197,7 +197,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{AbstractClassMethod}(m)\ \Leftrightarrow \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{span},\ \mathsf{doc}.\ m\ =\ \operatorname{ClassMethodDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \bot ,\ \mathsf{span},\ \mathsf{doc}) \\[0.16em]
-\operatorname{ConcreteClassMethod}(m)\ \Leftrightarrow \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}.\ m\ =\ \operatorname{ClassMethodDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc})\ \land \ \mathsf{body}\ \ne \ \bot 
+\operatorname{ConcreteClassMethod}(m)\ \Leftrightarrow \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}.\ m\ =\ \operatorname{ClassMethodDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc})\ \land \ \mathsf{body}\ \ne \ \bot
 \end{array}
 $$
 
@@ -213,8 +213,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ReturnType}(m)\ =\ m.\mathsf{return}_{\mathsf{type}\_\mathsf{opt}}\quad \mathsf{if}\ m.\mathsf{return}_{\mathsf{type}\_\mathsf{opt}}\ \ne \ \bot  \\[0.16em]
-\operatorname{ReturnType}(m)\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \mathsf{if}\ m.\mathsf{return}_{\mathsf{type}\_\mathsf{opt}}\ =\ \bot 
+\operatorname{ReturnType}(m)\ =\ m.\mathsf{return}_{\mathsf{type}\_\mathsf{opt}}\quad \mathsf{if}\ m.\mathsf{return}_{\mathsf{type}\_\mathsf{opt}}\ \ne \ \bot \\[0.16em]
+\operatorname{ReturnType}(m)\ =\ \operatorname{TypePrim}(\texttt{"()"})\quad \mathsf{if}\ m.\mathsf{return}_{\mathsf{type}\_\mathsf{opt}}\ =\ \bot
 \end{array}
 $$
 
@@ -247,7 +247,7 @@ $$
 \begin{array}{l}
 p\ \notin \ \operatorname{dom}(\Sigma .\mathsf{Classes}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ p\ :\ \mathsf{ClassPath}\ \Uparrow 
+\Gamma \ \vdash \ p\ :\ \mathsf{ClassPath}\ \Uparrow
 \end{array}
 $$
 
@@ -282,7 +282,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RecvMode}(\operatorname{ReceiverShorthand}(\_))\ =\ \bot  \\[0.16em]
+\operatorname{RecvMode}(\operatorname{ReceiverShorthand}(\_))\ =\ \bot \\[0.16em]
 \operatorname{RecvMode}(\operatorname{ReceiverExplicit}(\mathsf{mode},\ \_))\ =\ \mathsf{mode}
 \end{array}
 $$
@@ -300,7 +300,7 @@ $$
 \operatorname{ParamSig_T}(T,\ \mathsf{params})\ =\ [\langle \mathsf{mode},\ \operatorname{SubstSelf}(T,\ \mathsf{ty})\rangle \ \mid \ \langle \mathsf{mode},\ \mathsf{name},\ \mathsf{ty}\rangle \ \in \ \mathsf{params}] \\[0.16em]
 \operatorname{ParamBinds_T}(T,\ \mathsf{params})\ =\ [\langle x_{1},\ \operatorname{SubstSelf}(T,\ T_{1})\rangle ,\ \ldots ,\ \langle x_{n},\ \operatorname{SubstSelf}(T,\ T_{n})\rangle ] \\[0.16em]
 \operatorname{ReturnType_T}(T,\ m)\ =\ \operatorname{SubstSelf}(T,\ \operatorname{ReturnType}(m)) \\[0.16em]
-\operatorname{Sig_T}(T,\ m)\ =\ \langle \operatorname{RecvType}(T,\ m.\mathsf{receiver}),\ \operatorname{ParamSig_T}(T,\ m.\mathsf{params}),\ \operatorname{SubstSelf}(T,\ \operatorname{ReturnType}(m))\rangle  \\[0.16em]
+\operatorname{Sig_T}(T,\ m)\ =\ \langle \operatorname{RecvType}(T,\ m.\mathsf{receiver}),\ \operatorname{ParamSig_T}(T,\ m.\mathsf{params}),\ \operatorname{SubstSelf}(T,\ \operatorname{ReturnType}(m))\rangle \\[0.16em]
 \operatorname{SigSelf}(m)\ =\ \operatorname{Sig_T}(\mathsf{SelfVar},\ m) \\[0.16em]
 \operatorname{SigMatch}(T,\ m_{\mathsf{impl}},\ m_{\mathsf{decl}})\ \Leftrightarrow \ \operatorname{Sig_T}(T,\ m_{\mathsf{impl}})\ =\ \langle \mathsf{recv}_{i},\ \mathsf{params}_{i},\ \mathsf{ret}_{i}\rangle \ \land \ \operatorname{Sig_T}(T,\ m_{\mathsf{decl}})\ =\ \langle \mathsf{recv}_{d},\ \mathsf{params}_{d},\ \mathsf{ret}_{d}\rangle \ \land \ \mathsf{recv}_{i}\ =\ \mathsf{recv}_{d}\ \land \ \mathsf{params}_{i}\ =\ \mathsf{params}_{d}\ \land \ \Gamma \ \vdash \ \mathsf{ret}_{i}\ \mathrel{<:} \ \mathsf{ret}_{d}
 \end{array}
@@ -370,7 +370,7 @@ $$
 \begin{array}{l}
 \lnot \ \exists \ h.\ \operatorname{HeadOk}(h,\ \mathsf{Ls}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{Merge}(\mathsf{Ls})\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{Merge}(\mathsf{Ls})\ \Uparrow
 \end{array}
 $$
 
@@ -388,9 +388,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{Merge}(\cdots )\ \Uparrow  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{Merge}(\cdots )\ \Uparrow \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{Linearize}(\mathsf{Cl})\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{Linearize}(\mathsf{Cl})\ \Uparrow
 \end{array}
 $$
 
@@ -479,7 +479,7 @@ $$
 
 $$
 \begin{array}{l}
-m.\mathsf{body}_{\mathsf{opt}}\ =\ \bot  \\[0.16em]
+m.\mathsf{body}_{\mathsf{opt}}\ =\ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ m\ :\ \mathsf{ClassMethodBodyOK}
 \end{array}

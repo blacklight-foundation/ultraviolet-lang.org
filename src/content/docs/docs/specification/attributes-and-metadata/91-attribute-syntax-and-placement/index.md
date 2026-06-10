@@ -2,16 +2,16 @@
 title: "9.1 Attribute Syntax and Placement"
 description: "9.1 Attribute Syntax and Placement from 9. Attributes and Metadata of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "attributes-and-metadata"
 specSection: "91-attribute-syntax-and-placement"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -252,7 +252,7 @@ $$
 $$
 \begin{array}{l}
 \mathsf{vendor}_{\mathsf{prefix}}\ \mathbin{::} =\ \mathsf{identifier}\ (\texttt{"::"}\ \mathsf{identifier})* \\[0.16em]
-\mathsf{AttrArg}\ \mathbin{::} =\ \mathsf{literal}\ \mid \ \mathsf{identifier}\ \mid \ \langle \mathsf{name},\ \mathsf{literal}\rangle \ \mid \ \langle \mathsf{name},\ \mathsf{identifier}\rangle \ \mid \ \langle \mathsf{name},\ \mathsf{args}\rangle  \\[0.16em]
+\mathsf{AttrArg}\ \mathbin{::} =\ \mathsf{literal}\ \mid \ \mathsf{identifier}\ \mid \ \langle \mathsf{name},\ \mathsf{literal}\rangle \ \mid \ \langle \mathsf{name},\ \mathsf{identifier}\rangle \ \mid \ \langle \mathsf{name},\ \mathsf{args}\rangle \\[0.16em]
 \mathsf{AttributeSpec}\ \mathbin{::} =\ \operatorname{Attr}(\mathsf{name}:\ \mathsf{AttrName},\ \mathsf{args}:\ [\mathsf{AttrArg}]) \\[0.16em]
 \mathsf{AttributeList}\ \mathbin{::} =\ [\mathsf{AttributeSpec}] \\[0.16em]
 \mathsf{AttrOpt}\ \mathbin{::} =\ \{\bot \}\ \cup \ \mathsf{AttributeList}
@@ -270,7 +270,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{AttrListOf}(\mathsf{item})\ =\ \mathsf{attrs}\quad \mathsf{if}\ \mathsf{item}.\mathsf{attrs}_{\mathsf{opt}}\ =\ \mathsf{attrs} \\[0.16em]
-\operatorname{AttrListOf}(\mathsf{item})\ =\ []\quad \mathsf{if}\ \mathsf{item}.\mathsf{attrs}_{\mathsf{opt}}\ =\ \bot  \\[0.16em]
+\operatorname{AttrListOf}(\mathsf{item})\ =\ []\quad \mathsf{if}\ \mathsf{item}.\mathsf{attrs}_{\mathsf{opt}}\ =\ \bot \\[0.16em]
 \operatorname{AttrByName}(\mathsf{item},\ n)\ =\ [a\ \mid \ a\ \in \ \operatorname{AttrListOf}(\mathsf{item})\ \land \ a.\mathsf{name}\ =\ n]
 \end{array}
 $$
@@ -286,7 +286,7 @@ $$
 $$
 \begin{array}{l}
 \mathsf{AttrRegistry}\ =\ R_{\mathsf{spec}}\ \uplus \ R_{\mathsf{vendor}} \\[0.16em]
-R_{\mathsf{vendor}}\ =\ \emptyset 
+R_{\mathsf{vendor}}\ =\ \emptyset
 \end{array}
 $$
 
@@ -392,5 +392,5 @@ This section introduces no direct lowering. Lowering consequences of specific at
 | Code         | Severity | Detection    | Condition                                      |
 | ------------ | -------- | ------------ | ---------------------------------------------- |
 | `E-MOD-2450` | Error    | Compile-time | Malformed attribute syntax                     |
-| `E-MOD-2451` | Error    | Compile-time | Unknown attribute name                         |
-| `E-MOD-2452` | Error    | Compile-time | Attribute not valid on target declaration kind |
+| `E-MOD-2451` | Error    | Compile-time | Unknown attribute name (`Attr-Unknown`) |
+| `E-MOD-2452` | Error    | Compile-time | Attribute not valid on target declaration kind (`Attr-Target-Err`) |

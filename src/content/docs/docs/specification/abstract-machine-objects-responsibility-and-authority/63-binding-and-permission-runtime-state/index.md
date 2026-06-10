@@ -2,16 +2,16 @@
 title: "6.3 Binding and Permission Runtime State"
 description: "6.3 Binding and Permission Runtime State from 6. Abstract Machine, Objects, Responsibility, and Authority of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "abstract-machine-objects-responsibility-and-authority"
 specSection: "63-binding-and-permission-runtime-state"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -32,7 +32,7 @@ $$
 \mathsf{Movability}\ \mathbin{::} =\ \mathsf{mov}\ \mid \ \mathsf{immov} \\[0.16em]
 \mathsf{Responsibility}\ \mathbin{::} =\ \mathsf{resp}\ \mid \ \mathsf{alias} \\[0.16em]
 \mathsf{Mutability}\ =\ \{\texttt{let},\ \texttt{var}\} \\[0.16em]
-\mathsf{BindInfo}\ \mathbin{::} =\ \langle \mathsf{state},\ \mathsf{mov},\ \mathsf{mut},\ \mathsf{resp}\rangle 
+\mathsf{BindInfo}\ \mathbin{::} =\ \langle \mathsf{state},\ \mathsf{mov},\ \mathsf{mut},\ \mathsf{resp}\rangle
 \end{array}
 $$
 
@@ -45,8 +45,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{PushScope_B}(\mathfrak{B} )\ =\ [\emptyset ]\ \mathbin{++} \ \mathfrak{B}  \\[0.16em]
-\operatorname{PopScope_B}([\_]\ \mathbin{++} \ \mathfrak{B} )\ =\ \mathfrak{B} 
+\operatorname{PushScope_B}(\mathfrak{B} )\ =\ [\emptyset ]\ \mathbin{++} \ \mathfrak{B} \\[0.16em]
+\operatorname{PopScope_B}([\_]\ \mathbin{++} \ \mathfrak{B} )\ =\ \mathfrak{B}
 \end{array}
 $$
 
@@ -55,7 +55,7 @@ $$
 \operatorname{Lookup_B}([\sigma ]\ \mathbin{++} \ \mathfrak{B} ',\ x)\ = \\[0.16em]
 \ \{\ \sigma [x]\quad \mathsf{if}\ x\ \in \ \operatorname{dom}(\sigma ) \\[0.16em]
 \quad \operatorname{Lookup_B}(\mathfrak{B} ',\ x)\quad \mathsf{otherwise}\ \} \\[0.16em]
-\operatorname{Lookup_B}([],\ x)\ =\ \bot 
+\operatorname{Lookup_B}([],\ x)\ =\ \bot
 \end{array}
 $$
 
@@ -64,7 +64,7 @@ $$
 \operatorname{Update_B}([\sigma ]\ \mathbin{++} \ \mathfrak{B} ',\ x,\ \mathsf{info})\ = \\[0.16em]
 \ \{\ [\sigma [x\ \mapsto \ \mathsf{info}]]\ \mathbin{++} \ \mathfrak{B} '\quad \mathsf{if}\ x\ \in \ \operatorname{dom}(\sigma ) \\[0.16em]
 \quad [\sigma ]\ \mathbin{++} \ \operatorname{Update_B}(\mathfrak{B} ',\ x,\ \mathsf{info})\ \mathsf{otherwise}\ \} \\[0.16em]
-\operatorname{Update_B}([],\ x,\ \mathsf{info})\ =\ \bot 
+\operatorname{Update_B}([],\ x,\ \mathsf{info})\ =\ \bot
 \end{array}
 $$
 
@@ -95,8 +95,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{PushScope}\_\Pi (\Pi )\ =\ [\emptyset ]\ \mathbin{++} \ \Pi  \\[0.16em]
-\mathsf{PopScope}\_\Pi ([\_]\ \mathbin{++} \ \Pi )\ =\ \Pi 
+\mathsf{PushScope}\_\Pi (\Pi )\ =\ [\emptyset ]\ \mathbin{++} \ \Pi \\[0.16em]
+\mathsf{PopScope}\_\Pi ([\_]\ \mathbin{++} \ \Pi )\ =\ \Pi
 \end{array}
 $$
 
@@ -186,7 +186,7 @@ $$
 \begin{array}{l}
 \operatorname{Lookup_B}(\mathfrak{B} ,\ x)\ =\ \langle \mathsf{Moved},\ \_,\ \_,\ \_\rangle \quad \operatorname{Read}(x)\ \lor \ \operatorname{Move}(x)\ \mathsf{occurs} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Uparrow \ \operatorname{Code}(E-\mathsf{MEM}-3001)
+\Uparrow \ \operatorname{Code}(\mathsf{Trans}-\mathsf{Moved}-\mathsf{NoAccess})
 \end{array}
 $$
 
@@ -196,7 +196,7 @@ $$
 \begin{array}{l}
 \operatorname{Lookup_B}(\mathfrak{B} ,\ x)\ =\ \langle \operatorname{PartiallyMoved}(F),\ \_,\ \_,\ \_\rangle \quad \operatorname{Read}(x.f)\ \lor \ \operatorname{Move}(x.f)\ \mathsf{occurs}\quad f\ \in \ F \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Uparrow \ \operatorname{Code}(E-\mathsf{MEM}-3001)
+\Uparrow \ \operatorname{Code}(\mathsf{Trans}-\mathsf{Partial}-\mathsf{NoAccess})
 \end{array}
 $$
 
@@ -206,7 +206,7 @@ $$
 \begin{array}{l}
 \operatorname{Lookup_B}(\mathfrak{B} ,\ x)\ =\ \langle s,\ \mathsf{mv},\ \texttt{let},\ \mathsf{resp}\rangle \quad \operatorname{Reassign}(x,\ v)\ \mathsf{occurs}\quad s\ \in \ \{\mathsf{Moved},\ \operatorname{PartiallyMoved}(\_)\} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Uparrow \ \operatorname{Code}(E-\mathsf{MEM}-3006)
+\Uparrow \ \operatorname{Code}(\mathsf{Trans}-\mathsf{Let}-\mathsf{NoReassign})
 \end{array}
 $$
 
@@ -221,7 +221,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{JoinScope_B}(B_{1},\ B_{2})\ = \\[0.16em]
-\ \{\ \{\ x\ \mapsto \ \operatorname{JoinBindInfo}(B_{1}[x],\ B_{2}[x])\ \mid \ x\ \in \ \operatorname{dom}(B_{1})\ \}\quad \mathsf{if}\ \operatorname{dom}(B_{1})\ =\ \operatorname{dom}(B_{2})\ \land \ \forall \ x\ \in \ \operatorname{dom}(B_{1}).\ \operatorname{JoinBindInfo}(B_{1}[x],\ B_{2}[x])\ \ne \ \bot  \\[0.16em]
+\ \{\ \{\ x\ \mapsto \ \operatorname{JoinBindInfo}(B_{1}[x],\ B_{2}[x])\ \mid \ x\ \in \ \operatorname{dom}(B_{1})\ \}\quad \mathsf{if}\ \operatorname{dom}(B_{1})\ =\ \operatorname{dom}(B_{2})\ \land \ \forall \ x\ \in \ \operatorname{dom}(B_{1}).\ \operatorname{JoinBindInfo}(B_{1}[x],\ B_{2}[x])\ \ne \ \bot \\[0.16em]
 \quad \bot \quad \mathsf{otherwise}\ \}
 \end{array}
 $$
@@ -230,9 +230,9 @@ $$
 \begin{array}{l}
 \operatorname{Join_B}([],\ [])\ =\ [] \\[0.16em]
 \operatorname{Join_B}(B_{1}\ \mathbin{::} \ \mathfrak{B}_{1} ,\ B_{2}\ \mathbin{::} \ \mathfrak{B}_{2} )\ = \\[0.16em]
-\ \{\ \operatorname{JoinScope_B}(B_{1},\ B_{2})\ \mathbin{::} \ \operatorname{Join_B}(\mathfrak{B}_{1} ,\ \mathfrak{B}_{2} )\quad \mathsf{if}\ \operatorname{JoinScope_B}(B_{1},\ B_{2})\ \ne \ \bot \ \land \ \operatorname{Join_B}(\mathfrak{B}_{1} ,\ \mathfrak{B}_{2} )\ \ne \ \bot  \\[0.16em]
+\ \{\ \operatorname{JoinScope_B}(B_{1},\ B_{2})\ \mathbin{::} \ \operatorname{Join_B}(\mathfrak{B}_{1} ,\ \mathfrak{B}_{2} )\quad \mathsf{if}\ \operatorname{JoinScope_B}(B_{1},\ B_{2})\ \ne \ \bot \ \land \ \operatorname{Join_B}(\mathfrak{B}_{1} ,\ \mathfrak{B}_{2} )\ \ne \ \bot \\[0.16em]
 \quad \bot \quad \mathsf{otherwise}\ \} \\[0.16em]
-\operatorname{Join_B}(\mathfrak{B}_{1} ,\ \mathfrak{B}_{2} )\ =\ \bot \quad \mathsf{if}\ \mid \mathfrak{B}_{1} \mid \ \ne \ \mid \mathfrak{B}_{2} \mid 
+\operatorname{Join_B}(\mathfrak{B}_{1} ,\ \mathfrak{B}_{2} )\ =\ \bot \quad \mathsf{if}\ \mid \mathfrak{B}_{1} \mid \ \ne \ \mid \mathfrak{B}_{2} \mid
 \end{array}
 $$
 
@@ -259,9 +259,9 @@ $$
 \begin{array}{l}
 \operatorname{JoinPerm}([],\ [])\ =\ [] \\[0.16em]
 \operatorname{JoinPerm}(B_{1}\ \mathbin{::} \ \Pi_{1} ,\ B_{2}\ \mathbin{::} \ \Pi_{2} )\ = \\[0.16em]
-\ \{\ \mathsf{JoinScope}\_\Pi (B_{1},\ B_{2})\ \mathbin{::} \ \operatorname{JoinPerm}(\Pi_{1} ,\ \Pi_{2} )\quad \mathsf{if}\ \mathsf{JoinScope}\_\Pi (B_{1},\ B_{2})\ \ne \ \bot \ \land \ \operatorname{JoinPerm}(\Pi_{1} ,\ \Pi_{2} )\ \ne \ \bot  \\[0.16em]
+\ \{\ \mathsf{JoinScope}\_\Pi (B_{1},\ B_{2})\ \mathbin{::} \ \operatorname{JoinPerm}(\Pi_{1} ,\ \Pi_{2} )\quad \mathsf{if}\ \mathsf{JoinScope}\_\Pi (B_{1},\ B_{2})\ \ne \ \bot \ \land \ \operatorname{JoinPerm}(\Pi_{1} ,\ \Pi_{2} )\ \ne \ \bot \\[0.16em]
 \quad \bot \quad \mathsf{otherwise}\ \} \\[0.16em]
-\operatorname{JoinPerm}(\Pi_{1} ,\ \Pi_{2} )\ =\ \bot \quad \mathsf{if}\ \mid \Pi_{1} \mid \ \ne \ \mid \Pi_{2} \mid 
+\operatorname{JoinPerm}(\Pi_{1} ,\ \Pi_{2} )\ =\ \bot \quad \mathsf{if}\ \mid \Pi_{1} \mid \ \ne \ \mid \Pi_{2} \mid
 \end{array}
 $$
 
@@ -269,13 +269,13 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{FieldHead}(\operatorname{Identifier}(x))\ =\ \bot  \\[0.16em]
+\operatorname{FieldHead}(\operatorname{Identifier}(x))\ =\ \bot \\[0.16em]
 \operatorname{FieldHead}(\operatorname{FieldAccess}(p,\ f))\ = \\[0.16em]
-\ \{\ f\quad \mathsf{if}\ \operatorname{FieldHead}(p)\ =\ \bot  \\[0.16em]
+\ \{\ f\quad \mathsf{if}\ \operatorname{FieldHead}(p)\ =\ \bot \\[0.16em]
 \quad \operatorname{FieldHead}(p)\quad \mathsf{otherwise}\ \} \\[0.16em]
 \operatorname{FieldHead}(\operatorname{TupleAccess}(p,\ \_))\ =\ \operatorname{FieldHead}(p) \\[0.16em]
 \operatorname{FieldHead}(\operatorname{IndexAccess}(p,\ \_))\ =\ \operatorname{FieldHead}(p) \\[0.16em]
-\operatorname{FieldHead}(\operatorname{Deref}(p))\ =\ \bot 
+\operatorname{FieldHead}(\operatorname{Deref}(p))\ =\ \bot
 \end{array}
 $$
 
@@ -329,7 +329,7 @@ $$
 \operatorname{AccessStateOk}(\mathsf{Moved},\ p)\ =\ \mathsf{false} \\[0.16em]
 \operatorname{PM}(\mathsf{Valid},\ f)\ =\ \operatorname{PartiallyMoved}(\{f\}) \\[0.16em]
 \operatorname{PM}(\operatorname{PartiallyMoved}(F),\ f)\ =\ \operatorname{PartiallyMoved}(F\ \cup \ \{f\}) \\[0.16em]
-\operatorname{PM}(\mathsf{Moved},\ f)\ =\ \bot 
+\operatorname{PM}(\mathsf{Moved},\ f)\ =\ \bot
 \end{array}
 $$
 
@@ -387,8 +387,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{BindInitScope}(e)\ =\ \operatorname{BindScope}(s)\ \Leftrightarrow  \\[0.16em]
-\ (s\ =\ \operatorname{LetStmt}(\mathsf{binding})\ \land \ \operatorname{InitExpr}(\mathsf{binding})\ =\ e)\ \lor  \\[0.16em]
+\operatorname{BindInitScope}(e)\ =\ \operatorname{BindScope}(s)\ \Leftrightarrow \\[0.16em]
+\ (s\ =\ \operatorname{LetStmt}(\mathsf{binding})\ \land \ \operatorname{InitExpr}(\mathsf{binding})\ =\ e)\ \lor \\[0.16em]
 \ (s\ =\ \operatorname{VarStmt}(\mathsf{binding})\ \land \ \operatorname{InitExpr}(\mathsf{binding})\ =\ e)
 \end{array}
 $$
@@ -396,7 +396,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{TempScope}(e)\ = \\[0.16em]
-\ \{\ \operatorname{BindInitScope}(e)\quad \mathsf{if}\ \operatorname{BindInitScope}(e)\ \ne \ \bot  \\[0.16em]
+\ \{\ \operatorname{BindInitScope}(e)\quad \mathsf{if}\ \operatorname{BindInitScope}(e)\ \ne \ \bot \\[0.16em]
 \quad \operatorname{StmtScope}(\operatorname{EnclosingStmt}(e))\ \mathsf{otherwise}\ \}
 \end{array}
 $$
@@ -442,7 +442,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{OptList}(\bot )\ =\ [] \\[0.16em]
-\operatorname{OptList}(e)\ =\ [e]\quad \mathsf{if}\ e\ \ne \ \bot 
+\operatorname{OptList}(e)\ =\ [e]\quad \mathsf{if}\ e\ \ne \ \bot
 \end{array}
 $$
 
@@ -491,7 +491,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{SubExprs}(s)\ =\ \operatorname{SubExprsList}(\operatorname{StmtExprs}(s)) \\[0.16em]
-\operatorname{SubExprsList}([])\ =\ \emptyset  \\[0.16em]
+\operatorname{SubExprsList}([])\ =\ \emptyset \\[0.16em]
 \operatorname{SubExprsList}([e]\ \mathbin{++} \ \mathsf{es})\ =\ \{e\}\ \cup \ \operatorname{SubExprsList}(\operatorname{Children_LTR}(e))\ \cup \ \operatorname{SubExprsList}(\mathsf{es})
 \end{array}
 $$
@@ -499,9 +499,9 @@ $$
 $$
 \begin{array}{l}
 \operatorname{SubStmts}(s)\ =\ \operatorname{SubStmtsList}(\operatorname{StmtBlocks}(s)) \\[0.16em]
-\operatorname{SubStmtsList}([])\ =\ \emptyset  \\[0.16em]
+\operatorname{SubStmtsList}([])\ =\ \emptyset \\[0.16em]
 \operatorname{SubStmtsList}([b]\ \mathbin{++} \ \mathsf{bs})\ =\ \operatorname{BlockStmts}(b)\ \cup \ \operatorname{SubStmtsSeq}(\operatorname{BlockStmts}(b))\ \cup \ \operatorname{SubStmtsList}(\mathsf{bs}) \\[0.16em]
-\operatorname{SubStmtsSeq}([])\ =\ \emptyset  \\[0.16em]
+\operatorname{SubStmtsSeq}([])\ =\ \emptyset \\[0.16em]
 \operatorname{SubStmtsSeq}([s]\ \mathbin{++} \ \mathsf{ss})\ =\ \operatorname{SubStmts}(s)\ \cup \ \operatorname{SubStmtsSeq}(\mathsf{ss})
 \end{array}
 $$
@@ -509,7 +509,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{SubBlocks}(b)\ =\ \operatorname{SubBlocksSeq}(\operatorname{BlockStmts}(b)) \\[0.16em]
-\operatorname{SubBlocksSeq}([])\ =\ \emptyset  \\[0.16em]
+\operatorname{SubBlocksSeq}([])\ =\ \emptyset \\[0.16em]
 \operatorname{SubBlocksSeq}([s]\ \mathbin{++} \ \mathsf{ss})\ =\ \operatorname{StmtBlocks}(s)\ \cup \ (\bigcup \_\{b'\ \in \ \operatorname{StmtBlocks}(s)\}\ \operatorname{SubBlocks}(b'))\ \cup \ \operatorname{SubBlocksSeq}(\mathsf{ss})
 \end{array}
 $$
@@ -541,7 +541,7 @@ $$
 \begin{array}{l}
 T_{\mathsf{Region}}\ =\ \operatorname{TypeModalState}([\texttt{Region}],\ \texttt{Active}) \\[0.16em]
 \operatorname{RegionBindName}(\Gamma ,\ \mathsf{alias}_{\mathsf{opt}})\ = \\[0.16em]
-\ \{\ \mathsf{alias}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{alias}_{\mathsf{opt}}\ \ne \ \bot  \\[0.16em]
+\ \{\ \mathsf{alias}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{alias}_{\mathsf{opt}}\ \ne \ \bot \\[0.16em]
 \quad \operatorname{FreshRegion}(\Gamma )\quad \mathsf{otherwise}\ \} \\[0.16em]
 \operatorname{RegionBindMap}(\Gamma ,\ \mathsf{alias}_{\mathsf{opt}})\ =\ \{\ r\ \mapsto \ T_{\mathsf{Region}}\ \mid \ r\ =\ \operatorname{RegionBindName}(\Gamma ,\ \mathsf{alias}_{\mathsf{opt}})\ \} \\[0.16em]
 \operatorname{RegionBindInfo}(\Gamma ,\ \mathsf{alias}_{\mathsf{opt}})\ =\ \operatorname{BindInfoMap}(\lambda \ U.\ \mathsf{resp},\ \operatorname{RegionBindMap}(\Gamma ,\ \mathsf{alias}_{\mathsf{opt}}),\ \mathsf{mov},\ \texttt{let}) \\[0.16em]
@@ -555,23 +555,23 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{JoinAll_B}([])\ =\ \bot  \\[0.16em]
-\operatorname{JoinAll_B}([\mathfrak{B} ])\ =\ \mathfrak{B}  \\[0.16em]
+\operatorname{JoinAll_B}([])\ =\ \bot \\[0.16em]
+\operatorname{JoinAll_B}([\mathfrak{B} ])\ =\ \mathfrak{B} \\[0.16em]
 \operatorname{JoinAll_B}(\mathfrak{B}_{1} \ \mathbin{::} \ \mathfrak{B}_{2} \ \mathbin{::} \ \mathsf{rest})\ =\ \operatorname{JoinAll_B}([\operatorname{Join_B}(\mathfrak{B}_{1} ,\ \mathfrak{B}_{2} )]\ \mathbin{++} \ \mathsf{rest})
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{JoinAllPerm}([])\ =\ \bot  \\[0.16em]
-\operatorname{JoinAllPerm}([\Pi ])\ =\ \Pi  \\[0.16em]
+\operatorname{JoinAllPerm}([])\ =\ \bot \\[0.16em]
+\operatorname{JoinAllPerm}([\Pi ])\ =\ \Pi \\[0.16em]
 \operatorname{JoinAllPerm}(\Pi_{1} \ \mathbin{::} \ \Pi_{2} \ \mathbin{::} \ \mathsf{rest})\ =\ \operatorname{JoinAllPerm}([\operatorname{JoinPerm}(\Pi_{1} ,\ \Pi_{2} )]\ \mathbin{++} \ \mathsf{rest})
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{Top}([\sigma ]\ \mathbin{++} \ \Pi ')\ =\ \sigma  \\[0.16em]
+\operatorname{Top}([\sigma ]\ \mathbin{++} \ \Pi ')\ =\ \sigma \\[0.16em]
 \operatorname{SetTop}([\sigma ]\ \mathbin{++} \ \Pi ',\ \sigma ')\ =\ [\sigma ']\ \mathbin{++} \ \Pi ' \\[0.16em]
 \operatorname{InactivateScope}(\sigma ,\ K)\ =\ \{\ x\ \mapsto \ (\mathsf{Inactive}\ \mathsf{if}\ x\ \in \ K\ \mathsf{else}\ \sigma [x])\ \mid \ x\ \in \ \operatorname{dom}(\sigma )\ \cup \ K\ \} \\[0.16em]
 \operatorname{Roots}(\Pi_{2} ,\ \Pi_{1} )\ =\ \{\ k\ \mid \ \operatorname{Top}(\Pi_{2} )[k]\ =\ \mathsf{Inactive}\ \land \ \mathsf{Lookup}\_\Pi (\Pi_{1} ,\ k)\ =\ \mathsf{Active}\ \}
@@ -581,7 +581,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{ConsumeOnMove}(\mathfrak{B} ,\ e)\ = \\[0.16em]
-\ \{\ \operatorname{Update_B}(\mathfrak{B} ,\ x,\ \langle \mathsf{Moved},\ \mathsf{mv},\ \mathsf{mut},\ \mathsf{resp}\rangle )\quad \mathsf{if}\ \operatorname{IsMoveExpr}(e)\ \land \ x\ =\ \operatorname{PlaceRoot}(\operatorname{MoveInner}(e))\ \land \ \operatorname{Lookup_B}(\mathfrak{B} ,\ x)\ =\ \langle s,\ \mathsf{mv},\ \mathsf{mut},\ \mathsf{resp}\rangle  \\[0.16em]
+\ \{\ \operatorname{Update_B}(\mathfrak{B} ,\ x,\ \langle \mathsf{Moved},\ \mathsf{mv},\ \mathsf{mut},\ \mathsf{resp}\rangle )\quad \mathsf{if}\ \operatorname{IsMoveExpr}(e)\ \land \ x\ =\ \operatorname{PlaceRoot}(\operatorname{MoveInner}(e))\ \land \ \operatorname{Lookup_B}(\mathfrak{B} ,\ x)\ =\ \langle s,\ \mathsf{mv},\ \mathsf{mut},\ \mathsf{resp}\rangle \\[0.16em]
 \quad \mathfrak{B} \quad \mathsf{otherwise}\ \}
 \end{array}
 $$
@@ -600,7 +600,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{StaticBindTypesMod}(P,\ m)\ =\ \mathbin{++} \_\{\mathsf{item}\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items},\ \mathsf{item}\ =\ \operatorname{StaticDecl}(\_,\ \_,\ \_,\ \mathsf{binding},\ \_,\ \_)\}\ \operatorname{StaticBindTypes}(\mathsf{binding}) \\[0.16em]
-\operatorname{StaticBindInfo}(\mathsf{item})\ =\ \operatorname{BindInfoMap}(\lambda \ U.\ \operatorname{RespOfInit}(\mathsf{init}),\ \operatorname{StaticBindTypes}(\mathsf{binding}),\ \operatorname{MovOf}(\mathsf{op}),\ \mathsf{mut})\ \Leftrightarrow \ \mathsf{item}\ =\ \operatorname{StaticDecl}(\_,\ \_,\ \mathsf{mut},\ \mathsf{binding},\ \_,\ \_)\ \land \ \mathsf{binding}\ =\ \langle \_,\ \_,\ \mathsf{op},\ \mathsf{init},\ \_\rangle  \\[0.16em]
+\operatorname{StaticBindInfo}(\mathsf{item})\ =\ \operatorname{BindInfoMap}(\lambda \ U.\ \operatorname{RespOfInit}(\mathsf{init}),\ \operatorname{StaticBindTypes}(\mathsf{binding}),\ \operatorname{MovOf}(\mathsf{op}),\ \mathsf{mut})\ \Leftrightarrow \ \mathsf{item}\ =\ \operatorname{StaticDecl}(\_,\ \_,\ \mathsf{mut},\ \mathsf{binding},\ \_,\ \_)\ \land \ \mathsf{binding}\ =\ \langle \_,\ \_,\ \mathsf{op},\ \mathsf{init},\ \_\rangle \\[0.16em]
 \operatorname{StaticBindMap}(P,\ m)\ =\ \mathbin{++} \_\{\mathsf{item}\ \in \ \operatorname{ASTModule}(P,\ m).\mathsf{items},\ \mathsf{item}\ =\ \operatorname{StaticDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_)\}\ \operatorname{StaticBindInfo}(\mathsf{item})
 \end{array}
 $$
@@ -611,10 +611,10 @@ $$
 \begin{array}{l}
 \mathfrak{B}_{\mathsf{global}} \ =\ \operatorname{IntroAll_B}(\operatorname{PushScope_B}(\mathfrak{B} ),\ \operatorname{StaticBindMap}(\operatorname{Project}(\Gamma ),\ m)) \\[0.16em]
 \mathfrak{B}_{\mathsf{proc}} \ =\ \operatorname{IntroAll_B}(\operatorname{PushScope_B}(\mathfrak{B}_{\mathsf{global}} ),\ \operatorname{ParamBindMap}(\mathsf{params})) \\[0.16em]
-\operatorname{ParamBindMap}([])\ =\ \emptyset  \\[0.16em]
+\operatorname{ParamBindMap}([])\ =\ \emptyset \\[0.16em]
 \operatorname{ParamBindMap}([\langle \mathsf{mode},\ x,\ T\rangle ]\ \mathbin{++} \ \mathsf{ps})\ =\ \operatorname{MapUnion}(\operatorname{ParamBindMap}(\mathsf{ps}),\ \{\ x\ \mapsto \ \langle \mathsf{Valid},\ \operatorname{ParamMov}(\mathsf{mode}),\ \texttt{let},\ \operatorname{ParamResp}(\mathsf{mode})\rangle \ \}) \\[0.16em]
 \operatorname{MethodParamBindMap}(\mathsf{base},\ \mathsf{name})\ =\ \operatorname{ParamBindMap}(\operatorname{RecvParams}(\mathsf{base},\ \mathsf{name})) \\[0.16em]
-\operatorname{ParamTypeMap}([])\ =\ \emptyset  \\[0.16em]
+\operatorname{ParamTypeMap}([])\ =\ \emptyset \\[0.16em]
 \operatorname{ParamTypeMap}([\langle \mathsf{mode},\ x,\ T\rangle ]\ \mathbin{++} \ \mathsf{ps})\ =\ \operatorname{MapUnion}(\operatorname{ParamTypeMap}(\mathsf{ps}),\ \{\ x\ \mapsto \ T\ \}) \\[0.16em]
 \operatorname{ParamMov}(\texttt{move})\ =\ \mathsf{mov}\quad \operatorname{ParamMov}(\bot )\ =\ \mathsf{immov} \\[0.16em]
 \operatorname{ParamResp}(\texttt{move})\ =\ \mathsf{resp}\quad \operatorname{ParamResp}(\bot )\ =\ \mathsf{alias}

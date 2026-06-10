@@ -2,16 +2,16 @@
 title: "10.4 Permission Admissibility"
 description: "10.4 Permission Admissibility from 10. Permissions and Binding State of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "permissions-and-binding-state"
 specSection: "104-permission-admissibility"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -89,6 +89,6 @@ Admissibility is a static gate only. It does not introduce distinct runtime repr
 | ------------ | -------- | ------------ | --------------------------------------------------------------------- |
 | `E-TYP-1601` | Error    | Compile-time | Mutation through `const` path                                         |
 | `E-TYP-1602` | Error    | Compile-time | `unique` exclusion violation (aliasing or inactive use)               |
-| `E-TYP-1603` | Error    | Compile-time | Non-`move` argument with source provenance must be a place expression |
+| `E-TYP-1603` | Error    | Compile-time | Non-`move` argument with source provenance must be a place expression (`Call-Arg-NotPlace`) |
 | `E-TYP-1604` | Error    | Compile-time | Shared-place mutation cannot form a valid key-mediated write context  |
-| `E-TYP-1605` | Error    | Compile-time | Receiver permission incompatible with caller                          |
+| `E-TYP-1605` | Error    | Compile-time | Receiver permission incompatible with caller (`MethodCall-RecvPerm-Err`) |

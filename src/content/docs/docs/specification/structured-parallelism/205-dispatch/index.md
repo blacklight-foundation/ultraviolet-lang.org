@@ -2,16 +2,16 @@
 title: "20.5 Dispatch"
 description: "20.5 Dispatch from 20. Structured Parallelism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "structured-parallelism"
 specSection: "205-dispatch"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -37,26 +37,99 @@ reduce_op             ::= "+" | "*" | "min" | "max" | "and" | "or" | identifier
 
 ### 20.5.2 Parsing
 
-Dispatch parsing is defined by the following source rules:
+**(Parse-ReduceOp-Op)**
 
-- `Parse-Dispatch-Expr`
-- `Parse-KeyClauseOpt-None`
-- `Parse-KeyClauseOpt-Yes`
-- `Parse-DispatchOptsOpt-None`
-- `Parse-DispatchOptsOpt-Yes`
-- `Parse-DispatchOptList-Empty`
-- `Parse-DispatchOptList-Cons`
-- `Parse-DispatchOptListTail-End`
-- `Parse-DispatchOptListTail-TrailingComma`
-- `Parse-DispatchOptListTail-Comma`
-- `Parse-ReduceOp-Op`
-- `Parse-ReduceOp-Ident`
-- `Parse-DispatchOpt-Reduce`
-- `Parse-DispatchOpt-Ordered`
-- `Parse-DispatchOpt-Chunk`
-- `Parse-DispatchOpt-Workgroup`
+$$
+\begin{array}{l}
+\operatorname{Tok}(P).\mathsf{kind}\ =\ \operatorname{Operator}(o)\quad o\ \in \ \{\texttt{"+"},\ \texttt{"*"}\} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseReduceOp}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ o)
+\end{array}
+$$
 
-The fixed identifiers `min`, `max`, `and`, and `or` are tokenized as identifiers by Chapter 4 and are accepted in dispatch position by `Parse-ReduceOp-Ident`.
+**(Parse-ReduceOp-Ident)**
+
+$$
+\begin{array}{l}
+\operatorname{Tok}(P).\mathsf{kind}\ =\ \mathsf{Identifier}\quad s\ =\ \operatorname{Tok}(P).\mathsf{lexeme} \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseReduceOp}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ s)
+\end{array}
+$$
+
+**(Parse-DispatchOpt-Reduce)**
+
+$$
+\begin{array}{l}
+\operatorname{IsCtxIdent}(\operatorname{Tok}(P),\ \texttt{"reduce"})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseReduceOp}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ \mathsf{op}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseDispatchOpt}(P)\ \Downarrow \ (P_{1},\ \operatorname{Reduce}(\mathsf{op}))
+\end{array}
+$$
+
+**(Parse-DispatchOpt-Ordered)**
+IsCtxIdent(Tok(P), "ordered")
+
+$$
+\begin{array}{l}
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseDispatchOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \mathsf{Ordered})
+\end{array}
+$$
+
+**(Parse-DispatchOpt-Chunk)**
+
+$$
+\begin{array}{l}
+\operatorname{IsCtxIdent}(\operatorname{Tok}(P),\ \texttt{"chunk"})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseDispatchOpt}(P)\ \Downarrow \ (P_{1},\ \operatorname{Chunk}(e))
+\end{array}
+$$
+
+**(Parse-DispatchOpt-Workgroup)**
+
+$$
+\begin{array}{l}
+\operatorname{IsCtxIdent}(\operatorname{Tok}(P),\ \texttt{"workgroup"})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseDispatchOpt}(P)\ \Downarrow \ (P_{1},\ \operatorname{Workgroup}(e))
+\end{array}
+$$
+
+**(Parse-KeyClauseOpt-Yes)**
+
+$$
+\begin{array}{l}
+\operatorname{IsCtxIdent}(\operatorname{Tok}(P),\ \texttt{"key"})\quad \Gamma \ \vdash \ \operatorname{ParseKeyPathExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{path})\quad \Gamma \ \vdash \ \operatorname{ParseKeyMode}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{mode}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyClauseOpt}(P)\ \Downarrow \ (P_{2},\ \langle \mathsf{path},\ \mathsf{mode}\rangle )
+\end{array}
+$$
+
+**(Parse-KeyClauseOpt-None)**
+
+$$
+\begin{array}{l}
+\lnot \ \operatorname{IsCtxIdent}(\operatorname{Tok}(P),\ \texttt{"key"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyClauseOpt}(P)\ \Downarrow \ (P,\ \bot )
+\end{array}
+$$
+
+**(Parse-Dispatch-Expr)**
+
+$$
+\begin{array}{l}
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{"dispatch"})\quad \Gamma \ \vdash \ \operatorname{ParsePattern}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{pat})\quad \operatorname{IsCtxIdent}(\operatorname{Tok}(P_{1}),\ \texttt{"in"}) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseExpr_NoBrace}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{range})\quad \Gamma \ \vdash \ \operatorname{ParseKeyClauseOpt}(P_{2})\ \Downarrow \ (P_{3},\ \mathsf{kc}) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseOptListOpt}(\mathsf{ParseDispatchOpt},\ P_{3})\ \Downarrow \ (P_{4},\ \mathsf{opts})\quad \Gamma \ \vdash \ \operatorname{ParseBlockExpr}(P_{4})\ \Downarrow \ (P_{5},\ \mathsf{body}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParsePrimaryExpr}(P)\ \Downarrow \ (P_{5},\ \operatorname{DispatchExpr}(\mathsf{pat},\ \mathsf{range},\ \mathsf{kc},\ \mathsf{opts},\ \mathsf{body}))
+\end{array}
+$$
+
+The option-list rules instantiate the shared schema of §5.5 with `El = ParseDispatchOpt`. The `range` operand parses as a general non-brace expression; the range-type requirement is enforced by §20.5.4. The fixed identifiers `min`, `max`, `and`, and `or` are tokenized as identifiers by Chapter 4 and are accepted in dispatch position by `Parse-ReduceOp-Ident`.
 
 ### 20.5.3 AST Representation / Form
 
@@ -73,7 +146,7 @@ $$
 $$
 
 $$
-\mathsf{KeyClause}\ =\ \langle \mathsf{path},\ \mathsf{mode}\rangle 
+\mathsf{KeyClause}\ =\ \langle \mathsf{path},\ \mathsf{mode}\rangle
 $$
 
 $$
@@ -81,7 +154,7 @@ $$
 $$
 
 $$
-\mathsf{Expr}\ =\ \ldots \ \mid \ \operatorname{DispatchExpr}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{opts},\ \mathsf{body})\ \mid \ \ldots 
+\mathsf{Expr}\ =\ \ldots \ \mid \ \operatorname{DispatchExpr}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{opts},\ \mathsf{body})\ \mid \ \ldots
 $$
 
 $$
@@ -182,11 +255,11 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ImplicitDispatchUse}(B,\ e)\ \Leftrightarrow  \\[0.16em]
-\ e\ \in \ \operatorname{Subexpressions}(B)\ \land  \\[0.16em]
-\ \lnot \operatorname{InsideKeyBlock}(B,\ e)\ \land  \\[0.16em]
-\ (\exists \ T.\ \Gamma \ \vdash \ e\ :\ \operatorname{TypePerm}(\texttt{shared},\ T)\ \lor \ \Gamma \ \vdash \ e\ :\mathsf{place}\ \operatorname{TypePerm}(\texttt{shared},\ T))\ \land  \\[0.16em]
-\ \operatorname{KeyPath}(e)\ \mathsf{is}\ \mathsf{defined}\ \land  \\[0.16em]
+\operatorname{ImplicitDispatchUse}(B,\ e)\ \Leftrightarrow \\[0.16em]
+\ e\ \in \ \operatorname{Subexpressions}(B)\ \land \\[0.16em]
+\ \lnot \operatorname{InsideKeyBlock}(B,\ e)\ \land \\[0.16em]
+\ (\exists \ T.\ \Gamma \ \vdash \ e\ :\ \operatorname{TypePerm}(\texttt{shared},\ T)\ \lor \ \Gamma \ \vdash \ e\ :\mathsf{place}\ \operatorname{TypePerm}(\texttt{shared},\ T))\ \land \\[0.16em]
+\ \operatorname{KeyPath}(e)\ \mathsf{is}\ \mathsf{defined}\ \land \\[0.16em]
 \ \operatorname{RequiredMode}(e)\ \mathsf{is}\ \mathsf{defined}
 \end{array}
 $$
@@ -209,8 +282,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{InferDispatchAccesses}(\mathsf{pat},\ B)\ =\ \mathsf{merged}\ \Leftrightarrow  \\[0.16em]
-\ \mathsf{raw}\ =\ [\langle \operatorname{SchemaOf}(\mathsf{pat},\ e),\ \operatorname{RequiredMode}(e)\rangle \ \mid \ e\ \in \ \operatorname{Subexpressions}(B)\ \land \ \operatorname{ImplicitDispatchUse}(B,\ e)\ \land \ \operatorname{DispatchInvariant}(\operatorname{KeyPath}(e),\ \mathsf{pat})]\ \land  \\[0.16em]
+\operatorname{InferDispatchAccesses}(\mathsf{pat},\ B)\ =\ \mathsf{merged}\ \Leftrightarrow \\[0.16em]
+\ \mathsf{raw}\ =\ [\langle \operatorname{SchemaOf}(\mathsf{pat},\ e),\ \operatorname{RequiredMode}(e)\rangle \ \mid \ e\ \in \ \operatorname{Subexpressions}(B)\ \land \ \operatorname{ImplicitDispatchUse}(B,\ e)\ \land \ \operatorname{DispatchInvariant}(\operatorname{KeyPath}(e),\ \mathsf{pat})]\ \land \\[0.16em]
 \ \operatorname{MergeDispatchAccesses}(\mathsf{raw})\ =\ \mathsf{merged}
 \end{array}
 $$
@@ -226,14 +299,14 @@ $$
 \operatorname{AssociativeReduce}(\texttt{and})\ \Leftrightarrow \ \mathsf{true} \\[0.16em]
 \operatorname{AssociativeReduce}(\texttt{or})\ \Leftrightarrow \ \mathsf{true} \\[0.16em]
 \operatorname{AssociativeReduce}(\_)\ \Leftrightarrow \ \mathsf{false} \\[0.16em]
-\operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e)\ \Leftrightarrow  \\[0.16em]
-\ e\ \mathsf{is}\ a\ \mathsf{compile}-\mathsf{time}\ \mathsf{constant}\ \mathsf{expression}\ \lor  \\[0.16em]
-\ (e\ =\ x\ \land \ x\ \in \ \operatorname{DispatchPatternVars}(\mathsf{pat}))\ \lor  \\[0.16em]
-\ (e\ =\ e_{0}.f\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{0}))\ \lor  \\[0.16em]
-\ (e\ =\ e_{0}.n\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{0}))\ \lor  \\[0.16em]
-\ (e\ =\ e_{0}[e_{1}]\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{0})\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{1}))\ \lor  \\[0.16em]
-\ (e\ =\ \mathsf{op}\ e_{0}\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{0}))\ \lor  \\[0.16em]
-\ (e\ =\ e_{0}\ \mathsf{op}\ e_{1}\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{0})\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{1}))\ \lor  \\[0.16em]
+\operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e)\ \Leftrightarrow \\[0.16em]
+\ e\ \mathsf{is}\ a\ \mathsf{compile}-\mathsf{time}\ \mathsf{constant}\ \mathsf{expression}\ \lor \\[0.16em]
+\ (e\ =\ x\ \land \ x\ \in \ \operatorname{DispatchPatternVars}(\mathsf{pat}))\ \lor \\[0.16em]
+\ (e\ =\ e_{0}.f\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{0}))\ \lor \\[0.16em]
+\ (e\ =\ e_{0}.n\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{0}))\ \lor \\[0.16em]
+\ (e\ =\ e_{0}[e_{1}]\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{0})\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{1}))\ \lor \\[0.16em]
+\ (e\ =\ \mathsf{op}\ e_{0}\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{0}))\ \lor \\[0.16em]
+\ (e\ =\ e_{0}\ \mathsf{op}\ e_{1}\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{0})\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{1}))\ \lor \\[0.16em]
 \ (e\ =\ \operatorname{cast}(e_{0},\ \_)\ \land \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e_{0})) \\[0.16em]
 \operatorname{DynamicKeyPattern}(\mathsf{pat},\ \mathsf{spec})\ \Leftrightarrow \ \exists \ \langle S,\ \_\rangle \ \in \ \mathsf{spec}.\ S\ \mathsf{contains}\ \mathsf{an}\ \mathsf{index}\ \mathsf{expression}\ e\ \land \ \lnot \ \operatorname{DispatchStaticIndexExpr}(\mathsf{pat},\ e)
 \end{array}
@@ -265,7 +338,7 @@ $$
 \begin{array}{l}
 \operatorname{Chunk}(e)\ \in \ \mathsf{opts}\quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T\quad T\ \ne \ \operatorname{TypePrim}(\texttt{"usize"}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{DispatchExpr}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{opts},\ \mathsf{body})\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{DispatchExpr}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{opts},\ \mathsf{body})\ \Uparrow
 \end{array}
 $$
 
@@ -336,18 +409,18 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AffineDispatchIndex}(e)\ =\ \langle x,\ k\rangle \ \Leftrightarrow  \\[0.16em]
-\ (e\ =\ x\ \land \ k\ =\ 0)\ \lor  \\[0.16em]
-\ (e\ =\ x\ +\ n\ \land \ n\ \mathsf{is}\ a\ \mathsf{compile}-\mathsf{time}\ \mathsf{constant}\ \mathsf{integer}\ \mathsf{expression}\ \mathsf{with}\ \mathsf{value}\ k)\ \lor  \\[0.16em]
-\ (e\ =\ x\ -\ n\ \land \ n\ \mathsf{is}\ a\ \mathsf{compile}-\mathsf{time}\ \mathsf{constant}\ \mathsf{integer}\ \mathsf{expression}\ \mathsf{with}\ \mathsf{value}\ n_{0}\ \land \ k\ =\ -n_{0})\ \lor  \\[0.16em]
+\operatorname{AffineDispatchIndex}(e)\ =\ \langle x,\ k\rangle \ \Leftrightarrow \\[0.16em]
+\ (e\ =\ x\ \land \ k\ =\ 0)\ \lor \\[0.16em]
+\ (e\ =\ x\ +\ n\ \land \ n\ \mathsf{is}\ a\ \mathsf{compile}-\mathsf{time}\ \mathsf{constant}\ \mathsf{integer}\ \mathsf{expression}\ \mathsf{with}\ \mathsf{value}\ k)\ \lor \\[0.16em]
+\ (e\ =\ x\ -\ n\ \land \ n\ \mathsf{is}\ a\ \mathsf{compile}-\mathsf{time}\ \mathsf{constant}\ \mathsf{integer}\ \mathsf{expression}\ \mathsf{with}\ \mathsf{value}\ n_{0}\ \land \ k\ =\ -n_{0})\ \lor \\[0.16em]
 \ (e\ =\ n\ +\ x\ \land \ n\ \mathsf{is}\ a\ \mathsf{compile}-\mathsf{time}\ \mathsf{constant}\ \mathsf{integer}\ \mathsf{expression}\ \mathsf{with}\ \mathsf{value}\ k)
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{ProvablyDisjoint}(e_{1},\ e_{2})\ \Leftrightarrow  \\[0.16em]
-\ (e_{1}\ \mathsf{and}\ e_{2}\ \mathsf{are}\ \mathsf{distinct}\ \mathsf{integer}\ \mathsf{literals})\ \lor  \\[0.16em]
+\operatorname{ProvablyDisjoint}(e_{1},\ e_{2})\ \Leftrightarrow \\[0.16em]
+\ (e_{1}\ \mathsf{and}\ e_{2}\ \mathsf{are}\ \mathsf{distinct}\ \mathsf{integer}\ \mathsf{literals})\ \lor \\[0.16em]
 \ (\operatorname{AffineDispatchIndex}(e_{1})\ =\ \langle x,\ k_{1}\rangle \ \land \ \operatorname{AffineDispatchIndex}(e_{2})\ =\ \langle x,\ k_{2}\rangle \ \land \ k_{1}\ \ne \ k_{2})
 \end{array}
 $$
@@ -386,11 +459,11 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{PartitionByKey}(\mathsf{range},\ \mathsf{key}_{\mathsf{spec}})\ =\ [\mathsf{Group}_{1},\ \ldots ,\ \mathsf{Group}_{k}]\ \Leftrightarrow  \\[0.16em]
-\ \operatorname{IterBounds}(\mathsf{range})\ =\ (\mathsf{start},\ \mathsf{end})\ \land  \\[0.16em]
-\ \mathsf{indices}\ =\ [\mathsf{start},\ \mathsf{start}+1,\ \ldots ,\ \mathsf{end}-1]\ \land  \\[0.16em]
-\ \operatorname{Conflict}(i,\ j)\ \Leftrightarrow \ i\ \ne \ j\ \land \ (\exists \ \langle S_{a},\ M_{a}\rangle \ \in \ \mathsf{key}_{\mathsf{spec}},\ \langle S_{b},\ M_{b}\rangle \ \in \ \mathsf{key}_{\mathsf{spec}}.\ P_{i}\ =\ \operatorname{InstantiateSchema}(S_{a},\ i)\ \land \ P_{j}\ =\ \operatorname{InstantiateSchema}(S_{b},\ j)\ \land \ \lnot \ \operatorname{ProvablyDisjointPath}(P_{i},\ P_{j})\ \land \ \lnot \ \operatorname{KeyModeCompatible}(M_{a},\ M_{b}))\ \land  \\[0.16em]
-\ \operatorname{ConnectedComponents}(\mathsf{indices},\ \mathsf{Conflict})\ =\ [\mathsf{Group}_{1},\ \ldots ,\ \mathsf{Group}_{k}]\ \land  \\[0.16em]
+\operatorname{PartitionByKey}(\mathsf{range},\ \mathsf{key}_{\mathsf{spec}})\ =\ [\mathsf{Group}_{1},\ \ldots ,\ \mathsf{Group}_{k}]\ \Leftrightarrow \\[0.16em]
+\ \operatorname{IterBounds}(\mathsf{range})\ =\ (\mathsf{start},\ \mathsf{end})\ \land \\[0.16em]
+\ \mathsf{indices}\ =\ [\mathsf{start},\ \mathsf{start}+1,\ \ldots ,\ \mathsf{end}-1]\ \land \\[0.16em]
+\ \operatorname{Conflict}(i,\ j)\ \Leftrightarrow \ i\ \ne \ j\ \land \ (\exists \ \langle S_{a},\ M_{a}\rangle \ \in \ \mathsf{key}_{\mathsf{spec}},\ \langle S_{b},\ M_{b}\rangle \ \in \ \mathsf{key}_{\mathsf{spec}}.\ P_{i}\ =\ \operatorname{InstantiateSchema}(S_{a},\ i)\ \land \ P_{j}\ =\ \operatorname{InstantiateSchema}(S_{b},\ j)\ \land \ \lnot \ \operatorname{ProvablyDisjointPath}(P_{i},\ P_{j})\ \land \ \lnot \ \operatorname{KeyModeCompatible}(M_{a},\ M_{b}))\ \land \\[0.16em]
+\ \operatorname{ConnectedComponents}(\mathsf{indices},\ \mathsf{Conflict})\ =\ [\mathsf{Group}_{1},\ \ldots ,\ \mathsf{Group}_{k}]\ \land \\[0.16em]
 \ \operatorname{OrderedByLeastMember}([\mathsf{Group}_{1},\ \ldots ,\ \mathsf{Group}_{k}])
 \end{array}
 $$
@@ -398,7 +471,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{DispatchPartition}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{clause}},\ B)\ =\ [\mathsf{Group}_{1},\ \ldots ,\ \mathsf{Group}_{k}]\ \Leftrightarrow \ \operatorname{DispatchPartitionSpec}(\mathsf{pat},\ \mathsf{key}_{\mathsf{clause}},\ B)\ =\ \mathsf{key}_{\mathsf{spec}}\ \land \ \operatorname{PartitionByKey}(\mathsf{range},\ \mathsf{key}_{\mathsf{spec}})\ =\ [\mathsf{Group}_{1},\ \ldots ,\ \mathsf{Group}_{k}] \\[0.16em]
-\operatorname{TotalIterations}([\mathsf{Group}_{1},\ \ldots ,\ \mathsf{Group}_{k}])\ =\ \Sigma \_\{i=1..k\}\ \mid \mathsf{Group}_{i}\mid 
+\operatorname{TotalIterations}([\mathsf{Group}_{1},\ \ldots ,\ \mathsf{Group}_{k}])\ =\ \Sigma \_\{i=1..k\}\ \mid \mathsf{Group}_{i}\mid
 \end{array}
 $$
 
@@ -412,7 +485,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ChunkSizeOf}(\mathsf{attrs},\ \sigma )\ \Downarrow \ (n,\ \sigma ')\ \Leftrightarrow \ \operatorname{ChunkExpr}(\mathsf{attrs})\ =\ \bot \ \land \ n\ =\ 1\ \land \ \sigma '\ =\ \sigma  \\[0.16em]
+\operatorname{ChunkSizeOf}(\mathsf{attrs},\ \sigma )\ \Downarrow \ (n,\ \sigma ')\ \Leftrightarrow \ \operatorname{ChunkExpr}(\mathsf{attrs})\ =\ \bot \ \land \ n\ =\ 1\ \land \ \sigma '\ =\ \sigma \\[0.16em]
 \operatorname{ChunkSizeOf}(\mathsf{attrs},\ \sigma )\ \Downarrow \ (n,\ \sigma_{1} )\ \Leftrightarrow \ \operatorname{ChunkExpr}(\mathsf{attrs})\ =\ e\ \land \ \Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(\operatorname{IntVal}(\texttt{"usize"},\ n)),\ \sigma_{1} )\ \land \ n\ >\ 0
 \end{array}
 $$
@@ -477,9 +550,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{range})\ \Downarrow \ \langle \mathsf{IR}_{r},\ v_{r}\rangle \quad \mathsf{key}_{\mathsf{spec}}\ =\ \operatorname{DispatchPartitionSpec}(\mathsf{pat},\ \mathsf{key}_{\mathsf{opt}},\ \mathsf{body})\quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{range})\ \Downarrow \ \langle \mathsf{IR}_{r},\ v_{r}\rangle \quad \mathsf{key}_{\mathsf{spec}}\ =\ \operatorname{DispatchPartitionSpec}(\mathsf{pat},\ \mathsf{key}_{\mathsf{opt}},\ \mathsf{body})\quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{DispatchExpr}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{opt}},\ \mathsf{attrs},\ \mathsf{body}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{r},\ \operatorname{DispatchPartition}(\mathsf{key}_{\mathsf{spec}},\ \mathsf{attrs}),\ \operatorname{DispatchReduce}(\mathsf{attrs},\ \mathsf{IR}_{b}),\ \mathsf{ParallelJoin}),\ \mathsf{DispatchResultVal}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{DispatchExpr}(\mathsf{pat},\ \mathsf{range},\ \mathsf{key}_{\mathsf{opt}},\ \mathsf{attrs},\ \mathsf{body}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{r},\ \operatorname{DispatchPartition}(\mathsf{key}_{\mathsf{spec}},\ \mathsf{attrs}),\ \operatorname{DispatchReduce}(\mathsf{attrs},\ \mathsf{IR}_{b}),\ \mathsf{ParallelJoin}),\ \mathsf{DispatchResultVal}\rangle
 \end{array}
 $$
 
@@ -487,8 +560,8 @@ $$
 
 | Code         | Severity | Detection    | Condition                                     |
 | ------------ | -------- | ------------ | --------------------------------------------- |
-| `E-CON-0140` | Error    | Compile-time | Dispatch outside parallel block               |
+| `E-CON-0140` | Error    | Compile-time | Dispatch outside parallel block (`Dispatch-Outside-Err`) |
 | `E-CON-0141` | Error    | Compile-time | Key inference failed; explicit key required   |
-| `E-CON-0142` | Error    | Compile-time | Cross-iteration dependency detected           |
-| `E-CON-0143` | Error    | Compile-time | Non-associative reduction without `[ordered]` |
-| `W-CON-0140` | Warning  | Compile-time | Dynamic key pattern; runtime serialization    |
+| `E-CON-0142` | Error    | Compile-time | Cross-iteration dependency detected (`Dispatch-Dependency-Err`) |
+| `E-CON-0143` | Error    | Compile-time | Non-associative reduction without `[ordered]` (`Dispatch-Reduce-Assoc-Err`) |
+| `W-CON-0140` | Warning  | Compile-time | Dynamic key pattern; runtime serialization (`Dispatch-DynamicKey-Warn`) |

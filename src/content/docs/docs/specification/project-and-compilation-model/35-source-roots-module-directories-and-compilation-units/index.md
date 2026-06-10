@@ -2,16 +2,16 @@
 title: "3.5 Source Roots, Module Directories, and Compilation Units"
 description: "3.5 Source Roots, Module Directories, and Compilation Units from 3. Project and Compilation Model of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "project-and-compilation-model"
 specSection: "35-source-roots-module-directories-and-compilation-units"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -84,7 +84,7 @@ Module discovery state transitions and module-path formation are defined by §11
 
 $$
 \begin{array}{l}
-\langle \operatorname{DiscStart}(S,\ A)\rangle \ \to *\ \langle \operatorname{DiscDone}(M)\rangle  \\[0.16em]
+\langle \operatorname{DiscStart}(S,\ A)\rangle \ \to *\ \langle \operatorname{DiscDone}(M)\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Modules}(S,\ A)\ \Downarrow \ M
 \end{array}
@@ -94,7 +94,7 @@ $$
 
 $$
 \begin{array}{l}
-\langle \operatorname{DiscStart}(S,\ A)\rangle \ \to *\ \langle \operatorname{Error}(c)\rangle  \\[0.16em]
+\langle \operatorname{DiscStart}(S,\ A)\rangle \ \to *\ \langle \operatorname{Error}(c)\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Modules}(S,\ A)\ \Uparrow \ c
 \end{array}
@@ -103,7 +103,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{AssemblySourceRoots}(\mathsf{As})\ =\ \{\ A.\mathsf{source}_{\mathsf{root}}\ \mid \ A\ \in \ \mathsf{As}\ \} \\[0.16em]
-\operatorname{RootDepth}(S)\ =\ \mid \operatorname{PathComps}(S)\mid 
+\operatorname{RootDepth}(S)\ =\ \mid \operatorname{PathComps}(S)\mid
 \end{array}
 $$
 

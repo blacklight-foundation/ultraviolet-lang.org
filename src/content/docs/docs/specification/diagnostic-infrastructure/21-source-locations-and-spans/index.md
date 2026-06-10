@@ -2,16 +2,16 @@
 title: "2.1 Source Locations and Spans"
 description: "2.1 Source Locations and Spans from 2. Diagnostic Infrastructure of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "diagnostic-infrastructure"
 specSection: "21-source-locations-and-spans"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,13 +24,13 @@ generated: true
 **SourceLocation.**
 
 $$
-\mathsf{SourceLocation}\ =\ \langle \mathsf{file},\ \mathsf{offset},\ \mathsf{line},\ \mathsf{column}\rangle 
+\mathsf{SourceLocation}\ =\ \langle \mathsf{file},\ \mathsf{offset},\ \mathsf{line},\ \mathsf{column}\rangle
 $$
 
 **Span.**
 
 $$
-\mathsf{Span}\ =\ \langle \mathsf{file},\ \mathsf{start}_{\mathsf{offset}},\ \mathsf{end}_{\mathsf{offset}},\ \mathsf{start}_{\mathsf{line}},\ \mathsf{start}_{\mathsf{col}},\ \mathsf{end}_{\mathsf{line}},\ \mathsf{end}_{\mathsf{col}}\rangle 
+\mathsf{Span}\ =\ \langle \mathsf{file},\ \mathsf{start}_{\mathsf{offset}},\ \mathsf{end}_{\mathsf{offset}},\ \mathsf{start}_{\mathsf{line}},\ \mathsf{start}_{\mathsf{col}},\ \mathsf{end}_{\mathsf{line}},\ \mathsf{end}_{\mathsf{col}}\rangle
 $$
 
 $$
@@ -41,7 +41,7 @@ $$
 
 $$
 \begin{array}{l}
-0\ \le \ o\quad \Gamma \ \vdash \ \operatorname{Locate}(S,\ o)\ \Downarrow \ \ell_{\mathsf{loc}}  \\[0.16em]
+0\ \le \ o\quad \Gamma \ \vdash \ \operatorname{Locate}(S,\ o)\ \Downarrow \ \ell_{\mathsf{loc}} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \ell_{\mathsf{loc}} \ :\ \mathsf{LocationOk}
 \end{array}
@@ -51,7 +51,7 @@ $$
 
 $$
 \begin{array}{l}
-0\ \le \ s\ \le \ e\ \le \ S.\mathsf{byte}_{\mathsf{len}}\quad \Gamma \ \vdash \ \operatorname{Locate}(S,\ s)\ \Downarrow \ \ell_{s} \quad \Gamma \ \vdash \ \operatorname{Locate}(S,\ e)\ \Downarrow \ \ell_{e}  \\[0.16em]
+0\ \le \ s\ \le \ e\ \le \ S.\mathsf{byte}_{\mathsf{len}}\quad \Gamma \ \vdash \ \operatorname{Locate}(S,\ s)\ \Downarrow \ \ell_{s} \quad \Gamma \ \vdash \ \operatorname{Locate}(S,\ e)\ \Downarrow \ \ell_{e} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \langle S.\mathsf{path},\ s,\ e,\ \ell_{s} .\mathsf{line},\ \ell_{s} .\mathsf{column},\ \ell_{e} .\mathsf{line},\ \ell_{e} .\mathsf{column}\rangle \ :\ \mathsf{SpanOk}
 \end{array}
@@ -73,6 +73,6 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ClampSpan}(S,\ s,\ e)\ \Downarrow \ (s',\ e')\quad \Gamma \ \vdash \ \langle S.\mathsf{path},\ s',\ e',\ \mathsf{line}_{s},\ \mathsf{col}_{s},\ \mathsf{line}_{e},\ \mathsf{col}_{e}\rangle \ :\ \mathsf{SpanOk} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{SpanOf}(S,\ s,\ e)\ \Downarrow \ \langle S.\mathsf{path},\ s',\ e',\ \mathsf{line}_{s},\ \mathsf{col}_{s},\ \mathsf{line}_{e},\ \mathsf{col}_{e}\rangle 
+\Gamma \ \vdash \ \operatorname{SpanOf}(S,\ s,\ e)\ \Downarrow \ \langle S.\mathsf{path},\ s',\ e',\ \mathsf{line}_{s},\ \mathsf{col}_{s},\ \mathsf{line}_{e},\ \mathsf{col}_{e}\rangle
 \end{array}
 $$

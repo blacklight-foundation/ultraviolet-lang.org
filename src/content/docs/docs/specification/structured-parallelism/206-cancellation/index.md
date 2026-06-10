@@ -2,16 +2,16 @@
 title: "20.6 Cancellation"
 description: "20.6 Cancellation from 20. Structured Parallelism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "structured-parallelism"
 specSection: "206-cancellation"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -52,7 +52,7 @@ $$
 $$
 
 $$
-\mathsf{CancelState}\ =\ \langle \mathsf{parent},\ \mathsf{status}\rangle 
+\mathsf{CancelState}\ =\ \langle \mathsf{parent},\ \mathsf{status}\rangle
 $$
 
 $$
@@ -88,11 +88,11 @@ $$
 When a cancel token is attached to a parallel block via the `cancel` option, the token is implicitly available within all enclosed `spawn` and `dispatch` bodies.
 
 $$
-\operatorname{CancelStatusOf}(\chi ,\ \mathsf{id})\ =\ s\ \Leftrightarrow \ \chi [\mathsf{id}]\ =\ \langle \_,\ s\rangle 
+\operatorname{CancelStatusOf}(\chi ,\ \mathsf{id})\ =\ s\ \Leftrightarrow \ \chi [\mathsf{id}]\ =\ \langle \_,\ s\rangle
 $$
 
 $$
-\operatorname{CancelParentOf}(\chi ,\ \mathsf{id})\ =\ p\ \Leftrightarrow \ \chi [\mathsf{id}]\ =\ \langle p,\ \_\rangle 
+\operatorname{CancelParentOf}(\chi ,\ \mathsf{id})\ =\ p\ \Leftrightarrow \ \chi [\mathsf{id}]\ =\ \langle p,\ \_\rangle
 $$
 
 $$
@@ -191,7 +191,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Call}(\operatorname{PathExpr}([\texttt{CancelToken},\ \texttt{new}]),\ []))\ \Downarrow \ \langle \mathsf{CancelCreateIR},\ \mathsf{CancelTokenVal}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Call}(\operatorname{PathExpr}([\texttt{CancelToken},\ \texttt{new}]),\ []))\ \Downarrow \ \langle \mathsf{CancelCreateIR},\ \mathsf{CancelTokenVal}\rangle
 \end{array}
 $$
 
@@ -200,7 +200,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MethodCall}(\mathsf{tok},\ \texttt{cancel},\ []))\ \Downarrow \ \langle \operatorname{CancelRequestIR}(\mathsf{tok}),\ \mathsf{UnitVal}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MethodCall}(\mathsf{tok},\ \texttt{cancel},\ []))\ \Downarrow \ \langle \operatorname{CancelRequestIR}(\mathsf{tok}),\ \mathsf{UnitVal}\rangle
 \end{array}
 $$
 
@@ -209,7 +209,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MethodCall}(\mathsf{tok},\ \texttt{wait\_cancelled},\ []))\ \Downarrow \ \langle \operatorname{CancelWaitIR}(\mathsf{tok}),\ \mathsf{AsyncVal}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{MethodCall}(\mathsf{tok},\ \texttt{wait\_cancelled},\ []))\ \Downarrow \ \langle \operatorname{CancelWaitIR}(\mathsf{tok}),\ \mathsf{AsyncVal}\rangle
 \end{array}
 $$
 

@@ -2,16 +2,16 @@
 title: "12.9 Type Aliases"
 description: "12.9 Type Aliases from 12. Concrete Data Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "concrete-data-types"
 specSection: "129-type-aliases"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -42,7 +42,7 @@ $$
 ### 12.9.3 AST Representation / Form
 
 $$
-\mathsf{TypeAliasDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{type},\ \mathsf{span},\ \mathsf{doc}\rangle 
+\mathsf{TypeAliasDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{type},\ \mathsf{span},\ \mathsf{doc}\rangle
 $$
 
 $$
@@ -55,14 +55,7 @@ $$
 
 ### 12.9.4 Static Semantics
 
-**(Bind-TypeAlias)**
-
-$$
-\begin{array}{l}
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ItemBindings}(\operatorname{TypeAliasDecl}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_),\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Type},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
-\end{array}
-$$
+Rule **(Bind-TypeAlias)** is defined once by §7.5.
 
 **(ResolveItem-TypeAlias)**
 
@@ -105,13 +98,13 @@ $$
 \operatorname{AliasModalRef}(\operatorname{TypeApply}(p,\ \mathsf{args}))\ =\ \operatorname{TypeApply}(\operatorname{AliasPath}(p),\ [\operatorname{AliasNorm}(t)\ \mid \ t\ \in \ \mathsf{args}]) \\[0.16em]
 \operatorname{AliasTransparent}(T,\ U)\ \Leftrightarrow \ \operatorname{AliasNorm}(T)\ =\ \operatorname{AliasNorm}(U) \\[0.16em]
 \mathsf{AliasGraph}\ =\ \{\ \langle p,\ q\rangle \ \mid \ \operatorname{AliasBody}(p)\ =\ T\ \land \ q\ \in \ \operatorname{TypePaths}(T)\ \} \\[0.16em]
-\operatorname{TypePaths}(\operatorname{TypePrim}(\_))\ =\ \emptyset  \\[0.16em]
+\operatorname{TypePaths}(\operatorname{TypePrim}(\_))\ =\ \emptyset \\[0.16em]
 \operatorname{TypePaths}(\operatorname{TypeRange}(\mathsf{base}))\ =\ \operatorname{TypePaths}(\mathsf{base}) \\[0.16em]
 \operatorname{TypePaths}(\operatorname{TypeRangeInclusive}(\mathsf{base}))\ =\ \operatorname{TypePaths}(\mathsf{base}) \\[0.16em]
 \operatorname{TypePaths}(\operatorname{TypeRangeFrom}(\mathsf{base}))\ =\ \operatorname{TypePaths}(\mathsf{base}) \\[0.16em]
 \operatorname{TypePaths}(\operatorname{TypeRangeTo}(\mathsf{base}))\ =\ \operatorname{TypePaths}(\mathsf{base}) \\[0.16em]
 \operatorname{TypePaths}(\operatorname{TypeRangeToInclusive}(\mathsf{base}))\ =\ \operatorname{TypePaths}(\mathsf{base}) \\[0.16em]
-\operatorname{TypePaths}(\mathsf{TypeRangeFull})\ =\ \emptyset  \\[0.16em]
+\operatorname{TypePaths}(\mathsf{TypeRangeFull})\ =\ \emptyset \\[0.16em]
 \operatorname{TypePaths}(\operatorname{TypePerm}(\_,\ T))\ =\ \operatorname{TypePaths}(T) \\[0.16em]
 \operatorname{TypePaths}(\operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}]))\ =\ \bigcup \_\{i=1\}^n\ \operatorname{TypePaths}(T_{i}) \\[0.16em]
 \operatorname{TypePaths}(\operatorname{TypeArray}(T,\ \_))\ =\ \operatorname{TypePaths}(T) \\[0.16em]
@@ -121,8 +114,8 @@ $$
 \operatorname{TypePaths}(\operatorname{TypeApply}(p,\ \mathsf{args}))\ =\ \{p\}\ \cup \ (\bigcup \_\{t\ \in \ \mathsf{args}\}\ \operatorname{TypePaths}(t)) \\[0.16em]
 \operatorname{TypePaths}(\operatorname{TypePtr}(T,\ \_))\ =\ \operatorname{TypePaths}(T) \\[0.16em]
 \operatorname{TypePaths}(\operatorname{TypeRawPtr}(\_,\ T))\ =\ \operatorname{TypePaths}(T) \\[0.16em]
-\operatorname{TypePaths}(\operatorname{TypeString}(\_))\ =\ \emptyset  \\[0.16em]
-\operatorname{TypePaths}(\operatorname{TypeBytes}(\_))\ =\ \emptyset  \\[0.16em]
+\operatorname{TypePaths}(\operatorname{TypeString}(\_))\ =\ \emptyset \\[0.16em]
+\operatorname{TypePaths}(\operatorname{TypeBytes}(\_))\ =\ \emptyset \\[0.16em]
 \operatorname{TypePaths}(\operatorname{TypeDynamic}(p))\ =\ \{p\} \\[0.16em]
 \operatorname{TypePaths}(\operatorname{TypeOpaque}(p))\ =\ \{p\} \\[0.16em]
 \operatorname{TypePaths}(\operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ \_))\ =\ \operatorname{TypePathsOfModalRef}(\mathsf{modal}_{\mathsf{ref}}) \\[0.16em]
@@ -183,9 +176,9 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}(p)\quad \operatorname{AliasBody}(p)\ =\ \mathsf{ty}\quad \Gamma \ \vdash \ \operatorname{layout}(\mathsf{ty})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle  \\[0.16em]
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{AliasBody}(p)\ =\ \mathsf{ty}\quad \Gamma \ \vdash \ \operatorname{layout}(\mathsf{ty})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle
 \end{array}
 $$
 
@@ -195,4 +188,4 @@ $$
 
 ### 12.9.7 Diagnostics
 
-Diagnostics are defined for reultraviolet type aliases. Generic-argument count and bound failures for alias applications are defined by the shared type-application rules in Chapter 14.
+Diagnostics are defined for recursive type aliases. Generic-argument count and bound failures for alias applications are defined by the shared type-application rules in Chapter 14.

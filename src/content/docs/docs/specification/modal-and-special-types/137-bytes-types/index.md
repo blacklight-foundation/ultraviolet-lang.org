@@ -2,16 +2,16 @@
 title: "13.7 Bytes Types"
 description: "13.7 Bytes Types from 13. Modal and Special Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "modal-and-special-types"
 specSection: "137-bytes-types"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -95,7 +95,7 @@ $$
 \ \langle \texttt{bytes::view\_string},\ [\langle \bot ,\ \texttt{data},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeBytes}(\texttt{@View})\rangle , \\[0.16em]
 \ \langle \texttt{bytes::append},\ [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeBytes}(\texttt{@Managed}))\rangle ,\ \langle \bot ,\ \texttt{data},\ \operatorname{TypeBytes}(\texttt{@View})\rangle ,\ \langle \bot ,\ \texttt{heap},\ \operatorname{TypeDynamic}(\texttt{HeapAllocator})\rangle ],\ \operatorname{TypeApply}([\texttt{"Outcome"}],\ [\operatorname{TypePrim}(\texttt{"()"}),\ \operatorname{TypePath}([\texttt{"AllocationError"}])])\rangle , \\[0.16em]
 \ \langle \texttt{bytes::length},\ [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{const},\ \operatorname{TypeBytes}(\texttt{@View}))\rangle ],\ \operatorname{TypePrim}(\texttt{"usize"})\rangle , \\[0.16em]
-\ \langle \texttt{bytes::is\_empty},\ [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{const},\ \operatorname{TypeBytes}(\texttt{@View}))\rangle ],\ \operatorname{TypePrim}(\texttt{"bool"})\rangle  \\[0.16em]
+\ \langle \texttt{bytes::is\_empty},\ [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{const},\ \operatorname{TypeBytes}(\texttt{@View}))\rangle ],\ \operatorname{TypePrim}(\texttt{"bool"})\rangle \\[0.16em]
 \}
 \end{array}
 $$
@@ -104,8 +104,8 @@ $$
 \begin{array}{l}
 \mathsf{StringBytesBuiltinTable}\ =\ \mathsf{StringBuiltinTable}\ \cup \ \mathsf{BytesBuiltinTable} \\[0.16em]
 \operatorname{BytesBuiltinSig}(\mathsf{method})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \langle \mathsf{method},\ \mathsf{params},\ \mathsf{ret}\rangle \ \in \ \mathsf{BytesBuiltinTable} \\[0.16em]
-\operatorname{StringBytesBuiltinSig}(\mathsf{method})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{StringBuiltinSig}(\mathsf{method})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
-\operatorname{StringBytesBuiltinSig}(\mathsf{method})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{BytesBuiltinSig}(\mathsf{method})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle 
+\operatorname{StringBytesBuiltinSig}(\mathsf{method})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{StringBuiltinSig}(\mathsf{method})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \\[0.16em]
+\operatorname{StringBytesBuiltinSig}(\mathsf{method})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \ \Leftrightarrow \ \operatorname{BytesBuiltinSig}(\mathsf{method})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle
 \end{array}
 $$
 
@@ -170,7 +170,7 @@ $$
 
 $$
 \begin{array}{l}
-r\ =\ v\quad \mathsf{BytesBuf}'\ =\ \mathsf{BytesBuf}[v\ \mapsto \ []]\quad \mathsf{BytesCap}'\ =\ \mathsf{BytesCap}[v\ \mapsto \ \mathsf{cap}']\quad \mathsf{cap}'\ \ge \ \mathsf{cap}\quad \mathsf{SB}'\ =\ \langle \mathsf{StrBuf},\ \mathsf{BytesBuf}',\ \mathsf{BytesCap}'\rangle  \\[0.16em]
+r\ =\ v\quad \mathsf{BytesBuf}'\ =\ \mathsf{BytesBuf}[v\ \mapsto \ []]\quad \mathsf{BytesCap}'\ =\ \mathsf{BytesCap}[v\ \mapsto \ \mathsf{cap}']\quad \mathsf{cap}'\ \ge \ \mathsf{cap}\quad \mathsf{SB}'\ =\ \langle \mathsf{StrBuf},\ \mathsf{BytesBuf}',\ \mathsf{BytesCap}'\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{BytesWithCapacity}(\mathsf{SB},\ \mathsf{cap},\ \mathsf{heap})\ \Downarrow \ (r,\ \mathsf{SB}')
 \end{array}
@@ -190,7 +190,7 @@ $$
 
 $$
 \begin{array}{l}
-r\ =\ v\quad \mathsf{BytesBuf}'\ =\ \mathsf{BytesBuf}[v\ \mapsto \ \operatorname{SliceBytes}(\mathsf{data})]\quad \mathsf{SB}'\ =\ \langle \mathsf{StrBuf},\ \mathsf{BytesBuf}',\ \mathsf{BytesCap}\rangle  \\[0.16em]
+r\ =\ v\quad \mathsf{BytesBuf}'\ =\ \mathsf{BytesBuf}[v\ \mapsto \ \operatorname{SliceBytes}(\mathsf{data})]\quad \mathsf{SB}'\ =\ \langle \mathsf{StrBuf},\ \mathsf{BytesBuf}',\ \mathsf{BytesCap}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{BytesFromSlice}(\mathsf{SB},\ \mathsf{data},\ \mathsf{heap})\ \Downarrow \ (r,\ \mathsf{SB}')
 \end{array}
@@ -220,7 +220,7 @@ $$
 
 $$
 \begin{array}{l}
-r\ =\ v\quad \mathsf{BytesBuf}'\ =\ \mathsf{BytesBuf}[v\ \mapsto \ \operatorname{ByteSeqOf}(\mathsf{SB},\ \mathsf{self})]\quad \mathsf{SB}'\ =\ \langle \mathsf{StrBuf},\ \mathsf{BytesBuf}',\ \mathsf{BytesCap}\rangle  \\[0.16em]
+r\ =\ v\quad \mathsf{BytesBuf}'\ =\ \mathsf{BytesBuf}[v\ \mapsto \ \operatorname{ByteSeqOf}(\mathsf{SB},\ \mathsf{self})]\quad \mathsf{SB}'\ =\ \langle \mathsf{StrBuf},\ \mathsf{BytesBuf}',\ \mathsf{BytesCap}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{BytesToManaged}(\mathsf{SB},\ \mathsf{self},\ \mathsf{heap})\ \Downarrow \ (r,\ \mathsf{SB}')
 \end{array}
@@ -270,7 +270,7 @@ $$
 
 $$
 \begin{array}{l}
-r\ =\ ()\quad \mathsf{BytesBuf}'\ =\ \mathsf{BytesBuf}[\mathsf{self}\ \mapsto \ \operatorname{ByteSeqOf}(\mathsf{SB},\ \mathsf{self})\ \mathbin{++} \ \operatorname{ByteSeqOf}(\mathsf{SB},\ \mathsf{data})]\quad \mathsf{SB}'\ =\ \langle \mathsf{StrBuf},\ \mathsf{BytesBuf}',\ \mathsf{BytesCap}\rangle  \\[0.16em]
+r\ =\ ()\quad \mathsf{BytesBuf}'\ =\ \mathsf{BytesBuf}[\mathsf{self}\ \mapsto \ \operatorname{ByteSeqOf}(\mathsf{SB},\ \mathsf{self})\ \mathbin{++} \ \operatorname{ByteSeqOf}(\mathsf{SB},\ \mathsf{data})]\quad \mathsf{SB}'\ =\ \langle \mathsf{StrBuf},\ \mathsf{BytesBuf}',\ \mathsf{BytesCap}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{BytesAppend}(\mathsf{SB},\ \mathsf{self},\ \mathsf{data},\ \mathsf{heap})\ \Downarrow \ (r,\ \mathsf{SB}')
 \end{array}
@@ -308,8 +308,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{BytesViewOf}(v_{\mathsf{managed}})\ =\ v_{\mathsf{view}}\ \Leftrightarrow  \\[0.16em]
-\ v_{\mathsf{managed}}\ =\ \operatorname{ManagedBytes}(\mathsf{ptr},\ \mathsf{len},\ \mathsf{cap})\ \land  \\[0.16em]
+\operatorname{BytesViewOf}(v_{\mathsf{managed}})\ =\ v_{\mathsf{view}}\ \Leftrightarrow \\[0.16em]
+\ v_{\mathsf{managed}}\ =\ \operatorname{ManagedBytes}(\mathsf{ptr},\ \mathsf{len},\ \mathsf{cap})\ \land \\[0.16em]
 \ v_{\mathsf{view}}\ =\ \operatorname{ViewBytes}(\mathsf{ptr},\ \mathsf{len})
 \end{array}
 $$
@@ -334,7 +334,7 @@ $$
 \begin{array}{l}
 \mathsf{BytesManagedFields}\ =\ [\langle \texttt{pointer},\ \operatorname{TypePtr}(\operatorname{TypePrim}(\texttt{"u8"}),\ \texttt{Valid})\rangle ,\ \langle \texttt{length},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle ,\ \langle \texttt{capacity},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle ] \\[0.16em]
 \mathsf{BytesManagedOffsets}\ =\ [0,\ \mathsf{PtrSize},\ 2\ \times \ \mathsf{PtrSize}] \\[0.16em]
-\operatorname{RecordLayout}(\mathsf{BytesManagedFields})\ =\ \langle 3\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign},\ \mathsf{BytesManagedOffsets}\rangle 
+\operatorname{RecordLayout}(\mathsf{BytesManagedFields})\ =\ \langle 3\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign},\ \mathsf{BytesManagedOffsets}\rangle
 \end{array}
 $$
 
@@ -342,7 +342,7 @@ $$
 \begin{array}{l}
 \mathsf{BytesViewFields}\ =\ [\langle \texttt{pointer},\ \operatorname{TypePtr}(\operatorname{TypePerm}(\texttt{const},\ \operatorname{TypePrim}(\texttt{"u8"})),\ \texttt{Valid})\rangle ,\ \langle \texttt{length},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle ] \\[0.16em]
 \mathsf{BytesViewOffsets}\ =\ [0,\ \mathsf{PtrSize}] \\[0.16em]
-\operatorname{RecordLayout}(\mathsf{BytesViewFields})\ =\ \langle 2\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign},\ \mathsf{BytesViewOffsets}\rangle 
+\operatorname{RecordLayout}(\mathsf{BytesViewFields})\ =\ \langle 2\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign},\ \mathsf{BytesViewOffsets}\rangle
 \end{array}
 $$
 
@@ -372,7 +372,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeBytes}(\texttt{@Managed}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle 3\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle 3\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign}\rangle
 \end{array}
 $$
 
@@ -402,7 +402,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeBytes}(\texttt{@View}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle 2\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle 2\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign}\rangle
 \end{array}
 $$
 
@@ -410,7 +410,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeBytes}(\bot )\quad \Gamma \ \vdash \ \operatorname{ModalLayout}(\texttt{bytes})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_,\ \_\rangle  \\[0.16em]
+T\ =\ \operatorname{TypeBytes}(\bot )\quad \Gamma \ \vdash \ \operatorname{ModalLayout}(\texttt{bytes})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{sizeof}(T)\ =\ \mathsf{size}
 \end{array}
@@ -420,7 +420,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeBytes}(\bot )\quad \Gamma \ \vdash \ \operatorname{ModalLayout}(\texttt{bytes})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_,\ \_\rangle  \\[0.16em]
+T\ =\ \operatorname{TypeBytes}(\bot )\quad \Gamma \ \vdash \ \operatorname{ModalLayout}(\texttt{bytes})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{alignof}(T)\ =\ \mathsf{align}
 \end{array}

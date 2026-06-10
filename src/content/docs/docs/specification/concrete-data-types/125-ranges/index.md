@@ -2,16 +2,16 @@
 title: "12.5 Ranges"
 description: "12.5 Ranges from 12. Concrete Data Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "concrete-data-types"
 specSection: "125-ranges"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -153,15 +153,7 @@ $$
 \end{array}
 $$
 
-**(T-Range-Lift)**
-
-$$
-\begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ r\ :\ \mathsf{Range}\quad \operatorname{ExprType}(r)\ =\ T \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ r\ :\ T
-\end{array}
-$$
+Rule **(T-Range-Lift)** is defined once by §16.4.4.
 
 **(Range-Full)**
 
@@ -237,15 +229,7 @@ $$
 \end{array}
 $$
 
-**(EvalSigma-Range)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalOptSigma}(\mathsf{lo}_{\mathsf{opt}},\ \sigma_{0} )\ \Downarrow \ (\operatorname{Val}(v_{\mathsf{lo}}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalOptSigma}(\mathsf{hi}_{\mathsf{opt}},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(v_{\mathsf{hi}}),\ \sigma_{2} )\quad r\ =\ \operatorname{RangeVal}(\mathsf{kind},\ v_{\mathsf{lo}},\ v_{\mathsf{hi}}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Range}(\mathsf{kind},\ \mathsf{lo}_{\mathsf{opt}},\ \mathsf{hi}_{\mathsf{opt}}),\ \sigma_{0} )\ \Downarrow \ (\operatorname{Val}(r),\ \sigma_{2} )
-\end{array}
-$$
+Rule **(EvalSigma-Range)** is defined once by §16.4.5.
 
 **(EvalSigma-Range-Ctrl)**
 
@@ -303,7 +287,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerRangeExpr}(\operatorname{Range}(\texttt{Full},\ \bot ,\ \bot ))\ \Downarrow \ \langle \varepsilon ,\ \operatorname{RangeVal}(\texttt{Full},\ \bot ,\ \bot )\rangle 
+\Gamma \ \vdash \ \operatorname{LowerRangeExpr}(\operatorname{Range}(\texttt{Full},\ \bot ,\ \bot ))\ \Downarrow \ \langle \varepsilon ,\ \operatorname{RangeVal}(\texttt{Full},\ \bot ,\ \bot )\rangle
 \end{array}
 $$
 
@@ -311,9 +295,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerRangeExpr}(\operatorname{Range}(\texttt{To},\ \bot ,\ e))\ \Downarrow \ \langle \mathsf{IR}_{e},\ \operatorname{RangeVal}(\texttt{To},\ \bot ,\ v)\rangle 
+\Gamma \ \vdash \ \operatorname{LowerRangeExpr}(\operatorname{Range}(\texttt{To},\ \bot ,\ e))\ \Downarrow \ \langle \mathsf{IR}_{e},\ \operatorname{RangeVal}(\texttt{To},\ \bot ,\ v)\rangle
 \end{array}
 $$
 
@@ -321,9 +305,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerRangeExpr}(\operatorname{Range}(\texttt{ToInclusive},\ \bot ,\ e))\ \Downarrow \ \langle \mathsf{IR}_{e},\ \operatorname{RangeVal}(\texttt{ToInclusive},\ \bot ,\ v)\rangle 
+\Gamma \ \vdash \ \operatorname{LowerRangeExpr}(\operatorname{Range}(\texttt{ToInclusive},\ \bot ,\ e))\ \Downarrow \ \langle \mathsf{IR}_{e},\ \operatorname{RangeVal}(\texttt{ToInclusive},\ \bot ,\ v)\rangle
 \end{array}
 $$
 
@@ -331,9 +315,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerRangeExpr}(\operatorname{Range}(\texttt{From},\ e,\ \bot ))\ \Downarrow \ \langle \mathsf{IR}_{e},\ \operatorname{RangeVal}(\texttt{From},\ v,\ \bot )\rangle 
+\Gamma \ \vdash \ \operatorname{LowerRangeExpr}(\operatorname{Range}(\texttt{From},\ e,\ \bot ))\ \Downarrow \ \langle \mathsf{IR}_{e},\ \operatorname{RangeVal}(\texttt{From},\ v,\ \bot )\rangle
 \end{array}
 $$
 
@@ -341,9 +325,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(e_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(e_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerRangeExpr}(\operatorname{Range}(\texttt{Inclusive},\ e_{1},\ e_{2}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{1},\ \mathsf{IR}_{2}),\ \operatorname{RangeVal}(\texttt{Inclusive},\ v_{1},\ v_{2})\rangle 
+\Gamma \ \vdash \ \operatorname{LowerRangeExpr}(\operatorname{Range}(\texttt{Inclusive},\ e_{1},\ e_{2}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{1},\ \mathsf{IR}_{2}),\ \operatorname{RangeVal}(\texttt{Inclusive},\ v_{1},\ v_{2})\rangle
 \end{array}
 $$
 
@@ -351,9 +335,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(e_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e_{1})\ \Downarrow \ \langle \mathsf{IR}_{1},\ v_{1}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerExpr}(e_{2})\ \Downarrow \ \langle \mathsf{IR}_{2},\ v_{2}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerRangeExpr}(\operatorname{Range}(\texttt{Exclusive},\ e_{1},\ e_{2}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{1},\ \mathsf{IR}_{2}),\ \operatorname{RangeVal}(\texttt{Exclusive},\ v_{1},\ v_{2})\rangle 
+\Gamma \ \vdash \ \operatorname{LowerRangeExpr}(\operatorname{Range}(\texttt{Exclusive},\ e_{1},\ e_{2}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{1},\ \mathsf{IR}_{2}),\ \operatorname{RangeVal}(\texttt{Exclusive},\ v_{1},\ v_{2})\rangle
 \end{array}
 $$
 
@@ -361,7 +345,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{TupleLayout}([T,\ T])\ \Downarrow \ \langle \mathsf{size},\ \_,\ \_\rangle  \\[0.16em]
+\operatorname{TupleLayout}([T,\ T])\ \Downarrow \ \langle \mathsf{size},\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{sizeof}(\operatorname{TypeRange}(T))\ =\ \mathsf{size}
 \end{array}
@@ -371,7 +355,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{TupleLayout}([T,\ T])\ \Downarrow \ \langle \_,\ \mathsf{align},\ \_\rangle  \\[0.16em]
+\operatorname{TupleLayout}([T,\ T])\ \Downarrow \ \langle \_,\ \mathsf{align},\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{alignof}(\operatorname{TypeRange}(T))\ =\ \mathsf{align}
 \end{array}
@@ -381,9 +365,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{TupleLayout}([T,\ T])\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_\rangle  \\[0.16em]
+\operatorname{TupleLayout}([T,\ T])\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(\operatorname{TypeRange}(T))\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(\operatorname{TypeRange}(T))\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle
 \end{array}
 $$
 
@@ -391,7 +375,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{TupleLayout}([T,\ T])\ \Downarrow \ \langle \mathsf{size},\ \_,\ \_\rangle  \\[0.16em]
+\operatorname{TupleLayout}([T,\ T])\ \Downarrow \ \langle \mathsf{size},\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{sizeof}(\operatorname{TypeRangeInclusive}(T))\ =\ \mathsf{size}
 \end{array}
@@ -401,7 +385,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{TupleLayout}([T,\ T])\ \Downarrow \ \langle \_,\ \mathsf{align},\ \_\rangle  \\[0.16em]
+\operatorname{TupleLayout}([T,\ T])\ \Downarrow \ \langle \_,\ \mathsf{align},\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{alignof}(\operatorname{TypeRangeInclusive}(T))\ =\ \mathsf{align}
 \end{array}
@@ -411,9 +395,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{TupleLayout}([T,\ T])\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_\rangle  \\[0.16em]
+\operatorname{TupleLayout}([T,\ T])\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(\operatorname{TypeRangeInclusive}(T))\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(\operatorname{TypeRangeInclusive}(T))\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle
 \end{array}
 $$
 
@@ -443,7 +427,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{sizeof}(\operatorname{TypeRangeFrom}(T))\ =\ \mathsf{size}\quad \Gamma \ \vdash \ \operatorname{alignof}(\operatorname{TypeRangeFrom}(T))\ =\ \mathsf{align} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(\operatorname{TypeRangeFrom}(T))\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(\operatorname{TypeRangeFrom}(T))\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle
 \end{array}
 $$
 
@@ -473,7 +457,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{sizeof}(\operatorname{TypeRangeTo}(T))\ =\ \mathsf{size}\quad \Gamma \ \vdash \ \operatorname{alignof}(\operatorname{TypeRangeTo}(T))\ =\ \mathsf{align} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(\operatorname{TypeRangeTo}(T))\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(\operatorname{TypeRangeTo}(T))\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle
 \end{array}
 $$
 
@@ -503,7 +487,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{sizeof}(\operatorname{TypeRangeToInclusive}(T))\ =\ \mathsf{size}\quad \Gamma \ \vdash \ \operatorname{alignof}(\operatorname{TypeRangeToInclusive}(T))\ =\ \mathsf{align} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(\operatorname{TypeRangeToInclusive}(T))\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(\operatorname{TypeRangeToInclusive}(T))\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle
 \end{array}
 $$
 
@@ -530,7 +514,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(\mathsf{TypeRangeFull})\ \Downarrow \ \langle 0,\ 1\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(\mathsf{TypeRangeFull})\ \Downarrow \ \langle 0,\ 1\rangle
 \end{array}
 $$
 

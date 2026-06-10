@@ -2,16 +2,16 @@
 title: "B.6 Declaration Grammar"
 description: "B.6 Declaration Grammar from Appendix B. Complete Grammar Reference of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "complete-grammar-reference"
 specSection: "b6-declaration-grammar"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -33,7 +33,8 @@ using_list      ::= "{" using_specifier ("," using_specifier)* ","? "}"
 using_specifier ::= identifier ("as" identifier)?
 module_path     ::= identifier ("::" identifier)*
 
-static_decl ::= attribute_list? visibility? ("let" | "var") binding_decl
+static_decl  ::= attribute_list? visibility? ("let" | "var") binding_decl
+binding_decl ::= pattern (":" type)? binding_op expression
 
 visibility ::= "public" | "internal" | "private"
 
@@ -50,7 +51,7 @@ receiver           ::= receiver_shorthand | explicit_receiver
 receiver_shorthand ::= "~" | "~!" | "~%"
 explicit_receiver  ::= param_mode? "self" ":" type
 
-record_decl       ::= attribute_list? visibility? "record" identifier generic_params? implements_clause? predicate_clause? "{" record_body "}" invariant_clause?
+record_decl       ::= attribute_list? visibility? "record" identifier generic_params? implements_clause? predicate_clause? "{" record_body "}" type_invariant?
 record_body       ::= record_member*
 record_member     ::= record_field_decl | method_def
 record_field_decl ::= attribute_list? visibility? identifier ":" type record_field_init?
@@ -59,18 +60,21 @@ field_decl        ::= visibility? identifier ":" type
 implements_clause ::= "<:" class_list
 class_list        ::= type_path ("," type_path)*
 
-enum_decl       ::= attribute_list? visibility? "enum" identifier generic_params? implements_clause? predicate_clause? "{" variant_members? "}" invariant_clause?
+enum_decl       ::= attribute_list? visibility? "enum" identifier generic_params? implements_clause? predicate_clause? "{" variant_members? "}" type_invariant?
 variant_members ::= variant (terminator variant)* terminator?
 variant         ::= identifier variant_payload? ("=" integer_literal)?
 variant_payload ::= "(" type_list ")" | "{" field_decl_list "}"
 type_list       ::= type ("," type)* ","?
 field_decl_list ::= field_decl ("," field_decl)* ","?
 
-modal_decl        ::= attribute_list? visibility? "modal" identifier generic_params? implements_clause? predicate_clause? "{" state_block+ "}" invariant_clause?
+modal_decl        ::= attribute_list? visibility? "modal" identifier generic_params? implements_clause? predicate_clause? "{" state_block+ "}" type_invariant?
 state_block       ::= "@" state_name "{" state_member* "}"
 state_member      ::= state_field_decl | state_method_def | transition_def
 state_field_decl  ::= attribute_list? visibility? identifier ":" type
-state_method_def  ::= attribute_list? visibility? "procedure" identifier generic_params? state_method_signature contract_clause? block_expr
+state_method_def       ::= attribute_list? visibility? "procedure" identifier generic_params? state_method_signature contract_clause? block_expr
+state_method_signature ::= "(" receiver ("," param_list)? ")" ("->" type)?
+predicate_clause       ::= "|:" predicate_req (terminator predicate_req)* terminator?
+predicate_req          ::= ("Bitcopy" | "Clone" | "Drop" | "FfiSafe") "(" type ")"
 transition_def    ::= attribute_list? visibility? "transition" identifier "(" param_list ")" "->" "@" target_state block_expr
 target_state      ::= identifier
 
@@ -79,6 +83,7 @@ superclass_bounds   ::= class_bound ("+" class_bound)*
 class_item          ::= abstract_procedure | concrete_procedure | abstract_field | abstract_state | associated_type
 abstract_procedure  ::= "procedure" identifier signature contract_clause?
 concrete_procedure  ::= "procedure" identifier signature contract_clause? block_expr
+key_boundary        ::= "#"
 abstract_field      ::= attribute_list? visibility? key_boundary? identifier ":" type
 abstract_state      ::= "@" identifier "{" field_list? "}"
 field_list          ::= abstract_field ("," abstract_field)* ","?

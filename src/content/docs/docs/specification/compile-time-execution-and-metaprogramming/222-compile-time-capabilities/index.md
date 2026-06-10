@@ -2,16 +2,16 @@
 title: "22.2 Compile-Time Capabilities"
 description: "22.2 Compile-Time Capabilities from 22. Compile-Time Execution and Metaprogramming of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "compile-time-execution-and-metaprogramming"
 specSection: "222-compile-time-capabilities"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -90,6 +90,7 @@ $$
 \operatorname{IoErrorVariant}(\mathsf{IoError}\mathbin{::} \mathsf{InvalidPath})\ =\ \texttt{InvalidPath} \\[0.16em]
 \operatorname{IoErrorVariant}(\mathsf{IoError}\mathbin{::} \mathsf{Busy})\ =\ \texttt{Busy} \\[0.16em]
 \operatorname{IoErrorVariant}(\mathsf{IoError}\mathbin{::} \mathsf{IoFailure})\ =\ \texttt{IoFailure} \\[0.16em]
+\operatorname{IoErrorVariant}(\mathsf{IoError}\mathbin{::} \mathsf{DirectoryNotEmpty})\ =\ \texttt{DirectoryNotEmpty} \\[0.16em]
 \operatorname{SpanValue}(\mathsf{sp})\ =\ \operatorname{CtRecord}([\texttt{SourceSpan}],\ [\langle \texttt{file},\ \operatorname{CtString}(\mathsf{sp}.\mathsf{file})\rangle ,\ \langle \texttt{start\_line},\ \operatorname{CtPrim}(\mathsf{sp}.\mathsf{start}_{\mathsf{line}})\rangle ,\ \langle \texttt{start\_col},\ \operatorname{CtPrim}(\mathsf{sp}.\mathsf{start}_{\mathsf{col}})\rangle ,\ \langle \texttt{end\_line},\ \operatorname{CtPrim}(\mathsf{sp}.\mathsf{end}_{\mathsf{line}})\rangle ,\ \langle \texttt{end\_col},\ \operatorname{CtPrim}(\mathsf{sp}.\mathsf{end}_{\mathsf{col}})\rangle ]) \\[0.16em]
 \operatorname{FieldInfoValue}(\mathsf{name},\ T,\ \mathsf{vis},\ \mathsf{index},\ \mathsf{sp})\ =\ \operatorname{CtRecord}([\texttt{FieldInfo}],\ [\langle \texttt{name},\ \operatorname{CtString}(\mathsf{name})\rangle ,\ \langle \texttt{type},\ \operatorname{CtType}(T)\rangle ,\ \langle \texttt{visibility},\ \operatorname{CtString}(\mathsf{vis})\rangle ,\ \langle \texttt{index},\ \operatorname{CtPrim}(\mathsf{index})\rangle ,\ \langle \texttt{span},\ \operatorname{SpanValue}(\mathsf{sp})\rangle ]) \\[0.16em]
 \operatorname{VariantInfoValue}(\mathsf{name},\ \mathsf{payload}_{\mathsf{kind}},\ \mathsf{payload}_{\mathsf{types}},\ \mathsf{field}_{\mathsf{names}},\ \mathsf{sp})\ =\ \operatorname{CtRecord}([\texttt{VariantInfo}],\ [\langle \texttt{name},\ \operatorname{CtString}(\mathsf{name})\rangle ,\ \langle \texttt{payload\_kind},\ \operatorname{CtString}(\mathsf{payload}_{\mathsf{kind}})\rangle ,\ \langle \texttt{payload\_types},\ \operatorname{CtSlice}([\operatorname{CtType}(T)\ \mid \ T\ \in \ \mathsf{payload}_{\mathsf{types}}])\rangle ,\ \langle \texttt{field\_names},\ \operatorname{CtSlice}([\operatorname{CtString}(f)\ \mid \ f\ \in \ \mathsf{field}_{\mathsf{names}}])\rangle ,\ \langle \texttt{span},\ \operatorname{SpanValue}(\mathsf{sp})\rangle ]) \\[0.16em]
@@ -102,7 +103,7 @@ TypeEmitterInterface =
 
 $$
 \begin{array}{l}
-\ \langle \texttt{"emit"},\ [\langle \bot ,\ \texttt{ast},\ \operatorname{TypePath}([\texttt{"Ast"}])\rangle ],\ \operatorname{TypePrim}(\texttt{"()"})\rangle  \\[0.16em]
+\ \langle \texttt{"emit"},\ [\langle \bot ,\ \texttt{ast},\ \operatorname{TypePath}([\texttt{"Ast"}])\rangle ],\ \operatorname{TypePrim}(\texttt{"()"})\rangle \\[0.16em]
 \}
 \end{array}
 $$
@@ -118,7 +119,7 @@ $$
 \ \langle \texttt{"states"},\ [\langle \bot ,\ \texttt{ty},\ \operatorname{TypePath}([\texttt{"Type"}])\rangle ],\ \operatorname{TypeSlice}(\operatorname{TypePath}([\texttt{"StateInfo"}]))\rangle , \\[0.16em]
 \ \langle \texttt{"implements\_form"},\ [\langle \bot ,\ \texttt{ty},\ \operatorname{TypePath}([\texttt{"Type"}])\rangle ,\ \langle \bot ,\ \texttt{form},\ \operatorname{TypePath}([\texttt{"Type"}])\rangle ],\ \operatorname{TypePrim}(\texttt{"bool"})\rangle , \\[0.16em]
 \ \langle \texttt{"type\_name"},\ [\langle \bot ,\ \texttt{ty},\ \operatorname{TypePath}([\texttt{"Type"}])\rangle ],\ \operatorname{TypeString}(\texttt{@Managed})\rangle , \\[0.16em]
-\ \langle \texttt{"module\_path"},\ [\langle \bot ,\ \texttt{ty},\ \operatorname{TypePath}([\texttt{"Type"}])\rangle ],\ \operatorname{TypeString}(\texttt{@Managed})\rangle  \\[0.16em]
+\ \langle \texttt{"module\_path"},\ [\langle \bot ,\ \texttt{ty},\ \operatorname{TypePath}([\texttt{"Type"}])\rangle ],\ \operatorname{TypeString}(\texttt{@Managed})\rangle \\[0.16em]
 \}
 \end{array}
 $$
@@ -132,7 +133,7 @@ $$
 \ \langle \texttt{"read\_bytes"},\ [\langle \bot ,\ \texttt{path},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeApply}([\texttt{"Outcome"}],\ [\operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeBytes}(\texttt{@Managed})),\ \operatorname{TypePath}([\texttt{"IoError"}])])\rangle , \\[0.16em]
 \ \langle \texttt{"exists"},\ [\langle \bot ,\ \texttt{path},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeApply}([\texttt{"Outcome"}],\ [\operatorname{TypePrim}(\texttt{"bool"}),\ \operatorname{TypePath}([\texttt{"IoError"}])])\rangle , \\[0.16em]
 \ \langle \texttt{"list\_dir"},\ [\langle \bot ,\ \texttt{path},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypeApply}([\texttt{"Outcome"}],\ [\operatorname{TypeSlice}(\operatorname{TypeString}(\texttt{@Managed})),\ \operatorname{TypePath}([\texttt{"IoError"}])])\rangle , \\[0.16em]
-\ \langle \texttt{"project\_root"},\ [],\ \operatorname{TypeString}(\texttt{@Managed})\rangle  \\[0.16em]
+\ \langle \texttt{"project\_root"},\ [],\ \operatorname{TypeString}(\texttt{@Managed})\rangle \\[0.16em]
 \}
 \end{array}
 $$
@@ -146,7 +147,7 @@ $$
 \ \langle \texttt{"warning"},\ [\langle \bot ,\ \texttt{message},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypePrim}(\texttt{"()"})\rangle , \\[0.16em]
 \ \langle \texttt{"note"},\ [\langle \bot ,\ \texttt{message},\ \operatorname{TypeString}(\texttt{@View})\rangle ],\ \operatorname{TypePrim}(\texttt{"()"})\rangle , \\[0.16em]
 \ \langle \texttt{"current\_span"},\ [],\ \operatorname{TypePath}([\texttt{"SourceSpan"}])\rangle , \\[0.16em]
-\ \langle \texttt{"current\_module"},\ [],\ \operatorname{TypeString}(\texttt{@Managed})\rangle  \\[0.16em]
+\ \langle \texttt{"current\_module"},\ [],\ \operatorname{TypeString}(\texttt{@Managed})\rangle \\[0.16em]
 \}
 \end{array}
 $$
@@ -179,13 +180,13 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{CtEmitItem}(\Xi ,\ \Phi ,\ a)\ =\ \Phi '\ \Leftrightarrow \ \operatorname{AstKindOf}(a)\ =\ \texttt{Item}\ \land \ \operatorname{AstHygieneOf}(a)\ =\ \langle \mathsf{quote}_{\mathsf{site}},\ \_,\ \_\rangle \ \land \ \operatorname{HygienizeAst}(a,\ \mathsf{quote}_{\mathsf{site}},\ \operatorname{CtSiteOf}(\Xi ),\ \operatorname{CtFreshSeed}(\Phi ))\ \Downarrow \ (a',\ n')\ \land \ \Phi '\ =\ \langle \operatorname{CtFiles}(\Phi ),\ \operatorname{CtProjectRoot}(\Phi ),\ \operatorname{CtDiags}(\Phi ),\ \operatorname{CtPendingEmits}(\Phi )\ \mathbin{++} \ [\operatorname{AstPayloadOf}(a')],\ n'\rangle  \\[0.16em]
+\operatorname{CtEmitItem}(\Xi ,\ \Phi ,\ a)\ =\ \Phi '\ \Leftrightarrow \ \operatorname{AstKindOf}(a)\ =\ \texttt{Item}\ \land \ \operatorname{AstHygieneOf}(a)\ =\ \langle \mathsf{quote}_{\mathsf{site}},\ \_,\ \_\rangle \ \land \ \operatorname{HygienizeAst}(a,\ \mathsf{quote}_{\mathsf{site}},\ \operatorname{CtSiteOf}(\Xi ),\ \operatorname{CtFreshSeed}(\Phi ))\ \Downarrow \ (a',\ n')\ \land \ \Phi '\ =\ \langle \operatorname{CtFiles}(\Phi ),\ \operatorname{CtProjectRoot}(\Phi ),\ \operatorname{CtDiags}(\Phi ),\ \operatorname{CtPendingEmits}(\Phi )\ \mathbin{++} \ [\operatorname{AstPayloadOf}(a')],\ n'\rangle \\[0.16em]
 \operatorname{CtProjectPath}(\Phi ,\ \mathsf{path})\ =\ q\ \Leftrightarrow \ \operatorname{RestrictPath}(\operatorname{CtProjectRoot}(\Phi ),\ \mathsf{path})\ =\ q \\[0.16em]
-\operatorname{CtProjectPath}(\Phi ,\ \mathsf{path})\ =\ \bot \ \Leftrightarrow \ \operatorname{RestrictPath}(\operatorname{CtProjectRoot}(\Phi ),\ \mathsf{path})\ =\ \bot  \\[0.16em]
-\operatorname{CtDiagAppend}(\Xi ,\ \Phi ,\ d)\ =\ \Phi '\ \Leftrightarrow \ \Phi '\ =\ \langle \operatorname{CtFiles}(\Phi ),\ \operatorname{CtProjectRoot}(\Phi ),\ \operatorname{CtDiags}(\Phi )\ \mathbin{++} \ [d],\ \operatorname{CtPendingEmits}(\Phi ),\ \operatorname{CtFreshSeed}(\Phi )\rangle  \\[0.16em]
-\operatorname{CtUserErrorDiag}(\Xi ,\ \mathsf{msg})\ =\ d\ \Leftrightarrow \ \operatorname{CtSiteOf}(\Xi )\ =\ \langle \_,\ \_,\ \mathsf{sp}\rangle \ \land \ d\ =\ \langle \texttt{E-CTE-0070},\ \mathsf{Error},\ \mathsf{msg},\ \mathsf{sp}\rangle  \\[0.16em]
-\operatorname{CtUserWarningDiag}(\Xi ,\ \mathsf{msg})\ =\ d\ \Leftrightarrow \ \operatorname{CtSiteOf}(\Xi )\ =\ \langle \_,\ \_,\ \mathsf{sp}\rangle \ \land \ d\ =\ \langle \texttt{W-CTE-0071},\ \mathsf{Warning},\ \mathsf{msg},\ \mathsf{sp}\rangle  \\[0.16em]
-\operatorname{CtUserNoteDiag}(\Xi ,\ \mathsf{msg})\ =\ d\ \Leftrightarrow \ \operatorname{CtSiteOf}(\Xi )\ =\ \langle \_,\ \_,\ \mathsf{sp}\rangle \ \land \ d\ =\ \langle \bot ,\ \mathsf{Note},\ \mathsf{msg},\ \mathsf{sp}\rangle  \\[0.16em]
+\operatorname{CtProjectPath}(\Phi ,\ \mathsf{path})\ =\ \bot \ \Leftrightarrow \ \operatorname{RestrictPath}(\operatorname{CtProjectRoot}(\Phi ),\ \mathsf{path})\ =\ \bot \\[0.16em]
+\operatorname{CtDiagAppend}(\Xi ,\ \Phi ,\ d)\ =\ \Phi '\ \Leftrightarrow \ \Phi '\ =\ \langle \operatorname{CtFiles}(\Phi ),\ \operatorname{CtProjectRoot}(\Phi ),\ \operatorname{CtDiags}(\Phi )\ \mathbin{++} \ [d],\ \operatorname{CtPendingEmits}(\Phi ),\ \operatorname{CtFreshSeed}(\Phi )\rangle \\[0.16em]
+\operatorname{CtUserErrorDiag}(\Xi ,\ \mathsf{msg})\ =\ d\ \Leftrightarrow \ \operatorname{CtSiteOf}(\Xi )\ =\ \langle \_,\ \_,\ \mathsf{sp}\rangle \ \land \ d\ =\ \langle \texttt{E-CTE-0070},\ \mathsf{Error},\ \mathsf{msg},\ \mathsf{sp}\rangle \\[0.16em]
+\operatorname{CtUserWarningDiag}(\Xi ,\ \mathsf{msg})\ =\ d\ \Leftrightarrow \ \operatorname{CtSiteOf}(\Xi )\ =\ \langle \_,\ \_,\ \mathsf{sp}\rangle \ \land \ d\ =\ \langle \texttt{W-CTE-0071},\ \mathsf{Warning},\ \mathsf{msg},\ \mathsf{sp}\rangle \\[0.16em]
+\operatorname{CtUserNoteDiag}(\Xi ,\ \mathsf{msg})\ =\ d\ \Leftrightarrow \ \operatorname{CtSiteOf}(\Xi )\ =\ \langle \_,\ \_,\ \mathsf{sp}\rangle \ \land \ d\ =\ \langle \bot ,\ \mathsf{Note},\ \mathsf{msg},\ \mathsf{sp}\rangle \\[0.16em]
 \operatorname{CtListDirResult}(\mathsf{io},\ q)\ =\ \operatorname{CtSlice}([\operatorname{CtString}(\mathsf{entry}.\mathsf{name})\ \mid \ \mathsf{entry}\ \in \ \mathsf{entries}])\ \Leftrightarrow \ \exists \ \omega .\ \operatorname{DirEntries}(\mathsf{io},\ q,\ \omega )\ =\ \mathsf{entries} \\[0.16em]
 \operatorname{CtListDirResult}(\mathsf{io},\ q)\ =\ \operatorname{CtEnum}([\texttt{IoError}],\ \operatorname{IoErrorVariant}(r),\ \bot )\ \Leftrightarrow \ \operatorname{IOOpenDir}(\mathsf{io},\ q)\ \Downarrow \ r\ \land \ r\ \in \ \mathsf{IoError} \\[0.16em]
 \operatorname{CtExistsResult}(\mathsf{io},\ q)\ =\ \operatorname{CtPrim}(b)\ \Leftrightarrow \ \operatorname{IOExists}(\mathsf{io},\ q)\ \Downarrow \ b\ \land \ b\ \in \ \mathsf{Bool} \\[0.16em]
@@ -227,7 +228,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{owner}\ =\ \texttt{files}\quad \mathsf{name}\ =\ \texttt{read}\quad \mathsf{args}\ =\ [\operatorname{CtString}(\mathsf{path})]\quad \operatorname{CtProjectPath}(\Phi ,\ \mathsf{path})\ =\ \bot  \\[0.16em]
+\mathsf{owner}\ =\ \texttt{files}\quad \mathsf{name}\ =\ \texttt{read}\quad \mathsf{args}\ =\ [\operatorname{CtString}(\mathsf{path})]\quad \operatorname{CtProjectPath}(\Phi ,\ \mathsf{path})\ =\ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{CtBuiltinCall}(\Xi ,\ \Phi ,\ \mathsf{owner},\ \mathsf{name},\ \mathsf{args})\ \Downarrow \ (\operatorname{CtOutcomeError}(\operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeString}(\texttt{@Managed})),\ \mathsf{IoError}\mathbin{::} \mathsf{InvalidPath}),\ \Phi )
 \end{array}
@@ -247,7 +248,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{owner}\ =\ \texttt{files}\quad \mathsf{name}\ =\ \texttt{read\_bytes}\quad \mathsf{args}\ =\ [\operatorname{CtString}(\mathsf{path})]\quad \operatorname{CtProjectPath}(\Phi ,\ \mathsf{path})\ =\ \bot  \\[0.16em]
+\mathsf{owner}\ =\ \texttt{files}\quad \mathsf{name}\ =\ \texttt{read\_bytes}\quad \mathsf{args}\ =\ [\operatorname{CtString}(\mathsf{path})]\quad \operatorname{CtProjectPath}(\Phi ,\ \mathsf{path})\ =\ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{CtBuiltinCall}(\Xi ,\ \Phi ,\ \mathsf{owner},\ \mathsf{name},\ \mathsf{args})\ \Downarrow \ (\operatorname{CtOutcomeError}(\operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeBytes}(\texttt{@Managed})),\ \mathsf{IoError}\mathbin{::} \mathsf{InvalidPath}),\ \Phi )
 \end{array}
@@ -267,7 +268,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{owner}\ =\ \texttt{files}\quad \mathsf{name}\ =\ \texttt{exists}\quad \mathsf{args}\ =\ [\operatorname{CtString}(\mathsf{path})]\quad \operatorname{CtProjectPath}(\Phi ,\ \mathsf{path})\ =\ \bot  \\[0.16em]
+\mathsf{owner}\ =\ \texttt{files}\quad \mathsf{name}\ =\ \texttt{exists}\quad \mathsf{args}\ =\ [\operatorname{CtString}(\mathsf{path})]\quad \operatorname{CtProjectPath}(\Phi ,\ \mathsf{path})\ =\ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{CtBuiltinCall}(\Xi ,\ \Phi ,\ \mathsf{owner},\ \mathsf{name},\ \mathsf{args})\ \Downarrow \ (\operatorname{CtOutcomeError}(\operatorname{TypePrim}(\texttt{"bool"}),\ \mathsf{IoError}\mathbin{::} \mathsf{InvalidPath}),\ \Phi )
 \end{array}
@@ -287,7 +288,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{owner}\ =\ \texttt{files}\quad \mathsf{name}\ =\ \texttt{list\_dir}\quad \mathsf{args}\ =\ [\operatorname{CtString}(\mathsf{path})]\quad \operatorname{CtProjectPath}(\Phi ,\ \mathsf{path})\ =\ \bot  \\[0.16em]
+\mathsf{owner}\ =\ \texttt{files}\quad \mathsf{name}\ =\ \texttt{list\_dir}\quad \mathsf{args}\ =\ [\operatorname{CtString}(\mathsf{path})]\quad \operatorname{CtProjectPath}(\Phi ,\ \mathsf{path})\ =\ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{CtBuiltinCall}(\Xi ,\ \Phi ,\ \mathsf{owner},\ \mathsf{name},\ \mathsf{args})\ \Downarrow \ (\operatorname{CtOutcomeError}(\operatorname{TypeSlice}(\operatorname{TypeString}(\texttt{@Managed})),\ \mathsf{IoError}\mathbin{::} \mathsf{InvalidPath}),\ \Phi )
 \end{array}
@@ -327,7 +328,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{owner}\ =\ \texttt{diagnostics}\quad \mathsf{name}\ =\ \texttt{current\_span}\quad \operatorname{CtSiteOf}(\Xi )\ =\ \langle \_,\ \_,\ \mathsf{sp}\rangle  \\[0.16em]
+\mathsf{owner}\ =\ \texttt{diagnostics}\quad \mathsf{name}\ =\ \texttt{current\_span}\quad \operatorname{CtSiteOf}(\Xi )\ =\ \langle \_,\ \_,\ \mathsf{sp}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{CtBuiltinCall}(\Xi ,\ \Phi ,\ \mathsf{owner},\ \mathsf{name},\ [])\ \Downarrow \ (\operatorname{SpanValue}(\mathsf{sp}),\ \Phi )
 \end{array}
@@ -337,7 +338,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{owner}\ =\ \texttt{diagnostics}\quad \mathsf{name}\ =\ \texttt{current\_module}\quad \operatorname{CtSiteOf}(\Xi )\ =\ \langle \mathsf{mp},\ \_,\ \_\rangle  \\[0.16em]
+\mathsf{owner}\ =\ \texttt{diagnostics}\quad \mathsf{name}\ =\ \texttt{current\_module}\quad \operatorname{CtSiteOf}(\Xi )\ =\ \langle \mathsf{mp},\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{CtBuiltinCall}(\Xi ,\ \Phi ,\ \mathsf{owner},\ \mathsf{name},\ [])\ \Downarrow \ (\operatorname{CtString}(\operatorname{ModulePathText}(\mathsf{mp})),\ \Phi )
 \end{array}

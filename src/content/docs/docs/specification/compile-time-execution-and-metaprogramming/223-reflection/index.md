@@ -2,16 +2,16 @@
 title: "22.3 Reflection"
 description: "22.3 Reflection from 22. Compile-Time Execution and Metaprogramming of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "compile-time-execution-and-metaprogramming"
 specSection: "223-reflection"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -51,9 +51,9 @@ $$
 \operatorname{Reflectable}(\operatorname{TypeRefine}(T,\ \_))\ \Leftrightarrow \ \operatorname{Reflectable}(T) \\[0.16em]
 \operatorname{Reflectable}(\operatorname{TypeModalState}(p,\ \mathsf{args},\ \_))\ \Leftrightarrow \ \operatorname{Reflectable}(\operatorname{TypeApply}(p,\ \mathsf{args})) \\[0.16em]
 \operatorname{Reflectable}(\operatorname{TypePath}(p))\ \Leftrightarrow \ \operatorname{Reflectable}(\operatorname{TypeApply}(p,\ [])) \\[0.16em]
-\operatorname{Reflectable}(\operatorname{TypeApply}(p,\ \mathsf{args}))\ \Leftrightarrow  \\[0.16em]
+\operatorname{Reflectable}(\operatorname{TypeApply}(p,\ \mathsf{args}))\ \Leftrightarrow \\[0.16em]
 \ T\ =\ \operatorname{TypePrim}(\_)\ \lor \ T\ =\ \operatorname{TypeTuple}(\_)\ \lor \ T\ =\ \operatorname{TypeArray}(\_,\ \_)\ \lor \ T\ =\ \operatorname{TypeSlice}(\_)\ \lor \ T\ =\ \operatorname{TypeUnion}(\_)\quad \mathsf{if}\ \operatorname{TypeAliasDecl}(p)\ =\ A\ \land \ \operatorname{AliasBody}(A)\ =\ T\ \land \ \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(A.\mathsf{generic}_{\mathsf{params}})\ \land \ \operatorname{DefaultArgs}(\mathsf{params}_{\mathsf{gen}},\ \mathsf{args})\ =\ \mathsf{args}'\ \land \ \theta \ =\ [\mathsf{args}'\_i\ /\ \mathsf{params}_{\mathsf{gen}}[i].\mathsf{name}] \\[0.16em]
-\operatorname{Reflectable}(\operatorname{TypeApply}(p,\ \mathsf{args}))\ \Leftrightarrow  \\[0.16em]
+\operatorname{Reflectable}(\operatorname{TypeApply}(p,\ \mathsf{args}))\ \Leftrightarrow \\[0.16em]
 \ \operatorname{AttrByName}(\operatorname{DeclOf}(p),\ \texttt{"reflect"})\ \ne \ []\quad \mathsf{if}\ (\operatorname{RecordDecl}(p)\ \mathsf{defined}\ \lor \ \operatorname{EnumDecl}(p)\ \mathsf{defined}\ \lor \ \operatorname{ModalDecl}(p)\ \mathsf{defined})\ \land \ \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(\operatorname{DeclOf}(p).\mathsf{generic}_{\mathsf{params}})\ \land \ \operatorname{DefaultArgs}(\mathsf{params}_{\mathsf{gen}},\ \mathsf{args})\ =\ \mathsf{args}' \\[0.16em]
 \operatorname{Reflectable}(\operatorname{TypePrim}(\_))\ \Leftrightarrow \ \mathsf{true} \\[0.16em]
 \operatorname{Reflectable}(\operatorname{TypeTuple}(\_))\ \Leftrightarrow \ \mathsf{true} \\[0.16em]

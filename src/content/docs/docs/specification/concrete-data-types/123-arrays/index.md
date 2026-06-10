@@ -2,16 +2,16 @@
 title: "12.3 Arrays"
 description: "12.3 Arrays from 12. Concrete Data Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "concrete-data-types"
 specSection: "123-arrays"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -43,74 +43,7 @@ $$
 \end{array}
 $$
 
-**(Parse-Array-Segment-Elem)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseExpr}(P)\ \Downarrow \ (P_{1},\ \mathsf{value})\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{";"}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParseArraySegment}(P)\ \Downarrow \ (P_{1},\ \operatorname{ArrayElemSegment}(\mathsf{value}))
-\end{array}
-$$
-
-**(Parse-Array-Segment-Repeat)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseExpr}(P)\ \Downarrow \ (P_{1},\ \mathsf{value})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{";"})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{count}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParseArraySegment}(P)\ \Downarrow \ (P_{2},\ \operatorname{ArrayRepeatSegment}(\mathsf{value},\ \mathsf{count}))
-\end{array}
-$$
-
-**(Parse-Array-Segment-List-Empty)**
-
-$$
-\begin{array}{l}
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParseArraySegmentList}(P)\ \Downarrow \ (P,\ [])
-\end{array}
-$$
-
-**(Parse-Array-Segment-List-Single)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseArraySegment}(P)\ \Downarrow \ (P_{1},\ \mathsf{seg})\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{","}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParseArraySegmentList}(P)\ \Downarrow \ (P_{1},\ [\mathsf{seg}])
-\end{array}
-$$
-
-**(Parse-Array-Segment-List-Comma)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseArraySegment}(P)\ \Downarrow \ (P_{1},\ \mathsf{seg})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{","})\quad \Gamma \ \vdash \ \operatorname{ParseArraySegmentList}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{segs}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParseArraySegmentList}(P)\ \Downarrow \ (P_{2},\ [\mathsf{seg}]\ \mathbin{++} \ \mathsf{segs})
-\end{array}
-$$
-
-**(Parse-Array-Literal)**
-
-$$
-\begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"["})\quad \Gamma \ \vdash \ \operatorname{ParseArraySegmentList}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{segs})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"]"}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{ArrayExpr}(\mathsf{segs}))
-\end{array}
-$$
-
-**(Postfix-Index)**
-
-$$
-\begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"["})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{idx})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"]"}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PostfixStep}(P,\ e)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{IndexAccess}(e,\ \mathsf{idx}))
-\end{array}
-$$
+Rules **(Parse-Array-Segment-Elem)**, **(Parse-Array-Segment-Repeat)**, **(Parse-Array-Segment-List-Empty)**, **(Parse-Array-Segment-List-Single)**, **(Parse-Array-Segment-List-Comma)**, **(Parse-Array-Literal)**, **(Postfix-Index)** are defined once by §16.2.2, §16.6.2.
 
 ### 12.3.3 AST Representation / Form
 
@@ -153,63 +86,7 @@ $$
 \end{array}
 $$
 
-**(T-Array-Literal-Segments)**
-
-$$
-\begin{array}{l}
-\forall \ i, \\[0.16em]
-\ (s_{i}\ =\ \operatorname{ArrayElemSegment}(\mathsf{value}_{i})\ \Rightarrow \ \Gamma \ \vdash \ \mathsf{value}_{i}\ :\ T)\ \land  \\[0.16em]
-\ (s_{i}\ =\ \operatorname{ArrayRepeatSegment}(\mathsf{value}_{i},\ \mathsf{count}_{i})\ \Rightarrow  \\[0.16em]
-\quad \Gamma \ \vdash \ \mathsf{value}_{i}\ :\ T\ \land  \\[0.16em]
-\quad \operatorname{BitcopyType}(T)\ \land  \\[0.16em]
-\quad \Gamma \ \vdash \ \mathsf{count}_{i}\ :\ U_{i}\ \land  \\[0.16em]
-\quad (\operatorname{IntType}(U_{i})\ \lor \ U_{i}\ =\ \operatorname{TypePrim}(\texttt{"usize"}))\ \land  \\[0.16em]
-\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{count}_{i})\ \Downarrow \ n_{i}) \\[0.16em]
-N\ =\ \Sigma_{i} \ \operatorname{SegLen}(s_{i}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ArrayExpr}([s_{1},\ \ldots ,\ s_{k}])\ :\ \operatorname{TypeArray}(T,\ \operatorname{Literal}(\operatorname{IntLiteral}(N)))
-\end{array}
-$$
-
-**(T-Index-Array)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ \mathsf{len})\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \operatorname{ConstIndex}(e_{2})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ i\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{len})\ \Downarrow \ n\quad i\ <\ n\quad \operatorname{BitcopyType}(T) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ T
-\end{array}
-$$
-
-**(T-Index-Array-Dynamic)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ \mathsf{len})\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \mathsf{InDynamicContext}\quad \operatorname{BitcopyType}(T) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ T
-\end{array}
-$$
-
-**(T-Index-Array-Perm)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ \mathsf{len}))\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \operatorname{ConstIndex}(e_{2})\quad \Gamma \ \vdash \ \operatorname{ConstLen}(e_{2})\ \Downarrow \ i\quad \Gamma \ \vdash \ \operatorname{ConstLen}(\mathsf{len})\ \Downarrow \ n\quad i\ <\ n\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ T)
-\end{array}
-$$
-
-**(T-Index-Array-Perm-Dynamic)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ \mathsf{len}))\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \lnot \ \operatorname{ConstIndex}(e_{2})\quad \mathsf{InDynamicContext}\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ T)
-\end{array}
-$$
+Rules **(T-Array-Literal-Segments)**, **(T-Index-Array)**, **(T-Index-Array-Dynamic)**, **(T-Index-Array-Perm)**, **(T-Index-Array-Perm-Dynamic)** are defined once by §16.2.4, §16.6.4.
 
 **(P-Index-Array)**
 
@@ -316,15 +193,7 @@ $$
 \end{array}
 $$
 
-**(EvalSigma-Index)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{base},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{b}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{idx},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(v_{i}),\ \sigma_{2} )\quad \operatorname{IndexValue}(v_{b},\ v_{i})\ =\ v_{e} \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{IndexAccess}(\mathsf{base},\ \mathsf{idx}),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{e}),\ \sigma_{2} )
-\end{array}
-$$
+Rule **(EvalSigma-Index)** is defined once by §16.2.5.
 
 **(EvalSigma-Index-OOB)**
 
@@ -364,7 +233,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{sizeof}(\operatorname{TypeArray}(T_{0},\ e))\ =\ \mathsf{size}\quad \Gamma \ \vdash \ \operatorname{alignof}(\operatorname{TypeArray}(T_{0},\ e))\ =\ \mathsf{align} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(\operatorname{TypeArray}(T_{0},\ e))\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(\operatorname{TypeArray}(T_{0},\ e))\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle
 \end{array}
 $$
 
@@ -376,15 +245,7 @@ $$
 \operatorname{ValueBits}(\operatorname{TypeArray}(T,\ e),\ [v_{0},\ \ldots ,\ v\_\{n-1\}])\ =\ \mathsf{bits}\ \Leftrightarrow \ \operatorname{ArrayLen}(e)\ =\ n\ \land \ s\ =\ \operatorname{sizeof}(T)\ \land \ \mid \mathsf{bits}\mid \ =\ n\ \times \ s\ \land \ \forall \ i.\ 0\ \le \ i\ <\ n\ \Rightarrow \ (\operatorname{ValueBits}(T,\ v_{i})\ =\ b_{i}\ \land \ \mathsf{bits}[i\ \times \ s\ ..\ i\ \times \ s\ +\ \mid b_{i}\mid )\ =\ b_{i})
 $$
 
-**(Lower-Expr-Array)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerArraySegments}(\mathsf{segs})\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{vec}_{v}\rangle  \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{ArrayExpr}(\mathsf{segs}))\ \Downarrow \ \langle \mathsf{IR},\ [v_{1},\ \ldots ,\ v_{n}]\rangle 
-\end{array}
-$$
+Rule **(Lower-Expr-Array)** is defined once by §16.6.6.
 
 ### 12.3.7 Diagnostics
 

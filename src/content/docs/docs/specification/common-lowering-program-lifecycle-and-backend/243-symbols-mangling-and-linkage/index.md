@@ -2,16 +2,16 @@
 title: "24.3 Symbols, Mangling, and Linkage"
 description: "24.3 Symbols, Mangling, and Linkage from 24. Common Lowering, Program Lifecycle, and Backend of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "common-lowering-program-lifecycle-and-backend"
 specSection: "243-symbols-mangling-and-linkage"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -48,7 +48,7 @@ $$
 \operatorname{ItemPath}(m)\ =\ \operatorname{ClassPath}(\mathsf{Cl})\ \mathbin{++} \ [m.\mathsf{name}]\ \Leftrightarrow \ m\ \in \ \operatorname{ClassMethods}(\mathsf{Cl}) \\[0.16em]
 \operatorname{ItemPath}(m)\ =\ \operatorname{ModalPath}(M)\ \mathbin{++} \ [S]\ \mathbin{++} \ [m.\mathsf{name}]\ \Leftrightarrow \ S\ \in \ \operatorname{States}(M)\ \land \ m\ \in \ \operatorname{Methods}(M,\ S) \\[0.16em]
 \operatorname{ItemPath}(\mathsf{tr})\ =\ \operatorname{ModalPath}(M)\ \mathbin{++} \ [S]\ \mathbin{++} \ [\mathsf{tr}.\mathsf{name}]\ \Leftrightarrow \ S\ \in \ \operatorname{States}(M)\ \land \ \mathsf{tr}\ \in \ \operatorname{Transitions}(M,\ S) \\[0.16em]
-\operatorname{ItemPath}(\mathsf{it})\ =\ \operatorname{PathOfModule}(\operatorname{ModuleOf}(\mathsf{it}))\ \mathbin{++} \ [\operatorname{StaticName}(\mathsf{binding})]\ \Leftrightarrow \ \mathsf{it}\ =\ \operatorname{StaticDecl}(\_,\ \_,\ \_,\ \mathsf{binding},\ \mathsf{span},\ \mathsf{doc})\ \land \ \operatorname{StaticName}(\mathsf{binding})\ \ne \ \bot  \\[0.16em]
+\operatorname{ItemPath}(\mathsf{it})\ =\ \operatorname{PathOfModule}(\operatorname{ModuleOf}(\mathsf{it}))\ \mathbin{++} \ [\operatorname{StaticName}(\mathsf{binding})]\ \Leftrightarrow \ \mathsf{it}\ =\ \operatorname{StaticDecl}(\_,\ \_,\ \_,\ \mathsf{binding},\ \mathsf{span},\ \mathsf{doc})\ \land \ \operatorname{StaticName}(\mathsf{binding})\ \ne \ \bot \\[0.16em]
 \operatorname{ItemPath}(\operatorname{StaticBinding}(\operatorname{StaticDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{mut},\ \mathsf{binding},\ \mathsf{span},\ \mathsf{doc}),\ x))\ =\ \operatorname{PathOfModule}(\operatorname{ModuleOf}(\operatorname{StaticDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{mut},\ \mathsf{binding},\ \mathsf{span},\ \mathsf{doc})))\ \mathbin{++} \ [x] \\[0.16em]
 \operatorname{ItemPath}(\operatorname{VTableDecl}(T,\ \mathsf{Cl}))\ =\ [\texttt{"vtable"}]\ \mathbin{++} \ \operatorname{PathOfType}(T)\ \mathbin{++} \ [\texttt{"cl"}]\ \mathbin{++} \ \operatorname{ClassPath}(\mathsf{Cl}) \\[0.16em]
 \operatorname{ItemPath}(\operatorname{DefaultImpl}(T,\ m))\ =\ [\texttt{"default"}]\ \mathbin{++} \ \operatorname{PathOfType}(T)\ \mathbin{++} \ [\texttt{"cl"}]\ \mathbin{++} \ \operatorname{ClassPath}(\mathsf{Cl})\ \mathbin{++} \ [m.\mathsf{name}]\ \Leftrightarrow \ m\ \in \ \operatorname{ClassMethods}(\mathsf{Cl})
@@ -93,7 +93,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{AttrListOf}(\mathsf{item})\ =\ \mathsf{attrs}\quad \mathsf{if}\ \mathsf{item}.\mathsf{attrs}_{\mathsf{opt}}\ =\ \mathsf{attrs} \\[0.16em]
-\operatorname{AttrListOf}(\mathsf{item})\ =\ []\quad \mathsf{if}\ \mathsf{item}.\mathsf{attrs}_{\mathsf{opt}}\ =\ \bot  \\[0.16em]
+\operatorname{AttrListOf}(\mathsf{item})\ =\ []\quad \mathsf{if}\ \mathsf{item}.\mathsf{attrs}_{\mathsf{opt}}\ =\ \bot \\[0.16em]
 \operatorname{AttrByName}(\mathsf{item},\ n)\ =\ [a\ \mid \ a\ \in \ \operatorname{AttrListOf}(\mathsf{item})\ \land \ a.\mathsf{name}\ =\ n] \\[0.16em]
 \operatorname{MangleAttr}(\mathsf{item})\ =\ \mathsf{mode}\ \Leftrightarrow \ \exists \ a\ \in \ \operatorname{AttrByName}(\mathsf{item},\ \texttt{"mangle"}).\ \operatorname{MangleArgs}(a)\ =\ \mathsf{mode} \\[0.16em]
 \operatorname{MangleArgs}(a)\ =\ \texttt{none}\ \Leftrightarrow \ a.\mathsf{args}\ =\ [\operatorname{Identifier}(\texttt{none})] \\[0.16em]
@@ -106,10 +106,10 @@ $$
 $$
 \begin{array}{l}
 \operatorname{StringText}(\mathsf{tok})\ =\ s\ \Leftrightarrow \ \mathsf{tok}.\mathsf{kind}\ =\ \mathsf{StringLiteral}\ \land \ T\ =\ \operatorname{Lexeme}(\mathsf{tok})\ \land \ \operatorname{StringBytesFrom}(T,\ 1,\ \mid T\mid -1)\ =\ \mathsf{bytes}\ \land \ \operatorname{DecodeUTF8}(\mathsf{bytes})\ =\ s \\[0.16em]
-\operatorname{ExternAbiName}(\mathsf{abi}_{\mathsf{opt}})\ =\ \texttt{"C"}\quad \mathsf{if}\ \mathsf{abi}_{\mathsf{opt}}\ =\ \bot  \\[0.16em]
+\operatorname{ExternAbiName}(\mathsf{abi}_{\mathsf{opt}})\ =\ \texttt{"C"}\quad \mathsf{if}\ \mathsf{abi}_{\mathsf{opt}}\ =\ \bot \\[0.16em]
 \operatorname{ExternAbiName}(\mathsf{abi}_{\mathsf{opt}})\ =\ s\quad \mathsf{if}\ \mathsf{abi}_{\mathsf{opt}}\ =\ \operatorname{IdentAbi}(s) \\[0.16em]
 \operatorname{ExternAbiName}(\mathsf{abi}_{\mathsf{opt}})\ =\ s\quad \mathsf{if}\ \mathsf{abi}_{\mathsf{opt}}\ =\ \operatorname{StringAbi}(\mathsf{tok})\ \land \ \operatorname{StringText}(\mathsf{tok})\ =\ s \\[0.16em]
-\operatorname{ExternAbiExplicit}(\mathsf{abi}_{\mathsf{opt}})\ \Leftrightarrow \ \mathsf{abi}_{\mathsf{opt}}\ \ne \ \bot  \\[0.16em]
+\operatorname{ExternAbiExplicit}(\mathsf{abi}_{\mathsf{opt}})\ \Leftrightarrow \ \mathsf{abi}_{\mathsf{opt}}\ \ne \ \bot \\[0.16em]
 \operatorname{ExternAbiOf}(\mathsf{proc})\ =\ \mathsf{abi}_{\mathsf{opt}}\ \Leftrightarrow \ \operatorname{ExternBlockOf}(\mathsf{proc})\ =\ \operatorname{ExternBlock}(\_,\ \_,\ \mathsf{abi}_{\mathsf{opt}},\ \_,\ \_,\ \_) \\[0.16em]
 \operatorname{ExternRawName}(\mathsf{proc})\ \Leftrightarrow \ \mathsf{proc}\ =\ \operatorname{ExternProcDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \land \ \operatorname{ExternAbiName}(\operatorname{ExternAbiOf}(\mathsf{proc}))\ \in \ \{\texttt{"C"},\ \texttt{"C-unwind"}\}
 \end{array}
@@ -117,7 +117,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{LinkName}(\mathsf{item})\ =\ \mathsf{sym}\ \Leftrightarrow  \\[0.16em]
+\operatorname{LinkName}(\mathsf{item})\ =\ \mathsf{sym}\ \Leftrightarrow \\[0.16em]
 \ \operatorname{MangleAttr}(\mathsf{item})\ =\ \texttt{none}\quad \land \ \mathsf{sym}\ =\ \operatorname{RawSym}(\operatorname{ItemName}(\mathsf{item})) \\[0.16em]
 \ \operatorname{MangleAttr}(\mathsf{item})\ =\ s\ \land \ s\ \ne \ \texttt{none}\quad \land \ \mathsf{sym}\ =\ \operatorname{RawSym}(s) \\[0.16em]
 \ \operatorname{MangleAttr}(\mathsf{item})\ \mathsf{undefined}\ \land \ \operatorname{ExternRawName}(\mathsf{item})\quad \land \ \mathsf{sym}\ =\ \operatorname{RawSym}(\operatorname{ItemName}(\mathsf{item})) \\[0.16em]
@@ -222,7 +222,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{item}\ =\ \operatorname{StaticDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{mut},\ \mathsf{binding},\ \mathsf{span},\ \mathsf{doc})\quad \operatorname{StaticName}(\mathsf{binding})\ \ne \ \bot  \\[0.16em]
+\mathsf{item}\ =\ \operatorname{StaticDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{mut},\ \mathsf{binding},\ \mathsf{span},\ \mathsf{doc})\quad \operatorname{StaticName}(\mathsf{binding})\ \ne \ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{Mangle}(\mathsf{item})\ \Downarrow \ \operatorname{ScopedSym}(\mathsf{item})
 \end{array}

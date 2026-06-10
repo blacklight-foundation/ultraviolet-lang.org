@@ -2,16 +2,16 @@
 title: "16.10 Expression Diagnostics Supplement"
 description: "16.10 Expression Diagnostics Supplement from 16. Expressions of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "expressions"
 specSection: "1610-expression-diagnostics-supplement"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -27,20 +27,20 @@ This section owns diagnostics for general expression typing, calls, indexing res
 | ------------- | -------- | ------------ | ----------------------------------------------------------------------------------- |
 | `E-SEM-2525`  | Error    | Compile-time | Operator operands are not compatible with the operator's type requirements          |
 | `E-SEM-2526`  | Error    | Compile-time | Expression type incompatible with expected type                                     |
-| `E-SEM-2527`  | Error    | Compile-time | Indexing applied to non-indexable type                                              |
-| `E-SEM-2528`  | Error    | Compile-time | Invalid cast                                                                        |
-| `E-SEM-2531`  | Error    | Compile-time | Callee expression is not of FUNCTION type                                           |
-| `E-SEM-2532`  | Error    | Compile-time | Argument count mismatch                                                             |
-| `E-SEM-2533`  | Error    | Compile-time | Argument type incompatible with parameter type                                      |
-| `E-SEM-2534`  | Error    | Compile-time | Consuming parameter requires ownership transfer with `move` or an explicit duplicate with `copy` |
-| `E-SEM-2535`  | Error    | Compile-time | `move` argument provided for non-consuming parameter                                |
+| `E-SEM-2527`  | Error    | Compile-time | Indexing applied to non-indexable type (`Index-NonIndexable`) |
+| `E-SEM-2528`  | Error    | Compile-time | Invalid cast (`T-Cast-Invalid`) |
+| `E-SEM-2531`  | Error    | Compile-time | Callee expression is not of FUNCTION type (`Call-Callee-NotFunc`) |
+| `E-SEM-2532`  | Error    | Compile-time | Argument count mismatch (`Call-ArgCount-Err`) |
+| `E-SEM-2533`  | Error    | Compile-time | Argument type incompatible with parameter type (`Call-ArgType-Err`) |
+| `E-SEM-2534`  | Error    | Compile-time | Consuming parameter requires ownership transfer with `move` or an explicit duplicate with `copy` (`Call-Move-Missing`) |
+| `E-SEM-2535`  | Error    | Compile-time | `move` argument provided for non-consuming parameter (`Call-Move-Unexpected`) |
 | `E-SEM-2536`  | Error    | Compile-time | Method not found for receiver type                                                  |
-| `E-SEM-2538`  | Error    | Compile-time | Pipeline RHS is not callable                                                        |
-| `E-SEM-2539`  | Error    | Compile-time | Pipeline argument type mismatch                                                     |
-| `E-SEM-2591`  | Error    | Compile-time | Closure parameter type cannot be inferred                                           |
+| `E-SEM-2538`  | Error    | Compile-time | Pipeline RHS is not callable (`T-Pipeline-NotCallable-Err`) |
+| `E-SEM-2539`  | Error    | Compile-time | Pipeline argument type mismatch (`T-Pipeline-TypeMismatch-Err`, `T-Pipeline-ArgCount-Err`) |
+| `E-SEM-2591`  | Error    | Compile-time | Closure parameter type cannot be inferred (`Infer-Closure-Params-Err`) |
 | `E-MEM-3031`  | Error    | Compile-time | `transmute` source and target sizes differ                                          |
-| `E-UNS-0102`  | Error    | Compile-time | Fixed-size array index must be a compile-time constant outside `#dynamic` scope  |
-| `E-UNS-0103`  | Error    | Compile-time | Array index out of bounds                                                           |
+| `E-UNS-0102`  | Error    | Compile-time | Fixed-size array index must be a compile-time constant outside `#dynamic` scope (`Index-Array-NonConst-Err`) |
+| `E-UNS-0103`  | Error    | Compile-time | Array index out of bounds (`Index-Array-OOB-Err`) |
 | `E-UNS-0104`  | Error    | Compile-time | `transmute` source and target alignments differ                                     |
-| `E-UNS-0107`  | Error    | Compile-time | Explicit `copy` requires a `Bitcopy` value                                          |
-| `W-SAFE-0100` | Warning  | Compile-time | `transmute` target type is known to admit invalid bit patterns                      |
+| `E-UNS-0107`  | Error    | Compile-time | Explicit `copy` requires a `Bitcopy` value (`ValueUse-NonBitcopyPlace`) |
+| `W-SAF-0100` | Warning  | Compile-time | `transmute` target type is known to admit invalid bit patterns                      |

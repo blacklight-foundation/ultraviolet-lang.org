@@ -2,16 +2,16 @@
 title: "18.8 Frame"
 description: "18.8 Frame from 18. Statements and Blocks of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "statements-and-blocks"
 specSection: "188-frame"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -55,7 +55,7 @@ FrameStmt(target_opt, block)
 
 $$
 \begin{array}{l}
-\operatorname{InnermostActiveRegion}([])\ =\ \bot  \\[0.16em]
+\operatorname{InnermostActiveRegion}([])\ =\ \bot \\[0.16em]
 \operatorname{InnermostActiveRegion}([\sigma ]\ \mathbin{++} \ \Gamma ')\ = \\[0.16em]
 \ \{\ r\quad \mathsf{if}\ \exists \ r.\ r\ \in \ \operatorname{dom}(\sigma )\ \land \ \operatorname{RegionActiveType}(\sigma [r]) \\[0.16em]
 \quad \operatorname{InnermostActiveRegion}(\Gamma ')\ \mathsf{otherwise}\ \}
@@ -65,8 +65,8 @@ $$
 $$
 \begin{array}{l}
 \operatorname{FrameBind}(\Gamma ,\ \mathsf{target}_{\mathsf{opt}})\ =\ \Gamma_{f} \ \Leftrightarrow \ r\ = \\[0.16em]
-\ \{\ \operatorname{InnermostActiveRegion}(\Gamma )\quad \mathsf{if}\ \mathsf{target}_{\mathsf{opt}}\ =\ \bot  \\[0.16em]
-\quad \mathsf{target}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{target}_{\mathsf{opt}}\ \ne \ \bot \ \land \ \Gamma ;\ R;\ L\ \vdash \ \operatorname{Identifier}(\mathsf{target}_{\mathsf{opt}})\ :\ T_{r}\ \land \ \operatorname{RegionActiveType}(T_{r})\ \}\ \land \ F\ =\ \operatorname{FreshRegion}(\Gamma )\ \land \ \operatorname{IntroAll}(\Gamma ,\ [\langle F,\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{Region}],\ \texttt{Active}))\rangle ])\ \Downarrow \ \Gamma_{f} 
+\ \{\ \operatorname{InnermostActiveRegion}(\Gamma )\quad \mathsf{if}\ \mathsf{target}_{\mathsf{opt}}\ =\ \bot \\[0.16em]
+\quad \mathsf{target}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{target}_{\mathsf{opt}}\ \ne \ \bot \ \land \ \Gamma ;\ R;\ L\ \vdash \ \operatorname{Identifier}(\mathsf{target}_{\mathsf{opt}})\ :\ T_{r}\ \land \ \operatorname{RegionActiveType}(T_{r})\ \}\ \land \ F\ =\ \operatorname{FreshRegion}(\Gamma )\ \land \ \operatorname{IntroAll}(\Gamma ,\ [\langle F,\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{Region}],\ \texttt{Active}))\rangle ])\ \Downarrow \ \Gamma_{f}
 \end{array}
 $$
 
@@ -78,7 +78,7 @@ $$
 \begin{array}{l}
 \operatorname{FrameBind}(\Gamma ,\ \bot )\ =\ \Gamma_{f} \quad \Gamma_{f} ;\ R;\ L\ \vdash \ b\ :\ T_{b} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{FrameStmt}(\bot ,\ b)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{FrameStmt}(\bot ,\ b)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle
 \end{array}
 $$
 
@@ -88,7 +88,7 @@ $$
 \begin{array}{l}
 \operatorname{FrameBind}(\Gamma ,\ r)\ =\ \Gamma_{f} \quad \Gamma_{f} ;\ R;\ L\ \vdash \ b\ :\ T_{b} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{FrameStmt}(r,\ b)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{FrameStmt}(r,\ b)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle
 \end{array}
 $$
 
@@ -161,7 +161,7 @@ $$
 \begin{array}{l}
 \operatorname{ActiveTarget}(\sigma )\ =\ r\quad \operatorname{FrameEnter}(\sigma ,\ r)\ \Downarrow \ (\sigma_{1} ,\ F,\ \mathsf{scope},\ \mathsf{mark}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Exec}(\operatorname{FrameStmt}(\bot ,\ b),\ \sigma )\rangle \ \to \ \langle \operatorname{FrameBody}(r,\ \mathsf{scope},\ \mathsf{mark},\ b,\ \sigma_{1} )\rangle 
+\langle \operatorname{Exec}(\operatorname{FrameStmt}(\bot ,\ b),\ \sigma )\rangle \ \to \ \langle \operatorname{FrameBody}(r,\ \mathsf{scope},\ \mathsf{mark},\ b,\ \sigma_{1} )\rangle
 \end{array}
 $$
 
@@ -171,7 +171,7 @@ $$
 \begin{array}{l}
 \operatorname{LookupVal}(\sigma ,\ r)\ =\ v_{r}\quad \operatorname{RegionHandleOf}(v_{r})\ =\ h\quad \operatorname{ResolveTarget}(\sigma ,\ h)\ =\ r_{t}\quad \operatorname{FrameEnter}(\sigma ,\ r_{t})\ \Downarrow \ (\sigma_{1} ,\ F,\ \mathsf{scope},\ \mathsf{mark}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Exec}(\operatorname{FrameStmt}(r,\ b),\ \sigma )\rangle \ \to \ \langle \operatorname{FrameBody}(r_{t},\ \mathsf{scope},\ \mathsf{mark},\ b,\ \sigma_{1} )\rangle 
+\langle \operatorname{Exec}(\operatorname{FrameStmt}(r,\ b),\ \sigma )\rangle \ \to \ \langle \operatorname{FrameBody}(r_{t},\ \mathsf{scope},\ \mathsf{mark},\ b,\ \sigma_{1} )\rangle
 \end{array}
 $$
 
@@ -181,7 +181,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{EvalInScopeSigma}(b,\ \sigma ,\ \mathsf{scope})\ \Downarrow \ (\mathsf{out},\ \sigma_{1} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{FrameBody}(r,\ \mathsf{scope},\ \mathsf{mark},\ b,\ \sigma )\rangle \ \to \ \langle \operatorname{FrameExit}(r,\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out},\ \sigma_{1} )\rangle 
+\langle \operatorname{FrameBody}(r,\ \mathsf{scope},\ \mathsf{mark},\ b,\ \sigma )\rangle \ \to \ \langle \operatorname{FrameExit}(r,\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out},\ \sigma_{1} )\rangle
 \end{array}
 $$
 
@@ -191,7 +191,7 @@ $$
 \begin{array}{l}
 \operatorname{FrameReset}(\sigma ,\ r,\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma ')\quad \operatorname{StmtOutOf}(\mathsf{out}')\ =\ \mathsf{ok} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{FrameExit}(r,\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle 
+\langle \operatorname{FrameExit}(r,\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle
 \end{array}
 $$
 
@@ -201,7 +201,7 @@ $$
 \begin{array}{l}
 \operatorname{FrameReset}(\sigma ,\ r,\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma ')\quad \operatorname{StmtOutOf}(\mathsf{out}')\ =\ \operatorname{Ctrl}(\kappa ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{FrameExit}(r,\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma ')\rangle 
+\langle \operatorname{FrameExit}(r,\ \mathsf{scope},\ \mathsf{mark},\ \mathsf{out},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma ')\rangle
 \end{array}
 $$
 
@@ -211,7 +211,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{block})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{block})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{FrameStmt}(\bot ,\ \mathsf{block}))\ \Downarrow \ \operatorname{FrameIR}(\bot ,\ \mathsf{IR}_{b},\ v_{b})
 \end{array}
@@ -221,7 +221,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Identifier}(r))\ \Downarrow \ \langle \mathsf{IR}_{r},\ v_{r}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{block})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Identifier}(r))\ \Downarrow \ \langle \mathsf{IR}_{r},\ v_{r}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{block})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{FrameStmt}(r,\ \mathsf{block}))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{r},\ \operatorname{FrameIR}(v_{r},\ \mathsf{IR}_{b},\ v_{b}))
 \end{array}

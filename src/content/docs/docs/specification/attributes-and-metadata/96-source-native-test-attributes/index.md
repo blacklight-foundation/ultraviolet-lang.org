@@ -2,16 +2,16 @@
 title: "9.6 Source-Native Test Attributes"
 description: "9.6 Source-Native Test Attributes from 9. Attributes and Metadata of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "attributes-and-metadata"
 specSection: "96-source-native-test-attributes"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,7 +24,7 @@ generated: true
 ### 9.6.1 Syntax
 
 ```text
-test_attribute      ::= attr_open "test" ("(" test_attribute_args ")")? attr_close
+test_attribute      ::= "#" "test" ("(" test_attribute_args ")")?
 test_attribute_args ::= test_attribute_arg ("," test_attribute_arg)*
 test_attribute_arg  ::= "name" ":" string_literal
                       | "covers" "(" string_literal ")"
@@ -81,8 +81,10 @@ A `#test` procedure MUST:
    toolchain-provided `TestAuthority` type.
 
 The `TestAuthority` parameter is the only runner-injected value. It carries the
-filesystem, process, temporary-directory, target-profile, and compiler-invocation
-authority needed by effectful compiler tests.
+filesystem, process, temporary-directory, target-profile, compiler-invocation,
+and time authority needed by effectful compiler tests and benchmark-style tests.
+Its `time` field has type `$Time`; tests that measure elapsed time SHOULD use
+`time~>monotonic()`; `time~>wall()` is for UTC behavior, not benchmarks.
 
 ### 9.6.5 Dynamic Semantics
 
@@ -174,7 +176,7 @@ stable test identity. `name: "..."` is a display label.
 
 | Code         | Severity | Detection    | Condition                                        |
 | ------------ | -------- | ------------ | ------------------------------------------------ |
-| `E-MOD-2452` | Error    | Compile-time | `#test` applied outside an ordinary procedure |
+| `E-TST-0109` | Error    | Compile-time | `#test` applied outside an ordinary procedure |
 | `E-TST-0101` | Error    | Compile-time | Malformed `#test` argument                    |
 | `E-TST-0102` | Error    | Compile-time | Duplicate `#test` name argument               |
 | `E-TST-0103` | Error    | Compile-time | Malformed `covers(...)` argument                 |
@@ -182,4 +184,4 @@ stable test identity. `name: "..."` is a display label.
 | `E-TST-0105` | Error    | Compile-time | Invalid `TestAuthority` parameter                  |
 | `E-TST-0106` | Error    | Compile-time | `#test` procedure missing postcondition       |
 | `E-TST-0107` | Error    | Compile-time | Unknown audit coverage reference                 |
-| `E-TST-0108` | Error    | Compile-time | Unknown `uv test` target                         |
+| `E-TST-0108` | Error    | Compile-time | Unknown `uv test` target (`Test-Target-Err`) |

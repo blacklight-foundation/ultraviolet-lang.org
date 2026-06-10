@@ -2,16 +2,16 @@
 title: "23.2 Extern Procedures"
 description: "23.2 Extern Procedures from 23. Foreign Function Interface of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "foreign-function-interface"
 specSection: "232-extern-procedures"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -44,7 +44,7 @@ $$
 Extern procedure declarations are represented by:
 
 $$
-\mathsf{ExternProcDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{params},\ \mathsf{return}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{foreign}_{\mathsf{contracts}\_\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}\rangle 
+\mathsf{ExternProcDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{params},\ \mathsf{return}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{foreign}_{\mathsf{contracts}\_\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}\rangle
 $$
 
 Extern procedure declarations also admit the derived forms:
@@ -83,11 +83,11 @@ $$
 $$
 \begin{array}{l}
 \operatorname{ExternParamTypes}(\mathsf{params})\ =\ [T_{i}\ \mid \ \langle \_,\ \_,\ T_{i}\rangle \ \in \ \mathsf{params}] \\[0.16em]
-\operatorname{ExternSigOk}(\mathsf{params},\ \mathsf{ret}_{\mathsf{opt}})\ \Leftrightarrow  \\[0.16em]
-\ R\ =\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\ \land  \\[0.16em]
-\ (R\ =\ \operatorname{TypePrim}(\texttt{"()"})\ \lor \ \Gamma \ \vdash \ \operatorname{FfiSafeType}(R)\ \Downarrow \ \mathsf{ok})\ \land  \\[0.16em]
-\ (\forall \ T\ \in \ \operatorname{ExternParamTypes}(\mathsf{params}).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok})\ \land  \\[0.16em]
-\ (\forall \ T\ \in \ \operatorname{ExternParamTypes}(\mathsf{params}).\ \operatorname{FfiByValueOk}(T))\ \land  \\[0.16em]
+\operatorname{ExternSigOk}(\mathsf{params},\ \mathsf{ret}_{\mathsf{opt}})\ \Leftrightarrow \\[0.16em]
+\ R\ =\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\ \land \\[0.16em]
+\ (R\ =\ \operatorname{TypePrim}(\texttt{"()"})\ \lor \ \Gamma \ \vdash \ \operatorname{FfiSafeType}(R)\ \Downarrow \ \mathsf{ok})\ \land \\[0.16em]
+\ (\forall \ T\ \in \ \operatorname{ExternParamTypes}(\mathsf{params}).\ \Gamma \ \vdash \ \operatorname{FfiSafeType}(T)\ \Downarrow \ \mathsf{ok})\ \land \\[0.16em]
+\ (\forall \ T\ \in \ \operatorname{ExternParamTypes}(\mathsf{params}).\ \operatorname{FfiByValueOk}(T))\ \land \\[0.16em]
 \ \operatorname{FfiByValueOk}(R)
 \end{array}
 $$

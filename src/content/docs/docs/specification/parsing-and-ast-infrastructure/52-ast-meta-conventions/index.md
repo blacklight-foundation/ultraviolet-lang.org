@@ -2,16 +2,16 @@
 title: "5.2 AST Meta-Conventions"
 description: "5.2 AST Meta-Conventions from 5. Parsing and AST Infrastructure of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "parsing-and-ast-infrastructure"
 specSection: "52-ast-meta-conventions"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -33,7 +33,7 @@ $$
 \begin{array}{l}
 \operatorname{SpanDefault}(P,\ P')\ =\ \operatorname{SpanBetween}(P,\ P') \\[0.16em]
 \mathsf{DocDefault}\ =\ [] \\[0.16em]
-\mathsf{DocOptDefault}\ =\ \bot  \\[0.16em]
+\mathsf{DocOptDefault}\ =\ \bot \\[0.16em]
 \operatorname{FillSpan}(n,\ P,\ P')\ = \\[0.16em]
 \ n[\mathsf{span}\ :=\ \operatorname{SpanDefault}(P,\ P')]\ \mathsf{if}\ \operatorname{SpanMissing}(n) \\[0.16em]
 \ n\quad \mathsf{otherwise} \\[0.16em]
@@ -59,7 +59,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{ErrorItem}\ =\ \langle \mathsf{span}\rangle  \\[0.16em]
+\mathsf{ErrorItem}\ =\ \langle \mathsf{span}\rangle \\[0.16em]
 \operatorname{IsDecl}(\operatorname{ErrorItem}(\_))\ =\ \mathsf{false}
 \end{array}
 $$
@@ -69,9 +69,9 @@ $$
 $$
 \begin{array}{l}
 \mathsf{Type}\ =\ \{\operatorname{TypePerm}(\mathsf{perm},\ \mathsf{base}),\ \operatorname{TypePrim}(\mathsf{name}),\ \operatorname{TypeTuple}(\mathsf{elems}),\ \operatorname{TypeArray}(\mathsf{elem},\ \mathsf{size}_{\mathsf{expr}}),\ \operatorname{TypeSlice}(\mathsf{elem}),\ \operatorname{TypeUnion}(\mathsf{members}),\ \operatorname{TypeFunc}(\mathsf{params},\ \mathsf{ret}),\ \operatorname{TypePath}(\mathsf{path}),\ \operatorname{TypeApply}(\mathsf{path},\ \mathsf{args}),\ \operatorname{TypeDynamic}(\mathsf{path}),\ \operatorname{TypeOpaque}(\mathsf{path}),\ \operatorname{TypeRefine}(\mathsf{base},\ \mathsf{pred}),\ \operatorname{TypeString}(\mathsf{string}_{\mathsf{state}\_\mathsf{opt}}),\ \operatorname{TypeBytes}(\mathsf{bytes}_{\mathsf{state}\_\mathsf{opt}}),\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ \mathsf{state}),\ \operatorname{TypePtr}(\mathsf{elem},\ \mathsf{ptr}_{\mathsf{state}\_\mathsf{opt}}),\ \operatorname{TypeRawPtr}(\mathsf{qual},\ \mathsf{elem}),\ \operatorname{TypeRange}(\mathsf{base}),\ \operatorname{TypeRangeInclusive}(\mathsf{base}),\ \operatorname{TypeRangeFrom}(\mathsf{base}),\ \operatorname{TypeRangeTo}(\mathsf{base}),\ \operatorname{TypeRangeToInclusive}(\mathsf{base}),\ \mathsf{TypeRangeFull},\ \operatorname{TypeClosure}(\mathsf{params},\ \mathsf{ret},\ \mathsf{deps}_{\mathsf{opt}})\} \\[0.16em]
-\mathsf{TypeApply}\ =\ \langle \mathsf{path},\ \mathsf{args}\rangle  \\[0.16em]
-\mathsf{TypeOpaque}\ =\ \langle \mathsf{path}\rangle  \\[0.16em]
-\mathsf{TypeRefine}\ =\ \langle \mathsf{base},\ \mathsf{pred}\rangle  \\[0.16em]
+\mathsf{TypeApply}\ =\ \langle \mathsf{path},\ \mathsf{args}\rangle \\[0.16em]
+\mathsf{TypeOpaque}\ =\ \langle \mathsf{path}\rangle \\[0.16em]
+\mathsf{TypeRefine}\ =\ \langle \mathsf{base},\ \mathsf{pred}\rangle \\[0.16em]
 \mathsf{TypeClosure}\ =\ \langle \mathsf{params},\ \mathsf{ret},\ \mathsf{deps}_{\mathsf{opt}}\rangle \quad \mathsf{params}\ \in \ [\mathsf{ParamType}],\ \mathsf{ret}\ \in \ \mathsf{Type},\ \mathsf{deps}_{\mathsf{opt}}\ \in \ \{\bot \}\ \cup \ \mathsf{SharedDeps} \\[0.16em]
 \mathsf{SharedDep}\ =\ \langle \mathsf{name},\ \mathsf{type}\rangle \ \mathsf{where}\ \mathsf{name}\ \in \ \mathsf{Identifier}\ \land \ \mathsf{type}\ \in \ \mathsf{Type} \\[0.16em]
 \mathsf{SharedDeps}\ =\ [\mathsf{SharedDep}] \\[0.16em]

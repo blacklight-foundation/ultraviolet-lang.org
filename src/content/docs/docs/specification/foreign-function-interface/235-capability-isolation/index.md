@@ -2,16 +2,16 @@
 title: "23.5 Capability Isolation"
 description: "23.5 Capability Isolation from 23. Foreign Function Interface of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "foreign-function-interface"
 specSection: "235-capability-isolation"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -54,7 +54,7 @@ $$
 \begin{array}{l}
 \operatorname{FFICall}(\operatorname{Call}(\mathsf{callee},\ \mathsf{args}))\quad \exists \ \langle \_,\ \mathsf{arg},\ \_\rangle \ \in \ \mathsf{args}.\ \Gamma ;\ \Omega \ \vdash \ \mathsf{arg}\ \Downarrow \ \pi \ \land \ \operatorname{RegionLocalProv}(\pi )\ \land \ \operatorname{RawPtrType}(\operatorname{ExprType}(\mathsf{arg})) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ \Omega \ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Uparrow 
+\Gamma ;\ \Omega \ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Uparrow
 \end{array}
 $$
 
@@ -64,7 +64,7 @@ $$
 \begin{array}{l}
 \operatorname{CurrentProcedure}(\Gamma )\ =\ \mathsf{proc}\quad (\operatorname{ExportAttr}(\mathsf{proc})\ \mathsf{defined}\ \lor \ \operatorname{HostExportAttr}(\mathsf{proc})\ \mathsf{defined})\quad \Gamma ;\ \Omega \ \vdash \ e\ \Downarrow \ \pi \quad \operatorname{RegionLocalProv}(\pi )\quad \operatorname{RawPtrType}(\operatorname{ExprType}(e)) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ \Omega \ \vdash \ \operatorname{ReturnStmt}(e)\ \Uparrow 
+\Gamma ;\ \Omega \ \vdash \ \operatorname{ReturnStmt}(e)\ \Uparrow
 \end{array}
 $$
 

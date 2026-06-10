@@ -2,16 +2,16 @@
 title: "4.1 Source Loading and Normalization"
 description: "4.1 Source Loading and Normalization from 4. Source Text and Lexical Structure of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "source-text-and-lexical-structure"
 specSection: "41-source-loading-and-normalization"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,14 +24,14 @@ generated: true
 **Source File Record.**
 
 $$
-\mathsf{SourceFile}\ =\ \langle \mathsf{path},\ \mathsf{bytes},\ \mathsf{scalars},\ \mathsf{text},\ \mathsf{byte}_{\mathsf{len}},\ \mathsf{line}_{\mathsf{starts}},\ \mathsf{line}_{\mathsf{count}}\rangle 
+\mathsf{SourceFile}\ =\ \langle \mathsf{path},\ \mathsf{bytes},\ \mathsf{scalars},\ \mathsf{text},\ \mathsf{byte}_{\mathsf{len}},\ \mathsf{line}_{\mathsf{starts}},\ \mathsf{line}_{\mathsf{count}}\rangle
 $$
 
 $$
 \begin{array}{l}
 S.\mathsf{text}\ =\ \operatorname{EncodeUTF8}(S.\mathsf{scalars}) \\[0.16em]
 S.\mathsf{byte}_{\mathsf{len}}\ =\ \operatorname{ByteLen}(S.\mathsf{text}) \\[0.16em]
-S.\mathsf{line}_{\mathsf{count}}\ =\ \mid S.\mathsf{line}_{\mathsf{starts}}\mid 
+S.\mathsf{line}_{\mathsf{count}}\ =\ \mid S.\mathsf{line}_{\mathsf{starts}}\mid
 \end{array}
 $$
 
@@ -98,9 +98,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{DecodeUTF8}(B)\ \Uparrow  \\[0.16em]
+\operatorname{DecodeUTF8}(B)\ \Uparrow \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{Decode}(B)\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{Decode}(B)\ \Uparrow
 \end{array}
 $$
 
@@ -217,7 +217,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{LineStarts}(T)\ =\ [0]\ \mathbin{++} \ [\operatorname{Utf8Offsets}(T)[i]\ +\ 1\ \mid \ 0\ \le \ i\ <\ \mid T\mid \ \land \ T[i]\ =\ \mathsf{LF}] \\[0.16em]
-\operatorname{LineCount}(T)\ =\ \mid \operatorname{LineStarts}(T)\mid 
+\operatorname{LineCount}(T)\ =\ \mid \operatorname{LineStarts}(T)\mid
 \end{array}
 $$
 
@@ -232,7 +232,7 @@ k\ =\ \mathsf{max}\{\ j\ \mid \ L[j]\ \le \ o'\ \}
 $$
 
 $$
-\Gamma \ \vdash \ \operatorname{Locate}(S,\ o)\ \Downarrow \ \langle \mathsf{file}\ =\ S.\mathsf{path},\ \mathsf{offset}\ =\ o',\ \mathsf{line}\ =\ k\ +\ 1,\ \mathsf{col}\ =\ o'\ -\ L[k]\ +\ 1\rangle 
+\Gamma \ \vdash \ \operatorname{Locate}(S,\ o)\ \Downarrow \ \langle \mathsf{file}\ =\ S.\mathsf{path},\ \mathsf{offset}\ =\ o',\ \mathsf{line}\ =\ k\ +\ 1,\ \mathsf{col}\ =\ o'\ -\ L[k]\ +\ 1\rangle
 $$
 
 ### 4.1.5 Prohibited Code Points
@@ -304,9 +304,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{Prev}(K,\ i)\ =\ \bot \ \Leftrightarrow \ \{\ j\ \mid \ j\ <\ i\ \land \ K[j].\mathsf{kind}\ \ne \ \mathsf{newline}\ \land \ \forall \ k.\ j\ <\ k\ <\ i\ \Rightarrow \ K[k].\mathsf{kind}\ \ne \ \mathsf{newline}\ \}\ =\ \emptyset  \\[0.16em]
+\operatorname{Prev}(K,\ i)\ =\ \bot \ \Leftrightarrow \ \{\ j\ \mid \ j\ <\ i\ \land \ K[j].\mathsf{kind}\ \ne \ \mathsf{newline}\ \land \ \forall \ k.\ j\ <\ k\ <\ i\ \Rightarrow \ K[k].\mathsf{kind}\ \ne \ \mathsf{newline}\ \}\ =\ \emptyset \\[0.16em]
 \operatorname{Prev}(K,\ i)\ =\ K[j]\ \Leftrightarrow \ j\ =\ \mathsf{max}\{\ j\ \mid \ j\ <\ i\ \land \ K[j].\mathsf{kind}\ \ne \ \mathsf{newline}\ \land \ \forall \ k.\ j\ <\ k\ <\ i\ \Rightarrow \ K[k].\mathsf{kind}\ \ne \ \mathsf{newline}\ \} \\[0.16em]
-\operatorname{Next}(K,\ i)\ =\ \bot \ \Leftrightarrow \ \{\ j\ \mid \ j\ >\ i\ \land \ K[j].\mathsf{kind}\ \ne \ \mathsf{newline}\ \}\ =\ \emptyset  \\[0.16em]
+\operatorname{Next}(K,\ i)\ =\ \bot \ \Leftrightarrow \ \{\ j\ \mid \ j\ >\ i\ \land \ K[j].\mathsf{kind}\ \ne \ \mathsf{newline}\ \}\ =\ \emptyset \\[0.16em]
 \operatorname{Next}(K,\ i)\ =\ K[j]\ \Leftrightarrow \ j\ =\ \mathsf{min}\{\ j\ \mid \ j\ >\ i\ \land \ K[j].\mathsf{kind}\ \ne \ \mathsf{newline}\ \}
 \end{array}
 $$
@@ -382,7 +382,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Start}(f,\ B)\rangle \ \to \ \langle \operatorname{Sized}(f,\ B)\rangle 
+\langle \operatorname{Start}(f,\ B)\rangle \ \to \ \langle \operatorname{Sized}(f,\ B)\rangle
 \end{array}
 $$
 
@@ -392,7 +392,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{Decode}(B)\ \Downarrow \ U \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Sized}(f,\ B)\rangle \ \to \ \langle \operatorname{Decoded}(f,\ B,\ U)\rangle 
+\langle \operatorname{Sized}(f,\ B)\rangle \ \to \ \langle \operatorname{Decoded}(f,\ B,\ U)\rangle
 \end{array}
 $$
 
@@ -400,9 +400,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{Decode}(B)\ \Uparrow  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{Decode}(B)\ \Uparrow \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Sized}(f,\ B)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Step}-\mathsf{Decode}-\mathsf{Err}))\rangle 
+\langle \operatorname{Sized}(f,\ B)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Step}-\mathsf{Decode}-\mathsf{Err}))\rangle
 \end{array}
 $$
 
@@ -412,7 +412,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{StripBOM}(U)\ \Downarrow \ (U',\ b,\ j) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Decoded}(f,\ B,\ U)\rangle \ \to \ \langle \operatorname{BomStripped}(f,\ B,\ U',\ b,\ j)\rangle 
+\langle \operatorname{Decoded}(f,\ B,\ U)\rangle \ \to \ \langle \operatorname{BomStripped}(f,\ B,\ U',\ b,\ j)\rangle
 \end{array}
 $$
 
@@ -422,7 +422,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{NormalizeOutsideIdentifiers}(U)\quad \Gamma \ \vdash \ \operatorname{NormalizeLF}(T)\ \Downarrow \ V \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{BomStripped}(f,\ B,\ U,\ b,\ j)\rangle \ \to \ \langle \operatorname{Normalized}(f,\ B,\ V,\ j)\rangle 
+\langle \operatorname{BomStripped}(f,\ B,\ U,\ b,\ j)\rangle \ \to \ \langle \operatorname{Normalized}(f,\ B,\ V,\ j)\rangle
 \end{array}
 $$
 
@@ -430,9 +430,9 @@ $$
 
 $$
 \begin{array}{l}
-j\ \ne \ \bot  \\[0.16em]
+j\ \ne \ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Normalized}(f,\ B,\ T,\ j)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Step}-\mathsf{EmbeddedBOM}-\mathsf{Err}))\rangle 
+\langle \operatorname{Normalized}(f,\ B,\ T,\ j)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Step}-\mathsf{EmbeddedBOM}-\mathsf{Err}))\rangle
 \end{array}
 $$
 
@@ -442,7 +442,7 @@ $$
 \begin{array}{l}
 j\ =\ \bot \quad L\ =\ \operatorname{LineStarts}(T) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Normalized}(f,\ B,\ T,\ j)\rangle \ \to \ \langle \operatorname{LineMapped}(f,\ B,\ T,\ L)\rangle 
+\langle \operatorname{Normalized}(f,\ B,\ T,\ j)\rangle \ \to \ \langle \operatorname{LineMapped}(f,\ B,\ T,\ L)\rangle
 \end{array}
 $$
 
@@ -450,9 +450,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ T\ :\ \mathsf{NoProhibited}\quad S\ =\ \langle \mathsf{path}\ =\ f,\ \mathsf{bytes}\ =\ B,\ \mathsf{scalars}\ =\ T,\ \mathsf{text}\ =\ \operatorname{EncodeUTF8}(T),\ \mathsf{byte}_{\mathsf{len}}\ =\ \operatorname{ByteLen}(T),\ \mathsf{line}_{\mathsf{starts}}\ =\ L,\ \mathsf{line}_{\mathsf{count}}\ =\ \mid L\mid \rangle  \\[0.16em]
+\Gamma \ \vdash \ T\ :\ \mathsf{NoProhibited}\quad S\ =\ \langle \mathsf{path}\ =\ f,\ \mathsf{bytes}\ =\ B,\ \mathsf{scalars}\ =\ T,\ \mathsf{text}\ =\ \operatorname{EncodeUTF8}(T),\ \mathsf{byte}_{\mathsf{len}}\ =\ \operatorname{ByteLen}(T),\ \mathsf{line}_{\mathsf{starts}}\ =\ L,\ \mathsf{line}_{\mathsf{count}}\ =\ \mid L\mid \rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{LineMapped}(f,\ B,\ T,\ L)\rangle \ \to \ \langle \operatorname{Validated}(S)\rangle 
+\langle \operatorname{LineMapped}(f,\ B,\ T,\ L)\rangle \ \to \ \langle \operatorname{Validated}(S)\rangle
 \end{array}
 $$
 
@@ -462,7 +462,7 @@ $$
 \begin{array}{l}
 \Gamma \ \nvdash \ T\ :\ \mathsf{NoProhibited} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{LineMapped}(f,\ B,\ T,\ L)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Step}-\mathsf{Prohibited}-\mathsf{Err}))\rangle 
+\langle \operatorname{LineMapped}(f,\ B,\ T,\ L)\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Step}-\mathsf{Prohibited}-\mathsf{Err}))\rangle
 \end{array}
 $$
 
@@ -472,7 +472,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{Decode}(B)\ \Downarrow \ U\quad \Gamma \ \vdash \ \operatorname{StripBOM}(U)\ \Downarrow \ (U',\ b,\ \bot )\quad \Gamma \ \vdash \ \operatorname{NormalizeLF}(\operatorname{NormalizeOutsideIdentifiers}(U'))\ \Downarrow \ T\quad L\ =\ \operatorname{LineStarts}(T)\quad \Gamma \ \vdash \ T\ :\ \mathsf{NoProhibited}\quad S\ =\ \langle \mathsf{path}\ =\ f,\ \mathsf{bytes}\ =\ B,\ \mathsf{scalars}\ =\ T,\ \mathsf{text}\ =\ \operatorname{EncodeUTF8}(T),\ \mathsf{byte}_{\mathsf{len}}\ =\ \operatorname{ByteLen}(T),\ \mathsf{line}_{\mathsf{starts}}\ =\ L,\ \mathsf{line}_{\mathsf{count}}\ =\ \mid L\mid \rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{Decode}(B)\ \Downarrow \ U\quad \Gamma \ \vdash \ \operatorname{StripBOM}(U)\ \Downarrow \ (U',\ b,\ \bot )\quad \Gamma \ \vdash \ \operatorname{NormalizeLF}(\operatorname{NormalizeOutsideIdentifiers}(U'))\ \Downarrow \ T\quad L\ =\ \operatorname{LineStarts}(T)\quad \Gamma \ \vdash \ T\ :\ \mathsf{NoProhibited}\quad S\ =\ \langle \mathsf{path}\ =\ f,\ \mathsf{bytes}\ =\ B,\ \mathsf{scalars}\ =\ T,\ \mathsf{text}\ =\ \operatorname{EncodeUTF8}(T),\ \mathsf{byte}_{\mathsf{len}}\ =\ \operatorname{ByteLen}(T),\ \mathsf{line}_{\mathsf{starts}}\ =\ L,\ \mathsf{line}_{\mathsf{count}}\ =\ \mid L\mid \rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \Downarrow \ S
 \end{array}
@@ -482,7 +482,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \to *\ \langle \operatorname{Error}(c)\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \to *\ \langle \operatorname{Error}(c)\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \Uparrow \ c
 \end{array}
@@ -491,7 +491,7 @@ $$
 ### 4.1.9 Diagnostic Spans for Source Loading
 
 $$
-S_{\mathsf{tmp}}\ =\ \langle \mathsf{path}\ =\ f,\ \mathsf{bytes}\ =\ B,\ \mathsf{text}\ =\ \operatorname{EncodeUTF8}(T),\ \mathsf{byte}_{\mathsf{len}}\ =\ \operatorname{ByteLen}(T),\ \mathsf{line}_{\mathsf{starts}}\ =\ \operatorname{LineStarts}(T),\ \mathsf{line}_{\mathsf{count}}\ =\ \mid \operatorname{LineStarts}(T)\mid \rangle 
+S_{\mathsf{tmp}}\ =\ \langle \mathsf{path}\ =\ f,\ \mathsf{bytes}\ =\ B,\ \mathsf{text}\ =\ \operatorname{EncodeUTF8}(T),\ \mathsf{byte}_{\mathsf{len}}\ =\ \operatorname{ByteLen}(T),\ \mathsf{line}_{\mathsf{starts}}\ =\ \operatorname{LineStarts}(T),\ \mathsf{line}_{\mathsf{count}}\ =\ \mid \operatorname{LineStarts}(T)\mid \rangle
 $$
 
 $$
@@ -512,7 +512,7 @@ s =
 
 $$
 \begin{array}{l}
-\ \operatorname{LineStarts}(T)[k]\ \mathsf{if}\ k\ <\ \mid \operatorname{LineStarts}(T)\mid  \\[0.16em]
+\ \operatorname{LineStarts}(T)[k]\ \mathsf{if}\ k\ <\ \mid \operatorname{LineStarts}(T)\mid \\[0.16em]
 \ \operatorname{ByteLen}(T)\quad \mathsf{otherwise} \\[0.16em]
 e\ =\ \operatorname{min}(s\ +\ 1,\ \operatorname{ByteLen}(T))
 \end{array}

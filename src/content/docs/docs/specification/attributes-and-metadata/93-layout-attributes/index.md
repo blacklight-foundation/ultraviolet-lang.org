@@ -2,16 +2,16 @@
 title: "9.3 Layout Attributes"
 description: "9.3 Layout Attributes from 9. Attributes and Metadata of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "attributes-and-metadata"
 specSection: "93-layout-attributes"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,7 +24,7 @@ generated: true
 ### 9.3.1 Syntax
 
 ```text
-layout_attribute ::= attr_open "layout" "(" layout_args ")" attr_close
+layout_attribute ::= "#" "layout" "(" layout_args ")"
 layout_args      ::= layout_kind ("," layout_kind)*
 layout_kind      ::= "C" | "packed" | "align" "(" integer_literal ")" | int_type
 int_type         ::= "i8" | "i16" | "i32" | "i64" | "u8" | "u16" | "u32" | "u64"
@@ -113,5 +113,5 @@ Layout attributes constrain the layout and ABI calculations used by Chapter 24. 
 | `E-MOD-2453` | Error    | Compile-time | `align(N)` where N is not a power of two   |
 | `E-MOD-2454` | Error    | Compile-time | `packed` applied to non-record             |
 | `E-MOD-2455` | Error    | Compile-time | Conflicting layout arguments               |
-| `E-TYP-2105` | Error    | Compile-time | Reference to packed field outside `unsafe` |
+| `E-TYP-2105` | Error    | Compile-time | Reference to packed field outside `unsafe` (`Packed-Field-Unsafe-Err`) |
 | `W-MOD-2451` | Warning  | Compile-time | `align(N)` where N < natural alignment     |

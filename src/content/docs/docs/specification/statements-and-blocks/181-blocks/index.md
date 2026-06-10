@@ -2,16 +2,16 @@
 title: "18.1 Blocks"
 description: "18.1 Blocks from 18. Statements and Blocks of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "statements-and-blocks"
 specSection: "181-blocks"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -92,45 +92,7 @@ $$
 \operatorname{ReqTerm}(s)\ \Leftrightarrow \ s\ \in \ \{\operatorname{LetStmt}(\_),\ \operatorname{VarStmt}(\_),\ \operatorname{UsingLocalStmt}(\_,\ \_,\ \_),\ \operatorname{AssignStmt}(\_,\ \_),\ \operatorname{CompoundAssignStmt}(\_,\ \_,\ \_),\ \operatorname{ExprStmt}(\_)\}
 $$
 
-**(ConsumeTerminatorOpt-Req-Yes)**
-ReqTerm(s)    IsTerm(Tok(P))
-
-$$
-\begin{array}{l}
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ConsumeTerminatorOpt}(P,\ s)\ \Downarrow \ \operatorname{Advance}(P)
-\end{array}
-$$
-
-**(ConsumeTerminatorOpt-Req-No)**
-
-$$
-\begin{array}{l}
-\operatorname{ReqTerm}(s)\quad \lnot \ \operatorname{IsTerm}(\operatorname{Tok}(P))\quad \operatorname{Emit}(\operatorname{Code}(\mathsf{Missing}-\mathsf{Terminator}-\mathsf{Err}),\ \mathsf{Span}\ =\ \operatorname{Tok}(P).\mathsf{span})\quad \Gamma \ \vdash \ \operatorname{SyncStmt}(P)\ \Downarrow \ P_{1} \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ConsumeTerminatorOpt}(P,\ s)\ \Downarrow \ P_{1}
-\end{array}
-$$
-
-**(ConsumeTerminatorOpt-Opt-Yes)**
-
-$$
-\begin{array}{l}
-\lnot \ \operatorname{ReqTerm}(s)\quad \operatorname{IsTerm}(\operatorname{Tok}(P)) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ConsumeTerminatorOpt}(P,\ s)\ \Downarrow \ \operatorname{Advance}(P)
-\end{array}
-$$
-
-**(ConsumeTerminatorOpt-Opt-No)**
-
-$$
-\begin{array}{l}
-\lnot \ \operatorname{ReqTerm}(s)\quad \lnot \ \operatorname{IsTerm}(\operatorname{Tok}(P)) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ConsumeTerminatorOpt}(P,\ s)\ \Downarrow \ P
-\end{array}
-$$
+Rules **(ConsumeTerminatorOpt-Req-Yes)**, **(ConsumeTerminatorOpt-Req-No)**, **(ConsumeTerminatorOpt-Opt-Yes)**, **(ConsumeTerminatorOpt-Opt-No)** are defined once by §5.6.
 
 $$
 \begin{array}{l}
@@ -181,7 +143,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{LastStmt}([])\ =\ \bot  \\[0.16em]
+\operatorname{LastStmt}([])\ =\ \bot \\[0.16em]
 \operatorname{LastStmt}([s_{1},\ \ldots ,\ s_{n}])\ =\ s_{n}\quad (n\ \ge \ 1)
 \end{array}
 $$
@@ -189,7 +151,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{ResType}([T_{1},\ \ldots ,\ T_{n}])\ =\ T\ \Leftrightarrow \ n\ \ge \ 1\ \land \ \forall \ i.\ \Gamma \ \vdash \ T_{i}\ \equiv \ T \\[0.16em]
-\operatorname{ResType}([])\ =\ \bot 
+\operatorname{ResType}([])\ =\ \bot
 \end{array}
 $$
 
@@ -200,8 +162,8 @@ $$
 \mathsf{MutKind}\ =\ \{\texttt{let},\ \texttt{var}\} \\[0.16em]
 \mathsf{Bind}\ =\ \{\langle \mathsf{mut},\ T\rangle \ \mid \ \mathsf{mut}\ \in \ \mathsf{MutKind}\ \land \ T\ \in \ \mathsf{Type}\} \\[0.16em]
 \operatorname{BindOf}(\Gamma ,\ x)\ =\ \langle \mathsf{mut},\ T\rangle \ \Leftrightarrow \ \langle \mathsf{mut},\ T\rangle \ \mathsf{is}\ \mathsf{the}\ \mathsf{binding}\ \mathsf{for}\ x\ \mathsf{in}\ \mathsf{the}\ \mathsf{nearest}\ \mathsf{scope}\ \mathsf{of}\ \operatorname{Scopes}(\Gamma ) \\[0.16em]
-(x\ :\ T)\ \in \ \Gamma \ \Leftrightarrow \ \exists \ \mathsf{mut}.\ \operatorname{BindOf}(\Gamma ,\ x)\ =\ \langle \mathsf{mut},\ T\rangle  \\[0.16em]
-\operatorname{MutOf}(\Gamma ,\ x)\ =\ \mathsf{mut}\ \Leftrightarrow \ \operatorname{BindOf}(\Gamma ,\ x)\ =\ \langle \mathsf{mut},\ T\rangle 
+(x\ :\ T)\ \in \ \Gamma \ \Leftrightarrow \ \exists \ \mathsf{mut}.\ \operatorname{BindOf}(\Gamma ,\ x)\ =\ \langle \mathsf{mut},\ T\rangle \\[0.16em]
+\operatorname{MutOf}(\Gamma ,\ x)\ =\ \mathsf{mut}\ \Leftrightarrow \ \operatorname{BindOf}(\Gamma ,\ x)\ =\ \langle \mathsf{mut},\ T\rangle
 \end{array}
 $$
 
@@ -225,7 +187,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{ErrorStmt}(\_)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{ErrorStmt}(\_)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle
 \end{array}
 $$
 
@@ -235,7 +197,7 @@ $$
 \begin{array}{l}
 \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} ;\ R;\ L\ \vdash \ \mathsf{stmts}\ \Rightarrow \ \Gamma_{1} \ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \Gamma \ \vdash \ \operatorname{WarnResultUnreachable}(\mathsf{stmts})\ \Downarrow \ \mathsf{ok}\quad \operatorname{ResType}(\mathsf{Res})\ =\ T\quad (\mathsf{tail}_{\mathsf{opt}}\ =\ e\ \Rightarrow \ \Gamma_{1} ;\ R;\ L\ \vdash \ e\ :\ T_{e}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockInfo}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}))\ \Downarrow \ \langle T,\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockInfo}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}))\ \Downarrow \ \langle T,\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle
 \end{array}
 $$
 
@@ -259,7 +221,7 @@ $$
 \begin{array}{l}
 \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} ;\ R;\ L\ \vdash \ \mathsf{stmts}\ \Rightarrow \ \Gamma_{1} \ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \Gamma \ \vdash \ \operatorname{WarnResultUnreachable}(\mathsf{stmts})\ \Downarrow \ \mathsf{ok}\quad \operatorname{ResType}(\mathsf{Res})\ =\ \bot \quad \mathsf{tail}_{\mathsf{opt}}\ =\ e\quad \Gamma_{1} ;\ R;\ L\ \vdash \ e\ :\ T \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockInfo}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}))\ \Downarrow \ \langle T,\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockInfo}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}))\ \Downarrow \ \langle T,\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle
 \end{array}
 $$
 
@@ -269,7 +231,7 @@ $$
 \begin{array}{l}
 \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} ;\ R;\ L\ \vdash \ \mathsf{stmts}\ \Rightarrow \ \Gamma_{1} \ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \Gamma \ \vdash \ \operatorname{WarnResultUnreachable}(\mathsf{stmts})\ \Downarrow \ \mathsf{ok}\quad \operatorname{ResType}(\mathsf{Res})\ =\ \bot \quad \mathsf{tail}_{\mathsf{opt}}\ =\ \bot \quad \operatorname{LastStmt}(\mathsf{stmts})\ =\ \operatorname{ReturnStmt}(\_) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockInfo}(\operatorname{BlockExpr}(\mathsf{stmts},\ \bot ))\ \Downarrow \ \langle \operatorname{TypePrim}(\texttt{"!"}),\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockInfo}(\operatorname{BlockExpr}(\mathsf{stmts},\ \bot ))\ \Downarrow \ \langle \operatorname{TypePrim}(\texttt{"!"}),\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle
 \end{array}
 $$
 
@@ -279,7 +241,7 @@ $$
 \begin{array}{l}
 \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} ;\ R;\ L\ \vdash \ \mathsf{stmts}\ \Rightarrow \ \Gamma_{1} \ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \Gamma \ \vdash \ \operatorname{WarnResultUnreachable}(\mathsf{stmts})\ \Downarrow \ \mathsf{ok}\quad \operatorname{ResType}(\mathsf{Res})\ =\ \bot \quad \mathsf{tail}_{\mathsf{opt}}\ =\ \bot \quad \operatorname{LastStmt}(\mathsf{stmts})\ \ne \ \operatorname{ReturnStmt}(\_) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockInfo}(\operatorname{BlockExpr}(\mathsf{stmts},\ \bot ))\ \Downarrow \ \langle \operatorname{TypePrim}(\texttt{"()"}),\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockInfo}(\operatorname{BlockExpr}(\mathsf{stmts},\ \bot ))\ \Downarrow \ \langle \operatorname{TypePrim}(\texttt{"()"}),\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle
 \end{array}
 $$
 
@@ -287,13 +249,48 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockInfo}(b)\ \Downarrow \ \langle T,\ \_,\ \_\rangle  \\[0.16em]
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockInfo}(b)\ \Downarrow \ \langle T,\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ b\ :\ T
 \end{array}
 $$
 
-**(Chk-Block-Tail)**, **(Chk-Block-Return)**, and **(Chk-Block-Unit)** define checking-mode validation for block expressions.
+IsReturnTail(e) holds exactly for the return-shaped tails recognized by `BlockInfo-ReturnTail`.
+
+**(Chk-Block-Tail)**
+
+$$
+\begin{array}{l}
+\Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} ;\ R;\ L\ \vdash \ \mathsf{stmts}\ \Rightarrow \ \Gamma_{1} \ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \Gamma \ \vdash \ \operatorname{WarnResultUnreachable}(\mathsf{stmts})\ \Downarrow \ \mathsf{ok} \\[0.16em]
+\operatorname{ResType}(\mathsf{Res})\ =\ \bot \quad \mathsf{tail}_{\mathsf{opt}}\ =\ e\quad \lnot \ \operatorname{IsReturnTail}(e)\quad \Gamma_{1} ;\ R;\ L\ \vdash \ e\ \Leftarrow \ T\ \dashv \ C \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}})\ \Leftarrow \ T\ \dashv \ C
+\end{array}
+$$
+
+**(Chk-Block-Return)**
+
+$$
+\begin{array}{l}
+\Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} ;\ R;\ L\ \vdash \ \mathsf{stmts}\ \Rightarrow \ \Gamma_{1} \ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \Gamma \ \vdash \ \operatorname{WarnResultUnreachable}(\mathsf{stmts})\ \Downarrow \ \mathsf{ok} \\[0.16em]
+(\operatorname{ResType}(\mathsf{Res})\ \ne \ \bot \ \lor \ (\mathsf{tail}_{\mathsf{opt}}\ =\ e\ \land \ \operatorname{IsReturnTail}(e)\ \land \ \Gamma_{1} ;\ R;\ L\ \vdash \ e\ :\ \operatorname{TypePrim}(\texttt{"!"}))) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}})\ \Leftarrow \ T\ \dashv \ \emptyset
+\end{array}
+$$
+
+**(Chk-Block-Unit)**
+
+$$
+\begin{array}{l}
+\Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} ;\ R;\ L\ \vdash \ \mathsf{stmts}\ \Rightarrow \ \Gamma_{1} \ \triangleright \ \langle \mathsf{Res},\ \mathsf{Brk},\ \mathsf{BrkVoid}\rangle \quad \Gamma \ \vdash \ \operatorname{WarnResultUnreachable}(\mathsf{stmts})\ \Downarrow \ \mathsf{ok} \\[0.16em]
+\operatorname{ResType}(\mathsf{Res})\ =\ \bot \quad \mathsf{tail}_{\mathsf{opt}}\ =\ \bot \quad \Gamma \ \vdash \ \operatorname{TypePrim}(\texttt{"()"})\ \mathrel{<:} \ T \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}})\ \Leftarrow \ T\ \dashv \ \emptyset
+\end{array}
+$$
+
+The three rules partition exactly as `BlockInfo-Tail`, `BlockInfo-Res`/`BlockInfo-ReturnTail`, and `BlockInfo-Unit`.
 
 `BlockExpr` is also an expression form in §16.7. The rules above remain the block-local typing rules used there.
 
@@ -331,9 +328,9 @@ $$
 $$
 \begin{array}{l}
 \operatorname{EvalBlockBodySigma}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{ExecSeqSigma}(\mathsf{stmts},\ \sigma )\ \Downarrow \ (\mathsf{sout},\ \sigma_{1} )\ \land \ ( \\[0.16em]
-\ (\mathsf{sout}\ =\ \mathsf{ok}\ \land \ \mathsf{tail}_{\mathsf{opt}}\ =\ e\ \land \ \Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma '))\ \lor  \\[0.16em]
-\ (\mathsf{sout}\ =\ \mathsf{ok}\ \land \ \mathsf{tail}_{\mathsf{opt}}\ =\ \bot \ \land \ \mathsf{out}\ =\ \operatorname{Val}(())\ \land \ \sigma '\ =\ \sigma_{1} )\ \lor  \\[0.16em]
-\ (\mathsf{sout}\ =\ \operatorname{Ctrl}(\operatorname{TailValue}(v))\ \land \ \mathsf{out}\ =\ \operatorname{Val}(v)\ \land \ \sigma '\ =\ \sigma_{1} )\ \lor  \\[0.16em]
+\ (\mathsf{sout}\ =\ \mathsf{ok}\ \land \ \mathsf{tail}_{\mathsf{opt}}\ =\ e\ \land \ \Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma '))\ \lor \\[0.16em]
+\ (\mathsf{sout}\ =\ \mathsf{ok}\ \land \ \mathsf{tail}_{\mathsf{opt}}\ =\ \bot \ \land \ \mathsf{out}\ =\ \operatorname{Val}(())\ \land \ \sigma '\ =\ \sigma_{1} )\ \lor \\[0.16em]
+\ (\mathsf{sout}\ =\ \operatorname{Ctrl}(\operatorname{TailValue}(v))\ \land \ \mathsf{out}\ =\ \operatorname{Val}(v)\ \land \ \sigma '\ =\ \sigma_{1} )\ \lor \\[0.16em]
 \ (\mathsf{sout}\ =\ \operatorname{Ctrl}(\kappa )\ \land \ \kappa \ \ne \ \operatorname{TailValue}(\_)\ \land \ \mathsf{out}\ =\ \operatorname{Ctrl}(\kappa )\ \land \ \sigma '\ =\ \sigma_{1} ) \\[0.16em]
 )
 \end{array}
@@ -407,7 +404,7 @@ $$
 \begin{array}{l}
 s\ \notin \ \{\operatorname{DeferStmt}(\_),\ \operatorname{RegionStmt}(\_,\ \_,\ \_),\ \operatorname{FrameStmt}(\_,\ \_),\ \operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\}\quad \Gamma \ \vdash \ \operatorname{ExecSigma}(s,\ \sigma )\ \Downarrow \ (\mathsf{ok},\ \sigma ') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Exec}(s,\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle 
+\langle \operatorname{Exec}(s,\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle
 \end{array}
 $$
 
@@ -417,7 +414,7 @@ $$
 \begin{array}{l}
 s\ \notin \ \{\operatorname{DeferStmt}(\_),\ \operatorname{RegionStmt}(\_,\ \_,\ \_),\ \operatorname{FrameStmt}(\_,\ \_),\ \operatorname{KeyBlockStmt}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\}\quad \Gamma \ \vdash \ \operatorname{ExecSigma}(s,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma ') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Exec}(s,\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma ')\rangle 
+\langle \operatorname{Exec}(s,\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma ')\rangle
 \end{array}
 $$
 
@@ -427,7 +424,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ExecSeqSigma}(\mathsf{ss},\ \sigma )\ \Downarrow \ (\mathsf{ok},\ \sigma ') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ExecSeq}(\mathsf{ss},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle 
+\langle \operatorname{ExecSeq}(\mathsf{ss},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle
 \end{array}
 $$
 
@@ -437,7 +434,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ExecSeqSigma}(\mathsf{ss},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma ') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ExecSeq}(\mathsf{ss},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma ')\rangle 
+\langle \operatorname{ExecSeq}(\mathsf{ss},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma ')\rangle
 \end{array}
 $$
 
@@ -447,7 +444,7 @@ $$
 \begin{array}{l}
 \operatorname{AppendCleanup}(\sigma ,\ \operatorname{DeferBlock}(b))\ \Downarrow \ \sigma ' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Exec}(\operatorname{DeferStmt}(b),\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle 
+\langle \operatorname{Exec}(\operatorname{DeferStmt}(b),\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle
 \end{array}
 $$
 
@@ -477,7 +474,7 @@ $$
 \begin{array}{l}
 \forall \ \sigma ,\ \mathsf{out},\ \sigma '.\ \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(b,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\ \Rightarrow \ (\operatorname{ExecIRSigma}(\mathsf{IR},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\ \land \ (\mathsf{out}\ =\ \operatorname{Val}(v')\ \Rightarrow \ v\ =\ v')) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerBlock}(b)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerBlock}(b)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 
@@ -493,7 +490,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerStmtList}([])\ \Downarrow \ \varepsilon 
+\Gamma \ \vdash \ \operatorname{LowerStmtList}([])\ \Downarrow \ \varepsilon
 \end{array}
 $$
 
@@ -511,9 +508,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{tail}\ \ne \ \bot \quad \Gamma \ \vdash \ \operatorname{LowerStmtList}(\mathsf{stmts})\ \Downarrow \ \mathsf{IR}_{s}\quad \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{tail})\ \Downarrow \ \langle \mathsf{IR}_{t},\ v_{t}\rangle  \\[0.16em]
+\mathsf{tail}\ \ne \ \bot \quad \Gamma \ \vdash \ \operatorname{LowerStmtList}(\mathsf{stmts})\ \Downarrow \ \mathsf{IR}_{s}\quad \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{tail})\ \Downarrow \ \langle \mathsf{IR}_{t},\ v_{t}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerBlock}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}))\ \Downarrow \ \langle \operatorname{BlockIR}(\mathsf{IR}_{s},\ \mathsf{IR}_{t},\ v_{t}),\ v_{\mathsf{block}}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerBlock}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}))\ \Downarrow \ \langle \operatorname{BlockIR}(\mathsf{IR}_{s},\ \mathsf{IR}_{t},\ v_{t}),\ v_{\mathsf{block}}\rangle
 \end{array}
 $$
 
@@ -523,7 +520,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LowerStmtList}(\mathsf{stmts})\ \Downarrow \ \mathsf{IR}_{s} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerBlock}(\operatorname{BlockExpr}(\mathsf{stmts},\ \bot ))\ \Downarrow \ \langle \operatorname{BlockIR}(\mathsf{IR}_{s},\ \varepsilon ,\ ()),\ v_{\mathsf{block}}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerBlock}(\operatorname{BlockExpr}(\mathsf{stmts},\ \bot ))\ \Downarrow \ \langle \operatorname{BlockIR}(\mathsf{IR}_{s},\ \varepsilon ,\ ()),\ v_{\mathsf{block}}\rangle
 \end{array}
 $$
 
@@ -578,8 +575,8 @@ $$
 \begin{array}{l}
 \mathsf{BlockForms0}\ =\ \{\operatorname{BlockExpr}(\_,\ \_)\} \\[0.16em]
 \mathsf{LoopForms0}\ =\ \{\operatorname{LoopInfinite}(\_,\ \_),\ \operatorname{LoopConditional}(\_,\ \_,\ \_),\ \operatorname{LoopIter}(\_,\ \_,\ \_,\ \_,\ \_)\} \\[0.16em]
-\operatorname{LowerBlockTotal}(\Gamma )\ \Leftrightarrow \ \forall \ b.\ b\ \in \ \mathsf{BlockForms0}\ \Rightarrow \ \exists \ \mathsf{IR},\ v.\ \Gamma \ \vdash \ \operatorname{LowerBlock}(b)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
-\operatorname{LowerLoopTotal}(\Gamma )\ \Leftrightarrow \ \forall \ l.\ l\ \in \ \mathsf{LoopForms0}\ \Rightarrow \ \exists \ \mathsf{IR},\ v.\ \Gamma \ \vdash \ \operatorname{LowerLoop}(l)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\operatorname{LowerBlockTotal}(\Gamma )\ \Leftrightarrow \ \forall \ b.\ b\ \in \ \mathsf{BlockForms0}\ \Rightarrow \ \exists \ \mathsf{IR},\ v.\ \Gamma \ \vdash \ \operatorname{LowerBlock}(b)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle \\[0.16em]
+\operatorname{LowerLoopTotal}(\Gamma )\ \Leftrightarrow \ \forall \ l.\ l\ \in \ \mathsf{LoopForms0}\ \Rightarrow \ \exists \ \mathsf{IR},\ v.\ \Gamma \ \vdash \ \operatorname{LowerLoop}(l)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 
@@ -587,9 +584,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerLoop}(\operatorname{LoopInfinite}(\mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}))\ \Downarrow \ \langle \operatorname{LoopIR}(\mathsf{LoopInfinite},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{IR}_{b},\ v_{b}),\ v_{\mathsf{loop}}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerLoop}(\operatorname{LoopInfinite}(\mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}))\ \Downarrow \ \langle \operatorname{LoopIR}(\mathsf{LoopInfinite},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{IR}_{b},\ v_{b}),\ v_{\mathsf{loop}}\rangle
 \end{array}
 $$
 
@@ -597,9 +594,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{cond})\ \Downarrow \ \langle \mathsf{IR}_{c},\ v_{c}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{cond})\ \Downarrow \ \langle \mathsf{IR}_{c},\ v_{c}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerLoop}(\operatorname{LoopConditional}(\mathsf{cond},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}))\ \Downarrow \ \langle \operatorname{LoopIR}(\mathsf{LoopConditional},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{IR}_{c},\ v_{c},\ \mathsf{IR}_{b},\ v_{b}),\ v_{\mathsf{loop}}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerLoop}(\operatorname{LoopConditional}(\mathsf{cond},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}))\ \Downarrow \ \langle \operatorname{LoopIR}(\mathsf{LoopConditional},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{IR}_{c},\ v_{c},\ \mathsf{IR}_{b},\ v_{b}),\ v_{\mathsf{loop}}\rangle
 \end{array}
 $$
 
@@ -607,9 +604,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{iter})\ \Downarrow \ \langle \mathsf{IR}_{i},\ v_{\mathsf{iter}}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{iter})\ \Downarrow \ \langle \mathsf{IR}_{i},\ v_{\mathsf{iter}}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerLoop}(\operatorname{LoopIter}(\mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{iter},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}))\ \Downarrow \ \langle \operatorname{LoopIR}(\mathsf{LoopIter},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{IR}_{i},\ v_{\mathsf{iter}},\ \mathsf{IR}_{b},\ v_{b}),\ v_{\mathsf{loop}}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerLoop}(\operatorname{LoopIter}(\mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{iter},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{body}))\ \Downarrow \ \langle \operatorname{LoopIR}(\mathsf{LoopIter},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{inv}_{\mathsf{opt}},\ \mathsf{IR}_{i},\ v_{\mathsf{iter}},\ \mathsf{IR}_{b},\ v_{b}),\ v_{\mathsf{loop}}\rangle
 \end{array}
 $$
 

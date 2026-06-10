@@ -2,16 +2,16 @@
 title: "17.1 Basic Patterns"
 description: "17.1 Basic Patterns from 17. Patterns of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "patterns"
 specSection: "171-basic-patterns"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -168,7 +168,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \_\ \triangleleft \ T\ \dashv \ \emptyset 
+\Gamma \ \vdash \ \_\ \triangleleft \ T\ \dashv \ \emptyset
 \end{array}
 $$
 
@@ -187,7 +187,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{Literal}(\mathsf{lit})\ :\ T_{l}\quad \Gamma \ \vdash \ T_{l}\ \mathrel{<:} \ T \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LiteralPattern}(\mathsf{lit})\ \triangleleft \ T\ \dashv \ \emptyset 
+\Gamma \ \vdash \ \operatorname{LiteralPattern}(\mathsf{lit})\ \triangleleft \ T\ \dashv \ \emptyset
 \end{array}
 $$
 
@@ -226,7 +226,7 @@ $$
 \mathsf{MatchPatJudg}\ =\ \{\operatorname{MatchPattern}(p,\ v)\ \Downarrow \ B\} \\[0.16em]
 \operatorname{PatType}(\operatorname{LiteralPattern}(\mathsf{lit}))\ = \\[0.16em]
 \ \operatorname{TypePrim}(t)\quad \mathsf{if}\ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\ \land \ \operatorname{IntSuffix}(\mathsf{lit})\ =\ t \\[0.16em]
-\ \operatorname{TypePrim}(\texttt{"i32"})\quad \mathsf{if}\ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\ \land \ \operatorname{IntSuffix}(\mathsf{lit})\ =\ \bot  \\[0.16em]
+\ \operatorname{TypePrim}(\texttt{"i32"})\quad \mathsf{if}\ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{IntLiteral}\ \land \ \operatorname{IntSuffix}(\mathsf{lit})\ =\ \bot \\[0.16em]
 \ \operatorname{TypePrim}(t)\quad \mathsf{if}\ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\ \land \ \operatorname{FloatSuffix}(\mathsf{lit})\ =\ t\ \land \ t\ \in \ \{\texttt{"f16"},\ \texttt{"f32"},\ \texttt{"f64"}\} \\[0.16em]
 \ \operatorname{TypePrim}(\texttt{"f32"})\quad \mathsf{if}\ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{FloatLiteral}\ \land \ (\operatorname{FloatSuffix}(\mathsf{lit})\ =\ \texttt{"f"}\ \lor \ \operatorname{NoFloatSuffix}(\mathsf{lit})) \\[0.16em]
 \ \operatorname{TypePrim}(\texttt{"bool"})\quad \mathsf{if}\ \mathsf{lit}.\mathsf{kind}\ =\ \mathsf{BoolLiteral} \\[0.16em]
@@ -241,7 +241,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{MatchPattern}(\_,\ v)\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{MatchPattern}(\_,\ v)\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -260,7 +260,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{PatType}(\ell )\quad \operatorname{LiteralValue}(\ell ,\ T)\ =\ v \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{MatchPattern}(\ell ,\ v)\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{MatchPattern}(\ell ,\ v)\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -270,7 +270,7 @@ RuntimeTypeMember(v, T)
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{MatchPattern}(\operatorname{TypedPattern}(\texttt{"\_"},\ T),\ v)\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{MatchPattern}(\operatorname{TypedPattern}(\texttt{"\_"},\ T),\ v)\ \Downarrow \ \emptyset
 \end{array}
 $$
 

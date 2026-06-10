@@ -2,16 +2,16 @@
 title: "15.1 Procedure Declarations"
 description: "15.1 Procedure Declarations from 15. Procedures and Contracts of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "procedures-and-contracts"
 specSection: "151-procedure-declarations"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -158,8 +158,8 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{ProcedureDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{params},\ \mathsf{return}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}\rangle  \\[0.16em]
-\mathsf{Param}\ =\ \langle \mathsf{mode},\ \mathsf{name},\ \mathsf{type}\rangle 
+\mathsf{ProcedureDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{params},\ \mathsf{return}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}\rangle \\[0.16em]
+\mathsf{Param}\ =\ \langle \mathsf{mode},\ \mathsf{name},\ \mathsf{type}\rangle
 \end{array}
 $$
 
@@ -173,7 +173,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\ = \\[0.16em]
-\ \{\ \operatorname{TypePrim}(\texttt{"()"})\ \mathsf{if}\ \mathsf{ret}_{\mathsf{opt}}\ =\ \bot  \\[0.16em]
+\ \{\ \operatorname{TypePrim}(\texttt{"()"})\ \mathsf{if}\ \mathsf{ret}_{\mathsf{opt}}\ =\ \bot \\[0.16em]
 \quad \mathsf{ret}_{\mathsf{opt}}\quad \mathsf{otherwise}\ \}
 \end{array}
 $$
@@ -181,7 +181,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{BodyReturnType}(R)\ = \\[0.16em]
-\ \{\ \mathsf{Result}\quad \mathsf{if}\ \operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle  \\[0.16em]
+\ \{\ \mathsf{Result}\quad \mathsf{if}\ \operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \\[0.16em]
 \quad R\quad \mathsf{otherwise}\ \}
 \end{array}
 $$
@@ -193,7 +193,7 @@ $$
 ### 15.1.4 Static Semantics
 
 $$
-\operatorname{ReturnAnnOk}(\mathsf{ret}_{\mathsf{opt}})\ \Leftrightarrow \ \mathsf{ret}_{\mathsf{opt}}\ \ne \ \bot 
+\operatorname{ReturnAnnOk}(\mathsf{ret}_{\mathsf{opt}})\ \Leftrightarrow \ \mathsf{ret}_{\mathsf{opt}}\ \ne \ \bot
 $$
 
 **(WF-ProcedureDecl)**
@@ -216,7 +216,7 @@ $$
 $$
 
 $$
-\operatorname{ProvBindCheck}(\mathsf{params},\ \mathsf{body})\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \mathsf{body}\ =\ \operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}})\ \land \ \exists \ \mathsf{vec}\{\pi \}.\ \mid \mathsf{vec}\{\pi \}\mid \ =\ \mid \mathsf{params}\mid \ \land \ \Gamma ;\ \operatorname{InitProvEnv}(\mathsf{params},\ \mathsf{vec}\{\pi \},\ [])\ \vdash \ \operatorname{BlockProv}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}})\ \Downarrow \ \pi 
+\operatorname{ProvBindCheck}(\mathsf{params},\ \mathsf{body})\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \mathsf{body}\ =\ \operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}})\ \land \ \exists \ \mathsf{vec}\{\pi \}.\ \mid \mathsf{vec}\{\pi \}\mid \ =\ \mid \mathsf{params}\mid \ \land \ \Gamma ;\ \operatorname{InitProvEnv}(\mathsf{params},\ \mathsf{vec}\{\pi \},\ [])\ \vdash \ \operatorname{BlockProv}(\mathsf{stmts},\ \mathsf{tail}_{\mathsf{opt}})\ \Downarrow \ \pi
 $$
 
 $$
@@ -244,7 +244,7 @@ $$
 \begin{array}{l}
 \mathsf{item}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \_,\ \_,\ \_)\quad \lnot \ \operatorname{ReturnAnnOk}(\mathsf{ret}_{\mathsf{opt}}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \mathsf{item}\ \Uparrow 
+\Gamma \ \vdash \ \mathsf{item}\ \Uparrow
 \end{array}
 $$
 
@@ -254,7 +254,7 @@ $$
 \begin{array}{l}
 \mathsf{item}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \mathsf{body},\ \_,\ \_)\quad R\ =\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\quad R_{b}\ =\ \operatorname{BodyReturnType}(R)\quad R_{b}\ \ne \ \operatorname{TypePrim}(\texttt{"()"})\quad \lnot \ \operatorname{ExplicitReturn}(\mathsf{body}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \mathsf{item}\ \Uparrow 
+\Gamma \ \vdash \ \mathsf{item}\ \Uparrow
 \end{array}
 $$
 
@@ -369,8 +369,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{RegionProcParams}(\mathsf{name})\ =\ \mathsf{params}\ \Leftrightarrow \ \operatorname{RegionProcSig}(\texttt{Region::}\mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle  \\[0.16em]
-\operatorname{CancelProcParams}(\mathsf{name})\ =\ \mathsf{params}\ \Leftrightarrow \ \operatorname{CancelTokenProcSig}(\texttt{CancelToken::}\mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle 
+\operatorname{RegionProcParams}(\mathsf{name})\ =\ \mathsf{params}\ \Leftrightarrow \ \operatorname{RegionProcSig}(\texttt{Region::}\mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle \\[0.16em]
+\operatorname{CancelProcParams}(\mathsf{name})\ =\ \mathsf{params}\ \Leftrightarrow \ \operatorname{CancelTokenProcSig}(\texttt{CancelToken::}\mathsf{name})\ =\ \langle \mathsf{params},\ \mathsf{ret}\rangle
 \end{array}
 $$
 
@@ -400,8 +400,8 @@ $$
 \operatorname{ReturnOut}(\operatorname{Ctrl}(\operatorname{Return}(v)))\ =\ \operatorname{Val}(v) \\[0.16em]
 \operatorname{ReturnOut}(\operatorname{Ctrl}(\mathsf{Panic}))\ =\ \operatorname{Ctrl}(\mathsf{Panic}) \\[0.16em]
 \operatorname{ReturnOut}(\operatorname{Ctrl}(\mathsf{Abort}))\ =\ \operatorname{Ctrl}(\mathsf{Abort}) \\[0.16em]
-\operatorname{ReturnOut}(\operatorname{Ctrl}(\operatorname{Break}(v_{\mathsf{opt}})))\ =\ \bot  \\[0.16em]
-\operatorname{ReturnOut}(\operatorname{Ctrl}(\mathsf{Continue}))\ =\ \bot  \\[0.16em]
+\operatorname{ReturnOut}(\operatorname{Ctrl}(\operatorname{Break}(v_{\mathsf{opt}})))\ =\ \bot \\[0.16em]
+\operatorname{ReturnOut}(\operatorname{Ctrl}(\mathsf{Continue}))\ =\ \bot \\[0.16em]
 \operatorname{ReturnOut}(\mathsf{out})\ =\ \bot \ \Rightarrow \ \operatorname{IllFormed}(\operatorname{ReturnOut}(\mathsf{out}))
 \end{array}
 $$
@@ -573,15 +573,7 @@ $$
 \end{array}
 $$
 
-**(EvalSigma-Call-Proc)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{callee},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{c}),\ \sigma_{1} )\quad \mathsf{proc}\ =\ \operatorname{CallTarget}(v_{c})\quad \Gamma \ \vdash \ \operatorname{EvalArgsSigma}(\mathsf{proc}.\mathsf{params},\ \mathsf{args},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(\mathsf{vec}_{v}),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ApplyProcSigma}(\mathsf{proc},\ \mathsf{vec}_{v},\ \sigma_{2} )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} ) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Call}(\mathsf{callee},\ \mathsf{args}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{3} )
-\end{array}
-$$
+Rule **(EvalSigma-Call-Proc)** is defined once by §16.3.5.
 
 ### 15.1.6 Lowering
 

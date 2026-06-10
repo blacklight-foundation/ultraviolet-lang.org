@@ -2,16 +2,16 @@
 title: "17.5 Case Clauses"
 description: "17.5 Case Clauses from 17. Patterns of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "patterns"
 specSection: "175-case-clauses"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -96,7 +96,7 @@ $$
 ### 17.5.3 AST Representation / Form
 
 $$
-\mathsf{IfCase}\ =\ \langle \mathsf{pat},\ \mathsf{body}\rangle 
+\mathsf{IfCase}\ =\ \langle \mathsf{pat},\ \mathsf{body}\rangle
 $$
 
 $$
@@ -192,9 +192,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \mathsf{pat}\ \triangleleft \ T_{s}\ \dashv \ B\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}))\quad \operatorname{ScrutineeBinding}(e)\ =\ x\quad \operatorname{PatternNarrow}(\Gamma ,\ \mathsf{pat},\ T_{s})\ \Downarrow \ T_{n}\quad \operatorname{RefineBinding}(\Gamma ,\ x,\ T_{n})\ \Downarrow \ \Gamma_{r} \quad \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma_{r} )\quad \operatorname{IntroAll}(\Gamma_{0} ,\ B)\ \Downarrow \ \Gamma_{\mathsf{case}}  \\[0.16em]
+\Gamma \ \vdash \ \mathsf{pat}\ \triangleleft \ T_{s}\ \dashv \ B\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}))\quad \operatorname{ScrutineeBinding}(e)\ =\ x\quad \operatorname{PatternNarrow}(\Gamma ,\ \mathsf{pat},\ T_{s})\ \Downarrow \ T_{n}\quad \operatorname{RefineBinding}(\Gamma ,\ x,\ T_{n})\ \Downarrow \ \Gamma_{r} \quad \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma_{r} )\quad \operatorname{IntroAll}(\Gamma_{0} ,\ B)\ \Downarrow \ \Gamma_{\mathsf{case}} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\operatorname{CaseScope}(\Gamma ,\ e,\ \mathsf{pat},\ T_{s})\ \Downarrow \ \Gamma_{\mathsf{case}} 
+\operatorname{CaseScope}(\Gamma ,\ e,\ \mathsf{pat},\ T_{s})\ \Downarrow \ \Gamma_{\mathsf{case}}
 \end{array}
 $$
 
@@ -202,9 +202,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \mathsf{pat}\ \triangleleft \ T_{s}\ \dashv \ B\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}))\quad (\operatorname{ScrutineeBinding}(e)\ =\ \bot \ \lor \ \operatorname{PatternNarrow}(\Gamma ,\ \mathsf{pat},\ T_{s})\ \mathsf{undefined})\quad \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \operatorname{IntroAll}(\Gamma_{0} ,\ B)\ \Downarrow \ \Gamma_{\mathsf{case}}  \\[0.16em]
+\Gamma \ \vdash \ \mathsf{pat}\ \triangleleft \ T_{s}\ \dashv \ B\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}))\quad (\operatorname{ScrutineeBinding}(e)\ =\ \bot \ \lor \ \operatorname{PatternNarrow}(\Gamma ,\ \mathsf{pat},\ T_{s})\ \mathsf{undefined})\quad \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \operatorname{IntroAll}(\Gamma_{0} ,\ B)\ \Downarrow \ \Gamma_{\mathsf{case}} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\operatorname{CaseScope}(\Gamma ,\ e,\ \mathsf{pat},\ T_{s})\ \Downarrow \ \Gamma_{\mathsf{case}} 
+\operatorname{CaseScope}(\Gamma ,\ e,\ \mathsf{pat},\ T_{s})\ \Downarrow \ \Gamma_{\mathsf{case}}
 \end{array}
 $$
 
@@ -212,9 +212,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ScrutineeBinding}(e)\ =\ x\quad \operatorname{PatternRejectNarrow}(\Gamma ,\ \mathsf{pat},\ T_{s})\ \Downarrow \ T_{r}\quad \operatorname{RefineBinding}(\Gamma ,\ x,\ T_{r})\ \Downarrow \ \Gamma_{\mathsf{else}}  \\[0.16em]
+\operatorname{ScrutineeBinding}(e)\ =\ x\quad \operatorname{PatternRejectNarrow}(\Gamma ,\ \mathsf{pat},\ T_{s})\ \Downarrow \ T_{r}\quad \operatorname{RefineBinding}(\Gamma ,\ x,\ T_{r})\ \Downarrow \ \Gamma_{\mathsf{else}} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\operatorname{ElseScope}(\Gamma ,\ e,\ \mathsf{pat},\ T_{s})\ \Downarrow \ \Gamma_{\mathsf{else}} 
+\operatorname{ElseScope}(\Gamma ,\ e,\ \mathsf{pat},\ T_{s})\ \Downarrow \ \Gamma_{\mathsf{else}}
 \end{array}
 $$
 
@@ -224,7 +224,7 @@ $$
 \begin{array}{l}
 \operatorname{ScrutineeBinding}(e)\ =\ \bot \ \lor \ \operatorname{PatternRejectNarrow}(\Gamma ,\ \mathsf{pat},\ T_{s})\ \mathsf{undefined} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\operatorname{ElseScope}(\Gamma ,\ e,\ \mathsf{pat},\ T_{s})\ \Downarrow \ \Gamma 
+\operatorname{ElseScope}(\Gamma ,\ e,\ \mathsf{pat},\ T_{s})\ \Downarrow \ \Gamma
 \end{array}
 $$
 
@@ -233,7 +233,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\operatorname{CasesElseScope}(\Gamma ,\ e,\ [],\ T)\ \Downarrow \ \Gamma 
+\operatorname{CasesElseScope}(\Gamma ,\ e,\ [],\ T)\ \Downarrow \ \Gamma
 \end{array}
 $$
 
@@ -241,9 +241,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{PatternRejectNarrow}(\Gamma ,\ \mathsf{pat},\ T)\ \Downarrow \ T_{r}\quad \operatorname{ElseScope}(\Gamma ,\ e,\ \mathsf{pat},\ T)\ \Downarrow \ \Gamma_{1} \quad \operatorname{CasesElseScope}(\Gamma_{1} ,\ e,\ \mathsf{cases},\ T_{r})\ \Downarrow \ \Gamma_{2}  \\[0.16em]
+\operatorname{PatternRejectNarrow}(\Gamma ,\ \mathsf{pat},\ T)\ \Downarrow \ T_{r}\quad \operatorname{ElseScope}(\Gamma ,\ e,\ \mathsf{pat},\ T)\ \Downarrow \ \Gamma_{1} \quad \operatorname{CasesElseScope}(\Gamma_{1} ,\ e,\ \mathsf{cases},\ T_{r})\ \Downarrow \ \Gamma_{2} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\operatorname{CasesElseScope}(\Gamma ,\ e,\ \langle \mathsf{pat},\ \mathsf{body}\rangle \ \mathbin{::} \ \mathsf{cases},\ T)\ \Downarrow \ \Gamma_{2} 
+\operatorname{CasesElseScope}(\Gamma ,\ e,\ \langle \mathsf{pat},\ \mathsf{body}\rangle \ \mathbin{::} \ \mathsf{cases},\ T)\ \Downarrow \ \Gamma_{2}
 \end{array}
 $$
 
@@ -251,9 +251,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{PatternRejectNarrow}(\Gamma ,\ \mathsf{pat},\ T)\ \mathsf{undefined}\quad \operatorname{ElseScope}(\Gamma ,\ e,\ \mathsf{pat},\ T)\ \Downarrow \ \Gamma_{1} \quad \operatorname{CasesElseScope}(\Gamma_{1} ,\ e,\ \mathsf{cases},\ T)\ \Downarrow \ \Gamma_{2}  \\[0.16em]
+\operatorname{PatternRejectNarrow}(\Gamma ,\ \mathsf{pat},\ T)\ \mathsf{undefined}\quad \operatorname{ElseScope}(\Gamma ,\ e,\ \mathsf{pat},\ T)\ \Downarrow \ \Gamma_{1} \quad \operatorname{CasesElseScope}(\Gamma_{1} ,\ e,\ \mathsf{cases},\ T)\ \Downarrow \ \Gamma_{2} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\operatorname{CasesElseScope}(\Gamma ,\ e,\ \langle \mathsf{pat},\ \mathsf{body}\rangle \ \mathbin{::} \ \mathsf{cases},\ T)\ \Downarrow \ \Gamma_{2} 
+\operatorname{CasesElseScope}(\Gamma ,\ e,\ \langle \mathsf{pat},\ \mathsf{body}\rangle \ \mathbin{::} \ \mathsf{cases},\ T)\ \Downarrow \ \Gamma_{2}
 \end{array}
 $$
 
@@ -320,9 +320,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{else}_{\mathsf{opt}}\ =\ \bot  \\[0.16em]
+\mathsf{else}_{\mathsf{opt}}\ =\ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{EvalIfCaseListSigma}([],\ \mathsf{else}_{\mathsf{opt}},\ v,\ \sigma )\ \Downarrow \ (\operatorname{Val}(()),\ \sigma )
+\Gamma \ \vdash \ \operatorname{EvalIfCaseListSigma}([],\ \mathsf{else}_{\mathsf{opt}},\ v,\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma )
 \end{array}
 $$
 
@@ -334,6 +334,8 @@ $$
 \mathsf{PatternLowerJudg}\ =\ \{\mathsf{LowerBindPattern},\ \mathsf{LowerBindList},\ \mathsf{LowerIfCases},\ \mathsf{TagOf}\}
 \end{array}
 $$
+
+When `else_opt = ⊥`, `LowerIfCases` MUST emit a trailing arm that lowers to `LowerPanic(MatchFail)`; the arm is reached only when no case clause matches.
 
 **(Lower-Pat-Correctness)**
 
@@ -352,7 +354,7 @@ $$
 \begin{array}{l}
 \forall \ \sigma ,\ \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{IfCaseExpr}(\mathsf{scrut},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\ \Rightarrow \ \operatorname{ExecIRSigma}(\mathsf{IR},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\quad \operatorname{IfCaseValueCorrect}(\Gamma ,\ \mathsf{scrut},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}},\ v) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIfCases}(\mathsf{scrut},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIfCases}(\mathsf{scrut},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 
@@ -390,7 +392,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerBindList}([])\ \Downarrow \ \varepsilon 
+\Gamma \ \vdash \ \operatorname{LowerBindList}([])\ \Downarrow \ \varepsilon
 \end{array}
 $$
 
@@ -420,7 +422,7 @@ MatchPattern(pat, v) undefined
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerBindPattern}(\mathsf{pat},\ v)\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{LowerBindPattern}(\mathsf{pat},\ v)\ \Uparrow
 \end{array}
 $$
 
@@ -428,9 +430,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{scrut})\ \Downarrow \ \langle \mathsf{IR}_{s},\ v_{s}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{scrut}\ :\ T_{s}\quad \forall \ i,\ \mathsf{case}_{i}\ =\ \langle p_{i},\ b_{i}\rangle \quad \forall \ i,\ \operatorname{CaseScope}(\Gamma ,\ \mathsf{scrut},\ p_{i},\ T_{s})\ \Downarrow \ \Gamma_{i}  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{scrut})\ \Downarrow \ \langle \mathsf{IR}_{s},\ v_{s}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{scrut}\ :\ T_{s}\quad \forall \ i,\ \mathsf{case}_{i}\ =\ \langle p_{i},\ b_{i}\rangle \quad \forall \ i,\ \operatorname{CaseScope}(\Gamma ,\ \mathsf{scrut},\ p_{i},\ T_{s})\ \Downarrow \ \Gamma_{i} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIfCases}(\mathsf{scrut},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{s},\ \operatorname{IfCaseIR}(v_{s},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}})),\ v_{\mathsf{case}}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerIfCases}(\mathsf{scrut},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{s},\ \operatorname{IfCaseIR}(v_{s},\ \mathsf{cases},\ \mathsf{else}_{\mathsf{opt}})),\ v_{\mathsf{case}}\rangle
 \end{array}
 $$
 

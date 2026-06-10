@@ -2,16 +2,16 @@
 title: "23.4 FFI Attributes"
 description: "23.4 FFI Attributes from 23. Foreign Function Interface of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "foreign-function-interface"
 specSection: "234-ffi-attributes"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -87,9 +87,11 @@ $$
 \begin{array}{l}
 \operatorname{ResolveLibraryName}(\texttt{dylib},\ \mathsf{name},\ \texttt{x86\_64-sysv})\ =\ \texttt{"lib"}\ \mathbin{++} \ \mathsf{name}\ \mathbin{++} \ \texttt{".so"} \\[0.16em]
 \operatorname{ResolveLibraryName}(\texttt{dylib},\ \mathsf{name},\ \texttt{aarch64-aapcs64})\ =\ \texttt{"lib"}\ \mathbin{++} \ \mathsf{name}\ \mathbin{++} \ \texttt{".so"} \\[0.16em]
+\operatorname{ResolveLibraryName}(\texttt{dylib},\ \mathsf{name},\ \texttt{aarch64-darwin})\ =\ \texttt{"lib"}\ \mathbin{++} \ \mathsf{name}\ \mathbin{++} \ \texttt{".dylib"} \\[0.16em]
 \operatorname{ResolveLibraryName}(\texttt{dylib},\ \mathsf{name},\ \texttt{x86\_64-win64})\ =\ \mathsf{name}\ \mathbin{++} \ \texttt{".dll"} \\[0.16em]
 \operatorname{ResolveLibraryName}(\texttt{static},\ \mathsf{name},\ \texttt{x86\_64-sysv})\ =\ \texttt{"lib"}\ \mathbin{++} \ \mathsf{name}\ \mathbin{++} \ \texttt{".a"} \\[0.16em]
 \operatorname{ResolveLibraryName}(\texttt{static},\ \mathsf{name},\ \texttt{aarch64-aapcs64})\ =\ \texttt{"lib"}\ \mathbin{++} \ \mathsf{name}\ \mathbin{++} \ \texttt{".a"} \\[0.16em]
+\operatorname{ResolveLibraryName}(\texttt{static},\ \mathsf{name},\ \texttt{aarch64-darwin})\ =\ \texttt{"lib"}\ \mathbin{++} \ \mathsf{name}\ \mathbin{++} \ \texttt{".a"} \\[0.16em]
 \operatorname{ResolveLibraryName}(\texttt{static},\ \mathsf{name},\ \texttt{x86\_64-win64})\ =\ \mathsf{name}\ \mathbin{++} \ \texttt{".lib"} \\[0.16em]
 \operatorname{ResolveLibraryName}(\texttt{raw-dylib},\ \mathsf{name},\ \texttt{x86\_64-win64})\ =\ \mathsf{name}\ \mathbin{++} \ \texttt{".dll"} \\[0.16em]
 \operatorname{LibraryKindSupported}(\texttt{framework},\ \mathsf{profile})\ \Leftrightarrow \ \mathsf{false} \\[0.16em]
@@ -182,10 +184,10 @@ FFI attributes do not directly evaluate to runtime values. `#unwind` selects the
 | `E-SYS-3347` | Error    | Link-time                 | Library not found                                        |
 | `E-SYS-3350` | Error    | Compile-time              | `#mangle(none)` on non-exportable procedure           |
 | `E-SYS-3351` | Error    | Compile-time              | Conflicting explicit mangling directives                 |
-| `E-SYS-3355` | Error    | Compile-time              | Unknown unwind mode                                      |
+| `E-SYS-3355` | Error    | Compile-time              | Unknown unwind mode (`UnwindMode-Invalid-Err`) |
 | `E-SYS-3356` | Error    | Compile-time              | `#unwind` on non-FFI procedure                        |
-| `E-SYS-3357` | Error    | Compile-time              | `#host_export` requires `assembly.kind = "library"`   |
-| `E-SYS-3358` | Error    | Compile-time              | `#host_export` and `#export` mixed in one assembly |
+| `E-SYS-3357` | Error    | Compile-time              | `#host_export` requires `assembly.kind = "library"` (`HostExport-Library-Err`) |
+| `E-SYS-3358` | Error    | Compile-time              | `#host_export` and `#export` mixed in one assembly (`HostExport-MixedMode-Err`) |
 | `E-FFI-0350` | Error    | Compile-time              | Multiple `#unwind` attributes                         |
 | `W-SYS-3350` | Warning  | Compile-time              | `#mangle(none)` with `#export("C")` (redundant)    |
 | `W-SYS-3355` | Warning  | Compile-time              | `#unwind("abort")` (redundant)                        |

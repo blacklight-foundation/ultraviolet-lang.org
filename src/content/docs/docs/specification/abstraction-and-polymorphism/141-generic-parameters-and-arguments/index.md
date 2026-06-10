@@ -2,16 +2,16 @@
 title: "14.1 Generic Parameters and Arguments"
 description: "14.1 Generic Parameters and Arguments from 14. Abstraction and Polymorphism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "abstraction-and-polymorphism"
 specSection: "141-generic-parameters-and-arguments"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -296,7 +296,7 @@ $$
 $$
 \begin{array}{l}
 \mathsf{Variance}\ =\ \{\mathsf{Covariant},\ \mathsf{Contravariant},\ \mathsf{Invariant},\ \mathsf{Bivariant}\} \\[0.16em]
-\mathsf{TypeParam}\ =\ \langle \mathsf{name},\ \mathsf{bounds},\ \mathsf{default}_{\mathsf{opt}},\ \mathsf{variance}\rangle  \\[0.16em]
+\mathsf{TypeParam}\ =\ \langle \mathsf{name},\ \mathsf{bounds},\ \mathsf{default}_{\mathsf{opt}},\ \mathsf{variance}\rangle \\[0.16em]
 \mathsf{GenericParams}\ =\ [\mathsf{TypeParam}] \\[0.16em]
 \mathsf{GenericArgs}\ =\ [\mathsf{Type}]
 \end{array}
@@ -309,7 +309,7 @@ rules rather than through user-visible variance syntax.
 $$
 \begin{array}{l}
 \mathsf{PredicateName}\ =\ \{\texttt{Bitcopy},\ \texttt{Clone},\ \texttt{Drop},\ \texttt{FfiSafe}\} \\[0.16em]
-\mathsf{PredicateReq}\ =\ \langle \mathsf{pred},\ \mathsf{type}\rangle  \\[0.16em]
+\mathsf{PredicateReq}\ =\ \langle \mathsf{pred},\ \mathsf{type}\rangle \\[0.16em]
 \mathsf{PredicateClause}\ =\ [\mathsf{PredicateReq}]
 \end{array}
 $$
@@ -347,9 +347,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{DefaultArgs}(\mathsf{params},\ \mathsf{args})\ =\ \mathsf{args}'\ \Leftrightarrow \ \mathsf{params}\ =\ [P_{1},\ \ldots ,\ P_{n}]\ \land \ \mathsf{args}\ =\ [A_{1},\ \ldots ,\ A_{k}]\ \land \ k\ \le \ n\ \land  \\[0.16em]
-\ (\forall \ i\ \le \ k.\ A_{i}'\ =\ A_{i})\ \land  \\[0.16em]
-\ (\forall \ i\ \in \ k+1..n.\ P_{i}.\mathsf{default}_{\mathsf{opt}}\ =\ T_{i}\ \land \ A_{i}'\ =\ \operatorname{TypeSubst}([A_{1}'/P_{1}.\mathsf{name},\ \ldots ,\ A\_\{i-1\}'/P\_\{i-1\}.\mathsf{name}],\ T_{i}))\ \land  \\[0.16em]
+\operatorname{DefaultArgs}(\mathsf{params},\ \mathsf{args})\ =\ \mathsf{args}'\ \Leftrightarrow \ \mathsf{params}\ =\ [P_{1},\ \ldots ,\ P_{n}]\ \land \ \mathsf{args}\ =\ [A_{1},\ \ldots ,\ A_{k}]\ \land \ k\ \le \ n\ \land \\[0.16em]
+\ (\forall \ i\ \le \ k.\ A_{i}'\ =\ A_{i})\ \land \\[0.16em]
+\ (\forall \ i\ \in \ k+1..n.\ P_{i}.\mathsf{default}_{\mathsf{opt}}\ =\ T_{i}\ \land \ A_{i}'\ =\ \operatorname{TypeSubst}([A_{1}'/P_{1}.\mathsf{name},\ \ldots ,\ A\_\{i-1\}'/P\_\{i-1\}.\mathsf{name}],\ T_{i}))\ \land \\[0.16em]
 \ \mathsf{args}'\ =\ [A_{1}',\ \ldots ,\ A_{n}']
 \end{array}
 $$

@@ -2,16 +2,16 @@
 title: "22.1 Compile-Time Forms"
 description: "22.1 Compile-Time Forms from 22. Compile-Time Execution and Metaprogramming of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "compile-time-execution-and-metaprogramming"
 specSection: "221-compile-time-forms"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -132,10 +132,10 @@ CtProc(attrs_opt, vis, name, gen_params_opt, params, ret_opt, contract_opt, body
 
 $$
 \begin{array}{l}
-\mathsf{CtSite}\ =\ \langle \mathsf{module}_{\mathsf{path}},\ \mathsf{ordinal},\ \mathsf{span}\rangle  \\[0.16em]
-\mathsf{CtEnv}\ =\ \langle \mathsf{vals},\ \mathsf{procs},\ \mathsf{caps},\ \mathsf{site},\ \mathsf{quote}_{\mathsf{ctx}}\rangle  \\[0.16em]
-\mathsf{CtMachine}\ =\ \langle \mathsf{files},\ \mathsf{project}_{\mathsf{root}},\ \mathsf{diags},\ \mathsf{pending}_{\mathsf{emits}},\ \mathsf{next}_{\mathsf{hygiene}}\rangle  \\[0.16em]
-\mathsf{CtQuoteCtx}\ =\ \bot \ \mid \ \langle \mathsf{kind},\ \mathsf{quote}_{\mathsf{site}}\rangle 
+\mathsf{CtSite}\ =\ \langle \mathsf{module}_{\mathsf{path}},\ \mathsf{ordinal},\ \mathsf{span}\rangle \\[0.16em]
+\mathsf{CtEnv}\ =\ \langle \mathsf{vals},\ \mathsf{procs},\ \mathsf{caps},\ \mathsf{site},\ \mathsf{quote}_{\mathsf{ctx}}\rangle \\[0.16em]
+\mathsf{CtMachine}\ =\ \langle \mathsf{files},\ \mathsf{project}_{\mathsf{root}},\ \mathsf{diags},\ \mathsf{pending}_{\mathsf{emits}},\ \mathsf{next}_{\mathsf{hygiene}}\rangle \\[0.16em]
+\mathsf{CtQuoteCtx}\ =\ \bot \ \mid \ \langle \mathsf{kind},\ \mathsf{quote}_{\mathsf{site}}\rangle
 \end{array}
 $$
 
@@ -186,6 +186,22 @@ $$
 ### 22.1.4 Static Semantics
 
 In the rules below, `Γ_ct` denotes the typing environment obtained by extending `Γ` with the local bindings of the current compile-time body, the compile-time procedure bindings introduced earlier in the same Phase 2 source order, and the capability bindings admitted by §22.2 for the current site.
+
+$$
+\operatorname{EmittedInPhase2}(d)\ \Leftrightarrow \ d\ \mathsf{was}\ \mathsf{appended}\ \mathsf{by}\ a\ \texttt{CtPendingEmits}\ \mathsf{transfer}\ \mathsf{during}\ \texttt{CtExecModuleSeq}\ (\S 22.1.5)
+$$
+
+**(CtExpand-CrossModule-Emit-Err)**
+
+$$
+\begin{array}{l}
+\mathsf{comptime}\ \mathsf{form}\ f\ \mathsf{occurs}\ \mathsf{in}\ \mathsf{module}\ M\quad \mathsf{name}\ \mathsf{resolution}\ \mathsf{within}\ \mathsf{the}\ \mathsf{expansion}\ \mathsf{of}\ f\ \mathsf{targets}\ \mathsf{declaration}\ d\ \mathsf{in}\ \mathsf{module}\ M'\quad M'\ \ne \ M\quad \operatorname{EmittedInPhase2}(d)\quad c\ =\ \operatorname{Code}(\mathsf{CtExpand}-\mathsf{CrossModule}-\mathsf{Emit}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{CtExpandItem}(\Xi ,\ \Phi ,\ f)\ \Uparrow \ c
+\end{array}
+$$
+
+Phase 2 execution MUST NOT depend on declarations emitted by Phase 2 execution of a different module. Phase-1 (source-present) declarations of other modules MAY be referenced. Cross-module comptime emission dependencies are unsupported and rejected.
 
 CtAvail(TypePrim(_))
 CtAvail(TypeString(`@View`))
@@ -295,12 +311,12 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{CtEmptyEnv}(M)\ =\ \langle \emptyset ,\ \emptyset ,\ \emptyset ,\ \langle M.\mathsf{path},\ 0,\ \bot \rangle ,\ \bot \rangle  \\[0.16em]
-\operatorname{WithCtSite}(\Xi ,\ \mathsf{ord},\ \mathsf{sp})\ =\ \Xi '\ \Leftrightarrow \ \operatorname{CtSiteOf}(\Xi )\ =\ \langle \mathsf{mp},\ \_,\ \_\rangle \ \land \ \Xi '\ =\ \langle \operatorname{CtVals}(\Xi ),\ \operatorname{CtProcs}(\Xi ),\ \operatorname{CtCaps}(\Xi ),\ \langle \mathsf{mp},\ \mathsf{ord},\ \mathsf{sp}\rangle ,\ \operatorname{CtQuoteCtxOf}(\Xi )\rangle  \\[0.16em]
-\operatorname{BindCtProc}(\Xi ,\ \mathsf{proc})\ =\ \Xi '\ \Leftrightarrow \ \mathsf{proc}\ =\ \operatorname{CtProc}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \land \ \Xi '\ =\ \langle \operatorname{CtVals}(\Xi ),\ \operatorname{CtProcs}(\Xi )[\mathsf{name}\ \mapsto \ \mathsf{proc}],\ \operatorname{CtCaps}(\Xi ),\ \operatorname{CtSiteOf}(\Xi ),\ \operatorname{CtQuoteCtxOf}(\Xi )\rangle  \\[0.16em]
+\operatorname{CtEmptyEnv}(M)\ =\ \langle \emptyset ,\ \emptyset ,\ \emptyset ,\ \langle M.\mathsf{path},\ 0,\ \bot \rangle ,\ \bot \rangle \\[0.16em]
+\operatorname{WithCtSite}(\Xi ,\ \mathsf{ord},\ \mathsf{sp})\ =\ \Xi '\ \Leftrightarrow \ \operatorname{CtSiteOf}(\Xi )\ =\ \langle \mathsf{mp},\ \_,\ \_\rangle \ \land \ \Xi '\ =\ \langle \operatorname{CtVals}(\Xi ),\ \operatorname{CtProcs}(\Xi ),\ \operatorname{CtCaps}(\Xi ),\ \langle \mathsf{mp},\ \mathsf{ord},\ \mathsf{sp}\rangle ,\ \operatorname{CtQuoteCtxOf}(\Xi )\rangle \\[0.16em]
+\operatorname{BindCtProc}(\Xi ,\ \mathsf{proc})\ =\ \Xi '\ \Leftrightarrow \ \mathsf{proc}\ =\ \operatorname{CtProc}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\ \land \ \Xi '\ =\ \langle \operatorname{CtVals}(\Xi ),\ \operatorname{CtProcs}(\Xi )[\mathsf{name}\ \mapsto \ \mathsf{proc}],\ \operatorname{CtCaps}(\Xi ),\ \operatorname{CtSiteOf}(\Xi ),\ \operatorname{CtQuoteCtxOf}(\Xi )\rangle \\[0.16em]
 \operatorname{UnitBlockStmts}(\operatorname{BlockExpr}(\mathsf{stmts},\ \bot ))\ =\ \mathsf{stmts} \\[0.16em]
 \operatorname{UnitBlockStmts}(\operatorname{BlockExpr}(\mathsf{stmts},\ \mathsf{tail}))\ =\ \mathsf{stmts}\ \mathbin{++} \ [\operatorname{ExprStmt}(\mathsf{tail})] \\[0.16em]
-\operatorname{ElseBlock}(\mathsf{else}_{\mathsf{opt}})\ =\ \mathsf{else}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{else}_{\mathsf{opt}}\ \ne \ \bot  \\[0.16em]
+\operatorname{ElseBlock}(\mathsf{else}_{\mathsf{opt}})\ =\ \mathsf{else}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{else}_{\mathsf{opt}}\ \ne \ \bot \\[0.16em]
 \operatorname{ElseBlock}(\mathsf{else}_{\mathsf{opt}})\ =\ \operatorname{BlockExpr}([],\ \operatorname{TupleExpr}([]))\quad \mathsf{otherwise} \\[0.16em]
 \operatorname{CtElems}(\operatorname{CtArray}(\mathsf{vs}))\ =\ \mathsf{vs} \\[0.16em]
 \operatorname{CtElems}(\operatorname{CtSlice}(\mathsf{vs}))\ =\ \mathsf{vs} \\[0.16em]
@@ -390,7 +406,7 @@ Any `CtBuiltinCall` that emits declarations appends them to `CtPendingEmits(Φ)`
 
 $$
 \begin{array}{l}
-\mathsf{proc}\ =\ \operatorname{CtProc}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\quad \operatorname{BindCtProc}(\Xi ,\ \mathsf{proc})\ =\ \Xi_{1}  \\[0.16em]
+\mathsf{proc}\ =\ \operatorname{CtProc}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_)\quad \operatorname{BindCtProc}(\Xi ,\ \mathsf{proc})\ =\ \Xi_{1} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{CtExpandItem}(\Xi ,\ \Phi ,\ \mathsf{proc})\ \Downarrow \ (\langle [],\ []\rangle ,\ \Xi_{1} ,\ \Phi )
 \end{array}

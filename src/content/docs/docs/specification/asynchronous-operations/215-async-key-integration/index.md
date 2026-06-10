@@ -2,16 +2,16 @@
 title: "21.5 Async-Key Integration"
 description: "21.5 Async-Key Integration from 21. Asynchronous Operations of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "asynchronous-operations"
 specSection: "215-async-key-integration"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -54,10 +54,10 @@ Shared-capturing closures that contain `yield` are additionally constrained:
 
 $$
 \begin{array}{l}
-C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{YieldExpr}(\_,\ \_)\ \in \ \mathsf{body}\quad \operatorname{SharedCaptures}(C)\ \ne \ \emptyset  \\[0.16em]
-\operatorname{YieldExpr}(\bot ,\ \_)\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\ \mathsf{within}\ \mathsf{body}\quad \Gamma_{\mathsf{keys}} (p)\ \ne \ \emptyset  \\[0.16em]
+C\ =\ \operatorname{ClosureExpr}(\mathsf{params},\ \mathsf{ret}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{body})\quad \operatorname{YieldExpr}(\_,\ \_)\ \in \ \mathsf{body}\quad \operatorname{SharedCaptures}(C)\ \ne \ \emptyset \\[0.16em]
+\operatorname{YieldExpr}(\bot ,\ \_)\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\ \mathsf{within}\ \mathsf{body}\quad \Gamma_{\mathsf{keys}} (p)\ \ne \ \emptyset \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ C\ \Uparrow 
+\Gamma \ \vdash \ C\ \Uparrow
 \end{array}
 $$
 
@@ -92,9 +92,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{WaitExpr}(h)\ \mathsf{occurs}\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\quad \Gamma_{\mathsf{keys}} (p)\ \ne \ \emptyset  \\[0.16em]
+\operatorname{WaitExpr}(h)\ \mathsf{occurs}\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\quad \Gamma_{\mathsf{keys}} (p)\ \ne \ \emptyset \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{WaitExpr}(h))\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{WaitExpr}(h))\ \Uparrow
 \end{array}
 $$
 
@@ -102,7 +102,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{YieldExpr}(\mathsf{Release},\ e)\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\quad \Gamma_{\mathsf{keys}} (p)\ =\ \mathsf{keys}\quad \mathsf{keys}\ \ne \ \emptyset  \\[0.16em]
+\operatorname{YieldExpr}(\mathsf{Release},\ e)\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\quad \Gamma_{\mathsf{keys}} (p)\ =\ \mathsf{keys}\quad \mathsf{keys}\ \ne \ \emptyset \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \mathsf{Lowering}\ \mathsf{MUST}\ \mathsf{emit}\ \operatorname{SnapshotHeldKeysIR}(\operatorname{CurrentAsyncFrame}(\Gamma )),\ \mathsf{then}\ \operatorname{ReleaseHeldKeysIR}(\operatorname{CurrentAsyncFrame}(\Gamma )),\ \mathsf{then}\ \mathsf{the}\ \mathsf{ordinary}\ \mathsf{yield}\ \mathsf{lowering},\ \mathsf{and}\ \mathsf{MUST}\ \mathsf{prepend}\ \operatorname{ReacquireHeldKeysIR}(\operatorname{CurrentAsyncFrame}(\Gamma ))\ \mathsf{to}\ \mathsf{the}\ \mathsf{resumption}\ \mathsf{target}.
 \end{array}
@@ -112,7 +112,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{YieldFromExpr}(\mathsf{Release},\ e)\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\quad \Gamma_{\mathsf{keys}} (p)\ =\ \mathsf{keys}\quad \mathsf{keys}\ \ne \ \emptyset  \\[0.16em]
+\operatorname{YieldFromExpr}(\mathsf{Release},\ e)\ \mathsf{at}\ \mathsf{program}\ \mathsf{point}\ p\quad \Gamma_{\mathsf{keys}} (p)\ =\ \mathsf{keys}\quad \mathsf{keys}\ \ne \ \emptyset \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \mathsf{Lowering}\ \mathsf{MUST}\ \mathsf{use}\ \mathsf{the}\ \mathsf{same}\ \mathsf{key}\ \mathsf{snapshot},\ \mathsf{release},\ \mathsf{and}\ \mathsf{reacquisition}\ \mathsf{sequence}\ \mathsf{as}\ **(\mathsf{Lower}-\mathsf{Yield}-\mathsf{Release}-\mathsf{Keys})**\ \mathsf{around}\ \mathsf{the}\ \mathsf{delegated}\ \mathsf{async}\ \mathsf{state}\ \mathsf{machine}.
 \end{array}

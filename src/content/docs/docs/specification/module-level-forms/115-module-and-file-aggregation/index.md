@@ -2,16 +2,16 @@
 title: "11.5 Module and File Aggregation"
 description: "11.5 Module and File Aggregation from 11. Module-Level Forms of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "module-level-forms"
 specSection: "115-module-and-file-aggregation"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -79,7 +79,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{ASTModule}\ =\ \langle \mathsf{path},\ \mathsf{items},\ \mathsf{module}_{\mathsf{doc}}\rangle  \\[0.16em]
+\mathsf{ASTModule}\ =\ \langle \mathsf{path},\ \mathsf{items},\ \mathsf{module}_{\mathsf{doc}}\rangle \\[0.16em]
 \mathsf{ASTModule}.\mathsf{path}\ \in \ \mathsf{Path} \\[0.16em]
 \mathsf{ASTModule}.\mathsf{items}\ \in \ [\mathsf{ASTItem}] \\[0.16em]
 \mathsf{ASTModule}.\mathsf{module}_{\mathsf{doc}}\ \in \ \mathsf{DocList}
@@ -88,7 +88,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{ASTFile}\ =\ \langle \mathsf{path},\ \mathsf{items},\ \mathsf{module}_{\mathsf{doc}}\rangle  \\[0.16em]
+\mathsf{ASTFile}\ =\ \langle \mathsf{path},\ \mathsf{items},\ \mathsf{module}_{\mathsf{doc}}\rangle \\[0.16em]
 \mathsf{ASTFile}.\mathsf{path}\ \in \ \mathsf{Path} \\[0.16em]
 \mathsf{ASTFile}.\mathsf{items}\ \in \ [\mathsf{ASTItem}] \\[0.16em]
 \mathsf{ASTFile}.\mathsf{module}_{\mathsf{doc}}\ \in \ \mathsf{DocList}
@@ -105,7 +105,7 @@ This section owns file-to-module mapping, visible module sets, import-coverage c
 
 $$
 \begin{array}{l}
-\operatorname{relative}(d,\ S)\ =\ \varepsilon  \\[0.16em]
+\operatorname{relative}(d,\ S)\ =\ \varepsilon \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ModulePath}(d,\ S,\ A)\ =\ A
 \end{array}
@@ -125,9 +125,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{relative}(d,\ S)\ \Uparrow  \\[0.16em]
+\operatorname{relative}(d,\ S)\ \Uparrow \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ModulePath}(d,\ S,\ A)\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{ModulePath}(d,\ S,\ A)\ \Uparrow
 \end{array}
 $$
 
@@ -200,8 +200,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ModuleAggInputs}(P)\ =\ \langle P.\mathsf{modules},\ P.\mathsf{source}_{\mathsf{root}},\ \{\ \operatorname{CompilationUnit}(\operatorname{ModuleDirOf}(p,\ P.\mathsf{source}_{\mathsf{root}}))\ \mid \ p\ \in \ P.\mathsf{modules}\ \}\rangle  \\[0.16em]
-\operatorname{ModuleAggOutputs}(P)\ =\ \langle \{\ \operatorname{ASTModule}(P,\ p)\ \mid \ p\ \in \ P.\mathsf{modules}\ \},\ \{\ \operatorname{NameMap}(P,\ p)\ \mid \ p\ \in \ P.\mathsf{modules}\ \},\ G,\ \mathsf{InitOrder},\ \mathsf{InitPlan}\rangle  \\[0.16em]
+\operatorname{ModuleAggInputs}(P)\ =\ \langle P.\mathsf{modules},\ P.\mathsf{source}_{\mathsf{root}},\ \{\ \operatorname{CompilationUnit}(\operatorname{ModuleDirOf}(p,\ P.\mathsf{source}_{\mathsf{root}}))\ \mid \ p\ \in \ P.\mathsf{modules}\ \}\rangle \\[0.16em]
+\operatorname{ModuleAggOutputs}(P)\ =\ \langle \{\ \operatorname{ASTModule}(P,\ p)\ \mid \ p\ \in \ P.\mathsf{modules}\ \},\ \{\ \operatorname{NameMap}(P,\ p)\ \mid \ p\ \in \ P.\mathsf{modules}\ \},\ G,\ \mathsf{InitOrder},\ \mathsf{InitPlan}\rangle \\[0.16em]
 \operatorname{ModuleMap}(P,\ p)\ =\ M\ \Leftrightarrow \ \operatorname{SourceRootOfModule}(P,\ p)\ =\ S\ \land \ \Gamma \ \vdash \ \operatorname{ParseModule}(p,\ S)\ \Downarrow \ M \\[0.16em]
 \operatorname{ASTModule}(P,\ p)\ =\ M\ \Leftrightarrow \ \operatorname{ModuleMap}(P,\ p)\ =\ M \\[0.16em]
 \operatorname{PathOfModule}(p)\ =\ [c_{1},\ \ldots ,\ c_{n}]\ \Leftrightarrow \ p\ =\ c_{1}\ \mathbin{::} \ \cdot \cdot \cdot \ \mathbin{::} \ c_{n} \\[0.16em]
@@ -255,7 +255,7 @@ $$
 \begin{array}{l}
 \forall \ i,\ \Gamma \ \vdash \ \operatorname{ReadBytes}(f_{i})\ \Downarrow \ B_{i}\quad \Gamma \ \vdash \ \operatorname{LoadSource}(f_{i},\ B_{i})\ \Downarrow \ S_{i}\quad \Gamma \ \vdash \ \operatorname{ParseFile}(S_{i})\ \Downarrow \ F_{i} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParseModule}(p,\ S)\ \Downarrow \ \langle p,\ F_{1}.\mathsf{items}\ \mathbin{++} \ \cdot \cdot \cdot \ \mathbin{++} \ F_{n}.\mathsf{items},\ F_{1}.\mathsf{module}_{\mathsf{doc}}\ \mathbin{++} \ \cdot \cdot \cdot \ \mathbin{++} \ F_{n}.\mathsf{module}_{\mathsf{doc}}\rangle 
+\Gamma \ \vdash \ \operatorname{ParseModule}(p,\ S)\ \Downarrow \ \langle p,\ F_{1}.\mathsf{items}\ \mathbin{++} \ \cdot \cdot \cdot \ \mathbin{++} \ F_{n}.\mathsf{items},\ F_{1}.\mathsf{module}_{\mathsf{doc}}\ \mathbin{++} \ \cdot \cdot \cdot \ \mathbin{++} \ F_{n}.\mathsf{module}_{\mathsf{doc}}\rangle
 \end{array}
 $$
 
@@ -306,7 +306,7 @@ $$
 \begin{array}{l}
 \operatorname{ParseFileBestEffort}(S)\ \Leftrightarrow \ \exists \ F.\ \Gamma \ \vdash \ \operatorname{ParseFile}(S)\ \Downarrow \ F \\[0.16em]
 \operatorname{ParseFileOk}(S)\ \Leftrightarrow \ \operatorname{ParseFileBestEffort}(S)\ \land \ \lnot \ \operatorname{HasError}(\operatorname{ParseFileDiag}(S)) \\[0.16em]
-\operatorname{ParseFileDiag}(S)\ =\ \Delta \ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{Tokenize}(S)\ \Downarrow \ (K_{\mathsf{raw}},\ D)\ \land \ K\ =\ \operatorname{Filter}(K_{\mathsf{raw}})\ \land \ P_{0}\ =\ \langle K,\ 0,\ D,\ 0,\ 0,\ []\rangle \ \land \ \Gamma \ \vdash \ \operatorname{ParseItems}(P_{0})\ \Downarrow \ (P_{1},\ I,\ \mathsf{MDoc})\ \land \ \operatorname{DiagStream}(P_{1})\ =\ \Delta  \\[0.16em]
+\operatorname{ParseFileDiag}(S)\ =\ \Delta \ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{Tokenize}(S)\ \Downarrow \ (K_{\mathsf{raw}},\ D)\ \land \ K\ =\ \operatorname{Filter}(K_{\mathsf{raw}})\ \land \ P_{0}\ =\ \langle K,\ 0,\ D,\ 0,\ 0,\ []\rangle \ \land \ \Gamma \ \vdash \ \operatorname{ParseItems}(P_{0})\ \Downarrow \ (P_{1},\ I,\ \mathsf{MDoc})\ \land \ \operatorname{DiagStream}(P_{1})\ =\ \Delta \\[0.16em]
 \operatorname{HasError}(\Delta )\ \Leftrightarrow \ \exists \ d\ \in \ \Delta .\ d.\mathsf{severity}\ =\ \mathsf{Error}
 \end{array}
 $$
@@ -323,7 +323,7 @@ $$
 \begin{array}{l}
 U\ =\ \operatorname{CompilationUnit}(\operatorname{ModuleDirOf}(p,\ S)) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ModStart}(p,\ S)\rangle \ \to \ \langle \operatorname{ModScan}(p,\ S,\ U,\ [],\ [])\rangle 
+\langle \operatorname{ModStart}(p,\ S)\rangle \ \to \ \langle \operatorname{ModScan}(p,\ S,\ U,\ [],\ [])\rangle
 \end{array}
 $$
 
@@ -333,7 +333,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{CompilationUnit}(\operatorname{ModuleDirOf}(p,\ S))\ \Uparrow \ c \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ModStart}(p,\ S)\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\langle \operatorname{ModStart}(p,\ S)\rangle \ \to \ \langle \operatorname{Error}(c)\rangle
 \end{array}
 $$
 
@@ -343,7 +343,7 @@ $$
 \begin{array}{l}
 U\ =\ f\ \mathbin{::} \ \mathsf{io}\quad \Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Downarrow \ B\quad \Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \Downarrow \ S_{f}\quad \Gamma \ \vdash \ \operatorname{ParseFile}(S_{f})\ \Downarrow \ F \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{io},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{ModScan}(p,\ S,\ \mathsf{io},\ \mathsf{items}\ \mathbin{++} \ F.\mathsf{items},\ \mathsf{docs}\ \mathbin{++} \ F.\mathsf{module}_{\mathsf{doc}})\rangle 
+\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{io},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{ModScan}(p,\ S,\ \mathsf{io},\ \mathsf{items}\ \mathbin{++} \ F.\mathsf{items},\ \mathsf{docs}\ \mathbin{++} \ F.\mathsf{module}_{\mathsf{doc}})\rangle
 \end{array}
 $$
 
@@ -353,7 +353,7 @@ $$
 \begin{array}{l}
 U\ =\ f\ \mathbin{::} \ \mathsf{io}\quad \Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Uparrow \ c \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{io},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{io},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle
 \end{array}
 $$
 
@@ -363,7 +363,7 @@ $$
 \begin{array}{l}
 U\ =\ f\ \mathbin{::} \ \mathsf{io}\quad \Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Downarrow \ B\quad \Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \Uparrow \ c \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{io},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{io},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle
 \end{array}
 $$
 
@@ -373,7 +373,7 @@ $$
 \begin{array}{l}
 U\ =\ f\ \mathbin{::} \ \mathsf{io}\quad \Gamma \ \vdash \ \operatorname{ReadBytes}(f)\ \Downarrow \ B\quad \Gamma \ \vdash \ \operatorname{LoadSource}(f,\ B)\ \Downarrow \ S_{f}\quad \Gamma \ \vdash \ \operatorname{ParseFile}(S_{f})\ \Uparrow \ c \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{io},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\langle \operatorname{ModScan}(p,\ S,\ f\ \mathbin{::} \ \mathsf{io},\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle
 \end{array}
 $$
 
@@ -382,7 +382,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ModScan}(p,\ S,\ [],\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{ModDone}(\langle p,\ \mathsf{items},\ \mathsf{docs}\rangle )\rangle 
+\langle \operatorname{ModScan}(p,\ S,\ [],\ \mathsf{items},\ \mathsf{docs})\rangle \ \to \ \langle \operatorname{ModDone}(\langle p,\ \mathsf{items},\ \mathsf{docs}\rangle )\rangle
 \end{array}
 $$
 
@@ -421,7 +421,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{DiscStart}(S,\ A)\rangle \ \to \ \langle \operatorname{DiscScan}(S,\ A,\ \operatorname{DirSeq}(S),\ [],\ \emptyset )\rangle 
+\langle \operatorname{DiscStart}(S,\ A)\rangle \ \to \ \langle \operatorname{DiscScan}(S,\ A,\ \operatorname{DirSeq}(S),\ [],\ \emptyset )\rangle
 \end{array}
 $$
 
@@ -431,7 +431,7 @@ $$
 \begin{array}{l}
 \Gamma \ \nvdash \ d\ :\ \mathsf{ModuleDir} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{DiscScan}(S,\ A,\ d\mathbin{::} \mathsf{ds},\ M,\ \mathsf{Seen})\rangle \ \to \ \langle \operatorname{DiscScan}(S,\ A,\ \mathsf{ds},\ M,\ \mathsf{Seen})\rangle 
+\langle \operatorname{DiscScan}(S,\ A,\ d\mathbin{::} \mathsf{ds},\ M,\ \mathsf{Seen})\rangle \ \to \ \langle \operatorname{DiscScan}(S,\ A,\ \mathsf{ds},\ M,\ \mathsf{Seen})\rangle
 \end{array}
 $$
 
@@ -441,7 +441,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ d\ :\ \mathsf{ModuleDir}\quad \Gamma \ \vdash \ \operatorname{ModulePath}(d,\ S,\ A)\ =\ p\quad \Gamma \ \vdash \ \mathsf{WF}-\mathsf{Module}-\operatorname{Path}(p)\ \Downarrow \ \mathsf{ok}\quad \operatorname{Fold}(p)\ \notin \ \operatorname{dom}(\mathsf{Seen}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{DiscScan}(S,\ A,\ d\mathbin{::} \mathsf{ds},\ M,\ \mathsf{Seen})\rangle \ \to \ \langle \operatorname{DiscScan}(S,\ A,\ \mathsf{ds},\ M\ \mathbin{++} \ [p],\ \mathsf{Seen}\ \cup \ \{\operatorname{Fold}(p)\ \mapsto \ p\})\rangle 
+\langle \operatorname{DiscScan}(S,\ A,\ d\mathbin{::} \mathsf{ds},\ M,\ \mathsf{Seen})\rangle \ \to \ \langle \operatorname{DiscScan}(S,\ A,\ \mathsf{ds},\ M\ \mathbin{++} \ [p],\ \mathsf{Seen}\ \cup \ \{\operatorname{Fold}(p)\ \mapsto \ p\})\rangle
 \end{array}
 $$
 
@@ -451,7 +451,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ d\ :\ \mathsf{ModuleDir}\quad \Gamma \ \vdash \ \operatorname{ModulePath}(d,\ S,\ A)\ =\ p\quad \Gamma \ \vdash \ \mathsf{WF}-\mathsf{Module}-\operatorname{Path}(p)\ \Downarrow \ \mathsf{ok}\quad \operatorname{Fold}(p)\ \in \ \operatorname{dom}(\mathsf{Seen})\quad \mathsf{Seen}[\operatorname{Fold}(p)]\ \ne \ p \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{DiscScan}(S,\ A,\ d\mathbin{::} \mathsf{ds},\ M,\ \mathsf{Seen})\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Disc}-\mathsf{Collision}))\rangle 
+\langle \operatorname{DiscScan}(S,\ A,\ d\mathbin{::} \mathsf{ds},\ M,\ \mathsf{Seen})\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Disc}-\mathsf{Collision}))\rangle
 \end{array}
 $$
 
@@ -461,7 +461,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ d\ :\ \mathsf{ModuleDir}\quad \Gamma \ \vdash \ \operatorname{ModulePath}(d,\ S,\ A)\ =\ p\quad \Gamma \ \vdash \ \mathsf{WF}-\mathsf{Module}-\operatorname{Path}(p)\ \Uparrow \ c \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{DiscScan}(S,\ A,\ d\mathbin{::} \mathsf{ds},\ M,\ \mathsf{Seen})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle 
+\langle \operatorname{DiscScan}(S,\ A,\ d\mathbin{::} \mathsf{ds},\ M,\ \mathsf{Seen})\rangle \ \to \ \langle \operatorname{Error}(c)\rangle
 \end{array}
 $$
 
@@ -469,9 +469,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ d\ :\ \mathsf{ModuleDir}\quad \operatorname{relative}(d,\ S)\ \Uparrow  \\[0.16em]
+\Gamma \ \vdash \ d\ :\ \mathsf{ModuleDir}\quad \operatorname{relative}(d,\ S)\ \Uparrow \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{DiscScan}(S,\ A,\ d\mathbin{::} \mathsf{ds},\ M,\ \mathsf{Seen})\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Disc}-\mathsf{Rel}-\mathsf{Fail}))\rangle 
+\langle \operatorname{DiscScan}(S,\ A,\ d\mathbin{::} \mathsf{ds},\ M,\ \mathsf{Seen})\rangle \ \to \ \langle \operatorname{Error}(\operatorname{Code}(\mathsf{Disc}-\mathsf{Rel}-\mathsf{Fail}))\rangle
 \end{array}
 $$
 
@@ -480,7 +480,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{DiscScan}(S,\ A,\ [],\ M,\ \mathsf{Seen})\rangle \ \to \ \langle \operatorname{DiscDone}(M)\rangle 
+\langle \operatorname{DiscScan}(S,\ A,\ [],\ M,\ \mathsf{Seen})\rangle \ \to \ \langle \operatorname{DiscDone}(M)\rangle
 \end{array}
 $$
 
@@ -541,7 +541,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{AliasExpand}(\mathsf{path},\ \mathsf{Alias})\ \Downarrow \ \mathsf{path}'\quad \exists \ p\ \in \ \mathsf{AllModules},\ \operatorname{ModulePathPrefix}(\mathsf{path}',\ p)\quad p\ =\ \mathsf{argmax}\_\{q\ \in \ \mathsf{AllModules},\ \operatorname{ModulePathPrefix}(\mathsf{path}',\ q)\}\ \mid q\mid  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{AliasExpand}(\mathsf{path},\ \mathsf{Alias})\ \Downarrow \ \mathsf{path}'\quad \exists \ p\ \in \ \mathsf{AllModules},\ \operatorname{ModulePathPrefix}(\mathsf{path}',\ p)\quad p\ =\ \mathsf{argmax}\_\{q\ \in \ \mathsf{AllModules},\ \operatorname{ModulePathPrefix}(\mathsf{path}',\ q)\}\ \mid q\mid \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{AllModules},\ \mathsf{Alias})\ \Downarrow \ p
 \end{array}
@@ -551,7 +551,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{AliasExpand}(\mathsf{path},\ \mathsf{Alias})\ \Downarrow \ \mathsf{path}'\quad \lnot \ \exists \ p\ \in \ \mathsf{AllModules}.\ \operatorname{ModulePathPrefix}(\mathsf{path}',\ p)\quad \mathsf{path}''\ =\ \operatorname{CurrentAsmPath}(m,\ \mathsf{path}')\quad \exists \ p\ \in \ \mathsf{AllModules},\ \operatorname{ModulePathPrefix}(\mathsf{path}'',\ p)\quad p\ =\ \mathsf{argmax}\_\{q\ \in \ \mathsf{AllModules},\ \operatorname{ModulePathPrefix}(\mathsf{path}'',\ q)\}\ \mid q\mid  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{AliasExpand}(\mathsf{path},\ \mathsf{Alias})\ \Downarrow \ \mathsf{path}'\quad \lnot \ \exists \ p\ \in \ \mathsf{AllModules}.\ \operatorname{ModulePathPrefix}(\mathsf{path}',\ p)\quad \mathsf{path}''\ =\ \operatorname{CurrentAsmPath}(m,\ \mathsf{path}')\quad \exists \ p\ \in \ \mathsf{AllModules},\ \operatorname{ModulePathPrefix}(\mathsf{path}'',\ p)\quad p\ =\ \mathsf{argmax}\_\{q\ \in \ \mathsf{AllModules},\ \operatorname{ModulePathPrefix}(\mathsf{path}'',\ q)\}\ \mid q\mid \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{AllModules},\ \mathsf{Alias})\ \Downarrow \ p
 \end{array}
@@ -563,7 +563,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{AliasExpand}(\mathsf{path},\ \mathsf{Alias})\ \Downarrow \ \mathsf{path}'\quad \lnot \ \exists \ p\ \in \ \mathsf{AllModules}.\ \operatorname{ModulePathPrefix}(\mathsf{path}',\ p)\quad \mathsf{path}''\ =\ \operatorname{CurrentAsmPath}(m,\ \mathsf{path}')\quad \lnot \ \exists \ p\ \in \ \mathsf{AllModules}.\ \operatorname{ModulePathPrefix}(\mathsf{path}'',\ p) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{AllModules},\ \mathsf{Alias})\ \uparrow 
+\Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{AllModules},\ \mathsf{Alias})\ \uparrow
 \end{array}
 $$
 
@@ -624,7 +624,7 @@ $$
 \begin{array}{l}
 \lnot \ (\mid \mathsf{path}\mid \ \ge \ 2\ \land \ \operatorname{SplitLast}(\mathsf{path})\ =\ (\mathsf{mp}_{\mathsf{raw}},\ \mathsf{name})\ \land \ \Gamma \ \vdash \ \operatorname{ResolveImportPath}(\mathsf{mp}_{\mathsf{raw}})\ \Downarrow \ \mathsf{mp}\ \land \ \operatorname{IdKey}(\mathsf{name})\ \in \ \operatorname{ItemNames}(\mathsf{mp})) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ItemOfPath}(\mathsf{path})\ \uparrow 
+\Gamma \ \vdash \ \operatorname{ItemOfPath}(\mathsf{path})\ \uparrow
 \end{array}
 $$
 
@@ -702,7 +702,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ItemOfPath}(\mathsf{path})\ \Downarrow \ (\mathsf{mp},\ \mathsf{name}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveUsingPath}(\mathsf{path})\ \Downarrow \ \langle \mathsf{mp},\ \mathsf{name}\rangle 
+\Gamma \ \vdash \ \operatorname{ResolveUsingPath}(\mathsf{path})\ \Downarrow \ \langle \mathsf{mp},\ \mathsf{name}\rangle
 \end{array}
 $$
 
@@ -721,7 +721,7 @@ Accessibility of resolved items is defined by Chapter 7.
 **Initialization Dependency Analysis.**
 
 $$
-\mathsf{env}_{m}\ =\ \langle \mathsf{self}\ =\ m,\ \mathsf{Modules}\ =\ \mathsf{AllModules},\ \mathsf{Alias}\ =\ \operatorname{AliasMap}(m),\ \mathsf{UsingValueMap}\ =\ \operatorname{UsingValueMap}(m),\ \mathsf{UsingTypeMap}\ =\ \operatorname{UsingTypeMap}(m)\rangle 
+\mathsf{env}_{m}\ =\ \langle \mathsf{self}\ =\ m,\ \mathsf{Modules}\ =\ \mathsf{AllModules},\ \mathsf{Alias}\ =\ \operatorname{AliasMap}(m),\ \mathsf{UsingValueMap}\ =\ \operatorname{UsingValueMap}(m),\ \mathsf{UsingTypeMap}\ =\ \operatorname{UsingTypeMap}(m)\rangle
 $$
 
 **(Reachable-Edge)**
@@ -785,7 +785,7 @@ $$
 \begin{array}{l}
 (\mid \mathsf{path}\mid \ \ne \ 1\ \lor \ (\mathsf{path}\ =\ [\mathsf{name}]\ \land \ \mathsf{name}\ \notin \ \operatorname{dom}(\mathsf{UsingTypeMap})))\quad (\Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{Modules},\ \mathsf{Alias})\ \Uparrow \ \lor \ \Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{Modules},\ \mathsf{Alias})\ \Downarrow \ \mathsf{env}.\mathsf{self}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypePath}(\mathsf{path}),\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypePath}(\mathsf{path}),\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -834,7 +834,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypePrim}(\_),\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypePrim}(\_),\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -893,7 +893,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeString}(\_),\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeString}(\_),\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -902,7 +902,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeBytes}(\_),\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\operatorname{TypeBytes}(\_),\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -981,7 +981,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\mathsf{TypeRangeFull},\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{TypeRefsTy}(\mathsf{TypeRangeFull},\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -1117,7 +1117,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\operatorname{LiteralPattern}(\_),\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\operatorname{LiteralPattern}(\_),\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -1126,7 +1126,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\mathsf{WildcardPattern},\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\mathsf{WildcardPattern},\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -1135,7 +1135,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\operatorname{IdentifierPattern}(\_),\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\operatorname{IdentifierPattern}(\_),\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -1164,7 +1164,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\operatorname{ModalPattern}(\_,\ \bot ),\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\operatorname{ModalPattern}(\_,\ \bot ),\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -1203,7 +1203,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\langle \mathsf{name},\ \mathsf{pattern}_{\mathsf{opt}}\ =\ \bot ,\ \mathsf{span}\rangle ,\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{TypeRefsPat}(\langle \mathsf{name},\ \mathsf{pattern}_{\mathsf{opt}}\ =\ \bot ,\ \mathsf{span}\rangle ,\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -1212,7 +1212,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TypeRefsExprs}([],\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{TypeRefsExprs}([],\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -1235,7 +1235,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TypeRefsArgs}([],\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{TypeRefsArgs}([],\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -1254,7 +1254,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TypeRefsEnumPayload}(\bot ,\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{TypeRefsEnumPayload}(\bot ,\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -1283,7 +1283,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TypeRefsFields}([],\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{TypeRefsFields}([],\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -1302,7 +1302,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TypeRefsPayload}(\bot ,\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{TypeRefsPayload}(\bot ,\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -1348,7 +1348,7 @@ $$
 \begin{array}{l}
 \mathsf{name}\ \notin \ \operatorname{dom}(\mathsf{UsingValueMap}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ValueRefs}(\operatorname{Identifier}(\mathsf{name}),\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{ValueRefs}(\operatorname{Identifier}(\mathsf{name}),\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -1368,7 +1368,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{Modules},\ \mathsf{Alias})\ \Uparrow \ \lor \ \Gamma \ \vdash \ \operatorname{ModulePrefix}(\mathsf{path},\ \mathsf{Modules},\ \mathsf{Alias})\ \Downarrow \ \mathsf{env}.\mathsf{self} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ValueRefs}(\operatorname{QualifiedName}(\mathsf{path},\ \_),\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{ValueRefs}(\operatorname{QualifiedName}(\mathsf{path},\ \_),\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -1424,7 +1424,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ValueRefsArgs}([],\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{ValueRefsArgs}([],\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -1443,7 +1443,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ValueRefsFields}([],\ \mathsf{env})\ \Downarrow \ \emptyset 
+\Gamma \ \vdash \ \operatorname{ValueRefsFields}([],\ \mathsf{env})\ \Downarrow \ \emptyset
 \end{array}
 $$
 
@@ -1462,7 +1462,7 @@ $$
 \operatorname{Elems}(v)\ = \\[0.16em]
 \ \{v\}\quad \mathsf{if}\ v\ \in \ \mathsf{ASTNode} \\[0.16em]
 \ \{x\ \mid \ x\ \in \ v\ \land \ x\ \in \ \mathsf{ASTNode}\}\quad \mathsf{if}\ v\ \in \ [\_] \\[0.16em]
-\ \emptyset \quad \mathsf{if}\ v\ =\ \bot  \\[0.16em]
+\ \emptyset \quad \mathsf{if}\ v\ =\ \bot \\[0.16em]
 \ \emptyset \quad \mathsf{otherwise}
 \end{array}
 $$
@@ -1485,15 +1485,15 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{VariantPayloadTypeSet}(\bot )\ =\ \emptyset  \\[0.16em]
+\operatorname{VariantPayloadTypeSet}(\bot )\ =\ \emptyset \\[0.16em]
 \operatorname{VariantPayloadTypeSet}(\operatorname{TuplePayload}(\mathsf{tys}))\ =\ \{\ t\ \mid \ t\ \in \ \mathsf{tys}\ \} \\[0.16em]
 \operatorname{VariantPayloadTypeSet}(\operatorname{RecordPayload}(\mathsf{fields}))\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{boundary},\ \mathsf{name},\ \mathsf{init}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}.\ \operatorname{FieldDecl}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{boundary},\ \mathsf{name},\ t,\ \mathsf{init}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}})\ \in \ \mathsf{fields}\ \} \\[0.16em]
 \operatorname{EnumVariantTypeSet}(\mathsf{variants})\ =\ \{\ t\ \mid \ \exists \ \mathsf{name},\ \mathsf{payload}_{\mathsf{opt}},\ \mathsf{disc}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}.\ \operatorname{VariantDecl}(\mathsf{name},\ \mathsf{payload}_{\mathsf{opt}},\ \mathsf{disc}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}})\ \in \ \mathsf{variants}\ \land \ t\ \in \ \operatorname{VariantPayloadTypeSet}(\mathsf{payload}_{\mathsf{opt}})\ \} \\[0.16em]
-\operatorname{TypeOptSet}(\bot )\ =\ \emptyset  \\[0.16em]
+\operatorname{TypeOptSet}(\bot )\ =\ \emptyset \\[0.16em]
 \operatorname{TypeOptSet}(T)\ =\ \{T\} \\[0.16em]
 \operatorname{ParamTypeSet}(\mathsf{params})\ =\ \{\ t\ \mid \ \exists \ \mathsf{mode},\ \mathsf{name}.\ \langle \mathsf{mode},\ \mathsf{name},\ t\rangle \ \in \ \mathsf{params}\ \} \\[0.16em]
 \operatorname{RecvTypeSet}(\operatorname{ReceiverExplicit}(\_,\ t))\ =\ \{t\} \\[0.16em]
-\operatorname{RecvTypeSet}(\operatorname{ReceiverShorthand}(\_))\ =\ \emptyset  \\[0.16em]
+\operatorname{RecvTypeSet}(\operatorname{ReceiverShorthand}(\_))\ =\ \emptyset \\[0.16em]
 \operatorname{ClassPathTypeSet}(\mathsf{paths})\ =\ \{\ \operatorname{TypePath}(p)\ \mid \ p\ \in \ \mathsf{paths}\ \} \\[0.16em]
 \operatorname{RecordFieldTypeSet}(\mathsf{members})\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{boundary},\ \mathsf{name},\ \mathsf{init},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{FieldDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{boundary},\ \mathsf{name},\ t,\ \mathsf{init},\ \mathsf{span},\ \mathsf{doc})\ \in \ \mathsf{members}\ \} \\[0.16em]
 \operatorname{RecordMethodRecvTypes}(\mathsf{members})\ =\ \{\ t\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{ov},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{MethodDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{ov},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc})\ \in \ \mathsf{members}\ \land \ t\ \in \ \operatorname{RecvTypeSet}(\mathsf{recv})\ \} \\[0.16em]
@@ -1561,8 +1561,8 @@ $$
 
 $$
 \begin{array}{l}
-G\ =\ \langle V,\ E_{\mathsf{type}},\ E_{\mathsf{val}}^\{\mathsf{eager}\},\ E_{\mathsf{val}}^\{\mathsf{lazy}\}\rangle  \\[0.16em]
-G_{e}\ =\ \langle V,\ E_{\mathsf{val}}^\{\mathsf{eager}\}\rangle 
+G\ =\ \langle V,\ E_{\mathsf{type}},\ E_{\mathsf{val}}^\{\mathsf{eager}\},\ E_{\mathsf{val}}^\{\mathsf{lazy}\}\rangle \\[0.16em]
+G_{e}\ =\ \langle V,\ E_{\mathsf{val}}^\{\mathsf{eager}\}\rangle
 \end{array}
 $$
 
@@ -1590,10 +1590,10 @@ Static initialization ordering, deinitialization ordering, and project lifecycle
 
 | Code         | Severity | Detection    | Condition                                                      |
 | ------------ | -------- | ------------ | -------------------------------------------------------------- |
-| `E-MOD-1104` | Error    | Compile-time | Module path collision after NFC + case folding                 |
-| `E-MOD-1105` | Error    | Compile-time | Module path component is a reserved keyword                    |
-| `E-MOD-1106` | Error    | Compile-time | Module path component is not a valid identifier                |
-| `E-MOD-1201` | Error    | Compile-time | External `using` path without required `import`                |
-| `E-MOD-1107` | Error    | Compile-time | Unresolved module: path prefix did not resolve to a module     |
+| `E-MOD-1104` | Error    | Compile-time | Module path collision after NFC + case folding (`Disc-Collision`, `WF-Module-Path-Collision`) |
+| `E-MOD-1105` | Error    | Compile-time | Module path component is a reserved keyword (`Validate-Module-Keyword-Err`, `Validate-ModulePath-Reserved-Err`, `WF-Module-Path-Reserved`) |
+| `E-MOD-1106` | Error    | Compile-time | Module path component is not a valid identifier (`WF-Module-Path-Ident-Err`) |
+| `E-MOD-1201` | Error    | Compile-time | External `using` path without required `import` (`Import-Using-Missing`) |
+| `E-MOD-1107` | Error    | Compile-time | Unresolved module: path prefix did not resolve to a module (`ResolveModulePath-Err`) |
 | `W-MOD-1101` | Warning  | Compile-time | Potential module path collision on case-insensitive filesystem |
-| `E-MOD-1401` | Error    | Compile-time | Cyclic module dependency detected in eager initializers        |
+| `E-MOD-1401` | Error    | Compile-time | Cyclic module dependency detected in eager initializers (`Topo-Cycle`) |

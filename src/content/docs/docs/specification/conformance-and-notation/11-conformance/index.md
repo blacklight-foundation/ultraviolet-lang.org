@@ -2,16 +2,16 @@
 title: "1.1 Conformance"
 description: "1.1 Conformance from 1. Conformance and Notation of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "conformance-and-notation"
 specSection: "11-conformance"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -59,7 +59,7 @@ $$
 \ \Gamma_{\mathsf{ct}} \ =\ \Gamma [\mathsf{project}\ \mapsto \ P_{\mathsf{ct}}] \\[0.16em]
 \ P_{\mathsf{res}}\ =\ \operatorname{ProjectView}(P,\ \mathsf{Ms}_{\mathsf{res}}) \\[0.16em]
 \ \Gamma_{\mathsf{res}} \ =\ \Gamma [\mathsf{project}\ \mapsto \ P_{\mathsf{res}}] \\[0.16em]
-\operatorname{Phase3Order}(P)\ \Leftrightarrow \ \exists \ \mathsf{Ms},\ \mathsf{Ms}_{\mathsf{ct}},\ \mathsf{Ms}_{\mathsf{res}}.\ \Gamma \ \vdash \ \operatorname{ParseModules}(P)\ \Downarrow \ \mathsf{Ms}\ \land \ \Gamma \ \vdash \ \operatorname{ExecuteComptime}(P,\ \mathsf{Ms})\ \Downarrow \ \mathsf{Ms}_{\mathsf{ct}}\ \land \ \operatorname{FirstFail}(\operatorname{Phase3Checks}(P,\ \mathsf{Ms}_{\mathsf{ct}},\ \mathsf{Ms}_{\mathsf{res}}))\ =\ \bot 
+\Gamma \ \vdash \ \operatorname{Phase3Order}(P)\ \Downarrow \ \mathsf{ok}\ \Leftrightarrow \ \exists \ \mathsf{Ms},\ \mathsf{Ms}_{\mathsf{ct}},\ \mathsf{Ms}_{\mathsf{res}}.\ \Gamma \ \vdash \ \operatorname{ParseModules}(P)\ \Downarrow \ \mathsf{Ms}\ \land \ \Gamma \ \vdash \ \operatorname{ExecuteComptime}(P,\ \mathsf{Ms})\ \Downarrow \ \mathsf{Ms}_{\mathsf{ct}}\ \land \ \operatorname{FirstFail}(\operatorname{Phase3Checks}(P,\ \mathsf{Ms}_{\mathsf{ct}},\ \mathsf{Ms}_{\mathsf{res}}))\ =\ \bot
 \end{array}
 $$
 
@@ -88,7 +88,7 @@ $$
 \operatorname{ItemKind}(\operatorname{ClassDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_))\ =\ \texttt{class} \\[0.16em]
 \operatorname{ItemKind}(\operatorname{TypeAliasDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_))\ =\ \texttt{type\_alias} \\[0.16em]
 \operatorname{ItemKind}(\operatorname{StaticDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_))\ =\ \texttt{static\_decl} \\[0.16em]
-\operatorname{ItemKind}(\_)\ =\ \bot 
+\operatorname{ItemKind}(\_)\ =\ \bot
 \end{array}
 $$
 
@@ -125,7 +125,7 @@ $$
 \operatorname{TypeCtor}(\operatorname{TypePath}([\texttt{"RegionOptions"}]))\ =\ \{\texttt{region\_options}\} \\[0.16em]
 \operatorname{TypeCtor}(\operatorname{TypePath}(p))\ =\ \{\texttt{record}\}\ \mathsf{if}\ \operatorname{RecordDecl}(p)\ \mathsf{defined} \\[0.16em]
 \operatorname{TypeCtor}(\operatorname{TypePath}(p))\ =\ \{\texttt{enum}\}\ \mathsf{if}\ \operatorname{EnumDecl}(p)\ \mathsf{defined} \\[0.16em]
-\operatorname{TypeCtor}(\_)\ =\ \emptyset 
+\operatorname{TypeCtor}(\_)\ =\ \emptyset
 \end{array}
 $$
 
@@ -136,7 +136,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{PermOfType}(\operatorname{TypePerm}(p,\ \_))\ =\ \{p\} \\[0.16em]
-\operatorname{PermOfType}(\_)\ =\ \emptyset  \\[0.16em]
+\operatorname{PermOfType}(\_)\ =\ \emptyset \\[0.16em]
 \operatorname{RecvPerms}(\mathsf{members})\ =\ \{\ p\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{ov},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{MethodDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{ov},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc})\ \in \ \mathsf{members}\ \land \ \mathsf{recv}\ =\ \operatorname{ReceiverShorthand}(p)\ \} \\[0.16em]
 \operatorname{ClassRecvPerms}(\mathsf{items})\ =\ \{\ p\ \mid \ \exists \ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}.\ \operatorname{ClassMethodDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc})\ \in \ \mathsf{items}\ \land \ \mathsf{recv}\ =\ \operatorname{ReceiverShorthand}(p)\ \} \\[0.16em]
 \operatorname{StateRecvPerms}(\mathsf{states})\ =\ \{\ p\ \mid \ \exists \ S,\ \mathsf{members},\ \mathsf{span},\ \mathsf{doc},\ \mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body}.\ \operatorname{StateBlock}(S,\ \mathsf{members},\ \mathsf{span},\ \mathsf{doc})\ \in \ \mathsf{states}\ \land \ \operatorname{StateMethodDecl}(\mathsf{attrs},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}},\ \mathsf{recv},\ \mathsf{params},\ \mathsf{ret},\ \mathsf{contract},\ \mathsf{body},\ \_,\ \_)\ \in \ \mathsf{members}\ \land \ \mathsf{recv}\ =\ \operatorname{ReceiverShorthand}(p)\ \} \\[0.16em]
@@ -173,7 +173,7 @@ $$
 \operatorname{ExprKind}(\operatorname{SyncExpr}(\_))\ =\ \texttt{sync} \\[0.16em]
 \operatorname{ExprKind}(\operatorname{RaceExpr}(\_))\ =\ \texttt{race} \\[0.16em]
 \operatorname{ExprKind}(\operatorname{AllExpr}(\_))\ =\ \texttt{all} \\[0.16em]
-\operatorname{ExprKind}(\_)\ =\ \bot 
+\operatorname{ExprKind}(\_)\ =\ \bot
 \end{array}
 $$
 
@@ -192,7 +192,7 @@ $$
 \operatorname{StmtKind}(\operatorname{BreakStmt}(\_))\ =\ \texttt{break} \\[0.16em]
 \operatorname{StmtKind}(\mathsf{ContinueStmt})\ =\ \texttt{continue} \\[0.16em]
 \operatorname{StmtKind}(\operatorname{UnsafeBlockStmt}(\_))\ =\ \texttt{unsafe} \\[0.16em]
-\operatorname{StmtKind}(\_)\ =\ \bot 
+\operatorname{StmtKind}(\_)\ =\ \bot
 \end{array}
 $$
 
@@ -201,7 +201,7 @@ $$
 $$
 
 $$
-\operatorname{CapConstructs}(P)\ =\ \{\ c\ \mid \ c\ \in \ \{\texttt{Context},\ \texttt{IO},\ \texttt{Network},\ \texttt{HeapAllocator},\ \texttt{ExecutionDomain},\ \texttt{Reactor}\}\ \land \ \exists \ m,\ t.\ m\ \in \ P.\mathsf{modules}\ \land \ t\ \in \ \operatorname{TypeNodes}(P,\ m)\ \land \ t\ =\ \operatorname{TypePath}([c])\ \}
+\operatorname{CapConstructs}(P)\ =\ \{\ c\ \mid \ (c\ =\ \texttt{Context}\ \lor \ \operatorname{CapClass}(c))\ \land \ \exists \ m,\ t.\ m\ \in \ P.\mathsf{modules}\ \land \ t\ \in \ \operatorname{TypeNodes}(P,\ m)\ \land \ ((c\ =\ \texttt{Context}\ \land \ t\ =\ \operatorname{TypePath}([\texttt{Context}]))\ \lor \ (c\ \ne \ \texttt{Context}\ \land \ t\ =\ \operatorname{TypeDynamic}([c])))\ \}\quad (\mathsf{CapClass}\ \mathsf{per}\ \S 6.1.1)
 $$
 
 $$

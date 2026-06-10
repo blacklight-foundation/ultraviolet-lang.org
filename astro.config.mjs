@@ -186,6 +186,13 @@ export default defineConfig({
           },
         },
         {
+          tag: 'script',
+          attrs: {
+            src: '/header-scroll-progress.js',
+            defer: true,
+          },
+        },
+        {
           tag: 'meta',
           attrs: {
             property: 'og:site_name',

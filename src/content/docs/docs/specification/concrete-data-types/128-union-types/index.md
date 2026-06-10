@@ -2,16 +2,16 @@
 title: "12.8 Union Types"
 description: "12.8 Union Types from 12. Concrete Data Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "concrete-data-types"
 specSection: "128-union-types"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,7 +24,7 @@ generated: true
 ### 12.8.1 Syntax
 
 ```text
-union_type ::= non_perm_type ("|" non_perm_type)+
+union_type ::= non_union_type ("|" non_union_type)+
 ```
 
 Union introduction is semantic: any expression whose type is a member of a union may be typed as that union.
@@ -94,25 +94,7 @@ $$
 \operatorname{Member}(T,\ U)\ \Leftrightarrow \ U\ =\ \operatorname{TypeUnion}([U_{1},\ \ldots ,\ U_{n}])\ \land \ \exists \ i.\ \Gamma \ \vdash \ T\ \equiv \ U_{i}
 $$
 
-**(Sub-Member-Union)**
-Member(T, U)
-
-$$
-\begin{array}{l}
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ \mathrel{<:} \ U
-\end{array}
-$$
-
-**(Sub-Union-Width)**
-
-$$
-\begin{array}{l}
-U_{1}\ =\ \operatorname{TypeUnion}([T_{1},\ \ldots ,\ T_{n}])\quad U_{2}\ =\ \operatorname{TypeUnion}([U_{1}',\ \ldots ,\ U_{m}'])\quad \forall \ i,\ \operatorname{Member}(T_{i},\ U_{2}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ U_{1}\ \mathrel{<:} \ U_{2}
-\end{array}
-$$
+Rules **(Sub-Member-Union)**, **(Sub-Union-Width)** are defined once by §8.2.
 
 **(T-Union-Intro)**
 
@@ -124,15 +106,7 @@ $$
 \end{array}
 $$
 
-**(Union-DirectAccess-Err)**
-
-$$
-\begin{array}{l}
-\Gamma ;\ R;\ L\ \vdash \ e\ :\ U\quad \operatorname{StripPerm}(U)\ =\ \operatorname{TypeUnion}(\_)\quad c\ =\ \operatorname{Code}(\mathsf{Union}-\mathsf{DirectAccess}-\mathsf{Err}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{FieldAccess}(e,\ f)\ \Uparrow \ c
-\end{array}
-$$
+Rule **(Union-DirectAccess-Err)** is defined once by §16.2.4.
 
 Union matching and propagation are defined by §§16.8 and 17.5.
 
@@ -149,11 +123,11 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{PathOrderKey}(p)\ =\ \langle \operatorname{Fold}(p),\ p\rangle  \\[0.16em]
+\operatorname{PathOrderKey}(p)\ =\ \langle \operatorname{Fold}(p),\ p\rangle \\[0.16em]
 \operatorname{BitsToUInt}(\mathsf{bits})\ =\ v\ \Leftrightarrow \ \operatorname{LEBytes}(v,\ \mid \mathsf{bits}\mid )\ =\ \mathsf{bits} \\[0.16em]
 \mathsf{bits}_{1}\ \prec_{u} \ \mathsf{bits}_{2}\ \Leftrightarrow \ \exists \ v_{1},\ v_{2}.\ \operatorname{BitsToUInt}(\mathsf{bits}_{1})\ =\ v_{1}\ \land \ \operatorname{BitsToUInt}(\mathsf{bits}_{2})\ =\ v_{2}\ \land \ v_{1}\ <\ v_{2} \\[0.16em]
 \operatorname{NicheOrder}(T)\ =\ \mathsf{sort}\_\{\prec_{u} \}(\operatorname{NicheSet}(T)) \\[0.16em]
-\operatorname{NicheCount}(T)\ =\ \mid \operatorname{NicheSet}(T)\mid  \\[0.16em]
+\operatorname{NicheCount}(T)\ =\ \mid \operatorname{NicheSet}(T)\mid \\[0.16em]
 \operatorname{TagKey}(\texttt{prim})\ =\ 0 \\[0.16em]
 \operatorname{TagKey}(\texttt{tuple})\ =\ 1 \\[0.16em]
 \operatorname{TagKey}(\texttt{array})\ =\ 2 \\[0.16em]
@@ -192,26 +166,26 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{TypeKey}(\operatorname{TypePrim}(\mathsf{name}))\ =\ \langle \operatorname{TagKey}(\texttt{prim}),\ \mathsf{name}\rangle  \\[0.16em]
-\operatorname{TypeKey}(\operatorname{TypeRange}(T))\ =\ \langle \operatorname{TagKey}(\texttt{range}),\ 0,\ \operatorname{TypeKey}(T)\rangle  \\[0.16em]
-\operatorname{TypeKey}(\operatorname{TypeRangeInclusive}(T))\ =\ \langle \operatorname{TagKey}(\texttt{range}),\ 1,\ \operatorname{TypeKey}(T)\rangle  \\[0.16em]
-\operatorname{TypeKey}(\operatorname{TypeRangeFrom}(T))\ =\ \langle \operatorname{TagKey}(\texttt{range}),\ 2,\ \operatorname{TypeKey}(T)\rangle  \\[0.16em]
-\operatorname{TypeKey}(\operatorname{TypeRangeTo}(T))\ =\ \langle \operatorname{TagKey}(\texttt{range}),\ 3,\ \operatorname{TypeKey}(T)\rangle  \\[0.16em]
-\operatorname{TypeKey}(\operatorname{TypeRangeToInclusive}(T))\ =\ \langle \operatorname{TagKey}(\texttt{range}),\ 4,\ \operatorname{TypeKey}(T)\rangle  \\[0.16em]
-\operatorname{TypeKey}(\mathsf{TypeRangeFull})\ =\ \langle \operatorname{TagKey}(\texttt{range}),\ 5\rangle  \\[0.16em]
-\operatorname{TypeKey}(\operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}]))\ =\ \langle \operatorname{TagKey}(\texttt{tuple}),\ n,\ \operatorname{TypeKey}(T_{1}),\ \ldots ,\ \operatorname{TypeKey}(T_{n})\rangle  \\[0.16em]
-\operatorname{TypeKey}(\operatorname{TypeArray}(T,\ e))\ =\ \langle \operatorname{TagKey}(\texttt{array}),\ \operatorname{TypeKey}(T),\ \operatorname{ArrayLen}(e)\rangle  \\[0.16em]
-\operatorname{TypeKey}(\operatorname{TypeSlice}(T))\ =\ \langle \operatorname{TagKey}(\texttt{slice}),\ \operatorname{TypeKey}(T)\rangle  \\[0.16em]
-\operatorname{TypeKey}(\operatorname{TypeFunc}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R))\ =\ \langle \operatorname{TagKey}(\texttt{func}),\ n,\ \operatorname{ModeKey}(m_{1}),\ \operatorname{TypeKey}(T_{1}),\ \ldots ,\ \operatorname{ModeKey}(m_{n}),\ \operatorname{TypeKey}(T_{n}),\ \operatorname{TypeKey}(R)\rangle  \\[0.16em]
-\operatorname{TypeKey}(\operatorname{TypePath}(p))\ =\ \langle \operatorname{TagKey}(\texttt{path}),\ \operatorname{PathOrderKey}(p)\rangle  \\[0.16em]
-\operatorname{TypeKey}(\operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S))\ =\ \langle \operatorname{TagKey}(\texttt{modal\_state}),\ \operatorname{PathOrderKey}(\operatorname{ModalRefPath}(\mathsf{modal}_{\mathsf{ref}})),\ S\rangle  \\[0.16em]
-\operatorname{TypeKey}(\operatorname{TypeString}(\mathsf{st}))\ =\ \langle \operatorname{TagKey}(\texttt{string}),\ \operatorname{StateKey}(\mathsf{st})\rangle  \\[0.16em]
-\operatorname{TypeKey}(\operatorname{TypeBytes}(\mathsf{st}))\ =\ \langle \operatorname{TagKey}(\texttt{bytes}),\ \operatorname{StateKey}(\mathsf{st})\rangle  \\[0.16em]
-\operatorname{TypeKey}(\operatorname{TypeDynamic}(p))\ =\ \langle \operatorname{TagKey}(\texttt{dynamic}),\ \operatorname{PathOrderKey}(p)\rangle  \\[0.16em]
-\operatorname{TypeKey}(\operatorname{TypePtr}(T,\ s))\ =\ \langle \operatorname{TagKey}(\texttt{ptr}),\ \operatorname{PtrStateKey}(s),\ \operatorname{TypeKey}(T)\rangle  \\[0.16em]
-\operatorname{TypeKey}(\operatorname{TypeRawPtr}(q,\ T))\ =\ \langle \operatorname{TagKey}(\texttt{rawptr}),\ \operatorname{QualKey}(q),\ \operatorname{TypeKey}(T)\rangle  \\[0.16em]
-\operatorname{TypeKey}(\operatorname{TypeUnion}([T_{1},\ \ldots ,\ T_{n}]))\ =\ \langle \operatorname{TagKey}(\texttt{union}),\ \operatorname{Sort}([\operatorname{TypeKey}(T_{1}),\ \ldots ,\ \operatorname{TypeKey}(T_{n})])\rangle  \\[0.16em]
-\operatorname{TypeKey}(\operatorname{TypePerm}(p,\ T))\ =\ \langle \operatorname{TagKey}(\texttt{perm}),\ \operatorname{PermKey}(p),\ \operatorname{TypeKey}(T)\rangle 
+\operatorname{TypeKey}(\operatorname{TypePrim}(\mathsf{name}))\ =\ \langle \operatorname{TagKey}(\texttt{prim}),\ \mathsf{name}\rangle \\[0.16em]
+\operatorname{TypeKey}(\operatorname{TypeRange}(T))\ =\ \langle \operatorname{TagKey}(\texttt{range}),\ 0,\ \operatorname{TypeKey}(T)\rangle \\[0.16em]
+\operatorname{TypeKey}(\operatorname{TypeRangeInclusive}(T))\ =\ \langle \operatorname{TagKey}(\texttt{range}),\ 1,\ \operatorname{TypeKey}(T)\rangle \\[0.16em]
+\operatorname{TypeKey}(\operatorname{TypeRangeFrom}(T))\ =\ \langle \operatorname{TagKey}(\texttt{range}),\ 2,\ \operatorname{TypeKey}(T)\rangle \\[0.16em]
+\operatorname{TypeKey}(\operatorname{TypeRangeTo}(T))\ =\ \langle \operatorname{TagKey}(\texttt{range}),\ 3,\ \operatorname{TypeKey}(T)\rangle \\[0.16em]
+\operatorname{TypeKey}(\operatorname{TypeRangeToInclusive}(T))\ =\ \langle \operatorname{TagKey}(\texttt{range}),\ 4,\ \operatorname{TypeKey}(T)\rangle \\[0.16em]
+\operatorname{TypeKey}(\mathsf{TypeRangeFull})\ =\ \langle \operatorname{TagKey}(\texttt{range}),\ 5\rangle \\[0.16em]
+\operatorname{TypeKey}(\operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}]))\ =\ \langle \operatorname{TagKey}(\texttt{tuple}),\ n,\ \operatorname{TypeKey}(T_{1}),\ \ldots ,\ \operatorname{TypeKey}(T_{n})\rangle \\[0.16em]
+\operatorname{TypeKey}(\operatorname{TypeArray}(T,\ e))\ =\ \langle \operatorname{TagKey}(\texttt{array}),\ \operatorname{TypeKey}(T),\ \operatorname{ArrayLen}(e)\rangle \\[0.16em]
+\operatorname{TypeKey}(\operatorname{TypeSlice}(T))\ =\ \langle \operatorname{TagKey}(\texttt{slice}),\ \operatorname{TypeKey}(T)\rangle \\[0.16em]
+\operatorname{TypeKey}(\operatorname{TypeFunc}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R))\ =\ \langle \operatorname{TagKey}(\texttt{func}),\ n,\ \operatorname{ModeKey}(m_{1}),\ \operatorname{TypeKey}(T_{1}),\ \ldots ,\ \operatorname{ModeKey}(m_{n}),\ \operatorname{TypeKey}(T_{n}),\ \operatorname{TypeKey}(R)\rangle \\[0.16em]
+\operatorname{TypeKey}(\operatorname{TypePath}(p))\ =\ \langle \operatorname{TagKey}(\texttt{path}),\ \operatorname{PathOrderKey}(p)\rangle \\[0.16em]
+\operatorname{TypeKey}(\operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S))\ =\ \langle \operatorname{TagKey}(\texttt{modal\_state}),\ \operatorname{PathOrderKey}(\operatorname{ModalRefPath}(\mathsf{modal}_{\mathsf{ref}})),\ S\rangle \\[0.16em]
+\operatorname{TypeKey}(\operatorname{TypeString}(\mathsf{st}))\ =\ \langle \operatorname{TagKey}(\texttt{string}),\ \operatorname{StateKey}(\mathsf{st})\rangle \\[0.16em]
+\operatorname{TypeKey}(\operatorname{TypeBytes}(\mathsf{st}))\ =\ \langle \operatorname{TagKey}(\texttt{bytes}),\ \operatorname{StateKey}(\mathsf{st})\rangle \\[0.16em]
+\operatorname{TypeKey}(\operatorname{TypeDynamic}(p))\ =\ \langle \operatorname{TagKey}(\texttt{dynamic}),\ \operatorname{PathOrderKey}(p)\rangle \\[0.16em]
+\operatorname{TypeKey}(\operatorname{TypePtr}(T,\ s))\ =\ \langle \operatorname{TagKey}(\texttt{ptr}),\ \operatorname{PtrStateKey}(s),\ \operatorname{TypeKey}(T)\rangle \\[0.16em]
+\operatorname{TypeKey}(\operatorname{TypeRawPtr}(q,\ T))\ =\ \langle \operatorname{TagKey}(\texttt{rawptr}),\ \operatorname{QualKey}(q),\ \operatorname{TypeKey}(T)\rangle \\[0.16em]
+\operatorname{TypeKey}(\operatorname{TypeUnion}([T_{1},\ \ldots ,\ T_{n}]))\ =\ \langle \operatorname{TagKey}(\texttt{union}),\ \operatorname{Sort}([\operatorname{TypeKey}(T_{1}),\ \ldots ,\ \operatorname{TypeKey}(T_{n})])\rangle \\[0.16em]
+\operatorname{TypeKey}(\operatorname{TypePerm}(p,\ T))\ =\ \langle \operatorname{TagKey}(\texttt{perm}),\ \operatorname{PermKey}(p),\ \operatorname{TypeKey}(T)\rangle
 \end{array}
 $$
 
@@ -256,9 +230,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{NicheApplies}(U)\quad \operatorname{PayloadMember}(U)\ =\ T_{p}\quad \Gamma \ \vdash \ \operatorname{layout}(T_{p})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle  \\[0.16em]
+\operatorname{NicheApplies}(U)\quad \operatorname{PayloadMember}(U)\ =\ T_{p}\quad \Gamma \ \vdash \ \operatorname{layout}(T_{p})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{UnionLayout}(U)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \bot ,\ \operatorname{layout}(T_{p})\rangle 
+\Gamma \ \vdash \ \operatorname{UnionLayout}(U)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \bot ,\ \operatorname{layout}(T_{p})\rangle
 \end{array}
 $$
 
@@ -268,7 +242,7 @@ $$
 \begin{array}{l}
 \lnot \ \operatorname{NicheApplies}(U)\quad \mathsf{size}\ =\ \operatorname{UnionSize}(U)\quad \mathsf{align}\ =\ \operatorname{UnionAlign}(U) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{UnionLayout}(U)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \operatorname{UnionDiscType}(U),\ \operatorname{PayloadSize}(U)\rangle 
+\Gamma \ \vdash \ \operatorname{UnionLayout}(U)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \operatorname{UnionDiscType}(U),\ \operatorname{PayloadSize}(U)\rangle
 \end{array}
 $$
 
@@ -276,7 +250,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeUnion}([T_{1},\ \ldots ,\ T_{n}])\quad \operatorname{UnionLayout}(T)\ \Downarrow \ \langle \mathsf{size},\ \_,\ \_,\ \_\rangle  \\[0.16em]
+T\ =\ \operatorname{TypeUnion}([T_{1},\ \ldots ,\ T_{n}])\quad \operatorname{UnionLayout}(T)\ \Downarrow \ \langle \mathsf{size},\ \_,\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{sizeof}(T)\ =\ \mathsf{size}
 \end{array}
@@ -286,7 +260,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeUnion}([T_{1},\ \ldots ,\ T_{n}])\quad \operatorname{UnionLayout}(T)\ \Downarrow \ \langle \_,\ \mathsf{align},\ \_,\ \_\rangle  \\[0.16em]
+T\ =\ \operatorname{TypeUnion}([T_{1},\ \ldots ,\ T_{n}])\quad \operatorname{UnionLayout}(T)\ \Downarrow \ \langle \_,\ \mathsf{align},\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{alignof}(T)\ =\ \mathsf{align}
 \end{array}
@@ -296,9 +270,9 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeUnion}([T_{1},\ \ldots ,\ T_{n}])\quad \operatorname{UnionLayout}(T)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_,\ \_\rangle  \\[0.16em]
+T\ =\ \operatorname{TypeUnion}([T_{1},\ \ldots ,\ T_{n}])\quad \operatorname{UnionLayout}(T)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle
 \end{array}
 $$
 

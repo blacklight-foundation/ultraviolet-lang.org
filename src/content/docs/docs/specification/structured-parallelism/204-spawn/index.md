@@ -2,16 +2,16 @@
 title: "20.4 Spawn"
 description: "20.4 Spawn from 20. Structured Parallelism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "structured-parallelism"
 specSection: "204-spawn"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -33,19 +33,47 @@ spawn_option       ::= "name" ":" string_literal
 
 ### 20.4.2 Parsing
 
-Spawn parsing is defined by the following source rules:
+**(Parse-SpawnOpt-Name)**
 
-- `Parse-Spawn-Expr`
-- `Parse-SpawnOptsOpt-None`
-- `Parse-SpawnOptsOpt-Yes`
-- `Parse-SpawnOptList-Empty`
-- `Parse-SpawnOptList-Cons`
-- `Parse-SpawnOptListTail-End`
-- `Parse-SpawnOptListTail-TrailingComma`
-- `Parse-SpawnOptListTail-Comma`
-- `Parse-SpawnOpt-Name`
-- `Parse-SpawnOpt-Affinity`
-- `Parse-SpawnOpt-Priority`
+$$
+\begin{array}{l}
+\operatorname{IsCtxIdent}(\operatorname{Tok}(P),\ \texttt{"name"})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{":"})\quad \operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P))).\mathsf{kind}\ =\ \mathsf{StringLiteral}\quad s\ =\ \operatorname{StringValue}(\operatorname{Tok}(\operatorname{Advance}(\operatorname{Advance}(P)))) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseSpawnOpt}(P)\ \Downarrow \ (\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P))),\ \operatorname{Name}(s))
+\end{array}
+$$
+
+**(Parse-SpawnOpt-Affinity)**
+
+$$
+\begin{array}{l}
+\operatorname{IsCtxIdent}(\operatorname{Tok}(P),\ \texttt{"affinity"})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseSpawnOpt}(P)\ \Downarrow \ (P_{1},\ \operatorname{Affinity}(e))
+\end{array}
+$$
+
+**(Parse-SpawnOpt-Priority)**
+
+$$
+\begin{array}{l}
+\operatorname{IsCtxIdent}(\operatorname{Tok}(P),\ \texttt{"priority"})\quad \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{":"})\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ e) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseSpawnOpt}(P)\ \Downarrow \ (P_{1},\ \operatorname{Priority}(e))
+\end{array}
+$$
+
+**(Parse-Spawn-Expr)**
+
+$$
+\begin{array}{l}
+\operatorname{IsKw}(\operatorname{Tok}(P),\ \texttt{"spawn"})\quad \Gamma \ \vdash \ \operatorname{ParseOptListOpt}(\mathsf{ParseSpawnOpt},\ \operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{opts})\quad \Gamma \ \vdash \ \operatorname{ParseBlockExpr}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{body}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParsePrimaryExpr}(P)\ \Downarrow \ (P_{2},\ \operatorname{SpawnExpr}(\mathsf{opts},\ \mathsf{body}))
+\end{array}
+$$
+
+The option-list rules instantiate the shared schema of §5.5 with `El = ParseSpawnOpt`.
 
 ### 20.4.3 AST Representation / Form
 
@@ -58,7 +86,7 @@ $$
 $$
 
 $$
-\mathsf{Expr}\ =\ \ldots \ \mid \ \operatorname{SpawnExpr}(\mathsf{opts},\ \mathsf{body})\ \mid \ \ldots 
+\mathsf{Expr}\ =\ \ldots \ \mid \ \operatorname{SpawnExpr}(\mathsf{opts},\ \mathsf{body})\ \mid \ \ldots
 $$
 
 $$
@@ -113,7 +141,7 @@ $$
 \begin{array}{l}
 \Gamma [\mathsf{parallel}_{\mathsf{context}}]\ =\ D\quad \operatorname{SpawnOptsOk}(\mathsf{opts})\quad \Gamma_{\mathsf{capture}} \ \vdash \ e\ :\ T \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \texttt{spawn}\ \mathsf{opts}\ \{e\}\ :\ \mathsf{Spawned}\langle T\rangle 
+\Gamma \ \vdash \ \texttt{spawn}\ \mathsf{opts}\ \{e\}\ :\ \mathsf{Spawned}\langle T\rangle
 \end{array}
 $$
 
@@ -160,7 +188,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LowerBlock}(e)\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \quad \mathsf{caps}\ =\ \operatorname{CaptureSet}(e) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{SpawnExpr}(\mathsf{opts},\ e))\ \Downarrow \ \langle \operatorname{SeqIR}(\operatorname{TaskCreate}(\mathsf{caps},\ \mathsf{opts},\ \mathsf{IR}_{b}),\ \mathsf{TaskEnqueue}),\ \mathsf{SpawnHandleVal}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{SpawnExpr}(\mathsf{opts},\ e))\ \Downarrow \ \langle \operatorname{SeqIR}(\operatorname{TaskCreate}(\mathsf{caps},\ \mathsf{opts},\ \mathsf{IR}_{b}),\ \mathsf{TaskEnqueue}),\ \mathsf{SpawnHandleVal}\rangle
 \end{array}
 $$
 

@@ -2,16 +2,16 @@
 title: "B.3 Expression Grammar"
 description: "B.3 Expression Grammar from Appendix B. Complete Grammar Reference of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "complete-grammar-reference"
 specSection: "b3-expression-grammar"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -55,9 +55,9 @@ unary_operator ::= "!" | "-" | "&" | "*" | "^" | "move" | "widen"
 pipeline_expr  ::= postfix_expr ("=>" postfix_expr)*
 
 postfix_expr   ::= primary_expr postfix_suffix*
-postfix_suffix ::= "." identifier | "." decimal_literal | "[" expression "]" | "~>" identifier "(" argument_list? ")" | "(" argument_list? ")" | "?"
+postfix_suffix ::= "." identifier | "." decimal_integer | "[" expression "]" | "~>" identifier "(" argument_list? ")" | "(" argument_list? ")" | "?"
 
-primary_expr ::= literal | identifier_expr | path_expr | tuple_literal | array_literal | record_literal | closure_expr | if_expr | loop_expr | block_expr | comptime_expr | quote_expr | quote_type | quote_pattern | type_literal
+primary_expr ::= literal | identifier_expr | path_expr | tuple_literal | array_literal | record_literal | enum_literal | closure_expr | if_expr | loop_expr | block_expr | move_expr | copy_expr | widen_expr | address_of_expr | null_ptr_expr | transmute_expr | alloc_expr | sync_expr | race_expr | all_expr | wait_expr | yield_expr | yield_from_expr | spawn_expr | parallel_block | dispatch_expr | fence_expr | comptime_expr | comptime_if | comptime_loop | quote_expr | quote_type | quote_pattern | type_literal | splice_expr | splice_ident | contract_intrinsic
 
 literal ::= integer_literal | float_literal | string_literal | char_literal | bool_literal | null_literal | unit_literal
 
@@ -76,11 +76,8 @@ field_init          ::= identifier ":" expression | identifier
 enum_literal        ::= type_path "::" identifier variant_args?
 variant_args        ::= "(" expression_list ")" | "{" field_init_list "}"
 
-call_expr     ::= postfix_expr "(" argument_list? ")"
 argument_list ::= argument ("," argument)* ","?
 argument      ::= ("move" | "copy")? expression
-method_call   ::= postfix_expr "~>" identifier "(" argument_list? ")"
-static_call   ::= type_path "::" identifier "(" argument_list? ")"
 
 closure_expr       ::= "|" closure_param_list? "|" ("->" type)? closure_body
 closure_param_list ::= closure_param ("," closure_param)* ","?
@@ -105,7 +102,6 @@ block_expr ::= "{" statement* expression? "}"
 move_expr        ::= "move" place_expr
 copy_expr        ::= "copy" unary_expr
 widen_expr       ::= "widen" unary_expr
-try_expr         ::= postfix_expr "?"
 address_of_expr  ::= "&" place_expr
 null_ptr_expr    ::= "Ptr" "::" "null" "()"
 transmute_expr   ::= "transmute" "<" type "," type ">" "(" expression ")"

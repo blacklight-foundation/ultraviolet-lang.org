@@ -2,16 +2,16 @@
 title: "12.6 Records"
 description: "12.6 Records from 12. Concrete Data Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "concrete-data-types"
 specSection: "126-records"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,9 +24,10 @@ generated: true
 ### 12.6.1 Syntax
 
 ```text
-record_decl     ::= attribute_list? visibility? "record" identifier generic_params? implements_clause? predicate_clause? record_body invariant_clause?
+record_decl     ::= attribute_list? visibility? "record" identifier generic_params? implements_clause? predicate_clause? record_body type_invariant?
 record_body     ::= "{" record_member* "}"
 record_field    ::= attribute_list? visibility? key_boundary? identifier ":" type record_field_init_opt
+key_boundary    ::= "#"
 record_literal  ::= identifier "{" field_init_list "}"
 default_record  ::= identifier "(" ")"
 ```
@@ -83,15 +84,7 @@ $$
 \end{array}
 $$
 
-**(Parse-RecordMember-AssociatedType)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseAttrListOpt}(P)\ \Downarrow \ (P_{0},\ \mathsf{attrs}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{ParseVis}(P_{0})\ \Downarrow \ (P_{1},\ \mathsf{vis})\quad \operatorname{IsKw}(\operatorname{Tok}(P_{1}),\ \texttt{type})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{name})\quad \Gamma \ \vdash \ \operatorname{ParseAssocTypeDefaultOpt}(P_{2})\ \Downarrow \ (P_{3},\ \mathsf{default}_{\mathsf{type}\_\mathsf{opt}}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParseRecordMember}(P)\ \Downarrow \ (P_{3},\ \langle \mathsf{AssociatedTypeDecl},\ \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{default}_{\mathsf{type}\_\mathsf{opt}},\ \operatorname{SpanBetween}(P,\ P_{3}),\ []\rangle )
-\end{array}
-$$
+Rule **(Parse-RecordMember-AssociatedType)** is defined once by §14.5.2.
 
 **(Parse-RecordMember-Field)**
 
@@ -133,21 +126,13 @@ $$
 \end{array}
 $$
 
-**(Parse-Record-Literal)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseTypePath}(P)\ \Downarrow \ (P_{1},\ \mathsf{path})\quad \mid \mathsf{path}\mid \ =\ 1\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseFieldInitList}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{fields})\quad \mathsf{fields}\ \ne \ []\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{"\}"}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(P_{2}),\ \operatorname{RecordExpr}(\operatorname{TypePath}(\mathsf{path}),\ \mathsf{fields}))
-\end{array}
-$$
+Rule **(Parse-Record-Literal)** is defined once by §16.6.2.
 
 ### 12.6.3 AST Representation / Form
 
 $$
 \begin{array}{l}
-\mathsf{RecordDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{implements},\ \mathsf{members},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}\rangle  \\[0.16em]
+\mathsf{RecordDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{implements},\ \mathsf{members},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}\rangle \\[0.16em]
 \mathsf{RecordDecl}.\mathsf{implements}\ \in \ [\mathsf{ClassPath}]
 \end{array}
 $$
@@ -157,7 +142,7 @@ $$
 \mathsf{RecordMember}\ \in \ \{ \\[0.16em]
 \ \mathsf{FieldDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{boundary},\ \mathsf{name},\ \mathsf{type},\ \mathsf{init}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle , \\[0.16em]
 \ \mathsf{MethodDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{override},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{receiver},\ \mathsf{params},\ \mathsf{return}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle , \\[0.16em]
-\ \mathsf{AssociatedTypeDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{default}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle  \\[0.16em]
+\ \mathsf{AssociatedTypeDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{default}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle \\[0.16em]
 \}
 \end{array}
 $$
@@ -183,34 +168,9 @@ $$
 
 ### 12.6.4 Static Semantics
 
-**(Bind-Record)**
+Rule **(Bind-Record)** is defined once by §7.5.
 
-$$
-\begin{array}{l}
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ItemBindings}(\operatorname{RecordDecl}(\_,\ \_,\ \mathsf{name},\ \_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \_),\ p)\ \Downarrow \ [(\mathsf{name},\ \langle \mathsf{Type},\ p,\ \bot ,\ \mathsf{Decl}\rangle )]
-\end{array}
-$$
-
-**(Resolve-RecordPath)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{path}\ \mathbin{++} \ [\mathsf{name}])\ \Downarrow \ p\quad \operatorname{RecordDecl}(p)\ =\ R \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveRecordPath}(\mathsf{path},\ \mathsf{name})\ \Downarrow \ p
-\end{array}
-$$
-
-**(ResolveQual-Name-Record)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ResolveRecordPath}(\mathsf{path},\ \mathsf{name})\ \Downarrow \ p\quad \operatorname{SplitLast}(p)\ =\ (\mathsf{mp},\ \mathsf{name}') \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveQualifiedForm}(\operatorname{QualifiedName}(\mathsf{path},\ \mathsf{name}))\ \Downarrow \ \operatorname{Path}(\mathsf{mp},\ \mathsf{name}')
-\end{array}
-$$
+Rules **(Resolve-RecordPath)**, **(ResolveQual-Name-Record)** are defined once by §7.6.
 
 **(ResolveQual-Apply-RecordLit)**
 
@@ -282,20 +242,12 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{DefaultConstructible}(R)\ \Leftrightarrow \ \forall \ f\ \in \ \operatorname{Fields}(R).\ f.\mathsf{init}_{\mathsf{opt}}\ \ne \ \bot  \\[0.16em]
+\operatorname{DefaultConstructible}(R)\ \Leftrightarrow \ \forall \ f\ \in \ \operatorname{Fields}(R).\ f.\mathsf{init}_{\mathsf{opt}}\ \ne \ \bot \\[0.16em]
 \operatorname{RecordCallee}(\mathsf{callee})\ =\ R\ \Leftrightarrow \ (\mathsf{callee}\ =\ \operatorname{Identifier}(\mathsf{name})\ \lor \ \mathsf{callee}\ =\ \operatorname{Path}(\mathsf{path},\ \mathsf{name}))\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTypeName}(\mathsf{name})\ \Downarrow \ \mathsf{ent}\ \land \ \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \mathsf{mp}\ \land \ \mathsf{name}'\ =\ (\mathsf{ent}.\mathsf{target}_{\mathsf{opt}}\ \mathsf{if}\ \mathsf{present},\ \mathsf{else}\ \mathsf{name})\ \land \ \operatorname{RecordDecl}(\operatorname{FullPath}(\operatorname{PathOfModule}(\mathsf{mp}),\ \mathsf{name}'))\ =\ R
 \end{array}
 $$
 
-**(T-Record-Default)**
-
-$$
-\begin{array}{l}
-\operatorname{RecordCallee}(\mathsf{callee})\ =\ R\quad \Gamma \ \vdash \ R\ \mathsf{record}\ \mathsf{wf}\quad \operatorname{DefaultConstructible}(R) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{Call}(\mathsf{callee},\ [])\ :\ \operatorname{TypePath}(\operatorname{RecordPath}(R))
-\end{array}
-$$
+Rule **(T-Record-Default)** is defined once by §16.6.4.
 
 $$
 \begin{array}{l}
@@ -310,21 +262,13 @@ $$
 \end{array}
 $$
 
-**(T-Record-Literal)**
-
-$$
-\begin{array}{l}
-\operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{Distinct}(\operatorname{FieldInitNames}(\mathsf{fields}))\quad \operatorname{FieldInitSet}(\mathsf{fields})\ =\ \operatorname{FieldNameSet}(R)\quad \forall \ \langle f,\ e\rangle \ \in \ \mathsf{fields},\ \operatorname{FieldType}(R,\ f)\ =\ T_{f}\ \land \ \operatorname{FieldVisible}(m,\ R,\ f)\ \land \ \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ T_{f}\ \dashv \ \emptyset  \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{RecordExpr}(\operatorname{TypePath}(p),\ \mathsf{fields})\ :\ \operatorname{TypePath}(p)
-\end{array}
-$$
+Rule **(T-Record-Literal)** is defined once by §16.6.4.
 
 **(T-Record-Literal-ExpectedApply)**
 
 $$
 \begin{array}{l}
-\mathsf{Expected}\ =\ \operatorname{TypeApply}(p,\ \mathsf{args})\quad \operatorname{RecordDecl}(p)\ =\ R\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(R.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \operatorname{DefaultArgs}(\mathsf{params}_{\mathsf{gen}},\ \mathsf{args})\ =\ \mathsf{args}'\quad \theta \ =\ [\mathsf{args}'\_i\ /\ \mathsf{params}_{\mathsf{gen}}[i].\mathsf{name}]\quad \operatorname{Distinct}(\operatorname{FieldInitNames}(\mathsf{fields}))\quad \operatorname{FieldInitSet}(\mathsf{fields})\ =\ \operatorname{FieldNameSet}(R)\quad \forall \ \langle f,\ e\rangle \ \in \ \mathsf{fields},\ \operatorname{FieldType}(R,\ f)[\theta ]\ =\ T_{f}\ \land \ \operatorname{FieldVisible}(m,\ R,\ f)\ \land \ \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ T_{f}\ \dashv \ \emptyset  \\[0.16em]
+\mathsf{Expected}\ =\ \operatorname{TypeApply}(p,\ \mathsf{args})\quad \operatorname{RecordDecl}(p)\ =\ R\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(R.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \operatorname{DefaultArgs}(\mathsf{params}_{\mathsf{gen}},\ \mathsf{args})\ =\ \mathsf{args}'\quad \theta \ =\ [\mathsf{args}'\_i\ /\ \mathsf{params}_{\mathsf{gen}}[i].\mathsf{name}]\quad \operatorname{Distinct}(\operatorname{FieldInitNames}(\mathsf{fields}))\quad \operatorname{FieldInitSet}(\mathsf{fields})\ =\ \operatorname{FieldNameSet}(R)\quad \forall \ \langle f,\ e\rangle \ \in \ \mathsf{fields},\ \operatorname{FieldType}(R,\ f)[\theta ]\ =\ T_{f}\ \land \ \operatorname{FieldVisible}(m,\ R,\ f)\ \land \ \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ T_{f}\ \dashv \ \emptyset \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{RecordExpr}(\operatorname{TypePath}(p),\ \mathsf{fields})\ \Leftarrow \ \mathsf{Expected}\ :\ \mathsf{Expected}
 \end{array}
@@ -357,7 +301,7 @@ $$
 $$
 
 $$
-\operatorname{RecordDefaultInits}(p)\ =\ [\langle f_{1},\ e_{1}\rangle ,\ \ldots ,\ \langle f_{n},\ e_{n}\rangle ]\ \Leftrightarrow \ \operatorname{RecordDecl}(p)\ =\ R\ \land \ \operatorname{Fields}(R)\ =\ [\operatorname{FieldDecl}(\mathsf{attrs}_{1},\ \mathsf{vis}_{1},\ \mathsf{boundary}_{1},\ f_{1},\ T_{1},\ e_{1},\ \mathsf{span}_{1},\ \mathsf{doc}_{1}),\ \ldots ,\ \operatorname{FieldDecl}(\mathsf{attrs}_{n},\ \mathsf{vis}_{n},\ \mathsf{boundary}_{n},\ f_{n},\ T_{n},\ e_{n},\ \mathsf{span}_{n},\ \mathsf{doc}_{n})]\ \land \ \forall \ i.\ e_{i}\ \ne \ \bot 
+\operatorname{RecordDefaultInits}(p)\ =\ [\langle f_{1},\ e_{1}\rangle ,\ \ldots ,\ \langle f_{n},\ e_{n}\rangle ]\ \Leftrightarrow \ \operatorname{RecordDecl}(p)\ =\ R\ \land \ \operatorname{Fields}(R)\ =\ [\operatorname{FieldDecl}(\mathsf{attrs}_{1},\ \mathsf{vis}_{1},\ \mathsf{boundary}_{1},\ f_{1},\ T_{1},\ e_{1},\ \mathsf{span}_{1},\ \mathsf{doc}_{1}),\ \ldots ,\ \operatorname{FieldDecl}(\mathsf{attrs}_{n},\ \mathsf{vis}_{n},\ \mathsf{boundary}_{n},\ f_{n},\ T_{n},\ e_{n},\ \mathsf{span}_{n},\ \mathsf{doc}_{n})]\ \land \ \forall \ i.\ e_{i}\ \ne \ \bot
 $$
 
 **(ApplyRecordCtorSigma)**
@@ -400,7 +344,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{RecordLayout}([])\ \Downarrow \ \langle 0,\ 1,\ []\rangle 
+\Gamma \ \vdash \ \operatorname{RecordLayout}([])\ \Downarrow \ \langle 0,\ 1,\ []\rangle
 \end{array}
 $$
 
@@ -410,7 +354,7 @@ $$
 \begin{array}{l}
 n\ \ge \ 1\quad \mathsf{offsets}\ =\ [\mathsf{offset}_{1},\ \ldots ,\ \mathsf{offset}_{n}]\quad \mathsf{align}\ =\ \operatorname{RecordAlign}(\mathsf{fields})\quad \mathsf{size}\ =\ \operatorname{RecordSize}(\mathsf{fields}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \mathsf{offsets}\rangle 
+\Gamma \ \vdash \ \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \mathsf{offsets}\rangle
 \end{array}
 $$
 
@@ -418,7 +362,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{Fields}(R)\ =\ \mathsf{fields}\quad \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{size},\ \_,\ \_\rangle  \\[0.16em]
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{Fields}(R)\ =\ \mathsf{fields}\quad \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{size},\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{sizeof}(T)\ =\ \mathsf{size}
 \end{array}
@@ -428,7 +372,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{Fields}(R)\ =\ \mathsf{fields}\quad \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \_,\ \mathsf{align},\ \_\rangle  \\[0.16em]
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{Fields}(R)\ =\ \mathsf{fields}\quad \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \_,\ \mathsf{align},\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{alignof}(T)\ =\ \mathsf{align}
 \end{array}
@@ -438,9 +382,9 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{Fields}(R)\ =\ \mathsf{fields}\quad \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_\rangle  \\[0.16em]
+T\ =\ \operatorname{TypePath}(p)\quad \operatorname{RecordDecl}(p)\ =\ R\quad \operatorname{Fields}(R)\ =\ \mathsf{fields}\quad \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle
 \end{array}
 $$
 
@@ -454,54 +398,17 @@ $$
 \end{array}
 $$
 
-**(LowerFieldInits-Empty)**
-
-$$
-\begin{array}{l}
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerFieldInits}([])\ \Downarrow \ \langle \varepsilon ,\ []\rangle 
-\end{array}
-$$
-
-**(LowerFieldInits-Cons)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerFieldInits}(\mathsf{io})\ \Downarrow \ \langle \mathsf{IR}_{s},\ \mathsf{vec}_{f}\rangle  \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerFieldInits}([\langle f,\ e\rangle ]\ \mathbin{++} \ \mathsf{io})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{s}),\ [\langle f,\ v\rangle ]\ \mathbin{++} \ \mathsf{vec}_{f}\rangle 
-\end{array}
-$$
-
-**(Lower-Expr-Record)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerFieldInits}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{vec}_{f}\rangle  \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{RecordExpr}(\mathsf{tr},\ \mathsf{fields}))\ \Downarrow \ \langle \mathsf{IR},\ \operatorname{RecordValue}(\mathsf{tr},\ \mathsf{vec}_{f})\rangle 
-\end{array}
-$$
-
-**(Lower-CallIR-RecordCtor)**
-
-$$
-\begin{array}{l}
-\operatorname{CallTarget}(\mathsf{callee})\ =\ \operatorname{RecordCtor}(p)\quad \mathsf{args}\ =\ []\quad \operatorname{RecordDefaultInits}(p)\ =\ \mathsf{fields}\quad \Gamma \ \vdash \ \operatorname{LowerFieldInits}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{IR}_{f},\ \mathsf{vec}_{f}\rangle  \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIRInstr}(\operatorname{CallIR}(\mathsf{callee},\ \mathsf{args}))\ \Downarrow \ \langle \mathsf{IR}_{f},\ \operatorname{RecordValue}(\operatorname{TypePath}(p),\ \mathsf{vec}_{f})\rangle 
-\end{array}
-$$
+Rules **(LowerFieldInits-Empty)**, **(LowerFieldInits-Cons)**, **(Lower-Expr-Record)**, **(Lower-CallIR-RecordCtor)** are defined once by §16.6.6, §24.1.3.
 
 ### 12.6.7 Diagnostics
 
 | Code         | Severity | Detection    | Condition                                                                |
 | ------------ | -------- | ------------ | ------------------------------------------------------------------------ |
-| `E-TYP-1901` | Error    | Compile-time | Duplicate field name in record declaration                               |
-| `E-TYP-1902` | Error    | Compile-time | Missing field initializer in record literal                              |
-| `E-TYP-1903` | Error    | Compile-time | Duplicate field initializer in record literal                            |
+| `E-TYP-1901` | Error    | Compile-time | Duplicate field name in record declaration (`WF-Record-DupField`) |
+| `E-TYP-1902` | Error    | Compile-time | Missing field initializer in record literal (`Record-FieldInit-Missing`) |
+| `E-TYP-1903` | Error    | Compile-time | Duplicate field initializer in record literal (`Record-FieldInit-Dup`) |
 | `E-TYP-1904` | Error    | Compile-time | Access to nonexistent field                                              |
 | `E-TYP-1905` | Error    | Compile-time | Access to field not visible in current scope                             |
-| `E-TYP-1906` | Error    | Compile-time | Field visibility exceeds record visibility                               |
-| `E-TYP-1907` | Error    | Compile-time | Non-`Bitcopy` field requires move source expression                      |
-| `E-TYP-1911` | Error    | Compile-time | Default record construction requires default initializer for every field |
+| `E-TYP-1906` | Error    | Compile-time | Field visibility exceeds record visibility (`FieldVisOk-Err`) |
+| `E-TYP-1907` | Error    | Compile-time | Non-`Bitcopy` field requires move source expression (`Record-Field-NonBitcopy-Move`) |
+| `E-TYP-1911` | Error    | Compile-time | Default record construction requires default initializer for every field (`Record-Default-Init-Err`) |

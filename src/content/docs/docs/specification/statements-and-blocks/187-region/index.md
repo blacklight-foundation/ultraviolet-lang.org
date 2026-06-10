@@ -2,16 +2,16 @@
 title: "18.7 Region"
 description: "18.7 Region from 18. Statements and Blocks of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "statements-and-blocks"
 specSection: "187-region"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -95,7 +95,7 @@ $$
 $$
 \begin{array}{l}
 \operatorname{RegionOptsExpr}(\bot )\ =\ \operatorname{Call}(\operatorname{Identifier}(\texttt{RegionOptions}),\ []) \\[0.16em]
-\operatorname{RegionOptsExpr}(e)\ =\ e\quad \mathsf{if}\ e\ \ne \ \bot 
+\operatorname{RegionOptsExpr}(e)\ =\ e\quad \mathsf{if}\ e\ \ne \ \bot
 \end{array}
 $$
 
@@ -104,8 +104,8 @@ $$
 $$
 \begin{array}{l}
 \operatorname{RegionBind}(\Gamma ,\ \mathsf{alias}_{\mathsf{opt}})\ =\ \Gamma_{r} \ \Leftrightarrow \ r\ = \\[0.16em]
-\ \{\ \mathsf{alias}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{alias}_{\mathsf{opt}}\ \ne \ \bot  \\[0.16em]
-\quad \operatorname{FreshRegion}(\Gamma )\quad \mathsf{otherwise}\ \}\ \land \ \operatorname{IntroAll}(\Gamma ,\ [\langle r,\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{Region}],\ \texttt{Active}))\rangle ])\ \Downarrow \ \Gamma_{r} 
+\ \{\ \mathsf{alias}_{\mathsf{opt}}\quad \mathsf{if}\ \mathsf{alias}_{\mathsf{opt}}\ \ne \ \bot \\[0.16em]
+\quad \operatorname{FreshRegion}(\Gamma )\quad \mathsf{otherwise}\ \}\ \land \ \operatorname{IntroAll}(\Gamma ,\ [\langle r,\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{Region}],\ \texttt{Active}))\rangle ])\ \Downarrow \ \Gamma_{r}
 \end{array}
 $$
 
@@ -115,7 +115,7 @@ $$
 \begin{array}{l}
 \operatorname{RegionOptsExpr}(\mathsf{opts}_{\mathsf{opt}})\ =\ \mathsf{opts}\quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{opts}\ \Leftarrow \ \operatorname{TypePath}([\texttt{RegionOptions}])\ \dashv \ \emptyset \quad \operatorname{RegionBind}(\Gamma ,\ \mathsf{alias}_{\mathsf{opt}})\ =\ \Gamma_{r} \quad \Gamma_{r} ;\ R;\ L\ \vdash \ b\ :\ T_{b} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{RegionStmt}(\mathsf{opts}_{\mathsf{opt}},\ \mathsf{alias}_{\mathsf{opt}},\ b)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{RegionStmt}(\mathsf{opts}_{\mathsf{opt}},\ \mathsf{alias}_{\mathsf{opt}},\ b)\ \Rightarrow \ \Gamma \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle
 \end{array}
 $$
 
@@ -129,7 +129,7 @@ If alias_opt = ⊥, the identifier produced for the region binding MUST be treat
 
 $$
 \begin{array}{l}
-\operatorname{BindRegionAlias}(\sigma ,\ \bot ,\ r)\ \Downarrow \ \sigma  \\[0.16em]
+\operatorname{BindRegionAlias}(\sigma ,\ \bot ,\ r)\ \Downarrow \ \sigma \\[0.16em]
 \operatorname{BindRegionAlias}(\sigma ,\ x,\ r)\ \Downarrow \ \sigma '\ \Leftrightarrow \ \operatorname{BindVal}(\sigma ,\ x,\ \operatorname{RegionValue}(\texttt{@Active},\ r))\ \Downarrow \ (\sigma ',\ b)
 \end{array}
 $$
@@ -162,9 +162,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{opts}\ =\ \operatorname{RegionOptsExpr}(\mathsf{opts}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{opts},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{o}),\ \sigma_{1} )\quad \operatorname{RegionNew}(\sigma_{1} ,\ v_{o})\ \Downarrow \ (\sigma_{2} ,\ r,\ \mathsf{scope})\quad \operatorname{BindRegionAlias}(\sigma_{2} ,\ \mathsf{alias}_{\mathsf{opt}},\ r)\ \Downarrow \ \sigma_{3}  \\[0.16em]
+\mathsf{opts}\ =\ \operatorname{RegionOptsExpr}(\mathsf{opts}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{opts},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{o}),\ \sigma_{1} )\quad \operatorname{RegionNew}(\sigma_{1} ,\ v_{o})\ \Downarrow \ (\sigma_{2} ,\ r,\ \mathsf{scope})\quad \operatorname{BindRegionAlias}(\sigma_{2} ,\ \mathsf{alias}_{\mathsf{opt}},\ r)\ \Downarrow \ \sigma_{3} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Exec}(\operatorname{RegionStmt}(\mathsf{opts}_{\mathsf{opt}},\ \mathsf{alias}_{\mathsf{opt}},\ b),\ \sigma )\rangle \ \to \ \langle \operatorname{RegionBody}(r,\ \mathsf{scope},\ b,\ \sigma_{3} )\rangle 
+\langle \operatorname{Exec}(\operatorname{RegionStmt}(\mathsf{opts}_{\mathsf{opt}},\ \mathsf{alias}_{\mathsf{opt}},\ b),\ \sigma )\rangle \ \to \ \langle \operatorname{RegionBody}(r,\ \mathsf{scope},\ b,\ \sigma_{3} )\rangle
 \end{array}
 $$
 
@@ -174,7 +174,7 @@ $$
 \begin{array}{l}
 \mathsf{opts}\ =\ \operatorname{RegionOptsExpr}(\mathsf{opts}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{opts},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Exec}(\operatorname{RegionStmt}(\mathsf{opts}_{\mathsf{opt}},\ \mathsf{alias}_{\mathsf{opt}},\ b),\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma_{1} )\rangle 
+\langle \operatorname{Exec}(\operatorname{RegionStmt}(\mathsf{opts}_{\mathsf{opt}},\ \mathsf{alias}_{\mathsf{opt}},\ b),\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma_{1} )\rangle
 \end{array}
 $$
 
@@ -184,7 +184,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{EvalInScopeSigma}(b,\ \sigma ,\ \mathsf{scope})\ \Downarrow \ (\mathsf{out},\ \sigma_{1} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{RegionBody}(r,\ \mathsf{scope},\ b,\ \sigma )\rangle \ \to \ \langle \operatorname{RegionExit}(r,\ \mathsf{scope},\ \mathsf{out},\ \sigma_{1} )\rangle 
+\langle \operatorname{RegionBody}(r,\ \mathsf{scope},\ b,\ \sigma )\rangle \ \to \ \langle \operatorname{RegionExit}(r,\ \mathsf{scope},\ \mathsf{out},\ \sigma_{1} )\rangle
 \end{array}
 $$
 
@@ -194,7 +194,7 @@ $$
 \begin{array}{l}
 \operatorname{RegionRelease}(\sigma ,\ r,\ \mathsf{scope},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma ')\quad \operatorname{StmtOutOf}(\mathsf{out}')\ =\ \mathsf{ok} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{RegionExit}(r,\ \mathsf{scope},\ \mathsf{out},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle 
+\langle \operatorname{RegionExit}(r,\ \mathsf{scope},\ \mathsf{out},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle
 \end{array}
 $$
 
@@ -204,7 +204,7 @@ $$
 \begin{array}{l}
 \operatorname{RegionRelease}(\sigma ,\ r,\ \mathsf{scope},\ \mathsf{out})\ \Downarrow \ (\mathsf{out}',\ \sigma ')\quad \operatorname{StmtOutOf}(\mathsf{out}')\ =\ \operatorname{Ctrl}(\kappa ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{RegionExit}(r,\ \mathsf{scope},\ \mathsf{out},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma ')\rangle 
+\langle \operatorname{RegionExit}(r,\ \mathsf{scope},\ \mathsf{out},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma ')\rangle
 \end{array}
 $$
 
@@ -214,7 +214,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{opts}\ =\ \operatorname{RegionOptsExpr}(\mathsf{opts}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{opts})\ \Downarrow \ \langle \mathsf{IR}_{o},\ v_{o}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{block})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
+\mathsf{opts}\ =\ \operatorname{RegionOptsExpr}(\mathsf{opts}_{\mathsf{opt}})\quad \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{opts})\ \Downarrow \ \langle \mathsf{IR}_{o},\ v_{o}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{block})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{RegionStmt}(\mathsf{opts}_{\mathsf{opt}},\ \mathsf{alias}_{\mathsf{opt}},\ \mathsf{block}))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{o},\ \operatorname{RegionIR}(v_{o},\ \mathsf{alias}_{\mathsf{opt}},\ \mathsf{IR}_{b},\ v_{b}))
 \end{array}

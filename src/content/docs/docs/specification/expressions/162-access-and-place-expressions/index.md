@@ -2,16 +2,16 @@
 title: "16.2 Access and Place Expressions"
 description: "16.2 Access and Place Expressions from 16. Expressions of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "expressions"
 specSection: "162-access-and-place-expressions"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -99,7 +99,7 @@ $$
 ### 16.2.3 AST Representation / Form
 
 $$
-\mathsf{Expr}\ =\ \operatorname{FieldAccess}(\mathsf{base},\ \mathsf{name})\ \mid \ \operatorname{TupleAccess}(\mathsf{base},\ \mathsf{index})\ \mid \ \operatorname{IndexAccess}(\mathsf{base},\ \mathsf{index}_{\mathsf{expr}})\ \mid \ \operatorname{Deref}(\mathsf{expr})\ \mid \ \ldots 
+\mathsf{Expr}\ =\ \operatorname{FieldAccess}(\mathsf{base},\ \mathsf{name})\ \mid \ \operatorname{TupleAccess}(\mathsf{base},\ \mathsf{index})\ \mid \ \operatorname{IndexAccess}(\mathsf{base},\ \mathsf{index}_{\mathsf{expr}})\ \mid \ \operatorname{Deref}(\mathsf{expr})\ \mid \ \ldots
 $$
 
 $$
@@ -379,7 +379,37 @@ $$
 \end{array}
 $$
 
-Bounds failures in scalar and range indexing evaluate to `Ctrl(Panic)` as defined by `EvalSigma-Index-OOB` and `EvalSigma-Index-Range-OOB`. Base and index control-flow propagation are defined by `EvalSigma-FieldAccess-Ctrl`, `EvalSigma-TupleAccess-Ctrl`, `EvalSigma-Index-Ctrl-Base`, and `EvalSigma-Index-Ctrl-Idx`.
+**(EvalSigma-FieldAccess-Ctrl)**
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{base},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{FieldAccess}(\mathsf{base},\ f),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
+\end{array}
+$$
+
+**(EvalSigma-Index-Ctrl-Base)**
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{base},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{IndexAccess}(\mathsf{base},\ \mathsf{idx}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{1} )
+\end{array}
+$$
+
+**(EvalSigma-Index-Ctrl-Idx)**
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{base},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{b}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{idx},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} ) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{IndexAccess}(\mathsf{base},\ \mathsf{idx}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} )
+\end{array}
+$$
+
+Bounds failures in scalar and range indexing evaluate to `Ctrl(Panic)` as defined by `EvalSigma-Index-OOB` and `EvalSigma-Index-Range-OOB`. Base and index control-flow propagation are defined by `EvalSigma-FieldAccess-Ctrl`, `EvalSigma-TupleAccess-Ctrl` (§12.2.5), `EvalSigma-Index-Ctrl-Base`, and `EvalSigma-Index-Ctrl-Idx`.
 
 ### 16.2.6 Lowering
 
@@ -389,7 +419,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{base})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \quad \operatorname{FieldValue}(v_{b},\ f)\ =\ v_{f} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{FieldAccess}(\mathsf{base},\ f))\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{f}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{FieldAccess}(\mathsf{base},\ f))\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{f}\rangle
 \end{array}
 $$
 
@@ -399,7 +429,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{base})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \quad \operatorname{TupleValue}(v_{b},\ i)\ =\ v_{i} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{TupleAccess}(\mathsf{base},\ i))\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{i}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{TupleAccess}(\mathsf{base},\ i))\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{i}\rangle
 \end{array}
 $$
 

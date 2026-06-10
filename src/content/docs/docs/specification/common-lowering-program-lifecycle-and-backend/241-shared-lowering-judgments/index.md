@@ -2,16 +2,16 @@
 title: "24.1 Shared Lowering Judgments"
 description: "24.1 Shared Lowering Judgments from 24. Common Lowering, Program Lifecycle, and Backend of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "common-lowering-program-lifecycle-and-backend"
 specSection: "241-shared-lowering-judgments"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -85,7 +85,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{PanicOutParam}\ =\ \langle \texttt{move},\ \mathsf{PanicOutName},\ \mathsf{PanicOutType}\rangle  \\[0.16em]
+\mathsf{PanicOutParam}\ =\ \langle \texttt{move},\ \mathsf{PanicOutName},\ \mathsf{PanicOutType}\rangle \\[0.16em]
 \operatorname{CodegenParams}(\mathsf{params})\ =\ \mathsf{params}\ \mathbin{++} \ [\mathsf{PanicOutParam}]
 \end{array}
 $$
@@ -103,7 +103,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{SeqIR}()\ =\ \varepsilon  \\[0.16em]
+\operatorname{SeqIR}()\ =\ \varepsilon \\[0.16em]
 \operatorname{SeqIR}(\mathsf{IR})\ =\ \mathsf{IR} \\[0.16em]
 \operatorname{SeqIR}(\mathsf{IR}_{1},\ \ldots ,\ \mathsf{IR}_{n})\ =\ \operatorname{SeqIR}(\mathsf{IR}_{1},\ \operatorname{SeqIR}(\mathsf{IR}_{2},\ \ldots ,\ \mathsf{IR}_{n}))\quad (n\ \ge \ 2)
 \end{array}
@@ -238,14 +238,14 @@ $$
 \begin{array}{l}
 \forall \ \sigma ,\ \Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\ \Rightarrow \ \operatorname{ExecIRSigma}(\mathsf{IR},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 
 $$
 \begin{array}{l}
 \mathsf{ExprForms0}\ =\ \{\operatorname{Literal}(\_),\ \mathsf{PtrNullExpr},\ \operatorname{Identifier}(\_),\ \operatorname{Path}(\_,\ \_),\ \operatorname{ErrorExpr}(\_),\ \operatorname{TupleExpr}(\_),\ \operatorname{ArrayExpr}(\_),\ \operatorname{RecordExpr}(\_,\ \_),\ \operatorname{EnumLiteral}(\_,\ \_),\ \operatorname{FieldAccess}(\_,\ \_),\ \operatorname{TupleAccess}(\_,\ \_),\ \operatorname{IndexAccess}(\_,\ \_),\ \operatorname{Call}(\_,\ \_),\ \operatorname{MethodCall}(\_,\ \_,\ \_),\ \operatorname{Unary}(\_,\ \_),\ \operatorname{Binary}(\_,\ \_,\ \_),\ \operatorname{Cast}(\_,\ \_),\ \operatorname{TransmuteExpr}(\_,\ \_,\ \_),\ \operatorname{Propagate}(\_),\ \operatorname{Range}(\_,\ \_,\ \_),\ \operatorname{IfExpr}(\_,\ \_,\ \_),\ \operatorname{IfIsExpr}(\_,\ \_,\ \_,\ \_),\ \operatorname{IfCaseExpr}(\_,\ \_,\ \_),\ \operatorname{LoopInfinite}(\_,\ \_),\ \operatorname{LoopConditional}(\_,\ \_,\ \_),\ \operatorname{LoopIter}(\_,\ \_,\ \_,\ \_,\ \_),\ \operatorname{BlockExpr}(\_,\ \_),\ \operatorname{UnsafeBlockExpr}(\_),\ \operatorname{MoveExpr}(\_),\ \operatorname{AddressOf}(\_),\ \operatorname{Deref}(\_),\ \operatorname{AllocExpr}(\_,\ \_)\} \\[0.16em]
-\operatorname{LowerExprTotal}(\Gamma )\ \Leftrightarrow \ \forall \ e.\ e\ \in \ \mathsf{ExprForms0}\ \Rightarrow \ \exists \ \mathsf{IR},\ v.\ \Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\operatorname{LowerExprTotal}(\Gamma )\ \Leftrightarrow \ \forall \ e.\ e\ \in \ \mathsf{ExprForms0}\ \Rightarrow \ \exists \ \mathsf{IR},\ v.\ \Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 
@@ -646,7 +646,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerList}([])\ \Downarrow \ \langle \varepsilon ,\ []\rangle 
+\Gamma \ \vdash \ \operatorname{LowerList}([])\ \Downarrow \ \langle \varepsilon ,\ []\rangle
 \end{array}
 $$
 
@@ -654,9 +654,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerList}(\mathsf{es})\ \Downarrow \ \langle \mathsf{IR}_{s},\ \mathsf{vec}_{v}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerList}(\mathsf{es})\ \Downarrow \ \langle \mathsf{IR}_{s},\ \mathsf{vec}_{v}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerList}(e\mathbin{::} \mathsf{es})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{s}),\ [v]\ \mathbin{++} \ \mathsf{vec}_{v}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerList}(e\mathbin{::} \mathsf{es})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{s}),\ [v]\ \mathbin{++} \ \mathsf{vec}_{v}\rangle
 \end{array}
 $$
 
@@ -665,7 +665,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerFieldInits}([])\ \Downarrow \ \langle \varepsilon ,\ []\rangle 
+\Gamma \ \vdash \ \operatorname{LowerFieldInits}([])\ \Downarrow \ \langle \varepsilon ,\ []\rangle
 \end{array}
 $$
 
@@ -673,9 +673,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerFieldInits}(\mathsf{io})\ \Downarrow \ \langle \mathsf{IR}_{s},\ \mathsf{vec}_{f}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \Gamma \ \vdash \ \operatorname{LowerFieldInits}(\mathsf{io})\ \Downarrow \ \langle \mathsf{IR}_{s},\ \mathsf{vec}_{f}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerFieldInits}([\langle f,\ e\rangle ]\ \mathbin{++} \ \mathsf{io})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{s}),\ [\langle f,\ v\rangle ]\ \mathbin{++} \ \mathsf{vec}_{f}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerFieldInits}([\langle f,\ e\rangle ]\ \mathbin{++} \ \mathsf{io})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{s}),\ [\langle f,\ v\rangle ]\ \mathbin{++} \ \mathsf{vec}_{f}\rangle
 \end{array}
 $$
 
@@ -684,7 +684,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerOpt}(\bot )\ \Downarrow \ \langle \varepsilon ,\ \bot \rangle 
+\Gamma \ \vdash \ \operatorname{LowerOpt}(\bot )\ \Downarrow \ \langle \varepsilon ,\ \bot \rangle
 \end{array}
 $$
 
@@ -692,55 +692,55 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerOpt}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerOpt}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle
 \end{array}
 $$
 
 $$
 \begin{array}{l}
 \mathsf{RefSyms}\ :\ \mathsf{IR}\ \to \ \mathcal{P} (\mathsf{Symbol}) \\[0.16em]
-\operatorname{RefSyms}([])\ =\ \emptyset  \\[0.16em]
+\operatorname{RefSyms}([])\ =\ \emptyset \\[0.16em]
 \operatorname{RefSyms}([d]\ \mathbin{++} \ \mathsf{ds})\ =\ \operatorname{RefSyms}(d)\ \cup \ \operatorname{RefSyms}(\mathsf{ds}) \\[0.16em]
 \operatorname{RefSyms}(\operatorname{ProcIR}(\_,\ \_,\ \_,\ \mathsf{IR}))\ =\ \operatorname{RefSyms}(\mathsf{IR}) \\[0.16em]
-\operatorname{RefSyms}(\operatorname{GlobalConst}(\_,\ \_))\ =\ \emptyset  \\[0.16em]
-\operatorname{RefSyms}(\operatorname{GlobalZero}(\_,\ \_))\ =\ \emptyset  \\[0.16em]
+\operatorname{RefSyms}(\operatorname{GlobalConst}(\_,\ \_))\ =\ \emptyset \\[0.16em]
+\operatorname{RefSyms}(\operatorname{GlobalZero}(\_,\ \_))\ =\ \emptyset \\[0.16em]
 \operatorname{RefSyms}(\operatorname{GlobalVTable}(\_,\ \mathsf{header},\ \mathsf{slots}))\ =\ \{\ s\ \mid \ s\ \in \ \mathsf{header}\ \land \ s\ \in \ \mathsf{Symbol}\ \}\ \cup \ \{\ s\ \mid \ s\ \in \ \mathsf{slots}\ \land \ s\ \in \ \mathsf{Symbol}\ \} \\[0.16em]
 \operatorname{RefSyms}(\operatorname{EmitVTable}(T,\ \mathsf{Cl}))\ =\ \operatorname{RefSyms}(d)\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{EmitVTable}(T,\ \mathsf{Cl})\ \Downarrow \ d \\[0.16em]
 \operatorname{RefSyms}(\operatorname{EmitDropGlue}(T))\ =\ \operatorname{RefSyms}(\mathsf{IR})\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{DropGlueIR}(T)\ \Downarrow \ \mathsf{IR} \\[0.16em]
-\operatorname{RefSyms}(\operatorname{EmitLiteralData}(\_,\ \_))\ =\ \emptyset  \\[0.16em]
-\operatorname{RefSyms}(\varepsilon )\ =\ \emptyset  \\[0.16em]
+\operatorname{RefSyms}(\operatorname{EmitLiteralData}(\_,\ \_))\ =\ \emptyset \\[0.16em]
+\operatorname{RefSyms}(\varepsilon )\ =\ \emptyset \\[0.16em]
 \operatorname{RefSyms}(\operatorname{SeqIR}(\mathsf{IR}_{1},\ \mathsf{IR}_{2}))\ =\ \operatorname{RefSyms}(\mathsf{IR}_{1})\ \cup \ \operatorname{RefSyms}(\mathsf{IR}_{2}) \\[0.16em]
-\operatorname{RefSyms}(\operatorname{ReadVarIR}(\_))\ =\ \emptyset  \\[0.16em]
-\operatorname{RefSyms}(\operatorname{StoreVarIR}(\_,\ \_))\ =\ \emptyset  \\[0.16em]
-\operatorname{RefSyms}(\operatorname{StoreVarNoDropIR}(\_,\ \_))\ =\ \emptyset  \\[0.16em]
-\operatorname{RefSyms}(\operatorname{BindVarIR}(\_,\ \_))\ =\ \emptyset  \\[0.16em]
-\operatorname{RefSyms}(\operatorname{ReadPtrIR}(\_))\ =\ \emptyset  \\[0.16em]
-\operatorname{RefSyms}(\operatorname{WritePtrIR}(\_,\ \_))\ =\ \emptyset  \\[0.16em]
-\operatorname{RefSyms}(\operatorname{AllocIR}(\_,\ \_))\ =\ \emptyset  \\[0.16em]
-\operatorname{RefSyms}(\operatorname{MoveStateIR}(\_))\ =\ \emptyset  \\[0.16em]
-\operatorname{RefSyms}(\operatorname{ReturnIR}(\_))\ =\ \emptyset  \\[0.16em]
-\operatorname{RefSyms}(\operatorname{TailValueIR}(\_))\ =\ \emptyset  \\[0.16em]
-\operatorname{RefSyms}(\operatorname{BreakIR}(\_))\ =\ \emptyset  \\[0.16em]
-\operatorname{RefSyms}(\mathsf{ContinueIR})\ =\ \emptyset  \\[0.16em]
-\operatorname{RefSyms}(\operatorname{DeferIR}(\_))\ =\ \emptyset  \\[0.16em]
+\operatorname{RefSyms}(\operatorname{ReadVarIR}(\_))\ =\ \emptyset \\[0.16em]
+\operatorname{RefSyms}(\operatorname{StoreVarIR}(\_,\ \_))\ =\ \emptyset \\[0.16em]
+\operatorname{RefSyms}(\operatorname{StoreVarNoDropIR}(\_,\ \_))\ =\ \emptyset \\[0.16em]
+\operatorname{RefSyms}(\operatorname{BindVarIR}(\_,\ \_))\ =\ \emptyset \\[0.16em]
+\operatorname{RefSyms}(\operatorname{ReadPtrIR}(\_))\ =\ \emptyset \\[0.16em]
+\operatorname{RefSyms}(\operatorname{WritePtrIR}(\_,\ \_))\ =\ \emptyset \\[0.16em]
+\operatorname{RefSyms}(\operatorname{AllocIR}(\_,\ \_))\ =\ \emptyset \\[0.16em]
+\operatorname{RefSyms}(\operatorname{MoveStateIR}(\_))\ =\ \emptyset \\[0.16em]
+\operatorname{RefSyms}(\operatorname{ReturnIR}(\_))\ =\ \emptyset \\[0.16em]
+\operatorname{RefSyms}(\operatorname{TailValueIR}(\_))\ =\ \emptyset \\[0.16em]
+\operatorname{RefSyms}(\operatorname{BreakIR}(\_))\ =\ \emptyset \\[0.16em]
+\operatorname{RefSyms}(\mathsf{ContinueIR})\ =\ \emptyset \\[0.16em]
+\operatorname{RefSyms}(\operatorname{DeferIR}(\_))\ =\ \emptyset \\[0.16em]
 \operatorname{RefSyms}(\operatorname{ReadPathIR}(\mathsf{path},\ \mathsf{name}))\ =\ \{\operatorname{PathSym}(\mathsf{path},\ \mathsf{name})\}\ \cup \ \{\ \mathsf{sym}\ \mid \ \operatorname{StaticSymPath}(\mathsf{path},\ \mathsf{name})\ =\ \mathsf{sym}\ \} \\[0.16em]
 \operatorname{RefSyms}(\operatorname{StoreGlobal}(\mathsf{sym},\ \_))\ =\ \{\mathsf{sym}\} \\[0.16em]
 \operatorname{RefSyms}(\operatorname{CallIR}(\mathsf{callee},\ \_))\ =\ \{\ \mathsf{callee}\ \mid \ \mathsf{callee}\ \in \ \mathsf{Symbol}\ \} \\[0.16em]
 \operatorname{RefSyms}(\operatorname{IfIR}(\_,\ \mathsf{IR}_{t},\ \_,\ \mathsf{IR}_{f},\ \_))\ =\ \operatorname{RefSyms}(\mathsf{IR}_{t})\ \cup \ \operatorname{RefSyms}(\mathsf{IR}_{f}) \\[0.16em]
 \operatorname{RefSyms}(\operatorname{BlockIR}(\mathsf{IR}_{s},\ \mathsf{IR}_{t},\ \_))\ =\ \operatorname{RefSyms}(\mathsf{IR}_{s})\ \cup \ \operatorname{RefSyms}(\mathsf{IR}_{t}) \\[0.16em]
-\operatorname{RefSyms}(\operatorname{IfCaseIR}(\_,\ \_,\ \_))\ =\ \emptyset  \\[0.16em]
+\operatorname{RefSyms}(\operatorname{IfCaseIR}(\_,\ \_,\ \_))\ =\ \emptyset \\[0.16em]
 \operatorname{RefSyms}(\operatorname{LoopIR}(\mathsf{LoopInfinite},\ \mathsf{IR}_{b},\ \_))\ =\ \operatorname{RefSyms}(\mathsf{IR}_{b}) \\[0.16em]
 \operatorname{RefSyms}(\operatorname{LoopIR}(\mathsf{LoopConditional},\ \mathsf{IR}_{c},\ \_,\ \mathsf{IR}_{b},\ \_))\ =\ \operatorname{RefSyms}(\mathsf{IR}_{c})\ \cup \ \operatorname{RefSyms}(\mathsf{IR}_{b}) \\[0.16em]
 \operatorname{RefSyms}(\operatorname{LoopIR}(\mathsf{LoopIter},\ \_,\ \_,\ \mathsf{IR}_{i},\ \_,\ \mathsf{IR}_{b},\ \_))\ =\ \operatorname{RefSyms}(\mathsf{IR}_{i})\ \cup \ \operatorname{RefSyms}(\mathsf{IR}_{b}) \\[0.16em]
 \operatorname{RefSyms}(\operatorname{RegionIR}(\_,\ \_,\ \mathsf{IR}_{b},\ \_))\ =\ \operatorname{RefSyms}(\mathsf{IR}_{b}) \\[0.16em]
 \operatorname{RefSyms}(\operatorname{FrameIR}(\_,\ \mathsf{IR}_{b},\ \_))\ =\ \operatorname{RefSyms}(\mathsf{IR}_{b}) \\[0.16em]
-\operatorname{RefSyms}(\operatorname{BranchIR}(\_))\ =\ \emptyset  \\[0.16em]
-\operatorname{RefSyms}(\operatorname{BranchIR}(\_,\ \_,\ \_))\ =\ \emptyset  \\[0.16em]
-\operatorname{RefSyms}(\operatorname{PhiIR}(\_,\ \_,\ \_))\ =\ \emptyset  \\[0.16em]
-\operatorname{RefSyms}(\operatorname{CallVTable}(\_,\ \_,\ \_))\ =\ \emptyset  \\[0.16em]
-\operatorname{RefSyms}(\operatorname{AddrOfIR}(p))\ =\ \operatorname{RefSyms}(\mathsf{IR}_{p})\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{LowerAddrOf}(p)\ \Downarrow \ \langle \mathsf{IR}_{p},\ \mathsf{addr}\rangle  \\[0.16em]
+\operatorname{RefSyms}(\operatorname{BranchIR}(\_))\ =\ \emptyset \\[0.16em]
+\operatorname{RefSyms}(\operatorname{BranchIR}(\_,\ \_,\ \_))\ =\ \emptyset \\[0.16em]
+\operatorname{RefSyms}(\operatorname{PhiIR}(\_,\ \_,\ \_))\ =\ \emptyset \\[0.16em]
+\operatorname{RefSyms}(\operatorname{CallVTable}(\_,\ \_,\ \_))\ =\ \emptyset \\[0.16em]
+\operatorname{RefSyms}(\operatorname{AddrOfIR}(p))\ =\ \operatorname{RefSyms}(\mathsf{IR}_{p})\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{LowerAddrOf}(p)\ \Downarrow \ \langle \mathsf{IR}_{p},\ \mathsf{addr}\rangle \\[0.16em]
 \operatorname{RefSyms}(\mathsf{ClearPanic})\ =\ \operatorname{RefSyms}(\mathsf{IR})\ \Leftrightarrow \ \Gamma \ \vdash \ \mathsf{ClearPanic}\ \Downarrow \ \mathsf{IR} \\[0.16em]
 \operatorname{RefSyms}(\mathsf{PanicCheck})\ =\ \operatorname{RefSyms}(\mathsf{IR})\ \Leftrightarrow \ \Gamma \ \vdash \ \mathsf{PanicCheck}\ \Downarrow \ \mathsf{IR} \\[0.16em]
 \operatorname{RefSyms}(\operatorname{CheckPoison}(m))\ =\ \operatorname{RefSyms}(\mathsf{IR})\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{CheckPoison}(m)\ \Downarrow \ \mathsf{IR} \\[0.16em]
@@ -810,9 +810,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{CodegenExpr}(e)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\Gamma \ \vdash \ \operatorname{CodegenExpr}(e)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 
@@ -830,9 +830,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerBlock}(b)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerBlock}(b)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{CodegenBlock}(b)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\Gamma \ \vdash \ \operatorname{CodegenBlock}(b)\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 
@@ -860,9 +860,9 @@ $$
 
 $$
 \begin{array}{l}
-\exists \ i,\ \Gamma \ \vdash \ \operatorname{LowerIRDecl}(d_{i})\ \Uparrow  \\[0.16em]
+\exists \ i,\ \Gamma \ \vdash \ \operatorname{LowerIRDecl}(d_{i})\ \Uparrow \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerIR}(\mathsf{IR})\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{LowerIR}(\mathsf{IR})\ \Uparrow
 \end{array}
 $$
 
@@ -891,9 +891,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Downarrow \ a\quad \operatorname{RenderLLVM}(\mathsf{LLVMIR},\ a)\ \Uparrow  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveTool}(\texttt{llvm-as})\ \Downarrow \ a\quad \operatorname{RenderLLVM}(\mathsf{LLVMIR},\ a)\ \Uparrow \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{EmitLLVM}(\mathsf{LLVMIR})\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{EmitLLVM}(\mathsf{LLVMIR})\ \Uparrow
 \end{array}
 $$
 
@@ -918,9 +918,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{LLVMEmitObj_21}(\mathsf{LLVMIR})\ \Uparrow  \\[0.16em]
+\operatorname{LLVMEmitObj_21}(\mathsf{LLVMIR})\ \Uparrow \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{EmitObj}(\mathsf{LLVMIR})\ \Uparrow 
+\Gamma \ \vdash \ \operatorname{EmitObj}(\mathsf{LLVMIR})\ \Uparrow
 \end{array}
 $$
 

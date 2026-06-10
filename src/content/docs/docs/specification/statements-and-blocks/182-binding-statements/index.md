@@ -2,16 +2,16 @@
 title: "18.2 Binding Statements"
 description: "18.2 Binding Statements from 18. Statements and Blocks of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "statements-and-blocks"
 specSection: "182-binding-statements"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -78,16 +78,16 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{Binding}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \mathsf{span}\rangle  \\[0.16em]
-\operatorname{BindingForm}(\mathsf{binding})\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle  \\[0.16em]
-\operatorname{BindingParts}(\mathsf{binding})\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \mathsf{span}\rangle 
+\mathsf{Binding}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \mathsf{span}\rangle \\[0.16em]
+\operatorname{BindingForm}(\mathsf{binding})\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle \\[0.16em]
+\operatorname{BindingParts}(\mathsf{binding})\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \mathsf{span}\rangle
 \end{array}
 $$
 
 $$
 \begin{array}{l}
 \operatorname{BindType}(\langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle )\ =\ T\ \Leftrightarrow \ \mathsf{ty}_{\mathsf{opt}}\ =\ T \\[0.16em]
-\operatorname{BindType}(\langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \bot ,\ \mathsf{op},\ \mathsf{init},\ \_\rangle )\ =\ \theta (T_{i})\ \Leftrightarrow \ \Gamma ;\ R;\ L\ \vdash \ \mathsf{init}\ \Rightarrow \ T_{i}\ \dashv \ C\ \land \ \operatorname{Solve}(C)\ \Downarrow \ \theta 
+\operatorname{BindType}(\langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{pat},\ \bot ,\ \mathsf{op},\ \mathsf{init},\ \_\rangle )\ =\ \theta (T_{i})\ \Leftrightarrow \ \Gamma ;\ R;\ L\ \vdash \ \mathsf{init}\ \Rightarrow \ T_{i}\ \dashv \ C\ \land \ \operatorname{Solve}(C)\ \Downarrow \ \theta
 \end{array}
 $$
 
@@ -101,7 +101,7 @@ $$
 ### 18.2.4 Static Semantics
 
 $$
-\mathsf{IntroEnt}\ =\ \langle \mathsf{Value},\ \bot ,\ \bot ,\ \mathsf{Decl}\rangle 
+\mathsf{IntroEnt}\ =\ \langle \mathsf{Value},\ \bot ,\ \bot ,\ \mathsf{Decl}\rangle
 $$
 
 **(IntroAll-Empty)**
@@ -109,7 +109,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\operatorname{IntroAll}(\Gamma ,\ [])\ \Downarrow \ \Gamma 
+\operatorname{IntroAll}(\Gamma ,\ [])\ \Downarrow \ \Gamma
 \end{array}
 $$
 
@@ -117,9 +117,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{Intro}(x,\ \mathsf{IntroEnt})\ \Downarrow \ \Gamma_{1} \quad \operatorname{IntroAll}(\Gamma_{1} \ \cup \ \{x\ \mapsto \ \langle \texttt{let},\ T\rangle \},\ \mathsf{rest})\ \Downarrow \ \Gamma_{2}  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{Intro}(x,\ \mathsf{IntroEnt})\ \Downarrow \ \Gamma_{1} \quad \operatorname{IntroAll}(\Gamma_{1} \ \cup \ \{x\ \mapsto \ \langle \texttt{let},\ T\rangle \},\ \mathsf{rest})\ \Downarrow \ \Gamma_{2} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\operatorname{IntroAll}(\Gamma ,\ [(x,\ T)]\ \mathbin{++} \ \mathsf{rest})\ \Downarrow \ \Gamma_{2} 
+\operatorname{IntroAll}(\Gamma ,\ [(x,\ T)]\ \mathbin{++} \ \mathsf{rest})\ \Downarrow \ \Gamma_{2}
 \end{array}
 $$
 
@@ -128,7 +128,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\operatorname{IntroAllVar}(\Gamma ,\ [])\ \Downarrow \ \Gamma 
+\operatorname{IntroAllVar}(\Gamma ,\ [])\ \Downarrow \ \Gamma
 \end{array}
 $$
 
@@ -136,9 +136,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{Intro}(x,\ \mathsf{IntroEnt})\ \Downarrow \ \Gamma_{1} \quad \operatorname{IntroAllVar}(\Gamma_{1} \ \cup \ \{x\ \mapsto \ \langle \texttt{var},\ T\rangle \},\ \mathsf{rest})\ \Downarrow \ \Gamma_{2}  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{Intro}(x,\ \mathsf{IntroEnt})\ \Downarrow \ \Gamma_{1} \quad \operatorname{IntroAllVar}(\Gamma_{1} \ \cup \ \{x\ \mapsto \ \langle \texttt{var},\ T\rangle \},\ \mathsf{rest})\ \Downarrow \ \Gamma_{2} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\operatorname{IntroAllVar}(\Gamma ,\ [(x,\ T)]\ \mathbin{++} \ \mathsf{rest})\ \Downarrow \ \Gamma_{2} 
+\operatorname{IntroAllVar}(\Gamma ,\ [(x,\ T)]\ \mathbin{++} \ \mathsf{rest})\ \Downarrow \ \Gamma_{2}
 \end{array}
 $$
 
@@ -148,7 +148,7 @@ $$
 \begin{array}{l}
 \mathsf{ty}_{\mathsf{opt}}\ =\ T_{a}\quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{init}\ \Leftarrow \ T_{a}\ \dashv \ \emptyset \quad \Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ T_{a}\ \dashv \ B\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}))\quad \operatorname{IntroAll}(\Gamma ,\ B)\ \Downarrow \ \Gamma ' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{LetStmt}(\mathsf{binding})\ \Rightarrow \ \Gamma '\ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{LetStmt}(\mathsf{binding})\ \Rightarrow \ \Gamma '\ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle
 \end{array}
 $$
 
@@ -168,7 +168,7 @@ $$
 \begin{array}{l}
 \mathsf{ty}_{\mathsf{opt}}\ =\ \bot \quad \Gamma ;\ R;\ L\ \vdash \ \mathsf{init}\ \Rightarrow \ T_{i}\ \dashv \ C\quad \operatorname{Solve}(C)\ \Downarrow \ \theta \quad T_{b}\ =\ \theta (T_{i})\quad \Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ T_{b}\ \dashv \ B\quad \operatorname{Distinct}(\operatorname{PatNames}(\mathsf{pat}))\quad \operatorname{IntroAll}(\Gamma ,\ B)\ \Downarrow \ \Gamma ' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{LetStmt}(\mathsf{binding})\ \Rightarrow \ \Gamma '\ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{LetStmt}(\mathsf{binding})\ \Rightarrow \ \Gamma '\ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle
 \end{array}
 $$
 
@@ -218,7 +218,7 @@ $$
 \begin{array}{l}
 \Gamma ;\ \mathfrak{B} ;\ \Pi \ \vdash \ \mathsf{init}\ \Rightarrow \ \mathfrak{B}_{1} \ \triangleright \ \Pi_{1} \quad T_{b}\ =\ \operatorname{BindType}(\langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle )\quad \Pi_{2} \ =\ \operatorname{SuspendUniqueBind}(\Pi_{1} ,\ \mathsf{init},\ T_{b})\quad \mathfrak{B}_{2} \ =\ \operatorname{ConsumeOnMove}(\mathfrak{B}_{1} ,\ \mathsf{init})\quad \Gamma \ \vdash \ \mathsf{pat}\ \Leftarrow \ T_{b}\ \dashv \ B\quad \mathfrak{B}_{3} \ =\ \operatorname{IntroAll_B}(\mathfrak{B}_{2} ,\ \operatorname{BindInfoMap}(\lambda \ U.\ \operatorname{RespOfInit}(\mathsf{init}),\ B,\ \operatorname{MovOf}(\mathsf{op}),\ \mathsf{mut})) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ \mathfrak{B} ;\ \Pi \ \vdash \ \operatorname{LetOrVarStmt}(\langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle )\ \Rightarrow \ \mathfrak{B}_{3} \ \triangleright \ \Pi_{2} 
+\Gamma ;\ \mathfrak{B} ;\ \Pi \ \vdash \ \operatorname{LetOrVarStmt}(\langle \mathsf{pat},\ \mathsf{ty}_{\mathsf{opt}},\ \mathsf{op},\ \mathsf{init},\ \_\rangle )\ \Rightarrow \ \mathfrak{B}_{3} \ \triangleright \ \Pi_{2}
 \end{array}
 $$
 
@@ -228,7 +228,7 @@ $$
 \begin{array}{l}
 \mathsf{binding}\ =\ \langle \mathsf{pat},\ \_,\ \_,\ \mathsf{init},\ \_\rangle \quad \Gamma ;\ \Omega \ \vdash \ \mathsf{init}\ \Downarrow \ \pi_{\mathsf{init}} \quad \Gamma \ \vdash \ \operatorname{PatNames}(\mathsf{pat})\ \Downarrow \ N\quad \pi_{\mathsf{bind}} \ =\ \operatorname{BindProv}(\Omega ,\ \pi_{\mathsf{init}} )\quad \pi_{\mathsf{bind}} \ \ne \ \pi_{\mathsf{Region}} (\mathsf{tag})\ \mathsf{for}\ \mathsf{every}\ \mathsf{tag}\quad \Sigma \_\pi '\ =\ \mathsf{IntroAll}\_\pi (\Sigma \_\pi ,\ N,\ \pi_{\mathsf{bind}} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ \langle \Sigma \_\pi ,\ \mathsf{RS}\rangle \ \vdash \ \operatorname{LetOrVarStmt}(\mathsf{binding})\ \Rightarrow \ \langle \Sigma \_\pi ',\ \mathsf{RS}\rangle \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
+\Gamma ;\ \langle \Sigma \_\pi ,\ \mathsf{RS}\rangle \ \vdash \ \operatorname{LetOrVarStmt}(\mathsf{binding})\ \Rightarrow \ \langle \Sigma \_\pi ',\ \mathsf{RS}\rangle \ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle
 \end{array}
 $$
 
@@ -238,7 +238,7 @@ $$
 \begin{array}{l}
 \mathsf{binding}\ =\ \langle \mathsf{pat},\ \_,\ \_,\ \mathsf{init},\ \_\rangle \quad \Gamma ;\ \Omega \ \vdash \ \mathsf{init}\ \Downarrow \ \pi_{\mathsf{Region}} (\mathsf{tag})\quad \Gamma \ \vdash \ \operatorname{PatNames}(\mathsf{pat})\ \Downarrow \ [x]\quad \Sigma \_\pi '\ =\ \mathsf{Intro}\_\pi (\Sigma \_\pi ,\ x,\ \pi_{\mathsf{Region}} (\mathsf{tag}))\quad \mathsf{IntroRegionAlias}\_\pi (\langle \Sigma \_\pi ',\ \mathsf{RS}\rangle ,\ \mathsf{tag},\ x)\ =\ \Omega ' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ \langle \Sigma \_\pi ,\ \mathsf{RS}\rangle \ \vdash \ \operatorname{LetOrVarStmt}(\mathsf{binding})\ \Rightarrow \ \Omega '\ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
+\Gamma ;\ \langle \Sigma \_\pi ,\ \mathsf{RS}\rangle \ \vdash \ \operatorname{LetOrVarStmt}(\mathsf{binding})\ \Rightarrow \ \Omega '\ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle
 \end{array}
 $$
 
@@ -248,7 +248,7 @@ $$
 \begin{array}{l}
 \mathsf{binding}\ =\ \langle \mathsf{pat},\ \_,\ \_,\ \mathsf{init},\ \_\rangle \quad \operatorname{FreshRegionExpr}(\mathsf{init})\quad \Gamma \ \vdash \ \operatorname{PatNames}(\mathsf{pat})\ \Downarrow \ [x]\quad \operatorname{FreshRegionTag}(\langle \Sigma \_\pi ,\ \mathsf{RS}\rangle )\ =\ \mathsf{tag}\quad \Sigma \_\pi '\ =\ \mathsf{Intro}\_\pi (\Sigma \_\pi ,\ x,\ \pi_{\mathsf{Region}} (\mathsf{tag}))\quad \mathsf{IntroRegionAlias}\_\pi (\langle \Sigma \_\pi ',\ \mathsf{RS}\rangle ,\ \mathsf{tag},\ x)\ =\ \Omega ' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ \langle \Sigma \_\pi ,\ \mathsf{RS}\rangle \ \vdash \ \operatorname{LetOrVarStmt}(\mathsf{binding})\ \Rightarrow \ \Omega '\ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle 
+\Gamma ;\ \langle \Sigma \_\pi ,\ \mathsf{RS}\rangle \ \vdash \ \operatorname{LetOrVarStmt}(\mathsf{binding})\ \Rightarrow \ \Omega '\ \triangleright \ \langle [],\ [],\ \mathsf{false}\rangle
 \end{array}
 $$
 

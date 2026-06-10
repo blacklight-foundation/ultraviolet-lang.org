@@ -2,16 +2,16 @@
 title: "13.8 Safe Pointer Types"
 description: "13.8 Safe Pointer Types from 13. Modal and Special Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "modal-and-special-types"
 specSection: "138-safe-pointer-types"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -124,15 +124,7 @@ $$
 \lnot \ \operatorname{DropType}(\operatorname{TypePtr}(T,\ s))
 $$
 
-**(Sub-Ptr-State)**
-
-$$
-\begin{array}{l}
-s\ \in \ \{\texttt{Valid},\ \texttt{Null}\} \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TypePtr}(T,\ s)\ \mathrel{<:} \ \operatorname{TypePtr}(T,\ \bot )
-\end{array}
-$$
+Rule **(Sub-Ptr-State)** is defined once by §8.2.
 
 ### 13.8.5 Dynamic Semantics
 
@@ -153,7 +145,7 @@ $$
 \operatorname{PtrState}(\sigma ,\ \mathsf{Ptr}@\operatorname{Null}(\_))\ =\ \texttt{Null} \\[0.16em]
 \operatorname{PtrState}(\sigma ,\ \mathsf{Ptr}@\operatorname{Expired}(\_))\ =\ \texttt{Expired} \\[0.16em]
 \operatorname{PtrState}(\sigma ,\ \mathsf{Ptr}@\operatorname{Valid}(\mathsf{addr}))\ = \\[0.16em]
-\ \texttt{Valid}\quad \mathsf{if}\ \operatorname{AddrTag}(\sigma ,\ \mathsf{addr})\ =\ \bot  \\[0.16em]
+\ \texttt{Valid}\quad \mathsf{if}\ \operatorname{AddrTag}(\sigma ,\ \mathsf{addr})\ =\ \bot \\[0.16em]
 \ \texttt{Valid}\quad \mathsf{if}\ \operatorname{AddrTag}(\sigma ,\ \mathsf{addr})\ =\ \mathsf{tag}\ \ne \ \bot \ \land \ \operatorname{TagActive}(\sigma ,\ \mathsf{tag}) \\[0.16em]
 \ \texttt{Expired}\ \mathsf{if}\ \operatorname{AddrTag}(\sigma ,\ \mathsf{addr})\ =\ \mathsf{tag}\ \ne \ \bot \ \land \ \lnot \ \operatorname{TagActive}(\sigma ,\ \mathsf{tag})
 \end{array}
@@ -225,35 +217,7 @@ $$
 
 ### 13.8.6 Lowering
 
-**(Size-Ptr)**
-
-$$
-\begin{array}{l}
-T\ =\ \operatorname{TypePtr}(T_{0},\ s) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{sizeof}(T)\ =\ \mathsf{PtrSize}
-\end{array}
-$$
-
-**(Align-Ptr)**
-
-$$
-\begin{array}{l}
-T\ =\ \operatorname{TypePtr}(T_{0},\ s) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{alignof}(T)\ =\ \mathsf{PtrAlign}
-\end{array}
-$$
-
-**(Layout-Ptr)**
-
-$$
-\begin{array}{l}
-T\ =\ \operatorname{TypePtr}(T_{0},\ s) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle \mathsf{PtrSize},\ \mathsf{PtrAlign}\rangle 
-\end{array}
-$$
+Rules **(Size-Ptr)**, **(Align-Ptr)**, **(Layout-Ptr)** are defined once by §24.2.2.
 
 $$
 \begin{array}{l}

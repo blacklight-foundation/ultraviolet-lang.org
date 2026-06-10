@@ -63,6 +63,9 @@ const LATEX_SYMBOLS = new Map([
   ['◁', '\\triangleleft'],
   ['±', '\\pm'],
   ['–', '-'],
+  ['\u2014', '-'],
+  ['\u207a', '^{+}'],
+  ['\u2300', '\\varnothing'],
   ['𝔅', '\\mathfrak{B}'],
 ]);
 
@@ -780,7 +783,7 @@ function hasFormalNotation(text) {
 function renderLatexBlock(lines) {
   const latexLines = lines
     .filter((line) => line.trim() !== '')
-    .map((line) => renderLatexLine(line));
+    .map((line) => renderLatexLine(line).trimEnd());
 
   if (latexLines.length === 1) {
     return latexLines[0];

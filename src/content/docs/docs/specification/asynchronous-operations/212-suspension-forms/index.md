@@ -2,16 +2,16 @@
 title: "21.2 Suspension Forms"
 description: "21.2 Suspension Forms from 21. Asynchronous Operations of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "asynchronous-operations"
 specSection: "212-suspension-forms"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -137,7 +137,7 @@ $$
 \begin{array}{l}
 \Gamma ;\ R;\ L\ \vdash \ h\ :\ T_{h}\quad \operatorname{StripPerm}(T_{h})\ \notin \ \{\operatorname{TypeApply}([\texttt{"Spawned"}],\ [\_]),\ \operatorname{TypeApply}([\texttt{"Tracked"}],\ [\_,\ \_])\} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \texttt{wait}\ h\ \Uparrow 
+\Gamma ;\ R;\ L\ \vdash \ \texttt{wait}\ h\ \Uparrow
 \end{array}
 $$
 
@@ -157,9 +157,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \bot  \\[0.16em]
+\operatorname{AsyncSig}(R)\ =\ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow
 \end{array}
 $$
 
@@ -169,7 +169,7 @@ $$
 \begin{array}{l}
 \operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T\quad \lnot (\Gamma \ \vdash \ T\ \mathrel{<:} \ \mathsf{Out}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow
 \end{array}
 $$
 
@@ -189,9 +189,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AsyncSig}(R)\ =\ \bot  \\[0.16em]
+\operatorname{AsyncSig}(R)\ =\ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow
 \end{array}
 $$
 
@@ -202,7 +202,7 @@ $$
 \operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E_{1}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e} \\[0.16em]
 (\operatorname{AsyncSig}(T_{e})\ =\ \bot \ \lor \ (\operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out}_{e},\ \mathsf{In}_{e},\ \mathsf{Result}_{e},\ E_{2}\rangle \ \land \ \lnot (\Gamma \ \vdash \ \mathsf{Out}_{e}\ \equiv \ \mathsf{Out}))) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow
 \end{array}
 $$
 
@@ -212,7 +212,7 @@ $$
 \begin{array}{l}
 \operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E_{1}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out}_{e},\ \mathsf{In}_{e},\ \mathsf{Result}_{e},\ E_{2}\rangle \quad \Gamma \ \vdash \ \mathsf{Out}_{e}\ \equiv \ \mathsf{Out}\quad \lnot (\Gamma \ \vdash \ \mathsf{In}_{e}\ \equiv \ \mathsf{In}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow
 \end{array}
 $$
 
@@ -222,7 +222,7 @@ $$
 \begin{array}{l}
 \operatorname{AsyncSig}(R)\ =\ \langle \mathsf{Out},\ \mathsf{In},\ \mathsf{Result},\ E_{1}\rangle \quad \Gamma ;\ R;\ L\ \vdash \ e\ :\ T_{e}\quad \operatorname{AsyncSig}(T_{e})\ =\ \langle \mathsf{Out}_{e},\ \mathsf{In}_{e},\ \mathsf{Result}_{e},\ E_{2}\rangle \quad \Gamma \ \vdash \ \mathsf{Out}_{e}\ \equiv \ \mathsf{Out}\quad \Gamma \ \vdash \ \mathsf{In}_{e}\ \equiv \ \mathsf{In}\quad \lnot (\Gamma \ \vdash \ E_{2}\ \mathrel{<:} \ E_{1}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ e)\ \Uparrow
 \end{array}
 $$
 
@@ -247,9 +247,9 @@ $$
 \operatorname{SpawnHandleState}(\operatorname{SpawnedVal}(@\mathsf{Pending},\ \_))\ =\ \mathsf{Pending} \\[0.16em]
 \operatorname{TrackedHandleState}(\operatorname{TrackedVal}(@\mathsf{Ready}\ \{\ \mathsf{value}\ \},\ \_))\ =\ \operatorname{Ready}(\mathsf{value}) \\[0.16em]
 \operatorname{TrackedHandleState}(\operatorname{TrackedVal}(@\mathsf{Pending},\ \_))\ =\ \mathsf{Pending} \\[0.16em]
-\operatorname{BlockUntilSettledSpawned}(\mathsf{handle},\ \sigma )\ \Downarrow \ (\mathsf{handle}',\ \sigma ')\ \Leftrightarrow  \\[0.16em]
+\operatorname{BlockUntilSettledSpawned}(\mathsf{handle},\ \sigma )\ \Downarrow \ (\mathsf{handle}',\ \sigma ')\ \Leftrightarrow \\[0.16em]
 \ \sigma '\ \mathsf{extends}\ \sigma \ \mathsf{by}\ \mathsf{abstract}\ \mathsf{scheduler}\ \mathsf{progress}\ \mathsf{until}\ \operatorname{SpawnHandleState}(\mathsf{handle}')\ \in \ \{\operatorname{Ready}(\_),\ \operatorname{Failed}(\_)\} \\[0.16em]
-\operatorname{BlockUntilSettledTracked}(\mathsf{handle},\ \sigma )\ \Downarrow \ (\mathsf{handle}',\ \sigma ')\ \Leftrightarrow  \\[0.16em]
+\operatorname{BlockUntilSettledTracked}(\mathsf{handle},\ \sigma )\ \Downarrow \ (\mathsf{handle}',\ \sigma ')\ \Leftrightarrow \\[0.16em]
 \ \sigma '\ \mathsf{extends}\ \sigma \ \mathsf{by}\ \mathsf{abstract}\ \mathsf{scheduler}\ \mathsf{progress}\ \mathsf{until}\ \operatorname{TrackedHandleState}(\mathsf{handle}')\ =\ \operatorname{Ready}(\_)
 \end{array}
 $$
@@ -319,19 +319,19 @@ Resumption helpers are:
 
 $$
 \begin{array}{l}
-\mathsf{ResumptionPoint}\ =\ \langle \mathsf{scope}_{\mathsf{stack}},\ \mathsf{region}_{\mathsf{stack}},\ \mathsf{continuation}\rangle  \\[0.16em]
-\operatorname{ReleaseKeys}(\sigma ,\ \mathsf{keys})\ \Downarrow \ \sigma '\ \Leftrightarrow  \\[0.16em]
-\ \mathsf{rev}\ =\ \operatorname{CanonicalOrder}(\mathsf{keys})\ \land  \\[0.16em]
-\ \forall \ k\ \in \ \operatorname{Reverse}(\mathsf{rev}).\ \operatorname{ReleaseLock}(\sigma ,\ k)\ \land  \\[0.16em]
+\mathsf{ResumptionPoint}\ =\ \langle \mathsf{scope}_{\mathsf{stack}},\ \mathsf{region}_{\mathsf{stack}},\ \mathsf{continuation}\rangle \\[0.16em]
+\operatorname{ReleaseKeys}(\sigma ,\ \mathsf{keys})\ \Downarrow \ \sigma '\ \Leftrightarrow \\[0.16em]
+\ \mathsf{rev}\ =\ \operatorname{CanonicalOrder}(\mathsf{keys})\ \land \\[0.16em]
+\ \forall \ k\ \in \ \operatorname{Reverse}(\mathsf{rev}).\ \operatorname{ReleaseLock}(\sigma ,\ k)\ \land \\[0.16em]
 \ \sigma '\ =\ \sigma [\mathsf{held}_{\mathsf{keys}}\ :=\ \sigma .\mathsf{held}_{\mathsf{keys}}\ \setminus \ \mathsf{keys}] \\[0.16em]
-\operatorname{ReacquireKeys}(\sigma ,\ \mathsf{keys})\ \Downarrow \ \sigma '\ \Leftrightarrow  \\[0.16em]
-\ \mathsf{sorted}\ =\ \operatorname{CanonicalOrder}(\mathsf{keys})\ \land  \\[0.16em]
-\ \forall \ k\ \in \ \mathsf{sorted}.\ \operatorname{AcquireLock}(\sigma ,\ k,\ \operatorname{ModeOf}(k))\ \land  \\[0.16em]
+\operatorname{ReacquireKeys}(\sigma ,\ \mathsf{keys})\ \Downarrow \ \sigma '\ \Leftrightarrow \\[0.16em]
+\ \mathsf{sorted}\ =\ \operatorname{CanonicalOrder}(\mathsf{keys})\ \land \\[0.16em]
+\ \forall \ k\ \in \ \mathsf{sorted}.\ \operatorname{AcquireLock}(\sigma ,\ k,\ \operatorname{ModeOf}(k))\ \land \\[0.16em]
 \ \sigma '\ =\ \sigma [\mathsf{held}_{\mathsf{keys}}\ :=\ \sigma .\mathsf{held}_{\mathsf{keys}}\ \cup \ \mathsf{keys}] \\[0.16em]
-\operatorname{RestoreResumptionPoint}(\mathsf{rp})\ \Downarrow \ \sigma \ \Leftrightarrow  \\[0.16em]
-\ \mathsf{rp}\ =\ \langle \mathsf{scope}_{\mathsf{stack}},\ \mathsf{region}_{\mathsf{stack}},\ \mathsf{continuation}\rangle \ \land  \\[0.16em]
-\ \sigma .\mathsf{scope}_{\mathsf{stack}}\ =\ \mathsf{scope}_{\mathsf{stack}}\ \land  \\[0.16em]
-\ \sigma .\mathsf{region}_{\mathsf{stack}}\ =\ \mathsf{region}_{\mathsf{stack}}\ \land  \\[0.16em]
+\operatorname{RestoreResumptionPoint}(\mathsf{rp})\ \Downarrow \ \sigma \ \Leftrightarrow \\[0.16em]
+\ \mathsf{rp}\ =\ \langle \mathsf{scope}_{\mathsf{stack}},\ \mathsf{region}_{\mathsf{stack}},\ \mathsf{continuation}\rangle \ \land \\[0.16em]
+\ \sigma .\mathsf{scope}_{\mathsf{stack}}\ =\ \mathsf{scope}_{\mathsf{stack}}\ \land \\[0.16em]
+\ \sigma .\mathsf{region}_{\mathsf{stack}}\ =\ \mathsf{region}_{\mathsf{stack}}\ \land \\[0.16em]
 \ \sigma .\mathsf{continuation}\ =\ \mathsf{continuation} \\[0.16em]
 \Gamma_{\mathsf{keys}} (\sigma )\ =\ \sigma .\mathsf{held}_{\mathsf{keys}}
 \end{array}
@@ -343,7 +343,7 @@ Formal `yield` rules:
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \mathsf{release}_{\mathsf{opt}}\ =\ \bot \quad \Gamma_{\mathsf{keys}} (\sigma_{1} )\ =\ \emptyset  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \mathsf{release}_{\mathsf{opt}}\ =\ \bot \quad \Gamma_{\mathsf{keys}} (\sigma_{1} )\ =\ \emptyset \\[0.16em]
 \mathsf{async}_{\mathsf{state}}\ =\ \operatorname{AsyncSuspended}(v,\ \sigma_{1} .\mathsf{resumption}_{\mathsf{point}}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e),\ \sigma )\ \Downarrow \ (\operatorname{Suspend}(\mathsf{async}_{\mathsf{state}}),\ \sigma_{1} )
@@ -354,7 +354,7 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \mathsf{release}_{\mathsf{opt}}\ =\ \mathsf{Release}\quad \mathsf{held}\ =\ \Gamma_{\mathsf{keys}} (\sigma_{1} )\quad \operatorname{ReleaseKeys}(\sigma_{1} ,\ \mathsf{held})\ \Downarrow \ \sigma_{2}  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(e,\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{1} )\quad \mathsf{release}_{\mathsf{opt}}\ =\ \mathsf{Release}\quad \mathsf{held}\ =\ \Gamma_{\mathsf{keys}} (\sigma_{1} )\quad \operatorname{ReleaseKeys}(\sigma_{1} ,\ \mathsf{held})\ \Downarrow \ \sigma_{2} \\[0.16em]
 \mathsf{async}_{\mathsf{state}}\ =\ \operatorname{AsyncSuspended}(v,\ \sigma_{2} .\mathsf{resumption}_{\mathsf{point}},\ \mathsf{held}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{YieldExpr}(\mathsf{release}_{\mathsf{opt}},\ e),\ \sigma )\ \Downarrow \ (\operatorname{Suspend}(\mathsf{async}_{\mathsf{state}}),\ \sigma_{2} )
@@ -365,7 +365,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{async}_{\mathsf{state}}\ =\ \operatorname{AsyncSuspended}(\_,\ \mathsf{rp},\ \mathsf{held}_{\mathsf{opt}})\quad \mathsf{input}\ =\ i\quad \operatorname{RestoreResumptionPoint}(\mathsf{rp})\ \Downarrow \ \sigma_{0}  \\[0.16em]
+\mathsf{async}_{\mathsf{state}}\ =\ \operatorname{AsyncSuspended}(\_,\ \mathsf{rp},\ \mathsf{held}_{\mathsf{opt}})\quad \mathsf{input}\ =\ i\quad \operatorname{RestoreResumptionPoint}(\mathsf{rp})\ \Downarrow \ \sigma_{0} \\[0.16em]
 \sigma_{1} \ =\ (\mathsf{held}_{\mathsf{opt}}\ \ne \ \bot \ \land \ \operatorname{ReacquireKeys}(\sigma_{0} ,\ \mathsf{held}_{\mathsf{opt}})\ \Downarrow \ \sigma_{1} '\ \to \ \sigma_{1} '\ \mid \ \sigma_{0} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{Resume}(\mathsf{async}_{\mathsf{state}},\ i),\ \sigma )\ \Downarrow \ (\operatorname{Val}(i),\ \sigma_{1} )
@@ -482,7 +482,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LowerExpr}(h)\ \Downarrow \ \langle \mathsf{IR}_{h},\ v_{h}\rangle \quad \operatorname{StripPerm}(\operatorname{ExprType}(h))\ =\ \operatorname{TypeApply}([\texttt{"Spawned"}],\ [T]) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{WaitExpr}(h))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{h},\ \operatorname{WaitIR}(v_{h})),\ \operatorname{WaitResult}(v_{h})\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{WaitExpr}(h))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{h},\ \operatorname{WaitIR}(v_{h})),\ \operatorname{WaitResult}(v_{h})\rangle
 \end{array}
 $$
 
@@ -492,7 +492,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LowerExpr}(h)\ \Downarrow \ \langle \mathsf{IR}_{h},\ v_{h}\rangle \quad \operatorname{StripPerm}(\operatorname{ExprType}(h))\ =\ \operatorname{TypeApply}([\texttt{"Tracked"}],\ [T,\ E]) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{WaitExpr}(h))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{h},\ \operatorname{WaitIR}(v_{h})),\ \operatorname{WaitResult}(v_{h})\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{WaitExpr}(h))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{h},\ \operatorname{WaitIR}(v_{h})),\ \operatorname{WaitResult}(v_{h})\rangle
 \end{array}
 $$
 
@@ -502,7 +502,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f\quad \operatorname{CurrentGenPoint}(\Gamma )\ =\ g \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{YieldExpr}(\bot ,\ e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{YieldIR}(f,\ g,\ v)),\ \operatorname{ResumeInput}(f,\ g)\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{YieldExpr}(\bot ,\ e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{YieldIR}(f,\ g,\ v)),\ \operatorname{ResumeInput}(f,\ g)\rangle
 \end{array}
 $$
 
@@ -512,7 +512,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LowerExpr}(e)\ \Downarrow \ \langle \mathsf{IR}_{e},\ v\rangle \quad \operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f\quad \operatorname{CurrentGenPoint}(\Gamma )\ =\ g\quad \operatorname{ResumeLabel}(\Gamma ,\ g)\ =\ L \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{YieldExpr}(\mathsf{Release},\ e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{SeqIR}(\operatorname{SnapshotHeldKeysIR}(f),\ \operatorname{SeqIR}(\operatorname{ReleaseHeldKeysIR}(f),\ \operatorname{YieldIR}(f,\ g,\ v)))),\ \operatorname{ResumeInput}(f,\ g)\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{YieldExpr}(\mathsf{Release},\ e))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \operatorname{SeqIR}(\operatorname{SnapshotHeldKeysIR}(f),\ \operatorname{SeqIR}(\operatorname{ReleaseHeldKeysIR}(f),\ \operatorname{YieldIR}(f,\ g,\ v)))),\ \operatorname{ResumeInput}(f,\ g)\rangle
 \end{array}
 $$
 
@@ -524,7 +524,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LowerExpr}(\mathsf{source})\ \Downarrow \ \langle \mathsf{IR}_{s},\ v_{s}\rangle \quad \operatorname{CurrentAsyncFrame}(\Gamma )\ =\ f\quad \operatorname{CurrentGenPoint}(\Gamma )\ =\ g \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ \mathsf{source}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{s},\ \operatorname{YieldFromEnterIR}(f,\ g,\ \mathsf{release}_{\mathsf{opt}},\ v_{s})),\ \operatorname{YieldFromResumeIR}(f,\ g)\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{YieldFromExpr}(\mathsf{release}_{\mathsf{opt}},\ \mathsf{source}))\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{s},\ \operatorname{YieldFromEnterIR}(f,\ g,\ \mathsf{release}_{\mathsf{opt}},\ v_{s})),\ \operatorname{YieldFromResumeIR}(f,\ g)\rangle
 \end{array}
 $$
 

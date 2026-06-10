@@ -2,16 +2,16 @@
 title: "7.7 Shared Resolution Helpers and Resolution Pass"
 description: "7.7 Shared Resolution Helpers and Resolution Pass from 7. Name Resolution and Visibility of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "name-resolution-and-visibility"
 specSection: "77-shared-resolution-helpers-and-resolution-pass"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -26,8 +26,8 @@ $$
 P\ =\ \operatorname{Project}(\Gamma ) \\[0.16em]
 m\ =\ \operatorname{CurrentModule}(\Gamma ) \\[0.16em]
 M\ =\ \operatorname{ASTModule}(P,\ m) \\[0.16em]
-\mathsf{ResolveInputs}\ =\ \langle M,\ \mathsf{ModulePaths},\ \{\ \operatorname{NameMap}(P,\ p)\ \mid \ p\ \in \ \mathsf{ModulePaths}\ \}\rangle  \\[0.16em]
-\mathsf{ResolveOutputs}\ =\ \langle M'\rangle  \\[0.16em]
+\mathsf{ResolveInputs}\ =\ \langle M,\ \mathsf{ModulePaths},\ \{\ \operatorname{NameMap}(P,\ p)\ \mid \ p\ \in \ \mathsf{ModulePaths}\ \}\rangle \\[0.16em]
+\mathsf{ResolveOutputs}\ =\ \langle M'\rangle \\[0.16em]
 \mathsf{PathOfModuleRef}\ =\ \{\texttt{"3.4.1"}\}
 \end{array}
 $$
@@ -41,13 +41,13 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ResolveGenericParamsOpt}(\bot )\ \Downarrow \ \bot  \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolvePredicateClauseOpt}(\bot )\ \Downarrow \ \bot  \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveContractClauseOpt}(\bot )\ \Downarrow \ \bot  \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveInvariantOpt}(\bot )\ \Downarrow \ \bot  \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveTypeOpt}(\bot )\ \Downarrow \ \bot  \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveExprOpt}(\bot )\ \Downarrow \ \bot  \\[0.16em]
-\operatorname{ResolveExprOpt}(\bot )\ =\ \bot  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveGenericParamsOpt}(\bot )\ \Downarrow \ \bot \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolvePredicateClauseOpt}(\bot )\ \Downarrow \ \bot \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveContractClauseOpt}(\bot )\ \Downarrow \ \bot \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveInvariantOpt}(\bot )\ \Downarrow \ \bot \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveTypeOpt}(\bot )\ \Downarrow \ \bot \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ResolveExprOpt}(\bot )\ \Downarrow \ \bot \\[0.16em]
+\operatorname{ResolveExprOpt}(\bot )\ =\ \bot \\[0.16em]
 \operatorname{ResolveExprOpt}(e)\ =\ e'\ \Leftrightarrow \ \Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e'
 \end{array}
 $$
@@ -68,7 +68,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ResolveClassPathList}(\mathsf{bounds})\ \Downarrow \ \mathsf{bounds}'\quad \Gamma \ \vdash \ \operatorname{ResolveTypeOpt}(\mathsf{default}_{\mathsf{opt}})\ \Downarrow \ \mathsf{default}_{\mathsf{opt}}' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveTypeParam}(\langle \mathsf{name},\ \mathsf{bounds},\ \mathsf{default}_{\mathsf{opt}},\ \mathsf{variance}\rangle )\ \Downarrow \ \langle \mathsf{name},\ \mathsf{bounds}',\ \mathsf{default}_{\mathsf{opt}}',\ \mathsf{variance}\rangle 
+\Gamma \ \vdash \ \operatorname{ResolveTypeParam}(\langle \mathsf{name},\ \mathsf{bounds},\ \mathsf{default}_{\mathsf{opt}},\ \mathsf{variance}\rangle )\ \Downarrow \ \langle \mathsf{name},\ \mathsf{bounds}',\ \mathsf{default}_{\mathsf{opt}}',\ \mathsf{variance}\rangle
 \end{array}
 $$
 
@@ -171,7 +171,7 @@ $$
 $$
 
 $$
-\operatorname{LocalTypePath}(\mathsf{path})\ \Leftrightarrow \ \mid \mathsf{path}\mid \ =\ 1\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTypeName}(\mathsf{path}[0])\ \Downarrow \ \mathsf{ent}\ \land \ \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \bot 
+\operatorname{LocalTypePath}(\mathsf{path})\ \Leftrightarrow \ \mid \mathsf{path}\mid \ =\ 1\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTypeName}(\mathsf{path}[0])\ \Downarrow \ \mathsf{ent}\ \land \ \mathsf{ent}.\mathsf{origin}_{\mathsf{opt}}\ =\ \bot
 $$
 
 **(ResolveClassPath-Ident)**
@@ -236,8 +236,8 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ResolveModalRef}(\mathsf{modal}_{\mathsf{ref}})\ \Downarrow \ \mathsf{modal}_{\mathsf{ref}}'\ \Leftrightarrow  \\[0.16em]
-\ (\mathsf{modal}_{\mathsf{ref}}\ =\ \operatorname{TypePath}(\mathsf{path})\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{path})\ \Downarrow \ \mathsf{path}'\ \land \ \mathsf{modal}_{\mathsf{ref}}'\ =\ \operatorname{TypePath}(\mathsf{path}'))\ \lor  \\[0.16em]
+\operatorname{ResolveModalRef}(\mathsf{modal}_{\mathsf{ref}})\ \Downarrow \ \mathsf{modal}_{\mathsf{ref}}'\ \Leftrightarrow \\[0.16em]
+\ (\mathsf{modal}_{\mathsf{ref}}\ =\ \operatorname{TypePath}(\mathsf{path})\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{path})\ \Downarrow \ \mathsf{path}'\ \land \ \mathsf{modal}_{\mathsf{ref}}'\ =\ \operatorname{TypePath}(\mathsf{path}'))\ \lor \\[0.16em]
 \ (\mathsf{modal}_{\mathsf{ref}}\ =\ \operatorname{TypeApply}(\mathsf{path},\ \mathsf{args})\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTypePath}(\mathsf{path})\ \Downarrow \ \mathsf{path}'\ \land \ \Gamma \ \vdash \ \operatorname{ResolveTypeList}(\mathsf{args})\ \Downarrow \ \mathsf{args}'\ \land \ \mathsf{modal}_{\mathsf{ref}}'\ =\ \operatorname{TypeApply}(\mathsf{path}',\ \mathsf{args}'))
 \end{array}
 $$
@@ -374,7 +374,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveFieldPattern}(\langle \mathsf{name},\ \bot ,\ \mathsf{span}\rangle )\ \Downarrow \ \langle \mathsf{name},\ \bot ,\ \mathsf{span}\rangle 
+\Gamma \ \vdash \ \operatorname{ResolveFieldPattern}(\langle \mathsf{name},\ \bot ,\ \mathsf{span}\rangle )\ \Downarrow \ \langle \mathsf{name},\ \bot ,\ \mathsf{span}\rangle
 \end{array}
 $$
 
@@ -384,7 +384,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ResolvePattern}(p)\ \Downarrow \ p' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveFieldPattern}(\langle \mathsf{name},\ p,\ \mathsf{span}\rangle )\ \Downarrow \ \langle \mathsf{name},\ p',\ \mathsf{span}\rangle 
+\Gamma \ \vdash \ \operatorname{ResolveFieldPattern}(\langle \mathsf{name},\ p,\ \mathsf{span}\rangle )\ \Downarrow \ \langle \mathsf{name},\ p',\ \mathsf{span}\rangle
 \end{array}
 $$
 
@@ -399,7 +399,7 @@ $$
 $$
 
 $$
-\Gamma \ \vdash \ \operatorname{ResolveEnumPayloadPattern}(\bot )\ \Downarrow \ \bot 
+\Gamma \ \vdash \ \operatorname{ResolveEnumPayloadPattern}(\bot )\ \Downarrow \ \bot
 $$
 
 **(ResolveEnumPayloadPattern-Tuple)**
@@ -423,7 +423,7 @@ $$
 $$
 
 $$
-\Gamma \ \vdash \ \operatorname{ResolveFieldPatternListOpt}(\bot )\ \Downarrow \ \bot 
+\Gamma \ \vdash \ \operatorname{ResolveFieldPatternListOpt}(\bot )\ \Downarrow \ \bot
 $$
 
 **(ResolveFieldPatternListOpt-Some)**
@@ -500,7 +500,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveEnumPayload}(\bot )\ \Downarrow \ \bot 
+\Gamma \ \vdash \ \operatorname{ResolveEnumPayload}(\bot )\ \Downarrow \ \bot
 \end{array}
 $$
 
@@ -573,7 +573,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ResolveValueName}(\mathsf{root})\ \Downarrow \ \mathsf{ent}\quad \Gamma \ \vdash \ \operatorname{ResolveKeySegs}(\mathsf{segs})\ \Downarrow \ \mathsf{segs}' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveKeyPathExpr}(\langle \mathsf{root},\ \mathsf{segs}\rangle )\ \Downarrow \ \langle \mathsf{root},\ \mathsf{segs}'\rangle 
+\Gamma \ \vdash \ \operatorname{ResolveKeyPathExpr}(\langle \mathsf{root},\ \mathsf{segs}\rangle )\ \Downarrow \ \langle \mathsf{root},\ \mathsf{segs}'\rangle
 \end{array}
 $$
 
@@ -781,7 +781,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ResolveExpr}(e)\ \Downarrow \ e'\quad \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} \ \vdash \ \operatorname{ResolvePattern}(\mathsf{pat})\ \Downarrow \ \mathsf{pat}'\quad \Gamma_{0} \ \vdash \ \operatorname{BindPattern}(\mathsf{pat}')\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} \ \vdash \ \operatorname{ResolveRaceHandler}(\mathsf{handler})\ \Downarrow \ \mathsf{handler}' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveRaceArm}(\langle e,\ \mathsf{pat},\ \mathsf{handler}\rangle )\ \Downarrow \ \langle e',\ \mathsf{pat}',\ \mathsf{handler}'\rangle 
+\Gamma \ \vdash \ \operatorname{ResolveRaceArm}(\langle e,\ \mathsf{pat},\ \mathsf{handler}\rangle )\ \Downarrow \ \langle e',\ \mathsf{pat}',\ \mathsf{handler}'\rangle
 \end{array}
 $$
 
@@ -941,7 +941,7 @@ $$
 \begin{array}{l}
 \Gamma_{0} \ =\ \operatorname{PushScope}(\Gamma )\quad \Gamma_{0} \ \vdash \ \operatorname{ResolvePattern}(p)\ \Downarrow \ p'\quad \Gamma_{0} \ \vdash \ \operatorname{BindPattern}(p')\ \Downarrow \ \Gamma_{1} \quad \Gamma_{1} \ \vdash \ \operatorname{ResolveExpr}(b)\ \Downarrow \ b' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveIfCase}(\langle p,\ b\rangle )\ \Downarrow \ \langle p',\ b'\rangle 
+\Gamma \ \vdash \ \operatorname{ResolveIfCase}(\langle p,\ b\rangle )\ \Downarrow \ \langle p',\ b'\rangle
 \end{array}
 $$
 
@@ -969,7 +969,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveElseBlockOpt}(\bot )\ \Downarrow \ \bot 
+\Gamma \ \vdash \ \operatorname{ResolveElseBlockOpt}(\bot )\ \Downarrow \ \bot
 \end{array}
 $$
 
@@ -1071,9 +1071,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{key}_{\mathsf{clause}\_\mathsf{opt}}\ =\ \bot  \\[0.16em]
+\mathsf{key}_{\mathsf{clause}\_\mathsf{opt}}\ =\ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveKeyClauseOpt}(\mathsf{key}_{\mathsf{clause}\_\mathsf{opt}})\ \Downarrow \ \bot 
+\Gamma \ \vdash \ \operatorname{ResolveKeyClauseOpt}(\mathsf{key}_{\mathsf{clause}\_\mathsf{opt}})\ \Downarrow \ \bot
 \end{array}
 $$
 
@@ -1083,7 +1083,7 @@ $$
 \begin{array}{l}
 \mathsf{key}_{\mathsf{clause}\_\mathsf{opt}}\ =\ \langle \mathsf{path},\ \mathsf{mode}\rangle \quad \Gamma \ \vdash \ \operatorname{ResolveKeyPathExpr}(\mathsf{path})\ \Downarrow \ \mathsf{path}' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveKeyClauseOpt}(\mathsf{key}_{\mathsf{clause}\_\mathsf{opt}})\ \Downarrow \ \langle \mathsf{path}',\ \mathsf{mode}\rangle 
+\Gamma \ \vdash \ \operatorname{ResolveKeyClauseOpt}(\mathsf{key}_{\mathsf{clause}\_\mathsf{opt}})\ \Downarrow \ \langle \mathsf{path}',\ \mathsf{mode}\rangle
 \end{array}
 $$
 
@@ -1256,7 +1256,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{CollectNames}(M)\ \Downarrow \ N\quad \Gamma \ \vdash \ \operatorname{ValidateModulePath}(M.\mathsf{path})\ \Downarrow \ \mathsf{ok}\quad \Gamma \ \vdash \ \operatorname{ValidateModuleNames}(N)\ \Downarrow \ \mathsf{ok}\quad S_{\mathsf{module}}\ =\ N\quad \Gamma_{N} \ =\ [S_{\mathsf{module}},\ S_{\mathsf{universe}}]\quad \Gamma_{N} \ \vdash \ \operatorname{ResolveItems}(M.\mathsf{items})\ \Downarrow \ \mathsf{items}' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ResolveModule}(M)\ \Downarrow \ \langle M.\mathsf{path},\ \mathsf{items}',\ M.\mathsf{module}_{\mathsf{doc}}\rangle 
+\Gamma \ \vdash \ \operatorname{ResolveModule}(M)\ \Downarrow \ \langle M.\mathsf{path},\ \mathsf{items}',\ M.\mathsf{module}_{\mathsf{doc}}\rangle
 \end{array}
 $$
 
@@ -1283,7 +1283,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ResStart}(M)\rangle \ \to \ \langle \operatorname{ResNames}(M,\ \_)\rangle 
+\langle \operatorname{ResStart}(M)\rangle \ \to \ \langle \operatorname{ResNames}(M,\ \_)\rangle
 \end{array}
 $$
 
@@ -1293,7 +1293,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{CollectNames}(M)\ \Downarrow \ N \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ResNames}(M,\ \_)\rangle \ \to \ \langle \operatorname{ResItems}(M,\ N)\rangle 
+\langle \operatorname{ResNames}(M,\ \_)\rangle \ \to \ \langle \operatorname{ResItems}(M,\ N)\rangle
 \end{array}
 $$
 
@@ -1303,7 +1303,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ResolveModule}(M)\ \Downarrow \ M' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ResItems}(M,\ N)\rangle \ \to \ \langle \operatorname{ResDone}(M')\rangle 
+\langle \operatorname{ResItems}(M,\ N)\rangle \ \to \ \langle \operatorname{ResDone}(M')\rangle
 \end{array}
 $$
 

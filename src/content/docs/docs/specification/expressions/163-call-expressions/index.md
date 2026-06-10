@@ -2,16 +2,16 @@
 title: "16.3 Call Expressions"
 description: "16.3 Call Expressions from 16. Expressions of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "expressions"
 specSection: "163-call-expressions"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -84,7 +84,7 @@ $$
 $$
 
 $$
-\mathsf{Expr}\ =\ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \mid \ \operatorname{CallTypeArgs}(\mathsf{callee},\ \mathsf{type}_{\mathsf{args}},\ \mathsf{args})\ \mid \ \operatorname{MethodCall}(\mathsf{base},\ \mathsf{name},\ \mathsf{args})\ \mid \ \operatorname{QualifiedApply}(\mathsf{path},\ \mathsf{name},\ \operatorname{Paren}(\mathsf{args}))\ \mid \ \ldots 
+\mathsf{Expr}\ =\ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \mid \ \operatorname{CallTypeArgs}(\mathsf{callee},\ \mathsf{type}_{\mathsf{args}},\ \mathsf{args})\ \mid \ \operatorname{MethodCall}(\mathsf{base},\ \mathsf{name},\ \mathsf{args})\ \mid \ \operatorname{QualifiedApply}(\mathsf{path},\ \mathsf{name},\ \operatorname{Paren}(\mathsf{args}))\ \mid \ \ldots
 $$
 
 $$
@@ -130,8 +130,8 @@ $$
 \quad \operatorname{CopyArgExpr}(e)\quad \mathsf{if}\ \mathsf{pass}\ =\ \texttt{copy} \\[0.16em]
 \quad \operatorname{MoveArgExpr}(\operatorname{CallTemp}(e))\ \mathsf{if}\ \mathsf{mode}\ =\ \texttt{move}\ \land \ \mathsf{pass}\ =\ \texttt{ref}\ \land \ \lnot \ \operatorname{HasSourceProvenance}(e) \\[0.16em]
 \quad e\quad \mathsf{otherwise}\ \} \\[0.16em]
-\operatorname{RefArgOk}(\mathsf{pass},\ e,\ T_{p})\ \Leftrightarrow  \\[0.16em]
-\ (\mathsf{pass}\ =\ \texttt{ref}\ \land \ \Gamma ;\ R;\ L\ \vdash \ \operatorname{RefArgExpr}(e)\ \Leftarrow_{\mathsf{place}} \ T_{p}\ \land \ \operatorname{AddrOfOk}(\operatorname{RefArgExpr}(e)))\ \lor  \\[0.16em]
+\operatorname{RefArgOk}(\mathsf{pass},\ e,\ T_{p})\ \Leftrightarrow \\[0.16em]
+\ (\mathsf{pass}\ =\ \texttt{ref}\ \land \ \Gamma ;\ R;\ L\ \vdash \ \operatorname{RefArgExpr}(e)\ \Leftarrow_{\mathsf{place}} \ T_{p}\ \land \ \operatorname{AddrOfOk}(\operatorname{RefArgExpr}(e)))\ \lor \\[0.16em]
 \ (\mathsf{pass}\ =\ \texttt{copy}\ \land \ \Gamma ;\ R;\ L\ \vdash \ \operatorname{CopyArgExpr}(e)\ \Leftarrow \ T_{p}\ \dashv \ \emptyset ) \\[0.16em]
 \operatorname{ArgType}(p,\ a)\ = \\[0.16em]
 \ \{\ \operatorname{ExprType}(\operatorname{ConsumeArgExpr}(\operatorname{ParamMode}(p),\ \operatorname{ArgPass}(a),\ \operatorname{ArgExpr}(a)))\quad \mathsf{if}\ \operatorname{ParamMode}(p)\ =\ \texttt{move} \\[0.16em]
@@ -265,7 +265,7 @@ $$
 \begin{array}{l}
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{GenericCallInference}(\mathsf{callee},\ \mathsf{args},\ T_{\mathsf{exp}})\ \Downarrow \ [A_{1},\ \ldots ,\ A_{n}]\quad \Gamma ;\ R;\ L\ \vdash \ \operatorname{CallTypeArgs}(\mathsf{callee},\ [A_{1},\ \ldots ,\ A_{n}],\ \mathsf{args})\ :\ R_{c}\quad \Gamma \ \vdash \ R_{c}\ \mathrel{<:} \ T_{\mathsf{exp}} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Leftarrow \ T_{\mathsf{exp}}\ \dashv \ \emptyset 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{Call}(\mathsf{callee},\ \mathsf{args})\ \Leftarrow \ T_{\mathsf{exp}}\ \dashv \ \emptyset
 \end{array}
 $$
 
@@ -370,7 +370,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerArgs}([],\ [])\ \Downarrow \ \langle \varepsilon ,\ []\rangle 
+\Gamma \ \vdash \ \operatorname{LowerArgs}([],\ [])\ \Downarrow \ \langle \varepsilon ,\ []\rangle
 \end{array}
 $$
 
@@ -378,9 +378,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerMoveArg}(\mathsf{pass},\ e,\ T_{p})\ \Downarrow \ \langle \mathsf{IR}_{e},\ \mathsf{owned}_{\mathsf{ref}}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerArgs}(\mathsf{ps},\ \mathsf{as})\ \Downarrow \ \langle \mathsf{IR}_{a},\ \mathsf{vec}_{v}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerMoveArg}(\mathsf{pass},\ e,\ T_{p})\ \Downarrow \ \langle \mathsf{IR}_{e},\ \mathsf{owned}_{\mathsf{ref}}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerArgs}(\mathsf{ps},\ \mathsf{as})\ \Downarrow \ \langle \mathsf{IR}_{a},\ \mathsf{vec}_{v}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerArgs}([\langle \texttt{move},\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{pass},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{a}),\ [\mathsf{owned}_{\mathsf{ref}}]\ \mathbin{++} \ \mathsf{vec}_{v}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerArgs}([\langle \texttt{move},\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{pass},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{a}),\ [\mathsf{owned}_{\mathsf{ref}}]\ \mathbin{++} \ \mathsf{vec}_{v}\rangle
 \end{array}
 $$
 
@@ -388,9 +388,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerRefArg}(\mathsf{pass},\ e,\ T_{p})\ \Downarrow \ \langle \mathsf{IR}_{e},\ \mathsf{addr}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerArgs}(\mathsf{ps},\ \mathsf{as})\ \Downarrow \ \langle \mathsf{IR}_{a},\ \mathsf{vec}_{v}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerRefArg}(\mathsf{pass},\ e,\ T_{p})\ \Downarrow \ \langle \mathsf{IR}_{e},\ \mathsf{addr}\rangle \quad \Gamma \ \vdash \ \operatorname{LowerArgs}(\mathsf{ps},\ \mathsf{as})\ \Downarrow \ \langle \mathsf{IR}_{a},\ \mathsf{vec}_{v}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerArgs}([\langle \bot ,\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{pass},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{a}),\ [\mathsf{Ptr}@\operatorname{Valid}(\mathsf{addr})]\ \mathbin{++} \ \mathsf{vec}_{v}\rangle 
+\Gamma \ \vdash \ \operatorname{LowerArgs}([\langle \bot ,\ x,\ T_{p}\rangle ]\ \mathbin{++} \ \mathsf{ps},\ [\langle \mathsf{pass},\ e,\ \_\rangle ]\ \mathbin{++} \ \mathsf{as})\ \Downarrow \ \langle \operatorname{SeqIR}(\mathsf{IR}_{e},\ \mathsf{IR}_{a}),\ [\mathsf{Ptr}@\operatorname{Valid}(\mathsf{addr})]\ \mathbin{++} \ \mathsf{vec}_{v}\rangle
 \end{array}
 $$
 
@@ -398,9 +398,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ExprType}(\mathsf{callee})\ =\ \operatorname{TypeClosure}(\_,\ \_,\ \_)\quad \Gamma \ \vdash \ \operatorname{LowerClosureCall}(\mathsf{callee},\ \mathsf{args})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle  \\[0.16em]
+\operatorname{ExprType}(\mathsf{callee})\ =\ \operatorname{TypeClosure}(\_,\ \_,\ \_)\quad \Gamma \ \vdash \ \operatorname{LowerClosureCall}(\mathsf{callee},\ \mathsf{args})\ \Downarrow \ \langle \mathsf{IR},\ v\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Call}(\mathsf{callee},\ \mathsf{args}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle 
+\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{Call}(\mathsf{callee},\ \mathsf{args}))\ \Downarrow \ \langle \mathsf{IR},\ v\rangle
 \end{array}
 $$
 

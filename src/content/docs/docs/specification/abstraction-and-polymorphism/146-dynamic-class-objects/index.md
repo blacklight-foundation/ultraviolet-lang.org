@@ -2,16 +2,16 @@
 title: "14.6 Dynamic Class Objects"
 description: "14.6 Dynamic Class Objects from 14. Abstraction and Polymorphism of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "abstraction-and-polymorphism"
 specSection: "146-dynamic-class-objects"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -47,7 +47,7 @@ No feature-specific parse form exists beyond ordinary cast parsing for `expr as 
 ### 14.6.3 AST Representation / Form
 
 $$
-\mathsf{Type}\ =\ \operatorname{TypeDynamic}(\mathsf{path})\ \mid \ \ldots 
+\mathsf{Type}\ =\ \operatorname{TypeDynamic}(\mathsf{path})\ \mid \ \ldots
 $$
 
 $$
@@ -81,7 +81,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{HasReceiver}(m)\ \Leftrightarrow \ m.\mathsf{receiver}\ \ne \ \bot  \\[0.16em]
+\operatorname{HasReceiver}(m)\ \Leftrightarrow \ m.\mathsf{receiver}\ \ne \ \bot \\[0.16em]
 \operatorname{HasGenericParams}(m)\ \Leftrightarrow \ \operatorname{TypeParamsOpt}(m.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\ \ne \ [] \\[0.16em]
 \operatorname{vtable_eligible}(m)\ \Leftrightarrow \ \operatorname{HasReceiver}(m)\ \land \ \lnot \ \operatorname{HasGenericParams}(m)\ \land \ \lnot \ \operatorname{SelfOccurs}(m) \\[0.16em]
 \operatorname{dispatchable}(\mathsf{Cl})\ \Leftrightarrow \ \forall \ m\ \in \ \operatorname{EffMethods}(\mathsf{Cl}).\ \operatorname{vtable_eligible}(m)
@@ -106,19 +106,11 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeDynamic}(p)\quad p\ \notin \ \operatorname{dom}(\Sigma .\mathsf{Classes}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ \mathsf{wf}\ \Uparrow 
+\Gamma \ \vdash \ T\ \mathsf{wf}\ \Uparrow
 \end{array}
 $$
 
-**(T-Equiv-Dynamic)**
-
-$$
-\begin{array}{l}
-T\ =\ \operatorname{TypeDynamic}(p)\quad U\ =\ \operatorname{TypeDynamic}(p) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ \equiv \ U
-\end{array}
-$$
+Rule **(T-Equiv-Dynamic)** is defined once by §8.1.
 
 **(T-Dynamic-Form)**
 
@@ -136,7 +128,7 @@ $$
 \begin{array}{l}
 \Gamma ;\ R;\ L\ \vdash \ e\ :\mathsf{place}\ T\quad \operatorname{IsPlace}(e)\quad \Gamma \ \vdash \ \mathsf{Cl}\ :\ \mathsf{ClassPath}\quad \Gamma \ \vdash \ \operatorname{StripPerm}(T)\ \mathrel{<:} \ \mathsf{Cl}\quad \lnot \ \operatorname{dispatchable}(\mathsf{Cl}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ e\ \texttt{as}\ \operatorname{TypeDynamic}(\mathsf{Cl})\ \Uparrow 
+\Gamma ;\ R;\ L\ \vdash \ e\ \texttt{as}\ \operatorname{TypeDynamic}(\mathsf{Cl})\ \Uparrow
 \end{array}
 $$
 
@@ -164,7 +156,7 @@ $$
 \begin{array}{l}
 \Gamma ;\ R;\ L\ \vdash \ \mathsf{base}\ :\ \operatorname{TypeDynamic}(\mathsf{Cl})\quad \operatorname{LookupClassMethod}(\mathsf{Cl},\ \mathsf{name})\ \mathsf{undefined} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma ;\ R;\ L\ \vdash \ \operatorname{MethodCall}(\mathsf{base},\ \mathsf{name},\ \mathsf{args})\ \Uparrow 
+\Gamma ;\ R;\ L\ \vdash \ \operatorname{MethodCall}(\mathsf{base},\ \mathsf{name},\ \mathsf{args})\ \Uparrow
 \end{array}
 $$
 
@@ -199,8 +191,8 @@ $$
 $$
 \begin{array}{l}
 \operatorname{Dispatch}(T,\ \mathsf{Cl},\ \mathsf{name})\ =\ m'\ \Leftrightarrow \ m\ =\ \operatorname{LookupClassMethod}(\mathsf{Cl},\ \mathsf{name})\ \land \ \operatorname{MethodByName}(T,\ \mathsf{name})\ =\ m'\ \land \ \operatorname{SigMatch}(T,\ m',\ m) \\[0.16em]
-\operatorname{Dispatch}(T,\ \mathsf{Cl},\ \mathsf{name})\ =\ m\ \Leftrightarrow \ m\ =\ \operatorname{LookupClassMethod}(\mathsf{Cl},\ \mathsf{name})\ \land \ (\operatorname{MethodByName}(T,\ \mathsf{name})\ =\ \bot \ \lor \ (\exists \ m'.\ \operatorname{MethodByName}(T,\ \mathsf{name})\ =\ m'\ \land \ \lnot \ \operatorname{SigMatch}(T,\ m',\ m)))\ \land \ m.\mathsf{body}\ \ne \ \bot  \\[0.16em]
-\operatorname{Dispatch}(T,\ \mathsf{Cl},\ \mathsf{name})\ =\ \bot \ \Leftrightarrow \ m\ =\ \operatorname{LookupClassMethod}(\mathsf{Cl},\ \mathsf{name})\ \land \ (\operatorname{MethodByName}(T,\ \mathsf{name})\ =\ \bot \ \lor \ (\exists \ m'.\ \operatorname{MethodByName}(T,\ \mathsf{name})\ =\ m'\ \land \ \lnot \ \operatorname{SigMatch}(T,\ m',\ m)))\ \land \ m.\mathsf{body}\ =\ \bot 
+\operatorname{Dispatch}(T,\ \mathsf{Cl},\ \mathsf{name})\ =\ m\ \Leftrightarrow \ m\ =\ \operatorname{LookupClassMethod}(\mathsf{Cl},\ \mathsf{name})\ \land \ (\operatorname{MethodByName}(T,\ \mathsf{name})\ =\ \bot \ \lor \ (\exists \ m'.\ \operatorname{MethodByName}(T,\ \mathsf{name})\ =\ m'\ \land \ \lnot \ \operatorname{SigMatch}(T,\ m',\ m)))\ \land \ m.\mathsf{body}\ \ne \ \bot \\[0.16em]
+\operatorname{Dispatch}(T,\ \mathsf{Cl},\ \mathsf{name})\ =\ \bot \ \Leftrightarrow \ m\ =\ \operatorname{LookupClassMethod}(\mathsf{Cl},\ \mathsf{name})\ \land \ (\operatorname{MethodByName}(T,\ \mathsf{name})\ =\ \bot \ \lor \ (\exists \ m'.\ \operatorname{MethodByName}(T,\ \mathsf{name})\ =\ m'\ \land \ \lnot \ \operatorname{SigMatch}(T,\ m',\ m)))\ \land \ m.\mathsf{body}\ =\ \bot
 \end{array}
 $$
 
@@ -215,7 +207,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{DynLayout}(\mathsf{Cl})\ \Downarrow \ \langle 2\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign},\ \operatorname{DynFields}(\mathsf{Cl})\rangle 
+\Gamma \ \vdash \ \operatorname{DynLayout}(\mathsf{Cl})\ \Downarrow \ \langle 2\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign},\ \operatorname{DynFields}(\mathsf{Cl})\rangle
 \end{array}
 $$
 
@@ -239,15 +231,7 @@ T\ =\ \operatorname{TypeDynamic}(\mathsf{Cl}) \\[0.16em]
 \end{array}
 $$
 
-**(ABI-Dynamic)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{DynLayout}(\mathsf{Cl})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_\rangle  \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ABITy}(\operatorname{TypeDynamic}(\mathsf{Cl}))\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle 
-\end{array}
-$$
+Rule **(ABI-Dynamic)** is defined once by §24.2.4.
 
 $$
 \operatorname{ValueBits}(\operatorname{TypeDynamic}(\mathsf{Cl}),\ v)\ =\ \mathsf{bits}\ \Leftrightarrow \ v\ =\ \operatorname{Dyn}(\mathsf{Cl},\ \operatorname{RawPtr}(\texttt{imm},\ \mathsf{addr}),\ T)\ \land \ \mathsf{sym}\ =\ \operatorname{ScopedSym}(\operatorname{VTableDecl}(T,\ \mathsf{Cl}))\ \land \ \mathsf{addr}_{\mathsf{vt}}\ =\ \operatorname{AddrOfSym}(\mathsf{sym})\ \land \ \operatorname{RecordLayout}(\operatorname{DynFields}(\mathsf{Cl}))\ \Downarrow \ \langle \mathsf{size},\ \_,\ \mathsf{offsets}\rangle \ \land \ \operatorname{StructBits}([\operatorname{TypeRawPtr}(\texttt{imm},\ \operatorname{TypePrim}(\texttt{"()"})),\ \operatorname{TypeRawPtr}(\texttt{imm},\ \operatorname{TypePath}([\texttt{"VTable"}]))],\ [\operatorname{RawPtr}(\texttt{imm},\ \mathsf{addr}),\ \operatorname{RawPtr}(\texttt{imm},\ \mathsf{addr}_{\mathsf{vt}})],\ \mathsf{offsets},\ \mathsf{size})\ =\ \mathsf{bits}
@@ -316,7 +300,7 @@ $$
 \begin{array}{l}
 \operatorname{IsPlace}(e)\quad \Gamma \ \vdash \ \operatorname{LowerAddrOf}(e)\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{addr}\rangle \quad T_{e}\ =\ \operatorname{ExprType}(e)\quad T\ =\ \operatorname{StripPerm}(T_{e})\quad \Gamma \ \vdash \ T\ \mathrel{<:} \ \mathsf{Cl} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{DynPack}(T,\ e)\ \Downarrow \ \langle \operatorname{RawPtr}(\texttt{imm},\ \mathsf{addr}),\ \operatorname{VTable}(T,\ \mathsf{Cl})\rangle 
+\Gamma \ \vdash \ \operatorname{DynPack}(T,\ e)\ \Downarrow \ \langle \operatorname{RawPtr}(\texttt{imm},\ \mathsf{addr}),\ \operatorname{VTable}(T,\ \mathsf{Cl})\rangle
 \end{array}
 $$
 

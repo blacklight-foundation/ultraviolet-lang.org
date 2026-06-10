@@ -2,16 +2,16 @@
 title: "9.4 Optimization Attributes"
 description: "9.4 Optimization Attributes from 9. Attributes and Metadata of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "attributes-and-metadata"
 specSection: "94-optimization-attributes"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,10 +24,10 @@ generated: true
 ### 9.4.1 Syntax
 
 ```text
-inline_attribute ::= attr_open "inline" ("(" inline_mode ")")? attr_close
+inline_attribute ::= "#" "inline" ("(" inline_mode ")")?
 inline_mode      ::= "always" | "never" | "default"
 
-cold_attribute   ::= attr_open "cold" attr_close
+cold_attribute   ::= "#" "cold"
 ```
 
 ### 9.4.2 Parsing
@@ -42,7 +42,7 @@ Optimization attributes are ordinary `AttributeSpec` entries attached to `Proced
 
 **`#inline`.** The implementation SHOULD inline the procedure at call sites when feasible.
 
-**`#inline(always)`.** The implementation SHOULD inline the procedure at all call sites. If inlining is not possible, such as for reultraviolet procedures or procedures whose address is taken, the implementation SHOULD emit a warning.
+**`#inline(always)`.** The implementation SHOULD inline the procedure at all call sites. If inlining is not possible, such as for recursive procedures or procedures whose address is taken, the implementation SHOULD emit a warning.
 
 **`#inline(default)`.** Equivalent to omitting the attribute.
 

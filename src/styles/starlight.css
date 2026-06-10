@@ -74,11 +74,13 @@
 html {
   background: var(--uv-bg);
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
   max-width: 100%;
   overflow-x: hidden;
+  overflow-x: clip;
   background: var(--uv-bg);
   color: var(--uv-text);
 }
@@ -693,6 +695,7 @@ starlight-theme-select {
     width: 100%;
     max-width: 100%;
     overflow-x: hidden;
+    overflow-x: clip;
   }
 
   .page,
@@ -703,6 +706,7 @@ starlight-theme-select {
     max-width: 100vw !important;
     min-width: 0;
     overflow-x: hidden;
+    overflow-x: clip;
   }
 
   .sl-container {
@@ -848,7 +852,7 @@ body {
   left: 0;
   height: 9px;
   background:
-    linear-gradient(90deg, rgba(157, 123, 255, 0.7), transparent 18%) bottom left / 18% 2px no-repeat,
+    linear-gradient(90deg, rgba(157, 123, 255, 0.7), transparent 18%) var(--uv-scroll-band-position, 0%) bottom / 18% 2px no-repeat,
     repeating-linear-gradient(90deg, rgba(226, 230, 242, 0.13) 0 1px, transparent 1px calc(100% / 6)) bottom left / 100% 8px no-repeat,
     repeating-linear-gradient(90deg, rgba(226, 230, 242, 0.05) 0 1px, transparent 1px calc(100% / 60)) bottom left / 100% 4px no-repeat;
   pointer-events: none;

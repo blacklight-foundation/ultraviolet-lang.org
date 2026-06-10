@@ -4,7 +4,7 @@ import InstallTabs from '../components/InstallTabs.astro';
 import ReleaseStatusStrip from '../components/ReleaseStatusStrip.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { fundingGoals } from '../data/funding';
-import { heroExample, languageFeatures } from '../data/homeContent';
+import { languageFeatures } from '../data/homeContent';
 
 const featureGroupOrder = [
   {
@@ -65,19 +65,6 @@ const orderedFeatures = featureGroups.flatMap((group) => group.items);
         <a href="/docs/build-the-compiler/">build from source</a>.
       </p>
     </div>
-  </section>
-
-  <section class="dd-artifact" aria-labelledby="hero-artifact-heading">
-    <div class="dd-panel">
-      <div class="dd-panel-head">
-        <span>profile.uv</span>
-        <span class="tag" id="hero-artifact-heading">Async operations</span>
-      </div>
-      <AnnotatedCode lines={heroExample.exampleLines} codeClass="dd-artifact-code" />
-    </div>
-    <p class="dd-artifact-caption">
-      {heroExample.body} Hover any <u>underlined construct</u> to see what it means.
-    </p>
   </section>
 
   <div class="dd-status-spacer">

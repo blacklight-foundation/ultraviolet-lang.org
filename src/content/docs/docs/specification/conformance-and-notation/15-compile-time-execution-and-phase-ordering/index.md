@@ -2,16 +2,16 @@
 title: "1.5 Compile-Time Execution and Phase Ordering"
 description: "1.5 Compile-Time Execution and Phase Ordering from 1. Conformance and Notation of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "conformance-and-notation"
 specSection: "15-compile-time-execution-and-phase-ordering"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -36,7 +36,7 @@ $$
 $$
 
 1. Phase 1 MUST parse and aggregate all modules before Phase 2 begins.
-2. Phase 2 MUST execute all compile-time forms over the Phase 1 module set in deterministic dependency order.
+2. Phase 2 MUST execute all compile-time forms over the Phase 1 module set in the deterministic module order defined by §22.1.5.
 3. Any declaration emitted during Phase 2 MUST be incorporated into the module set before Phase 3 begins.
 4. Phase 3 MUST resolve names and discharge static semantics against the Phase 2-expanded module set.
 5. Phase 4 MUST lower and emit only the program accepted by Phase 3.

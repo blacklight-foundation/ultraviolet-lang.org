@@ -2,16 +2,16 @@
 title: "13.1 Modal Declarations"
 description: "13.1 Modal Declarations from 13. Modal and Special Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "modal-and-special-types"
 specSection: "131-modal-declarations"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -24,7 +24,7 @@ generated: true
 ### 13.1.1 Syntax
 
 ```text
-modal_decl        ::= attribute_list? visibility? "modal" identifier generic_params? implements_clause? predicate_clause? modal_body invariant_clause?
+modal_decl        ::= attribute_list? visibility? "modal" identifier generic_params? implements_clause? predicate_clause? modal_body type_invariant?
 modal_body        ::= "{" state_block* "}"
 state_block       ::= "@" identifier "{" state_member* "}"
 state_member      ::= state_field_decl | state_method_def | transition_def
@@ -81,15 +81,7 @@ $$
 \end{array}
 $$
 
-**(Parse-Record-Literal-ModalState)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{ParseModalTypeRef}(P)\ \Downarrow \ (P_{1},\ \mathsf{modal}_{\mathsf{ref}})\quad \operatorname{IsOp}(\operatorname{Tok}(P_{1}),\ \texttt{"@"})\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(\operatorname{Advance}(P_{1}))\ \Downarrow \ (P_{2},\ \mathsf{state})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{"\{"})\quad \Gamma \ \vdash \ \operatorname{ParseFieldInitList}(\operatorname{Advance}(P_{2}))\ \Downarrow \ (P_{3},\ \mathsf{fields})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{3}),\ \texttt{"\}"}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(P_{3}),\ \operatorname{RecordExpr}(\operatorname{ModalStateRef}(\mathsf{modal}_{\mathsf{ref}},\ \mathsf{state}),\ \mathsf{fields}))
-\end{array}
-$$
+Rule **(Parse-Record-Literal-ModalState)** is defined once by §16.6.2.
 
 `ParseStateMember` dispatches to the owning feature parsers in §§13.2.2, 13.3.2, and 13.4.2.
 
@@ -97,13 +89,13 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{ModalDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{implements},\ \mathsf{states},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}\rangle  \\[0.16em]
+\mathsf{ModalDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{predicate}_{\mathsf{clause}\_\mathsf{opt}},\ \mathsf{implements},\ \mathsf{states},\ \mathsf{invariant}_{\mathsf{opt}},\ \mathsf{span},\ \mathsf{doc}\rangle \\[0.16em]
 \mathsf{ModalDecl}.\mathsf{implements}\ \in \ [\mathsf{ClassPath}]
 \end{array}
 $$
 
 $$
-\mathsf{StateBlock}\ =\ \langle \mathsf{name},\ \mathsf{members},\ \mathsf{span},\ \mathsf{doc}\rangle 
+\mathsf{StateBlock}\ =\ \langle \mathsf{name},\ \mathsf{members},\ \mathsf{span},\ \mathsf{doc}\rangle
 $$
 
 $$
@@ -111,7 +103,7 @@ $$
 \mathsf{StateMember}\ \in \ \{ \\[0.16em]
 \ \mathsf{StateFieldDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{boundary},\ \mathsf{name},\ \mathsf{type},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle , \\[0.16em]
 \ \mathsf{StateMethodDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{gen}_{\mathsf{params}\_\mathsf{opt}},\ \mathsf{receiver},\ \mathsf{params},\ \mathsf{return}_{\mathsf{type}\_\mathsf{opt}},\ \mathsf{contract}_{\mathsf{opt}},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle , \\[0.16em]
-\ \mathsf{TransitionDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{params},\ \mathsf{target}_{\mathsf{state}},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle  \\[0.16em]
+\ \mathsf{TransitionDecl}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{vis},\ \mathsf{name},\ \mathsf{params},\ \mathsf{target}_{\mathsf{state}},\ \mathsf{body},\ \mathsf{span},\ \mathsf{doc}_{\mathsf{opt}}\rangle \\[0.16em]
 \}
 \end{array}
 $$
@@ -236,7 +228,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)\quad \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(M.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \operatorname{DefaultArgs}(\mathsf{params}_{\mathsf{gen}},\ \operatorname{ModalRefArgs}(\mathsf{modal}_{\mathsf{ref}}))\ =\ \bot \quad c\ =\ \operatorname{Code}(E-\mathsf{TYP}-2303) \\[0.16em]
+T\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)\quad \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad \mathsf{params}_{\mathsf{gen}}\ =\ \operatorname{TypeParamsOpt}(M.\mathsf{gen}_{\mathsf{params}\_\mathsf{opt}})\quad \operatorname{DefaultArgs}(\mathsf{params}_{\mathsf{gen}},\ \operatorname{ModalRefArgs}(\mathsf{modal}_{\mathsf{ref}}))\ =\ \bot \quad c\ =\ \operatorname{Code}(\mathsf{WF}-\mathsf{ModalState}-\mathsf{ArgCount}-\mathsf{Err}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ T\ \mathsf{wf}\ \Uparrow \ c
 \end{array}
@@ -327,7 +319,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad S\ \in \ \operatorname{States}(M)\quad \operatorname{ModalRefPath}(\mathsf{modal}_{\mathsf{ref}})\ \notin \ \{[\texttt{"File"}],\ [\texttt{"DirIter"}],\ [\texttt{"CancelToken"}],\ [\texttt{"Spawned"}],\ [\texttt{"Tracked"}],\ [\texttt{"Async"}]\}\quad \operatorname{ModalPayloadNameSet}(\mathsf{modal}_{\mathsf{ref}},\ S)\ =\ \operatorname{FieldInitSet}(\mathsf{fields})\quad \operatorname{Distinct}(\operatorname{FieldInitNames}(\mathsf{fields}))\quad \forall \ \langle f,\ e\rangle \ \in \ \mathsf{fields},\ \operatorname{ModalPayloadMap}(\mathsf{modal}_{\mathsf{ref}},\ S)(f)\ =\ T_{f}\ \land \ \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ T_{f}\ \dashv \ \emptyset  \\[0.16em]
+\operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad S\ \in \ \operatorname{States}(M)\quad \operatorname{ModalRefPath}(\mathsf{modal}_{\mathsf{ref}})\ \notin \ \{[\texttt{"File"}],\ [\texttt{"DirIter"}],\ [\texttt{"CancelToken"}],\ [\texttt{"Spawned"}],\ [\texttt{"Tracked"}],\ [\texttt{"Async"}]\}\quad \operatorname{ModalPayloadNameSet}(\mathsf{modal}_{\mathsf{ref}},\ S)\ =\ \operatorname{FieldInitSet}(\mathsf{fields})\quad \operatorname{Distinct}(\operatorname{FieldInitNames}(\mathsf{fields}))\quad \forall \ \langle f,\ e\rangle \ \in \ \mathsf{fields},\ \operatorname{ModalPayloadMap}(\mathsf{modal}_{\mathsf{ref}},\ S)(f)\ =\ T_{f}\ \land \ \Gamma ;\ R;\ L\ \vdash \ e\ \Leftarrow \ T_{f}\ \dashv \ \emptyset \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma ;\ R;\ L\ \vdash \ \operatorname{RecordExpr}(\operatorname{ModalStateRef}(\mathsf{modal}_{\mathsf{ref}},\ S),\ \mathsf{fields})\ :\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)
 \end{array}
@@ -361,20 +353,20 @@ $$
 $$
 \begin{array}{l}
 \mathsf{RegionProcs}\ =\ \{\texttt{Region::new\_scoped},\ \texttt{Region::alloc},\ \texttt{Region::reset\_unchecked},\ \texttt{Region::freeze},\ \texttt{Region::thaw},\ \texttt{Region::free\_unchecked}\} \\[0.16em]
-\operatorname{RegionProcSig}(\texttt{Region::new\_scoped})\ =\ \langle [\langle \bot ,\ \texttt{options},\ \operatorname{TypePath}([\texttt{"RegionOptions"}])\rangle ],\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle  \\[0.16em]
+\operatorname{RegionProcSig}(\texttt{Region::new\_scoped})\ =\ \langle [\langle \bot ,\ \texttt{options},\ \operatorname{TypePath}([\texttt{"RegionOptions"}])\rangle ],\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle \\[0.16em]
 \operatorname{RegionProcSig}(\texttt{Region::alloc})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle ,\ \langle \bot ,\ \texttt{value},\ T\rangle ],\ T\_\{\pi_{\mathsf{Region}} (\texttt{self})\}\rangle \quad (T\ \in \ \mathsf{Type}) \\[0.16em]
-\operatorname{RegionProcSig}(\texttt{Region::reset\_unchecked})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle ],\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle  \\[0.16em]
-\operatorname{RegionProcSig}(\texttt{Region::freeze})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle ],\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Frozen}))\rangle  \\[0.16em]
-\operatorname{RegionProcSig}(\texttt{Region::thaw})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Frozen}))\rangle ],\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle  \\[0.16em]
-\operatorname{RegionProcSig}(\texttt{Region::free\_unchecked})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeUnion}([\operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}),\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Frozen})]))\rangle ],\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Freed}))\rangle 
+\operatorname{RegionProcSig}(\texttt{Region::reset\_unchecked})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle ],\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle \\[0.16em]
+\operatorname{RegionProcSig}(\texttt{Region::freeze})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle ],\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Frozen}))\rangle \\[0.16em]
+\operatorname{RegionProcSig}(\texttt{Region::thaw})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Frozen}))\rangle ],\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}))\rangle \\[0.16em]
+\operatorname{RegionProcSig}(\texttt{Region::free\_unchecked})\ =\ \langle [\langle \bot ,\ \texttt{self},\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeUnion}([\operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Active}),\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Frozen})]))\rangle ],\ \operatorname{TypePerm}(\texttt{unique},\ \operatorname{TypeModalState}([\texttt{"Region"}],\ \texttt{@Freed}))\rangle
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{ProvType}(T,\ \pi )\ =\ T\_\pi  \\[0.16em]
+\operatorname{ProvType}(T,\ \pi )\ =\ T\_\pi \\[0.16em]
 \operatorname{BaseType}(T\_\pi )\ =\ T \\[0.16em]
-\operatorname{ProvOf}(T\_\pi )\ =\ \pi 
+\operatorname{ProvOf}(T\_\pi )\ =\ \pi
 \end{array}
 $$
 
@@ -434,7 +426,7 @@ $$
 $$
 \begin{array}{l}
 \mathsf{CancelTokenProcs}\ =\ \{\texttt{CancelToken::new}\} \\[0.16em]
-\operatorname{CancelTokenProcSig}(\texttt{CancelToken::new})\ =\ \langle [],\ \operatorname{TypeModalState}([\texttt{"CancelToken"}],\ \texttt{@Active})\rangle 
+\operatorname{CancelTokenProcSig}(\texttt{CancelToken::new})\ =\ \langle [],\ \operatorname{TypeModalState}([\texttt{"CancelToken"}],\ \texttt{@Active})\rangle
 \end{array}
 $$
 
@@ -624,7 +616,7 @@ The built-in modal `Async` is defined in Chapter 21. Its declaration, state set,
 ### 13.1.5 Dynamic Semantics
 
 $$
-\operatorname{ModalVal}(S,\ v)\ =\ \langle S,\ v\rangle 
+\operatorname{ModalVal}(S,\ v)\ =\ \langle S,\ v\rangle
 $$
 
 $$
@@ -641,8 +633,8 @@ At runtime, an unreified state value is represented as `RecordValue(ModalStateRe
 $$
 \begin{array}{l}
 \operatorname{ModalDiscType}(\mathsf{modal}_{\mathsf{ref}})\ =\ \operatorname{DiscType}(\mid \operatorname{States}(M)\mid \ -\ 1)\ \mathsf{where}\ \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M \\[0.16em]
-\operatorname{StateSize}(\mathsf{modal}_{\mathsf{ref}},\ S)\ =\ s\ \Leftrightarrow \ \operatorname{RecordLayout}(\operatorname{ModalPayload}(\mathsf{modal}_{\mathsf{ref}},\ S))\ \Downarrow \ \langle s,\ a,\ \_\rangle  \\[0.16em]
-\operatorname{StateAlign}(\mathsf{modal}_{\mathsf{ref}},\ S)\ =\ a\ \Leftrightarrow \ \operatorname{RecordLayout}(\operatorname{ModalPayload}(\mathsf{modal}_{\mathsf{ref}},\ S))\ \Downarrow \ \langle s,\ a,\ \_\rangle  \\[0.16em]
+\operatorname{StateSize}(\mathsf{modal}_{\mathsf{ref}},\ S)\ =\ s\ \Leftrightarrow \ \operatorname{RecordLayout}(\operatorname{ModalPayload}(\mathsf{modal}_{\mathsf{ref}},\ S))\ \Downarrow \ \langle s,\ a,\ \_\rangle \\[0.16em]
+\operatorname{StateAlign}(\mathsf{modal}_{\mathsf{ref}},\ S)\ =\ a\ \Leftrightarrow \ \operatorname{RecordLayout}(\operatorname{ModalPayload}(\mathsf{modal}_{\mathsf{ref}},\ S))\ \Downarrow \ \langle s,\ a,\ \_\rangle \\[0.16em]
 \operatorname{SingleFieldPayload}(M,\ S)\ =\ T\ \Leftrightarrow \ \operatorname{Payload}(M,\ S)\ =\ [\langle f,\ T\rangle ] \\[0.16em]
 \operatorname{ModalSingleFieldPayload}(\mathsf{modal}_{\mathsf{ref}},\ S)\ =\ T'\ \Leftrightarrow \ \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\ \land \ \operatorname{SingleFieldPayload}(M,\ S)\ =\ T\ \land \ \theta \ =\ \operatorname{ModalRefSubst}(\mathsf{modal}_{\mathsf{ref}},\ M)\ \land \ T'\ =\ \operatorname{TypeSubst}(\theta ,\ T) \\[0.16em]
 \operatorname{EmptyState}(M,\ S)\ \Leftrightarrow \ \operatorname{Payload}(M,\ S)\ =\ [] \\[0.16em]
@@ -672,9 +664,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad \operatorname{NicheApplies}(\mathsf{modal}_{\mathsf{ref}})\quad \operatorname{PayloadState}(\mathsf{modal}_{\mathsf{ref}})\ =\ S_{p}\quad \operatorname{ModalSingleFieldPayload}(\mathsf{modal}_{\mathsf{ref}},\ S_{p})\ =\ T_{p}\quad \Gamma \ \vdash \ \operatorname{layout}(T_{p})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle  \\[0.16em]
+\operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad \operatorname{NicheApplies}(\mathsf{modal}_{\mathsf{ref}})\quad \operatorname{PayloadState}(\mathsf{modal}_{\mathsf{ref}})\ =\ S_{p}\quad \operatorname{ModalSingleFieldPayload}(\mathsf{modal}_{\mathsf{ref}},\ S_{p})\ =\ T_{p}\quad \Gamma \ \vdash \ \operatorname{layout}(T_{p})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ModalLayout}(\mathsf{modal}_{\mathsf{ref}})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \bot ,\ \operatorname{layout}(T_{p})\rangle 
+\Gamma \ \vdash \ \operatorname{ModalLayout}(\mathsf{modal}_{\mathsf{ref}})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \bot ,\ \operatorname{layout}(T_{p})\rangle
 \end{array}
 $$
 
@@ -684,7 +676,7 @@ $$
 \begin{array}{l}
 \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad \lnot \ \operatorname{NicheApplies}(\mathsf{modal}_{\mathsf{ref}})\quad \mathsf{size}\ =\ \operatorname{ModalSize}(\mathsf{modal}_{\mathsf{ref}})\quad \mathsf{align}\ =\ \operatorname{ModalAlign}(\mathsf{modal}_{\mathsf{ref}}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ModalLayout}(\mathsf{modal}_{\mathsf{ref}})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \operatorname{ModalDiscType}(\mathsf{modal}_{\mathsf{ref}}),\ \mathsf{max}\_\{S\ \in \ \operatorname{States}(M)\}(\operatorname{StateSize}(\mathsf{modal}_{\mathsf{ref}},\ S))\rangle 
+\Gamma \ \vdash \ \operatorname{ModalLayout}(\mathsf{modal}_{\mathsf{ref}})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \operatorname{ModalDiscType}(\mathsf{modal}_{\mathsf{ref}}),\ \mathsf{max}\_\{S\ \in \ \operatorname{States}(M)\}(\operatorname{StateSize}(\mathsf{modal}_{\mathsf{ref}},\ S))\rangle
 \end{array}
 $$
 
@@ -692,7 +684,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\quad \operatorname{ModalLayout}(\mathsf{modal}_{\mathsf{ref}})\ \Downarrow \ \langle \mathsf{size},\ \_,\ \_,\ \_\rangle  \\[0.16em]
+T\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\quad \operatorname{ModalLayout}(\mathsf{modal}_{\mathsf{ref}})\ \Downarrow \ \langle \mathsf{size},\ \_,\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{sizeof}(T)\ =\ \mathsf{size}
 \end{array}
@@ -702,7 +694,7 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\quad \operatorname{ModalLayout}(\mathsf{modal}_{\mathsf{ref}})\ \Downarrow \ \langle \_,\ \mathsf{align},\ \_,\ \_\rangle  \\[0.16em]
+T\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\quad \operatorname{ModalLayout}(\mathsf{modal}_{\mathsf{ref}})\ \Downarrow \ \langle \_,\ \mathsf{align},\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{alignof}(T)\ =\ \mathsf{align}
 \end{array}
@@ -712,9 +704,9 @@ $$
 
 $$
 \begin{array}{l}
-T\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\quad \operatorname{ModalLayout}(\mathsf{modal}_{\mathsf{ref}})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_,\ \_\rangle  \\[0.16em]
+T\ =\ \operatorname{ModalRefType}(\mathsf{modal}_{\mathsf{ref}})\quad \operatorname{ModalLayout}(\mathsf{modal}_{\mathsf{ref}})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle
 \end{array}
 $$
 
@@ -744,7 +736,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeModalState}(\mathsf{modal}_{\mathsf{ref}},\ S)\quad \operatorname{ModalDeclOf}(\mathsf{modal}_{\mathsf{ref}})\ =\ M\quad S\ \in \ \operatorname{States}(M)\quad \operatorname{StateSize}(\mathsf{modal}_{\mathsf{ref}},\ S)\ =\ \mathsf{size}\quad \operatorname{StateAlign}(\mathsf{modal}_{\mathsf{ref}},\ S)\ =\ \mathsf{align} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle
 \end{array}
 $$
 

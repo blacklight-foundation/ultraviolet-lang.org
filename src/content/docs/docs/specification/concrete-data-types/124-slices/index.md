@@ -2,16 +2,16 @@
 title: "12.4 Slices"
 description: "12.4 Slices from 12. Concrete Data Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "concrete-data-types"
 specSection: "124-slices"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -75,65 +75,7 @@ T\ =\ \operatorname{TypeSlice}(T_{0})\quad \Gamma \ \vdash \ T_{0}\ \mathsf{wf} 
 \end{array}
 $$
 
-**(T-Index-Slice)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeSlice}(T)\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \operatorname{BitcopyType}(T) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ T
-\end{array}
-$$
-
-**(T-Index-Slice-Perm)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))\quad \operatorname{IndexUsizeExpr}(e_{2})\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T)) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ T)
-\end{array}
-$$
-
-**(T-Slice-From-Array)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeArray}(T,\ n)\quad \operatorname{RangeIndexExpr}(e_{2})\quad \operatorname{BitcopyType}(\operatorname{TypeSlice}(T)) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypeSlice}(T)
-\end{array}
-$$
-
-**(T-Slice-From-Array-Perm)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ n))\quad \operatorname{RangeIndexExpr}(e_{2})\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))
-\end{array}
-$$
-
-**(T-Slice-From-Slice)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypeSlice}(T)\quad \operatorname{RangeIndexExpr}(e_{2})\quad \operatorname{BitcopyType}(\operatorname{TypeSlice}(T)) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypeSlice}(T)
-\end{array}
-$$
-
-**(T-Slice-From-Slice-Perm)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ e_{1}\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))\quad \operatorname{RangeIndexExpr}(e_{2})\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{IndexAccess}(e_{1},\ e_{2})\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))
-\end{array}
-$$
+Rules **(T-Index-Slice)**, **(T-Index-Slice-Perm)**, **(T-Slice-From-Array)**, **(T-Slice-From-Array-Perm)**, **(T-Slice-From-Slice)**, **(T-Slice-From-Slice-Perm)** are defined once by §16.2.4.
 
 **(P-Index-Slice)**
 
@@ -195,15 +137,7 @@ $$
 \end{array}
 $$
 
-**(Coerce-Array-Slice)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ e\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeArray}(T,\ n)) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ e\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeSlice}(T))
-\end{array}
-$$
+Rule **(Coerce-Array-Slice)** is defined once by §16.2.4.
 
 **(Index-NonIndexable)**
 
@@ -228,21 +162,13 @@ $$
 \end{array}
 $$
 
-**(EvalSigma-Index-Range)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{base},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{b}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{idx},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(v_{r}),\ \sigma_{2} )\quad \operatorname{SliceValue}(v_{b},\ v_{r})\ =\ v_{s} \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{IndexAccess}(\mathsf{base},\ \mathsf{idx}),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{s}),\ \sigma_{2} )
-\end{array}
-$$
+Rule **(EvalSigma-Index-Range)** is defined once by §16.2.5.
 
 **(EvalSigma-Index-Range-OOB)**
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{base},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{b}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{idx},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(v_{r}),\ \sigma_{2} )\quad \operatorname{SliceBounds}(v_{r},\ \operatorname{Len}(v_{b}))\ =\ \bot  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{base},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{b}),\ \sigma_{1} )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{idx},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(v_{r}),\ \sigma_{2} )\quad \operatorname{SliceBounds}(v_{r},\ \operatorname{Len}(v_{b}))\ =\ \bot \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{IndexAccess}(\mathsf{base},\ \mathsf{idx}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma_{2} )
 \end{array}
@@ -273,7 +199,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle 2\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle 2\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign}\rangle
 \end{array}
 $$
 

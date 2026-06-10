@@ -2,16 +2,16 @@
 title: "19.1 Key Paths"
 description: "19.1 Key Paths from 19. Key System of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "key-system"
 specSection: "191-key-paths"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -34,18 +34,87 @@ key_marker    ::= "#"
 
 ### 19.1.2 Parsing
 
-Key-path parsing is defined by the following source rules:
+**(Parse-KeyMarkerOpt-Yes)**
+IsOp(Tok(P), "#")
 
-- `Parse-KeyMarkerOpt-Yes`
-- `Parse-KeyMarkerOpt-No`
-- `Parse-KeyField`
-- `Parse-KeyIndex`
-- `Parse-KeySegs-End`
-- `Parse-KeySegs-Field`
-- `Parse-KeySegs-Index`
-- `Parse-KeyPathExpr`
+$$
+\begin{array}{l}
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyMarkerOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \mathsf{true})
+\end{array}
+$$
 
-`Parse-KeyPathExpr` parses an identifier root followed by zero or more field or index segments. `#` markers are parsed by `Parse-KeyMarkerOpt-*` and validated during key-path well-formedness.
+**(Parse-KeyMarkerOpt-No)**
+
+$$
+\begin{array}{l}
+\lnot \ \operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"\#"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyMarkerOpt}(P)\ \Downarrow \ (P,\ \mathsf{false})
+\end{array}
+$$
+
+**(Parse-KeyField)**
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseKeyMarkerOpt}(P)\ \Downarrow \ (P_{1},\ m)\quad \Gamma \ \vdash \ \operatorname{ParseIdent}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{name}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyField}(P)\ \Downarrow \ (P_{2},\ \operatorname{Field}(m,\ \mathsf{name}))
+\end{array}
+$$
+
+**(Parse-KeyIndex)**
+
+$$
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"["})\quad \Gamma \ \vdash \ \operatorname{ParseKeyMarkerOpt}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ m)\quad \Gamma \ \vdash \ \operatorname{ParseExpr}(P_{1})\ \Downarrow \ (P_{2},\ e)\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{2}),\ \texttt{"]"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyIndex}(P)\ \Downarrow \ (\operatorname{Advance}(P_{2}),\ \operatorname{Index}(m,\ e))
+\end{array}
+$$
+
+**(Parse-KeySegs-Field)**
+
+$$
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"."})\quad \Gamma \ \vdash \ \operatorname{ParseKeyField}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{seg})\quad \Gamma \ \vdash \ \operatorname{ParseKeySegs}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{segs}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeySegs}(P)\ \Downarrow \ (P_{2},\ [\mathsf{seg}]\ \mathbin{++} \ \mathsf{segs})
+\end{array}
+$$
+
+**(Parse-KeySegs-Index)**
+
+$$
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"["})\quad \Gamma \ \vdash \ \operatorname{ParseKeyIndex}(P)\ \Downarrow \ (P_{1},\ \mathsf{seg})\quad \Gamma \ \vdash \ \operatorname{ParseKeySegs}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{segs}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeySegs}(P)\ \Downarrow \ (P_{2},\ [\mathsf{seg}]\ \mathbin{++} \ \mathsf{segs})
+\end{array}
+$$
+
+**(Parse-KeySegs-End)**
+
+$$
+\begin{array}{l}
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"."})\quad \lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"["}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeySegs}(P)\ \Downarrow \ (P,\ [])
+\end{array}
+$$
+
+**(Parse-KeyPathExpr)**
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseIdent}(P)\ \Downarrow \ (P_{1},\ \mathsf{root})\quad \Gamma \ \vdash \ \operatorname{ParseKeySegs}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{segs}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyPathExpr}(P)\ \Downarrow \ (P_{2},\ \langle \mathsf{root},\ \mathsf{segs}\rangle )
+\end{array}
+$$
+
+`Parse-KeyPathExpr` parses an identifier root followed by zero or more field or index segments. `#` markers are parsed by `ParseKeyMarkerOpt` inside field and index segments and validated during key-path well-formedness (§19.1.4).
 
 ### 19.1.3 AST Representation / Form
 
@@ -54,7 +123,7 @@ $$
 $$
 
 $$
-\mathsf{KeyPathExpr}\ =\ \langle \mathsf{root},\ \mathsf{segs}\rangle 
+\mathsf{KeyPathExpr}\ =\ \langle \mathsf{root},\ \mathsf{segs}\rangle
 $$
 
 $$
@@ -182,7 +251,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{LowerKeyPath}(e)\ \Downarrow \ P\quad M\ =\ \operatorname{RequiredMode}(e)\quad \operatorname{Covered}(P,\ M,\ \Gamma_{\mathsf{keys}} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerKeyAccess}(e)\ \Downarrow \ \varepsilon 
+\Gamma \ \vdash \ \operatorname{LowerKeyAccess}(e)\ \Downarrow \ \varepsilon
 \end{array}
 $$
 

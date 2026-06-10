@@ -2,16 +2,16 @@
 title: "19.5 Speculative Execution"
 description: "19.5 Speculative Execution from 19. Key System of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "key-system"
 specSection: "195-speculative-execution"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -167,12 +167,12 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{SpecLoop}(\mathsf{paths},\ \mathsf{mode},\ \mathsf{body},\ \mathsf{retries},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\ \Leftrightarrow  \\[0.16em]
-\ R\ =\ \operatorname{SnapshotKeyedPaths}(\mathsf{paths},\ \sigma )\ \land  \\[0.16em]
-\ \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma )\ \Downarrow \ (\mathsf{out}_{\mathsf{body}},\ \sigma_{1} )\ \land  \\[0.16em]
-\ W\ =\ \operatorname{CollectWrites}(\sigma ,\ \sigma_{1} )\ \land  \\[0.16em]
-\ (\operatorname{SpeculativeCommit}(R,\ W)\ \Rightarrow \ \mathsf{out}\ =\ \mathsf{out}_{\mathsf{body}}\ \land \ \sigma '\ =\ \operatorname{ApplyWrites}(\sigma ,\ W))\ \land  \\[0.16em]
-\ (\lnot \operatorname{SpeculativeCommit}(R,\ W)\ \land \ \mathsf{retries}\ <\ \mathsf{MAX}_{\mathsf{SPECULATIVE}\_\mathsf{RETRIES}}\ \Rightarrow \ \operatorname{SpecLoop}(\mathsf{paths},\ \mathsf{mode},\ \mathsf{body},\ \mathsf{retries}\ +\ 1,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma '))\ \land  \\[0.16em]
+\operatorname{SpecLoop}(\mathsf{paths},\ \mathsf{mode},\ \mathsf{body},\ \mathsf{retries},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma ')\ \Leftrightarrow \\[0.16em]
+\ R\ =\ \operatorname{SnapshotKeyedPaths}(\mathsf{paths},\ \sigma )\ \land \\[0.16em]
+\ \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma )\ \Downarrow \ (\mathsf{out}_{\mathsf{body}},\ \sigma_{1} )\ \land \\[0.16em]
+\ W\ =\ \operatorname{CollectWrites}(\sigma ,\ \sigma_{1} )\ \land \\[0.16em]
+\ (\operatorname{SpeculativeCommit}(R,\ W)\ \Rightarrow \ \mathsf{out}\ =\ \mathsf{out}_{\mathsf{body}}\ \land \ \sigma '\ =\ \operatorname{ApplyWrites}(\sigma ,\ W))\ \land \\[0.16em]
+\ (\lnot \operatorname{SpeculativeCommit}(R,\ W)\ \land \ \mathsf{retries}\ <\ \mathsf{MAX}_{\mathsf{SPECULATIVE}\_\mathsf{RETRIES}}\ \Rightarrow \ \operatorname{SpecLoop}(\mathsf{paths},\ \mathsf{mode},\ \mathsf{body},\ \mathsf{retries}\ +\ 1,\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma '))\ \land \\[0.16em]
 \ (\lnot \operatorname{SpeculativeCommit}(R,\ W)\ \land \ \mathsf{retries}\ =\ \mathsf{MAX}_{\mathsf{SPECULATIVE}\_\mathsf{RETRIES}}\ \Rightarrow \ \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{Write},\ \mathsf{paths},\ \mathsf{Write},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma '))
 \end{array}
 $$
@@ -184,7 +184,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{SpecStart}(\mathsf{paths},\ \mathsf{body},\ \sigma )\rangle \ \to \ \langle \operatorname{SpecSnapshot}(\mathsf{paths},\ \mathsf{body},\ \emptyset ,\ \sigma )\rangle 
+\langle \operatorname{SpecStart}(\mathsf{paths},\ \mathsf{body},\ \sigma )\rangle \ \to \ \langle \operatorname{SpecSnapshot}(\mathsf{paths},\ \mathsf{body},\ \emptyset ,\ \sigma )\rangle
 \end{array}
 $$
 
@@ -194,7 +194,7 @@ $$
 \begin{array}{l}
 \forall \ p\ \in \ \mathsf{paths}.\ \operatorname{ReadPath}(\sigma ,\ p)\ =\ v_{p}\quad R\ =\ \{(p,\ v_{p})\ \mid \ p\ \in \ \mathsf{paths}\} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{SpecSnapshot}(\mathsf{paths},\ \mathsf{body},\ \emptyset ,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecExec}(\mathsf{body},\ R,\ \emptyset ,\ \sigma )\rangle 
+\langle \operatorname{SpecSnapshot}(\mathsf{paths},\ \mathsf{body},\ \emptyset ,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecExec}(\mathsf{body},\ R,\ \emptyset ,\ \sigma )\rangle
 \end{array}
 $$
 
@@ -204,7 +204,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{EvalSpeculative}(\mathsf{body},\ \sigma ,\ R)\ \Downarrow \ (\operatorname{Val}(v),\ W,\ \sigma ') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{SpecExec}(\mathsf{body},\ R,\ \emptyset ,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecCommit}(R,\ W,\ v,\ \sigma ')\rangle 
+\langle \operatorname{SpecExec}(\mathsf{body},\ R,\ \emptyset ,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecCommit}(R,\ W,\ v,\ \sigma ')\rangle
 \end{array}
 $$
 
@@ -214,7 +214,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{EvalSpeculative}(\mathsf{body},\ \sigma ,\ R)\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ W,\ \sigma ') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{SpecExec}(\mathsf{body},\ R,\ \emptyset ,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecPanic}(\sigma ')\rangle 
+\langle \operatorname{SpecExec}(\mathsf{body},\ R,\ \emptyset ,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecPanic}(\sigma ')\rangle
 \end{array}
 $$
 
@@ -224,7 +224,7 @@ $$
 \begin{array}{l}
 \forall \ (p,\ v)\ \in \ R.\ \operatorname{ReadPath}(\sigma ,\ p)\ =\ v\quad \operatorname{ApplyWrites}(\sigma ,\ W)\ =\ \sigma ' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{SpecCommit}(R,\ W,\ v,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecDone}(v,\ \sigma ')\rangle 
+\langle \operatorname{SpecCommit}(R,\ W,\ v,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecDone}(v,\ \sigma ')\rangle
 \end{array}
 $$
 
@@ -234,7 +234,7 @@ $$
 \begin{array}{l}
 \exists \ (p,\ v)\ \in \ R.\ \operatorname{ReadPath}(\sigma ,\ p)\ \ne \ v\quad n\ <\ \mathsf{MAX}_{\mathsf{SPECULATIVE}\_\mathsf{RETRIES}} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{SpecCommit}(R,\ W,\ v,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecRetry}(\operatorname{paths}(R),\ \mathsf{body},\ n\ +\ 1,\ \sigma )\rangle 
+\langle \operatorname{SpecCommit}(R,\ W,\ v,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecRetry}(\operatorname{paths}(R),\ \mathsf{body},\ n\ +\ 1,\ \sigma )\rangle
 \end{array}
 $$
 
@@ -244,7 +244,7 @@ $$
 \begin{array}{l}
 \exists \ (p,\ v)\ \in \ R.\ \operatorname{ReadPath}(\sigma ,\ p)\ \ne \ v\quad n\ \ge \ \mathsf{MAX}_{\mathsf{SPECULATIVE}\_\mathsf{RETRIES}} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{SpecCommit}(R,\ W,\ v,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecFallback}(\operatorname{paths}(R),\ \mathsf{body},\ \sigma )\rangle 
+\langle \operatorname{SpecCommit}(R,\ W,\ v,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecFallback}(\operatorname{paths}(R),\ \mathsf{body},\ \sigma )\rangle
 \end{array}
 $$
 
@@ -253,7 +253,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{SpecRetry}(\mathsf{paths},\ \mathsf{body},\ n,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecSnapshot}(\mathsf{paths},\ \mathsf{body},\ \emptyset ,\ \sigma )\rangle 
+\langle \operatorname{SpecRetry}(\mathsf{paths},\ \mathsf{body},\ n,\ \sigma )\rangle \ \to \ \langle \operatorname{SpecSnapshot}(\mathsf{paths},\ \mathsf{body},\ \emptyset ,\ \sigma )\rangle
 \end{array}
 $$
 
@@ -263,7 +263,7 @@ $$
 \begin{array}{l}
 \operatorname{AcquireKey}(\sigma ,\ \mathsf{paths},\ \mathsf{Write})\ =\ \sigma_{k} \quad \Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{body},\ \sigma_{k} )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma ')\quad \operatorname{ReleaseKey}(\sigma ',\ \mathsf{paths})\ =\ \sigma '' \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{SpecFallback}(\mathsf{paths},\ \mathsf{body},\ \sigma )\rangle \ \to \ \langle \operatorname{SpecDone}(v,\ \sigma '')\rangle 
+\langle \operatorname{SpecFallback}(\mathsf{paths},\ \mathsf{body},\ \sigma )\rangle \ \to \ \langle \operatorname{SpecDone}(v,\ \sigma '')\rangle
 \end{array}
 $$
 
@@ -271,7 +271,7 @@ $$
 
 $$
 \begin{array}{l}
-\langle \operatorname{SpecStart}(\mathsf{paths},\ \mathsf{body},\ \sigma )\rangle \ \to *\ \langle \operatorname{SpecDone}(v,\ \sigma ')\rangle  \\[0.16em]
+\langle \operatorname{SpecStart}(\mathsf{paths},\ \mathsf{body},\ \sigma )\rangle \ \to *\ \langle \operatorname{SpecDone}(v,\ \sigma ')\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSpecBlock}(\mathsf{paths},\ \mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma ')
 \end{array}
@@ -281,7 +281,7 @@ $$
 
 $$
 \begin{array}{l}
-\langle \operatorname{SpecStart}(\mathsf{paths},\ \mathsf{body},\ \sigma )\rangle \ \to *\ \langle \operatorname{SpecPanic}(\sigma ')\rangle  \\[0.16em]
+\langle \operatorname{SpecStart}(\mathsf{paths},\ \mathsf{body},\ \sigma )\rangle \ \to *\ \langle \operatorname{SpecPanic}(\sigma ')\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{EvalSpecBlock}(\mathsf{paths},\ \mathsf{body},\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma ')
 \end{array}
@@ -325,7 +325,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{kind}\ =\ \mathsf{SpeculativeWrite}\quad \Gamma \ \vdash \ \operatorname{LowerKeyPaths}(\mathsf{paths})\ \Downarrow \ \mathsf{Ps}\quad \mathsf{sorted}\ =\ \operatorname{CanonicalSort}(\mathsf{Ps})\quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
+\mathsf{kind}\ =\ \mathsf{SpeculativeWrite}\quad \Gamma \ \vdash \ \operatorname{LowerKeyPaths}(\mathsf{paths})\ \Downarrow \ \mathsf{Ps}\quad \mathsf{sorted}\ =\ \operatorname{CanonicalSort}(\mathsf{Ps})\quad \Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \\[0.16em]
 \mathsf{IR}_{\mathsf{fallback}}\ =\ \operatorname{SeqIR}(\operatorname{SeqIRList}([\operatorname{SeqIR}(\operatorname{CheckConflict}(P_{i},\ \mathsf{Write}),\ \operatorname{AcquireKey}(P_{i},\ \mathsf{Write},\ \mathsf{CurrentScope}))\ \mid \ P_{i}\ \in \ \mathsf{sorted}]),\ \mathsf{IR}_{b},\ \operatorname{SeqIRList}([\operatorname{ReleaseKey}(P_{i},\ \mathsf{CurrentScope})\ \mid \ P_{i}\ \in \ \operatorname{Reverse}(\mathsf{sorted})])) \\[0.16em]
 \mathsf{IR}\ =\ \operatorname{SpecLoopIR}(\operatorname{SpecSnapshotIR}(\mathsf{sorted}),\ \mathsf{IR}_{b},\ \operatorname{SpecValidateIR}(\mathsf{sorted}),\ \operatorname{SpecCommitIR}(\mathsf{sorted}),\ \mathsf{SpecRetryIR},\ \operatorname{SpecFallbackIR}(\mathsf{IR}_{\mathsf{fallback}})) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
@@ -339,11 +339,11 @@ $$
 | ------------ | -------- | ------------ | ---------------------------------------------------------------------- |
 | `E-CON-0090` | Error    | Compile-time | Nested key block inside speculative block                              |
 | `E-CON-0091` | Error    | Compile-time | Write to path outside keyed set in speculative block                   |
-| `E-CON-0092` | Error    | Compile-time | `wait` expression inside speculative block                             |
-| `E-CON-0093` | Error    | Compile-time | `defer` statement inside speculative block                             |
+| `E-CON-0092` | Error    | Compile-time | `wait` expression inside speculative block (`K-Spec-No-Wait`) |
+| `E-CON-0093` | Error    | Compile-time | `defer` statement inside speculative block (`K-Spec-No-Defer`) |
 | `E-CON-0094` | Error    | Compile-time | Attempt to combine `%speculative` and `%release` key-block heads                                  |
 | `E-CON-0095` | Error    | Compile-time | `%speculative` not followed by `write`                                 |
 | `E-CON-0096` | Error    | Compile-time | Memory ordering annotation or fence operation inside speculative block |
-| `E-CON-0097` | Error    | Compile-time | Impure procedure call inside speculative block                         |
+| `E-CON-0097` | Error    | Compile-time | Impure procedure call inside speculative block (`K-Spec-No-Impure-Call`) |
 | `W-CON-0020` | Warning  | Compile-time | Speculative block on large struct (may be inefficient)                 |
 | `W-CON-0021` | Warning  | Compile-time | Speculative block body may be expensive to re-execute                  |

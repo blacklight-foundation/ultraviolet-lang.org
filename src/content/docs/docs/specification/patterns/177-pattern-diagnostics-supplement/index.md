@@ -2,16 +2,16 @@
 title: "17.7 Pattern Diagnostics Supplement"
 description: "17.7 Pattern Diagnostics Supplement from 17. Patterns of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "patterns"
 specSection: "177-pattern-diagnostics-supplement"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -45,13 +45,13 @@ $$
 
 | Code         | Severity | Detection    | Condition                                                          |
 | ------------ | -------- | ------------ | ------------------------------------------------------------------ |
-| `E-SEM-2705` | Error    | Compile-time | `if ... is { ... }` case analysis is not exhaustive for union type |
-| `E-SEM-2711` | Error    | Compile-time | Refutable pattern in irrefutable context (`let`)                   |
-| `E-SEM-2713` | Error    | Compile-time | Duplicate binding identifier within single pattern                 |
-| `E-SEM-2721` | Error    | Compile-time | Range pattern bounds are not compile-time constants                |
-| `E-SEM-2722` | Error    | Compile-time | Range pattern start exceeds end (empty range)                      |
-| `E-SEM-2731` | Error    | Compile-time | Record pattern references non-existent field                       |
-| `E-SEM-2741` | Error    | Compile-time | `if ... is { ... }` case analysis is not exhaustive                |
-| `E-SEM-2751` | Error    | Compile-time | Case clause is unreachable                                         |
-| `E-SEM-2761` | Error    | Compile-time | Bare type name in `if ... is` pattern; use `: T` or `_: T`         |
-| `E-SEM-2762` | Error    | Compile-time | Typed `if ... is` pattern is incompatible with the scrutinee type  |
+| `E-SEM-2705` | Error    | Compile-time | `if ... is { ... }` case analysis is not exhaustive for union type (`IfCase-Union-NonExhaustive`) |
+| `E-SEM-2711` | Error    | Compile-time | Refutable pattern in irrefutable context (`let`) (`Let-Refutable-Pattern-Err`) |
+| `E-SEM-2713` | Error    | Compile-time | Duplicate binding identifier within single pattern (`Pat-Dup-Err`) |
+| `E-SEM-2721` | Error    | Compile-time | Range pattern bounds are not compile-time constants (`RangePattern-NonConst`) |
+| `E-SEM-2722` | Error    | Compile-time | Range pattern start exceeds end (empty range) (`RangePattern-Empty`) |
+| `E-SEM-2731` | Error    | Compile-time | Record pattern references non-existent field (`RecordPattern-UnknownField`) |
+| `E-SEM-2741` | Error    | Compile-time | `if ... is { ... }` case analysis is not exhaustive (`IfCase-Enum-NonExhaustive`) |
+| `E-SEM-2751` | Error    | Compile-time | Case clause is unreachable (`IfCase-Unreachable`) |
+| `E-SEM-2761` | Error    | Compile-time | Bare type name in `if ... is` pattern; use `: T` or `_: T` (`IfIs-BareTypePattern-Err`) |
+| `E-SEM-2762` | Error    | Compile-time | Typed `if ... is` pattern is incompatible with the scrutinee type (`IfIs-TypedPattern-Incompatible`) |

@@ -2,16 +2,16 @@
 title: "24.5 Cleanup, Drop, and Unwinding Framework"
 description: "24.5 Cleanup, Drop, and Unwinding Framework from 24. Common Lowering, Program Lifecycle, and Backend of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "common-lowering-program-lifecycle-and-backend"
 specSection: "245-cleanup-drop-and-unwinding-framework"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -75,7 +75,7 @@ $$
 $$
 
 $$
-\mathsf{PanicReason}\ =\ \{\operatorname{ErrorExpr}(\mathsf{span}),\ \operatorname{ErrorStmt}(\mathsf{span}),\ \mathsf{DivZero},\ \mathsf{Overflow},\ \mathsf{Shift},\ \mathsf{Bounds},\ \mathsf{Cast},\ \mathsf{NullDeref},\ \mathsf{ExpiredDeref},\ \operatorname{InitPanic}(m),\ \mathsf{Other}\}.
+\mathsf{PanicReason}\ =\ \{\operatorname{ErrorExpr}(\mathsf{span}),\ \operatorname{ErrorStmt}(\mathsf{span}),\ \mathsf{DivZero},\ \mathsf{Overflow},\ \mathsf{Shift},\ \mathsf{Bounds},\ \mathsf{Cast},\ \mathsf{NullDeref},\ \mathsf{ExpiredDeref},\ \operatorname{InitPanic}(m),\ \mathsf{ContractPre},\ \mathsf{ContractPost},\ \mathsf{AsyncFailed},\ \mathsf{ForeignPre},\ \mathsf{ForeignPost},\ \mathsf{TypeInv},\ \mathsf{LoopInv},\ \mathsf{MatchFail},\ \mathsf{Other}\}.
 $$
 
 $$
@@ -90,13 +90,21 @@ $$
 \operatorname{PanicCode}(\mathsf{NullDeref})\ =\ 0\mathsf{x0008} \\[0.16em]
 \operatorname{PanicCode}(\mathsf{ExpiredDeref})\ =\ 0\mathsf{x0009} \\[0.16em]
 \operatorname{PanicCode}(\operatorname{InitPanic}(\_))\ =\ 0\mathsf{x000A} \\[0.16em]
+\operatorname{PanicCode}(\mathsf{ContractPre})\ =\ 0\mathsf{x000B} \\[0.16em]
+\operatorname{PanicCode}(\mathsf{ContractPost})\ =\ 0\mathsf{x000C} \\[0.16em]
+\operatorname{PanicCode}(\mathsf{AsyncFailed})\ =\ 0\mathsf{x000D} \\[0.16em]
+\operatorname{PanicCode}(\mathsf{ForeignPre})\ =\ 0\mathsf{x000E} \\[0.16em]
+\operatorname{PanicCode}(\mathsf{ForeignPost})\ =\ 0\mathsf{x000F} \\[0.16em]
+\operatorname{PanicCode}(\mathsf{TypeInv})\ =\ 0\mathsf{x0010} \\[0.16em]
+\operatorname{PanicCode}(\mathsf{LoopInv})\ =\ 0\mathsf{x0011} \\[0.16em]
+\operatorname{PanicCode}(\mathsf{MatchFail})\ =\ 0\mathsf{x0012} \\[0.16em]
 \operatorname{PanicCode}(\mathsf{Other})\ =\ 0\mathsf{x00FF}.
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\mathsf{PanicSite}\ =\ \{\mathsf{DivZeroCheck},\ \mathsf{OverflowCheck},\ \mathsf{ShiftCheck},\ \mathsf{BoundsCheck},\ \mathsf{CastCheck},\ \mathsf{NullDerefCheck},\ \mathsf{ExpiredDerefCheck},\ \operatorname{ErrorExprSite}(\mathsf{span}),\ \operatorname{ErrorStmtSite}(\mathsf{span}),\ \operatorname{InitPanicSite}(m),\ \mathsf{OtherSite}\}. \\[0.16em]
+\mathsf{PanicSite}\ =\ \{\mathsf{DivZeroCheck},\ \mathsf{OverflowCheck},\ \mathsf{ShiftCheck},\ \mathsf{BoundsCheck},\ \mathsf{CastCheck},\ \mathsf{NullDerefCheck},\ \mathsf{ExpiredDerefCheck},\ \operatorname{ErrorExprSite}(\mathsf{span}),\ \operatorname{ErrorStmtSite}(\mathsf{span}),\ \operatorname{InitPanicSite}(m),\ \operatorname{ContractSite}(\mathsf{kind}),\ \mathsf{AsyncFailedSite},\ \mathsf{MatchFailSite},\ \mathsf{OtherSite}\}.\quad \mathsf{kind}\ \in \ \{\mathsf{Pre},\ \mathsf{Post},\ \mathsf{TypeInv},\ \mathsf{LoopInv},\ \mathsf{ForeignPre},\ \mathsf{ForeignPost}\} \\[0.16em]
 \operatorname{PanicReasonOf}(\mathsf{DivZeroCheck})\ =\ \mathsf{DivZero} \\[0.16em]
 \operatorname{PanicReasonOf}(\mathsf{OverflowCheck})\ =\ \mathsf{Overflow} \\[0.16em]
 \operatorname{PanicReasonOf}(\mathsf{ShiftCheck})\ =\ \mathsf{Shift} \\[0.16em]
@@ -107,6 +115,14 @@ $$
 \operatorname{PanicReasonOf}(\operatorname{ErrorExprSite}(\mathsf{span}))\ =\ \operatorname{ErrorExpr}(\mathsf{span}) \\[0.16em]
 \operatorname{PanicReasonOf}(\operatorname{ErrorStmtSite}(\mathsf{span}))\ =\ \operatorname{ErrorStmt}(\mathsf{span}) \\[0.16em]
 \operatorname{PanicReasonOf}(\operatorname{InitPanicSite}(m))\ =\ \operatorname{InitPanic}(m) \\[0.16em]
+\operatorname{PanicReasonOf}(\operatorname{ContractSite}(\mathsf{Pre}))\ =\ \mathsf{ContractPre} \\[0.16em]
+\operatorname{PanicReasonOf}(\operatorname{ContractSite}(\mathsf{Post}))\ =\ \mathsf{ContractPost} \\[0.16em]
+\operatorname{PanicReasonOf}(\operatorname{ContractSite}(\mathsf{TypeInv}))\ =\ \mathsf{TypeInv} \\[0.16em]
+\operatorname{PanicReasonOf}(\operatorname{ContractSite}(\mathsf{LoopInv}))\ =\ \mathsf{LoopInv} \\[0.16em]
+\operatorname{PanicReasonOf}(\operatorname{ContractSite}(\mathsf{ForeignPre}))\ =\ \mathsf{ForeignPre} \\[0.16em]
+\operatorname{PanicReasonOf}(\operatorname{ContractSite}(\mathsf{ForeignPost}))\ =\ \mathsf{ForeignPost} \\[0.16em]
+\operatorname{PanicReasonOf}(\mathsf{AsyncFailedSite})\ =\ \mathsf{AsyncFailed} \\[0.16em]
+\operatorname{PanicReasonOf}(\mathsf{MatchFailSite})\ =\ \mathsf{MatchFail} \\[0.16em]
 \operatorname{PanicReasonOf}(\mathsf{OtherSite})\ =\ \mathsf{Other}
 \end{array}
 $$
@@ -199,7 +215,7 @@ $$
 $$
 
 $$
-\operatorname{NonRecordFOk}(T,\ F)\ \Leftrightarrow \ \operatorname{RecordType}(T)\ \lor \ F\ =\ \emptyset 
+\operatorname{NonRecordFOk}(T,\ F)\ \Leftrightarrow \ \operatorname{RecordType}(T)\ \lor \ F\ =\ \emptyset
 $$
 
 **(DropValueOut-DropPanic)**
@@ -226,7 +242,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{NonRecordFOk}(T,\ F)\quad \operatorname{DropCall}(T,\ v,\ \sigma )\ \Downarrow \ (\operatorname{Val}(()),\ \sigma_{1} )\quad \operatorname{DropList}(\operatorname{DropChildren}(T,\ v,\ F),\ \sigma_{1} )\ \Downarrow \ (\mathsf{ok},\ \sigma_{2} )\quad \operatorname{ReleaseValue}(T,\ v,\ \sigma_{2} )\ \Downarrow \ \sigma_{3}  \\[0.16em]
+\operatorname{NonRecordFOk}(T,\ F)\quad \operatorname{DropCall}(T,\ v,\ \sigma )\ \Downarrow \ (\operatorname{Val}(()),\ \sigma_{1} )\quad \operatorname{DropList}(\operatorname{DropChildren}(T,\ v,\ F),\ \sigma_{1} )\ \Downarrow \ (\mathsf{ok},\ \sigma_{2} )\quad \operatorname{ReleaseValue}(T,\ v,\ \sigma_{2} )\ \Downarrow \ \sigma_{3} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{DropValueOut}(T,\ v,\ F)\ \Downarrow \ (\mathsf{ok},\ \sigma_{3} )
 \end{array}
@@ -246,7 +262,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{ExitScope}(\mathsf{scope},\ \sigma )\rangle \ \to \ \langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ \mathsf{ok})\rangle 
+\langle \operatorname{ExitScope}(\mathsf{scope},\ \sigma )\rangle \ \to \ \langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ \mathsf{ok})\rangle
 \end{array}
 $$
 
@@ -256,7 +272,7 @@ $$
 \begin{array}{l}
 \operatorname{CleanupList}(\mathsf{scope})\ =\ \mathsf{rest}\ \mathbin{++} \ [\operatorname{DropBinding}(b)]\quad \sigma_{1} \ =\ \operatorname{SetCleanupList}(\mathsf{scope},\ \mathsf{rest},\ \sigma )\quad \Gamma \ \vdash \ \operatorname{DropActionOut}(b)\ \Downarrow \ (\mathsf{ok},\ \sigma_{2} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma_{2} ,\ c)\rangle 
+\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma_{2} ,\ c)\rangle
 \end{array}
 $$
 
@@ -266,7 +282,7 @@ $$
 \begin{array}{l}
 \operatorname{CleanupList}(\mathsf{scope})\ =\ \mathsf{rest}\ \mathbin{++} \ [\operatorname{DropBinding}(b)]\quad \sigma_{1} \ =\ \operatorname{SetCleanupList}(\mathsf{scope},\ \mathsf{rest},\ \sigma )\quad \Gamma \ \vdash \ \operatorname{DropActionOut}(b)\ \Downarrow \ (\mathsf{panic},\ \sigma_{2} )\quad c\ =\ \mathsf{ok} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma_{2} ,\ \mathsf{panic})\rangle 
+\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma_{2} ,\ \mathsf{panic})\rangle
 \end{array}
 $$
 
@@ -276,7 +292,7 @@ $$
 \begin{array}{l}
 \operatorname{CleanupList}(\mathsf{scope})\ =\ \mathsf{rest}\ \mathbin{++} \ [\operatorname{DropBinding}(b)]\quad \sigma_{1} \ =\ \operatorname{SetCleanupList}(\mathsf{scope},\ \mathsf{rest},\ \sigma )\quad \Gamma \ \vdash \ \operatorname{DropActionOut}(b)\ \Downarrow \ (\mathsf{panic},\ \sigma_{2} )\quad c\ =\ \mathsf{panic} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \mathsf{Abort}\rangle 
+\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \mathsf{Abort}\rangle
 \end{array}
 $$
 
@@ -286,7 +302,7 @@ $$
 \begin{array}{l}
 \operatorname{CleanupList}(\mathsf{scope})\ =\ \mathsf{rest}\ \mathbin{++} \ [\operatorname{DropStatic}(\mathsf{path},\ \mathsf{name})]\quad \sigma_{1} \ =\ \operatorname{SetCleanupList}(\mathsf{scope},\ \mathsf{rest},\ \sigma )\quad \Gamma \ \vdash \ \operatorname{DropStaticActionOut}(\mathsf{path},\ \mathsf{name})\ \Downarrow \ (\mathsf{ok},\ \sigma_{2} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma_{2} ,\ c)\rangle 
+\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma_{2} ,\ c)\rangle
 \end{array}
 $$
 
@@ -296,7 +312,7 @@ $$
 \begin{array}{l}
 \operatorname{CleanupList}(\mathsf{scope})\ =\ \mathsf{rest}\ \mathbin{++} \ [\operatorname{DropStatic}(\mathsf{path},\ \mathsf{name})]\quad \sigma_{1} \ =\ \operatorname{SetCleanupList}(\mathsf{scope},\ \mathsf{rest},\ \sigma )\quad \Gamma \ \vdash \ \operatorname{DropStaticActionOut}(\mathsf{path},\ \mathsf{name})\ \Downarrow \ (\mathsf{panic},\ \sigma_{2} )\quad c\ =\ \mathsf{ok} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma_{2} ,\ \mathsf{panic})\rangle 
+\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma_{2} ,\ \mathsf{panic})\rangle
 \end{array}
 $$
 
@@ -306,7 +322,7 @@ $$
 \begin{array}{l}
 \operatorname{CleanupList}(\mathsf{scope})\ =\ \mathsf{rest}\ \mathbin{++} \ [\operatorname{DropStatic}(\mathsf{path},\ \mathsf{name})]\quad \sigma_{1} \ =\ \operatorname{SetCleanupList}(\mathsf{scope},\ \mathsf{rest},\ \sigma )\quad \Gamma \ \vdash \ \operatorname{DropStaticActionOut}(\mathsf{path},\ \mathsf{name})\ \Downarrow \ (\mathsf{panic},\ \sigma_{2} )\quad c\ =\ \mathsf{panic} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \mathsf{Abort}\rangle 
+\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \mathsf{Abort}\rangle
 \end{array}
 $$
 
@@ -316,7 +332,7 @@ $$
 \begin{array}{l}
 \operatorname{CleanupList}(\mathsf{scope})\ =\ \mathsf{rest}\ \mathbin{++} \ [\operatorname{DeferBlock}(b)]\quad \sigma_{1} \ =\ \operatorname{SetCleanupList}(\mathsf{scope},\ \mathsf{rest},\ \sigma )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(b,\ \sigma_{1} )\ \Downarrow \ (\operatorname{Val}(v),\ \sigma_{2} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma_{2} ,\ c)\rangle 
+\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma_{2} ,\ c)\rangle
 \end{array}
 $$
 
@@ -326,7 +342,7 @@ $$
 \begin{array}{l}
 \operatorname{CleanupList}(\mathsf{scope})\ =\ \mathsf{rest}\ \mathbin{++} \ [\operatorname{DeferBlock}(b)]\quad \sigma_{1} \ =\ \operatorname{SetCleanupList}(\mathsf{scope},\ \mathsf{rest},\ \sigma )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(b,\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma_{2} )\quad c\ =\ \mathsf{ok} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma_{2} ,\ \mathsf{panic})\rangle 
+\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma_{2} ,\ \mathsf{panic})\rangle
 \end{array}
 $$
 
@@ -336,7 +352,7 @@ $$
 \begin{array}{l}
 \operatorname{CleanupList}(\mathsf{scope})\ =\ \mathsf{rest}\ \mathbin{++} \ [\operatorname{DeferBlock}(b)]\quad \sigma_{1} \ =\ \operatorname{SetCleanupList}(\mathsf{scope},\ \mathsf{rest},\ \sigma )\quad \Gamma \ \vdash \ \operatorname{EvalSigma}(b,\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\mathsf{Panic}),\ \sigma_{2} )\quad c\ =\ \mathsf{panic} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \mathsf{Abort}\rangle 
+\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \mathsf{Abort}\rangle
 \end{array}
 $$
 
@@ -346,7 +362,7 @@ $$
 \begin{array}{l}
 \operatorname{CleanupList}(\mathsf{scope})\ =\ [] \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \operatorname{ExitDone}(c,\ \sigma )\rangle 
+\langle \operatorname{CleanupLoop}(\mathsf{scope},\ \sigma ,\ c)\rangle \ \to \ \langle \operatorname{ExitDone}(c,\ \sigma )\rangle
 \end{array}
 $$
 
@@ -355,7 +371,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{Destroy}([],\ \sigma )\ \Downarrow \ \sigma 
+\Gamma \ \vdash \ \operatorname{Destroy}([],\ \sigma )\ \Downarrow \ \sigma
 \end{array}
 $$
 
@@ -363,9 +379,9 @@ $$
 
 $$
 \begin{array}{l}
-\Gamma \ \vdash \ \operatorname{DropAction}(b)\ \Downarrow \ \sigma_{1} \quad \Gamma \ \vdash \ \operatorname{Destroy}(\mathsf{bs},\ \sigma_{1} )\ \Downarrow \ \sigma_{2}  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{DropAction}(b)\ \Downarrow \ \sigma_{1} \quad \Gamma \ \vdash \ \operatorname{Destroy}(\mathsf{bs},\ \sigma_{1} )\ \Downarrow \ \sigma_{2} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{Destroy}(b\mathbin{::} \mathsf{bs},\ \sigma )\ \Downarrow \ \sigma_{2} 
+\Gamma \ \vdash \ \operatorname{Destroy}(b\mathbin{::} \mathsf{bs},\ \sigma )\ \Downarrow \ \sigma_{2}
 \end{array}
 $$
 
@@ -450,7 +466,7 @@ $$
 
 $$
 \begin{array}{l}
-\langle \operatorname{ExitScope}(\mathsf{scope},\ \sigma )\rangle \ \to *\ \langle \operatorname{ExitDone}(c,\ \sigma ')\rangle  \\[0.16em]
+\langle \operatorname{ExitScope}(\mathsf{scope},\ \sigma )\rangle \ \to *\ \langle \operatorname{ExitDone}(c,\ \sigma ')\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{CleanupScope}(\mathsf{scope},\ \sigma )\ \Downarrow \ (c,\ \sigma ')
 \end{array}
@@ -462,7 +478,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{CleanupScope}(f_{1}.\mathsf{scope},\ \sigma )\ \Downarrow \ (\mathsf{ok},\ \sigma ') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Unwind}(f_{1}\mathbin{::} \mathsf{io},\ \sigma )\rangle \ \to \ \langle \operatorname{Unwind}(\mathsf{io},\ \sigma ')\rangle 
+\langle \operatorname{Unwind}(f_{1}\mathbin{::} \mathsf{io},\ \sigma )\rangle \ \to \ \langle \operatorname{Unwind}(\mathsf{io},\ \sigma ')\rangle
 \end{array}
 $$
 
@@ -472,6 +488,6 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{CleanupScope}(f_{1}.\mathsf{scope},\ \sigma )\ \Downarrow \ (\mathsf{panic},\ \sigma ') \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Unwind}(f_{1}\mathbin{::} \mathsf{io},\ \sigma )\rangle \ \to \ \langle \mathsf{Abort}\rangle 
+\langle \operatorname{Unwind}(f_{1}\mathbin{::} \mathsf{io},\ \sigma )\rangle \ \to \ \langle \mathsf{Abort}\rangle
 \end{array}
 $$

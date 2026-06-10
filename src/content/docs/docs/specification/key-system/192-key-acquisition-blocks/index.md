@@ -2,16 +2,16 @@
 title: "19.2 Key Acquisition Blocks"
 description: "19.2 Key Acquisition Blocks from 19. Key System of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "key-system"
 specSection: "192-key-acquisition-blocks"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -41,24 +41,148 @@ The `ordered` option requests the same-base indexed-path checking defined in §1
 
 ### 19.2.2 Parsing
 
-Key-block parsing is defined by the following source rules:
+**(Parse-KeyMode-Read)**
+IsCtxIdent(Tok(P), "read")
 
-- `Parse-KeyBlockHead-Read`
-- `Parse-KeyBlockHead-Write`
-- `Parse-KeyBlockHead-Release`
-- `Parse-KeyBlockHead-SpeculativeWrite`
-- `Parse-KeyPathList-Cons`
-- `Parse-KeyPathListTail-End`
-- `Parse-KeyPathListTail-Comma`
-- `Parse-KeyOptionsOpt-None`
-- `Parse-KeyOptionsOpt-Some`
-- `Parse-KeyOption-Ordered`
-- `Parse-KeyMode-Read`
-- `Parse-KeyMode-Write`
-- `Parse-KeyMode-Err`
-- `Parse-KeyBlock-Stmt`
+$$
+\begin{array}{l}
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyMode}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \mathsf{Read})
+\end{array}
+$$
 
-`Parse-KeyOption-Ordered` consumes `ordered` only inside the bracketed option list following the complete path list. `Parse-KeyBlockHead-Release` consumes `%release` followed by the required target mode. `Parse-KeyBlockHead-SpeculativeWrite` consumes `%speculative write`; any other token after `%speculative` is a syntax error.
+**(Parse-KeyMode-Write)**
+IsCtxIdent(Tok(P), "write")
+
+$$
+\begin{array}{l}
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyMode}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \mathsf{Write})
+\end{array}
+$$
+
+**(Parse-KeyMode-Err)**
+
+$$
+\begin{array}{l}
+\lnot \ \operatorname{IsCtxIdent}(\operatorname{Tok}(P),\ \texttt{"read"})\quad \lnot \ \operatorname{IsCtxIdent}(\operatorname{Tok}(P),\ \texttt{"write"})\quad c\ =\ \operatorname{Code}(\mathsf{Parse}-\mathsf{KeyMode}-\mathsf{Err}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyMode}(P)\ \Uparrow \ c
+\end{array}
+$$
+
+**(Parse-KeyBlockHead-Read)**
+IsOp(Tok(P), "%")    IsCtxIdent(Tok(Advance(P)), "read")
+
+$$
+\begin{array}{l}
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyBlockHead}(P)\ \Downarrow \ (\operatorname{Advance}(\operatorname{Advance}(P)),\ \langle \mathsf{Read},\ \bot \rangle )
+\end{array}
+$$
+
+**(Parse-KeyBlockHead-Write)**
+IsOp(Tok(P), "%")    IsCtxIdent(Tok(Advance(P)), "write")
+
+$$
+\begin{array}{l}
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyBlockHead}(P)\ \Downarrow \ (\operatorname{Advance}(\operatorname{Advance}(P)),\ \langle \mathsf{Write},\ \bot \rangle )
+\end{array}
+$$
+
+**(Parse-KeyBlockHead-Release)**
+
+$$
+\begin{array}{l}
+\operatorname{IsOp}(\operatorname{Tok}(P),\ \texttt{"\%"})\quad \operatorname{IsCtxIdent}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{"release"})\quad \Gamma \ \vdash \ \operatorname{ParseKeyMode}(\operatorname{Advance}(\operatorname{Advance}(P)))\ \Downarrow \ (P_{1},\ \mathsf{mode}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyBlockHead}(P)\ \Downarrow \ (P_{1},\ \langle \mathsf{Release},\ \mathsf{mode}\rangle )
+\end{array}
+$$
+
+**(Parse-KeyBlockHead-SpeculativeWrite)**
+IsOp(Tok(P), "%")    IsCtxIdent(Tok(Advance(P)), "speculative")    IsCtxIdent(Tok(Advance(Advance(P))), "write")
+
+$$
+\begin{array}{l}
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyBlockHead}(P)\ \Downarrow \ (\operatorname{Advance}(\operatorname{Advance}(\operatorname{Advance}(P))),\ \langle \mathsf{SpeculativeWrite},\ \bot \rangle )
+\end{array}
+$$
+
+**(Parse-KeyPathList-Cons)**
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseKeyPathExpr}(P)\ \Downarrow \ (P_{1},\ \mathsf{kp})\quad \Gamma \ \vdash \ \operatorname{ParseKeyPathListTail}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{kps}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyPathList}(P)\ \Downarrow \ (P_{2},\ [\mathsf{kp}]\ \mathbin{++} \ \mathsf{kps})
+\end{array}
+$$
+
+**(Parse-KeyPathListTail-Comma)**
+
+$$
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","})\quad \Gamma \ \vdash \ \operatorname{ParseKeyPathExpr}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{kp})\quad \Gamma \ \vdash \ \operatorname{ParseKeyPathListTail}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{kps}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyPathListTail}(P)\ \Downarrow \ (P_{2},\ [\mathsf{kp}]\ \mathbin{++} \ \mathsf{kps})
+\end{array}
+$$
+
+**(Parse-KeyPathListTail-End)**
+
+$$
+\begin{array}{l}
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{","}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyPathListTail}(P)\ \Downarrow \ (P,\ [])
+\end{array}
+$$
+
+**(Parse-KeyOption-Ordered)**
+IsCtxIdent(Tok(P), "ordered")
+
+$$
+\begin{array}{l}
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyOption}(P)\ \Downarrow \ (\operatorname{Advance}(P),\ \mathsf{Ordered})
+\end{array}
+$$
+
+**(Parse-KeyOptionsOpt-None)**
+
+$$
+\begin{array}{l}
+\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"["}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyOptionsOpt}(P)\ \Downarrow \ (P,\ \langle \mathsf{ordered}:\ \mathsf{false}\rangle )
+\end{array}
+$$
+
+**(Parse-KeyOptionsOpt-Some)**
+
+$$
+\begin{array}{l}
+\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"["})\quad \Gamma \ \vdash \ \operatorname{ParseOptList}(\mathsf{ParseKeyOption},\ \operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{os})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{"]"}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyOptionsOpt}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \langle \mathsf{ordered}:\ \mathsf{Ordered}\ \in \ \mathsf{os}\rangle )
+\end{array}
+$$
+
+**(Parse-KeyBlock-Stmt)**
+
+$$
+\begin{array}{l}
+\Gamma \ \vdash \ \operatorname{ParseKeyBlockHead}(P)\ \Downarrow \ (P_{1},\ \langle \mathsf{kind},\ \mathsf{mode}\rangle )\quad \Gamma \ \vdash \ \operatorname{ParseKeyPathList}(P_{1})\ \Downarrow \ (P_{2},\ \mathsf{paths}) \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseKeyOptionsOpt}(P_{2})\ \Downarrow \ (P_{3},\ \mathsf{options})\quad \Gamma \ \vdash \ \operatorname{ParseBlockExpr}(P_{3})\ \Downarrow \ (P_{4},\ \mathsf{body})\quad \mathsf{sp}\ =\ \operatorname{SpanOfTokens}(P,\ P_{4}) \\[0.16em]
+\rule{18em}{0.4pt} \\[0.16em]
+\Gamma \ \vdash \ \operatorname{ParseStmt}(P)\ \Downarrow \ (P_{4},\ \operatorname{KeyBlockStmt}(\bot ,\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{sp}))
+\end{array}
+$$
+
+`SpanOfTokens(P, P')` is the span from the start of `Tok(P)` to the end of the last token consumed before `P'`. `ParseStmt` dispatches to `Parse-KeyBlock-Stmt` when `IsOp(Tok(P), "%")`. `attrs_opt` is populated by the shared attributed-statement mechanism of Chapter 9; `Parse-KeyBlock-Stmt` itself produces `⊥`. The option-list rules instantiate the shared schema of §5.5 with `El = ParseKeyOption`. `Parse-KeyOption-Ordered` consumes `ordered` only inside the bracketed option list following the complete path list. `Parse-KeyBlockHead-Release` consumes `%release` followed by the required target mode. `Parse-KeyBlockHead-SpeculativeWrite` consumes `%speculative write`; any other token after `%speculative` is a syntax error.
 
 ### 19.2.3 AST Representation / Form
 
@@ -71,7 +195,7 @@ $$
 $$
 
 $$
-\mathsf{KeyBlockOptions}\ =\ \langle \mathsf{ordered}:\ \mathsf{bool}\rangle 
+\mathsf{KeyBlockOptions}\ =\ \langle \mathsf{ordered}:\ \mathsf{bool}\rangle
 $$
 
 $$
@@ -79,11 +203,11 @@ $$
 $$
 
 $$
-\mathsf{KeyBlockStmt}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}\rangle 
+\mathsf{KeyBlockStmt}\ =\ \langle \mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}\rangle
 $$
 
 $$
-\mathsf{Key}\ =\ \langle \mathsf{Path},\ \mathsf{Mode},\ \mathsf{Scope}\rangle 
+\mathsf{Key}\ =\ \langle \mathsf{Path},\ \mathsf{Mode},\ \mathsf{Scope}\rangle
 $$
 
 $$
@@ -213,7 +337,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ P\ :\ \texttt{shared}\ T\quad M\ =\ \operatorname{RequiredMode}(P)\quad \operatorname{Covered}(P,\ M,\ \Gamma_{\mathsf{keys}} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma '\_\mathsf{keys}\ =\ \Gamma_{\mathsf{keys}} 
+\Gamma '\_\mathsf{keys}\ =\ \Gamma_{\mathsf{keys}}
 \end{array}
 $$
 
@@ -299,18 +423,18 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\sigma ',\ \mathsf{keys})\ \Leftrightarrow  \\[0.16em]
-\ \mathsf{keys}\ =\ \operatorname{CanonicalOrder}([\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}])\ \land  \\[0.16em]
-\ \forall \ k\ \in \ \mathsf{keys}.\ \operatorname{AcquireLock}(\sigma ,\ k,\ \mathsf{mode})\ \land  \\[0.16em]
+\operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\sigma ',\ \mathsf{keys})\ \Leftrightarrow \\[0.16em]
+\ \mathsf{keys}\ =\ \operatorname{CanonicalOrder}([\operatorname{KeyPath}(p)\ \mid \ p\ \in \ \mathsf{paths}])\ \land \\[0.16em]
+\ \forall \ k\ \in \ \mathsf{keys}.\ \operatorname{AcquireLock}(\sigma ,\ k,\ \mathsf{mode})\ \land \\[0.16em]
 \ \sigma '\ =\ \sigma [\mathsf{held}_{\mathsf{keys}}\ :=\ \sigma .\mathsf{held}_{\mathsf{keys}}\ \cup \ \mathsf{keys}]
 \end{array}
 $$
 
 $$
 \begin{array}{l}
-\operatorname{ReleaseKeysSigma}(\mathsf{keys},\ \sigma )\ \Downarrow \ \sigma '\ \Leftrightarrow  \\[0.16em]
-\ \mathsf{rev}\ =\ \operatorname{Reverse}(\mathsf{keys})\ \land  \\[0.16em]
-\ \forall \ k\ \in \ \mathsf{rev}.\ \operatorname{ReleaseLock}(\sigma ,\ k)\ \land  \\[0.16em]
+\operatorname{ReleaseKeysSigma}(\mathsf{keys},\ \sigma )\ \Downarrow \ \sigma '\ \Leftrightarrow \\[0.16em]
+\ \mathsf{rev}\ =\ \operatorname{Reverse}(\mathsf{keys})\ \land \\[0.16em]
+\ \forall \ k\ \in \ \mathsf{rev}.\ \operatorname{ReleaseLock}(\sigma ,\ k)\ \land \\[0.16em]
 \ \sigma '\ =\ \sigma [\mathsf{held}_{\mathsf{keys}}\ :=\ \sigma .\mathsf{held}_{\mathsf{keys}}\ \setminus \ \mathsf{keys}]
 \end{array}
 $$
@@ -319,7 +443,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{kind}\ \ne \ \mathsf{SpeculativeWrite}\quad \mathsf{kind}\ \ne \ \mathsf{Release}\quad \Gamma \ \vdash \ \operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\sigma_{1} ,\ \mathsf{keys})\quad \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{keys},\ \sigma_{2} )\ \Downarrow \ \sigma_{3}  \\[0.16em]
+\mathsf{kind}\ \ne \ \mathsf{SpeculativeWrite}\quad \mathsf{kind}\ \ne \ \mathsf{Release}\quad \Gamma \ \vdash \ \operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\sigma_{1} ,\ \mathsf{keys})\quad \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\mathsf{out},\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{keys},\ \sigma_{2} )\ \Downarrow \ \sigma_{3} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\ \Downarrow \ (\operatorname{StmtOutOf}(\mathsf{out}),\ \sigma_{3} )
 \end{array}
@@ -329,7 +453,7 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{kind}\ \ne \ \mathsf{SpeculativeWrite}\quad \mathsf{kind}\ \ne \ \mathsf{Release}\quad \Gamma \ \vdash \ \operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\sigma_{1} ,\ \mathsf{keys})\quad \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{keys},\ \sigma_{2} )\ \Downarrow \ \sigma_{3}  \\[0.16em]
+\mathsf{kind}\ \ne \ \mathsf{SpeculativeWrite}\quad \mathsf{kind}\ \ne \ \mathsf{Release}\quad \Gamma \ \vdash \ \operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\sigma_{1} ,\ \mathsf{keys})\quad \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma_{1} )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{2} )\quad \Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{keys},\ \sigma_{2} )\ \Downarrow \ \sigma_{3} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{ExecSigma}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\ \Downarrow \ (\operatorname{Ctrl}(\kappa ),\ \sigma_{3} )
 \end{array}
@@ -341,7 +465,7 @@ $$
 \begin{array}{l}
 \mathsf{kind}\ \ne \ \mathsf{SpeculativeWrite}\quad \Gamma \ \vdash \ \operatorname{AcquireKeysSigma}(\mathsf{paths},\ \mathsf{mode},\ \sigma )\ \Downarrow \ (\sigma_{1} ,\ \mathsf{keys}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{Exec}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\rangle \ \to \ \langle \operatorname{KeyBody}(\mathsf{keys},\ \mathsf{body},\ \sigma_{1} )\rangle 
+\langle \operatorname{Exec}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}),\ \sigma )\rangle \ \to \ \langle \operatorname{KeyBody}(\mathsf{keys},\ \mathsf{body},\ \sigma_{1} )\rangle
 \end{array}
 $$
 
@@ -351,7 +475,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{EvalBlockSigma}(\mathsf{body},\ \sigma )\ \Downarrow \ (\mathsf{out},\ \sigma_{1} ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{KeyBody}(\mathsf{keys},\ \mathsf{body},\ \sigma )\rangle \ \to \ \langle \operatorname{KeyExit}(\mathsf{keys},\ \mathsf{out},\ \sigma_{1} )\rangle 
+\langle \operatorname{KeyBody}(\mathsf{keys},\ \mathsf{body},\ \sigma )\rangle \ \to \ \langle \operatorname{KeyExit}(\mathsf{keys},\ \mathsf{out},\ \sigma_{1} )\rangle
 \end{array}
 $$
 
@@ -361,7 +485,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{keys},\ \sigma )\ \Downarrow \ \sigma '\quad \operatorname{StmtOutOf}(\mathsf{out})\ =\ \mathsf{ok} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{KeyExit}(\mathsf{keys},\ \mathsf{out},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle 
+\langle \operatorname{KeyExit}(\mathsf{keys},\ \mathsf{out},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecDone}(\sigma ')\rangle
 \end{array}
 $$
 
@@ -371,7 +495,7 @@ $$
 \begin{array}{l}
 \Gamma \ \vdash \ \operatorname{ReleaseKeysSigma}(\mathsf{keys},\ \sigma )\ \Downarrow \ \sigma '\quad \operatorname{StmtOutOf}(\mathsf{out})\ =\ \operatorname{Ctrl}(\kappa ) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\langle \operatorname{KeyExit}(\mathsf{keys},\ \mathsf{out},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma ')\rangle 
+\langle \operatorname{KeyExit}(\mathsf{keys},\ \mathsf{out},\ \sigma )\rangle \ \to \ \langle \operatorname{ExecCtrl}(\kappa ,\ \sigma ')\rangle
 \end{array}
 $$
 
@@ -409,7 +533,7 @@ $$
 \begin{array}{l}
 \mathsf{kind}\ \ne \ \mathsf{SpeculativeWrite}\quad \mathsf{kind}\ \ne \ \mathsf{Release}\quad \Gamma \ \vdash \ \operatorname{LowerKeyPaths}(\mathsf{paths})\ \Downarrow \ \mathsf{Ps}\quad \mathsf{sorted}\ =\ \operatorname{CanonicalSort}(\mathsf{Ps})\quad S\ =\ \mathsf{CurrentScope} \\[0.16em]
 \mathsf{IR}_{\mathsf{enter}}\ =\ \operatorname{SeqIRList}([\operatorname{SeqIR}(\operatorname{CheckConflict}(P_{i},\ \mathsf{mode}),\ \operatorname{AcquireKey}(P_{i},\ \mathsf{mode},\ S))\ \mid \ P_{i}\ \in \ \mathsf{sorted}]) \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle  \\[0.16em]
+\Gamma \ \vdash \ \operatorname{LowerBlock}(\mathsf{body})\ \Downarrow \ \langle \mathsf{IR}_{b},\ v_{b}\rangle \\[0.16em]
 \mathsf{IR}_{\mathsf{exit}}\ =\ \operatorname{SeqIRList}([\operatorname{ReleaseKey}(P_{i},\ S)\ \mid \ P_{i}\ \in \ \operatorname{Reverse}(\mathsf{sorted})]) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{LowerStmt}(\operatorname{KeyBlockStmt}(\mathsf{attrs}_{\mathsf{opt}},\ \mathsf{kind},\ \mathsf{paths},\ \mathsf{mode},\ \mathsf{options},\ \mathsf{body},\ \mathsf{span}))\ \Downarrow \ \operatorname{SeqIR}(\mathsf{IR}_{\mathsf{enter}},\ \mathsf{IR}_{b},\ \mathsf{IR}_{\mathsf{exit}})
@@ -439,7 +563,7 @@ Where a more specific Chapter 19 escape diagnostic applies, it takes precedence 
 | `E-CON-0032` | Error    | Compile-time | Key block path is not `shared`                              |
 | `E-CON-0070` | Error    | Compile-time | Write operation in `%read` key block       |
 | `E-CON-0085` | Error    | Compile-time | Escaping closure with `shared` capture lacks dependency set |
-| `E-CON-0086` | Error    | Compile-time | Escaping closure outlives captured local `shared` binding   |
+| `E-CON-0086` | Error    | Compile-time | Escaping closure outlives captured local `shared` binding (`P-Closure-Escape-Err`) |
 | `W-CON-0001` | Warning  | Compile-time | Fine-grained keys in tight loop (performance hint)          |
 | `W-CON-0002` | Warning  | Compile-time | Redundant key acquisition (already covered)                 |
 | `W-CON-0003` | Warning  | Compile-time | `#` redundant (matches type boundary)                       |

@@ -2,16 +2,16 @@
 title: "13.11 Closure Types"
 description: "13.11 Closure Types from 13. Modal and Special Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "modal-and-special-types"
 specSection: "1311-closure-types"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -54,25 +54,7 @@ $$
 \end{array}
 $$
 
-**(Parse-ClosureParamType-Grouped)**
-
-$$
-\begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseType}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{ty})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParseClosureParamType}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \mathsf{ty})
-\end{array}
-$$
-
-**(Parse-ClosureParamType-Plain)**
-
-$$
-\begin{array}{l}
-\lnot \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \Gamma \ \vdash \ \operatorname{ParseTypeNoUnion}(P)\ \Downarrow \ (P_{1},\ \mathsf{ty}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParseClosureParamType}(P)\ \Downarrow \ (P_{1},\ \mathsf{ty})
-\end{array}
-$$
+Rules **(Parse-ClosureParamType-Grouped)**, **(Parse-ClosureParamType-Plain)** are defined once by §16.9.2.
 
 **(Parse-ClosureParamTypeList-Empty)**
 
@@ -187,11 +169,11 @@ $$
 ### 13.11.3 AST Representation / Form
 
 $$
-\mathsf{Type}\ =\ \ldots \ \mid \ \operatorname{TypeClosure}(\mathsf{params},\ \mathsf{ret},\ \mathsf{deps}_{\mathsf{opt}})\ \mid \ \ldots 
+\mathsf{Type}\ =\ \ldots \ \mid \ \operatorname{TypeClosure}(\mathsf{params},\ \mathsf{ret},\ \mathsf{deps}_{\mathsf{opt}})\ \mid \ \ldots
 $$
 
 $$
-\mathsf{deps}_{\mathsf{opt}}\ =\ \bot \ \lor \ \mathsf{deps}_{\mathsf{opt}}\ =\ \langle [\langle \mathsf{name}_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle \mathsf{name}_{n},\ T_{n}\rangle ]\rangle 
+\mathsf{deps}_{\mathsf{opt}}\ =\ \bot \ \lor \ \mathsf{deps}_{\mathsf{opt}}\ =\ \langle [\langle \mathsf{name}_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle \mathsf{name}_{n},\ T_{n}\rangle ]\rangle
 $$
 
 Closure expressions, capture classification, closure invocation, and pipeline expressions are owned by §16.9. Chapter 19 consumes the dependency information carried by `TypeClosure(..., deps_opt)`.
@@ -208,25 +190,7 @@ T\ =\ \operatorname{TypeClosure}(\mathsf{params},\ R,\ \mathsf{deps}_{\mathsf{op
 \end{array}
 $$
 
-**(T-Equiv-Closure)**
-
-$$
-\begin{array}{l}
-T\ =\ \operatorname{TypeClosure}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R,\ D)\quad U\ =\ \operatorname{TypeClosure}([\langle m_{1},\ U_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ U_{n}\rangle ],\ S,\ D)\quad \forall \ i,\ \Gamma \ \vdash \ T_{i}\ \equiv \ U_{i}\quad \Gamma \ \vdash \ R\ \equiv \ S \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ \equiv \ U
-\end{array}
-$$
-
-**(Sub-Closure)**
-
-$$
-\begin{array}{l}
-T\ =\ \operatorname{TypeClosure}([\langle m_{1},\ T_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ T_{n}\rangle ],\ R,\ D)\quad U\ =\ \operatorname{TypeClosure}([\langle m_{1},\ U_{1}\rangle ,\ \ldots ,\ \langle m_{n},\ U_{n}\rangle ],\ S,\ D)\quad \forall \ i,\ \Gamma \ \vdash \ U_{i}\ \mathrel{<:} \ T_{i}\quad \Gamma \ \vdash \ R\ \mathrel{<:} \ S \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ T\ \mathrel{<:} \ U
-\end{array}
-$$
+Rules **(T-Equiv-Closure)**, **(Sub-Closure)** are defined once by §8.1, §8.2.
 
 Closure-expression typing and dependency-set construction are defined in §16.9.4.
 
@@ -241,7 +205,7 @@ Creation and invocation of closure values are defined in §16.9.5. Key acquisiti
 ### 13.11.6 Lowering
 
 $$
-\mathsf{ClosureRep}\ =\ \langle \mathsf{env}_{\mathsf{ptr}}:\ *\mathsf{imm}\ \mathsf{u8},\ \mathsf{code}_{\mathsf{ptr}}:\ *\mathsf{imm}\ \mathsf{u8}\rangle 
+\mathsf{ClosureRep}\ =\ \langle \mathsf{env}_{\mathsf{ptr}}:\ *\mathsf{imm}\ \mathsf{u8},\ \mathsf{code}_{\mathsf{ptr}}:\ *\mathsf{imm}\ \mathsf{u8}\rangle
 $$
 
 **(Size-Closure)**
@@ -270,7 +234,7 @@ $$
 \begin{array}{l}
 T\ =\ \operatorname{TypeClosure}(\mathsf{params},\ R,\ \mathsf{deps}_{\mathsf{opt}}) \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle 2\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(T)\ \Downarrow \ \langle 2\ \times \ \mathsf{PtrSize},\ \mathsf{PtrAlign}\rangle
 \end{array}
 $$
 

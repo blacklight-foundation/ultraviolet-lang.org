@@ -2,16 +2,16 @@
 title: "12.2 Tuples"
 description: "12.2 Tuples from 12. Concrete Data Types of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "concrete-data-types"
 specSection: "122-tuples"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -105,7 +105,7 @@ $$
 \begin{array}{l}
 \mathsf{TupleScanDepth}\ =\ \langle p,\ q,\ r\rangle \ \mathsf{where}\ p,\ q,\ r\ \in \ \mathsf{Nat} \\[0.16em]
 \operatorname{TupleScan}(P,\ d)\ \Downarrow \ b\ \Leftrightarrow \ \operatorname{TupleScan}(P,\ \langle d,\ 0,\ 0\rangle )\ \Downarrow \ b \\[0.16em]
-\operatorname{TupleScanStep}(\langle p,\ q,\ r\rangle ,\ t)\ =\ \langle p\ +\ \operatorname{ParenDelta}(t),\ \operatorname{max}(0,\ q\ +\ \operatorname{BracketDelta}(t)),\ \operatorname{max}(0,\ r\ +\ \operatorname{BraceDelta}(t))\rangle  \\[0.16em]
+\operatorname{TupleScanStep}(\langle p,\ q,\ r\rangle ,\ t)\ =\ \langle p\ +\ \operatorname{ParenDelta}(t),\ \operatorname{max}(0,\ q\ +\ \operatorname{BracketDelta}(t)),\ \operatorname{max}(0,\ r\ +\ \operatorname{BraceDelta}(t))\rangle \\[0.16em]
 \operatorname{TupleScanOuterSep}(\langle p,\ q,\ r\rangle )\ \Leftrightarrow \ p\ =\ 1\ \land \ q\ =\ 0\ \land \ r\ =\ 0 \\[0.16em]
 \operatorname{TupleScanSingletonComma}(P)\ \Leftrightarrow \ \operatorname{Tok}(P)\ =\ \operatorname{Punctuator}(\texttt{","})\ \land \ \operatorname{IsPunc}(\operatorname{Tok}(\operatorname{SkipNL}(\operatorname{Advance}(P))),\ \texttt{")"}) \\[0.16em]
 \operatorname{TupleScanEndParen}(P,\ \langle p,\ q,\ r\rangle )\ \Leftrightarrow \ \operatorname{Tok}(P)\ =\ \operatorname{Punctuator}(\texttt{")"})\ \land \ p\ =\ 1 \\[0.16em]
@@ -144,15 +144,7 @@ $$
 \operatorname{TupleParen}(P)\ \Leftrightarrow \ \operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\ \land \ (\operatorname{IsPunc}(\operatorname{Tok}(\operatorname{Advance}(P)),\ \texttt{")"})\ \lor \ \operatorname{TupleScan}(\operatorname{Advance}(P),\ 1)\ \Downarrow \ \mathsf{true})
 $$
 
-**(Parse-Tuple-Literal)**
-
-$$
-\begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"("})\quad \operatorname{TupleParen}(P)\quad \Gamma \ \vdash \ \operatorname{ParseTupleExprElems}(\operatorname{Advance}(P))\ \Downarrow \ (P_{1},\ \mathsf{elems})\quad \operatorname{IsPunc}(\operatorname{Tok}(P_{1}),\ \texttt{")"}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{ParsePrimary}(P)\ \Downarrow \ (\operatorname{Advance}(P_{1}),\ \operatorname{TupleExpr}(\mathsf{elems}))
-\end{array}
-$$
+Rule **(Parse-Tuple-Literal)** is defined once by §16.6.2.
 
 **(Parse-TupleExprElems-Empty)**
 IsPunc(Tok(P), ")")
@@ -184,15 +176,7 @@ $$
 \end{array}
 $$
 
-**(Postfix-TupleIndex)**
-
-$$
-\begin{array}{l}
-\operatorname{IsPunc}(\operatorname{Tok}(P),\ \texttt{"."})\quad t\ =\ \operatorname{Tok}(\operatorname{Advance}(P))\quad t.\mathsf{kind}\ =\ \mathsf{IntLiteral}\quad \mathsf{idx}\ =\ \operatorname{IntValue}(t) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{PostfixStep}(P,\ e)\ \Downarrow \ (\operatorname{Advance}(\operatorname{Advance}(P)),\ \operatorname{TupleAccess}(e,\ \mathsf{idx}))
-\end{array}
-$$
+Rule **(Postfix-TupleIndex)** is defined once by §16.2.2.
 
 ### 12.2.3 AST Representation / Form
 
@@ -203,7 +187,7 @@ $$
 $$
 \begin{array}{l}
 \mathsf{TupleExpr}\ =\ \langle \mathsf{elems}\rangle \ \mathsf{where}\ \mathsf{elems}\ \in \ [\mathsf{Expr}] \\[0.16em]
-\mathsf{TupleAccess}\ =\ \langle \mathsf{base},\ \mathsf{index}\rangle \ \mathsf{where}\ \mathsf{base}\ \in \ \mathsf{Expr}\ \land \ \mathsf{index}\ \in \ \mathbb{Z} 
+\mathsf{TupleAccess}\ =\ \langle \mathsf{base},\ \mathsf{index}\rangle \ \mathsf{where}\ \mathsf{base}\ \in \ \mathsf{Expr}\ \land \ \mathsf{index}\ \in \ \mathbb{Z}
 \end{array}
 $$
 
@@ -242,45 +226,7 @@ n\ \ge \ 1\quad \forall \ i,\ \Gamma \ \vdash \ e_{i}\ :\ T_{i} \\[0.16em]
 \end{array}
 $$
 
-**(T-Tuple-Index)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ e\ :\ \operatorname{TypeTuple}([T_{0},\ \ldots ,\ T\_\{n-1\}])\quad 0\ \le \ i\ <\ n\quad \operatorname{BitcopyType}(T_{i}) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TupleAccess}(e,\ i)\ :\ T_{i}
-\end{array}
-$$
-
-**(T-Tuple-Index-Perm)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ e\ :\ \operatorname{TypePerm}(p,\ \operatorname{TypeTuple}([T_{0},\ \ldots ,\ T\_\{n-1\}]))\quad 0\ \le \ i\ <\ n\quad \operatorname{BitcopyType}(\operatorname{TypePerm}(p,\ T_{i})) \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TupleAccess}(e,\ i)\ :\ \operatorname{TypePerm}(p,\ T_{i})
-\end{array}
-$$
-
-**(P-Tuple-Index)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ e\ :\mathsf{place}\ \operatorname{TypeTuple}([T_{0},\ \ldots ,\ T\_\{n-1\}])\quad 0\ \le \ i\ <\ n \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TupleAccess}(e,\ i)\ :\mathsf{place}\ T_{i}
-\end{array}
-$$
-
-**(P-Tuple-Index-Perm)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ e\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ \operatorname{TypeTuple}([T_{0},\ \ldots ,\ T\_\{n-1\}]))\quad 0\ \le \ i\ <\ n \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TupleAccess}(e,\ i)\ :\mathsf{place}\ \operatorname{TypePerm}(p,\ T_{i})
-\end{array}
-$$
+Rules **(T-Tuple-Index)**, **(T-Tuple-Index-Perm)**, **(P-Tuple-Index)**, **(P-Tuple-Index-Perm)** are defined once by §16.2.4.
 
 $$
 \operatorname{ConstTupleIndex}(i)\ \Leftrightarrow \ \exists \ n\ \in \ \mathbb{Z} .\ i\ =\ n
@@ -347,15 +293,7 @@ $$
 \end{array}
 $$
 
-**(EvalSigma-TupleAccess)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\mathsf{base},\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{b}),\ \sigma_{1} )\quad \operatorname{TupleValue}(v_{b},\ i)\ =\ v_{i} \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{EvalSigma}(\operatorname{TupleAccess}(\mathsf{base},\ i),\ \sigma )\ \Downarrow \ (\operatorname{Val}(v_{i}),\ \sigma_{1} )
-\end{array}
-$$
+Rule **(EvalSigma-TupleAccess)** is defined once by §16.2.5.
 
 **(EvalSigma-TupleAccess-Ctrl)**
 
@@ -378,7 +316,7 @@ $$
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TupleLayout}([])\ \Downarrow \ \langle 0,\ 1,\ []\rangle 
+\Gamma \ \vdash \ \operatorname{TupleLayout}([])\ \Downarrow \ \langle 0,\ 1,\ []\rangle
 \end{array}
 $$
 
@@ -386,9 +324,9 @@ $$
 
 $$
 \begin{array}{l}
-n\ \ge \ 1\quad \operatorname{TupleFields}([T_{1},\ \ldots ,\ T_{n}])\ =\ \mathsf{fields}\quad \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \mathsf{offsets}\rangle  \\[0.16em]
+n\ \ge \ 1\quad \operatorname{TupleFields}([T_{1},\ \ldots ,\ T_{n}])\ =\ \mathsf{fields}\quad \operatorname{RecordLayout}(\mathsf{fields})\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \mathsf{offsets}\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{TupleLayout}([T_{1},\ \ldots ,\ T_{n}])\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \mathsf{offsets}\rangle 
+\Gamma \ \vdash \ \operatorname{TupleLayout}([T_{1},\ \ldots ,\ T_{n}])\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \mathsf{offsets}\rangle
 \end{array}
 $$
 
@@ -396,7 +334,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{TupleLayout}([T_{1},\ \ldots ,\ T_{n}])\ \Downarrow \ \langle \mathsf{size},\ \_,\ \_\rangle  \\[0.16em]
+\operatorname{TupleLayout}([T_{1},\ \ldots ,\ T_{n}])\ \Downarrow \ \langle \mathsf{size},\ \_,\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{sizeof}(\operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}]))\ =\ \mathsf{size}
 \end{array}
@@ -406,7 +344,7 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{TupleLayout}([T_{1},\ \ldots ,\ T_{n}])\ \Downarrow \ \langle \_,\ \mathsf{align},\ \_\rangle  \\[0.16em]
+\operatorname{TupleLayout}([T_{1},\ \ldots ,\ T_{n}])\ \Downarrow \ \langle \_,\ \mathsf{align},\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
 \Gamma \ \vdash \ \operatorname{alignof}(\operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}]))\ =\ \mathsf{align}
 \end{array}
@@ -416,9 +354,9 @@ $$
 
 $$
 \begin{array}{l}
-\operatorname{TupleLayout}([T_{1},\ \ldots ,\ T_{n}])\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_\rangle  \\[0.16em]
+\operatorname{TupleLayout}([T_{1},\ \ldots ,\ T_{n}])\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align},\ \_\rangle \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{layout}(\operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}]))\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle 
+\Gamma \ \vdash \ \operatorname{layout}(\operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}]))\ \Downarrow \ \langle \mathsf{size},\ \mathsf{align}\rangle
 \end{array}
 $$
 
@@ -426,21 +364,13 @@ $$
 \operatorname{ValueBits}(\operatorname{TypeTuple}([T_{1},\ \ldots ,\ T_{n}]),\ (v_{1},\ \ldots ,\ v_{n}))\ =\ \mathsf{bits}\ \Leftrightarrow \ \operatorname{TupleLayout}([T_{1},\ \ldots ,\ T_{n}])\ \Downarrow \ \langle \mathsf{size},\ \_,\ \mathsf{offsets}\rangle \ \land \ \operatorname{StructBits}([T_{1},\ \ldots ,\ T_{n}],\ [v_{1},\ \ldots ,\ v_{n}],\ \mathsf{offsets},\ \mathsf{size})\ =\ \mathsf{bits}
 $$
 
-**(Lower-Expr-Tuple)**
-
-$$
-\begin{array}{l}
-\Gamma \ \vdash \ \operatorname{LowerList}(\mathsf{es})\ \Downarrow \ \langle \mathsf{IR},\ \mathsf{vec}_{v}\rangle  \\[0.16em]
-\rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{LowerExpr}(\operatorname{TupleExpr}(\mathsf{es}))\ \Downarrow \ \langle \mathsf{IR},\ (v_{1},\ \ldots ,\ v_{n})\rangle 
-\end{array}
-$$
+Rule **(Lower-Expr-Tuple)** is defined once by §16.6.6.
 
 ### 12.2.7 Diagnostics
 
 | Code         | Severity | Detection    | Condition                                                  |
 | ------------ | -------- | ------------ | ---------------------------------------------------------- |
-| `E-TYP-1801` | Error    | Compile-time | Tuple index out of bounds                                  |
-| `E-TYP-1802` | Error    | Compile-time | Tuple index is not a compile-time constant integer literal |
-| `E-TYP-1803` | Error    | Compile-time | Tuple arity mismatch in assignment or pattern              |
-| `E-SEM-2524` | Error    | Compile-time | Tuple access on non-tuple                                  |
+| `E-TYP-1801` | Error    | Compile-time | Tuple index out of bounds (`TupleIndex-OOB`) |
+| `E-TYP-1802` | Error    | Compile-time | Tuple index is not a compile-time constant integer literal (`TupleIndex-NonConst`) |
+| `E-TYP-1803` | Error    | Compile-time | Tuple arity mismatch in assignment or pattern (`Pat-Tuple-Arity-Err`) |
+| `E-SEM-2524` | Error    | Compile-time | Tuple access on non-tuple (`TupleAccess-NotTuple`) |

@@ -2,16 +2,16 @@
 title: "22.6 Compile-Time Diagnostics Supplement"
 description: "22.6 Compile-Time Diagnostics Supplement from 22. Compile-Time Execution and Metaprogramming of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "compile-time-execution-and-metaprogramming"
 specSection: "226-compile-time-diagnostics-supplement"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -85,6 +85,7 @@ This section owns compile-time execution, reflection, quoting, emission, file-ac
 | `E-CTE-0440` | Error    | Compile-time | Reflection `variants` query on non-enum type                   |
 | `E-CTE-0450` | Error    | Compile-time | Reflection `states` query on non-modal type                    |
 | `E-CTE-0470` | Error    | Compile-time | Reflection type-predicate query on incomplete declaration      |
+| `E-CTE-0090` | Error    | Compile-time | Compile-time form depends on a declaration emitted by Phase 2 execution of another module (`CtExpand-CrossModule-Emit-Err`) |
 
 `diagnostics.error(msg)` MUST append `⟨`E-CTE-0070`, Error, msg, sp⟩`, where `sp` is the current compile-time site span.
 `diagnostics.warning(msg)` MUST append `⟨`W-CTE-0071`, Warning, msg, sp⟩`, where `sp` is the current compile-time site span.

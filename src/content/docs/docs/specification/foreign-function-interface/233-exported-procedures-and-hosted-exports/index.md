@@ -2,16 +2,16 @@
 title: "23.3 Exported Procedures and Hosted Exports"
 description: "23.3 Exported Procedures and Hosted Exports from 23. Foreign Function Interface of the Ultraviolet language specification."
 specSource: "SPECIFICATION.md"
-specHash: "bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45"
+specHash: "7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c"
 specChapter: "foreign-function-interface"
 specSection: "233-exported-procedures-and-hosted-exports"
-generatedAt: "2026-05-20T01:05:16.171Z"
+generatedAt: "2026-06-10T23:34:49.143Z"
 generated: true
 ---
 
 <div class="spec-provenance">
   <strong>Generated from SPECIFICATION.md.</strong>
-  <span>SHA-256: <code>bf87bbb4986d9700b5e2e916efc495553d0d1ce806f5f6f55842ecbb4a5adc45</code></span>
+  <span>SHA-256: <code>7504a51b9ef9be0f46945513a2e5cbc5ed84a20cbefdb34151c6775a4e07196c</code></span>
 </div>
 
 <div class="spec-section-context">
@@ -121,7 +121,7 @@ HostAbiVersion = 1
 
 $$
 \begin{array}{l}
-\mathsf{HostSessionAbiParam}\ =\ \langle \texttt{move},\ \texttt{\_\_ultraviolet\_session},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle  \\[0.16em]
+\mathsf{HostSessionAbiParam}\ =\ \langle \texttt{move},\ \texttt{\_\_ultraviolet\_session},\ \operatorname{TypePrim}(\texttt{"usize"})\rangle \\[0.16em]
 \operatorname{HostThunkParams}(\mathsf{proc})\ =\ [\mathsf{HostSessionAbiParam}]\ \mathbin{++} \ \mathsf{params}_{\mathsf{vis}}\ \Leftrightarrow \ \operatorname{HostVisibleParams}(\mathsf{proc})\ =\ \mathsf{params}_{\mathsf{vis}} \\[0.16em]
 \operatorname{HostThunkForeignParamTypes}(\mathsf{proc})\ =\ [\operatorname{TypePrim}(\texttt{"usize"})]\ \mathbin{++} \ [T_{i}\ \mid \ \langle \_,\ \_,\ T_{i}\rangle \ \in \ \mathsf{params}_{\mathsf{vis}}]\ \Leftrightarrow \ \operatorname{HostVisibleParams}(\mathsf{proc})\ =\ \mathsf{params}_{\mathsf{vis}} \\[0.16em]
 \operatorname{HostThunkSig}(\mathsf{proc})\ =\ \langle \operatorname{HostThunkParams}(\mathsf{proc}),\ \operatorname{ProcReturn}(\mathsf{ret}_{\mathsf{opt}})\rangle \ \Leftrightarrow \ \mathsf{proc}\ =\ \operatorname{ProcedureDecl}(\_,\ \_,\ \_,\ \_,\ \_,\ \_,\ \mathsf{ret}_{\mathsf{opt}},\ \_,\ \_,\ \_,\ \_)
@@ -250,15 +250,15 @@ $$
 \begin{array}{l}
 \mathsf{HostThunkParamCarrierJudg}\ =\ \{\mathsf{HostThunkParamCarrier}\} \\[0.16em]
 \mathsf{HostThunkRetCarrierJudg}\ =\ \{\mathsf{HostThunkRetCarrier}\} \\[0.16em]
-\operatorname{HostThunkParamShape}(\mathsf{proc})\ =\ [\langle k_{i},\ c_{i},\ \tau_{i} \rangle ]\ \Leftrightarrow  \\[0.16em]
-\ \operatorname{HostThunkForeignParamTypes}(\mathsf{proc})\ =\ [T_{i}]\ \land  \\[0.16em]
-\ \operatorname{HostThunkSig}(\mathsf{proc})\ =\ \langle \_,\ R\rangle \ \land  \\[0.16em]
-\ \Gamma \ \vdash \ \operatorname{ForeignABICall}([T_{i}],\ R)\ \Downarrow \ \langle [k_{i}],\ k_{r},\ \mathsf{sretSigma}_{\mathsf{base}}\rangle \ \land  \\[0.16em]
-\ \forall \ i.\ \Gamma \ \vdash \ \operatorname{HostThunkParamCarrier}(\mathsf{SelectedTargetProfile},\ k_{i},\ T_{i})\ \Downarrow \ \langle c_{i},\ \tau_{i} \rangle  \\[0.16em]
-\operatorname{HostThunkRetShape}(\mathsf{proc})\ =\ \langle k_{r},\ c_{r},\ \tau_{r} ,\ \mathsf{sretSigma}\rangle \ \Leftrightarrow  \\[0.16em]
-\ \operatorname{HostThunkSig}(\mathsf{proc})\ =\ \langle \_,\ R\rangle \ \land  \\[0.16em]
-\ \Gamma \ \vdash \ \operatorname{ForeignABICall}(\operatorname{HostThunkForeignParamTypes}(\mathsf{proc}),\ R)\ \Downarrow \ \langle [k_{i}],\ k_{r},\ \mathsf{sretSigma}_{\mathsf{base}}\rangle \ \land  \\[0.16em]
-\ \Gamma \ \vdash \ \operatorname{HostThunkRetCarrier}(\mathsf{SelectedTargetProfile},\ k_{r},\ R,\ \mathsf{sretSigma}_{\mathsf{base}})\ \Downarrow \ \langle c_{r},\ \tau_{r} ,\ \mathsf{sretSigma}\rangle  \\[0.16em]
+\operatorname{HostThunkParamShape}(\mathsf{proc})\ =\ [\langle k_{i},\ c_{i},\ \tau_{i} \rangle ]\ \Leftrightarrow \\[0.16em]
+\ \operatorname{HostThunkForeignParamTypes}(\mathsf{proc})\ =\ [T_{i}]\ \land \\[0.16em]
+\ \operatorname{HostThunkSig}(\mathsf{proc})\ =\ \langle \_,\ R\rangle \ \land \\[0.16em]
+\ \Gamma \ \vdash \ \operatorname{ForeignABICall}([T_{i}],\ R)\ \Downarrow \ \langle [k_{i}],\ k_{r},\ \mathsf{sretSigma}_{\mathsf{base}}\rangle \ \land \\[0.16em]
+\ \forall \ i.\ \Gamma \ \vdash \ \operatorname{HostThunkParamCarrier}(\mathsf{SelectedTargetProfile},\ k_{i},\ T_{i})\ \Downarrow \ \langle c_{i},\ \tau_{i} \rangle \\[0.16em]
+\operatorname{HostThunkRetShape}(\mathsf{proc})\ =\ \langle k_{r},\ c_{r},\ \tau_{r} ,\ \mathsf{sretSigma}\rangle \ \Leftrightarrow \\[0.16em]
+\ \operatorname{HostThunkSig}(\mathsf{proc})\ =\ \langle \_,\ R\rangle \ \land \\[0.16em]
+\ \Gamma \ \vdash \ \operatorname{ForeignABICall}(\operatorname{HostThunkForeignParamTypes}(\mathsf{proc}),\ R)\ \Downarrow \ \langle [k_{i}],\ k_{r},\ \mathsf{sretSigma}_{\mathsf{base}}\rangle \ \land \\[0.16em]
+\ \Gamma \ \vdash \ \operatorname{HostThunkRetCarrier}(\mathsf{SelectedTargetProfile},\ k_{r},\ R,\ \mathsf{sretSigma}_{\mathsf{base}})\ \Downarrow \ \langle c_{r},\ \tau_{r} ,\ \mathsf{sretSigma}\rangle \\[0.16em]
 \operatorname{IntLane}(1)\ =\ \texttt{i8} \\[0.16em]
 \operatorname{IntLane}(2)\ =\ \texttt{i16} \\[0.16em]
 \operatorname{IntLane}(4)\ =\ \texttt{i32} \\[0.16em]
@@ -273,7 +273,7 @@ k = `ByRef`
 $$
 \begin{array}{l}
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{HostThunkParamCarrier}(\mathsf{profile},\ k,\ T)\ \Downarrow \ \langle \texttt{Direct},\ \operatorname{LLVMPtrTy}(\operatorname{TypePtr}(\operatorname{TypePerm}(\texttt{const},\ T),\ \texttt{Valid}))\rangle 
+\Gamma \ \vdash \ \operatorname{HostThunkParamCarrier}(\mathsf{profile},\ k,\ T)\ \Downarrow \ \langle \texttt{Direct},\ \operatorname{LLVMPtrTy}(\operatorname{TypePtr}(\operatorname{TypePerm}(\texttt{const},\ T),\ \texttt{Valid}))\rangle
 \end{array}
 $$
 
@@ -281,9 +281,9 @@ $$
 
 $$
 \begin{array}{l}
-k\ =\ \texttt{ByValue}\quad \lnot (\mathsf{profile}\ =\ \texttt{x86\_64-win64}\ \land \ \operatorname{AggLLVM}(T))\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau  \\[0.16em]
+k\ =\ \texttt{ByValue}\quad \lnot (\mathsf{profile}\ =\ \texttt{x86\_64-win64}\ \land \ \operatorname{AggLLVM}(T))\quad \Gamma \ \vdash \ \operatorname{LLVMTy}(T)\ \Downarrow \ \tau \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{HostThunkParamCarrier}(\mathsf{profile},\ k,\ T)\ \Downarrow \ \langle \texttt{Direct},\ \tau \rangle 
+\Gamma \ \vdash \ \operatorname{HostThunkParamCarrier}(\mathsf{profile},\ k,\ T)\ \Downarrow \ \langle \texttt{Direct},\ \tau \rangle
 \end{array}
 $$
 
@@ -293,7 +293,7 @@ $$
 \begin{array}{l}
 \mathsf{profile}\ =\ \texttt{x86\_64-win64}\quad k\ =\ \texttt{ByValue}\quad \operatorname{AggLLVM}(T)\quad \Gamma \ \vdash \ \operatorname{sizeof}(T)\ =\ n\quad n\ \in \ \{1,\ 2,\ 4,\ 8\} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{HostThunkParamCarrier}(\mathsf{profile},\ k,\ T)\ \Downarrow \ \langle \texttt{Direct},\ \operatorname{IntLane}(n)\rangle 
+\Gamma \ \vdash \ \operatorname{HostThunkParamCarrier}(\mathsf{profile},\ k,\ T)\ \Downarrow \ \langle \texttt{Direct},\ \operatorname{IntLane}(n)\rangle
 \end{array}
 $$
 
@@ -303,7 +303,7 @@ $$
 \begin{array}{l}
 \mathsf{profile}\ =\ \texttt{x86\_64-win64}\quad k\ =\ \texttt{ByValue}\quad \operatorname{AggLLVM}(T)\quad \Gamma \ \vdash \ \operatorname{sizeof}(T)\ =\ n\quad n\ >\ 0\quad n\ \notin \ \{1,\ 2,\ 4,\ 8\} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{HostThunkParamCarrier}(\mathsf{profile},\ k,\ T)\ \Downarrow \ \langle \texttt{Indirect},\ \operatorname{LLVMPtrTy}(\operatorname{TypePtr}(\operatorname{TypePerm}(\texttt{const},\ T),\ \texttt{Valid}))\rangle 
+\Gamma \ \vdash \ \operatorname{HostThunkParamCarrier}(\mathsf{profile},\ k,\ T)\ \Downarrow \ \langle \texttt{Indirect},\ \operatorname{LLVMPtrTy}(\operatorname{TypePtr}(\operatorname{TypePerm}(\texttt{const},\ T),\ \texttt{Valid}))\rangle
 \end{array}
 $$
 
@@ -311,9 +311,9 @@ $$
 
 $$
 \begin{array}{l}
-\mathsf{profile}\ \ne \ \texttt{x86\_64-win64}\ \lor \ \lnot (k_{r}\ =\ \texttt{ByValue}\ \land \ \operatorname{AggLLVM}(R))\quad \Gamma \ \vdash \ \operatorname{LLVMRetLower}(R,\ k_{r})\ \Downarrow \ \tau_{r}  \\[0.16em]
+\mathsf{profile}\ \ne \ \texttt{x86\_64-win64}\ \lor \ \lnot (k_{r}\ =\ \texttt{ByValue}\ \land \ \operatorname{AggLLVM}(R))\quad \Gamma \ \vdash \ \operatorname{LLVMRetLower}(R,\ k_{r})\ \Downarrow \ \tau_{r} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{HostThunkRetCarrier}(\mathsf{profile},\ k_{r},\ R,\ \mathsf{sretSigma}_{\mathsf{base}})\ \Downarrow \ \langle \texttt{Direct},\ \tau_{r} ,\ \mathsf{sretSigma}_{\mathsf{base}}\rangle 
+\Gamma \ \vdash \ \operatorname{HostThunkRetCarrier}(\mathsf{profile},\ k_{r},\ R,\ \mathsf{sretSigma}_{\mathsf{base}})\ \Downarrow \ \langle \texttt{Direct},\ \tau_{r} ,\ \mathsf{sretSigma}_{\mathsf{base}}\rangle
 \end{array}
 $$
 
@@ -323,7 +323,7 @@ $$
 \begin{array}{l}
 \mathsf{profile}\ =\ \texttt{x86\_64-win64}\quad k_{r}\ =\ \texttt{ByValue}\quad \operatorname{AggLLVM}(R)\quad \Gamma \ \vdash \ \operatorname{sizeof}(R)\ =\ n\quad n\ \in \ \{1,\ 2,\ 4,\ 8\} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{HostThunkRetCarrier}(\mathsf{profile},\ k_{r},\ R,\ \mathsf{sretSigma}_{\mathsf{base}})\ \Downarrow \ \langle \texttt{Direct},\ \operatorname{IntLane}(n),\ \mathsf{false}\rangle 
+\Gamma \ \vdash \ \operatorname{HostThunkRetCarrier}(\mathsf{profile},\ k_{r},\ R,\ \mathsf{sretSigma}_{\mathsf{base}})\ \Downarrow \ \langle \texttt{Direct},\ \operatorname{IntLane}(n),\ \mathsf{false}\rangle
 \end{array}
 $$
 
@@ -333,7 +333,7 @@ $$
 \begin{array}{l}
 \mathsf{profile}\ =\ \texttt{x86\_64-win64}\quad k_{r}\ =\ \texttt{ByValue}\quad \operatorname{AggLLVM}(R)\quad \Gamma \ \vdash \ \operatorname{sizeof}(R)\ =\ n\quad n\ >\ 0\quad n\ \notin \ \{1,\ 2,\ 4,\ 8\} \\[0.16em]
 \rule{18em}{0.4pt} \\[0.16em]
-\Gamma \ \vdash \ \operatorname{HostThunkRetCarrier}(\mathsf{profile},\ k_{r},\ R,\ \mathsf{sretSigma}_{\mathsf{base}})\ \Downarrow \ \langle \texttt{Indirect},\ \texttt{void},\ \mathsf{true}\rangle 
+\Gamma \ \vdash \ \operatorname{HostThunkRetCarrier}(\mathsf{profile},\ k_{r},\ R,\ \mathsf{sretSigma}_{\mathsf{base}})\ \Downarrow \ \langle \texttt{Indirect},\ \texttt{void},\ \mathsf{true}\rangle
 \end{array}
 $$
 
@@ -375,9 +375,9 @@ These hosted-export thunks are backend-generated boundary declarations. They are
 | Code         | Severity | Detection    | Condition                                                                            |
 | ------------ | -------- | ------------ | ------------------------------------------------------------------------------------ |
 | `E-TYP-2632` | Error    | Compile-time | `#host_export` requires a leading `Context` bundle parameter                      |
-| `E-TYP-2633` | Error    | Compile-time | `#host_export` leading `Context` bundle parameter MUST NOT use `move`             |
-| `E-TYP-2634` | Error    | Compile-time | Generic `#host_export` procedure                                                  |
+| `E-TYP-2633` | Error    | Compile-time | `#host_export` leading `Context` bundle parameter MUST NOT use `move` (`HostExport-Context-Move-Err`) |
+| `E-TYP-2634` | Error    | Compile-time | Generic `#host_export` procedure (`HostExport-Generic-Err`) |
 | `E-TYP-2635` | Error    | Compile-time | `#host_export` catch requires zeroable return type                                |
-| `E-TYP-2636` | Error    | Compile-time | `#host_export` MUST use an explicit projected `Context` bundle, not raw `Context` |
+| `E-TYP-2636` | Error    | Compile-time | `#host_export` MUST use an explicit projected `Context` bundle, not raw `Context` (`HostExport-Context-Err`, `HostExport-Context-Raw-Err`) |
 
 Type-admissibility failures in `FfiSafeType` and by-value FFI use for hosted-export visible parameters and returns are owned by §23.1.7.
