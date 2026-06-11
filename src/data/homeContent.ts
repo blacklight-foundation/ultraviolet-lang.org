@@ -293,7 +293,7 @@ export const quickLinks = [
   {
     label: 'Install',
     title: 'Get the compiler',
-    body: 'One-line installer, packaged archives with checksums, and release notes.',
+    body: 'One-line installer, live package status, checksum metadata, and release notes.',
     href: '/releases/',
     cta: 'Open releases',
     primary: true,

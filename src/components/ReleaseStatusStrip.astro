@@ -7,24 +7,39 @@ interface Props {
 }
 
 const status = Astro.props.status ?? await getReleaseStatus();
+const integrityLabel = status.hasChecksums
+  ? 'checksums published'
+  : status.source === 'github'
+    ? 'checksum metadata pending'
+    : 'GitHub status unavailable';
 ---
 
-<section class="dd-status" aria-label="Release status">
+<section class="dd-status" aria-label="Release status" data-release-status-root>
   <div class="dd-wrap dd-status-in">
     <div class="dd-status-cell">
       <p class="dd-status-k">Latest release</p>
-      <p class="dd-status-v">{status.version}</p>
+      <p class="dd-status-v" data-release-version>{status.version}</p>
       <p class="dd-status-sub">
-        {status.date} · <a href={status.href}>release notes</a>
+        <span data-release-date>{status.date}</span> · <a href={status.href} data-release-link>release notes</a>
       </p>
     </div>
     {
       status.platforms.map((platform) => (
-        <div class="dd-status-cell">
-          <p class="dd-status-k">{platform.label}</p>
+        <div class="dd-status-cell" data-release-platform-target={platform.target}>
+          <p class="dd-status-k" data-release-platform-label>{platform.label}</p>
           <p class="dd-status-v">
-            <span class="dd-status-ok">✓</span>{' '}
-            {platform.verified ? 'build verified' : 'verification pending'}
+            <span
+              class:list={['dd-status-ok', !platform.verified && 'is-pending']}
+              data-release-platform-icon
+            >
+              {platform.verified ? 'OK' : '...'}
+            </span>{' '}
+            <span data-release-platform-status>
+              {platform.verified ? 'build verified' : 'validation pending'}
+            </span>
+          </p>
+          <p class="dd-status-sub">
+            <a href={platform.href} data-release-platform-link>GitHub Actions</a>
           </p>
         </div>
       ))
@@ -32,11 +47,16 @@ const status = Astro.props.status ?? await getReleaseStatus();
     <div class="dd-status-cell">
       <p class="dd-status-k">Integrity</p>
       <p class="dd-status-v">
-        <span class="dd-status-ok">✓</span>{' '}
+        <span
+          class:list={['dd-status-ok', !status.hasChecksums && 'is-pending']}
+          data-release-integrity-icon
+        >
+          {status.hasChecksums ? 'OK' : '...'}
+        </span>{' '}
         SHA-256
       </p>
-      <p class="dd-status-sub">
-        {status.hasChecksums ? 'checksums published' : 'checksums pending'}
+      <p class="dd-status-sub" data-release-integrity-status>
+        {integrityLabel}
       </p>
     </div>
   </div>

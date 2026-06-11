@@ -21,7 +21,7 @@ The Ultraviolet compiler source is organized around the same surfaces exposed by
 
 ## Current build direction
 
-The compiler rebuild plan tracks a full self-hosting Ultraviolet compiler implementation. Windows `x86_64-win64` is the first bootstrap target.
+The compiler rebuild plan tracks a full self-hosting Ultraviolet compiler implementation. Current bootstrap target and validation status are reported through the language repository and release status page.
 
 ## Source references
 

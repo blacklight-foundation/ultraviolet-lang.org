@@ -5149,6 +5149,10 @@ h1 {
   color: var(--grn);
 }
 
+.dd-status-ok.is-pending {
+  color: var(--faint);
+}
+
 .dd-section,
 .page-section {
   padding: 88px 0 0;
@@ -5650,6 +5654,13 @@ h2 {
   color: var(--grn);
   font-size: 12px;
   text-align: right;
+}
+
+.ddp-artifact-empty {
+  margin: 14px 0 0;
+  color: var(--faint);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
 }
 
 .ddp-route-row {

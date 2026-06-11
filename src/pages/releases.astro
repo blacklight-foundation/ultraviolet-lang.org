@@ -5,19 +5,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getReleaseStatus } from '../data/releaseStatus';
 
 const releaseStatus = await getReleaseStatus();
+const releaseArtifactHeading = releaseStatus.source === 'github'
+  ? `What ships in ${releaseStatus.version}.`
+  : 'What ships in the current GitHub release.';
 
 const releaseTimeline = [
   {
-    title: 'Build verification',
-    status: 'Now',
+    title: 'Build validation',
+    status: 'Live',
     tone: 'now',
-    body: 'Build checks, prerequisite validation, and documented verification for local source builds.',
+    body: 'GitHub Actions validation is read from successful workflow jobs for the current release target.',
   },
   {
     title: 'Packaged artifacts',
-    status: 'Available',
+    status: 'Live',
     tone: 'now',
-    body: 'Target-specific archives with SHA-256 checksums ship on GitHub releases; the install script pulls the latest alpha.',
+    body: 'Target-specific archives and checksum metadata are read from the current GitHub release.',
   },
   {
     title: 'Release cadence',
@@ -38,12 +41,12 @@ const releaseTimeline = [
         <p class="ddp-kicker">Compiler downloads</p>
         <h1 class="ddp-h1">Compiler Releases</h1>
         <p class="ddp-lede">
-          Install the packaged alpha with one command, download archives
-          directly from GitHub releases, or build from source.
+          Install the current packaged compiler release with one command,
+          download archives directly from GitHub releases, or build from source.
         </p>
         <div class="ddp-actions">
           <a class="dd-btn-primary" href="#install">Get the installer</a>
-          <a class="dd-btn-ghost" href={releaseStatus.href}>Open GitHub releases</a>
+          <a class="dd-btn-ghost" href={releaseStatus.href} data-release-link>Open GitHub releases</a>
         </div>
       </div>
     </header>
@@ -57,9 +60,9 @@ const releaseTimeline = [
           <div>
             <h2 class="ddp-h2" id="install-heading">One command.</h2>
             <p class="dd-section-sub">
-              The installer downloads the latest packaged alpha from GitHub
-              releases, verifies its SHA-256 checksum, and adds the <code>uv</code>
-              command to your PATH.
+              The installer resolves the current packaged compiler release from
+              GitHub, uses published SHA-256 metadata when available, and adds
+              the <code>uv</code> command to your PATH.
             </p>
           </div>
         </div>
@@ -73,9 +76,9 @@ const releaseTimeline = [
           instead.
         </p>
         <div class="ddp-linkrow">
-          <a href={releaseStatus.href}>Manual downloads on GitHub →</a>
-          <a href="/docs/build-the-compiler/">Build from source →</a>
-          <a href="/docs/quickstart/">Quickstart: first program →</a>
+          <a href={releaseStatus.href} data-release-link>Manual downloads on GitHub -></a>
+          <a href="/docs/build-the-compiler/">Build from source -></a>
+          <a href="/docs/quickstart/">Quickstart: first program -></a>
         </div>
       </section>
 
@@ -83,32 +86,48 @@ const releaseTimeline = [
         <div class="ddp-section-head">
           <span class="dd-section-no"><b>02</b> / ARTIFACTS</span>
           <div>
-            <h2 class="ddp-h2" id="artifacts-heading">What ships in {releaseStatus.version}.</h2>
+            <h2 class="ddp-h2" id="artifacts-heading" data-release-artifact-heading>
+              {releaseArtifactHeading}
+            </h2>
             <p class="dd-section-sub">
-              Every archive is built in CI and published with its SHA-256
-              checksum. The install script verifies before unpacking.
+              Archives, checksum metadata, and validation state are read from
+              the current GitHub release and Actions run.
             </p>
           </div>
         </div>
-        <div class="ddp-artifact-table" role="table" aria-label="Release artifacts">
+        <div
+          class="ddp-artifact-table"
+          role="table"
+          aria-label="Release artifacts"
+          data-release-artifact-table
+        >
           <div class="ddp-artifact-row ddp-artifact-head" role="row">
             <span role="columnheader">Target</span>
             <span role="columnheader">Archive</span>
             <span role="columnheader">Checksum</span>
-            <span role="columnheader">CI</span>
+            <span role="columnheader">Validation</span>
           </div>
-          {
-            releaseStatus.artifacts.map((artifact) => (
-              <a class="ddp-artifact-row" href={artifact.href} role="row">
-                <span class="target" role="cell">{artifact.target}</span>
-                <span class="file" role="cell">{artifact.file}</span>
-                <span class="sum" role="cell">{artifact.sum}</span>
-                <span class="ok" role="cell">
-                  {artifact.verified ? '✓ verified' : 'pending'}
-                </span>
-              </a>
-            ))
-          }
+          <div data-release-artifact-body>
+            {
+              releaseStatus.artifacts.map((artifact) => (
+                <a class="ddp-artifact-row" href={artifact.href} role="row">
+                  <span class="target" role="cell">{artifact.target}</span>
+                  <span class="file" role="cell">{artifact.file}</span>
+                  <span class="sum" role="cell">{artifact.sum}</span>
+                  <span class="ok" role="cell">
+                    {artifact.verified ? 'build verified' : 'pending'}
+                  </span>
+                </a>
+              ))
+            }
+          </div>
+          <p
+            class="ddp-artifact-empty"
+            data-release-artifact-empty
+            hidden={releaseStatus.artifacts.length > 0}
+          >
+            No downloadable assets are listed on the current GitHub release.
+          </p>
         </div>
       </section>
 

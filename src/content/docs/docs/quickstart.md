@@ -3,16 +3,17 @@ title: Quickstart
 description: Quickstart for the Ultraviolet public alpha.
 ---
 
-<aside class="docs-status">
-  <strong>Public alpha.</strong>
-  <span>The current repository contains the compiler, runtime, and <code>uv</code> source. The build path is being hardened toward the public specification.</span>
+<aside class="docs-status" data-release-doc-status>
+  <strong>Compiler release: <span data-release-version>GitHub release metadata</span>.</strong>
+  <span>The current release, checksum status, and validation state are loaded from GitHub. <a href="https://github.com/blacklight-foundation/ultraviolet/releases" data-release-link>Open current release</a>.</span>
 </aside>
 
 ## Install
 
-The installer downloads the latest packaged alpha from
+The installer resolves the current packaged compiler release from
 [GitHub releases](https://github.com/blacklight-foundation/ultraviolet/releases),
-verifies its SHA-256 checksum, and adds the `uv` command to your PATH.
+uses published SHA-256 metadata when available, and adds the `uv` command to
+your PATH.
 
 Linux x86_64 and macOS (Apple Silicon):
 
@@ -41,9 +42,9 @@ asks how to proceed: keep it available as `pyuv` and install Ultraviolet as
 
 ## Platform support
 
-Packaged alpha builds ship for Linux x86_64, macOS on Apple Silicon, and
-Windows x86_64. The first bootstrap target profile is Windows
-`x86_64-win64`. Other targets follow the [public roadmap](/roadmap/).
+Use the [release status page](/releases/) for the packages, checksum metadata,
+and validation results GitHub currently reports. Builds from source follow the
+target profiles and bootstrap notes in the language repository.
 
 ## Prerequisites
 
@@ -100,4 +101,6 @@ The `--target-profile`, `--quiet`, and `--machine-readable` flags are part of th
 
 ## Status note
 
-The public alpha build path is still being hardened. Use the language repository for bootstrap dependency notes and the [Build the Compiler](/docs/build-the-compiler/) page for the current release path.
+The public alpha build path is still being hardened. Use the language repository
+for bootstrap dependency notes and the [Build the Compiler](/docs/build-the-compiler/)
+page for source-build guidance.

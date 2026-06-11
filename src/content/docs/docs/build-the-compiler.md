@@ -3,9 +3,9 @@ title: Build the Compiler
 description: Build notes for the Ultraviolet compiler.
 ---
 
-<aside class="docs-status">
-  <strong>Compiler status: alpha bootstrap.</strong>
-  <span>The public repository contains Compiler, Runtime, and Tools/Uv source. Public build instructions are being hardened alongside examples, diagnostics, and CI.</span>
+<aside class="docs-status" data-release-doc-status>
+  <strong>Compiler release: <span data-release-version>GitHub release metadata</span>.</strong>
+  <span>Release notes, downloadable artifacts, checksum status, and validation state are loaded from GitHub. <a href="https://github.com/blacklight-foundation/ultraviolet/releases" data-release-link>Open current release</a>.</span>
 </aside>
 
 ## Repository shape
@@ -53,7 +53,7 @@ uv test
 
 ## Target profile
 
-The first bootstrap target is Windows `x86_64-win64`.
+The current bootstrap target follows the language repository build notes.
 
 The specification defines these target profiles:
 
@@ -63,14 +63,15 @@ The specification defines these target profiles:
 
 ## Expected output
 
-The alpha build path should produce a compiler executable, smoke-test artifacts, and enough examples to verify the local toolchain.
+The build path should produce a compiler executable, validation artifacts, and
+enough examples to verify the local toolchain.
 
 ## Troubleshooting
 
 - Confirm bootstrap dependencies match the repository notes.
 - Confirm the selected target profile matches the active build notes.
 - Re-run the build from a clean terminal after changing toolchain or target environment variables.
-- Check public issues for current build-hardening notes.
+- Check GitHub Actions and public issues for current build-hardening notes.
 
 ## Issues
 
