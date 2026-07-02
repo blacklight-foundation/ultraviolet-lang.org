@@ -15,6 +15,7 @@ export const HANDBOOK_UPSTREAM_SOURCE_DIR = resolve(
 );
 
 const PART_FILE_PATTERN = /^[0-9]{2}-[a-z0-9-]+\.md$/;
+const HEADING_PATTERN = /^(#{3,5})\s+(.+)$/gm;
 
 export function readHandbookSourceTree(sourceDir = HANDBOOK_SOURCE_DIR) {
   const chapters = readHandbookChapters(sourceDir);
@@ -70,9 +71,7 @@ export function handbookSidebarItems(sourceTree = readHandbookSourceTree()) {
 }
 
 export function renderHandbookIndex(sourceTree = readHandbookSourceTree()) {
-  const chapterLinks = sourceTree.chapters
-    .map((chapter) => `- [${chapter.title}](${chapter.route})`)
-    .join('\n');
+  const referenceTree = renderHandbookReferenceTree(sourceTree);
 
   return `${frontmatter({
     title: 'Ultraviolet Developer Handbook',
@@ -92,9 +91,9 @@ The Ultraviolet Developer Handbook is the public reference for learning and writ
   <span>SHA-256: <code>${sourceTree.hash}</code></span>
 </div>
 
-## Chapters
+## Reference Tree
 
-${chapterLinks}
+${referenceTree}
 `;
 }
 
@@ -178,4 +177,89 @@ function chapterTitle(content, file) {
 
 function stripChapterHeading(content) {
   return content.replace(/^##\s+.+\n+/, '').trimStart();
+}
+
+function renderHandbookReferenceTree(sourceTree) {
+  const chapters = sourceTree.chapters
+    .map((chapter) => {
+      const sections = headingTreeForChapter(chapter);
+      return `<li>
+  <details open>
+    <summary><a href="${chapter.route}">${escapeHtml(chapter.title)}</a></summary>
+${renderHeadingNodes(sections, 4)}
+  </details>
+</li>`;
+    })
+    .join('\n');
+
+  return `<ol class="handbook-reference-tree">
+${chapters}
+</ol>`;
+}
+
+function renderHeadingNodes(nodes, indent) {
+  if (nodes.length === 0) return `${' '.repeat(indent)}<ol></ol>`;
+
+  const padding = ' '.repeat(indent);
+  const childPadding = ' '.repeat(indent + 2);
+  const items = nodes
+    .map((node) => {
+      const children = node.children.length > 0 ? `\n${renderHeadingNodes(node.children, indent + 4)}\n${childPadding}` : '';
+      return `${childPadding}<li><a href="${node.href}">${escapeHtml(node.title)}</a>${children}</li>`;
+    })
+    .join('\n');
+
+  return `${padding}<ol>
+${items}
+${padding}</ol>`;
+}
+
+function headingTreeForChapter(chapter) {
+  const slugger = createSlugger();
+  const root = { depth: 2, children: [] };
+  const stack = [root];
+
+  for (const match of chapter.body.matchAll(HEADING_PATTERN)) {
+    const depth = match[1].length;
+    const title = headingText(match[2]);
+    const node = {
+      depth,
+      title,
+      href: `${chapter.route}#${slugger.slug(title)}`,
+      children: [],
+    };
+
+    while (stack.at(-1).depth >= depth) stack.pop();
+    stack.at(-1).children.push(node);
+    stack.push(node);
+  }
+
+  return root.children;
+}
+
+function headingText(value) {
+  return value
+    .replace(/!\[([^\]]*)]\([^)]+\)/g, '$1')
+    .replace(/\[([^\]]+)]\([^)]+\)/g, '$1')
+    .replace(/`([^`]+)`/g, '$1')
+    .trim();
+}
+
+function createSlugger() {
+  const occurrences = new Map();
+  return {
+    slug(value) {
+      const base = slug(value);
+      const count = occurrences.get(base) ?? 0;
+      occurrences.set(base, count + 1);
+      return count === 0 ? base : `${base}-${count}`;
+    },
+  };
+}
+
+function slug(value) {
+  return value
+    .toLowerCase()
+    .replace(/[^\p{Letter}\p{Number}\p{Mark}\p{Connector_Punctuation} -]/gu, '')
+    .replace(/ /g, '-');
 }

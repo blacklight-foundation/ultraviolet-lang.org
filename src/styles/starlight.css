@@ -1206,6 +1206,76 @@ button[data-open-modal]:focus-visible {
   padding-bottom: 1px;
 }
 
+.sl-markdown-content .handbook-reference-tree,
+.sl-markdown-content .handbook-reference-tree ol {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-inline-start: 0;
+  list-style: none;
+}
+
+.sl-markdown-content .handbook-reference-tree {
+  margin: 22px 0 0;
+  border-top: 1px solid var(--uv-border);
+}
+
+.sl-markdown-content .handbook-reference-tree > li {
+  border-bottom: 1px solid var(--uv-border);
+  padding: 10px 0;
+}
+
+.sl-markdown-content .handbook-reference-tree details {
+  display: grid;
+  gap: 8px;
+}
+
+.sl-markdown-content .handbook-reference-tree summary {
+  cursor: pointer;
+  color: var(--uv-text);
+  font-weight: 750;
+}
+
+.sl-markdown-content .handbook-reference-tree summary::marker {
+  color: var(--uv-accent);
+}
+
+.sl-markdown-content .handbook-reference-tree summary a {
+  color: var(--uv-text);
+  text-decoration: none;
+}
+
+.sl-markdown-content .handbook-reference-tree summary a:hover,
+.sl-markdown-content .handbook-reference-tree summary a:focus-visible,
+.sl-markdown-content .handbook-reference-tree li a:hover,
+.sl-markdown-content .handbook-reference-tree li a:focus-visible {
+  color: var(--uv-accent);
+  text-decoration: underline;
+  text-decoration-color: rgba(157, 123, 255, 0.44);
+}
+
+.sl-markdown-content .handbook-reference-tree details > ol {
+  margin-top: 8px;
+  padding-inline-start: 22px;
+}
+
+.sl-markdown-content .handbook-reference-tree li ol {
+  margin-top: 5px;
+  padding-inline-start: 18px;
+}
+
+.sl-markdown-content .handbook-reference-tree li li {
+  margin: 0;
+  color: var(--uv-muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.sl-markdown-content .handbook-reference-tree li li a {
+  color: var(--uv-muted);
+  text-decoration-color: transparent;
+}
+
 .sl-markdown-content .ddp-status-panel {
   margin-top: 18px;
   padding: 20px 24px;
