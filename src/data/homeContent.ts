@@ -2,282 +2,282 @@ export const constructExplainers = {
   visibility: {
     title: 'Visibility',
     body: '`public` makes a declaration or member part of the exported surface.',
-    href: '/docs/specification/name-resolution-and-visibility/',
+    href: '/docs/handbook/05-names-visibility/',
   },
   modal: {
     title: 'Modal type',
     body: 'A modal type declares an explicit lifecycle with named, checked states.',
-    href: '/docs/modal-programming/',
+    href: '/docs/handbook/09-modal-types/',
   },
   state: {
     title: 'Modal state',
     body: 'A concrete state in a modal lifecycle; only valid state operations are available.',
-    href: '/docs/modal-programming/',
+    href: '/docs/handbook/09-modal-types/',
   },
   procedure: {
     title: 'Procedure',
     body: 'A procedure exposes its parameters, result type, effects, and contracts in its signature.',
-    href: '/docs/specification/procedures-and-contracts/',
+    href: '/docs/handbook/15-procedures-methods/',
   },
   record: {
     title: 'Record type',
     body: 'A record declares named fields, methods, invariants, and optional class implementations.',
-    href: '/docs/specification/concrete-data-types/',
+    href: '/docs/handbook/08-data-types/',
   },
   classDecl: {
     title: 'Class',
     body: 'A class defines an interface that records, enums, modals, or dynamic objects can satisfy.',
-    href: '/docs/specification/abstraction-and-polymorphism/',
+    href: '/docs/handbook/13-classes-implementations/',
   },
   generic: {
     title: 'Generic parameter',
     body: 'Generic declarations expose type parameters and their required bounds in source.',
-    href: '/docs/specification/abstraction-and-polymorphism/',
+    href: '/docs/handbook/13-classes-implementations/',
   },
   classBound: {
     title: 'Class implementation',
     body: '`<:` connects a concrete declaration to the class interface it implements.',
-    href: '/docs/specification/abstraction-and-polymorphism/',
+    href: '/docs/handbook/13-classes-implementations/',
   },
   predicate: {
     title: 'Predicate requirement',
     body: 'Predicate clauses require properties such as `Clone`, `Drop`, `Bitcopy`, or `FfiSafe`.',
-    href: '/docs/specification/abstraction-and-polymorphism/',
+    href: '/docs/handbook/13-classes-implementations/',
   },
   override: {
     title: 'override',
     body: '`override` marks the class method implementation supplied by a concrete type.',
-    href: '/docs/specification/abstraction-and-polymorphism/',
+    href: '/docs/handbook/13-classes-implementations/',
   },
   opaqueType: {
     title: 'Opaque type',
     body: '`opaque Class` returns a concrete value while exposing only the named class interface.',
-    href: '/docs/specification/abstraction-and-polymorphism/',
+    href: '/docs/handbook/13-classes-implementations/',
   },
   dynamicType: {
     title: 'Dynamic class object',
     body: '`$Class` stores a value behind a dynamic class object and dispatches through the class interface.',
-    href: '/docs/specification/abstraction-and-polymorphism/',
+    href: '/docs/handbook/13-classes-implementations/',
   },
   receiver: {
     title: 'Receiver shorthand',
     body: '`~` declares the method receiver and introduces `self` inside the method body.',
-    href: '/docs/specification/procedures-and-contracts/',
+    href: '/docs/handbook/15-procedures-methods/',
   },
   move: {
     title: 'move',
     body: '`move` makes responsibility transfer explicit instead of hiding ownership changes.',
-    href: '/docs/core-language/permissions/',
+    href: '/docs/handbook/20-permissions/',
   },
   copy: {
     title: 'copy',
     body: '`copy` duplicates a Bitcopy value without transferring responsibility.',
-    href: '/docs/core-language/permissions/',
+    href: '/docs/handbook/20-permissions/',
   },
   shared: {
     title: 'shared permission',
     body: '`shared` marks coordinated shared access through the permission and key systems.',
-    href: '/docs/core-language/permissions/',
+    href: '/docs/handbook/20-permissions/',
   },
   const: {
     title: 'const binding state',
     body: '`const` keeps a binding readable without allowing mutation through that binding.',
-    href: '/docs/core-language/permissions/',
+    href: '/docs/handbook/20-permissions/',
   },
   unique: {
     title: 'unique permission',
     body: '`unique` represents exclusive access to a resource path.',
-    href: '/docs/core-language/permissions/',
+    href: '/docs/handbook/20-permissions/',
   },
   unionReturn: {
     title: 'Union return',
     body: 'The return type lists every state the operation can produce.',
-    href: '/docs/specification/complete-grammar-reference/',
+    href: '/docs/handbook/29-grammar-reference/',
   },
   contract: {
     title: 'Contract clause',
     body: '`|:` makes the precondition part of the source contract reviewers can inspect.',
-    href: '/docs/core-language/contracts/',
+    href: '/docs/handbook/16-contracts/',
   },
   contractPost: {
     title: 'Postcondition separator',
     body: '`|=` separates a contract precondition from the promised result condition.',
-    href: '/docs/specification/procedures-and-contracts/',
+    href: '/docs/handbook/15-procedures-methods/',
   },
   contractResult: {
     title: '@result',
     body: '`@result` names the returned value inside a postcondition.',
-    href: '/docs/specification/procedures-and-contracts/',
+    href: '/docs/handbook/15-procedures-methods/',
   },
   call: {
     title: 'Receiver call',
     body: '`~>` makes receiver-style operations explicit at call sites.',
-    href: '/docs/specification/expressions/',
+    href: '/docs/handbook/17-expressions-operators/',
   },
   stateValue: {
     title: 'State value',
     body: 'Constructs or returns a concrete modal state value.',
-    href: '/docs/modal-programming/',
+    href: '/docs/handbook/09-modal-types/',
   },
   transition: {
     title: 'Transition',
     body: 'A modal transition consumes one concrete state and returns another.',
-    href: '/docs/modal-programming/',
+    href: '/docs/handbook/09-modal-types/',
   },
   parallel: {
     title: 'parallel',
     body: 'Starts structured parallel work in an explicit execution domain.',
-    href: '/docs/specification/structured-parallelism/',
+    href: '/docs/handbook/24-parallelism/',
   },
   dispatch: {
     title: 'dispatch',
     body: 'Partitions work items over a range inside a parallel block.',
-    href: '/docs/specification/structured-parallelism/',
+    href: '/docs/handbook/24-parallelism/',
   },
   spawn: {
     title: 'spawn',
     body: '`spawn` starts child work that remains visible to structured synchronization.',
-    href: '/docs/specification/structured-parallelism/',
+    href: '/docs/handbook/24-parallelism/',
   },
   domain: {
     title: 'Execution domain',
     body: 'CPU, GPU, and inline execution are explicit source-level domains.',
-    href: '/docs/core-language/cpu-gpu-programming/',
+    href: '/docs/handbook/24-parallelism/',
   },
   key: {
     title: 'Key clause',
     body: 'Coordinates access to shared paths and makes conflict boundaries reviewable.',
-    href: '/docs/core-language/key-system/',
+    href: '/docs/handbook/23-key-system/',
   },
   keyBlock: {
     title: 'Key block',
     body: '`%write` and `%read` acquire shared-path authority for a lexical block.',
-    href: '/docs/core-language/key-system/',
+    href: '/docs/handbook/23-key-system/',
   },
   keyMode: {
     title: 'Key access head',
     body: '`%write` and `%read` declare the access mode a shared key block needs.',
-    href: '/docs/specification/key-system/',
+    href: '/docs/handbook/23-key-system/',
   },
   keyCoarsen: {
     title: 'Key coarsening',
     body: '`%name` coarsens an indexed key path by the named dispatch or key variable.',
-    href: '/docs/specification/key-system/',
+    href: '/docs/handbook/23-key-system/',
   },
   ordered: {
     title: 'ordered',
     body: 'Requests deterministic ordered access for indexed shared paths.',
-    href: '/docs/core-language/key-system/',
+    href: '/docs/handbook/23-key-system/',
   },
   race: {
     title: 'race',
     body: 'Waits for the first async result and handles it with an explicit pattern.',
-    href: '/docs/specification/asynchronous-operations/',
+    href: '/docs/handbook/25-async/',
   },
   sync: {
     title: 'sync',
     body: 'Synchronously waits on an async operation at an explicit source site.',
-    href: '/docs/specification/asynchronous-operations/',
+    href: '/docs/handbook/25-async/',
   },
   wait: {
     title: 'wait',
     body: '`wait` joins a spawned or tracked handle at an explicit source site.',
-    href: '/docs/specification/asynchronous-operations/',
+    href: '/docs/handbook/25-async/',
   },
   asyncType: {
     title: 'Async type',
     body: '`Future`, `Stream`, `Pipe`, `Exchange`, and `Async` are built from the async state model.',
-    href: '/docs/specification/asynchronous-operations/',
+    href: '/docs/handbook/25-async/',
   },
   all: {
     title: 'all',
     body: '`all` starts async expressions together and waits for the composed result.',
-    href: '/docs/specification/asynchronous-operations/',
+    href: '/docs/handbook/25-async/',
   },
   yield: {
     title: 'yield release',
     body: '`yield release` suspends async work while releasing and later reacquiring held keys.',
-    href: '/docs/specification/asynchronous-operations/',
+    href: '/docs/handbook/25-async/',
   },
   comptime: {
     title: 'comptime',
     body: 'Runs source-level generation during the compile-time execution phase.',
-    href: '/docs/specification/compile-time-execution-and-metaprogramming/',
+    href: '/docs/handbook/26-comptime-meta/',
   },
   quote: {
     title: 'quote',
     body: 'Builds a checked AST fragment for controlled compile-time emission.',
-    href: '/docs/specification/compile-time-execution-and-metaprogramming/',
+    href: '/docs/handbook/26-comptime-meta/',
   },
   splice: {
     title: 'splice',
     body: 'Injects a compile-time value into a quoted source fragment.',
-    href: '/docs/specification/compile-time-execution-and-metaprogramming/',
+    href: '/docs/handbook/26-comptime-meta/',
   },
   context: {
     title: 'Context',
     body: '`Context` carries the runtime capability bundle into executable code.',
-    href: '/docs/core-language/explicit-effects/',
+    href: '/docs/handbook/21-authority-memory/',
   },
   contextField: {
     title: 'Capability field',
     body: 'Runtime capability values are reached through fields on the explicit context value.',
-    href: '/docs/core-language/explicit-effects/',
+    href: '/docs/handbook/21-authority-memory/',
   },
   contextDomain: {
     title: 'Context execution domain',
     body: '`ctx.cpu`, `ctx.gpu`, and `ctx.inline` are typed execution-domain fields.',
-    href: '/docs/core-language/cpu-gpu-programming/',
+    href: '/docs/handbook/24-parallelism/',
   },
   emitAttribute: {
     title: 'emit attribute',
     body: '`#emit` grants the compile-time emitter capability at that source site.',
-    href: '/docs/specification/compile-time-execution-and-metaprogramming/',
+    href: '/docs/handbook/26-comptime-meta/',
   },
   emitter: {
     title: 'TypeEmitter',
     body: '`emitter~>emit` inserts checked AST declarations during compile-time execution.',
-    href: '/docs/specification/compile-time-execution-and-metaprogramming/',
+    href: '/docs/handbook/26-comptime-meta/',
   },
   region: {
     title: 'region',
     body: '`region` introduces an arena-lifetime scope and an optional region alias.',
-    href: '/docs/specification/statements-and-blocks/',
+    href: '/docs/handbook/19-statements-regions/',
   },
   frame: {
     title: 'frame',
     body: '`frame` creates a reset point inside the active region.',
-    href: '/docs/specification/statements-and-blocks/',
+    href: '/docs/handbook/19-statements-regions/',
   },
   regionAlloc: {
     title: 'region allocation',
     body: '`scratch ^ value` allocates a value in the named active region.',
-    href: '/docs/specification/expressions/',
+    href: '/docs/handbook/17-expressions-operators/',
   },
   layoutAttribute: {
     title: 'layout attribute',
     body: '`#layout(C)` selects C-compatible memory layout for FFI-safe records and enums.',
-    href: '/docs/specification/attributes-and-metadata/',
+    href: '/docs/handbook/22-attributes-tests/',
   },
   extern: {
     title: 'extern block',
     body: '`extern` declares procedures implemented across a foreign ABI boundary.',
-    href: '/docs/specification/foreign-function-interface/',
+    href: '/docs/handbook/27-ffi/',
   },
   libraryAttribute: {
     title: 'library attribute',
     body: '`#library` records the foreign library used to resolve extern procedures.',
-    href: '/docs/specification/foreign-function-interface/',
+    href: '/docs/handbook/27-ffi/',
   },
   mangleAttribute: {
     title: 'mangle attribute',
     body: '`#mangle` selects the foreign symbol name used at the ABI boundary.',
-    href: '/docs/specification/foreign-function-interface/',
+    href: '/docs/handbook/27-ffi/',
   },
   unsafe: {
     title: 'unsafe block',
     body: '`unsafe` marks source that may cross trust boundaries or use operations requiring explicit review.',
-    href: '/docs/specification/statements-and-blocks/',
+    href: '/docs/handbook/19-statements-regions/',
   },
 } as const;
 
@@ -301,7 +301,7 @@ export const quickLinks = [
   {
     label: 'Start',
     title: 'Documentation',
-    body: 'Project shape, first program, command surface, and specification links.',
+    body: 'Project shape, first program, command surface, and handbook links.',
     href: '/docs/',
     cta: 'Read docs',
   },
@@ -325,7 +325,7 @@ export const languageFeatures = [
   {
     title: 'Modal programming',
     body: 'Model resources, protocols, async work, and execution lifecycles as explicit states with checked transitions.',
-    href: '/docs/modal-programming/',
+    href: '/docs/handbook/09-modal-types/',
     exampleTitle: 'State-gated session',
     exampleLines: [
       [term('visibility', 'public'), ' ', term('modal', 'modal'), ' Session {'],
@@ -348,7 +348,7 @@ export const languageFeatures = [
   {
     title: 'Contracts',
     body: 'Preconditions, postconditions, invariants, and foreign contracts make generated assumptions part of source.',
-    href: '/docs/core-language/contracts/',
+    href: '/docs/handbook/16-contracts/',
     exampleTitle: 'Checked preconditions',
     exampleLines: [
       [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' normalizedRatio('],
@@ -372,7 +372,7 @@ export const languageFeatures = [
   {
     title: 'Permissions and binding state',
     body: 'move, const, shared, and unique separate transfer of responsibility from access permission.',
-    href: '/docs/core-language/permissions/',
+    href: '/docs/handbook/20-permissions/',
     exampleTitle: 'Responsibility plus shared access',
     exampleLines: [
       [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' stageUpload(', term('move', 'move'), ' packet: Packet, sink: ', term('shared', 'shared'), ' Sink, log: ', term('shared', 'shared'), ' AuditLog) {'],
@@ -393,7 +393,7 @@ export const languageFeatures = [
   {
     title: 'Capability Context',
     body: 'Runtime authority flows through explicit Context fields and attenuated capability values.',
-    href: '/docs/core-language/explicit-effects/',
+    href: '/docs/handbook/21-authority-memory/',
     exampleTitle: 'Explicit authority roots',
     exampleLines: [
       [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' main(', term('move', 'move'), ' ctx: ', term('context', 'Context'), ') {'],
@@ -419,7 +419,7 @@ export const languageFeatures = [
   {
     title: 'Structured parallelism',
     body: 'parallel, spawn, dispatch, wait, race, and async state share one visible execution model.',
-    href: '/docs/core-language/structured-concurrency/',
+    href: '/docs/handbook/24-parallelism/',
     exampleTitle: 'Structured CPU work',
     exampleLines: [
       [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' rebuild(ctx: Context, jobs: ', term('shared', 'shared'), ' Jobs, index: ', term('shared', 'shared'), ' Index, shards: usize) {'],
@@ -441,7 +441,7 @@ export const languageFeatures = [
   {
     title: 'Async operations',
     body: 'Future, Stream, sync, race, all, and yield release keep suspension and composition visible.',
-    href: '/docs/specification/asynchronous-operations/',
+    href: '/docs/handbook/25-async/',
     exampleTitle: 'Composed profile load',
     exampleLines: [
       [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' loadProfile(user: UserId, cache: Cache, api: Api) -> Profile ', term('unionReturn', '|'), ' ProfileError {'],
@@ -459,7 +459,7 @@ export const languageFeatures = [
   {
     title: 'CPU + GPU programming',
     body: 'Write code for CPU or GPU execution in one language model, with execution domains exposed as typed capabilities.',
-    href: '/docs/core-language/cpu-gpu-programming/',
+    href: '/docs/handbook/24-parallelism/',
     exampleTitle: 'GPU and CPU domains',
     exampleLines: [
       [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' scanLuma(ctx: Context, pixels: [f32; 1024]) {'],
@@ -483,7 +483,7 @@ export const languageFeatures = [
   {
     title: 'Abstraction and polymorphism',
     body: 'Classes, generic bounds, and dynamic class objects expose abstraction choices in source.',
-    href: '/docs/specification/abstraction-and-polymorphism/',
+    href: '/docs/handbook/13-classes-implementations/',
     exampleTitle: 'Class-bound rendering',
     exampleLines: [
       [term('visibility', 'public'), ' ', term('classDecl', 'class'), ' Renderer {'],
@@ -505,7 +505,7 @@ export const languageFeatures = [
   {
     title: 'Compile-time generation',
     body: 'comptime, quote/splice, reflection, and emission support controlled generated source.',
-    href: '/docs/specification/compile-time-execution-and-metaprogramming/',
+    href: '/docs/handbook/26-comptime-meta/',
     exampleTitle: 'Checked emission',
     exampleLines: [
       [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' installUserRecordHelpers() {'],
@@ -527,7 +527,7 @@ export const languageFeatures = [
   {
     title: 'Foreign function interface',
     body: 'extern blocks, C layout, unsafe calls, and FFI attributes make foreign boundaries inspectable.',
-    href: '/docs/specification/foreign-function-interface/',
+    href: '/docs/handbook/27-ffi/',
     exampleTitle: 'C ABI boundary',
     exampleLines: [
       [term('layoutAttribute', '#layout(C)')],
@@ -549,7 +549,7 @@ export const languageFeatures = [
   {
     title: 'Memory regions and frames',
     body: 'Region aliases and frame reset points make temporary allocation lifetimes visible in source.',
-    href: '/docs/specification/statements-and-blocks/',
+    href: '/docs/handbook/19-statements-regions/',
     exampleTitle: 'Scratch decoding arena',
     exampleLines: [
       [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' decodeBatch(source: bytes@View) -> BatchSummary {'],
@@ -576,7 +576,7 @@ export const languageFeatures = [
   {
     title: 'Keyed shared access',
     body: 'shared data is synchronized through explicit key paths, modes, and lexical scopes.',
-    href: '/docs/core-language/key-system/',
+    href: '/docs/handbook/23-key-system/',
     exampleTitle: 'Shared shard commit',
     exampleLines: [
       [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' commitShard(id: usize, cache: ', term('shared', 'shared'), ' Cache, index: ', term('shared', 'shared'), ' Index) {'],
@@ -609,7 +609,7 @@ export type LanguageFeature = (typeof languageFeatures)[number];
 export const heroExample: LanguageFeature = {
   title: 'Composed profile load',
   body: 'Async futures and a raced result, visible in plain source.',
-  href: '/docs/specification/asynchronous-operations/',
+  href: '/docs/handbook/25-async/',
   exampleTitle: 'Composed profile load',
   exampleLines: [
     [term('visibility', 'public'), ' ', term('procedure', 'procedure'), ' loadProfile('],

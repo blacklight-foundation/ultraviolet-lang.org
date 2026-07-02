@@ -8,68 +8,42 @@ description: Quickstart for the Ultraviolet public alpha.
   <span>The current release, checksum status, and validation state are loaded from GitHub. <a href="https://github.com/blacklight-foundation/ultraviolet/releases" data-release-link>Open current release</a>.</span>
 </aside>
 
+Use this page for the shortest toolchain path. Use the [handbook](/docs/handbook/) for exact language and compiler behavior.
+
 ## Install
 
-The installer resolves the current packaged compiler release from
-[GitHub releases](https://github.com/blacklight-foundation/ultraviolet/releases),
-uses published SHA-256 metadata when available, and adds the `uv` command to
-your PATH.
+The installer resolves the current packaged compiler release from [GitHub releases](https://github.com/blacklight-foundation/ultraviolet/releases), uses published SHA-256 metadata when available, and adds the CLI to your PATH.
 
-Linux x86_64 and macOS (Apple Silicon):
+Linux x86_64 and macOS:
 
+<!-- example-tier: illustrative -->
 ```bash
 curl -fsSL https://ultraviolet-lang.org/install | sh
 ```
 
 Windows x86_64:
 
+<!-- example-tier: illustrative -->
 ```powershell
 powershell -c "irm https://ultraviolet-lang.org/install.ps1 | iex"
 ```
 
-Prefer manual downloads? Grab an archive directly from
-[GitHub releases](https://github.com/blacklight-foundation/ultraviolet/releases),
-or follow [Build the Compiler](/docs/build-the-compiler/) to build from
-source.
+Ultraviolet's CLI is named `uv`. If Astral's Python package manager is already installed with the same command name, the installer asks whether to keep Python `uv` available as `pyuv` and install Ultraviolet as `uv`, or install Ultraviolet as `uvc`.
 
-### A note on the `uv` command name
+## Minimal project
 
-Ultraviolet's CLI is `uv`, which collides with Astral's Python package
-manager of the same name. The installer detects an existing Python `uv` and
-asks how to proceed: keep it available as `pyuv` and install Ultraviolet as
-`uv` (recommended), or install Ultraviolet's CLI as `uvc` and leave Python
-`uv` untouched.
+Create a project directory with an `Ultraviolet.toml` manifest and one source file.
 
-## Platform support
-
-Use the [release status page](/releases/) for the packages, checksum metadata,
-and validation results GitHub currently reports. Builds from source follow the
-target profiles and bootstrap notes in the language repository.
-
-## Prerequisites
-
-- Git.
-- The bootstrap dependencies listed in the language repository's
-  [build documentation](https://github.com/blacklight-foundation/ultraviolet).
-- A shell with standard build utilities.
-
-## Clone
-
-```bash
-git clone https://github.com/blacklight-foundation/ultraviolet.git
-cd ultraviolet
-```
-
-## Project shape
-
-Minimal executable projects use `.uv` source files and an `Ultraviolet.toml` manifest.
-
+<!-- example-tier: illustrative -->
 ```text
 Ultraviolet.toml
 src/
   Main.uv
 ```
 
+The manifest defines an executable assembly and the source root used by project loading. The canonical manifest behavior is owned by [Project Root and Manifest](/docs/handbook/03-project-model/).
+
+<!-- example-tier: syntax -->
 ```toml
 [[assembly]]
 name = "hello"
@@ -77,16 +51,20 @@ kind = "executable"
 root = "src"
 ```
 
+The entrypoint receives the executable context capability explicitly.
+
+<!-- example-tier: syntax -->
 ```text
-public procedure main(
-    move ctx: Context
-) -> i32 {
+public procedure main(move ctx: Context) -> i32 {
     return 0
 }
 ```
 
-## Command surface
+## Commands
 
+The public command surface is:
+
+<!-- example-tier: illustrative -->
 ```bash
 uv init
 uv check
@@ -97,10 +75,8 @@ uv clean
 uv version
 ```
 
-The `--target-profile`, `--quiet`, and `--machine-readable` flags are part of the command surface as well.
+Use `uv check` before `uv build` when validating examples. The command-line and tool-resolution rules are specified by [Tool Resolution and IR Assembly Inputs](/docs/handbook/03-project-model/).
 
-## Status note
+## Next
 
-The public alpha build path is still being hardened. Use the language repository
-for bootstrap dependency notes and the [Build the Compiler](/docs/build-the-compiler/)
-page for source-build guidance.
+Read [First Program](/docs/first-program/) for the smallest executable shape, then use the [Handbook](/docs/handbook/) as the reference map for language features, diagnostics, grammar, and lowering behavior.

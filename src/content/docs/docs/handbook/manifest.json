@@ -1,0 +1,217 @@
+{
+  "source": "handbook",
+  "hash": "a5d21aff583bfbb6d9db8ef52b842fec80adad1864f5846488ab5bc00e090e24",
+  "output": "src/content/docs/docs/handbook",
+  "chapters": [
+    {
+      "file": "01-introduction.md",
+      "number": "01",
+      "slug": "01-introduction",
+      "route": "/docs/handbook/01-introduction/",
+      "title": "1. Introduction & Design Philosophy"
+    },
+    {
+      "file": "02-conformance-behavior.md",
+      "number": "02",
+      "slug": "02-conformance-behavior",
+      "route": "/docs/handbook/02-conformance-behavior/",
+      "title": "2. Conformance, Behavior Types & the Phase Model"
+    },
+    {
+      "file": "03-project-model.md",
+      "number": "03",
+      "slug": "03-project-model",
+      "route": "/docs/handbook/03-project-model/",
+      "title": "3. Projects, Manifest, Modules & the Compilation Model"
+    },
+    {
+      "file": "04-lexical.md",
+      "number": "04",
+      "slug": "04-lexical",
+      "route": "/docs/handbook/04-lexical/",
+      "title": "4. Source Text & Lexical Structure"
+    },
+    {
+      "file": "05-names-visibility.md",
+      "number": "05",
+      "slug": "05-names-visibility",
+      "route": "/docs/handbook/05-names-visibility/",
+      "title": "5. Names, Scopes & Visibility"
+    },
+    {
+      "file": "06-module-forms.md",
+      "number": "06",
+      "slug": "06-module-forms",
+      "route": "/docs/handbook/06-module-forms/",
+      "title": "6. Module-Level Forms: Imports, Using, Statics & Extern Shell"
+    },
+    {
+      "file": "07-type-system-core.md",
+      "number": "07",
+      "slug": "07-type-system-core",
+      "route": "/docs/handbook/07-type-system-core/",
+      "title": "7. The Type System Core: Equivalence, Subtyping & Inference"
+    },
+    {
+      "file": "08-data-types.md",
+      "number": "08",
+      "slug": "08-data-types",
+      "route": "/docs/handbook/08-data-types/",
+      "title": "8. Primitive & Aggregate Data Types"
+    },
+    {
+      "file": "09-modal-types.md",
+      "number": "09",
+      "slug": "09-modal-types",
+      "route": "/docs/handbook/09-modal-types/",
+      "title": "9. Modal Types & Typestate"
+    },
+    {
+      "file": "10-strings-bytes.md",
+      "number": "10",
+      "slug": "10-strings-bytes",
+      "route": "/docs/handbook/10-strings-bytes/",
+      "title": "10. Strings, Bytes & Text Handling"
+    },
+    {
+      "file": "11-pointers-closures.md",
+      "number": "11",
+      "slug": "11-pointers-closures",
+      "route": "/docs/handbook/11-pointers-closures/",
+      "title": "11. Pointers, Function Types & Closures"
+    },
+    {
+      "file": "12-generics.md",
+      "number": "12",
+      "slug": "12-generics",
+      "route": "/docs/handbook/12-generics/",
+      "title": "12. Generics & Parametric Polymorphism"
+    },
+    {
+      "file": "13-classes-implementations.md",
+      "number": "13",
+      "slug": "13-classes-implementations",
+      "route": "/docs/handbook/13-classes-implementations/",
+      "title": "13. Classes, Implementations & Associated Types"
+    },
+    {
+      "file": "14-refinement-capability.md",
+      "number": "14",
+      "slug": "14-refinement-capability",
+      "route": "/docs/handbook/14-refinement-capability/",
+      "title": "14. Opaque, Refinement & Capability Classes"
+    },
+    {
+      "file": "15-procedures-methods.md",
+      "number": "15",
+      "slug": "15-procedures-methods",
+      "route": "/docs/handbook/15-procedures-methods/",
+      "title": "15. Procedures, Methods & Overloading"
+    },
+    {
+      "file": "16-contracts.md",
+      "number": "16",
+      "slug": "16-contracts",
+      "route": "/docs/handbook/16-contracts/",
+      "title": "16. Contracts: Preconditions, Postconditions, Invariants & Verification"
+    },
+    {
+      "file": "17-expressions-operators.md",
+      "number": "17",
+      "slug": "17-expressions-operators",
+      "route": "/docs/handbook/17-expressions-operators/",
+      "title": "17. Expressions & Operators"
+    },
+    {
+      "file": "18-patterns.md",
+      "number": "18",
+      "slug": "18-patterns",
+      "route": "/docs/handbook/18-patterns/",
+      "title": "18. Patterns & Matching"
+    },
+    {
+      "file": "19-statements-regions.md",
+      "number": "19",
+      "slug": "19-statements-regions",
+      "route": "/docs/handbook/19-statements-regions/",
+      "title": "19. Statements, Blocks, Regions, Frames & Defer"
+    },
+    {
+      "file": "20-permissions.md",
+      "number": "20",
+      "slug": "20-permissions",
+      "route": "/docs/handbook/20-permissions/",
+      "title": "20. Permissions & Binding State"
+    },
+    {
+      "file": "21-authority-memory.md",
+      "number": "21",
+      "slug": "21-authority-memory",
+      "route": "/docs/handbook/21-authority-memory/",
+      "title": "21. Authority, Capabilities, Regions & the Memory Model"
+    },
+    {
+      "file": "22-attributes-tests.md",
+      "number": "22",
+      "slug": "22-attributes-tests",
+      "route": "/docs/handbook/22-attributes-tests/",
+      "title": "22. Attributes, Metadata & Source-Native Tests"
+    },
+    {
+      "file": "23-key-system.md",
+      "number": "23",
+      "slug": "23-key-system",
+      "route": "/docs/handbook/23-key-system/",
+      "title": "23. The Key System: Shared-Memory Concurrency"
+    },
+    {
+      "file": "24-parallelism.md",
+      "number": "24",
+      "slug": "24-parallelism",
+      "route": "/docs/handbook/24-parallelism/",
+      "title": "24. Structured Parallelism"
+    },
+    {
+      "file": "25-async.md",
+      "number": "25",
+      "slug": "25-async",
+      "route": "/docs/handbook/25-async/",
+      "title": "25. Asynchronous Operations"
+    },
+    {
+      "file": "26-comptime-meta.md",
+      "number": "26",
+      "slug": "26-comptime-meta",
+      "route": "/docs/handbook/26-comptime-meta/",
+      "title": "26. Compile-Time Execution & Metaprogramming"
+    },
+    {
+      "file": "27-ffi.md",
+      "number": "27",
+      "slug": "27-ffi",
+      "route": "/docs/handbook/27-ffi/",
+      "title": "27. Foreign Function Interface (FFI)"
+    },
+    {
+      "file": "28-lifecycle-abi.md",
+      "number": "28",
+      "slug": "28-lifecycle-abi",
+      "route": "/docs/handbook/28-lifecycle-abi/",
+      "title": "28. Program Lifecycle, Drop, ABI & Runtime"
+    },
+    {
+      "file": "29-grammar-reference.md",
+      "number": "29",
+      "slug": "29-grammar-reference",
+      "route": "/docs/handbook/29-grammar-reference/",
+      "title": "29. Complete Grammar Reference"
+    },
+    {
+      "file": "30-style-best-practices.md",
+      "number": "30",
+      "slug": "30-style-best-practices",
+      "route": "/docs/handbook/30-style-best-practices/",
+      "title": "30. Style, Naming & Engineering Best Practices"
+    }
+  ]
+}

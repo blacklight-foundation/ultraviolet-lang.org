@@ -5,12 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "docs:spec:generate": "node scripts/generate-spec-docs.mjs",
-    "docs:spec:check": "node scripts/check-spec-docs.mjs",
-    "docs:spec:rendered": "node scripts/check-built-spec-rendering.mjs",
+    "docs:handbook:sync": "node scripts/sync-handbook-source.mjs",
+    "docs:handbook:generate": "node scripts/generate-handbook-docs.mjs",
+    "docs:handbook:check": "node scripts/check-handbook-docs.mjs",
+    "docs:handbook:rendered": "node scripts/check-built-handbook-rendering.mjs",
     "docs:links:check": "node scripts/check-doc-links.mjs",
     "docs:claims:check": "node scripts/check-doc-claims.mjs",
-    "build": "npm run docs:spec:check && npm run docs:links:check && npm run docs:claims:check && astro check && astro build && npm run docs:spec:rendered",
+    "build": "npm run docs:handbook:check && npm run docs:links:check && npm run docs:claims:check && astro check && astro build && npm run docs:handbook:rendered",
     "preview": "astro preview",
     "pages:dev": "npm run build && wrangler pages dev dist"
   },

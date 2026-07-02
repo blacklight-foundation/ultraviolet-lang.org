@@ -1,12 +1,15 @@
 ---
 title: First Program
-description: First program notes for the Ultraviolet public alpha.
+description: A minimal Ultraviolet executable.
 ---
 
-The smallest useful Ultraviolet executable shows three things: a project manifest, a `.uv` source file, and an entrypoint that receives `Context`.
+The smallest useful executable shows the three pieces every new project should recognize: a manifest, a source file, and an entrypoint that receives `Context`.
 
 ## Manifest
 
+`Ultraviolet.toml` declares the executable assembly and the source root.
+
+<!-- example-tier: syntax -->
 ```toml
 [[assembly]]
 name = "hello"
@@ -14,36 +17,33 @@ kind = "executable"
 root = "src"
 ```
 
-The manifest declares an executable assembly named `hello` with source files under `src`.
+Manifest loading, assembly records, source roots, and project diagnostics are owned by [Project and Compilation Model](/docs/handbook/03-project-model/).
 
 ## Source
 
+Create `src/Main.uv` with a public `main` procedure.
+
+<!-- example-tier: syntax -->
 ```text
 public procedure main(move ctx: Context) -> i32 {
-    ctx.io~>consoleWrite("Hello, Ultraviolet!)
+    ctx.io~>consoleWrite("Hello, Ultraviolet!")
     return 0
 }
 ```
 
-`Context` is the executable entry capability bundle. Passing it explicitly is part of Ultraviolet's review model: effect-bearing behavior flows through visible values.
+The explicit `Context` parameter is part of Ultraviolet's authority model: effect-bearing behavior flows through visible capability values. The relevant reference sections are [Authority Model](/docs/handbook/21-authority-memory/), [Procedure Declarations](/docs/handbook/15-procedures-methods/), and [Call Expressions](/docs/handbook/17-expressions-operators/).
 
 ## Check, build, run
 
+<!-- example-tier: illustrative -->
 ```bash
 uv check
 uv build
 uv run
 ```
 
-## Next examples
+Use `uv check` as the first compiler pass when experimenting with syntax, diagnostics, or examples. The command surface is summarized in [Quickstart](/docs/quickstart/) and specified by [Tool Resolution and IR Assembly Inputs](/docs/handbook/03-project-model/).
 
-After this minimal program, the important examples are:
+## Continue
 
-- a contract-bearing procedure;
-- a modal type with transitions;
-- a permission-qualified function;
-- a key-mediated shared access block;
-- a CPU dispatch example;
-- a GPU dispatch example.
-
-Those examples are covered in the [Language Tour](/docs/language-tour/) and [Core Language Surfaces](/docs/core-language/).
+Move from this page to the [Handbook](/docs/handbook/) when you need exact syntax, typing, dynamic semantics, lowering, diagnostics, or ABI behavior.

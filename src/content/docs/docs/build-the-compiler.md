@@ -1,6 +1,6 @@
 ---
 title: Build the Compiler
-description: Build notes for the Ultraviolet compiler.
+description: Source-build notes for the Ultraviolet compiler.
 ---
 
 <aside class="docs-status" data-release-doc-status>
@@ -8,9 +8,11 @@ description: Build notes for the Ultraviolet compiler.
   <span>Release notes, downloadable artifacts, checksum status, and validation state are loaded from GitHub. <a href="https://github.com/blacklight-foundation/ultraviolet/releases" data-release-link>Open current release</a>.</span>
 </aside>
 
+Use this page for source-build orientation. Use the language repository for current dependency details and the [handbook](/docs/handbook/) for compiler behavior.
+
 ## Repository shape
 
-The language repository includes:
+The language repository is organized around compiler, runtime, and CLI assemblies:
 
 - `Compiler`
 - `Runtime`
@@ -19,8 +21,9 @@ The language repository includes:
 - `Ultraviolet.toml`
 - `CompilerRebuildPlan.md`
 
-The initial assemblies are:
+The initial manifest shape is:
 
+<!-- example-tier: syntax -->
 ```toml
 [[assembly]]
 name = "UltravioletRT"
@@ -40,8 +43,11 @@ kind = "executable"
 root = "Tools/Uv"
 ```
 
-## Current build outline
+Assembly loading, deterministic ordering, source roots, output artifacts, and project diagnostics are specified by [Project and Compilation Model](/docs/handbook/03-project-model/).
 
+## Build outline
+
+<!-- example-tier: illustrative -->
 ```bash
 git clone https://github.com/blacklight-foundation/ultraviolet.git
 cd ultraviolet
@@ -51,11 +57,11 @@ uv build
 uv test
 ```
 
-## Target profile
+## Target profiles
 
-The current bootstrap target follows the language repository build notes.
+The handbook describes target and ABI assumptions in [Target and ABI Assumptions](/docs/handbook/02-conformance-behavior/) and backend behavior in [Common Lowering, Program Lifecycle, and Backend](/docs/handbook/28-lifecycle-abi/).
 
-The specification defines these target profiles:
+The current target-profile names are:
 
 - `x86_64-sysv`
 - `x86_64-win64`
@@ -63,18 +69,13 @@ The specification defines these target profiles:
 
 ## Expected output
 
-The build path should produce a compiler executable, validation artifacts, and
-enough examples to verify the local toolchain.
+A successful source build should produce the compiler executable, validation artifacts, and examples sufficient to exercise the local toolchain against the implemented conformance surface.
 
 ## Troubleshooting
 
-- Confirm bootstrap dependencies match the repository notes.
+- Confirm bootstrap dependencies match the language repository notes.
 - Confirm the selected target profile matches the active build notes.
-- Re-run the build from a clean terminal after changing toolchain or target environment variables.
+- Re-run the build from a fresh terminal after changing toolchain or target environment variables.
 - Check GitHub Actions and public issues for current build-hardening notes.
 
-## Issues
-
-Compiler build issues can be tracked in the public repository:
-
-[github.com/blacklight-foundation/ultraviolet/issues](https://github.com/blacklight-foundation/ultraviolet/issues)
+Compiler build issues are tracked in the public repository: [github.com/blacklight-foundation/ultraviolet/issues](https://github.com/blacklight-foundation/ultraviolet/issues).
