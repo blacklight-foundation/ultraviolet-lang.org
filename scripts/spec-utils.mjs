@@ -1,9 +1,17 @@
 import { createHash } from 'node:crypto';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { basename, relative, resolve } from 'node:path';
 
-export const SPEC_SOURCE_PATH =
-  process.env.ULTRAVIOLET_SPEC_PATH ?? resolve(process.cwd(), 'SPECIFICATION.md');
+export const SPEC_SOURCE_DIR = resolve(
+  process.cwd(),
+  process.env.ULTRAVIOLET_SPEC_SOURCE_DIR ?? 'specification',
+);
+export const SPEC_MANIFEST_PATH = resolve(SPEC_SOURCE_DIR, 'manifest.json');
+export const SPEC_AGGREGATE_PATH = resolve(
+  process.cwd(),
+  process.env.ULTRAVIOLET_SPEC_AGGREGATE_PATH ?? process.env.ULTRAVIOLET_SPEC_PATH ?? 'SPECIFICATION.md',
+);
+export const SPEC_SOURCE_PATH = SPEC_MANIFEST_PATH;
 
 export const SPEC_OUTPUT_DIR = 'src/content/docs/docs/specification';
 export const RULE_BAR = '\u2500'.repeat(18);
@@ -495,8 +503,81 @@ export function specRouteForSlug(slug) {
   return `/docs/specification/${slug}/`;
 }
 
+export function loadSpecManifest() {
+  if (!existsSync(SPEC_MANIFEST_PATH)) {
+    throw new Error(`Missing specification manifest at ${specSourceRelative()}/manifest.json.`);
+  }
+
+  const manifest = JSON.parse(readFileSync(SPEC_MANIFEST_PATH, 'utf8'));
+  validateSpecManifest(manifest);
+  return manifest;
+}
+
+export function readSpecSourceTree() {
+  const manifest = loadSpecManifest();
+  const index = readSpecSourceFile('index.md');
+  const chapters = manifest.chapters.map((chapter) => {
+    const intro = readSpecSourceFile(chapter.source).trim();
+    const sectionPages = (chapter.sections ?? []).map((section) => {
+      const body = readSpecSourceFile(section.source).trim();
+      const outline = extractChapterSections(body);
+      const outlineEntry = outline.find((entry) => entry.anchor === section.anchor) ?? outline[0];
+
+      return {
+        ...section,
+        body,
+        subsections: outlineEntry?.subsections ?? [],
+      };
+    });
+
+    const body = [`## ${chapter.heading}`, intro, ...sectionPages.map((section) => section.body)]
+      .filter((part) => part.trim() !== '')
+      .join('\n\n');
+
+    return {
+      ...chapter,
+      body,
+      intro,
+      sections: sectionPages.map(stripSectionBody),
+      sectionPages,
+    };
+  });
+  const aggregate = buildSpecAggregate({ index, chapters });
+
+  return {
+    manifest,
+    index,
+    chapters,
+    aggregate,
+    normalized: normalizeSpecText(aggregate),
+    hash: sha256(aggregate),
+  };
+}
+
+export function buildSpecAggregate({ index, chapters }) {
+  return [
+    '<!-- This file is generated from specification/. Do not edit directly. Run `npm run docs:spec:generate`. -->',
+    '# Ultraviolet Language Specification',
+    index.trim(),
+    ...chapters.map((chapter) => chapter.body.trim()),
+  ]
+    .filter((part) => part !== '')
+    .join('\n\n')
+    .concat('\n');
+}
+
 export function readSpec() {
-  const raw = readFileSync(SPEC_SOURCE_PATH, 'utf8');
+  if (existsSync(SPEC_MANIFEST_PATH)) {
+    const sourceTree = readSpecSourceTree();
+    return {
+      raw: sourceTree.aggregate,
+      normalized: sourceTree.normalized,
+      hash: sourceTree.hash,
+      sourceTree,
+    };
+  }
+
+  const raw = readFileSync(SPEC_AGGREGATE_PATH, 'utf8');
   return {
     raw,
     normalized: normalizeSpecText(raw),
@@ -509,11 +590,103 @@ export function sha256(text) {
 }
 
 export function specSourceLabel() {
-  return basename(SPEC_SOURCE_PATH);
+  return existsSync(SPEC_MANIFEST_PATH) ? basename(SPEC_SOURCE_DIR) : basename(SPEC_AGGREGATE_PATH);
 }
 
 export function specSourceRelative() {
-  return relative(process.cwd(), SPEC_SOURCE_PATH).replaceAll('\\', '/');
+  const sourcePath = existsSync(SPEC_MANIFEST_PATH) ? SPEC_SOURCE_DIR : SPEC_AGGREGATE_PATH;
+  return relative(process.cwd(), sourcePath).replaceAll('\\', '/');
+}
+
+export function specAggregateRelative() {
+  return relative(process.cwd(), SPEC_AGGREGATE_PATH).replaceAll('\\', '/');
+}
+
+function validateSpecManifest(manifest) {
+  if (manifest.source !== 'specification') {
+    throw new Error(`Specification manifest source must be "specification", found ${JSON.stringify(manifest.source)}.`);
+  }
+  if (manifest.generatedAggregate !== 'SPECIFICATION.md') {
+    throw new Error(
+      `Specification manifest generatedAggregate must be "SPECIFICATION.md", found ${JSON.stringify(
+        manifest.generatedAggregate,
+      )}.`,
+    );
+  }
+  if (manifest.websiteOutput !== SPEC_OUTPUT_DIR) {
+    throw new Error(
+      `Specification manifest websiteOutput must be "${SPEC_OUTPUT_DIR}", found ${JSON.stringify(
+        manifest.websiteOutput,
+      )}.`,
+    );
+  }
+  if (!Array.isArray(manifest.chapters)) {
+    throw new Error('Specification manifest chapters must be an array.');
+  }
+  if (manifest.chapters.length !== CHAPTERS.length) {
+    throw new Error(
+      `Specification manifest chapter count ${manifest.chapters.length} does not match configured count ${CHAPTERS.length}.`,
+    );
+  }
+
+  manifest.chapters.forEach((chapter, index) => {
+    const expected = CHAPTERS[index];
+    for (const field of ['slug', 'heading', 'title', 'group']) {
+      if (chapter[field] !== expected[field]) {
+        throw new Error(
+          `Specification manifest chapter ${index} ${field} must be ${JSON.stringify(
+            expected[field],
+          )}, found ${JSON.stringify(chapter[field])}.`,
+        );
+      }
+    }
+    if (chapter.source !== `${chapter.slug}/index.md`) {
+      throw new Error(
+        `Specification manifest chapter ${chapter.slug} source must be ${chapter.slug}/index.md.`,
+      );
+    }
+    if (!Array.isArray(chapter.sections)) {
+      throw new Error(`Specification manifest chapter ${chapter.slug} sections must be an array.`);
+    }
+
+    chapter.sections.forEach((section) => {
+      if (!section.title || !section.anchor || !section.slug || !section.source) {
+        throw new Error(`Specification manifest chapter ${chapter.slug} has an incomplete section entry.`);
+      }
+      if (section.slug !== `${chapter.slug}/${section.anchor}`) {
+        throw new Error(
+          `Specification manifest section ${section.title} slug must be ${chapter.slug}/${section.anchor}.`,
+        );
+      }
+      if (section.source !== `${section.slug}.md`) {
+        throw new Error(
+          `Specification manifest section ${section.title} source must be ${section.slug}.md.`,
+        );
+      }
+    });
+  });
+}
+
+function readSpecSourceFile(source) {
+  const path = resolveSpecSourceFile(source);
+  if (!existsSync(path)) {
+    throw new Error(`Missing specification source file ${source}.`);
+  }
+  return normalizeSpecText(readFileSync(path, 'utf8'));
+}
+
+function resolveSpecSourceFile(source) {
+  const path = resolve(SPEC_SOURCE_DIR, source);
+  const pathRelativeToSource = relative(SPEC_SOURCE_DIR, path);
+  if (pathRelativeToSource.startsWith('..') || resolve(path) === resolve(SPEC_SOURCE_DIR)) {
+    throw new Error(`Invalid specification source path ${source}.`);
+  }
+  return path;
+}
+
+function stripSectionBody(section) {
+  const { body, ...entry } = section;
+  return entry;
 }
 
 export function normalizeSpecText(text) {

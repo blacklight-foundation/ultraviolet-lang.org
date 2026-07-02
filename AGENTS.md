@@ -125,3 +125,5 @@ Then proceed with the task.
 - The executable entry point remains `main` when required by the language.
 - Foreign ABI names, serialized schema keys, file-format field names, and other externally defined identifiers may preserve external casing where compatibility requires it.
 - Generated code may use narrower machine-oriented naming if required for stable, deterministic generation, but should still stay close to this guide when practical.
+
+## Imported Claude Cowork project instructions

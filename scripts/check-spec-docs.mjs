@@ -2,27 +2,71 @@ import { existsSync, readFileSync } from 'node:fs';
 import katex from 'katex';
 import {
   CHAPTERS,
+  SPEC_AGGREGATE_PATH,
   SPEC_OUTPUT_DIR,
   docsPathForSlug,
-  extractChapterIntro,
-  extractChapterSections,
   frontmatter,
   normalizeChapterBody,
-  readSpec,
+  readSpecSourceTree,
+  specAggregateRelative,
   specRouteForSlug,
   specSourceLabel,
   specSourceRelative,
-  splitChapterSectionPages,
-  splitChapters,
 } from './spec-utils.mjs';
 
 const errors = [];
-const { normalized, hash } = readSpec();
-const chunks = splitChapters(normalized);
+const sourceTree = readSpecSourceTree();
+const { normalized, hash } = sourceTree;
 const manifestPath = `${SPEC_OUTPUT_DIR}/manifest.json`;
-const chapterEntries = expectedChapters();
+const chapterEntries = sourceTree.chapters;
 const generatedPages = generatedPageEntries(chapterEntries);
 const generatedSpecSlugs = new Set(generatedPages.map((page) => page.slug));
+const FORMAL_SUBSECTION_ORDER = [
+  'Syntax',
+  'Parsing',
+  'AST Representation / Form',
+  'Static Semantics',
+  'Dynamic Semantics',
+  'Lowering',
+  'Diagnostics',
+];
+const REQUIRED_CHAPTER_MARKERS = [
+  '**Chapter status.**',
+  '**What this chapter owns.**',
+  '**How to read this chapter.**',
+  '**Section map.**',
+  '**Cross-chapter dependencies.**',
+  '**Implementation checklist.**',
+  '**Examples index.**',
+  '**Complete section list.**',
+];
+const REQUIRED_READER_PANEL_MARKERS = [
+  'Purpose.',
+  'Audience.',
+  'Prerequisites.',
+  'Owned terms.',
+  'Non-owned behavior.',
+];
+const REQUIRED_EXAMPLE_PANEL_MARKERS = [
+  'Tier metadata.',
+  'Reason.',
+  'Promotion rule.',
+];
+const REQUIRED_RULE_MAP_MARKERS = [
+  'Grammar productions',
+  'Formal rule labels',
+  'Diagnostics',
+  'Lowering obligations',
+  'Formal subsection order',
+  'Related anchors',
+];
+const REQUIRED_REFERENCE_FOOTER_MARKERS = [
+  'Source.',
+  'Diagnostics owned here.',
+  'Rule labels owned here.',
+  'See also.',
+  'Implementation note.',
+];
 
 if (!existsSync(manifestPath)) {
   errors.push(`Missing ${manifestPath}. Run npm run docs:spec:generate.`);
@@ -34,10 +78,15 @@ if (!existsSync(manifestPath)) {
   if (manifest.source !== specSourceRelative()) {
     errors.push(`Spec source drift: generated ${manifest.source}, current ${specSourceRelative()}.`);
   }
+  if (manifest.aggregate !== specAggregateRelative()) {
+    errors.push(`Spec aggregate drift: generated ${manifest.aggregate}, current ${specAggregateRelative()}.`);
+  }
   checkManifest(manifest);
 }
 
 checkCanonicalChapterCoverage();
+checkSourceSectionStructure();
+checkGeneratedAggregate();
 checkGeneratedPages();
 checkGeneratedIndex();
 
@@ -51,29 +100,10 @@ console.log(
   `Specification docs are current: ${generatedPages.length + 1} pages, ${sectionCount} sections, ${subsectionCount} subsections, hash ${hash}`,
 );
 
-function expectedChapters() {
-  return CHAPTERS.map((chapter) => {
-    const body = chunks.get(chapter.slug) ?? '';
-    const sectionPages = splitChapterSectionPages(chapter, body);
-    return {
-      ...chapter,
-      body,
-      intro: extractChapterIntro(body),
-      sections:
-        sectionPages.length > 0
-          ? sectionPages.map(stripSectionBody)
-          : extractChapterSections(body).map((section) => ({
-              ...section,
-              slug: `${chapter.slug}/${section.anchor}`,
-            })),
-      sectionPages,
-    };
-  });
-}
-
 function checkManifest(manifest) {
   const expected = {
     source: specSourceRelative(),
+    aggregate: specAggregateRelative(),
     hash,
     generatedAt: manifest.generatedAt,
     chapters: chapterEntries.map(stripGeneratedBodies),
@@ -104,12 +134,167 @@ function checkCanonicalChapterCoverage() {
   }
 }
 
-function checkGeneratedPages() {
+function checkGeneratedAggregate() {
+  if (!existsSync(SPEC_AGGREGATE_PATH)) {
+    errors.push(`Missing generated aggregate ${specAggregateRelative()}. Run npm run docs:spec:generate.`);
+    return;
+  }
+
+  const content = readFileSync(SPEC_AGGREGATE_PATH, 'utf8');
+  if (!content.startsWith('<!-- This file is generated from specification/.')) {
+    errors.push(`${specAggregateRelative()} is not marked as generated from specification/.`);
+  }
+  if (content !== sourceTree.aggregate) {
+    errors.push(`${specAggregateRelative()} does not match the current split specification source tree.`);
+  }
+}
+
+function checkSourceSectionStructure() {
   for (const chapter of chapterEntries) {
-    if (!chunks.has(chapter.slug)) {
-      errors.push(`Canonical spec is missing chapter ${chapter.heading}.`);
+    checkChapterOverviewStructure(chapter);
+
+    for (const section of chapter.sectionPages) {
+      if (!section.body.startsWith(`### ${section.title}`)) {
+        errors.push(`specification/${section.source} must start with "### ${section.title}".`);
+      }
+      checkHandbookSectionOrder(section);
+      checkHandbookSectionMarkers(section);
+      checkSourceFenceTierMetadata(section);
+      checkFormalSubsectionOrder(section);
+    }
+  }
+}
+
+function checkChapterOverviewStructure(chapter) {
+  let previousIndex = -1;
+
+  for (const marker of REQUIRED_CHAPTER_MARKERS) {
+    const index = chapter.intro.indexOf(marker);
+    if (index === -1) {
+      errors.push(`specification/${chapter.source} is missing ${marker}`);
+      continue;
+    }
+    if (index < previousIndex) {
+      errors.push(`specification/${chapter.source} has chapter handbook markers out of order near ${marker}`);
+    }
+    previousIndex = index;
+  }
+
+  if (chapter.sectionPages.length === 0 && !chapter.intro.includes('**Reference content.**')) {
+    errors.push(`specification/${chapter.source} must retain reference content for a single-page appendix.`);
+  }
+}
+
+function checkHandbookSectionOrder(section) {
+  const expectedOrder = [
+    `<section class="spec-reader-panel"`,
+    `<section class="spec-example-panel"`,
+    `<section class="spec-rule-map"`,
+    `<section class="spec-reference-footer"`,
+  ];
+  let previousIndex = -1;
+
+  for (const marker of expectedOrder) {
+    const index = section.body.indexOf(marker);
+    if (index === -1) {
+      errors.push(`specification/${section.source} is missing ${marker}.`);
+      continue;
+    }
+    if (index < previousIndex) {
+      errors.push(`specification/${section.source} has handbook panels out of order near ${marker}.`);
+    }
+    previousIndex = index;
+  }
+
+  const ruleMapEnd = section.body.indexOf('</section>', section.body.indexOf('<section class="spec-rule-map"'));
+  const footerStart = section.body.indexOf('<section class="spec-reference-footer"');
+  if (ruleMapEnd === -1 || footerStart === -1 || section.body.slice(ruleMapEnd + '</section>'.length, footerStart).trim() === '') {
+    errors.push(`specification/${section.source} must preserve a non-empty formal body between rule map and reference footer.`);
+  }
+}
+
+function checkHandbookSectionMarkers(section) {
+  checkMarkerGroup(section, '<section class="spec-reader-panel"', '</section>', REQUIRED_READER_PANEL_MARKERS);
+  checkMarkerGroup(section, '<section class="spec-example-panel"', '</section>', REQUIRED_EXAMPLE_PANEL_MARKERS);
+  checkMarkerGroup(section, '<section class="spec-rule-map"', '</section>', REQUIRED_RULE_MAP_MARKERS);
+  checkMarkerGroup(section, '<section class="spec-reference-footer"', '</section>', REQUIRED_REFERENCE_FOOTER_MARKERS);
+
+  if (
+    !/(?:example-tier-(?:compiler|syntax|illustrative|none)|`compiler`|`syntax`|`illustrative`|formal-only|no section-local example)/.test(
+      section.body,
+    )
+  ) {
+    errors.push(`specification/${section.source} must identify an example tier or explicit no-example reason.`);
+  }
+}
+
+function checkMarkerGroup(section, startMarker, endMarker, markers) {
+  const start = section.body.indexOf(startMarker);
+  if (start === -1) return;
+  const end = section.body.indexOf(endMarker, start);
+  const body = end === -1 ? section.body.slice(start) : section.body.slice(start, end);
+
+  for (const marker of markers) {
+    if (!body.includes(marker)) {
+      errors.push(`specification/${section.source} is missing ${marker} in ${startMarker}.`);
+    }
+  }
+}
+
+function checkSourceFenceTierMetadata(section) {
+  const lines = section.body.split(/\r?\n/);
+  let inFence = false;
+
+  lines.forEach((line, index) => {
+    if (!/^```[A-Za-z0-9_-]*\s*$/.test(line)) return;
+
+    if (inFence) {
+      inFence = false;
+      return;
     }
 
+    inFence = true;
+    const previousLine = lines[index - 1]?.trim() ?? '';
+    if (!/^<!--\s*example-tier:\s*(compiler|syntax|illustrative)\s*-->$/.test(previousLine)) {
+      errors.push(
+        `specification/${section.source} fenced block at line ${index + 1} must be preceded by <!-- example-tier: compiler|syntax|illustrative -->.`,
+      );
+    }
+  });
+}
+
+function checkFormalSubsectionOrder(section) {
+  const headings = [...section.body.matchAll(/^####\s+(.+)$/gm)].map((match) => match[1].trim());
+  let previousIndex = -1;
+  const diagnosticsIndex = FORMAL_SUBSECTION_ORDER.indexOf('Diagnostics');
+
+  for (const heading of headings) {
+    const formalIndex = formalSubsectionIndex(heading);
+    if (formalIndex === -1) {
+      if (previousIndex !== -1 && previousIndex < diagnosticsIndex) {
+        errors.push(`specification/${section.source} has a non-template subsection between formal subsections near ${heading}.`);
+        return;
+      }
+      if (previousIndex === diagnosticsIndex) {
+        previousIndex = -1;
+      }
+      continue;
+    }
+    if (formalIndex < previousIndex) {
+      errors.push(`specification/${section.source} has formal subsections out of order near ${heading}.`);
+      return;
+    }
+    previousIndex = formalIndex;
+  }
+}
+
+function formalSubsectionIndex(heading) {
+  const unnumbered = heading.replace(/^(?:\d+(?:\.\d+)*|[A-Z]\.\d+)\s+/, '');
+  return FORMAL_SUBSECTION_ORDER.indexOf(unnumbered);
+}
+
+function checkGeneratedPages() {
+  for (const chapter of chapterEntries) {
     checkGeneratedPage(docsPathForSlug(chapter.slug), renderExpectedChapter(chapter));
 
     for (const section of chapter.sectionPages) {
@@ -145,7 +330,7 @@ function checkGeneratedPage(path, expectedContent) {
   }
 
   if (content !== expectedContent) {
-    errors.push(`${path} body does not match the normalized current SPECIFICATION.md chunk.`);
+    errors.push(`${path} body does not match the current split specification source.`);
   }
 
   checkMathBlocks(path, content);
@@ -191,11 +376,16 @@ function checkGeneratedIndex() {
   if (!index.includes(`specSource: "${specSourceRelative()}"`)) {
     errors.push(`${indexPath} does not include current spec source ${specSourceRelative()}.`);
   }
+  if (index.includes('/docs/reference/')) {
+    errors.push(`${indexPath} must not link to removed reference-guide routes.`);
+  }
 }
 
 function renderExpectedChapter(chapter) {
   const hasSectionPages = chapter.sectionPages.length > 0;
-  const normalizedIntro = hasSectionPages ? normalizeChapterBody(chapter.intro) : normalizeChapterBody(chapter.body);
+  const normalizedIntro = hasSectionPages
+    ? renderChapterSourceBody(chapter, chapter.intro)
+    : renderChapterSourceBody(chapter, chapter.body);
   const sectionList = hasSectionPages ? `\n\n${renderChapterSectionList(chapter)}` : '';
 
   return `${frontmatter({
@@ -245,11 +435,18 @@ function renderChapterSectionList(chapter) {
     .map((section) => renderSection(chapter, section))
     .join('\n');
   return `<section class="spec-chapter-sections" aria-labelledby="spec-chapter-sections">
-  <h2 id="spec-chapter-sections">Sections</h2>
+  <h2 id="spec-chapter-sections">Complete Section List</h2>
   <ol class="spec-outline-sections">
 ${sections}
   </ol>
 </section>`;
+}
+
+function renderChapterSourceBody(chapter, body) {
+  return normalizeChapterBody(body).replace(
+    /\]\(\.\/([A-Za-z0-9_-]+)\.md\)/g,
+    (_match, anchor) => `](${specRouteForSlug(`${chapter.slug}/${anchor}`)})`,
+  );
 }
 
 function renderSection(chapter, section) {
@@ -417,11 +614,6 @@ function escapeHtml(value) {
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;');
-}
-
-function stripSectionBody(section) {
-  const { body, ...entry } = section;
-  return entry;
 }
 
 function stripGeneratedBodies(chapter) {

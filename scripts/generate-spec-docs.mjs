@@ -1,53 +1,37 @@
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
-import { dirname } from 'node:path';
+import { dirname, relative, resolve } from 'node:path';
 import {
-  CHAPTERS,
+  SPEC_AGGREGATE_PATH,
   SPEC_OUTPUT_DIR,
   chapterNumber,
   docsPathForSlug,
-  extractChapterIntro,
-  extractChapterSections,
   frontmatter,
   normalizeChapterBody,
-  readSpec,
+  readSpecSourceTree,
+  specAggregateRelative,
   specSourceLabel,
   specSourceRelative,
-  splitChapterSectionPages,
-  splitChapters,
   specRouteForSlug,
 } from './spec-utils.mjs';
 
-const { normalized, hash } = readSpec();
-const chunks = splitChapters(normalized);
+const sourceTree = readSpecSourceTree();
+const { hash } = sourceTree;
 const generatedAt = new Date().toISOString();
-const chapterEntries = CHAPTERS.map((chapter) => {
-  const body = chunks.get(chapter.slug) ?? '';
-  const sectionPages = splitChapterSectionPages(chapter, body);
-  return {
-    ...chapter,
-    body,
-    intro: extractChapterIntro(body),
-    sections:
-      sectionPages.length > 0
-        ? sectionPages.map(stripSectionBody)
-        : extractChapterSections(body).map((section) => ({
-            ...section,
-            slug: `${chapter.slug}/${section.anchor}`,
-          })),
-    sectionPages,
-  };
-});
+const chapterEntries = sourceTree.chapters;
 
-mkdirSync(SPEC_OUTPUT_DIR, { recursive: true });
-rmSync(SPEC_OUTPUT_DIR, { recursive: true, force: true });
-mkdirSync(SPEC_OUTPUT_DIR, { recursive: true });
+writeGeneratedFile(SPEC_AGGREGATE_PATH, sourceTree.aggregate);
+
+const outputDir = resolve(process.cwd(), SPEC_OUTPUT_DIR);
+assertInsideWorkspace(outputDir);
+mkdirSync(outputDir, { recursive: true });
+rmSync(outputDir, { recursive: true, force: true });
+mkdirSync(outputDir, { recursive: true });
 
 writeGeneratedFile(docsPathForSlug('index'), renderIndex(hash, generatedAt));
 
-for (const chapter of CHAPTERS) {
-  const entry = chapterEntries.find((candidate) => candidate.slug === chapter.slug);
+for (const entry of chapterEntries) {
   if (!entry?.body) {
-    throw new Error(`Missing specification chapter: ${chapter.heading}`);
+    throw new Error(`Missing specification chapter: ${entry.heading}`);
   }
 
   writeGeneratedFile(docsPathForSlug(entry.slug), renderChapter(entry, hash, generatedAt));
@@ -65,6 +49,7 @@ writeFileSync(
   `${JSON.stringify(
     {
       source: specSourceRelative(),
+      aggregate: specAggregateRelative(),
       hash,
       generatedAt,
       chapters: chapterEntries.map(stripGeneratedBodies),
@@ -120,15 +105,15 @@ ${links}
 </div>
 
 <div class="spec-reader-map">
-  <a href="/docs/reference/specification-reading-guide/">Reading guide</a>
+  <a href="/docs/specification/front-matter/03-required-feature-section-template/">Section template</a>
   <a href="/docs/specification/complete-grammar-reference/">Grammar</a>
   <a href="/docs/specification/diagnostic-index/">Diagnostics</a>
-  <a href="/docs/reference/documentation-audit/">Claim audit</a>
+  <a href="/docs/specification/layout-abi-and-runtime-reference/">ABI and runtime</a>
 </div>
 
 The Ultraviolet language specification is the authoritative reference for syntax, static semantics, dynamic semantics, lowering, diagnostics, ABI behavior, and conformance. The generated pages below preserve the chapter outline from <code>${specSourceRelative()}</code> and publish section-sized pages for faster reading and rendering.
 
-Use the guide pages for learning paths and the generated specification pages when you need exact rules.
+Use the short onboarding pages for learning paths and the generated specification pages when you need exact rules.
 
 ${groupMarkdown}
 
@@ -138,7 +123,9 @@ ${renderSectionOutline()}
 
 function renderChapter(chapter, hash, generatedAt) {
   const hasSectionPages = chapter.sectionPages.length > 0;
-  const normalizedIntro = hasSectionPages ? normalizeChapterBody(chapter.intro) : normalizeChapterBody(chapter.body);
+  const normalizedIntro = hasSectionPages
+    ? renderChapterSourceBody(chapter, chapter.intro)
+    : renderChapterSourceBody(chapter, chapter.body);
   const sectionList = hasSectionPages ? `\n\n${renderChapterSectionList(chapter)}` : '';
 
   return `${frontmatter({
@@ -250,11 +237,18 @@ function renderChapterSectionList(chapter) {
     .map((section) => renderSection(chapter, section))
     .join('\n');
   return `<section class="spec-chapter-sections" aria-labelledby="spec-chapter-sections">
-  <h2 id="spec-chapter-sections">Sections</h2>
+  <h2 id="spec-chapter-sections">Complete Section List</h2>
   <ol class="spec-outline-sections">
 ${sections}
   </ol>
 </section>`;
+}
+
+function renderChapterSourceBody(chapter, body) {
+  return normalizeChapterBody(body).replace(
+    /\]\(\.\/([A-Za-z0-9_-]+)\.md\)/g,
+    (_match, anchor) => `](${specRouteForSlug(`${chapter.slug}/${anchor}`)})`,
+  );
 }
 
 function escapeHtml(value) {
@@ -282,9 +276,12 @@ function writeGeneratedFile(path, content) {
   writeFileSync(path, content, 'utf8');
 }
 
-function stripSectionBody(section) {
-  const { body, ...entry } = section;
-  return entry;
+function assertInsideWorkspace(path) {
+  const workspace = resolve(process.cwd());
+  const pathRelativeToWorkspace = relative(workspace, path);
+  if (pathRelativeToWorkspace.startsWith('..') || pathRelativeToWorkspace === '') {
+    throw new Error(`Refusing to write generated specification output outside the workspace: ${path}`);
+  }
 }
 
 function stripGeneratedBodies(chapter) {

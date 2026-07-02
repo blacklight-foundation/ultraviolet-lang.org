@@ -1048,6 +1048,124 @@ button[data-open-modal]:focus-visible {
   color: var(--uv-muted);
 }
 
+.sl-markdown-content .spec-section-context {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: baseline;
+  margin: 18px 0 24px;
+  border-bottom: 1px solid var(--uv-border);
+  padding-bottom: 12px;
+  color: var(--uv-muted);
+  font-family: var(--sl-font-mono);
+  font-size: 12px;
+}
+
+.sl-markdown-content .spec-section-context a {
+  color: var(--uv-accent);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.sl-markdown-content .spec-reader-panel,
+.sl-markdown-content .spec-example-panel,
+.sl-markdown-content .spec-rule-map,
+.sl-markdown-content .spec-reference-footer {
+  margin: 20px 0;
+  border: 1px solid var(--uv-border-strong);
+  border-left: 3px solid var(--uv-accent);
+  background: var(--uv-bg-raised);
+  padding: 16px 18px;
+}
+
+.sl-markdown-content .spec-reader-panel h4,
+.sl-markdown-content .spec-example-panel h4,
+.sl-markdown-content .spec-rule-map h4,
+.sl-markdown-content .spec-reference-footer h4 {
+  margin: 0 0 10px;
+  color: var(--uv-text);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.sl-markdown-content .spec-reader-panel ul,
+.sl-markdown-content .spec-example-panel ul,
+.sl-markdown-content .spec-reference-footer ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-inline-start: 18px;
+}
+
+.sl-markdown-content .spec-reader-panel li,
+.sl-markdown-content .spec-example-panel li,
+.sl-markdown-content .spec-reference-footer li {
+  margin: 0;
+}
+
+.sl-markdown-content .spec-example-tier {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.6rem;
+  border: 1px solid var(--uv-border-strong);
+  background: var(--uv-bg);
+  color: var(--uv-text);
+  padding: 0.1rem 0.45rem;
+  font-family: var(--sl-font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.sl-markdown-content .spec-example-tier-none {
+  color: var(--uv-muted);
+}
+
+.sl-markdown-content .spec-rule-map {
+  overflow-x: auto;
+}
+
+.sl-markdown-content .spec-rule-map table {
+  display: table;
+  min-width: 46rem;
+  margin: 0;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.sl-markdown-content .spec-rule-map th,
+.sl-markdown-content .spec-rule-map td {
+  border: 1px solid var(--uv-border);
+  padding: 9px 10px;
+  vertical-align: top;
+}
+
+.sl-markdown-content .spec-rule-map th {
+  width: 12rem;
+  color: var(--uv-text);
+  font-family: var(--sl-font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.sl-markdown-content .spec-rule-map td > ul,
+.sl-markdown-content .spec-reference-footer li > ul {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding-inline-start: 18px;
+}
+
+.sl-markdown-content .spec-rule-map td > a,
+.sl-markdown-content .spec-reference-footer a {
+  display: inline-flex;
+  margin: 0 8px 6px 0;
+}
+
 .sl-markdown-content .ddp-kicker {
   display: inline-flex;
   align-items: center;
@@ -1143,6 +1261,17 @@ button[data-open-modal]:focus-visible {
   .sl-markdown-content .newsletter-card,
   .sl-markdown-content .newsletter-row {
     grid-template-columns: 1fr;
+  }
+
+  .sl-markdown-content .spec-reader-panel,
+  .sl-markdown-content .spec-example-panel,
+  .sl-markdown-content .spec-rule-map,
+  .sl-markdown-content .spec-reference-footer {
+    padding: 14px;
+  }
+
+  .sl-markdown-content .spec-rule-map table {
+    min-width: 38rem;
   }
 
   .sl-markdown-content .newsletter-row input {
