@@ -4,6 +4,8 @@ description: "Chapter 07 of the Ultraviolet Developer Handbook."
 handbookSource: "handbook/07-type-system-core.md"
 handbookHash: "a5d21aff583bfbb6d9db8ef52b842fec80adad1864f5846488ab5bc00e090e24"
 generated: true
+prev: false
+next: false
 ---
 
 <div class="spec-provenance">

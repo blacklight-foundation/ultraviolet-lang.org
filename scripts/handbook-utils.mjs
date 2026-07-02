@@ -71,13 +71,7 @@ export function handbookSidebarItems(sourceTree = readHandbookSourceTree()) {
 
 export function renderHandbookIndex(sourceTree = readHandbookSourceTree()) {
   const chapterLinks = sourceTree.chapters
-    .map(
-      (chapter) => `<a class="spec-index-link" href="${chapter.route}">
-  <span>${escapeHtml(chapter.number)}</span>
-  <strong>${escapeHtml(chapter.title)}</strong>
-  <small>${escapeHtml(chapter.file)}</small>
-</a>`,
-    )
+    .map((chapter) => `- [${chapter.title}](${chapter.route})`)
     .join('\n');
 
   return `${frontmatter({
@@ -86,6 +80,8 @@ export function renderHandbookIndex(sourceTree = readHandbookSourceTree()) {
     handbookSource: sourceTree.source,
     handbookHash: sourceTree.hash,
     generated: true,
+    prev: false,
+    next: false,
   })}<p class="ddp-kicker">Docs / Handbook</p>
 
 The Ultraviolet Developer Handbook is the public reference for learning and writing Ultraviolet. It is generated from the handbook chapter parts maintained in the language repository and published here as stable website pages.
@@ -98,9 +94,7 @@ The Ultraviolet Developer Handbook is the public reference for learning and writ
 
 ## Chapters
 
-<div class="spec-index-grid">
 ${chapterLinks}
-</div>
 `;
 }
 
@@ -111,6 +105,8 @@ export function renderHandbookChapter(sourceTree, chapter) {
     handbookSource: `${sourceTree.source}/${chapter.file}`,
     handbookHash: sourceTree.hash,
     generated: true,
+    prev: false,
+    next: false,
   })}<div class="spec-provenance">
   <strong>Generated from ${escapeHtml(chapter.file)}.</strong>
   <span>Handbook SHA-256: <code>${sourceTree.hash}</code></span>

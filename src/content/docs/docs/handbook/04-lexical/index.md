@@ -4,6 +4,8 @@ description: "Chapter 04 of the Ultraviolet Developer Handbook."
 handbookSource: "handbook/04-lexical.md"
 handbookHash: "a5d21aff583bfbb6d9db8ef52b842fec80adad1864f5846488ab5bc00e090e24"
 generated: true
+prev: false
+next: false
 ---
 
 <div class="spec-provenance">
