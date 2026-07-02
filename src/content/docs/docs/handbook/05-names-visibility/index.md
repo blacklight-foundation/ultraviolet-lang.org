@@ -967,8 +967,3 @@ Common mistakes and how they surface:
 - **An unresolved bare or qualified name → `E-MOD-1301`.** For qualified forms this fires only after the value, record-path, and unit-enum-literal interpretations have all failed (`ResolveQual-Name-Err`). Check that the module is imported (cross-assembly), that the leading path/alias resolves, and that the final name is spelled and cased exactly (recall NFC normalization makes `IdKey` the true identity). An unresolved *module path* prefix instead surfaces as `E-MOD-1107` (`ResolveModulePath-Err`).
 
 See also: **Modules & Imports** (the `import`/`using` static semantics and assembly/coverage model consumed here), **Types** (type-path resolution), **Modal Types** (modeling state without name churn), and the project's naming matrix in the style guide for the casing each identifier category must use.
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/04-lexical/">Previous: 4. Source Text &amp; Lexical Structure</a>
-<a href="/docs/handbook/06-module-forms/">Next: 6. Module-Level Forms: Imports, Using, Statics &amp; Extern Shell</a>
-</nav>

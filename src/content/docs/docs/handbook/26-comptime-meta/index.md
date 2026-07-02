@@ -703,8 +703,3 @@ Although `Checksum` is listed first in `#derive(Checksum, Codec)`, `Checksum` *r
 - **Derive misuse.** `#derive(…)` on a non-`record`/`enum`/`modal` is `E-CTE-0311`; an unknown target name is `E-CTE-0310`; a duplicate target in one attribute is `E-CTE-0312`; an invalid `derive target` signature is `E-CTE-0322`; a `requires`/`emits` class missing from the subject's explicit `implements` list is `E-CTE-0330`/`E-CTE-0331`; a contract naming an unknown class is `E-CTE-0321`; a cyclic dependency is `E-CTE-0340`. A derive body that violates compile-time restrictions is `E-CTE-0320`; one that calls `diagnostics~>error`, panics (`E-CTE-0341`), or emits ill-formed code fails Phase 2 outright.
 - **Cross-module emission dependency.** Referring from one module's compile-time form to a declaration *emitted* by another module's Phase 2 execution is unsupported and rejected as `E-CTE-0090` (`CtExpand-CrossModule-Emit-Err`). Reference only source-present declarations of other modules; keep generation-dependency chains within a single module.
 - **Compile-time error reporting and user diagnostics.** `diagnostics~>error` emits `E-CTE-0070` and aborts (type `!`); `diagnostics~>warning` emits `W-CTE-0071`; `diagnostics~>note` emits an unnumbered `Note`. Use `error` for hard failures (it ends evaluation) and `warning`/`note` for advisory output that lets Phase 2 continue.
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/25-async/">Previous: 25. Asynchronous Operations</a>
-<a href="/docs/handbook/27-ffi/">Next: 27. Foreign Function Interface (FFI)</a>
-</nav>

@@ -428,8 +428,3 @@ Method-lookup diagnostics for missing methods and ambiguous inherited-default re
 ---
 
 *Related chapters:* *Permissions & Ownership* (the `const` / `unique` / `shared` permissions and the `move` semantics that parameter modes and receivers rely on); *Records & Structs* (how `method_def` members compose a record, and the record-literal field-completeness rule); *Classes & Conformance* (§14.3 — `override`, abstract vs. concrete class methods, and class-default resolution feeding `LookupMethod`); *Modal Types* (§13.3 — state methods and the separate `transition` form); *Contracts* (§15.4 — the `contract_clause` that attaches to the declarations shown here).
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/14-refinement-capability/">Previous: 14. Opaque, Refinement &amp; Capability Classes</a>
-<a href="/docs/handbook/16-contracts/">Next: 16. Contracts: Preconditions, Postconditions, Invariants &amp; Verification</a>
-</nav>

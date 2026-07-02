@@ -614,8 +614,3 @@ Common traps:
 - **`frame` needs a region.** A bare `frame { ... }` with no enclosing `region` (and no in-scope `Region@Active`) is `E-MEM-1207`. Open a `region` first, or pass an active region and use `region_alias.frame`.
 - **No loop labels, no `loop ... else`.** `break` / `continue` always bind to the innermost `loop`, and `else` attaches only to `if` forms (`ElseCont`/§16.7.1), never to a loop. To affect an outer loop, restructure with a flag, a `var`, or an early `return`.
 - **Control-flow bodies parse through `ParseBlock`.** The grammar reads every `if` / `loop` / `else` body via `ParseBlock`, which requires `{` (§18.1.2). Keep braces on control-flow bodies so the code parses as written.
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/18-patterns/">Previous: 18. Patterns &amp; Matching</a>
-<a href="/docs/handbook/20-permissions/">Next: 20. Permissions &amp; Binding State</a>
-</nav>

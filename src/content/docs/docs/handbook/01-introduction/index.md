@@ -494,7 +494,3 @@ The following pitfalls are the ones most directly tied to violating the four fou
 - **Modeling the pipeline backwards.** The phases are strict (§1.5): compile-time forms execute in Phase 2 over the fully aggregated Phase 1 module set, and any declaration they emit is incorporated before Phase 3 resolves names and types. Code that assumes name resolution or typing has happened *before* compile-time expansion is modeling the pipeline backwards. Phase 4 lowers only what Phase 3 accepted. Compile-time forms are owned by "Compile-Time Execution and Metaprogramming."
 
 Across all of these, the diagnostic infrastructure renders errors with a code, severity, message, and span. Diagnostic codes follow the `DiagPrefix "-" DiagCategory "-" DiagDigits` format from §1.3 — `DiagPrefix ∈ {E, W, I, P}`, `DiagCategory` is three uppercase letters, and `DiagDigits` is four digits (for example, `E-TYP-1507`). The prefix tells you immediately whether the compiler rejected the program statically (`E`), is warning (`W`), is informational (`I`), or is reporting a runtime panic condition (`P`). The diagnostic machinery is owned by "Diagnostic Infrastructure," and the per-feature diagnostics are owned by each feature's chapter.
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/02-conformance-behavior/">Next: 2. Conformance, Behavior Types &amp; the Phase Model</a>
-</nav>

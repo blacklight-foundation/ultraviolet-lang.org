@@ -782,8 +782,3 @@ What this guarantees:
 - **Assuming a panic stops siblings.** Without a `cancel` token, sibling tasks run to completion even after another task panics; the block still propagates the earliest panic at its boundary. Attach a token if you need abort-on-failure.
 
 Related chapters: *Chapter 13, Modal Types* (`Spawned<T>`, `Tracked<T, E>`, `CancelToken` as built-in modals); *Chapter 16, Closures* (capture-set computation reused here); *Chapter 19, The Key System* (`shared` synchronization, `key` clauses, key-held restrictions on `wait`); *Chapter 21, Asynchronous Execution* (`wait`, `Tracked<T, E>`, `yield`/`yield release`); *Chapter 22, Regions* (`new` and `Region@Active~>alloc` inside work items).
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/23-key-system/">Previous: 23. The Key System: Shared-Memory Concurrency</a>
-<a href="/docs/handbook/25-async/">Next: 25. Asynchronous Operations</a>
-</nav>

@@ -510,8 +510,3 @@ The backend targets **LLVM 21.1.8** (`IRTarget = "LLVM-21.1.8"`, `LLVMToolchain 
 - **Assuming statics are torn down after a panic.** Static deinit runs only on the clean exit path. If `main` leaves a panic pending, the process diverges through the runtime `panic` symbol and `var`/managed statics are **not** dropped — do not rely on static teardown for correctness-critical flushing on the panic path.
 - **Missing or mismatched runtime library.** Linking without `UltravioletRT.*` for the target (or unreadable) fails as `E-OUT-0407`; one missing a required symbol fails as `E-OUT-0408`. Backend/emit failures surface across `E-OUT-0401`…`E-OUT-0418` (object/IR emission, type mapping, call-ABI lowering, vtable/literal emission, entry/context construction, poisoning instrumentation).
 - **FFI aggregate passing surprises.** An aggregate ≤ 16 bytes with alignment ≤ 8 crosses a C boundary by value; a larger one is passed by reference. If you assumed by-value for a big aggregate, your foreign signature is wrong — let `ForeignABIParam` (size/align) decide and mark FFI-crossing types `FfiSafe`.
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/27-ffi/">Previous: 27. Foreign Function Interface (FFI)</a>
-<a href="/docs/handbook/29-grammar-reference/">Next: 29. Complete Grammar Reference</a>
-</nav>

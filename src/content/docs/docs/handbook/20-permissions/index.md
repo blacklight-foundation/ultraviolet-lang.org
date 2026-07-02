@@ -460,8 +460,3 @@ procedure handOff() -> () {
 - **`move` on a non-consuming parameter → `E-SEM-2535`** (`Call-Move-Unexpected`); **missing `move`/`copy` on a consuming parameter → `E-SEM-2534`** (`Call-Move-Missing`); **non-`move` argument with provenance that isn't a place → `E-TYP-1603`** (`Call-Arg-NotPlace`). Keep the parameter mode (`move`) and the type permission (`const`/`shared`/`unique`) conceptually separate: the first decides *ownership transfer*, the second decides *access and aliasing*.
 - **Expecting implicit `unique → shared`/`const`.** There is no implicit conversion, coercion, rebinding, or alias creation from `unique T` to `shared T` or `const T` (Constraint 1), and subtyping requires permission *equality* (Constraint 2). If you need a weaker view, pass through a non-consuming parameter whose required permission `PermAdmits` accepts — admissibility never changes the caller's static type.
 - **`shared $Cl` with a non-`~` dynamic method → `E-CON-0083` (ill-formed).** A `shared` dynamic-class value is well-formed only if every vtable-eligible procedure (including inherited procedures) uses the `~` (const) receiver. If any method requires `~%` (`shared`) or `~!` (`unique`) receiver permission, `shared $Cl` is rejected. Design dynamic interfaces intended for `shared` use with `~` receivers (see Chapter 19).
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/19-statements-regions/">Previous: 19. Statements, Blocks, Regions, Frames &amp; Defer</a>
-<a href="/docs/handbook/21-authority-memory/">Next: 21. Authority, Capabilities, Regions &amp; the Memory Model</a>
-</nav>

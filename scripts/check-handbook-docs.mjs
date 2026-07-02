@@ -14,8 +14,8 @@ const sourceTree = readHandbookSourceTree();
 checkManifest();
 checkGeneratedPage(docsPathForHandbookSlug('index'), renderHandbookIndex(sourceTree));
 
-sourceTree.chapters.forEach((chapter, index) => {
-  checkGeneratedPage(docsPathForHandbookSlug(chapter.slug), renderHandbookChapter(sourceTree, chapter, index));
+sourceTree.chapters.forEach((chapter) => {
+  checkGeneratedPage(docsPathForHandbookSlug(chapter.slug), renderHandbookChapter(sourceTree, chapter));
 });
 
 if (errors.length > 0) {

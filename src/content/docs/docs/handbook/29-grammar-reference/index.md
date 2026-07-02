@@ -1064,8 +1064,3 @@ The following diagnostics are drawn directly from the spec text accompanying the
 - **Receiver vs. transition.** `~`/`~!`/`~%` are receiver shorthands valid only as the first slot of a `method_def`/`state_method_def`; a `transition_def` accepts only a `param_list` and never a receiver shorthand — its `self` is implicit (`transition close() -> @Closed`).
 - **Brace-less `if`.** Every `if` tail uses a braced `block_expr`. There is no `if cond statement` form — write `if cond { statement }`.
 - **`[[dynamic]]` is not grammar.** The style guide refers to the dynamic directive as `[[dynamic]]`, but only `#dynamic` parses. Using `#dynamic` to bypass correct static conformance or to paper over weak type modeling is a design defect even where it parses.
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/28-lifecycle-abi/">Previous: 28. Program Lifecycle, Drop, ABI &amp; Runtime</a>
-<a href="/docs/handbook/30-style-best-practices/">Next: 30. Style, Naming &amp; Engineering Best Practices</a>
-</nav>

@@ -785,8 +785,3 @@ public procedure parseHeader(data: *imm u8, length: usize) -> u32 {
 - **Braceless `if` bodies are invalid.** The grammar is `if_tail ::= block_expr (...)`; an `if` body always requires `{ … }`.
 - **Redundant attributes warn, not error.** `#unwind("abort")` is `W-SYS-3355`; `#mangle(none)` with `#export("C")` is `W-SYS-3350`. Drop the redundant attribute.
 - **`#library` / `#mangle` / `#unwind` misplacement.** `#library` outside an `extern` block is `E-SYS-3345`; an unsupported library kind is `E-SYS-3346`; `#mangle` or `#unwind` on a non-FFI procedure is `E-SYS-3340` / `E-SYS-3356`; two `#unwind` attributes is `E-FFI-0350`; a duplicate boundary symbol name is `E-SYS-3342`; an unknown extern ABI string is `E-SYS-3352`.
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/26-comptime-meta/">Previous: 26. Compile-Time Execution &amp; Metaprogramming</a>
-<a href="/docs/handbook/28-lifecycle-abi/">Next: 28. Program Lifecycle, Drop, ABI &amp; Runtime</a>
-</nav>

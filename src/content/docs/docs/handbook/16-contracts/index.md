@@ -620,8 +620,3 @@ Common mistakes and how to avoid them:
 - **Expecting runtime checks by default.** Contracts are **proved**, not checked, unless you are inside a `#dynamic` scope. An unprovable obligation outside `#dynamic` is a compile error (`E-SEM-2801`), not a silent runtime guard. If you genuinely need a runtime check for a value the compiler cannot reason about, wrap that site in `#dynamic` — but first consider whether restructuring (guards that generate facts, or a refinement type) makes it statically provable.
 - **Public mutable fields under an invariant.** A type with `|: { ... }` must not expose public mutable fields (`E-SEM-2824`); route all mutation through receiver-taking methods so the invariant is re-checked at entry and at mutator return.
 - **Breaking substitutability on overrides.** When implementing a class method, do not tighten the precondition (`E-SEM-2803`) or loosen the postcondition (`E-SEM-2804`). Weaken what you require; strengthen what you guarantee. Do not add `override` to an abstract-method implementation (`E-TYP-2501`).
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/15-procedures-methods/">Previous: 15. Procedures, Methods &amp; Overloading</a>
-<a href="/docs/handbook/17-expressions-operators/">Next: 17. Expressions &amp; Operators</a>
-</nav>

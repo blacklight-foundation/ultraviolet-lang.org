@@ -496,8 +496,3 @@ Grounded in the style guide's *Imports and Visibility* and *Module-Scope State* 
 - **Method calls use `~>`, not `.`.** The `.` postfix is field/tuple access only; an instance method is invoked as `receiver~>method(args)`, and an associated/path-qualified call is `Type::method(args)`. Enum variants are named with `::` (`FrameReply::Ready`), never `.`.
 
 For accessibility rules (`public`/`internal`/`private` semantics) see the **Visibility & Accessibility** chapter (Chapter 7); for the full `foreign_procedure` grammar, foreign contracts, and ABI admissibility see the **FFI** chapter (§23.2); for static initialization and deinitialization lowering see the **Module Lifecycle** chapter (§24.4); and for the block-local `using … as …` statement (`using_local_stmt`) see the **Statements** chapter (§18.3).
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/05-names-visibility/">Previous: 5. Names, Scopes &amp; Visibility</a>
-<a href="/docs/handbook/07-type-system-core/">Next: 7. The Type System Core: Equivalence, Subtyping &amp; Inference</a>
-</nav>

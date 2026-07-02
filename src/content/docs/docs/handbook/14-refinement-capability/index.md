@@ -699,8 +699,3 @@ This section owns the diagnostics for refinement types, generic instantiation, c
 - **No ambient authority.** There is no global `IO`. If `main`'s parameter omits a capability you need, you cannot obtain it later (NAA-1/NAA-2). Declare the capability in `main`'s context bundle and thread it explicitly; capabilities only ever originate from the `Context` produced at the entry procedure or a hosted session.
 
 *Related chapters:* Classes (§14.3), Concrete Implementers (§14.4), Associated Types (§14.5), and Dynamic Class Objects (§14.6) for the `$Class` form; Chapter 9 for the `#dynamic` attribute; §6.1 for the full capability/authority model; §24.4 for `ContextInitSigma`/`HostSessionInitSigma` and program entry.
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/13-classes-implementations/">Previous: 13. Classes, Implementations &amp; Associated Types</a>
-<a href="/docs/handbook/15-procedures-methods/">Next: 15. Procedures, Methods &amp; Overloading</a>
-</nav>

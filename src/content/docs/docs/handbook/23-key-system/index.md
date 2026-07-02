@@ -816,8 +816,3 @@ What the compiler guarantees about this code: every access to `counter.value` an
 - **`W-CON-0005` — unknown callee access pattern.** A call whose `shared` argument lies under a held prefix could not be summarized (unresolved, bodyless, dynamically dispatched, or recursive). The analysis conservatively assumes full `Write` access to the argument. Resolve or annotate the callee so its access summary can be computed.
 - **`W-CON-0001` / `W-CON-0002` / `W-CON-0003` — granularity hints.** Fine-grained keys in a tight loop, a redundant acquisition already covered by a held key, or a `#` marker that merely restates a type boundary. Coarsen, remove the redundant block, or drop the redundant marker as appropriate.
 - **`W-CON-0020` / `W-CON-0021` — speculative cost hints.** A speculative block over a large struct may be costly to snapshot (`W-CON-0020`), or its body may be expensive to re-execute on retry (`W-CON-0021`). Narrow the keyed set or move expensive work outside the speculative region.
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/22-attributes-tests/">Previous: 22. Attributes, Metadata &amp; Source-Native Tests</a>
-<a href="/docs/handbook/24-parallelism/">Next: 24. Structured Parallelism</a>
-</nav>

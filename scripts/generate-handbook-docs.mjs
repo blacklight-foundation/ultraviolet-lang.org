@@ -20,8 +20,8 @@ mkdirSync(outputDir, { recursive: true });
 
 writeGeneratedFile(docsPathForHandbookSlug('index'), renderHandbookIndex(sourceTree));
 
-sourceTree.chapters.forEach((chapter, index) => {
-  writeGeneratedFile(docsPathForHandbookSlug(chapter.slug), renderHandbookChapter(sourceTree, chapter, index));
+sourceTree.chapters.forEach((chapter) => {
+  writeGeneratedFile(docsPathForHandbookSlug(chapter.slug), renderHandbookChapter(sourceTree, chapter));
 });
 
 writeGeneratedFile(

@@ -607,8 +607,3 @@ Grounded in the Ultraviolet style guide (AGENTS.md) and the spec's ownership/all
 - **Allocation can fail — don't ignore the `Outcome`.** Constructors and `append` return `Outcome<…, AllocationError>`; the `Outcome::Error` payload is an `AllocationError`. Discarding the result or assuming `Outcome::Value` throws away real failure information. Propagate with `?` or match explicitly with `if … is`.
 - **There is no bytes → string operation.** If you need text out of `bytes`, the built-in surface does not provide it; do not invent one. Keep data in `bytes` until you have an externally validated path to text. (string → bytes is the only defined direction, via `bytes::view_string`.)
 - **`with_capacity` gives an empty buffer.** `bytes::with_capacity` reserves space but starts at length 0 (`BytesBuf[v ↦ []]`). Indexing it before appending panics; reserve, then `append`, then read.
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/09-modal-types/">Previous: 9. Modal Types &amp; Typestate</a>
-<a href="/docs/handbook/11-pointers-closures/">Next: 11. Pointers, Function Types &amp; Closures</a>
-</nav>

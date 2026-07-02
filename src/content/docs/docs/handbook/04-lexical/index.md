@@ -676,8 +676,3 @@ This section is the canonical registry of every source-loading and lexical diagn
 - **Reserved and protected names are not free identifiers.** The 49 keywords (`type`, `record`, `move`, …) cannot be identifiers, and universe-protected names (`i32`, `Self`, `Drop`, `Clone`, `Bitcopy`, `FfiSafe`, `string`, `bytes`, the standard capability/runtime types, …) cannot be redeclared as your own bindings, nor may you create an `ultraviolet::` namespace or `gen_…` identifier.
 - **Bidi and zero-width controls are errors in code.** Outside literals/comments they are `E-SRC-0308` unless inside `unsafe { … }` (then `W-SRC-0308`). Do not rely on `unsafe` to launder deceptive text; keep it out of source.
 - **Leading zeros warn.** `007` triggers `W-SRC-0301`; write `7` (decimal) or use an explicit base prefix when a zero prefix is meaningful.
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/03-project-model/">Previous: 3. Projects, Manifest, Modules &amp; the Compilation Model</a>
-<a href="/docs/handbook/05-names-visibility/">Next: 5. Names, Scopes &amp; Visibility</a>
-</nav>

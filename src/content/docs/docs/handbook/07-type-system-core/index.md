@@ -1261,8 +1261,3 @@ These practices follow directly from the rules above and from the project style 
 - **An over-eager annotation can introduce a mismatch.** Because an annotated binding *checks* the initializer (`T-LetStmt-Ann`), annotating with a type the initializer's synthesized type does not subtype yields `T-LetStmt-Ann-Mismatch` (`E-SEM-3133`). When in doubt about the exact synthesized type, omit the annotation and let inference report the type, then annotate deliberately.
 
 - **`=` versus `:=` does not change the type.** Both binding operators produce the same binding type; `:=` only makes the binding **immovable** (a moves/ownership property covered in the statement and permissions chapters). Do not reach for one over the other to influence inference — it has no effect on typing.
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/06-module-forms/">Previous: 6. Module-Level Forms: Imports, Using, Statics &amp; Extern Shell</a>
-<a href="/docs/handbook/08-data-types/">Next: 8. Primitive &amp; Aggregate Data Types</a>
-</nav>

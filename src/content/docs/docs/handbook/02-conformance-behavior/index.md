@@ -863,8 +863,3 @@ layout rules from this chapter; consult the canonical owner sections (covered in
   emissions from other modules; ordinary bodies run only in the emitted artifact.
   Mixing the two expectations leads to "why can't my comptime code see that
   declaration" confusion that the §22.1.5 module order explains.
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/01-introduction/">Previous: 1. Introduction &amp; Design Philosophy</a>
-<a href="/docs/handbook/03-project-model/">Next: 3. Projects, Manifest, Modules &amp; the Compilation Model</a>
-</nav>

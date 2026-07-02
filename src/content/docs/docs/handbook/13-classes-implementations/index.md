@@ -730,8 +730,3 @@ A class with a method like `procedure clone(~) -> Self` would **not** be dispatc
 - **Wrong tokens.** The receiver shorthand is `~` / `~!` / `~%` (`%` = shared, `!` =
   unique); superclasses are joined with `+`, but an implements `class_list` uses `,`;
   enum literals and other paths use `::`, never `.`.
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/12-generics/">Previous: 12. Generics &amp; Parametric Polymorphism</a>
-<a href="/docs/handbook/14-refinement-capability/">Next: 14. Opaque, Refinement &amp; Capability Classes</a>
-</nav>

@@ -680,7 +680,3 @@ Code review verifies that the standard above is realized *in the code*, not in t
 - **Reserved-name collisions.** `Drop`, `Bitcopy`, `Clone`, `FfiSafe`, and `GpuSafe` are reserved foundational class names, and the integer/float/`Self`/`Context`/capability identifiers are universe-protected — do not shadow them with user declarations.
 - **Acronym normalization.** `Sdl3Bridge`, `Uuid`, `CpuTime` are defects; the correct forms are `SDL3Bridge`, `UUID`, `CPUTime`.
 - **Type info baked into names.** `count_u32`, `frame_ptr`, `manifest_obj` duplicate what the type already states; name for meaning, not representation.
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/29-grammar-reference/">Previous: 29. Complete Grammar Reference</a>
-</nav>

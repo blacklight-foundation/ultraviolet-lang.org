@@ -104,10 +104,7 @@ ${chapterLinks}
 `;
 }
 
-export function renderHandbookChapter(sourceTree, chapter, index) {
-  const previous = sourceTree.chapters[index - 1];
-  const next = sourceTree.chapters[index + 1];
-
+export function renderHandbookChapter(sourceTree, chapter) {
   return `${frontmatter({
     title: chapter.title,
     description: `Chapter ${chapter.number} of the Ultraviolet Developer Handbook.`,
@@ -120,8 +117,6 @@ export function renderHandbookChapter(sourceTree, chapter, index) {
 </div>
 
 ${chapter.body}
-
-${renderChapterNavigation(previous, next)}
 `;
 }
 
@@ -187,18 +182,4 @@ function chapterTitle(content, file) {
 
 function stripChapterHeading(content) {
   return content.replace(/^##\s+.+\n+/, '').trimStart();
-}
-
-function renderChapterNavigation(previous, next) {
-  const links = [];
-  if (previous) {
-    links.push(`<a href="${previous.route}">Previous: ${escapeHtml(previous.title)}</a>`);
-  }
-  if (next) {
-    links.push(`<a href="${next.route}">Next: ${escapeHtml(next.title)}</a>`);
-  }
-  if (links.length === 0) return '';
-  return `<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-${links.join('\n')}
-</nav>`;
 }

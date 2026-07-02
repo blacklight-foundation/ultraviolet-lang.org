@@ -624,8 +624,3 @@ public procedure testBuildIndexWithinBudget(authority: TestAuthority) -> bool
 - **Unknown `uv test` target → `E-TST-0108`.** A positional argument that is neither an existing host path, nor an assembly name, nor an existing module path is rejected. Only procedures inside the `<Assembly>::Tests` subtree are ever selected — a `#test` outside that subtree will simply never run.
 
 Related chapters: the key/concurrency chapter (memory-order attributes `#relaxed`/`#acquire`/`#release`/`#acqrel`/`#seqcst`, `#stale_ok` staleness semantics), the contracts chapter (postconditions, `@result`, runtime check insertion under `#dynamic`), the refinement-types chapter (runtime refinement checks), the metaprogramming chapter (`#reflect`, `#derive`, `#emit`, `#files`, and the `comptime` forms they attach to), the FFI chapter (`#mangle`, `#library`, `#unwind`, `#export`, `#host_export`, `#ffi_pass_by_value`, and the `#static`/`#dynamic` foreign-contract verification modes), and the standard-library time chapter (`$Time`, `$MonotonicTime`, `MonotonicInstant`, `Duration`, `TimeError`).
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/21-authority-memory/">Previous: 21. Authority, Capabilities, Regions &amp; the Memory Model</a>
-<a href="/docs/handbook/23-key-system/">Next: 23. The Key System: Shared-Memory Concurrency</a>
-</nav>

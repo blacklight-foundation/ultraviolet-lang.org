@@ -547,8 +547,3 @@ The default is always the safe pointer or the plain value. Reach for raw pointer
 Two non-obvious traps worth restating. First, a `Ptr<T>@Valid` is **not** a static guarantee that survives region teardown: the runtime recomputes state from address tags, so a `@Valid`-typed pointer into a dropped arena panics on use rather than reading freed memory — correct, but a panic nonetheless, so manage lifetimes deliberately. Second, the *unrefined* `Ptr<T>` cannot be dereferenced as-is (**T-Deref-Ptr** demands `@Valid`); it exists to model "maybe null/expired", and you must narrow it before reading through it.
 
 Related chapters: *Arena Allocation & Regions* (`new`, `Region@Active~>alloc`, `region` statements, and the lifetime model behind `@Expired`), *Permissions* (`const`/`shared`/`unique`, which drive closure capture classification), *Modal Types* (narrowing pointer states with `if ... is`), *Effectful Expressions* (`&`, `*`, `move`, `copy`, `unsafe`), and *Concurrency & Keys* (Chapter 19 — key acquisition for accessing the `shared` captures of escaping closures).
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/10-strings-bytes/">Previous: 10. Strings, Bytes &amp; Text Handling</a>
-<a href="/docs/handbook/12-generics/">Next: 12. Generics &amp; Parametric Polymorphism</a>
-</nav>

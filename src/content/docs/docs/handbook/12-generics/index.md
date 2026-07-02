@@ -428,8 +428,3 @@ Because generic class methods are monomorphized rather than dispatched dynamical
 - **Invariance surprises.** User parameters are invariant: `Stack<Derived>` is not usable where `Stack<Base>` is expected. A mismatch at an invariant position raises `E-TYP-1520`; a directional built-in position raises `E-TYP-1521`.
 - **Infinite or too-deep monomorphization.** A generic that specializes itself at ever-larger types is rejected: `E-TYP-2307` (infinite recursion) or `E-TYP-2308` (depth limit 128 exceeded).
 - **Generic method through `$`-dispatch.** A class method with a generic parameter list is not vtable-eligible and cannot be called on a dynamic class object (`E-TYP-2542`). Relatedly, generic parameters are forbidden in `extern` procedure signatures (`E-TYP-2306`) and on `#host_export` procedures (`E-TYP-2634`, `HostExport-Generic-Err`).
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/11-pointers-closures/">Previous: 11. Pointers, Function Types &amp; Closures</a>
-<a href="/docs/handbook/13-classes-implementations/">Next: 13. Classes, Implementations &amp; Associated Types</a>
-</nav>

@@ -747,8 +747,3 @@ When a project has multiple assemblies, name the assembly to select it (the `tar
 - **Runtime library problems.** An unresolvable runtime library is `Out-Link-Runtime-Missing`; one lacking required symbols is `Out-Link-Runtime-Incompatible`. Point `[toolchain].runtime_lib` at the correct runtime for the selected profile.
 - **Invalid `main`.** For an executable: zero `main` is `E-MOD-2434`, more than one is `E-MOD-2430`, a generic `main` is `E-MOD-2432`, and any signature other than `public procedure main(context: Context) -> i32` (parameter mode omitted or `move`) is `E-MOD-2431`.
 - **Unknown `uv test` target.** A positional `target` that is neither a host path, an assembly name, nor a known module path is `E-TST-0108` (`Test-Target-Err`).
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/02-conformance-behavior/">Previous: 2. Conformance, Behavior Types &amp; the Phase Model</a>
-<a href="/docs/handbook/04-lexical/">Next: 4. Source Text &amp; Lexical Structure</a>
-</nav>

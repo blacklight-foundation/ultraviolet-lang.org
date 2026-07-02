@@ -833,8 +833,3 @@ Common pitfalls and how to avoid them:
 - **Single-element tuple spelling.** A one-element tuple pattern is `(p;)` with a semicolon — *not* `(p)`. The `(p)` form inside an enum payload is a one-element tuple *enum payload*, where the semicolon is forbidden; do not confuse the two contexts.
 
 - **Strings have no `+`.** A pattern arm cannot build a message by concatenation — `+` requires two numeric primitive operands (`(T-Arith)`), and there is no `string::concat` or interpolation. Return a string literal, the bound `string`, or a numeric value from each arm.
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/17-expressions-operators/">Previous: 17. Expressions &amp; Operators</a>
-<a href="/docs/handbook/19-statements-regions/">Next: 19. Statements, Blocks, Regions, Frames &amp; Defer</a>
-</nav>

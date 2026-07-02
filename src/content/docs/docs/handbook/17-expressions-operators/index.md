@@ -1207,8 +1207,3 @@ let same: i32 = clamp(normalize(raw_input))
   with no expected type is `E-SEM-2591`. Annotate the parameter or supply an
   expected closure type. Capturing a `unique` binding is rejected
   (`Capture-Unique-Err`).
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/16-contracts/">Previous: 16. Contracts: Preconditions, Postconditions, Invariants &amp; Verification</a>
-<a href="/docs/handbook/18-patterns/">Next: 18. Patterns &amp; Matching</a>
-</nav>

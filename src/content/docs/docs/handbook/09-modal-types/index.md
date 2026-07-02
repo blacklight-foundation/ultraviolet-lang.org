@@ -720,8 +720,3 @@ Three further conceptual pitfalls worth calling out:
 - **Putting a `contract_clause` on a `transition`.** The transition grammar (`transition_def ::= … "->" "@" identifier block_expr`) has no contract slot, so `transition open() -> @Open |: … |= …` does not parse. Move the contract onto a validating state method, or rely on the source-state type to enforce the sequencing precondition.
 
 Related chapters: **Permissions & Binding State** (`const`/`shared`/`unique`, receiver admissibility via `PermAdmits`, move semantics), **Records & Classes** (the `<:` implements clause and type invariants shared with modals), **Pattern Matching & `if … is`** (modal patterns and exhaustiveness, Chapter 17), and the **Concurrency / Async** chapter (the built-in `Spawned`, `Tracked`, `Async`, and `CancelToken` modals).
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/08-data-types/">Previous: 8. Primitive &amp; Aggregate Data Types</a>
-<a href="/docs/handbook/10-strings-bytes/">Next: 10. Strings, Bytes &amp; Text Handling</a>
-</nav>

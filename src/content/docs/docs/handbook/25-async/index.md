@@ -799,8 +799,3 @@ A pure `Sequence<T>` that only computes and yields needs **no** capability. The 
 - **Holding a key across a bare suspension fails.** `wait` with a key held is `E-CON-0133` (and has no `release` escape — release the key first). Bare `yield`/`yield from` with a key held is `E-CON-0213`/`E-CON-0224`; use `yield release` / `yield release from`. A `shared`-capturing closure with a bare `yield` at a key-holding point is **(A-Closure-Yield-Keys-Err)**.
 - **Captures must outlive the frame, and async values must not escape their region.** A capture that does not outlive the async is `E-CON-0280`; assigning an async value into a longer-lived place is `E-CON-0281`. A large capture is the `W-CON-0201` performance warning — shrink the captured set.
 - **Post-`yield release` values may be stale.** Bindings derived from shared data before a `yield release` carry the staleness warning after resumption; suppress with `#stale_ok` only when you have *verified* the value is still valid, otherwise re-read.
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/24-parallelism/">Previous: 24. Structured Parallelism</a>
-<a href="/docs/handbook/26-comptime-meta/">Next: 26. Compile-Time Execution &amp; Metaprogramming</a>
-</nav>

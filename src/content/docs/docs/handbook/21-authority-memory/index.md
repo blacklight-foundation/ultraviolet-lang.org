@@ -666,8 +666,3 @@ Note also the capability-flow rejection of §6.1.2 (NAA-3): a call whose target 
 - **Use-after-reset.** After `Region::reset_unchecked`/`free_unchecked`, a `Ptr<T>@Valid` into the reclaimed arena reads as `Ptr@Expired` (its region tag is now inactive). Using a *non-pointer* value with `π_Region(r)` provenance after reset/free is *outside conformance* — there is no defined behavior to rely on.
 - **Moved-binding access.** Reading or moving a binding after it (or the relevant field) has been moved is `E-MEM-3001`; reassigning a moved `let` is `E-MEM-3006`. Use `var` if you intend to reassign, and remember a non-`move` capability parameter is an alias you do not consume.
 - **Assuming attenuation widens.** A restricted `$IO` cannot reach paths outside its base; `restrict` never grants more than the parent. Likewise a `with_quota` allocator rejects allocations past its budget with `AllocationError::QuotaExceeded`. Do not attempt to "un-restrict" — derive a fresh handle from a parent that still holds the broader authority, and never drop a parent while a derived child is live (that is ill-formed).
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/20-permissions/">Previous: 20. Permissions &amp; Binding State</a>
-<a href="/docs/handbook/22-attributes-tests/">Next: 22. Attributes, Metadata &amp; Source-Native Tests</a>
-</nav>

@@ -938,8 +938,3 @@ The specification consolidates several array/slice/union diagnostics in §12.10.
 - **By-value field and tuple projection require `Bitcopy`.** Reading `record.field` or `tuple.0` *by value* carries a `BitcopyType` premise; for a non-`Bitcopy` element, bind it by place or destructure it with a pattern instead.
 - **Type aliases must not be recursive.** `type Loop = Loop` (or any cycle through the alias graph) is `TypeAlias-Recursive-Err`. Aliases are transparent names, not new recursive types — use an `enum` or `record` (which can be self-referential through indirection) for recursive shapes.
 - **Float literals need a decimal point.** `1.0`, `2.5e3`, `0.5f64` are float literals; `1` is an integer literal. Pairing an explicit float width suffix with a conflicting expected type is an error, as is using a suffix on a value out of that type's range (the `InRange` premise fails).
-
-<nav class="spec-reader-map" aria-label="Handbook chapter navigation">
-<a href="/docs/handbook/07-type-system-core/">Previous: 7. The Type System Core: Equivalence, Subtyping &amp; Inference</a>
-<a href="/docs/handbook/09-modal-types/">Next: 9. Modal Types &amp; Typestate</a>
-</nav>
